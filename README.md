@@ -1,16 +1,25 @@
-# Welcome to React Router!
+# Flight tracker
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Flight tracker app for personal use in Microsoft Flight Simulator
 
-## Features
+## Contents
+Repository contains frontend code for [Flight Tracker](https://flight-tracker.barcz.me) app.
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+Project is using **Node.js** and **TypeScript** in versions listed below:
+
+| Technology   | Version |
+|--------------|---------|
+| Node.js      | 22.9    |
+| TypeScript   | ^5.6    |
+
+Main dependencies are **Vite**, **React**, **React Router** and **Flowbite** in versions listed below.
+
+| Vendor       | Version |
+|--------------|---------|
+| Vite         | ^5.4    |
+| React        | ^18.3   |
+| React Router | ^7.0    |
+| Flowbite     | ^0.10   |
 
 ## Getting Started
 
@@ -47,20 +56,12 @@ npm run build
 This template includes three Dockerfiles optimized for different package managers:
 
 - `Dockerfile` - for npm
-- `Dockerfile.pnpm` - for pnpm
-- `Dockerfile.bun` - for bun
 
 To build and run using Docker:
 
 ```bash
 # For npm
 docker build -t my-app .
-
-# For pnpm
-docker build -f Dockerfile.pnpm -t my-app .
-
-# For bun
-docker build -f Dockerfile.bun -t my-app .
 
 # Run the container
 docker run -p 3000:3000 my-app
@@ -88,11 +89,3 @@ Make sure to deploy the output of `npm run build`
 │   ├── client/    # Static assets
 │   └── server/    # Server-side code
 ```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
