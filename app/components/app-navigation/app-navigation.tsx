@@ -1,6 +1,7 @@
 import {Avatar, Dropdown, Navbar, ThemeMode, useThemeMode} from "flowbite-react";
 import lightLogo from '~/assets/logo.light.svg';
 import darkLogo from '~/assets/logo.dark.svg';
+import {Link} from "react-router";
 
 export function AppNavigation() {
   const {mode: currentMode, setMode} = useThemeMode();
@@ -53,7 +54,9 @@ export function AppNavigation() {
           Home
         </Navbar.Link>
         <Navbar.Link href="#">Schedule flight</Navbar.Link>
-        <Navbar.Link href="#">Track flight</Navbar.Link>
+        <Navbar.Link href="#">
+          <Link to="/track">Track flight</Link>
+        </Navbar.Link>
         <Navbar.Link href="#">Flights history</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

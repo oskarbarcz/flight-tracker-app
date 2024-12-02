@@ -1,5 +1,7 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "~/welcome/welcome";
+import {AppNavigation} from "~/components/app-navigation/app-navigation";
+import {Flowbite} from "flowbite-react";
+import React from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +11,9 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <Flowbite>
+    <AppNavigation></AppNavigation>
+    <div className="container mx-auto py-4 text-gray-950 dark:text-white">
+    </div>
+  </Flowbite>;
 }
