@@ -51,18 +51,24 @@ export default function getFlight(): Flight {
       estimated: {
         offBlockTime: new Date("01-12-2024 9:00"),
         takeoffTime: new Date("01-12-2024 9:20"),
+        blockTime: "7:55",
+        airTime: "7:30",
         landingTime: new Date("01-12-2024 18:00"),
         onBlockTime: new Date("01-12-2024 18:05")
       },
       scheduled: {
         offBlockTime: new Date("01-12-2024 9:00"),
         takeoffTime: new Date("01-12-2024 9:20"),
+        blockTime: "7:55",
+        airTime: "7:30",
         landingTime: new Date("01-12-2024 18:00"),
         onBlockTime: new Date("01-12-2024 18:05")
       },
       actual: {
         offBlockTime: new Date("01-12-2024 9:00"),
         takeoffTime: new Date("01-12-2024 9:20"),
+        blockTime: "7:55",
+        airTime: "7:30",
         landingTime: new Date("01-12-2024 18:00"),
         onBlockTime: new Date("01-12-2024 18:05")
       }

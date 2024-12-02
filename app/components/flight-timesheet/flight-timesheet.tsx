@@ -1,4 +1,5 @@
 import {Timesheet} from "~/model/times";
+import AdvancedDateTimePreview from "~/components/advanced-time-preview/advanced-time-preview";
 
 interface FlightTimesheetProps {
   scheduled: Timesheet
@@ -16,62 +17,42 @@ export default function FlightTimesheet({scheduled}: FlightTimesheetProps) {
 
   });
 
-  return <section className="mt-10 flex justify-between items-center gap-4">
+  return <section className="border border-gray-300 shadow rounded-lg p-8 mt-5 flex justify-between items-center gap-4">
     <article className="w-1/3">
-      <div className="flex flex-col items-center">
-        <div className="text-3xl font-bold">
-          {hourFormatter.format(scheduled.offBlockTime)}z
-        </div>
-        <div className="text-lg font-bold">
-          {dayFormatter.format(scheduled.offBlockTime)}
-        </div>
-        <div className="text-gray-500">Scheduled off-block time</div>
-      </div>
-      <div className="flex flex-col items-center mt-5">
-        <div className="text-3xl font-bold">
-          {hourFormatter.format(scheduled.takeoffTime)}z
-        </div>
-        <div className="text-lg font-bold">
-          {dayFormatter.format(scheduled.takeoffTime)}
-        </div>
-        <div className="text-gray-500">Scheduled takeoff time</div>
-      </div>
+      <AdvancedDateTimePreview
+        plannedTime={hourFormatter.format(scheduled.offBlockTime)+ 'z'}
+        plannedDay={dayFormatter.format(scheduled.offBlockTime)}
+        description="Scheduled off-block time"
+      />
+      <AdvancedDateTimePreview
+        plannedTime={hourFormatter.format(scheduled.takeoffTime)+ 'z'}
+        plannedDay={dayFormatter.format(scheduled.takeoffTime)}
+        description="Scheduled takeoff time"
+      />
     </article>
 
-    <div className="w-1/3">
-      <div className="flex flex-col items-center">
-        <div className="text-3xl font-bold">
-          {hourFormatter.format(scheduled.offBlockTime)}
-        </div>
-        <div className="text-gray-500">Block time</div>
-      </div>
-      <div className="flex flex-col items-center mt-5">
-        <div className="text-3xl font-bold">
-          {hourFormatter.format(scheduled.offBlockTime)}
-        </div>
-        <div className="text-gray-500">Air time</div>
-      </div>
-    </div>
+    <article className="w-1/3">
+      <AdvancedDateTimePreview
+        plannedTime={scheduled.blockTime}
+        description="Block time"
+      />
+      <AdvancedDateTimePreview
+        plannedTime={scheduled.airTime}
+        description="Air time"
+      />
+    </article>
 
     <article className="w-1/3">
-      <div className="flex flex-col items-center">
-        <div className="text-3xl font-bold">
-          {hourFormatter.format(scheduled.landingTime)}z
-        </div>
-        <div className="text-lg font-bold">
-          {dayFormatter.format(scheduled.landingTime)}
-        </div>
-        <div className="text-gray-500">Scheduled landing time</div>
-      </div>
-      <div className="flex flex-col items-center mt-5">
-        <div className="text-3xl font-bold">
-          {hourFormatter.format(scheduled.onBlockTime)}z
-        </div>
-        <div className="text-lg font-bold">
-          {dayFormatter.format(scheduled.onBlockTime)}
-        </div>
-        <div className="text-gray-500">Scheduled on-block time</div>
-      </div>
+      <AdvancedDateTimePreview
+        plannedTime={hourFormatter.format(scheduled.landingTime) + 'z'}
+        plannedDay={dayFormatter.format(scheduled.landingTime)}
+        description="Scheduled arrival time"
+      />
+      <AdvancedDateTimePreview
+        plannedTime={hourFormatter.format(scheduled.landingTime) + 'z'}
+        plannedDay={dayFormatter.format(scheduled.landingTime)}
+        description="Scheduled on-block time"
+      />
     </article>
   </section>;
 }

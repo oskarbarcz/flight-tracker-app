@@ -6,12 +6,12 @@ interface FlightAirportProps {
 }
 
 export default function FlightAirports({ departure, arrival }: FlightAirportProps) {
-  return <div className="mt-10 flex justify-between items-center gap-4">
-    <div className="w-1/3 flex flex-col items-center">
+  return <div className="border border-gray-300 shadow rounded-lg mt-5 flex justify-between items-center gap-4 p-8">
+    <div className="w-1/3 text-center">
       <div className="text-5xl font-bold mt-1 mb-2">{departure.icao}</div>
       <div className="pt-1">
-        <div className="text-center text-md text-gray-500">{departure.name}</div>
-        <div className="text-center text-md text-gray-500">{departure.country}</div>
+        <div className="text-md text-gray-500">{departure.name}</div>
+        <div className="text-md text-gray-500">{departure.country}</div>
       </div>
     </div>
 
@@ -23,11 +23,11 @@ export default function FlightAirports({ departure, arrival }: FlightAirportProp
       </svg>
     </div>
 
-    <div className="w-1/3 flex flex-col items-center">
+    <div className="w-1/3 text-center">
       <div className="text-5xl font-bold mt-1 mb-2">{arrival.icao}</div>
       <div className="pt-1">
-        <div className="text-center text-md text-gray-500">{arrival.name}</div>
-        <div className="text-center text-md text-gray-500">{arrival.country}</div>
+        <div className="text-md text-gray-500">{arrival.name}</div>
+        <div className="text-md text-gray-500">{arrival.country}</div>
       </div>
     </div>
   </div>;
