@@ -1,3 +1,5 @@
+'use client'
+
 import {Avatar, Dropdown, Navbar, ThemeMode, useThemeMode} from "flowbite-react";
 import lightLogo from '~/assets/logo.light.svg';
 import darkLogo from '~/assets/logo.dark.svg';
@@ -10,10 +12,10 @@ export function AppNavigation() {
   return (
     <Navbar fluid>
       <Navbar.Brand>
-        <img src={lightLogo} className="mr-4 h-6 sm:h-9 dark:hidden" alt="Flight Tracker Logo"/>
-        <img src={darkLogo} className="mr-4 h-6 sm:h-9 hidden dark:block" alt="Flight Tracker Logo"/>
+        <img src={lightLogo} className="mr-4 h-6 sm:h-9 dark:hidden" alt="FlightModel Tracker Logo"/>
+        <img src={darkLogo} className="mr-4 h-6 sm:h-9 hidden dark:block" alt="FlightModel Tracker Logo"/>
         <span
-          className="self-center whitespace-nowrap text-xl font-semibold text-gray-950 dark:text-white">Flight Tracker</span>
+          className="self-center whitespace-nowrap text-xl font-semibold text-gray-950 dark:text-white">FlightModel Tracker</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown

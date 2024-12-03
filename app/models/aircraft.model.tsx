@@ -1,4 +1,4 @@
-export default interface Aircraft {
+export interface Aircraft {
   icaoCode: string;
   shortName: string;
   fullName: string;

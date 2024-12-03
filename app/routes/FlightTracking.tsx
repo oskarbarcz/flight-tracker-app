@@ -1,23 +1,23 @@
 import type { Route } from "./+types/home";
-import {AppNavigation} from "~/components/app-navigation/app-navigation";
+import {AppNavigation} from "~/components/AppNavigation/AppNavigation";
 import {Flowbite} from "flowbite-react";
 import React from "react";
 import {getOneFlight} from "~/store/flight-provider";
 import changePageTitle from "~/common/change-page-title";
-import FlightAirports from "~/components/flight-airports/flight-airports";
-import FlightTimesheet from "~/components/flight-timesheet/flight-timesheet";
-import TrackedFlightDetails from "~/components/tracked-flight-details/tracked-flight-details";
-import TrackedFlightAircraftDetails from "~/components/tracked-flight-aircraft-details/tracked-flight-aircraft-details";
-import TrackedFlightStatus from "~/components/tracked-flight-status/tracked-flight-status";
+import FlightAirports from "~/components/FlightAirports/FlightAirports";
+import TrackedFlightTimesheet from "~/components/TrackedFlightTimesheet/TrackedFlightTimesheet";
+import TrackedFlightDetails from "~/components/TrackedFlightDetails/TrackedFlightDetails";
+import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails/TrackedFlightAircraftDetails";
+import TrackedFlightStatus from "~/components/TrackedFlightStatus/TrackedFlightStatus";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Tracking | Flight Tracker" },
+    { title: "Tracking | FlightModel Tracker" },
     { name: "description", content: "This is flight tracker app." },
   ];
 }
 
-export default function TrackFlight() {
+export default function FlightTracking() {
   const flight = getOneFlight();
   changePageTitle(`Tracking ${flight.flightNumber}`)
 
@@ -30,7 +30,7 @@ export default function TrackFlight() {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <FlightAirports departure={flight.departure} arrival={flight.arrival} />
-          <FlightTimesheet scheduled={flight.timesheet.scheduled} />
+          <TrackedFlightTimesheet scheduled={flight.timesheet.scheduled} />
         </div>
         <div>
           <TrackedFlightDetails callsign={flight.callsign} flightNumber={flight.flightNumber} />

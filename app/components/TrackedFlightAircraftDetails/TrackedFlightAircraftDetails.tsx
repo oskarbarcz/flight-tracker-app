@@ -1,7 +1,8 @@
-import Aircraft from "~/model/aircraft";
-import Operator from "~/model/operator";
+'use client'
+
+import {Aircraft, Operator} from "~/models";
 import React from "react";
-import Block from "~/components/block/block";
+import Block from "~/components/Block/Block";
 
 interface TrackedFlightAircraftDetailsProps {
   aircraft: Aircraft;

@@ -1,12 +1,14 @@
-import {Timesheet} from "~/model/times";
-import AdvancedDateTimePreview from "~/components/advanced-time-preview/advanced-time-preview";
-import Block from "~/components/block/block";
+'use client'
+
+import {Timesheet} from "~/models/timesheet.model";
+import AdvancedDateTimePreview from "~/components/AdvancedTimePreview/AdvancedTimePreview";
+import Block from "~/components/Block/Block";
 
 interface FlightTimesheetProps {
   scheduled: Timesheet
 }
 
-export default function FlightTimesheet({scheduled}: FlightTimesheetProps) {
+export default function TrackedFlightTimesheet({scheduled}: FlightTimesheetProps) {
   const hourFormatter = new Intl.DateTimeFormat('pl-pl', {
     hour: '2-digit',
     minute: '2-digit'

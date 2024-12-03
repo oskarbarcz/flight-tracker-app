@@ -1,13 +1,13 @@
 import type { Route } from "./+types/home";
-import {AppNavigation} from "~/components/app-navigation/app-navigation";
+import {AppNavigation} from "~/components/AppNavigation/AppNavigation";
 import {Flowbite, Table} from "flowbite-react";
 import React from "react";
 import {getFlightsList} from "~/store/flight-provider";
-import {ScheduledFlightsListElement} from "~/model/flight";
+import {ScheduledFlightsListElement} from "~/models/flight.model";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Scheduled flights | Flight Tracker" },
+    { title: "Scheduled flights | FlightModel Tracker" },
     { name: "description", content: "This is flight tracker app." },
   ];
 }
@@ -57,15 +57,15 @@ export default function ScheduledFlightList() {
 
             </Table.Cell>
             <Table.Cell>
-              <div>{hourFormatter.format(flight.timesheet.scheduled?.takeoffTime)}</div>
-              <div>{dayFormatter.format(flight.timesheet.scheduled?.takeoffTime)}</div>
+              <div>{hourFormatter.format(flight.timesheet.scheduled.takeoffTime)}</div>
+              <div>{dayFormatter.format(flight.timesheet.scheduled.takeoffTime)}</div>
             </Table.Cell>
             <Table.Cell>
-              {flight.timesheet.scheduled?.blockTime}
+              {flight.timesheet.scheduled.blockTime}
             </Table.Cell>
             <Table.Cell>
-              <div>{hourFormatter.format(flight.timesheet.scheduled?.landingTime)}</div>
-              <div>{dayFormatter.format(flight.timesheet.scheduled?.landingTime)}</div>
+              <div>{hourFormatter.format(flight.timesheet.scheduled.landingTime)}</div>
+              <div>{dayFormatter.format(flight.timesheet.scheduled.landingTime)}</div>
             </Table.Cell>
             <Table.Cell>
               <div>

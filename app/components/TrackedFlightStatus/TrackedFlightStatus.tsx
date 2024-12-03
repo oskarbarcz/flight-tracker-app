@@ -1,5 +1,7 @@
+'use client'
+
 import {Button, Progress} from "flowbite-react";
-import Block from "~/components/block/block";
+import Block from "~/components/Block/Block";
 
 interface TrackedFlightStatusProps {
   callsign: string;

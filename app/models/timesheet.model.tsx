@@ -7,7 +7,7 @@ export interface Timesheet {
   onBlockTime: Date;
 }
 
-export default interface Schedule {
+export interface Schedule {
   scheduled: Timesheet;
   estimated?: Timesheet;
   actual?: Timesheet;

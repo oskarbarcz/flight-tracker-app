@@ -1,4 +1,4 @@
-import {Flight, ScheduledFlightsListElement} from "~/model/flight";
+import {Flight, ScheduledFlightsListElement} from "~/models";
 
 export function getOneFlight(): Flight {
   return {

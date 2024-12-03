@@ -1,11 +1,11 @@
 import type { Route } from "./+types/home";
-import {AppNavigation} from "~/components/app-navigation/app-navigation";
+import {AppNavigation} from "~/components/AppNavigation/AppNavigation";
 import {Flowbite} from "flowbite-react";
 import React from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Home | Flight Tracker" },
+    { title: "Home | FlightModel Tracker" },
     { name: "description", content: "This is flight tracker app." },
   ];
 }

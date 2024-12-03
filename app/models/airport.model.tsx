@@ -1,4 +1,4 @@
-export default interface Airport {
+export interface Airport {
   icao: string;
   gate: string|null;
   name: string;

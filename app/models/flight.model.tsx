@@ -1,7 +1,4 @@
-import Airport from "~/model/airport";
-import Operator from "~/model/operator";
-import Aircraft from "~/model/aircraft";
-import Timesheet from "~/model/times";
+import {Airport, Aircraft, Operator, Schedule} from "~/models";
 
 export interface Flight {
   flightNumber: string;
@@ -11,7 +8,7 @@ export interface Flight {
   alternates: Airport[];
   operator: Operator;
   aircraft: Aircraft;
-  timesheet: Timesheet;
+  timesheet: Schedule;
   status: 'future'
     | 'ready'
     | 'boarding-started'
@@ -19,7 +16,7 @@ export interface Flight {
     | 'taxiing-out'
     | 'cruise'
     | 'taxiing-in'
-    | 'on-block'
+    | 'on-Block'
     | 'deboarding-started'
     | 'closed'
 }
@@ -31,6 +28,6 @@ export interface ScheduledFlightsListElement {
   arrival: Airport;
   alternates?: Airport[];
   aircraft: Aircraft;
-  timesheet: Timesheet;
+  timesheet: Schedule;
   status: 'future' | 'ready'
 }

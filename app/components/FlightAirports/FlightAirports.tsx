@@ -1,5 +1,7 @@
-import Airport from "~/model/airport";
-import Block from "~/components/block/block";
+'use client'
+
+import {Airport} from "~/models/airport.model";
+import Block from "~/components/Block/Block";
 
 interface FlightAirportProps {
   departure: Airport;
