@@ -29,7 +29,7 @@ export default function ScheduledFlightList() {
   return <Flowbite>
     <AppNavigation></AppNavigation>
     <div className="container mx-auto py-4 text-gray-800 dark:text-white">
-      <Table>
+      <Table className="shadow">
         <Table.Head>
           <Table.HeadCell>Flight no</Table.HeadCell>
           <Table.HeadCell>Route</Table.HeadCell>
