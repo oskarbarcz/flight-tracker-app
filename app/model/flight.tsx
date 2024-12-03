@@ -8,8 +8,18 @@ export default interface Flight {
   callsign: string;
   departure: Airport;
   arrival: Airport;
-  alternates: Airport[];
-  operator: Operator;
+  alternates?: Airport[];
+  operator?: Operator;
   aircraft: Aircraft;
   timesheet: Timesheet;
+  status?: 'future'
+    | 'ready'
+    | 'boarding-started'
+    | 'boarding-ended'
+    | 'taxiing-out'
+    | 'cruise'
+    | 'taxiing-in'
+    | 'on-block'
+    | 'deboarding-started'
+    | 'closed'
 }

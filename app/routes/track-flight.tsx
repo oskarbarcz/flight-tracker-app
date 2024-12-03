@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 import {AppNavigation} from "~/components/app-navigation/app-navigation";
 import {Flowbite} from "flowbite-react";
 import React from "react";
-import getFlight from "~/store/flight-provider";
+import {getOneFlight} from "~/store/flight-provider";
 import changePageTitle from "~/common/change-page-title";
 import FlightAirports from "~/components/flight-airports/flight-airports";
 import FlightTimesheet from "~/components/flight-timesheet/flight-timesheet";
@@ -18,7 +18,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function TrackFlight() {
-  const flight = getFlight();
+  const flight = getOneFlight();
   changePageTitle(`Tracking ${flight.flightNumber}`)
 
   return <Flowbite>

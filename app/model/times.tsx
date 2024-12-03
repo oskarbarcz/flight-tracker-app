@@ -9,6 +9,6 @@ export interface Timesheet {
 
 export default interface Schedule {
   scheduled: Timesheet;
-  estimated: Timesheet;
-  actual: Timesheet;
+  estimated?: Timesheet;
+  actual?: Timesheet;
 }

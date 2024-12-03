@@ -54,8 +54,10 @@ export function AppNavigation() {
         <Navbar.Link href="/" active={location.pathname === '/'}>
           Home
         </Navbar.Link>
-        <Navbar.Link href="#">Schedule flight</Navbar.Link>
-        <Navbar.Link href="#" active={location.pathname === '/track'}>
+        <Navbar.Link active={location.pathname === '/schedule-flight'}>
+          <Link to="/schedule-flight" >Scheduled flights</Link>
+        </Navbar.Link>
+        <Navbar.Link active={location.pathname === '/track'}>
           <Link to="/track" >Track flight</Link>
         </Navbar.Link>
         <Navbar.Link href="#">Flights history</Navbar.Link>
