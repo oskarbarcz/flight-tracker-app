@@ -1,4 +1,4 @@
-import Flight from "~/model/flight";
+import {Flight, ScheduledFlightsListElement} from "~/model/flight";
 
 export function getOneFlight(): Flight {
   return {
@@ -72,11 +72,12 @@ export function getOneFlight(): Flight {
         landingTime: new Date("01-12-2024 18:00"),
         onBlockTime: new Date("01-12-2024 18:05")
       }
-    }
+    },
+    status:"ready",
   }
 }
 
-export function getFlightsList(): Flight[] {
+export function getFlightsList(): ScheduledFlightsListElement[] {
   return [
     {
       flightNumber: "LH 415",
@@ -187,7 +188,7 @@ export function getFlightsList(): Flight[] {
           onBlockTime: new Date("01-12-2024 18:05")
         }
       },
-      status: "cruise"
+      status: "future"
     },
     {
       flightNumber: "LH 415",

@@ -3,7 +3,7 @@ import {AppNavigation} from "~/components/app-navigation/app-navigation";
 import {Flowbite, Table} from "flowbite-react";
 import React from "react";
 import {getFlightsList} from "~/store/flight-provider";
-import Flight from "~/model/flight";
+import {ScheduledFlightsListElement} from "~/model/flight";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -40,8 +40,8 @@ export default function ScheduledFlightList() {
           <Table.HeadCell>Status</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {flights.map((flight: Flight, i: number) => <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell key={i} className="font-medium text-gray-900 dark:text-white">
+          {flights.map((flight: ScheduledFlightsListElement, i: number) => <Table.Row key={i} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="font-medium text-gray-900 dark:text-white">
               {flight.flightNumber}
             </Table.Cell>
             <Table.Cell>
@@ -74,9 +74,13 @@ export default function ScheduledFlightList() {
                 {flight.aircraft.registration}
             </Table.Cell>
             <Table.Cell>
-              <a href="#" className="font-bold uppercase text-green-400 hover:underline dark:text-green-600">
-                Ready to check-in
-              </a>
+              {flight.status === 'ready' ?
+                <a href="#" className="font-bold uppercase text-green-400 hover:underline dark:text-green-600">
+                  Ready to check-in
+                </a> : <div className="text-gray-500">
+                  <span className="font-bold uppercase">{flight.status}</span>
+                  <span className="block text-xs">Check in available soon</span>
+                </div>}
             </Table.Cell>
           </Table.Row>)}
         </Table.Body>
