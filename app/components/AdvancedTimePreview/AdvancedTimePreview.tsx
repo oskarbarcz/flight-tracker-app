@@ -1,3 +1,5 @@
+'use client'
+
 interface AdvancedTimePreviewProps {
   plannedTime: string;
   plannedDay?: string;

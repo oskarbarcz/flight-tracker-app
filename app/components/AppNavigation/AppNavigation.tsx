@@ -53,16 +53,16 @@ export function AppNavigation() {
         <Navbar.Toggle/>
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="/" active={location.pathname === '/'}>
+        <Navbar.Link as="span" href="/" active={location.pathname === '/'}>
           Home
         </Navbar.Link>
-        <Navbar.Link active={location.pathname === '/schedule-flight'}>
+        <Navbar.Link as="span" active={location.pathname === '/schedule-flight'}>
           <Link to="/schedule-flight" >Scheduled flights</Link>
         </Navbar.Link>
-        <Navbar.Link active={location.pathname === '/track'}>
+        <Navbar.Link as="span" active={location.pathname === '/track'}>
           <Link to="/track" >Track flight</Link>
         </Navbar.Link>
-        <Navbar.Link href="#">Flights history</Navbar.Link>
+        <Navbar.Link as="span" href="#">Flights history</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );
