@@ -1,17 +1,21 @@
+'use client'
+
 import {Avatar, Dropdown, Navbar, ThemeMode, useThemeMode} from "flowbite-react";
 import lightLogo from '~/assets/logo.light.svg';
 import darkLogo from '~/assets/logo.dark.svg';
+import {Link, useLocation} from "react-router";
 
 export function AppNavigation() {
   const {mode: currentMode, setMode} = useThemeMode();
+  let location = useLocation();
 
   return (
     <Navbar fluid>
       <Navbar.Brand>
-        <img src={lightLogo} className="mr-4 h-6 sm:h-9 dark:hidden" alt="Flight Tracker Logo"/>
-        <img src={darkLogo} className="mr-4 h-6 sm:h-9 hidden dark:block" alt="Flight Tracker Logo"/>
+        <img src={lightLogo} className="mr-4 h-6 sm:h-9 dark:hidden" alt="FlightModel Tracker Logo"/>
+        <img src={darkLogo} className="mr-4 h-6 sm:h-9 hidden dark:block" alt="FlightModel Tracker Logo"/>
         <span
-          className="self-center whitespace-nowrap text-xl font-semibold text-gray-950 dark:text-white">Flight Tracker</span>
+          className="self-center whitespace-nowrap text-xl font-semibold text-gray-950 dark:text-white">FlightModel Tracker</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown
@@ -49,11 +53,15 @@ export function AppNavigation() {
         <Navbar.Toggle/>
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#" active>
+        <Navbar.Link href="/" active={location.pathname === '/'}>
           Home
         </Navbar.Link>
-        <Navbar.Link href="#">Schedule flight</Navbar.Link>
-        <Navbar.Link href="#">Track flight</Navbar.Link>
+        <Navbar.Link active={location.pathname === '/schedule-flight'}>
+          <Link to="/schedule-flight" >Scheduled flights</Link>
+        </Navbar.Link>
+        <Navbar.Link active={location.pathname === '/track'}>
+          <Link to="/track" >Track flight</Link>
+        </Navbar.Link>
         <Navbar.Link href="#">Flights history</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
