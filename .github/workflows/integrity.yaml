@@ -5,8 +5,8 @@ on:
     paths: ["**", "!**.md"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  integrate:
+    runs-on: 'ubuntu-24.04'
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v4
