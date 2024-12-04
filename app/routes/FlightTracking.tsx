@@ -1,4 +1,3 @@
-import type { Route } from "./+types/Home";
 import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite } from "flowbite-react";
 import React from "react";
@@ -6,7 +5,7 @@ import { FlightStateProvider } from "~/state/contexts/flight.state";
 import { TrackFlightDashboard } from "~/components/TrackedFlightDashboard/TrackFlightDashboard";
 import { useParams } from "react-router";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Tracking | FlightModel Tracker" },
     { name: "description", content: "This is flight tracker app." },
@@ -18,7 +17,7 @@ type FlightTrackingParams = {
 };
 
 export default function FlightTracking() {
-  let { flightNumber } = useParams<FlightTrackingParams>();
+  const { flightNumber } = useParams<FlightTrackingParams>();
 
   if (flightNumber === undefined) {
     return;

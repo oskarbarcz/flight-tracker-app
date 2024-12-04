@@ -1,9 +1,8 @@
-import type { Route } from "./+types/Home";
 import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite } from "flowbite-react";
 import React from "react";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Home | FlightModel Tracker" },
     { name: "description", content: "This is flight tracker app." },

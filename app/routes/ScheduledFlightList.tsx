@@ -1,4 +1,3 @@
-import type { Route } from "./+types/Home";
 import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite, Table } from "flowbite-react";
 import React from "react";
@@ -6,7 +5,7 @@ import { getFlightsList } from "~/store/flight-provider";
 import { ScheduledFlightsListElement } from "~/models/flight.model";
 import { Link } from "react-router";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Scheduled flights | FlightModel Tracker" },
     { name: "description", content: "This is flight tracker app." },

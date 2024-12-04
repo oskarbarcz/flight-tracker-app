@@ -13,7 +13,7 @@ import { Link, useLocation } from "react-router";
 
 export function AppNavigation() {
   const { mode: currentMode, setMode } = useThemeMode();
-  let location = useLocation();
+  const location = useLocation();
 
   return (
     <Navbar fluid>
