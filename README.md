@@ -3,19 +3,20 @@
 Flight tracker app for personal use in Microsoft Flight Simulator
 
 ## Contents
+
 Repository contains frontend code for [Flight Tracker](https://flight-tracker.barcz.me) app.
 
 Project is using **Node.js** and **TypeScript** in versions listed below:
 
-| Technology   | Version |
-|--------------|---------|
-| Node.js      | 22.9    |
-| TypeScript   | ^5.6    |
+| Technology | Version |
+| ---------- | ------- |
+| Node.js    | 22.9    |
+| TypeScript | ^5.6    |
 
 Main dependencies are **Vite**, **React**, **React Router** and **Flowbite** in versions listed below.
 
 | Vendor       | Version |
-|--------------|---------|
+| ------------ | ------- |
 | Vite         | ^5.4    |
 | React        | ^18.3   |
 | React Router | ^7.0    |

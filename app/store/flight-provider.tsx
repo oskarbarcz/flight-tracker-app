@@ -1,4 +1,4 @@
-import {Flight, ScheduledFlightsListElement} from "~/models";
+import { Flight, ScheduledFlightsListElement } from "~/models";
 
 export function getOneFlight(): Flight {
   return {
@@ -9,14 +9,14 @@ export function getOneFlight(): Flight {
       gate: "V101",
       name: "Frankfurt Rhein-Main",
       country: "Germany",
-      timezone: "+01:00"
+      timezone: "+01:00",
     },
     arrival: {
       icao: "KORD",
       gate: "C10",
       name: "Chicago O'Hare Intl",
       country: "United States of America",
-      timezone: "-06:00"
+      timezone: "-06:00",
     },
     aircraft: {
       icaoCode: "A333",
@@ -24,12 +24,12 @@ export function getOneFlight(): Flight {
       fullName: "Airbus A330-300 RR",
       registration: "D-AIDA",
       selcal: "SP-LR",
-      livery: "Sunshine (2024)"
+      livery: "Sunshine (2024)",
     },
     operator: {
       icaoCode: "DLH",
       shortName: "Lufthansa",
-      fullName: "Deutsche Lufthansa AG"
+      fullName: "Deutsche Lufthansa AG",
     },
     alternates: [
       {
@@ -37,15 +37,15 @@ export function getOneFlight(): Flight {
         gate: null,
         name: "Indianapolis Intl",
         country: "United States of America",
-        timezone: "-06:00"
+        timezone: "-06:00",
       },
       {
         icao: "KMKE",
         gate: null,
         name: "Milwaukee Mitchell Intl",
         country: "United States of America",
-        timezone: "-06:00"
-      }
+        timezone: "-06:00",
+      },
     ],
     timesheet: {
       estimated: {
@@ -54,7 +54,7 @@ export function getOneFlight(): Flight {
         blockTime: "7:55",
         airTime: "7:30",
         landingTime: new Date("01-12-2024 18:00"),
-        onBlockTime: new Date("01-12-2024 18:05")
+        onBlockTime: new Date("01-12-2024 18:05"),
       },
       scheduled: {
         offBlockTime: new Date("01-12-2024 9:00"),
@@ -62,7 +62,7 @@ export function getOneFlight(): Flight {
         blockTime: "7:55",
         airTime: "7:30",
         landingTime: new Date("01-12-2024 18:00"),
-        onBlockTime: new Date("01-12-2024 18:05")
+        onBlockTime: new Date("01-12-2024 18:05"),
       },
       actual: {
         offBlockTime: new Date("01-12-2024 9:00"),
@@ -70,11 +70,11 @@ export function getOneFlight(): Flight {
         blockTime: "7:55",
         airTime: "7:30",
         landingTime: new Date("01-12-2024 18:00"),
-        onBlockTime: new Date("01-12-2024 18:05")
-      }
+        onBlockTime: new Date("01-12-2024 18:05"),
+      },
     },
-    status:"ready",
-  }
+    status: "ready",
+  };
 }
 
 export function getFlightsList(): ScheduledFlightsListElement[] {
@@ -87,14 +87,14 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         gate: "V101",
         name: "Frankfurt Rhein-Main",
         country: "Germany",
-        timezone: "+01:00"
+        timezone: "+01:00",
       },
       arrival: {
         icao: "KORD",
         gate: "C10",
         name: "Chicago O'Hare Intl",
         country: "United States of America",
-        timezone: "-06:00"
+        timezone: "-06:00",
       },
       aircraft: {
         icaoCode: "A333",
@@ -102,7 +102,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         fullName: "Airbus A330-300 RR",
         registration: "D-AIDA",
         selcal: "SP-LR",
-        livery: "Sunshine (2024)"
+        livery: "Sunshine (2024)",
       },
       timesheet: {
         scheduled: {
@@ -111,10 +111,10 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
           blockTime: "7:55",
           airTime: "7:30",
           landingTime: new Date("01-12-2024 18:00"),
-          onBlockTime: new Date("01-12-2024 18:05")
-        }
+          onBlockTime: new Date("01-12-2024 18:05"),
+        },
       },
-      status: "ready"
+      status: "ready",
     },
     {
       flightNumber: "LH 417",
@@ -124,14 +124,14 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         gate: "V101",
         name: "Frankfurt Rhein-Main",
         country: "Germany",
-        timezone: "+01:00"
+        timezone: "+01:00",
       },
       arrival: {
         icao: "KORD",
         gate: "C10",
         name: "Chicago O'Hare Intl",
         country: "United States of America",
-        timezone: "-06:00"
+        timezone: "-06:00",
       },
       aircraft: {
         icaoCode: "A333",
@@ -139,7 +139,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         fullName: "Airbus A330-300 RR",
         registration: "D-AIDA",
         selcal: "SP-LR",
-        livery: "Sunshine (2024)"
+        livery: "Sunshine (2024)",
       },
       timesheet: {
         scheduled: {
@@ -148,10 +148,10 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
           blockTime: "7:55",
           airTime: "7:30",
           landingTime: new Date("01-12-2024 18:00"),
-          onBlockTime: new Date("01-12-2024 18:05")
-        }
+          onBlockTime: new Date("01-12-2024 18:05"),
+        },
       },
-      status: "ready"
+      status: "ready",
     },
     {
       flightNumber: "LH 418",
@@ -161,14 +161,14 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         gate: "V101",
         name: "Frankfurt Rhein-Main",
         country: "Germany",
-        timezone: "+01:00"
+        timezone: "+01:00",
       },
       arrival: {
         icao: "KORD",
         gate: "C10",
         name: "Chicago O'Hare Intl",
         country: "United States of America",
-        timezone: "-06:00"
+        timezone: "-06:00",
       },
       aircraft: {
         icaoCode: "A333",
@@ -176,7 +176,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         fullName: "Airbus A330-300 RR",
         registration: "D-AIDA",
         selcal: "SP-LR",
-        livery: "Sunshine (2024)"
+        livery: "Sunshine (2024)",
       },
       timesheet: {
         scheduled: {
@@ -185,10 +185,10 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
           blockTime: "7:55",
           airTime: "7:30",
           landingTime: new Date("01-12-2024 18:00"),
-          onBlockTime: new Date("01-12-2024 18:05")
-        }
+          onBlockTime: new Date("01-12-2024 18:05"),
+        },
       },
-      status: "future"
+      status: "future",
     },
     {
       flightNumber: "LH 419",
@@ -198,14 +198,14 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         gate: "V101",
         name: "Frankfurt Rhein-Main",
         country: "Germany",
-        timezone: "+01:00"
+        timezone: "+01:00",
       },
       arrival: {
         icao: "KORD",
         gate: "C10",
         name: "Chicago O'Hare Intl",
         country: "United States of America",
-        timezone: "-06:00"
+        timezone: "-06:00",
       },
       aircraft: {
         icaoCode: "A333",
@@ -213,7 +213,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         fullName: "Airbus A330-300 RR",
         registration: "D-AIDA",
         selcal: "SP-LR",
-        livery: "Sunshine (2024)"
+        livery: "Sunshine (2024)",
       },
       timesheet: {
         scheduled: {
@@ -222,10 +222,10 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
           blockTime: "7:55",
           airTime: "7:30",
           landingTime: new Date("01-12-2024 18:00"),
-          onBlockTime: new Date("01-12-2024 18:05")
-        }
+          onBlockTime: new Date("01-12-2024 18:05"),
+        },
       },
-      status: "future"
+      status: "future",
     },
     {
       flightNumber: "LH 420",
@@ -235,14 +235,14 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         gate: "V101",
         name: "Frankfurt Rhein-Main",
         country: "Germany",
-        timezone: "+01:00"
+        timezone: "+01:00",
       },
       arrival: {
         icao: "KORD",
         gate: "C10",
         name: "Chicago O'Hare Intl",
         country: "United States of America",
-        timezone: "-06:00"
+        timezone: "-06:00",
       },
       aircraft: {
         icaoCode: "A333",
@@ -250,7 +250,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
         fullName: "Airbus A330-300 RR",
         registration: "D-AIDA",
         selcal: "SP-LR",
-        livery: "Sunshine (2024)"
+        livery: "Sunshine (2024)",
       },
       timesheet: {
         scheduled: {
@@ -259,10 +259,10 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
           blockTime: "7:55",
           airTime: "7:30",
           landingTime: new Date("01-12-2024 18:00"),
-          onBlockTime: new Date("01-12-2024 18:05")
-        }
+          onBlockTime: new Date("01-12-2024 18:05"),
+        },
       },
-      status: "future"
-    }
+      status: "future",
+    },
   ];
 }

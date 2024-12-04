@@ -3,6 +3,6 @@ export interface Aircraft {
   shortName: string;
   fullName: string;
   registration: string;
-  selcal: string|null;
-  livery: string|null;
+  selcal: string | null;
+  livery: string | null;
 }

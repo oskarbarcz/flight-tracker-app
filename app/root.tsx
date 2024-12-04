@@ -10,7 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import React from "react";
-import {ThemeModeScript} from "flowbite-react";
+import { ThemeModeScript } from "flowbite-react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

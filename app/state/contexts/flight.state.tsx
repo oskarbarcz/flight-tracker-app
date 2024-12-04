@@ -1,25 +1,25 @@
-import {Flight} from "~/models";
-import {createContext, ReactNode, useContext, useReducer} from "react";
+import { Flight } from "~/models";
+import { createContext, ReactNode, useContext, useReducer } from "react";
 
 type State = {
   trackedFlight: Flight | null;
   loading: boolean;
-}
+};
 
 const initialState: State = {
   trackedFlight: null,
-  loading: false
+  loading: false,
 };
 
 type Action =
-  | { type: 'SET_TRACKED_FLIGHT_DETAILS'; payload: Flight }
-  | { type: 'SET_LOADING'; payload: boolean };
+  | { type: "SET_TRACKED_FLIGHT_DETAILS"; payload: Flight }
+  | { type: "SET_LOADING"; payload: boolean };
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'SET_TRACKED_FLIGHT_DETAILS':
+    case "SET_TRACKED_FLIGHT_DETAILS":
       return { ...state, trackedFlight: action.payload };
-    case 'SET_LOADING':
+    case "SET_LOADING":
       return { ...state, loading: action.payload };
     default:
       return state;
@@ -35,7 +35,7 @@ const FlightStateContext = createContext<{
 });
 
 type FlightStateProviderProps = {
-  children: ReactNode
+  children: ReactNode;
 };
 
 export const FlightStateProvider = ({ children }: FlightStateProviderProps) => {
