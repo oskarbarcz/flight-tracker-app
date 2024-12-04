@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/Home";
 import {AppNavigation} from "~/components/AppNavigation/AppNavigation";
 import {Flowbite} from "flowbite-react";
 import React from "react";

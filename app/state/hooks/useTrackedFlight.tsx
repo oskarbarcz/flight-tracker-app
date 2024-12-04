@@ -7,7 +7,7 @@ export const useTrackedFlight = () => {
   const loadTrackedFlight = (flightNumber: string) => {
     dispatch({ type: 'SET_LOADING', payload: true });
 
-    const trackedFlight = flightService.fetchTrackedFlightById('abcd');
+    const trackedFlight = flightService.fetchTrackedFlightById(flightNumber);
     dispatch({ type: 'SET_TRACKED_FLIGHT_DETAILS', payload: trackedFlight });
     dispatch({ type: 'SET_LOADING', payload: false });
   }

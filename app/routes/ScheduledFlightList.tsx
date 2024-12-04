@@ -1,9 +1,10 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/Home";
 import {AppNavigation} from "~/components/AppNavigation/AppNavigation";
 import {Flowbite, Table} from "flowbite-react";
 import React from "react";
 import {getFlightsList} from "~/store/flight-provider";
 import {ScheduledFlightsListElement} from "~/models/flight.model";
+import {Link} from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -74,10 +75,11 @@ export default function ScheduledFlightList() {
                 {flight.aircraft.registration}
             </Table.Cell>
             <Table.Cell>
-              {flight.status === 'ready' ?
-                <a href="#" className="font-bold uppercase text-green-400 hover:underline dark:text-green-600">
+              {flight.status === 'ready' ? <Link
+                className="font-bold uppercase text-green-400 hover:underline dark:text-green-600"
+                to={`/track/${flight.flightNumber.replace(' ', '')}`}>
                   Ready to check-in
-                </a> : <div className="text-gray-500">
+              </Link> : <div className="text-gray-500">
                   <span className="font-bold uppercase">{flight.status}</span>
                   <span className="block text-xs">Check in available soon</span>
                 </div>}

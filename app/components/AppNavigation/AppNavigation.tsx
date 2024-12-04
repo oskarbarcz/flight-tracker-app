@@ -60,7 +60,7 @@ export function AppNavigation() {
           <Link to="/schedule-flight" >Scheduled flights</Link>
         </Navbar.Link>
         <Navbar.Link as="span" active={location.pathname === '/track'}>
-          <Link to="/track" >Track flight</Link>
+          <Link to="/track/DLH415">Track flight</Link>
         </Navbar.Link>
         <Navbar.Link as="span" href="#">Flights history</Navbar.Link>
       </Navbar.Collapse>

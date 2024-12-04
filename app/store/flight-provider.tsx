@@ -80,7 +80,7 @@ export function getOneFlight(): Flight {
 export function getFlightsList(): ScheduledFlightsListElement[] {
   return [
     {
-      flightNumber: "LH 415",
+      flightNumber: "LH 416",
       callsign: "DLH 1KY",
       departure: {
         icao: "EDDF",
@@ -117,7 +117,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
       status: "ready"
     },
     {
-      flightNumber: "LH 415",
+      flightNumber: "LH 417",
       callsign: "DLH 1KY",
       departure: {
         icao: "EDDF",
@@ -154,7 +154,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
       status: "ready"
     },
     {
-      flightNumber: "LH 415",
+      flightNumber: "LH 418",
       callsign: "DLH 1KY",
       departure: {
         icao: "EDDF",
@@ -191,7 +191,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
       status: "future"
     },
     {
-      flightNumber: "LH 415",
+      flightNumber: "LH 419",
       callsign: "DLH 1KY",
       departure: {
         icao: "EDDF",
@@ -228,7 +228,7 @@ export function getFlightsList(): ScheduledFlightsListElement[] {
       status: "future"
     },
     {
-      flightNumber: "LH 415",
+      flightNumber: "LH 420",
       callsign: "DLH 1KY",
       departure: {
         icao: "EDDF",

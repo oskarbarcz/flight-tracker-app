@@ -4,6 +4,7 @@ import {Flowbite} from "flowbite-react";
 import React from "react";
 import {FlightStateProvider} from "~/state/contexts/flight.state";
 import {TrackFlightDashboard} from "~/components/TrackedFlightDashboard/TrackFlightDashboard";
+import {useParams} from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,12 +13,22 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+type FlightTrackingParams = {
+  readonly flightNumber: string;
+}
+
 export default function FlightTracking() {
+  let { flightNumber } = useParams<FlightTrackingParams>();
+
+  if(flightNumber === undefined) {
+    return;
+  }
+
   return (
     <Flowbite>
       <AppNavigation></AppNavigation>
       <FlightStateProvider>
-        <TrackFlightDashboard flightNumber="LH415"/>
+        <TrackFlightDashboard flightNumber={flightNumber}/>
       </FlightStateProvider>
     </Flowbite>
   );
