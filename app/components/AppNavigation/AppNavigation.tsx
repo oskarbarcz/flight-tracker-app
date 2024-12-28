@@ -10,10 +10,13 @@ import {
 import lightLogo from "~/assets/logo.light.svg";
 import darkLogo from "~/assets/logo.dark.svg";
 import { Link, useLocation } from "react-router";
+import {AfterAuthContextType, useAuth} from "~/state/contexts/auth.context";
 
 export function AppNavigation() {
   const { mode: currentMode, setMode } = useThemeMode();
   const location = useLocation();
+
+  const {user, logout} = useAuth() as AfterAuthContextType;
 
   return (
     <Navbar fluid>
@@ -29,7 +32,7 @@ export function AppNavigation() {
           alt="FlightModel Tracker Logo"
         />
         <span className="self-center whitespace-nowrap text-xl font-semibold text-gray-950 dark:text-white">
-          FlightModel Tracker
+          Flight Tracker
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
@@ -45,9 +48,9 @@ export function AppNavigation() {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">John Doe</span>
+            <span className="block text-sm">{ user?.name }</span>
             <span className="block truncate text-xs text-gray-500 font-medium">
-              oskar.barcz@example.com
+              {user?.email }
             </span>
           </Dropdown.Header>
           <Dropdown.Header>
@@ -72,7 +75,7 @@ export function AppNavigation() {
             </span>
             <span className="block truncate text-xs text-gray-500 font-medium"></span>
           </Dropdown.Header>
-          <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item onClick={logout}>Sign out</Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
