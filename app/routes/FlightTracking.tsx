@@ -5,7 +5,10 @@ import { Flowbite } from "flowbite-react";
 import React from "react";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
 import { TrackFlightDashboard } from "~/components/TrackedFlightDashboard/TrackFlightDashboard";
-import { useParams } from "react-router";
+import {useLoaderData} from "react-router";
+import {ScheduledFlightsListElement} from "~/models";
+import {FlightService} from "~/state/services/flight.service";
+import {Route} from "../../.react-router/types/app/routes/+types/FlightTracking";
 
 export function meta() {
   return [
@@ -14,14 +17,14 @@ export function meta() {
   ];
 }
 
-type FlightTrackingParams = {
-  readonly flightNumber: string;
-};
+export async function clientLoader({params}: Route.ClientLoaderArgs): Promise<ScheduledFlightsListElement> {
+  return FlightService.fetchFlightById(params.flightId);
+}
 
 export default function FlightTracking() {
-  const { flightNumber } = useParams<FlightTrackingParams>();
+  const flight = useLoaderData<typeof clientLoader>();
 
-  if (flightNumber === undefined) {
+  if (flight === undefined) {
     return;
   }
 
@@ -29,7 +32,7 @@ export default function FlightTracking() {
     <Flowbite>
       <AppNavigation></AppNavigation>
       <FlightStateProvider>
-        <TrackFlightDashboard flightNumber={flightNumber} />
+        <TrackFlightDashboard flight={flight} />
       </FlightStateProvider>
     </Flowbite>
   );

@@ -17,8 +17,9 @@ export const JwtService = {
 
     return {
       id: jwtPayload.sub,
-      name: jwtPayload.username,
-      email: jwtPayload.username,
+      name: jwtPayload.name,
+      email: jwtPayload.email,
+      role: jwtPayload.role,
     };
   }
 }

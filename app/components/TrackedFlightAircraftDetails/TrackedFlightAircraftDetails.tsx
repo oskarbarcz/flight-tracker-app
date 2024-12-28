@@ -1,17 +1,15 @@
 "use client";
 
-import { Aircraft, Operator } from "~/models";
+import { Aircraft } from "~/models";
 import React from "react";
 import Block from "~/components/Block/Block";
 
 interface TrackedFlightAircraftDetailsProps {
   aircraft: Aircraft;
-  operator: Operator;
 }
 
 export default function TrackedFlightAircraftDetails({
   aircraft,
-  operator,
 }: TrackedFlightAircraftDetailsProps) {
   return (
     <Block>
@@ -38,7 +36,7 @@ export default function TrackedFlightAircraftDetails({
 
         <article className="w-1/3 text-center">
           <div>
-            <div className="text-3xl font-bold mt-4">{operator.shortName}</div>
+            {/*<div className="text-3xl font-bold mt-4">{operator.shortName}</div>*/}
             <div className="text-md text-gray-500">Operator</div>
           </div>
           <div>

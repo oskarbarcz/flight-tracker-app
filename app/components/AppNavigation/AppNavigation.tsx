@@ -16,7 +16,7 @@ export function AppNavigation() {
   const { mode: currentMode, setMode } = useThemeMode();
   const location = useLocation();
 
-  const {user, logout} = useAuth() as AfterAuthContextType;
+  const {user} = useAuth() as unknown as AfterAuthContextType;
 
   return (
     <Navbar fluid>
@@ -48,9 +48,9 @@ export function AppNavigation() {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">{ user?.name }</span>
+            <span className="block text-sm">{ user.name }</span>
             <span className="block truncate text-xs text-gray-500 font-medium">
-              {user?.email }
+              {user.email }
             </span>
           </Dropdown.Header>
           <Dropdown.Header>
@@ -75,7 +75,8 @@ export function AppNavigation() {
             </span>
             <span className="block truncate text-xs text-gray-500 font-medium"></span>
           </Dropdown.Header>
-          <Dropdown.Item onClick={logout}>Sign out</Dropdown.Item>
+          <Dropdown.Item>
+            <Link to="/sign-out">Sign out</Link></Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
@@ -85,9 +86,9 @@ export function AppNavigation() {
         </Navbar.Link>
         <Navbar.Link
           as="span"
-          active={location.pathname === "/schedule-flight"}
+          active={location.pathname === "/flights"}
         >
-          <Link to="/schedule-flight">Scheduled flights</Link>
+          <Link to="/flights">Flights</Link>
         </Navbar.Link>
         <Navbar.Link as="span" active={location.pathname === "/track"}>
           <Link to="/track/DLH415">Track flight</Link>

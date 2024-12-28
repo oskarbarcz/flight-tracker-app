@@ -5,5 +5,6 @@ export type JwtTokenPayload = {
   iat: number
   role: UserRole,
   sub: string,
-  username: string
+  name: string,
+  email: string
 }

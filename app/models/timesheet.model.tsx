@@ -1,9 +1,7 @@
 export interface Timesheet {
   offBlockTime: Date;
   takeoffTime: Date;
-  blockTime: string;
-  airTime: string;
-  landingTime: Date;
+  arrivalTime: Date;
   onBlockTime: Date;
 }
 

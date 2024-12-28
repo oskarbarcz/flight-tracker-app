@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from "react";
-import {useNavigate} from "react-router";
+import {Navigate, useNavigate} from "react-router";
 import {useAuth} from "~/state/contexts/auth.context";
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,11 +15,15 @@ export default function SignInPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate("/schedule-flight");
+      navigate("/flights");
     } catch (error: any) {
       // Handle error (e.g., invalid credentials)
       // alert(error?.message || "Login failed");
     }
+  }
+
+  if (user) {
+    return <Navigate to={"/flights"} replace />;
   }
 
   return (

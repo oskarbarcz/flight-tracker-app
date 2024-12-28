@@ -1,12 +1,12 @@
 'use client';
 
-import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
-import { Flowbite, Table } from "flowbite-react";
+import {AppNavigation} from "~/components/AppNavigation/AppNavigation";
+import {Flowbite, Table} from "flowbite-react";
 import React from "react";
-import { getFlightsList } from "~/store/flight-provider";
-import { ScheduledFlightsListElement } from "~/models/flight.model";
-import { Link } from "react-router";
+import {ScheduledFlightsListElement} from "~/models/flight.model";
 import ProtectedRoute from "~/routes/ProtectedRoute";
+import {FlightService} from "~/state/services/flight.service";
+import {Link, useLoaderData} from "react-router";
 
 export function meta() {
   return [
@@ -15,8 +15,12 @@ export function meta() {
   ];
 }
 
+export async function clientLoader(): Promise<ScheduledFlightsListElement[]> {
+  return FlightService.fetchAllFlights();
+}
+
 export default function ScheduledFlightList() {
-  const flights = getFlightsList();
+  const flights: ScheduledFlightsListElement[] = useLoaderData<typeof clientLoader>();
 
   const hourFormatter = new Intl.DateTimeFormat("pl-pl", {
     hour: "2-digit",
@@ -44,7 +48,7 @@ export default function ScheduledFlightList() {
               <Table.HeadCell>Status</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {flights.map((flight: ScheduledFlightsListElement, i: number) => (
+              { Array.isArray(flights) && flights.map((flight: ScheduledFlightsListElement, i: number) => (
                 <Table.Row
                   key={i}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -54,7 +58,7 @@ export default function ScheduledFlightList() {
                   </Table.Cell>
                   <Table.Cell>
                     <div className="flex items-center">
-                      {flight.departure.icao}
+                      {flight.airports.find(airport => airport.type === "departure")?.icaoCode}
                       <svg
                         className="w-4 h-4 text-gray-800 dark:text-white"
                         aria-hidden="true"
@@ -72,31 +76,25 @@ export default function ScheduledFlightList() {
                           d="M19 12H5m14 0-4 4m4-4-4-4"
                         />
                       </svg>
-                      {flight.arrival.icao}
+                      {flight.airports.find(airport => airport.type === "destination")?.icaoCode}
                     </div>
                   </Table.Cell>
                   <Table.Cell>
                     <div>
-                      {hourFormatter.format(
-                        flight.timesheet.scheduled.takeoffTime,
-                      )}
                     </div>
                     <div>
-                      {dayFormatter.format(
-                        flight.timesheet.scheduled.takeoffTime,
-                      )}
                     </div>
                   </Table.Cell>
-                  <Table.Cell>{flight.timesheet.scheduled.blockTime}</Table.Cell>
+                  <Table.Cell></Table.Cell>
                   <Table.Cell>
                     <div>
                       {hourFormatter.format(
-                        flight.timesheet.scheduled.landingTime,
+                        flight?.timesheet?.scheduled?.landingTime,
                       )}
                     </div>
                     <div>
                       {dayFormatter.format(
-                        flight.timesheet.scheduled.landingTime,
+                        flight?.timesheet?.scheduled?.landingTime,
                       )}
                     </div>
                   </Table.Cell>
@@ -108,7 +106,7 @@ export default function ScheduledFlightList() {
                     {flight.status === "ready" ? (
                       <Link
                         className="font-bold uppercase text-green-400 hover:underline dark:text-green-600"
-                        to={`/track/${flight.flightNumber.replace(" ", "")}`}
+                        to={`/track/${flight.id}`}
                       >
                         Ready to check-in
                       </Link>
