@@ -9,7 +9,7 @@ import { useLoaderData } from "react-router";
 import { ScheduledFlightsListElement } from "~/models";
 import { FlightService } from "~/state/services/flight.service";
 import { Route } from "../../.react-router/types/app/routes/+types/TrackFlightRoute";
-import ProtectedRoute from "~/routes/ProtectedRoute";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 
 export function meta() {
   return [

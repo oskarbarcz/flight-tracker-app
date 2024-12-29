@@ -13,7 +13,7 @@ export default function TrackedFlightTimesheet({
 }: FlightTimesheetProps) {
   return (
     <Block>
-      <div className="flex justify-between items-center gap-4">
+      <div className="flex items-center justify-between gap-4">
         <section className="w-1/3">
           <AdvancedDateTimePreview
             plannedTime={scheduled.offBlockTime.getTime() + "z"}

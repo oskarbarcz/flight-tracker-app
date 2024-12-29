@@ -4,7 +4,7 @@ import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite, Table } from "flowbite-react";
 import React from "react";
 import { ScheduledFlightsListElement } from "~/models/flight.model";
-import ProtectedRoute from "~/routes/ProtectedRoute";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { FlightService } from "~/state/services/flight.service";
 import { Link, useLoaderData } from "react-router";
 
@@ -57,7 +57,7 @@ export default function FlightListRoute() {
                             )?.icaoCode
                           }
                           <svg
-                            className="w-4 h-4 text-gray-800 dark:text-white"
+                            className="size-4 text-gray-800 dark:text-white"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"

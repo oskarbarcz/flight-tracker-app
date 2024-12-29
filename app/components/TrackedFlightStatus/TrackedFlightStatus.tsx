@@ -14,23 +14,23 @@ export default function TrackedFlightStatus({
 }: TrackedFlightStatusProps) {
   return (
     <Block>
-      <div className="flex justify-between items-center gap-4">
-        <article className="text-center w-1/6">
+      <div className="flex items-center justify-between gap-4">
+        <article className="w-1/6 text-center">
           <div>
-            <div className="text-3xl font-bold mt-2">{flightNumber}</div>
-            <div className="text-md text-gray-500">Flight number</div>
+            <div className="mt-2 text-3xl font-bold">{flightNumber}</div>
+            <div className="text-gray-500">Flight number</div>
           </div>
           <div>
-            <div className="text-3xl font-bold mt-2">{callsign}</div>
-            <div className="text-md text-gray-500">Callsign</div>
+            <div className="mt-2 text-3xl font-bold">{callsign}</div>
+            <div className="text-gray-500">Callsign</div>
           </div>
         </article>
 
         <article className="w-2/3 text-center">
           <div className="flex flex-col gap-2">
             <Progress progress={45} color="dark" size="lg" />
-            <div className="w-fit mt-2 mx-auto text-gray-500">
-              <div className="mb-2 border rounded-lg py-1 px-2 border-gray-500 uppercase">
+            <div className="mx-auto mt-2 w-fit text-gray-500">
+              <div className="mb-2 rounded-lg border border-gray-500 px-2 py-1 uppercase">
                 Preparation
               </div>
               <span className="pt-3">3h 40m remaining</span>
@@ -38,7 +38,7 @@ export default function TrackedFlightStatus({
           </div>
         </article>
 
-        <article className="text-center w-1/6">
+        <article className="w-1/6 text-center">
           <Button className="m-auto" disabled>
             Check-in
           </Button>
