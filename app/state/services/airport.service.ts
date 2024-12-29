@@ -1,4 +1,4 @@
-import {Airport} from "~/models";
+import { Airport, CreateAirportDto } from "~/models";
 
 export const AirportService = {
   getToken: (): string => {
@@ -12,10 +12,27 @@ export const AirportService = {
   },
 
   fetchAllAirports: async (): Promise<Airport[]> => {
-    const response = await fetch('http://localhost/api/v1/airport', {
+    const response = await fetch("http://localhost/api/v1/airport", {
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,
       },
+    });
+
+    if (response.status === 401) {
+      AirportService.handleUnauthorized();
+    }
+
+    return response.json();
+  },
+
+  createNewAirport: async (airport: CreateAirportDto): Promise<Airport> => {
+    const response = await fetch("http://localhost/api/v1/airport", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${AirportService.getToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(airport),
     });
 
     if (response.status === 401) {

@@ -15,7 +15,7 @@ export default [
   layout("routes/layout/AppLayout.tsx", [
     ...prefix("airports", [
       index("routes/airports/AirportsListRoute.tsx"),
-      // route(":id", "routes/airports/AirportsListRoute.tsx"),
+      route("new", "routes/airports/CreateAirportRoute.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;
