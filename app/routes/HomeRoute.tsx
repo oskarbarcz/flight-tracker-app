@@ -3,7 +3,7 @@
 import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite } from "flowbite-react";
 import React from "react";
-import ProtectedRoute from "~/routes/ProtectedRoute";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 
 export function meta() {
   return [

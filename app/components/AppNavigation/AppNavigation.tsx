@@ -86,9 +86,19 @@ export function AppNavigation() {
         <Navbar.Link as="span" href="/" active={location.pathname === "/"}>
           Home
         </Navbar.Link>
-        <Navbar.Link as="span" active={location.pathname === "/flights"}>
-          <Link to="/flights">Flights</Link>
-        </Navbar.Link>
+
+        {user.role === "operations" && (
+          <Navbar.Link as="span" active={location.pathname === "/flights"}>
+            <Link to="/flights">Flights</Link>
+          </Navbar.Link>
+        )}
+
+        {user.role === "operations" && (
+          <Navbar.Link as="span" active={location.pathname === "/airports"}>
+            <Link to="/airports">Airports</Link>
+          </Navbar.Link>
+        )}
+
         <Navbar.Link as="span" active={location.pathname === "/track"}>
           <Link to="/track/DLH415">Track flight</Link>
         </Navbar.Link>

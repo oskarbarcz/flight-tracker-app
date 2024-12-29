@@ -4,7 +4,7 @@ import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite, Table } from "flowbite-react";
 import React from "react";
 import { ScheduledFlightsListElement } from "~/models/flight.model";
-import ProtectedRoute from "~/routes/ProtectedRoute";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { FlightService } from "~/state/services/flight.service";
 import { Link, useLoaderData } from "react-router";
 
