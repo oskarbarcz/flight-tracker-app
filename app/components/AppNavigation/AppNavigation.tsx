@@ -10,13 +10,14 @@ import {
 import lightLogo from "~/assets/logo.light.svg";
 import darkLogo from "~/assets/logo.dark.svg";
 import { Link, useLocation } from "react-router";
-import {AfterAuthContextType, useAuth} from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/auth.context";
+import {User} from "~/models/user.model";
 
 export function AppNavigation() {
   const { mode: currentMode, setMode } = useThemeMode();
   const location = useLocation();
 
-  const {user} = useAuth() as unknown as AfterAuthContextType;
+  const {user} = useAuth() as { user: User};
 
   return (
     <Navbar fluid>

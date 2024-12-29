@@ -19,18 +19,8 @@ export async function clientLoader(): Promise<ScheduledFlightsListElement[]> {
   return FlightService.fetchAllFlights();
 }
 
-export default function ScheduledFlightList() {
+export default function FlightListRoute() {
   const flights: ScheduledFlightsListElement[] = useLoaderData<typeof clientLoader>();
-
-  const hourFormatter = new Intl.DateTimeFormat("pl-pl", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const dayFormatter = new Intl.DateTimeFormat("pl-pl", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
 
   return (
     <ProtectedRoute>
@@ -88,14 +78,10 @@ export default function ScheduledFlightList() {
                   <Table.Cell></Table.Cell>
                   <Table.Cell>
                     <div>
-                      {hourFormatter.format(
-                        flight?.timesheet?.scheduled?.landingTime,
-                      )}
+                      {/*{flight?.timesheet?.scheduled?.arrivalTime.getTime()}*/}
                     </div>
                     <div>
-                      {dayFormatter.format(
-                        flight?.timesheet?.scheduled?.landingTime,
-                      )}
+                      {/*{flight?.timesheet?.scheduled?.arrivalTime.getTime()}*/}
                     </div>
                   </Table.Cell>
                   <Table.Cell>

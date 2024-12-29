@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import {Navigate, useNavigate} from "react-router";
 import {useAuth} from "~/state/contexts/auth.context";
 
-export default function SignInPage() {
+export default function SignInRoute() {
   const navigate = useNavigate();
   const { login, user } = useAuth();
 
@@ -16,9 +16,10 @@ export default function SignInPage() {
     try {
       await login(email, password);
       navigate("/flights");
-    } catch (error: any) {
-      // Handle error (e.g., invalid credentials)
-      // alert(error?.message || "Login failed");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error?.message || "Login failed");
+      }
     }
   }
 
