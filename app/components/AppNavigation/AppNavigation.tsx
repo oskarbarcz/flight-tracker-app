@@ -11,13 +11,13 @@ import lightLogo from "~/assets/logo.light.svg";
 import darkLogo from "~/assets/logo.dark.svg";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
-import {User} from "~/models/user.model";
+import { User } from "~/models/user.model";
 
 export function AppNavigation() {
   const { mode: currentMode, setMode } = useThemeMode();
   const location = useLocation();
 
-  const {user} = useAuth() as { user: User};
+  const { user } = useAuth() as { user: User };
 
   return (
     <Navbar fluid>
@@ -49,9 +49,9 @@ export function AppNavigation() {
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">{ user.name }</span>
+            <span className="block text-sm">{user.name}</span>
             <span className="block truncate text-xs text-gray-500 font-medium">
-              {user.email }
+              {user.email}
             </span>
           </Dropdown.Header>
           <Dropdown.Header>
@@ -77,7 +77,8 @@ export function AppNavigation() {
             <span className="block truncate text-xs text-gray-500 font-medium"></span>
           </Dropdown.Header>
           <Dropdown.Item>
-            <Link to="/sign-out">Sign out</Link></Dropdown.Item>
+            <Link to="/sign-out">Sign out</Link>
+          </Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
@@ -85,10 +86,7 @@ export function AppNavigation() {
         <Navbar.Link as="span" href="/" active={location.pathname === "/"}>
           Home
         </Navbar.Link>
-        <Navbar.Link
-          as="span"
-          active={location.pathname === "/flights"}
-        >
+        <Navbar.Link as="span" active={location.pathname === "/flights"}>
           <Link to="/flights">Flights</Link>
         </Navbar.Link>
         <Navbar.Link as="span" active={location.pathname === "/track"}>

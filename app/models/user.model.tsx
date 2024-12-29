@@ -1,8 +1,8 @@
 export type User = {
-  id: string
+  id: string;
   name: string;
   email: string;
   role: UserRole;
-}
+};
 
-export type UserRole = 'Admin' | 'Operations' | 'CabinCrew';
+export type UserRole = "Admin" | "Operations" | "CabinCrew";

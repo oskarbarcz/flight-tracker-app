@@ -1,7 +1,13 @@
-import React, {createContext, useState, useEffect, ReactNode, useContext} from 'react';
-import {JwtService} from "~/state/services/jwt.service";
-import {User} from "~/models/user.model";
-import {AuthService} from "~/state/services/auth.service";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { JwtService } from "~/state/services/jwt.service";
+import { User } from "~/models/user.model";
+import { AuthService } from "~/state/services/auth.service";
 
 export interface AuthContextType {
   user: User | null;
@@ -37,8 +43,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -51,26 +57,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   function saveAuthData(token: string, userData: User) {
     setToken(token);
     setUser(userData);
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
   }
 
   function clearAuthData() {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   }
 
   const login = async (email: string, password: string) => {
     AuthService.authorize(email, password)
       .then((token: string) => {
-      const user = JwtService.getUserFromToken(token);
-      saveAuthData(token, user);
-    })
+        const user = JwtService.getUserFromToken(token);
+        saveAuthData(token, user);
+      })
       .catch((error) => {
-      console.error(error);
-      throw error;
+        console.error(error);
+        throw error;
       });
   };
 
@@ -79,7 +85,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{user, token, login, logout, isLoading}}>
+    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

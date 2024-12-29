@@ -1,4 +1,4 @@
-import { Airport, Aircraft, Operator, Schedule } from "~/models";
+import { Aircraft, Airport, Operator, Schedule } from "~/models";
 
 export interface Flight {
   flightNumber: string;
@@ -23,16 +23,20 @@ export interface Flight {
 }
 
 export interface AirportOnFlight {
-  id: string
+  id: string;
   icaoCode: string;
   country: string;
-  type: "departure" | "destination" | "etops_alternate" | "destination_alternate";
+  type:
+    | "departure"
+    | "destination"
+    | "etops_alternate"
+    | "destination_alternate";
   timezone: string;
 }
 
 export interface ScheduledFlightsListElement {
-  id: string,
-  flightNumber: string,
+  id: string;
+  flightNumber: string;
   airports: AirportOnFlight[];
   callsign: string;
   aircraft: Aircraft;

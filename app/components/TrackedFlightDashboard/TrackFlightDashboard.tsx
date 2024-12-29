@@ -6,14 +6,13 @@ import TrackedFlightTimesheet from "~/components/TrackedFlightTimesheet/TrackedF
 import TrackedFlightDetails from "~/components/TrackedFlightDetails/TrackedFlightDetails";
 import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails/TrackedFlightAircraftDetails";
 import React from "react";
-import {Airport, ScheduledFlightsListElement} from "~/models";
+import { Airport, ScheduledFlightsListElement } from "~/models";
 
 type TrackFlightDashboardProps = {
   flight: ScheduledFlightsListElement;
 };
 
 export const TrackFlightDashboard = ({ flight }: TrackFlightDashboardProps) => {
-
   return (
     <div className="container mx-auto py-4 text-gray-800 dark:text-white">
       <div>
@@ -25,8 +24,16 @@ export const TrackFlightDashboard = ({ flight }: TrackFlightDashboardProps) => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <FlightAirports
-            departure={flight.airports.find(a => a.type === "departure") as unknown as Airport}
-            arrival={flight.airports.find(a=>a.type==="departure") as unknown as Airport}
+            departure={
+              flight.airports.find(
+                (a) => a.type === "departure",
+              ) as unknown as Airport
+            }
+            arrival={
+              flight.airports.find(
+                (a) => a.type === "departure",
+              ) as unknown as Airport
+            }
           />
           <TrackedFlightTimesheet scheduled={flight.timesheet.scheduled} />
         </div>
@@ -35,7 +42,7 @@ export const TrackFlightDashboard = ({ flight }: TrackFlightDashboardProps) => {
             callsign={flight.callsign}
             flightNumber={flight.flightNumber}
           />
-          <TrackedFlightAircraftDetails aircraft={flight.aircraft}/>
+          <TrackedFlightAircraftDetails aircraft={flight.aircraft} />
         </div>
       </div>
     </div>

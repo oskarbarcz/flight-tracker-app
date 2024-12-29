@@ -11,7 +11,6 @@ interface FlightTimesheetProps {
 export default function TrackedFlightTimesheet({
   scheduled,
 }: FlightTimesheetProps) {
-
   return (
     <Block>
       <div className="flex justify-between items-center gap-4">

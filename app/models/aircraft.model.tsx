@@ -1,5 +1,5 @@
 export interface Aircraft {
-  id: string
+  id: string;
   icaoCode: string;
   shortName: string;
   fullName: string;

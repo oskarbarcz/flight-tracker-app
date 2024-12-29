@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
 import { Flowbite } from "flowbite-react";

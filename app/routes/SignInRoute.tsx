@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
-import {Navigate, useNavigate} from "react-router";
-import {useAuth} from "~/state/contexts/auth.context";
+import { Navigate, useNavigate } from "react-router";
+import { useAuth } from "~/state/contexts/auth.context";
 
 export default function SignInRoute() {
   const navigate = useNavigate();

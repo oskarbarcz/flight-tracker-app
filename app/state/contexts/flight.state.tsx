@@ -1,4 +1,4 @@
-import {ScheduledFlightsListElement} from "~/models";
+import { ScheduledFlightsListElement } from "~/models";
 import React, { createContext, ReactNode, useContext, useReducer } from "react";
 
 type State = {
