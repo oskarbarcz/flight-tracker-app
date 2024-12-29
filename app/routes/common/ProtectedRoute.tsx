@@ -22,8 +22,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <div>Loading...</div>;
   }
 
-  console.log(auth);
-
   if (!auth.user || !auth.token) {
     return <Navigate to="/sign-in" replace />;
   }

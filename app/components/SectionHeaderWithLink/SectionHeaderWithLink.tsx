@@ -13,7 +13,7 @@ export default function SectionHeaderWithLink({
   linkText,
 }: SectionHeaderWithLinkProps) {
   return (
-    <div className="flex justify-between items-center my-6">
+    <div className="my-6 flex items-center justify-between">
       <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>

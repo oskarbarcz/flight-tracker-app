@@ -24,12 +24,12 @@ export function AppNavigation() {
       <Navbar.Brand>
         <img
           src={lightLogo}
-          className="mr-4 h-6 sm:h-9 dark:hidden"
+          className="mr-4 h-6 dark:hidden sm:h-9"
           alt="FlightModel Tracker Logo"
         />
         <img
           src={darkLogo}
-          className="mr-4 h-6 sm:h-9 hidden dark:block"
+          className="mr-4 hidden h-6 dark:block sm:h-9"
           alt="FlightModel Tracker Logo"
         />
         <span className="self-center whitespace-nowrap text-xl font-semibold text-gray-950 dark:text-white">
@@ -50,7 +50,7 @@ export function AppNavigation() {
         >
           <Dropdown.Header>
             <span className="block text-sm">{user.name}</span>
-            <span className="block truncate text-xs text-gray-500 font-medium">
+            <span className="block truncate text-xs font-medium text-gray-500">
               {user.email}
             </span>
           </Dropdown.Header>
@@ -74,7 +74,7 @@ export function AppNavigation() {
                 );
               })}
             </span>
-            <span className="block truncate text-xs text-gray-500 font-medium"></span>
+            <span className="block truncate text-xs font-medium text-gray-500"></span>
           </Dropdown.Header>
           <Dropdown.Item>
             <Link to="/sign-out">Sign out</Link>

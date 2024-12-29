@@ -3,11 +3,12 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink/SectionHeaderWithLink";
-import { Table } from "flowbite-react";
+import { Button, Table } from "flowbite-react";
 import { Airport } from "~/models";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { AirportService } from "~/state/services/airport.service";
 import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
+import { HiPencil } from "react-icons/hi";
 
 export async function clientLoader(): Promise<Airport[]> {
   return AirportService.fetchAllAirports();
@@ -31,6 +32,9 @@ export default function AirportsListRoute() {
             <Table.HeadCell>Name</Table.HeadCell>
             <Table.HeadCell>Country</Table.HeadCell>
             <Table.HeadCell>Timezone</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Actions</span>
+            </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {airports.map((airport: Airport, i: number) => (
@@ -46,10 +50,17 @@ export default function AirportsListRoute() {
                 <Table.Cell>
                   {airport.timezone}
                   <br />
-                  <span className="font-light text-xs">
+                  <span className="text-xs font-light">
                     (currently:{" "}
                     <LocalizedTimeDisplay timezone={airport.timezone} />)
                   </span>
+                </Table.Cell>
+                <Table.Cell>
+                  <Button color="gray">
+                    <Link to={`/airports/${airport.id}/edit`} replace>
+                      <HiPencil />
+                    </Link>
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             ))}

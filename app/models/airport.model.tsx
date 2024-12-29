@@ -7,3 +7,4 @@ export type Airport = {
 };
 
 export type CreateAirportDto = Omit<Airport, "id">;
+export type EditAirportDto = CreateAirportDto;

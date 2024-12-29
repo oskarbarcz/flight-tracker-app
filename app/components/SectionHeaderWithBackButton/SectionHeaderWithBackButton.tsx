@@ -14,14 +14,14 @@ export default function SectionHeaderWithBackButton({
   backText,
 }: SectionHeaderWithBackButtonProps) {
   return (
-    <div className="my-6 mx-auto">
+    <div className="mx-auto my-6">
       <Link className="block" to={backUrl} replace={true}>
         <Button color="gray" size="xs">
-          <HiOutlineArrowLeft className="mr-2 h-4 w-4" />
+          <HiOutlineArrowLeft className="mr-2 size-4" />
           {backText}
         </Button>
       </Link>
-      <h2 className="text-3xl mt-3 font-bold text-gray-800 dark:text-white">
+      <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>
     </div>
