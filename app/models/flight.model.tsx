@@ -1,4 +1,4 @@
-import { Airport, Aircraft, Operator, Schedule } from "~/models";
+import { Aircraft, Airport, Operator, Schedule } from "~/models";
 
 export interface Flight {
   flightNumber: string;
@@ -22,13 +22,24 @@ export interface Flight {
     | "closed";
 }
 
+export interface AirportOnFlight {
+  id: string;
+  icaoCode: string;
+  country: string;
+  type:
+    | "departure"
+    | "destination"
+    | "etops_alternate"
+    | "destination_alternate";
+  timezone: string;
+}
+
 export interface ScheduledFlightsListElement {
+  id: string;
   flightNumber: string;
+  airports: AirportOnFlight[];
   callsign: string;
-  departure: Airport;
-  arrival: Airport;
-  alternates?: Airport[];
   aircraft: Aircraft;
   timesheet: Schedule;
-  status: "future" | "ready";
+  status: string;
 }

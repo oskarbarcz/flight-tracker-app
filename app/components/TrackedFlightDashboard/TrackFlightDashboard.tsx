@@ -5,60 +5,44 @@ import FlightAirports from "~/components/FlightAirports/FlightAirports";
 import TrackedFlightTimesheet from "~/components/TrackedFlightTimesheet/TrackedFlightTimesheet";
 import TrackedFlightDetails from "~/components/TrackedFlightDetails/TrackedFlightDetails";
 import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails/TrackedFlightAircraftDetails";
-import React, { useEffect } from "react";
-import { useTrackedFlight } from "~/state/hooks/useTrackedFlight";
-import { useChangePageTitle } from "~/state/hooks/useChangePageTitle";
+import React from "react";
+import { Airport, ScheduledFlightsListElement } from "~/models";
 
 type TrackFlightDashboardProps = {
-  flightNumber: string;
+  flight: ScheduledFlightsListElement;
 };
 
-export const TrackFlightDashboard = ({
-  flightNumber,
-}: TrackFlightDashboardProps) => {
-  const { trackedFlight, loadTrackedFlight } = useTrackedFlight();
-
-  useEffect(() => {
-    loadTrackedFlight(flightNumber);
-  }, [flightNumber]);
-
-  const title =
-    trackedFlight === null
-      ? "Flight"
-      : `Tracking ${trackedFlight.flightNumber}`;
-  useChangePageTitle(title);
-
-  if (trackedFlight === null) {
-    return <div>loading...</div>;
-  }
-
+export const TrackFlightDashboard = ({ flight }: TrackFlightDashboardProps) => {
   return (
     <div className="container mx-auto py-4 text-gray-800 dark:text-white">
       <div>
         <TrackedFlightStatus
-          callsign={trackedFlight.callsign}
-          flightNumber={trackedFlight.flightNumber}
+          callsign={flight.callsign}
+          flightNumber={flight.flightNumber}
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <FlightAirports
-            departure={trackedFlight.departure}
-            arrival={trackedFlight.arrival}
+            departure={
+              flight.airports.find(
+                (a) => a.type === "departure",
+              ) as unknown as Airport
+            }
+            arrival={
+              flight.airports.find(
+                (a) => a.type === "departure",
+              ) as unknown as Airport
+            }
           />
-          <TrackedFlightTimesheet
-            scheduled={trackedFlight.timesheet.scheduled}
-          />
+          <TrackedFlightTimesheet scheduled={flight.timesheet.scheduled} />
         </div>
         <div>
           <TrackedFlightDetails
-            callsign={trackedFlight.callsign}
-            flightNumber={trackedFlight.flightNumber}
+            callsign={flight.callsign}
+            flightNumber={flight.flightNumber}
           />
-          <TrackedFlightAircraftDetails
-            aircraft={trackedFlight.aircraft}
-            operator={trackedFlight.operator}
-          />
+          <TrackedFlightAircraftDetails aircraft={flight.aircraft} />
         </div>
       </div>
     </div>

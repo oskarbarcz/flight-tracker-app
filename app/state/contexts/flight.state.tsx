@@ -1,8 +1,8 @@
-import { Flight } from "~/models";
-import { createContext, ReactNode, useContext, useReducer } from "react";
+import { ScheduledFlightsListElement } from "~/models";
+import React, { createContext, ReactNode, useContext, useReducer } from "react";
 
 type State = {
-  trackedFlight: Flight | null;
+  trackedFlight: ScheduledFlightsListElement | null;
   loading: boolean;
 };
 
@@ -12,7 +12,7 @@ const initialState: State = {
 };
 
 type Action =
-  | { type: "SET_TRACKED_FLIGHT_DETAILS"; payload: Flight }
+  | { type: "SET_TRACKED_FLIGHT_DETAILS"; payload: ScheduledFlightsListElement }
   | { type: "SET_LOADING"; payload: boolean };
 
 const reducer = (state: State, action: Action): State => {
