@@ -9,7 +9,7 @@ const AppLayout: React.FC = () => {
     <ProtectedRoute>
       <Flowbite>
         <AppNavigation></AppNavigation>
-        <div className="container mx-auto py-4 text-gray-800 dark:text-white">
+        <div className="container mx-auto text-gray-800 dark:text-white">
           <Outlet />
         </div>
       </Flowbite>

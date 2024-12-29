@@ -1,6 +1,6 @@
 export interface Airport {
-  icao: string;
-  gate: string | null;
+  id: string;
+  icaoCode: string;
   name: string;
   country: string;
   timezone: string;
