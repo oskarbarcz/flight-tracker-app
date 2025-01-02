@@ -11,7 +11,7 @@ import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { HiPencil } from "react-icons/hi";
 
 export async function clientLoader(): Promise<Airport[]> {
-  return AirportService.fetchAllAirports();
+  return AirportService.getAll();
 }
 
 export default function AirportsListRoute() {

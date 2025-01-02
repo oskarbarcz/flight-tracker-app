@@ -11,7 +11,7 @@ export const AirportService = {
     return <string>token;
   },
 
-  fetchAllAirports: async (): Promise<Airport[]> => {
+  getAll: async (): Promise<Airport[]> => {
     const response = await fetch("http://localhost/api/v1/airport", {
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,
@@ -25,7 +25,7 @@ export const AirportService = {
     return response.json();
   },
 
-  fetchById: async (id: string): Promise<Airport> => {
+  getById: async (id: string): Promise<Airport> => {
     const response = await fetch(`http://localhost/api/v1/airport/${id}`, {
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,
@@ -39,7 +39,7 @@ export const AirportService = {
     return response.json();
   },
 
-  createNewAirport: async (airport: CreateAirportDto): Promise<Airport> => {
+  createNew: async (airport: CreateAirportDto): Promise<Airport> => {
     const response = await fetch("http://localhost/api/v1/airport", {
       method: "POST",
       headers: {

@@ -11,7 +11,7 @@ export const AircraftService = {
     return <string>token;
   },
 
-  fetchAll: async (): Promise<Aircraft[]> => {
+  getAll: async (): Promise<Aircraft[]> => {
     const response = await fetch("http://localhost/api/v1/aircraft", {
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,
@@ -25,7 +25,7 @@ export const AircraftService = {
     return response.json();
   },
 
-  fetchById: async (id: string): Promise<Aircraft> => {
+  getById: async (id: string): Promise<Aircraft> => {
     const response = await fetch(`http://localhost/api/v1/aircraft/${id}`, {
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,

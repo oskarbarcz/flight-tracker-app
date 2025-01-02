@@ -2,11 +2,12 @@
 
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton/SectionHeaderWithBackButton";
 import { Form, redirect } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
 import { AirportService } from "~/state/services/airport.service";
+import InputBlock from "~/components/Form/InputBlock";
 
 export async function clientAction({
   request,
@@ -19,7 +20,7 @@ export async function clientAction({
     timezone: formData.get("timezone") as string,
   };
 
-  await AirportService.createNewAirport(newAirport);
+  await AirportService.createNew(newAirport);
 
   return redirect("/airports");
 }
@@ -35,30 +36,11 @@ export default function CreateAirportRoute() {
         />
 
         <Form className="flex max-w-md flex-col gap-4" method="post">
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="icaoCode" value="ICAO code" />
-            </div>
-            <TextInput id="icaoCode" name="icaoCode" required />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="name" value="Airport name" />
-            </div>
-            <TextInput id="name" name="name" required />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="country" value="Country" />
-            </div>
-            <TextInput id="country" name="country" required />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="timezone" value="Timezone" />
-            </div>
-            <TextInput id="timezone" name="timezone" required />
-          </div>
+          <InputBlock htmlName="icaoCode" label="ICAO code" />
+          <InputBlock htmlName="name" label="Name" />
+          <InputBlock htmlName="country" label="County" />
+          <InputBlock htmlName="timezone" label="Timezone" />
+
           <Button type="submit">Create new airport</Button>
         </Form>
       </div>

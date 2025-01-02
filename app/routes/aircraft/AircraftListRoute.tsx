@@ -10,18 +10,18 @@ import { HiPencil } from "react-icons/hi";
 import { AircraftService } from "~/state/services/aircraft.service";
 
 export async function clientLoader(): Promise<Aircraft[]> {
-  return AircraftService.fetchAll();
+  return AircraftService.getAll();
 }
 
 export default function AircraftListRoute() {
-  const aircrafts: Aircraft[] = useLoaderData<typeof clientLoader>();
+  const aircrafts = useLoaderData<typeof clientLoader>();
   return (
     <ProtectedRoute expectedRole={"operations"}>
       <div className="pb-4">
         <SectionHeaderWithLink
           sectionTitle="Aircrafts"
           linkText="Create new"
-          linkUrl="/aircrafts/new"
+          linkUrl="/aircraft/new"
         />
 
         <Table className="shadow">

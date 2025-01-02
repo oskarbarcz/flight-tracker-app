@@ -33,7 +33,7 @@ export async function clientAction({
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<Aircraft> {
-  return AircraftService.fetchById(params.id);
+  return AircraftService.getById(params.id);
 }
 
 export default function EditAircraftRoute() {

@@ -2,13 +2,14 @@
 
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { AirportService } from "~/state/services/airport.service";
 import { Airport } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
+import InputBlock from "~/components/Form/InputBlock";
 
 export async function clientAction({
   request,
@@ -30,7 +31,7 @@ export async function clientAction({
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<Airport> {
-  return AirportService.fetchById(params.id);
+  return AirportService.getById(params.id);
 }
 
 export default function EditAirportRoute() {
@@ -46,50 +47,27 @@ export default function EditAirportRoute() {
         />
 
         <Form className="flex max-w-md flex-col gap-4" method="post">
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="icaoCode" value="ICAO code" />
-            </div>
-            <TextInput
-              id="icaoCode"
-              name="icaoCode"
-              defaultValue={airport.icaoCode}
-              required
-            />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="name" value="Airport name" />
-            </div>
-            <TextInput
-              id="name"
-              name="name"
-              defaultValue={airport.name}
-              required
-            />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="country" value="Country" />
-            </div>
-            <TextInput
-              id="country"
-              name="country"
-              defaultValue={airport.country}
-              required
-            />
-          </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="timezone" value="Timezone" />
-            </div>
-            <TextInput
-              id="timezone"
-              name="timezone"
-              defaultValue={airport.timezone}
-              required
-            />
-          </div>
+          <InputBlock
+            htmlName="icaoCode"
+            label="ICAO code"
+            defaultValue={airport.icaoCode}
+          />
+          <InputBlock
+            htmlName="name"
+            label="Name"
+            defaultValue={airport.name}
+          />
+          <InputBlock
+            htmlName="country"
+            label="County"
+            defaultValue={airport.country}
+          />
+          <InputBlock
+            htmlName="timezone"
+            label="Timezone"
+            defaultValue={airport.timezone}
+          />
+
           <Button type="submit">Save changes</Button>
         </Form>
       </div>

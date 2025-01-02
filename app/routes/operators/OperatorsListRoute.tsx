@@ -22,7 +22,7 @@ export default function OperatorsListRoute() {
         <SectionHeaderWithLink
           sectionTitle="Airports"
           linkText="Create new"
-          linkUrl="/airports/new"
+          linkUrl="/operators/new"
         />
 
         <Table className="shadow">
