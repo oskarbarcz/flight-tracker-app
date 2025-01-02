@@ -8,19 +8,20 @@ import { Form, redirect } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
 import { AirportService } from "~/state/services/airport.service";
 import InputBlock from "~/components/Form/InputBlock";
+import getFormData from "~/functions/getFormData";
 
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response> {
-  const formData = await request.formData();
-  const newAirport = {
-    icaoCode: formData.get("icaoCode") as string,
-    name: formData.get("name") as string,
-    country: formData.get("country") as string,
-    timezone: formData.get("timezone") as string,
-  };
+  const form = await request.formData();
+  const airport = getFormData(form, [
+    'icaoCode',
+    'name',
+    'country',
+    'timezone'
+  ]);
 
-  await AirportService.createNew(newAirport);
+  await AirportService.createNew(airport);
 
   return redirect("/airports");
 }
