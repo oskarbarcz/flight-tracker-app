@@ -8,19 +8,21 @@ import { Form, redirect, useLoaderData } from "react-router";
 import { AirportService } from "~/state/services/airport.service";
 import { Airport } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
+import getFormData from "~/functions/getFormData";
 
 export async function clientAction({
   request,
+  params,
 }: Route.ClientActionArgs): Promise<Response> {
-  const formData = await request.formData();
-  const newAirport = {
-    icaoCode: formData.get("icaoCode") as string,
-    name: formData.get("name") as string,
-    country: formData.get("country") as string,
-    timezone: formData.get("timezone") as string,
-  };
+  const form = await request.formData();
+  const airport = getFormData(form, [
+    "icaoCode",
+    "name",
+    "country",
+    "timezone",
+  ]);
 
-  await AirportService.update(newAirport);
+  await AirportService.update(params.id, airport);
 
   return redirect("/airports");
 }

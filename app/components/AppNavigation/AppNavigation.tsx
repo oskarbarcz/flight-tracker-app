@@ -106,6 +106,12 @@ export function AppNavigation() {
           </Navbar.Link>
         )}
 
+        {user.role === "operations" && (
+          <Navbar.Link as="span" active={location.pathname === "/operators"}>
+            <Link to="/operators">Operators</Link>
+          </Navbar.Link>
+        )}
+
         <Navbar.Link as="span" active={location.pathname === "/track"}>
           <Link to="/track/DLH415">Track flight</Link>
         </Navbar.Link>

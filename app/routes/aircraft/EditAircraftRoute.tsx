@@ -13,6 +13,7 @@ import getFormData from "~/functions/getFormData";
 
 export async function clientAction({
   request,
+  params,
 }: Route.ClientActionArgs): Promise<Response> {
   const form = await request.formData();
   const aircraft = getFormData<CreateAircraftDto>(form, [
@@ -24,7 +25,7 @@ export async function clientAction({
     "livery",
   ]);
 
-  await AircraftService.update(aircraft);
+  await AircraftService.update(params.id, aircraft);
 
   return redirect("/aircraft");
 }

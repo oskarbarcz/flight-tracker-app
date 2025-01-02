@@ -56,9 +56,9 @@ export const AirportService = {
     return response.json();
   },
 
-  update: async (airport: EditAirportDto): Promise<Airport> => {
-    const response = await fetch("http://localhost/api/v1/airport", {
-      method: "POST",
+  update: async (id: string, airport: EditAirportDto): Promise<Airport> => {
+    const response = await fetch(`http://localhost/api/v1/airport/${id}`, {
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,
         "Content-Type": "application/json",

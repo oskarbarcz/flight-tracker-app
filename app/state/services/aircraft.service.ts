@@ -56,14 +56,14 @@ export const AircraftService = {
     return response.json();
   },
 
-  update: async (aircraft: EditAircraftDto): Promise<Aircraft> => {
-    const response = await fetch("http://localhost/api/v1/aircraft", {
-      method: "POST",
+  update: async (id: string, data: EditAircraftDto): Promise<Aircraft> => {
+    const response = await fetch(`http://localhost/api/v1/aircraft/${id}`, {
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(aircraft),
+      body: JSON.stringify(data),
     });
 
     if (response.status === 401) {
