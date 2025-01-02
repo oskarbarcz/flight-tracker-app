@@ -15,10 +15,10 @@ export async function clientAction({
 }: Route.ClientActionArgs): Promise<Response> {
   const form = await request.formData();
   const airport = getFormData(form, [
-    'icaoCode',
-    'name',
-    'country',
-    'timezone'
+    "icaoCode",
+    "name",
+    "country",
+    "timezone",
   ]);
 
   await AirportService.createNew(airport);
