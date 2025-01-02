@@ -30,12 +30,12 @@ export async function clientAction({
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Operator> {
-  return OperatorService.fetchById(params.id);
+}: Route.ClientLoaderArgs): Promise<Operator | Response> {
+  return OperatorService.fetchById(params.id).catch(() => redirect("/sign-in"));
 }
 
 export default function EditOperatorRoute() {
-  const operator = useLoaderData<typeof clientLoader>();
+  const operator = useLoaderData<Operator>();
 
   return (
     <ProtectedRoute expectedRole={"operations"}>

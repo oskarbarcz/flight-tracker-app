@@ -12,15 +12,11 @@ import { AuthService } from "~/state/services/auth.service";
 export interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-  isLoading: boolean;
-}
-
-export interface AfterAuthContextType {
-  user: User;
-  authToken: string;
-  login: (email: string, password: string) => Promise<void>;
+  login: (
+    email: string,
+    password: string,
+    onSuccess: () => void,
+  ) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -68,16 +64,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem("user");
   }
 
-  const login = async (email: string, password: string) => {
-    AuthService.authorize(email, password)
-      .then((token: string) => {
-        const user = JwtService.getUserFromToken(token);
-        saveAuthData(token, user);
-      })
-      .catch((error) => {
-        console.error(error);
-        throw error;
-      });
+  const login = async (
+    email: string,
+    password: string,
+    onSuccess: () => void,
+  ): Promise<void> => {
+    try {
+      const token = await AuthService.authorize(email, password);
+      const user = JwtService.getUserFromToken(token);
+      saveAuthData(token, user);
+      onSuccess();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   const logout = () => {

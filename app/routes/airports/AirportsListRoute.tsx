@@ -10,12 +10,12 @@ import { AirportService } from "~/state/services/airport.service";
 import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { HiPencil } from "react-icons/hi";
 
-export async function clientLoader(): Promise<Airport[]> {
+export async function clientLoader(): Promise<Airport[] | Response> {
   return AirportService.getAll();
 }
 
 export default function AirportsListRoute() {
-  const airports: Airport[] = useLoaderData<typeof clientLoader>();
+  const airports = useLoaderData<Airport[]>();
 
   return (
     <ProtectedRoute expectedRole={"operations"}>

@@ -30,12 +30,12 @@ export async function clientAction({
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Airport> {
-  return AirportService.getById(params.id);
+}: Route.ClientLoaderArgs): Promise<Airport | Response> {
+  return AirportService.getById(params.id).catch(() => redirect("/sign-in"));
 }
 
 export default function EditAirportRoute() {
-  const airport = useLoaderData<typeof clientLoader>();
+  const airport = useLoaderData<Airport>();
 
   return (
     <ProtectedRoute expectedRole={"operations"}>

@@ -5,16 +5,17 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink/SectionHeaderWithLink";
 import { Button, Table } from "flowbite-react";
 import { Aircraft } from "~/models";
-import { Link, useLoaderData } from "react-router";
+import { Link, redirect, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { AircraftService } from "~/state/services/aircraft.service";
 
-export async function clientLoader(): Promise<Aircraft[]> {
-  return AircraftService.getAll();
+export async function clientLoader(): Promise<Aircraft[] | Response> {
+  return AircraftService.getAll().catch(() => redirect("/sign-in"));
 }
 
 export default function AircraftListRoute() {
-  const aircrafts = useLoaderData<typeof clientLoader>();
+  const aircrafts = useLoaderData<Aircraft[]>();
+
   return (
     <ProtectedRoute expectedRole={"operations"}>
       <div className="pb-4">

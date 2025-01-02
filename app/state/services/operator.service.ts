@@ -12,14 +12,15 @@ export const OperatorService = {
   },
 
   fetchAll: async (): Promise<Operator[]> => {
+    const token = OperatorService.getToken();
     const response = await fetch("http://localhost/api/v1/operator", {
       headers: {
-        Authorization: `Bearer ${OperatorService.getToken()}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
     if (response.status === 401) {
-      OperatorService.handleUnauthorized();
+      throw new Error("Unauthorized");
     }
 
     return response.json();
@@ -33,7 +34,7 @@ export const OperatorService = {
     });
 
     if (response.status === 401) {
-      OperatorService.handleUnauthorized();
+      throw new Error("Unauthorized");
     }
 
     return response.json();
@@ -50,7 +51,7 @@ export const OperatorService = {
     });
 
     if (response.status === 401) {
-      OperatorService.handleUnauthorized();
+      throw new Error("Unauthorized");
     }
 
     return response.json();
@@ -67,14 +68,9 @@ export const OperatorService = {
     });
 
     if (response.status === 401) {
-      OperatorService.handleUnauthorized();
+      throw new Error("Unauthorized");
     }
 
     return response.json();
-  },
-
-  handleUnauthorized: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
   },
 };
