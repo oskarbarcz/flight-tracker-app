@@ -14,8 +14,9 @@ export default function SignInRoute() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      await login(email, password);
-      navigate("/flights");
+      await login(email, password, () => {
+        navigate("/flights");
+      });
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error?.message || "Login failed");

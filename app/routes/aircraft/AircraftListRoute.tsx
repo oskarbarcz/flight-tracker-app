@@ -4,60 +4,56 @@ import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink/SectionHeaderWithLink";
 import { Button, Table } from "flowbite-react";
-import { Airport } from "~/models";
-import { Link, useLoaderData } from "react-router";
-import { AirportService } from "~/state/services/airport.service";
-import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
+import { Aircraft } from "~/models";
+import { Link, redirect, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
+import { AircraftService } from "~/state/services/aircraft.service";
 
-export async function clientLoader(): Promise<Airport[] | Response> {
-  return AirportService.getAll();
+export async function clientLoader(): Promise<Aircraft[] | Response> {
+  return AircraftService.getAll().catch(() => redirect("/sign-in"));
 }
 
-export default function AirportsListRoute() {
-  const airports = useLoaderData<Airport[]>();
+export default function AircraftListRoute() {
+  const aircrafts = useLoaderData<Aircraft[]>();
 
   return (
     <ProtectedRoute expectedRole={"operations"}>
       <div className="pb-4">
         <SectionHeaderWithLink
-          sectionTitle="Airports"
+          sectionTitle="Aircrafts"
           linkText="Create new"
-          linkUrl="/airports/new"
+          linkUrl="/aircraft/new"
         />
 
         <Table className="shadow">
           <Table.Head>
             <Table.HeadCell>ICAO code</Table.HeadCell>
-            <Table.HeadCell>Name</Table.HeadCell>
-            <Table.HeadCell>Country</Table.HeadCell>
-            <Table.HeadCell>Timezone</Table.HeadCell>
+            <Table.HeadCell>Registration</Table.HeadCell>
+            <Table.HeadCell>Short name</Table.HeadCell>
+            <Table.HeadCell>Long name</Table.HeadCell>
+            <Table.HeadCell>Livery</Table.HeadCell>
+            <Table.HeadCell>SELCAL</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Actions</span>
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {airports.map((airport: Airport, i: number) => (
+            {aircrafts.map((aircraft: Aircraft, i: number) => (
               <Table.Row
                 key={i}
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
               >
                 <Table.Cell className="font-medium text-gray-900 dark:text-white">
-                  {airport.icaoCode}
+                  {aircraft.icaoCode}
                 </Table.Cell>
-                <Table.Cell>{airport.name}</Table.Cell>
-                <Table.Cell>{airport.country}</Table.Cell>
-                <Table.Cell>
-                  {airport.timezone}
-                  <br />
-                  <span className="text-xs font-light">
-                    (currently:{" "}
-                    <LocalizedTimeDisplay timezone={airport.timezone} />)
-                  </span>
-                </Table.Cell>
+                <Table.Cell>{aircraft.registration}</Table.Cell>
+                <Table.Cell>{aircraft.shortName}</Table.Cell>
+                <Table.Cell>{aircraft.fullName}</Table.Cell>
+                <Table.Cell>{aircraft.livery}</Table.Cell>
+                <Table.Cell>{aircraft.selcal}</Table.Cell>
                 <Table.Cell>
                   <Button color="gray">
-                    <Link to={`/airports/${airport.id}/edit`} replace>
+                    <Link to={`/aircraft/${aircraft.id}/edit`} replace>
                       <HiPencil />
                     </Link>
                   </Button>

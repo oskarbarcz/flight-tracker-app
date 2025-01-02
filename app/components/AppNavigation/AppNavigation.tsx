@@ -12,6 +12,7 @@ import darkLogo from "~/assets/logo.dark.svg";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { User } from "~/models/user.model";
+import React from "react";
 
 export function AppNavigation() {
   const { mode: currentMode, setMode } = useThemeMode();
@@ -96,6 +97,18 @@ export function AppNavigation() {
         {user.role === "operations" && (
           <Navbar.Link as="span" active={location.pathname === "/airports"}>
             <Link to="/airports">Airports</Link>
+          </Navbar.Link>
+        )}
+
+        {user.role === "operations" && (
+          <Navbar.Link as="span" active={location.pathname === "/aircraft"}>
+            <Link to="/aircraft">Aircraft</Link>
+          </Navbar.Link>
+        )}
+
+        {user.role === "operations" && (
+          <Navbar.Link as="span" active={location.pathname === "/operators"}>
+            <Link to="/operators">Operators</Link>
           </Navbar.Link>
         )}
 

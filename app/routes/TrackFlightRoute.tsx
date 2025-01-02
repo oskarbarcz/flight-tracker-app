@@ -14,7 +14,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 export function meta() {
   return [
     { title: "Tracking | FlightModel Tracker" },
-    { name: "description", content: "This is flight tracker app." },
+    { name: "description", content: "This is flights tracker app." },
   ];
 }
 

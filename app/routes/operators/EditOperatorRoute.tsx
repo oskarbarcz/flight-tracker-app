@@ -5,37 +5,37 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
-import { AirportService } from "~/state/services/airport.service";
-import { Airport } from "~/models";
-import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
+import { CreateOperatorDto, Operator } from "~/models";
+import { OperatorService } from "~/state/services/operator.service";
 import getFormData from "~/functions/getFormData";
 import InputBlock from "~/components/Form/InputBlock";
+import { Route } from "../../../.react-router/types/app/routes/operators/+types/EditOperatorRoute";
 
 export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
   const form = await request.formData();
-  const airport = getFormData(form, [
+  const operator = getFormData<CreateOperatorDto>(form, [
     "icaoCode",
-    "name",
-    "country",
-    "timezone",
+    "shortName",
+    "fullName",
+    "callsign",
   ]);
 
-  await AirportService.update(params.id, airport);
+  await OperatorService.update(params.id, operator);
 
-  return redirect("/airports");
+  return redirect("/operators");
 }
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Airport | Response> {
-  return AirportService.getById(params.id).catch(() => redirect("/sign-in"));
+}: Route.ClientLoaderArgs): Promise<Operator | Response> {
+  return OperatorService.fetchById(params.id).catch(() => redirect("/sign-in"));
 }
 
-export default function EditAirportRoute() {
-  const airport = useLoaderData<Airport>();
+export default function EditOperatorRoute() {
+  const operator = useLoaderData<Operator>();
 
   return (
     <ProtectedRoute expectedRole={"operations"}>
@@ -50,22 +50,22 @@ export default function EditAirportRoute() {
           <InputBlock
             htmlName="icaoCode"
             label="ICAO code"
-            defaultValue={airport.icaoCode}
+            defaultValue={operator.icaoCode}
           />
           <InputBlock
-            htmlName="name"
-            label="Name"
-            defaultValue={airport.name}
+            htmlName="shortName"
+            label="Short name"
+            defaultValue={operator.shortName}
           />
           <InputBlock
-            htmlName="country"
-            label="County"
-            defaultValue={airport.country}
+            htmlName="fullName"
+            label="Full name"
+            defaultValue={operator.fullName}
           />
           <InputBlock
-            htmlName="timezone"
-            label="Timezone"
-            defaultValue={airport.timezone}
+            htmlName="callsign"
+            label="Callsign"
+            defaultValue={operator.callsign}
           />
 
           <Button type="submit">Save changes</Button>

@@ -36,7 +36,7 @@ export default function TrackedFlightAircraftDetails({
 
         <article className="w-1/3 text-center">
           <div>
-            {/*<div className="text-3xl font-bold mt-4">{operator.shortName}</div>*/}
+            {/*<div className="text-3xl font-bold mt-4">{operators.shortName}</div>*/}
             <div className="text-gray-500">Operator</div>
           </div>
           <div>
