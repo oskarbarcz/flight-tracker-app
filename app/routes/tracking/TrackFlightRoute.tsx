@@ -1,27 +1,22 @@
 "use client";
 
-import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
-import { Flowbite } from "flowbite-react";
 import React from "react";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
 import { TrackFlightDashboard } from "~/components/TrackedFlightDashboard/TrackFlightDashboard";
 import { useLoaderData } from "react-router";
 import { ScheduledFlightsListElement } from "~/models";
 import { FlightService } from "~/state/services/flight.service";
-import { Route } from "../../.react-router/types/app/routes/+types/TrackFlightRoute";
+import { Route } from "../../../.react-router/types/app/routes/tracking/+types/TrackFlightRoute";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 
 export function meta() {
-  return [
-    { title: "Tracking | FlightModel Tracker" },
-    { name: "description", content: "This is flights tracker app." },
-  ];
+  return [{ title: "Tracking | FlightModel Tracker" }];
 }
 
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<ScheduledFlightsListElement> {
-  return FlightService.fetchFlightById(params.flightId);
+  return FlightService.fetchFlightById(params.id);
 }
 
 export default function TrackFlightRoute() {
@@ -32,13 +27,10 @@ export default function TrackFlightRoute() {
   }
 
   return (
-    <ProtectedRoute>
-      <Flowbite>
-        <AppNavigation></AppNavigation>
-        <FlightStateProvider>
-          <TrackFlightDashboard flight={flight} />
-        </FlightStateProvider>
-      </Flowbite>
+    <ProtectedRoute expectedRole="cabincrew">
+      <FlightStateProvider>
+        <TrackFlightDashboard flight={flight} />
+      </FlightStateProvider>
     </ProtectedRoute>
   );
 }

@@ -2,7 +2,6 @@
 
 import TrackedFlightStatus from "~/components/TrackedFlightStatus/TrackedFlightStatus";
 import FlightAirports from "~/components/FlightAirports/FlightAirports";
-import TrackedFlightTimesheet from "~/components/TrackedFlightTimesheet/TrackedFlightTimesheet";
 import TrackedFlightDetails from "~/components/TrackedFlightDetails/TrackedFlightDetails";
 import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails/TrackedFlightAircraftDetails";
 import React from "react";
@@ -35,7 +34,7 @@ export const TrackFlightDashboard = ({ flight }: TrackFlightDashboardProps) => {
               ) as unknown as Airport
             }
           />
-          <TrackedFlightTimesheet scheduled={flight.timesheet.scheduled} />
+          {/*<TrackedFlightTimesheet scheduled={flight.timesheet.scheduled} />*/}
         </div>
         <div>
           <TrackedFlightDetails

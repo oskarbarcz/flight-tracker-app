@@ -7,7 +7,6 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  route("track/:flightId", "routes/TrackFlightRoute.tsx"),
   layout("routes/auth/AuthLayout.tsx", [
     route("sign-in", "routes/auth/SignInRoute.tsx"),
     route("sign-out", "routes/auth/SignOutRoute.tsx"),
@@ -18,6 +17,9 @@ export default [
       index("routes/airports/AirportsListRoute.tsx"),
       route("new", "routes/airports/CreateAirportRoute.tsx"),
       route(":id/edit", "routes/airports/EditAirportRoute.tsx"),
+    ]),
+    ...prefix("track-flight", [
+      route(":id", "routes/tracking/TrackFlightRoute.tsx"),
     ]),
     ...prefix("aircraft", [
       index("routes/aircraft/AircraftListRoute.tsx"),
