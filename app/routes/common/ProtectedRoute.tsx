@@ -27,6 +27,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
   const { user } = auth;
 
+  console.log(expectedRole, user.role, expectedRole === user.role);
+
   if (expectedRole && user.role !== expectedRole) {
     return <Navigate to="/unauthorized" replace />;
   }

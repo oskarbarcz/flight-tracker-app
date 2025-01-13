@@ -5,4 +5,4 @@ export type User = {
   role: UserRole;
 };
 
-export type UserRole = "admin" | "operations" | "cabin_crew";
+export type UserRole = "admin" | "operations" | "cabincrew";
