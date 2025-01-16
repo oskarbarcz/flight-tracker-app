@@ -63,7 +63,6 @@ export const SimpleFlightDataDisplay = ({
     setStatus({ status: nextStatus });
   };
 
-  console.log(flight.timesheet.scheduled);
   return (
     <div className="mt-4 flex">
       <div className="mr-6">

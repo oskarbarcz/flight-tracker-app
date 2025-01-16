@@ -16,9 +16,6 @@ function currentTimeInRegion(timezone: string) {
       hour12: false,
     });
   } catch {
-    console.warn(
-      `Invalid timezone: "${timezone}". Falling back to local time.`,
-    );
     return now.toLocaleString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
