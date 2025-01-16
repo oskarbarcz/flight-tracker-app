@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import PilotInformationBox from "~/components/PilotInformationBox/PilotInformationBox";
+import PilotInformationBox from "~/components/PilotInformationBox";
 import {
   Flight,
   isFlightAvailableForCheckIn,

@@ -2,7 +2,7 @@
 
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink/SectionHeaderWithLink";
+import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import { Button, Table } from "flowbite-react";
 import { Airport } from "~/models";
 import { Link, useLoaderData } from "react-router";

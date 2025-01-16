@@ -3,13 +3,13 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { AirportService } from "~/state/services/airport.service";
 import { Airport } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/InputBlock";
 
 export async function clientAction({
   request,

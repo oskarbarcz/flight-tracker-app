@@ -1,6 +1,6 @@
 "use client";
 
-import Block from "~/components/Block/Block";
+import Block from "~/components/Block";
 
 interface TrackedFlightDetailsProps {
   callsign: string;
