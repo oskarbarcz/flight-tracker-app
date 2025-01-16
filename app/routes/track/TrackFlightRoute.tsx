@@ -2,12 +2,12 @@
 
 import React from "react";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
-import { TrackFlightDashboard } from "~/components/TrackedFlightDashboard/TrackFlightDashboard";
-import { useLoaderData } from "react-router";
-import { ScheduledFlightsListElement } from "~/models";
+import { Navigate, useLoaderData } from "react-router";
+import { isFlightAvailableForCheckIn, Flight } from "~/models";
 import { FlightService } from "~/state/services/flight.service";
-import { Route } from "../../../.react-router/types/app/routes/tracking/+types/TrackFlightRoute";
+import { Route } from "../../../.react-router/types/app/routes/track/+types/TrackFlightRoute";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { SimpleFlightDataDisplay } from "~/components/SimpleFlightDataDisplay";
 
 export function meta() {
   return [{ title: "Tracking | FlightModel Tracker" }];
@@ -15,7 +15,7 @@ export function meta() {
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<ScheduledFlightsListElement> {
+}: Route.ClientLoaderArgs): Promise<Flight> {
   return FlightService.fetchFlightById(params.id);
 }
 
@@ -26,10 +26,16 @@ export default function TrackFlightRoute() {
     return;
   }
 
+  if (isFlightAvailableForCheckIn(flight.status)) {
+    return <Navigate to={`/track/${flight.id}/check-in`} replace={true} />;
+  }
+
   return (
     <ProtectedRoute expectedRole="cabincrew">
       <FlightStateProvider>
-        <TrackFlightDashboard flight={flight} />
+        <SimpleFlightDataDisplay flight={flight} />
+
+        {/*<TrackFlightDashboard flight={flight} />*/}
       </FlightStateProvider>
     </ProtectedRoute>
   );

@@ -1,4 +1,4 @@
-import { ScheduledFlightsListElement } from "~/models";
+import { FlightStatus, Flight, Timesheet } from "~/models";
 
 export const FlightService = {
   getToken: (): string => {
@@ -11,7 +11,7 @@ export const FlightService = {
     return <string>token;
   },
 
-  fetchFlightById: async (id: string): Promise<ScheduledFlightsListElement> => {
+  fetchFlightById: async (id: string): Promise<Flight> => {
     const response = await fetch(`http://localhost/api/v1/flight/${id}`, {
       headers: {
         Authorization: `Bearer ${FlightService.getToken()}`,
@@ -25,7 +25,7 @@ export const FlightService = {
     return response.json();
   },
 
-  fetchAllFlights: async (): Promise<ScheduledFlightsListElement[]> => {
+  fetchAllFlights: async (): Promise<Flight[]> => {
     const flights = await fetch("http://localhost/api/v1/flight", {
       headers: {
         Authorization: `Bearer ${FlightService.getToken()}`,
@@ -38,5 +38,45 @@ export const FlightService = {
   handleUnauthorized: () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+  },
+
+  getNextAction: (state: FlightStatus): FlightStatus | undefined => {
+    const nextStatus = {
+      [FlightStatus.Created]: FlightStatus.Ready,
+      [FlightStatus.Ready]: FlightStatus.CheckedIn,
+      [FlightStatus.CheckedIn]: FlightStatus.BoardingStarted,
+      [FlightStatus.BoardingStarted]: FlightStatus.BoardingFinished,
+      [FlightStatus.BoardingFinished]: FlightStatus.TaxiingOut,
+      [FlightStatus.TaxiingOut]: FlightStatus.InCruise,
+      [FlightStatus.InCruise]: FlightStatus.TaxiingIn,
+      [FlightStatus.TaxiingIn]: FlightStatus.OnBlock,
+      [FlightStatus.OnBlock]: FlightStatus.OffboardingStarted,
+      [FlightStatus.OffboardingStarted]: FlightStatus.OffboardingFinished,
+      [FlightStatus.OffboardingFinished]: FlightStatus.Closed,
+      [FlightStatus.Closed]: undefined,
+    } as Record<FlightStatus, FlightStatus | undefined>;
+
+    return nextStatus[state];
+  },
+
+  checkIn: async (
+    flightId: string,
+    estimatedTimesheet: Timesheet,
+  ): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/check-in`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(estimatedTimesheet),
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
   },
 };

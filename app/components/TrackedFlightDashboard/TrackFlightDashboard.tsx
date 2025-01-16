@@ -5,10 +5,10 @@ import FlightAirports from "~/components/FlightAirports/FlightAirports";
 import TrackedFlightDetails from "~/components/TrackedFlightDetails/TrackedFlightDetails";
 import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails/TrackedFlightAircraftDetails";
 import React from "react";
-import { Airport, ScheduledFlightsListElement } from "~/models";
+import { Airport, Flight } from "~/models";
 
 type TrackFlightDashboardProps = {
-  flight: ScheduledFlightsListElement;
+  flight: Flight;
 };
 
 export const TrackFlightDashboard = ({ flight }: TrackFlightDashboardProps) => {
