@@ -85,7 +85,7 @@ export function AppNavigation() {
       </div>
       <Navbar.Collapse>
         <Navbar.Link as="span" href="/" active={location.pathname === "/"}>
-          Home
+          <Link to="/">Home</Link>
         </Navbar.Link>
 
         {user.role === "operations" && (
@@ -113,7 +113,9 @@ export function AppNavigation() {
         )}
 
         <Navbar.Link as="span" active={location.pathname === "/track"}>
-          <Link to="/track/DLH415">Track flight</Link>
+          <Link to="/track/23952e79-6b38-49ed-a1db-bd4d9b3cedab">
+            Track flight
+          </Link>
         </Navbar.Link>
         <Navbar.Link as="span" href="#">
           Flights history

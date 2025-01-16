@@ -1,7 +1,7 @@
 "use client";
 
 import { Table } from "flowbite-react";
-import { ScheduledFlightsListElement } from "~/models/flight.model";
+import { Flight } from "~/models/flight.model";
 
 import { FlightService } from "~/state/services/flight.service";
 import { Link, redirect, useLoaderData } from "react-router";
@@ -16,14 +16,12 @@ export function meta() {
   ];
 }
 
-export async function clientLoader(): Promise<
-  ScheduledFlightsListElement[] | Response
-> {
+export async function clientLoader(): Promise<Flight[] | Response> {
   return FlightService.fetchAllFlights().catch(() => redirect("/sign-in"));
 }
 
 export default function FlightsListRoute() {
-  const flights = useLoaderData<ScheduledFlightsListElement[]>();
+  const flights = useLoaderData<Flight[]>();
 
   return (
     <ProtectedRoute expectedRole={"operations"}>
@@ -45,7 +43,7 @@ export default function FlightsListRoute() {
           </Table.Head>
           <Table.Body className="divide-y">
             {Array.isArray(flights) &&
-              flights.map((flight: ScheduledFlightsListElement, i: number) => (
+              flights.map((flight: Flight, i: number) => (
                 <Table.Row
                   key={i}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"

@@ -15,16 +15,20 @@ export default function TrackedFlightTimesheet({
     <Block>
       <div className="flex items-center justify-between gap-4">
         <section className="w-1/3">
-          <AdvancedDateTimePreview
-            plannedTime={scheduled.offBlockTime.getTime() + "z"}
-            plannedDay={String(scheduled.offBlockTime.getDay())}
-            description="Scheduled off-block time"
-          />
-          <AdvancedDateTimePreview
-            plannedTime={scheduled.takeoffTime.getTime() + "z"}
-            plannedDay={String(scheduled.takeoffTime.getDay())}
-            description="Scheduled takeoff time"
-          />
+          {scheduled.offBlockTime && (
+            <AdvancedDateTimePreview
+              plannedTime={scheduled.offBlockTime + "z"}
+              plannedDay={String(scheduled.offBlockTime)}
+              description="Scheduled off-block time"
+            />
+          )}
+          {scheduled.takeoffTime && (
+            <AdvancedDateTimePreview
+              plannedTime={scheduled.takeoffTime + "z"}
+              plannedDay={String(scheduled.takeoffTime)}
+              description="Scheduled takeoff time"
+            />
+          )}
         </section>
 
         <section className="w-1/3">
