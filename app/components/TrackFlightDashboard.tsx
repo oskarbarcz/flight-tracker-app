@@ -1,9 +1,9 @@
 "use client";
 
-import TrackedFlightStatus from "~/components/TrackedFlightStatus/TrackedFlightStatus";
-import FlightAirports from "~/components/FlightAirports/FlightAirports";
-import TrackedFlightDetails from "~/components/TrackedFlightDetails/TrackedFlightDetails";
-import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails/TrackedFlightAircraftDetails";
+import TrackedFlightStatus from "~/components/TrackedFlightStatus";
+import FlightAirports from "~/components/FlightAirports";
+import TrackedFlightDetails from "~/components/TrackedFlightDetails";
+import TrackedFlightAircraftDetails from "~/components/TrackedFlightAircraftDetails";
 import React from "react";
 import { Airport, Flight } from "~/models";
 

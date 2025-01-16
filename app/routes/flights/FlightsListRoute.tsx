@@ -5,7 +5,7 @@ import { Flight } from "~/models/flight.model";
 
 import { FlightService } from "~/state/services/flight.service";
 import { Link, redirect, useLoaderData } from "react-router";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink/SectionHeaderWithLink";
+import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 

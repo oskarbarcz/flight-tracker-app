@@ -3,7 +3,7 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button, Label, TextInput } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
 import { AircraftService } from "~/state/services/aircraft.service";

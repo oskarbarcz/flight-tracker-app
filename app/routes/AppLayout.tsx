@@ -1,7 +1,7 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Outlet } from "react-router";
-import { AppNavigation } from "~/components/AppNavigation/AppNavigation";
+import { AppNavigation } from "~/components/AppNavigation";
 import { Flowbite } from "flowbite-react";
 
 const AppLayout: React.FC = () => {

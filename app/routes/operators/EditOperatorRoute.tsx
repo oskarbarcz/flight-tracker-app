@@ -3,12 +3,12 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { CreateOperatorDto, Operator } from "~/models";
 import { OperatorService } from "~/state/services/operator.service";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/InputBlock";
 import { Route } from "../../../.react-router/types/app/routes/operators/+types/EditOperatorRoute";
 
 export async function clientAction({

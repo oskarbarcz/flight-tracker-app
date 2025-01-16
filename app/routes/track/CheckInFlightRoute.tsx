@@ -7,7 +7,7 @@ import { isFlightTrackable, Flight, Timesheet } from "~/models";
 import { FlightService } from "~/state/services/flight.service";
 import { Route } from "../../../.react-router/types/app/routes/track/+types/CheckInFlightRoute";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/InputBlock";
 import { Button } from "flowbite-react";
 import getFormData from "~/functions/getFormData";
 
