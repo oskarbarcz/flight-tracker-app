@@ -17,15 +17,15 @@ export default function TrackedFlightTimesheet({
         <section className="w-1/3">
           {scheduled.offBlockTime && (
             <AdvancedDateTimePreview
-              plannedTime={scheduled.offBlockTime.getTime() + "z"}
-              plannedDay={String(scheduled.offBlockTime.getDay())}
+              plannedTime={scheduled.offBlockTime + "z"}
+              plannedDay={String(scheduled.offBlockTime)}
               description="Scheduled off-block time"
             />
           )}
           {scheduled.takeoffTime && (
             <AdvancedDateTimePreview
-              plannedTime={scheduled.takeoffTime.getTime() + "z"}
-              plannedDay={String(scheduled.takeoffTime.getDay())}
+              plannedTime={scheduled.takeoffTime + "z"}
+              plannedDay={String(scheduled.takeoffTime)}
               description="Scheduled takeoff time"
             />
           )}
