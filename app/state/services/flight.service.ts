@@ -79,4 +79,157 @@ export const FlightService = {
       FlightService.handleUnauthorized();
     }
   },
+
+  startBoarding: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/start-boarding`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  finishBoarding: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/finish-boarding`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  reportOffBlock: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/report-off-block`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  reportTakeoff: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/report-takeoff`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  reportArrival: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/report-arrival`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  reportOnBlock: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/report-on-block`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  startOffboarding: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/start-offboarding`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  finishOffboarding: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/finish-offboarding`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
+
+  close: async (flightId: string): Promise<void> => {
+    const response = await fetch(
+      `http://localhost/api/v1/flight/${flightId}/close`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${FlightService.getToken()}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (response.status === 401) {
+      FlightService.handleUnauthorized();
+    }
+  },
 };

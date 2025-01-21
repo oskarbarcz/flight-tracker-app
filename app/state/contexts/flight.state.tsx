@@ -2,12 +2,12 @@ import { Flight } from "~/models";
 import React, { createContext, ReactNode, useContext, useReducer } from "react";
 
 type State = {
-  trackedFlight: Flight | null;
+  flight: Flight | null;
   loading: boolean;
 };
 
 const initialState: State = {
-  trackedFlight: null,
+  flight: null,
   loading: false,
 };
 
@@ -18,7 +18,7 @@ type Action =
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_TRACKED_FLIGHT_DETAILS":
-      return { ...state, trackedFlight: action.payload };
+      return { ...state, flight: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     default:
