@@ -1,67 +1,56 @@
 "use client";
 
-import React, { useState } from "react";
-import { AirportOnFlight, FlightStatus, Flight, Timesheet } from "~/models";
-import { Button } from "flowbite-react";
-import { FlightService } from "~/state/services/flight.service";
+import React, { useEffect, useRef } from "react";
+import {
+  AirportOnFlight,
+  AirportOnFlightType,
+  isFlightAvailableForCheckIn,
+} from "~/models";
+import FlightProgressControl from "~/components/FlightProgressControl/FlightProgressControl";
+import { useFlight } from "~/state/hooks/useFlight";
+import { Navigate } from "react-router";
+import { SimpleTimeComponent } from "~/components/SimpleTimeComponent";
 
 type TrackFlightDashboardProps = {
-  flight: Flight;
-};
-
-export const TimeComponent = ({ timesheet }: { timesheet: Timesheet }) => {
-  return (
-    <div>
-      <p>
-        <strong>off-block: </strong>
-        {timesheet.offBlockTime && <span>{timesheet.offBlockTime}</span>}
-      </p>
-      <p>
-        <strong>takeoff: </strong>
-        {timesheet.takeoffTime && <span>{timesheet.takeoffTime}</span>}
-      </p>
-      <p>
-        <strong>arrival: </strong>
-        {timesheet.arrivalTime && <span>{timesheet.arrivalTime}</span>}
-      </p>
-      <p>
-        <strong>on-block: </strong>
-        {timesheet.onBlockTime && <span>{timesheet.onBlockTime}</span>}
-      </p>
-    </div>
-  );
+  flightId: string;
 };
 
 export const SimpleFlightDataDisplay = ({
-  flight,
+  flightId,
 }: TrackFlightDashboardProps) => {
+  const { flight, loadFlight } = useFlight();
+  const loadFlightRef = useRef(loadFlight);
+
+  useEffect(() => {
+    loadFlightRef.current(flightId).then((flight) => {
+      if (flight === null) {
+        return;
+      }
+
+      if (isFlightAvailableForCheckIn(flight.status)) {
+        return <Navigate to={`/track/${flight.id}/check-in`} replace={true} />;
+      }
+    });
+  }, [flightId, loadFlightRef]);
+
+  if (!flight) {
+    return <div>Loading...</div>;
+  }
+
   const departure = flight.airports.find(
-    (a) => a.type === "departure",
+    (a) => a.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
   const destination = flight.airports.find(
-    (a) => a.type === "destination",
+    (a) => a.type === AirportOnFlightType.Destination,
   ) as AirportOnFlight;
   const alternates = flight.airports.filter(
-    (a) => a.type in ["destination_alternate", "etops_alternate"],
+    (a) =>
+      a.type in
+      [
+        AirportOnFlightType.DestinationAlternate,
+        AirportOnFlightType.EtopsAlternate,
+      ],
   ) as AirportOnFlight[];
-
-  type State = {
-    status: FlightStatus | undefined;
-  };
-  const [status, setStatus] = useState<State>({ status: flight.status });
-  const onClick = () => {
-    if (!status.status) {
-      return;
-    }
-
-    const nextStatus = FlightService.getNextAction(status.status);
-
-    if (!nextStatus) {
-      return;
-    }
-
-    setStatus({ status: nextStatus });
-  };
 
   return (
     <div className="mt-4 flex">
@@ -75,10 +64,7 @@ export const SimpleFlightDataDisplay = ({
           {alternates
             .map((a) => `[${a.icaoCode}] ${a.name}`)
             .join(", ")} <br />
-          Status: {status.status} <br />
-          {status.status !== "closed" && (
-            <Button onClick={onClick}>Flight next step</Button>
-          )}
+          <FlightProgressControl flightId={flight.id} status={flight.status} />
         </p>
       </div>
       <div className="mr-6">
@@ -86,19 +72,19 @@ export const SimpleFlightDataDisplay = ({
         {flight.timesheet.scheduled && (
           <div>
             <h3>Schedule</h3>
-            <TimeComponent timesheet={flight.timesheet.scheduled} />
+            <SimpleTimeComponent timesheet={flight.timesheet.scheduled} />
           </div>
         )}
         {flight.timesheet.estimated && (
           <div>
             <h3>Estimation</h3>
-            <TimeComponent timesheet={flight.timesheet.estimated} />
+            <SimpleTimeComponent timesheet={flight.timesheet.estimated} />
           </div>
         )}
         {flight.timesheet.actual && (
           <div>
             <h3>Actual</h3>
-            <TimeComponent timesheet={flight.timesheet.actual} />
+            <SimpleTimeComponent timesheet={flight.timesheet.actual} />
           </div>
         )}
       </div>
