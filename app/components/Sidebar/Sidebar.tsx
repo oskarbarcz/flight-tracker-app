@@ -37,7 +37,7 @@ export function Sidebar({
         <SidebarElement
           isCollapsed={isCollapsed}
           label="Current flight"
-          href="/flights"
+          href="/track/23952e79-6b38-49ed-a1db-bd4d9b3cedab"
           icon={MdOutlineFlightClass}
         />
 
