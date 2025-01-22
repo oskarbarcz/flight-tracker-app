@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "flowbite-react";
 import { HiMenu } from "react-icons/hi";
 import { Outlet } from "react-router";
-import { AppSidebar } from "~/components/Sidebar/AppSidebar";
+import { Sidebar } from "~/components/Sidebar/Sidebar";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -66,7 +66,7 @@ export default function SidebarLayout() {
   return (
     <div className="flex min-h-screen">
       <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
-        <AppSidebar
+        <Sidebar
           isCollapsed={isCollapsed}
           handleDesktopCollapse={handleDesktopCollapse}
         />
