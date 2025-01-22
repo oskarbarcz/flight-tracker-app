@@ -11,6 +11,7 @@ import SidebarElement from "~/components/Sidebar/SidebarElement";
 import SidebarSectionTitle from "~/components/Sidebar/SidebarSectionTitle";
 import {GrDocumentTime} from "react-icons/gr";
 import {useAuth} from "~/state/contexts/auth.context";
+import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 
 export function AppSidebar({
   isCollapsed,
@@ -23,14 +24,7 @@ export function AppSidebar({
 
   return (
     <Sidebar className="size-full">
-      <Sidebar.Logo
-        className="mb-20"
-        href="#"
-        img="https://flowbite.com/docs/images/logo.svg"
-        imgAlt="Flowbite Logo"
-      >
-        {!isCollapsed && <span className="text-gray-800">Flight Tracker</span>}
-      </Sidebar.Logo>
+      <SidebarLogo isCollapsed={isCollapsed}/>
 
       <div>
         <SidebarSectionTitle isCollapsed={isCollapsed} label="Flight"/>
