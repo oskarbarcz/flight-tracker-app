@@ -37,7 +37,7 @@ function getIconForMode(mode: ThemeMode): IconType {
   }
 }
 
-export default function SidebarColorModeSwitch({
+export default function SidebarThemeSwitch({
   isCollapsed,
 }: SidebarColorModeSwitchProps) {
   const { mode: currentMode, setMode } = useThemeMode();
@@ -50,17 +50,17 @@ export default function SidebarColorModeSwitch({
   return (
     <button
       onClick={() => handleThemeSwitch(nextMode(currentMode))}
-      className="hidden w-full items-center rounded-lg bg-gray-100 p-2 text-gray-900 transition-colors duration-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 md:flex"
+      className="my-1 flex w-full items-center rounded-lg bg-gray-100 p-2 text-gray-900 transition-colors duration-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600"
     >
       <Icon size="24px" className="text-gray-500" />
       {!isCollapsed && (
-        <span className="mx-3 text-sm uppercase">
+        <span className="mx-3 text-xs uppercase md:text-sm">
           {["auto", "light", "dark"].map((mode, index) => {
             const isCurrent = currentMode === mode;
             return (
               <span
                 key={index}
-                className={`ps-3 dark:text-gray-100 ${isCurrent && " font-bold"}`}
+                className={`ps-2 dark:text-gray-100 md:ps-3 ${isCurrent && " font-bold"}`}
               >
                 {mode}
               </span>

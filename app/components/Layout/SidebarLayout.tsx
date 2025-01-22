@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "flowbite-react";
-import { HiMenu } from "react-icons/hi";
 import { Outlet } from "react-router";
 import { Sidebar } from "~/components/Sidebar/Sidebar";
+import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -38,7 +37,8 @@ function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
 function getContentClasses(isCollapsed: boolean) {
   const classes = [
     "flex-1",
-    "p-4",
+    "px-2",
+    "md:p-4",
     "transition-all",
     "duration-300",
     "text-gray-800",
@@ -64,7 +64,7 @@ export default function SidebarLayout() {
   const handleDesktopCollapse = () => setIsCollapsed((prev) => !prev);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col md:flex-row">
       <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
         <Sidebar
           isCollapsed={isCollapsed}
@@ -80,9 +80,7 @@ export default function SidebarLayout() {
       )}
 
       <div className="p-2 md:hidden">
-        <Button color="light" onClick={handleMobileToggle}>
-          <HiMenu className="size-6" />
-        </Button>
+        <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
       </div>
       <div className={getContentClasses(isCollapsed)}>
         <Outlet />

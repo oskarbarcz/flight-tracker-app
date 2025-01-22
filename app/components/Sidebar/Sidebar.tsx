@@ -10,7 +10,7 @@ import { useAuth } from "~/state/contexts/auth.context";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
-import SidebarThemeSwitch from "~/components/Sidebar/SidebarColorModeSwitch";
+import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
 
 export function Sidebar({
   isCollapsed,
