@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router";
 import { Sidebar } from "~/components/Sidebar/Sidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
+import { useSidebarState } from "~/state/hooks/useSidebarState";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -58,17 +59,16 @@ function getContentClasses(isCollapsed: boolean) {
 
 export default function SidebarLayout() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, toggleCollapse] = useSidebarState();
 
   const handleMobileToggle = () => setIsMobileOpen((prev) => !prev);
-  const handleDesktopCollapse = () => setIsCollapsed((prev) => !prev);
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
         <Sidebar
           isCollapsed={isCollapsed}
-          handleDesktopCollapse={handleDesktopCollapse}
+          handleDesktopCollapse={toggleCollapse}
         />
       </div>
 
