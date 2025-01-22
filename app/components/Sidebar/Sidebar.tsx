@@ -22,7 +22,7 @@ export function Sidebar({
   const { user } = useAuth();
 
   return (
-    <aside className="flex size-full flex-col bg-gray-100 p-3">
+    <aside className="flex size-full flex-col bg-gray-100 p-3 dark:bg-gray-800 dark:text-white">
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div>

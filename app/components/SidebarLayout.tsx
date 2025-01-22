@@ -13,7 +13,6 @@ function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
     "flex",
     "h-screen",
     "flex-col",
-    "border-r",
     "border-gray-50",
     "bg-gray-100",
     "transition-transform",
@@ -45,6 +44,7 @@ function getContentClasses(isCollapsed: boolean) {
     "text-gray-800",
     "dark:text-white",
     "bg-white",
+    "dark:bg-gray-900",
   ];
 
   if (isCollapsed) {

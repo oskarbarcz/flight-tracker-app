@@ -50,7 +50,7 @@ export default function SidebarColorModeSwitch({
   return (
     <button
       onClick={() => handleThemeSwitch(nextMode(currentMode))}
-      className="hidden w-full items-center rounded-lg bg-gray-100 p-2 text-gray-900 transition-colors duration-100 hover:bg-gray-200 active:bg-gray-300 md:flex"
+      className="hidden w-full items-center rounded-lg bg-gray-100 p-2 text-gray-900 transition-colors duration-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 md:flex"
     >
       <Icon size="24px" className="text-gray-500" />
       {!isCollapsed && (
@@ -58,7 +58,10 @@ export default function SidebarColorModeSwitch({
           {["auto", "light", "dark"].map((mode, index) => {
             const isCurrent = currentMode === mode;
             return (
-              <span key={index} className={`ps-3 ${isCurrent && " font-bold"}`}>
+              <span
+                key={index}
+                className={`ps-3 dark:text-gray-100 ${isCurrent && " font-bold"}`}
+              >
                 {mode}
               </span>
             );
