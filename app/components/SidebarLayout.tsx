@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "flowbite-react";
 import { HiMenu } from "react-icons/hi";
 import { Outlet } from "react-router";
-import { AppSidebar } from "~/components/Layout/AppSidebar";
+import { AppSidebar } from "~/components/Sidebar/AppSidebar";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [

@@ -12,6 +12,8 @@ import SidebarSectionTitle from "~/components/Sidebar/SidebarSectionTitle";
 import {GrDocumentTime} from "react-icons/gr";
 import {useAuth} from "~/state/contexts/auth.context";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
+import SidebarExpander from "~/components/Sidebar/SidebarExpander";
+import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 
 export function AppSidebar({
   isCollapsed,
@@ -23,11 +25,12 @@ export function AppSidebar({
   const {user} = useAuth();
 
   return (
-    <Sidebar className="size-full">
+    <aside className="flex size-full flex-col bg-gray-100 p-3">
       <SidebarLogo isCollapsed={isCollapsed}/>
 
       <div>
-        <SidebarSectionTitle isCollapsed={isCollapsed} label="Flight"/>
+        {isCollapsed && <SidebarDivider/>}
+        {!isCollapsed && <SidebarSectionTitle label="Flight"/>}
         <SidebarElement
           isCollapsed={isCollapsed}
           label="Home"
@@ -42,7 +45,8 @@ export function AppSidebar({
         />
 
         { user?.role === 'operations' && <>
-          <SidebarSectionTitle isCollapsed={isCollapsed} label="Management"/>
+          {isCollapsed && <SidebarDivider/>}
+          {!isCollapsed && <SidebarSectionTitle label="Management"/>}
           <SidebarElement
             isCollapsed={isCollapsed}
             label="Flight plans"
@@ -70,21 +74,12 @@ export function AppSidebar({
         </>}
       </div>
 
-      <div className="flex p-2">
-
-        <Button
-          color="light"
-          size="sm"
-          onClick={handleDesktopCollapse}
-          className="hidden md:flex"
-        >
-          <HiChevronDoubleLeft
-            className={`size-5 transition-transform duration-300 ${
-              isCollapsed ? "rotate-180" : ""
-            }`}
-          />
-        </Button>
+      <div className="mt-auto">
+        <SidebarExpander
+          handleDesktopCollapse={handleDesktopCollapse}
+          isCollapsed={isCollapsed}
+        />
       </div>
-    </Sidebar>
+    </aside>
   );
 }
