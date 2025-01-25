@@ -1,12 +1,24 @@
-name: "deploy"
+name: "release"
 
 on:
   push:
     branches: ["main"]
 jobs:
+  tag:
+    runs-on: "ubuntu-24.04"
+    steps:
+      - name: "Clone repository"
+        uses: actions/checkout@v4
+      - name: "Release and push git tag"
+        run: "git tag $(jq -r '.version' package.json) && git push --tags"
+      - name: "Create a GitHub release"
+        run: "gh release create $(jq -r '.version' package.json) --generate-notes"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-24.04"
     timeout-minutes: 5
+    environment: production
     steps:
       - name: "Build and deploy on production"
         uses: "digitalocean/app_action@v1.1.5"
