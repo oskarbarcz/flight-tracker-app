@@ -7,6 +7,7 @@ on:
 jobs:
   integrate:
     runs-on: "ubuntu-24.04"
+    environment: ci
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v4
