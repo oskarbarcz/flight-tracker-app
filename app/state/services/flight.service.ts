@@ -1,4 +1,5 @@
 import { FlightStatus, Flight, Timesheet } from "~/models";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const FlightService = {
   getToken: (): string => {
@@ -12,7 +13,7 @@ export const FlightService = {
   },
 
   fetchFlightById: async (id: string): Promise<Flight> => {
-    const response = await fetch(`http://localhost/api/v1/flight/${id}`, {
+    const response = await fetch(buildApiUrl(`api/v1/flight/${id}`), {
       headers: {
         Authorization: `Bearer ${FlightService.getToken()}`,
       },
@@ -26,7 +27,7 @@ export const FlightService = {
   },
 
   fetchAllFlights: async (): Promise<Flight[]> => {
-    const flights = await fetch("http://localhost/api/v1/flight", {
+    const flights = await fetch(buildApiUrl("api/v1/flight"), {
       headers: {
         Authorization: `Bearer ${FlightService.getToken()}`,
       },
@@ -64,7 +65,7 @@ export const FlightService = {
     estimatedTimesheet: Timesheet,
   ): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/check-in`,
+      buildApiUrl(`api/v1/flight/${flightId}/check-in`),
       {
         method: "POST",
         headers: {
@@ -82,7 +83,7 @@ export const FlightService = {
 
   startBoarding: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/start-boarding`,
+      buildApiUrl(`api/v1/flight/${flightId}/start-boarding`),
       {
         method: "POST",
         headers: {
@@ -99,7 +100,7 @@ export const FlightService = {
 
   finishBoarding: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/finish-boarding`,
+      buildApiUrl(`api/v1/flight/${flightId}/finish-boarding`),
       {
         method: "POST",
         headers: {
@@ -116,7 +117,7 @@ export const FlightService = {
 
   reportOffBlock: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/report-off-block`,
+      buildApiUrl(`api/v1/flight/${flightId}/report-off-block`),
       {
         method: "POST",
         headers: {
@@ -133,7 +134,7 @@ export const FlightService = {
 
   reportTakeoff: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/report-takeoff`,
+      buildApiUrl(`api/v1/flight/${flightId}/report-takeoff`),
       {
         method: "POST",
         headers: {
@@ -150,7 +151,7 @@ export const FlightService = {
 
   reportArrival: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/report-arrival`,
+      buildApiUrl(`api/v1/flight/${flightId}/report-arrival`),
       {
         method: "POST",
         headers: {
@@ -167,7 +168,7 @@ export const FlightService = {
 
   reportOnBlock: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/report-on-block`,
+      buildApiUrl(`api/v1/flight/${flightId}/report-on-block`),
       {
         method: "POST",
         headers: {
@@ -184,7 +185,7 @@ export const FlightService = {
 
   startOffboarding: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/start-offboarding`,
+      buildApiUrl(`api/v1/flight/${flightId}/start-offboarding`),
       {
         method: "POST",
         headers: {
@@ -201,7 +202,7 @@ export const FlightService = {
 
   finishOffboarding: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/finish-offboarding`,
+      buildApiUrl(`api/v1/flight/${flightId}/finish-offboarding`),
       {
         method: "POST",
         headers: {
@@ -218,7 +219,7 @@ export const FlightService = {
 
   close: async (flightId: string): Promise<void> => {
     const response = await fetch(
-      `http://localhost/api/v1/flight/${flightId}/close`,
+      buildApiUrl(`api/v1/flight/${flightId}/close`),
       {
         method: "POST",
         headers: {

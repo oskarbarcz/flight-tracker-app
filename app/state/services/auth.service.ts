@@ -1,7 +1,9 @@
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
+
 export const AuthService = {
   authorize: async (email: string, password: string): Promise<string> => {
     try {
-      const response = await fetch("http://localhost/api/v1/auth/sign-in", {
+      const response = await fetch(buildApiUrl("api/v1/auth/sign-in"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

@@ -1,4 +1,5 @@
 import { Aircraft, CreateAircraftDto, EditAircraftDto } from "~/models";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const AircraftService = {
   getToken: (): string => {
@@ -12,7 +13,7 @@ export const AircraftService = {
   },
 
   getAll: async (): Promise<Aircraft[]> => {
-    const response = await fetch("http://localhost/api/v1/aircraft", {
+    const response = await fetch(buildApiUrl("api/v1/aircraft"), {
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,
       },
@@ -26,7 +27,7 @@ export const AircraftService = {
   },
 
   getById: async (id: string): Promise<Aircraft> => {
-    const response = await fetch(`http://localhost/api/v1/aircraft/${id}`, {
+    const response = await fetch(buildApiUrl(`api/v1/aircraft/${id}`), {
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,
       },
@@ -40,7 +41,7 @@ export const AircraftService = {
   },
 
   createNew: async (airport: CreateAircraftDto): Promise<Aircraft> => {
-    const response = await fetch("http://localhost/api/v1/aircraft", {
+    const response = await fetch(buildApiUrl("api/v1/aircraft"), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,
@@ -57,7 +58,7 @@ export const AircraftService = {
   },
 
   update: async (id: string, data: EditAircraftDto): Promise<Aircraft> => {
-    const response = await fetch(`http://localhost/api/v1/aircraft/${id}`, {
+    const response = await fetch(buildApiUrl(`api/v1/aircraft/${id}`), {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,

@@ -1,4 +1,5 @@
 import { Airport, CreateAirportDto, EditAirportDto } from "~/models";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const AirportService = {
   getToken: (): string => {
@@ -12,7 +13,7 @@ export const AirportService = {
   },
 
   getAll: async (): Promise<Airport[]> => {
-    const response = await fetch("http://localhost/api/v1/airport", {
+    const response = await fetch(buildApiUrl("api/v1/airport"), {
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,
       },
@@ -26,7 +27,7 @@ export const AirportService = {
   },
 
   getById: async (id: string): Promise<Airport> => {
-    const response = await fetch(`http://localhost/api/v1/airport/${id}`, {
+    const response = await fetch(buildApiUrl(`api/v1/airport/${id}`), {
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,
       },
@@ -40,7 +41,7 @@ export const AirportService = {
   },
 
   createNew: async (airport: CreateAirportDto): Promise<Airport> => {
-    const response = await fetch("http://localhost/api/v1/airport", {
+    const response = await fetch(buildApiUrl("api/v1/airport"), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${AirportService.getToken()}`,

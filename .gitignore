@@ -5,7 +5,7 @@
 .idea
 
 # Project
-.env
+.env.local
 !.env.example
 .react-router
 build
