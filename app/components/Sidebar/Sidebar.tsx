@@ -74,7 +74,7 @@ export function Sidebar({
       </div>
 
       <div className="mt-auto">
-        test
+        testtingtest2134
         <SidebarThemeSwitch isCollapsed={isCollapsed} />
         <SidebarExpander
           handleDesktopCollapse={handleDesktopCollapse}
