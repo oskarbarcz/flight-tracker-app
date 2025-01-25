@@ -11,5 +11,5 @@ jobs:
       - name: "Build and deploy on production"
         uses: "digitalocean/app_action@v1.1.5"
         with:
-          app_name: "flight-tracker"
+          app_name: "flight-tracker-app"
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
