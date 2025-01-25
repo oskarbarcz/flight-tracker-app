@@ -1,12 +1,16 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import PilotInformationBox from "~/components/PilotInformationBox";
-import {Flight, isFlightAvailableForCheckIn, isFlightTrackable,} from "~/models";
-import {Link} from "react-router";
-import {FlightService} from "~/state/services/flight.service";
-import {UserRole} from "~/models/user.model";
+import {
+  Flight,
+  isFlightAvailableForCheckIn,
+  isFlightTrackable,
+} from "~/models";
+import { Link } from "react-router";
+import { FlightService } from "~/state/services/flight.service";
+import { UserRole } from "~/models/user.model";
 
 const shouldFlightBeShown = (flight: Flight): boolean => {
   return (
