@@ -9,6 +9,7 @@ import { Link, useLoaderData } from "react-router";
 import { AirportService } from "~/state/services/airport.service";
 import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { HiPencil } from "react-icons/hi";
+import { UserRole } from "~/models/user.model";
 
 export async function clientLoader(): Promise<Airport[] | Response> {
   return AirportService.getAll();
@@ -18,7 +19,7 @@ export default function AirportsListRoute() {
   const airports = useLoaderData<Airport[]>();
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="pb-4">
         <SectionHeaderWithLink
           sectionTitle="Airports"
@@ -28,8 +29,8 @@ export default function AirportsListRoute() {
 
         <Table className="shadow">
           <Table.Head>
-            <Table.HeadCell>ICAO code</Table.HeadCell>
-            <Table.HeadCell>Name</Table.HeadCell>
+            <Table.HeadCell>ICAO / IATA code</Table.HeadCell>
+            <Table.HeadCell>Name / City</Table.HeadCell>
             <Table.HeadCell>Country</Table.HeadCell>
             <Table.HeadCell>Timezone</Table.HeadCell>
             <Table.HeadCell>
@@ -43,9 +44,12 @@ export default function AirportsListRoute() {
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
               >
                 <Table.Cell className="font-medium text-gray-900 dark:text-white">
-                  {airport.icaoCode}
+                  {airport.icaoCode} / {airport.iataCode}
                 </Table.Cell>
-                <Table.Cell>{airport.name}</Table.Cell>
+                <Table.Cell>
+                  <span>{airport.name}</span>
+                  <span className="block">{airport.city}</span>
+                </Table.Cell>
                 <Table.Cell>{airport.country}</Table.Cell>
                 <Table.Cell>
                   {airport.timezone}
@@ -56,11 +60,11 @@ export default function AirportsListRoute() {
                   </span>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button color="gray">
-                    <Link to={`/airports/${airport.id}/edit`} replace>
+                  <Link to={`/airports/${airport.id}/edit`} replace>
+                    <Button color="gray">
                       <HiPencil />
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 </Table.Cell>
               </Table.Row>
             ))}

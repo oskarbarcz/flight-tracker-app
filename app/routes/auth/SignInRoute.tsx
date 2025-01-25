@@ -15,7 +15,7 @@ export default function SignInRoute() {
     e.preventDefault();
     try {
       await login(email, password, () => {
-        navigate("/flights");
+        navigate("/", { replace: true });
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -25,7 +25,7 @@ export default function SignInRoute() {
   }
 
   if (user) {
-    return <Navigate to={"/flights"} replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

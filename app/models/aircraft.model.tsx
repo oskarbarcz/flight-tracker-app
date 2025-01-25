@@ -1,3 +1,5 @@
+import { Operator } from "~/models/operator.model";
+
 export type Aircraft = {
   id: string;
   icaoCode: string;
@@ -6,7 +8,9 @@ export type Aircraft = {
   registration: string;
   selcal: string;
   livery: string;
+  operatorId: string;
+  operator: Operator;
 };
 
-export type CreateAircraftDto = Omit<Aircraft, "id">;
+export type CreateAircraftDto = Omit<Aircraft, "id" | "operator">;
 export type EditAircraftDto = CreateAircraftDto;

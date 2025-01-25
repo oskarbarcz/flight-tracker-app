@@ -8,8 +8,9 @@ import { Form, redirect } from "react-router";
 import getFormData from "~/functions/getFormData";
 import { CreateOperatorDto } from "~/models";
 import { OperatorService } from "~/state/services/operator.service";
-import InputBlock from "~/components/InputBlock";
+import InputBlock from "~/components/Form/InputBlock";
 import { Route } from "../../../.react-router/types/app/routes/operators/+types/OperatorsListRoute";
+import { UserRole } from "~/models/user.model";
 
 export async function clientAction({
   request,
@@ -29,7 +30,7 @@ export async function clientAction({
 
 export default function CreateOperatorRoute() {
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Create new operator"

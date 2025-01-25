@@ -61,9 +61,7 @@ export const SimpleFlightDataDisplay = ({
           From: [{departure.icaoCode}] {departure.name} <br />
           To: [{destination.icaoCode}] {destination.name} <br />
           Alternates:{" "}
-          {alternates
-            .map((a) => `[${a.icaoCode}] ${a.name}`)
-            .join(", ")} <br />
+          {alternates.map((a) => `[${a.icaoCode}] ${a.name}`).join(", ")} <br />
           <FlightProgressControl flightId={flight.id} status={flight.status} />
         </p>
       </div>

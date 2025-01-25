@@ -11,6 +11,7 @@ import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
+import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
 
 export function Sidebar({
   isCollapsed,
@@ -74,6 +75,7 @@ export function Sidebar({
       </div>
 
       <div className="mt-auto">
+        <SidebarUserPanel isCollapsed={isCollapsed} />
         <SidebarThemeSwitch isCollapsed={isCollapsed} />
         <SidebarExpander
           handleDesktopCollapse={handleDesktopCollapse}

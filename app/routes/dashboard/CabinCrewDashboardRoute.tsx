@@ -10,6 +10,7 @@ import {
 } from "~/models";
 import { Link } from "react-router";
 import { FlightService } from "~/state/services/flight.service";
+import { UserRole } from "~/models/user.model";
 
 const shouldFlightBeShown = (flight: Flight): boolean => {
   return (
@@ -27,7 +28,7 @@ export default function CabinCrewDashboardRoute() {
 
   return (
     <>
-      <ProtectedRoute expectedRole="cabincrew">
+      <ProtectedRoute expectedRole={UserRole.CabinCrew}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <PilotInformationBox />
         </div>

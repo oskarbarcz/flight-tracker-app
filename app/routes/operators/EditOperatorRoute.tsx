@@ -8,8 +8,9 @@ import { Form, redirect, useLoaderData } from "react-router";
 import { CreateOperatorDto, Operator } from "~/models";
 import { OperatorService } from "~/state/services/operator.service";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/InputBlock";
+import InputBlock from "~/components/Form/InputBlock";
 import { Route } from "../../../.react-router/types/app/routes/operators/+types/EditOperatorRoute";
+import { UserRole } from "~/models/user.model";
 
 export async function clientAction({
   request,
@@ -38,7 +39,7 @@ export default function EditOperatorRoute() {
   const operator = useLoaderData<Operator>();
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Edit airport"

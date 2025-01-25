@@ -2,12 +2,12 @@
 
 import { Table } from "flowbite-react";
 import { Flight } from "~/models/flight.model";
-
 import { FlightService } from "~/state/services/flight.service";
 import { Link, redirect, useLoaderData } from "react-router";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { UserRole } from "~/models/user.model";
 
 export function meta() {
   return [
@@ -24,7 +24,7 @@ export default function FlightsListRoute() {
   const flights = useLoaderData<Flight[]>();
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="pb-4">
         <SectionHeaderWithLink
           sectionTitle="Flights"

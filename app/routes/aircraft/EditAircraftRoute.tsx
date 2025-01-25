@@ -5,11 +5,14 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
-import { Aircraft, CreateAircraftDto } from "~/models";
+import { Aircraft, CreateAircraftDto, Operator } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/aircraft/+types/EditAircraftRoute";
 import { AircraftService } from "~/state/services/aircraft.service";
-import InputBlock from "~/components/InputBlock";
+import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
+import { UserRole } from "~/models/user.model";
+import { OperatorService } from "~/state/services/operator.service";
+import SelectBlock from "~/components/Form/SelectBlock";
 
 export async function clientAction({
   request,
@@ -30,17 +33,32 @@ export async function clientAction({
   return redirect("/aircraft");
 }
 
+type ClientLoaderData = {
+  aircraft: Aircraft;
+  operators: Operator[];
+};
+
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Aircraft | Response> {
-  return AircraftService.getById(params.id).catch(() => redirect("/sign-in"));
+}: Route.ClientLoaderArgs): Promise<ClientLoaderData> {
+  return {
+    aircraft: await AircraftService.getById(params.id),
+    operators: await OperatorService.fetchAll(),
+  };
 }
 
 export default function EditAircraftRoute() {
-  const aircraft = useLoaderData<Aircraft>();
+  const { aircraft, operators } = useLoaderData<typeof clientLoader>();
+
+  const options = operators.map((option) => {
+    return {
+      value: option.id,
+      label: `[${option.icaoCode}] ${option.shortName}`,
+    };
+  });
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Edit aircraft"
@@ -78,6 +96,12 @@ export default function EditAircraftRoute() {
             htmlName="livery"
             label="Livery"
             defaultValue={aircraft.livery}
+          />
+          <SelectBlock
+            htmlName="operatorId"
+            label="Operator"
+            options={options}
+            defaultValue={aircraft.operator.id}
           />
 
           <Button type="submit">Save changes</Button>
