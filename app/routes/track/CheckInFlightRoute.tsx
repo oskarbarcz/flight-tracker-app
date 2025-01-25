@@ -1,15 +1,16 @@
 "use client";
 
 import React from "react";
-import { FlightStateProvider } from "~/state/contexts/flight.state";
-import { Form, Navigate, redirect, useLoaderData } from "react-router";
-import { isFlightTrackable, Flight, Timesheet } from "~/models";
-import { FlightService } from "~/state/services/flight.service";
-import { Route } from "../../../.react-router/types/app/routes/track/+types/CheckInFlightRoute";
+import {FlightStateProvider} from "~/state/contexts/flight.state";
+import {Form, Navigate, redirect, useLoaderData} from "react-router";
+import {Flight, isFlightTrackable, Timesheet} from "~/models";
+import {FlightService} from "~/state/services/flight.service";
+import {Route} from "../../../.react-router/types/app/routes/track/+types/CheckInFlightRoute";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import InputBlock from "~/components/InputBlock";
-import { Button } from "flowbite-react";
+import InputBlock from "~/components/Form/InputBlock";
+import {Button} from "flowbite-react";
 import getFormData from "~/functions/getFormData";
+import {UserRole} from "~/models/user.model";
 
 export function meta() {
   return [{ title: "Check in for flight | FlightModel Tracker" }];
@@ -52,7 +53,7 @@ export default function TrackFlightRoute() {
   const scheduledTimesheet = flight.timesheet.scheduled as Timesheet;
 
   return (
-    <ProtectedRoute expectedRole="cabincrew">
+    <ProtectedRoute expectedRole={UserRole.CabinCrew}>
       <FlightStateProvider>
         <div className="mx-auto w-1/2">
           <Form className="flex max-w-md flex-col gap-4" method="post">

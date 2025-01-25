@@ -6,18 +6,21 @@ import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { AirportService } from "~/state/services/airport.service";
-import { Airport } from "~/models";
+import { Airport, EditAirportDto } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/InputBlock";
+import InputBlock from "~/components/Form/InputBlock";
+import { UserRole } from "~/models/user.model";
 
 export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
   const form = await request.formData();
-  const airport = getFormData(form, [
+  const airport: EditAirportDto = getFormData(form, [
     "icaoCode",
+    "iataCode",
+    "city",
     "name",
     "country",
     "timezone",
@@ -38,7 +41,7 @@ export default function EditAirportRoute() {
   const airport = useLoaderData<Airport>();
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Edit airport"
@@ -53,9 +56,19 @@ export default function EditAirportRoute() {
             defaultValue={airport.icaoCode}
           />
           <InputBlock
+            htmlName="iataCode"
+            label="IATA code"
+            defaultValue={airport.iataCode}
+          />
+          <InputBlock
             htmlName="name"
             label="Name"
             defaultValue={airport.name}
+          />
+          <InputBlock
+            htmlName="city"
+            label="City"
+            defaultValue={airport.city}
           />
           <InputBlock
             htmlName="country"

@@ -8,6 +8,7 @@ import { Operator } from "~/models";
 import { Link, redirect, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { OperatorService } from "~/state/services/operator.service";
+import { UserRole } from "~/models/user.model";
 
 export async function clientLoader(): Promise<Operator[] | Response> {
   return OperatorService.fetchAll().catch(() => redirect("/sign-in"));
@@ -17,7 +18,7 @@ export default function OperatorsListRoute() {
   const airports = useLoaderData<Operator[]>();
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="pb-4">
         <SectionHeaderWithLink
           sectionTitle="Airports"
@@ -48,11 +49,11 @@ export default function OperatorsListRoute() {
                 <Table.Cell>{operator.fullName}</Table.Cell>
                 <Table.Cell>{operator.callsign}</Table.Cell>
                 <Table.Cell>
-                  <Button color="gray">
-                    <Link to={`/operators/${operator.id}/edit`} replace>
+                  <Link to={`/operators/${operator.id}/edit`} replace>
+                    <Button color="gray">
                       <HiPencil />
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 </Table.Cell>
               </Table.Row>
             ))}

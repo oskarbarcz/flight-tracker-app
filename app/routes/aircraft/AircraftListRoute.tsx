@@ -8,6 +8,7 @@ import { Aircraft } from "~/models";
 import { Link, redirect, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { AircraftService } from "~/state/services/aircraft.service";
+import { UserRole } from "~/models/user.model";
 
 export async function clientLoader(): Promise<Aircraft[] | Response> {
   return AircraftService.getAll().catch(() => redirect("/sign-in"));
@@ -17,7 +18,7 @@ export default function AircraftListRoute() {
   const aircrafts = useLoaderData<Aircraft[]>();
 
   return (
-    <ProtectedRoute expectedRole={"operations"}>
+    <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="pb-4">
         <SectionHeaderWithLink
           sectionTitle="Aircrafts"
@@ -28,10 +29,10 @@ export default function AircraftListRoute() {
         <Table className="shadow">
           <Table.Head>
             <Table.HeadCell>ICAO code</Table.HeadCell>
-            <Table.HeadCell>Registration</Table.HeadCell>
+            <Table.HeadCell>Registration & livery</Table.HeadCell>
             <Table.HeadCell>Short name</Table.HeadCell>
             <Table.HeadCell>Long name</Table.HeadCell>
-            <Table.HeadCell>Livery</Table.HeadCell>
+            <Table.HeadCell>Operator</Table.HeadCell>
             <Table.HeadCell>SELCAL</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Actions</span>
@@ -46,17 +47,23 @@ export default function AircraftListRoute() {
                 <Table.Cell className="font-medium text-gray-900 dark:text-white">
                   {aircraft.icaoCode}
                 </Table.Cell>
-                <Table.Cell>{aircraft.registration}</Table.Cell>
+                <Table.Cell>
+                  <span>{aircraft.registration}</span>
+                  <span className="block">{aircraft.livery}</span>
+                </Table.Cell>
                 <Table.Cell>{aircraft.shortName}</Table.Cell>
                 <Table.Cell>{aircraft.fullName}</Table.Cell>
-                <Table.Cell>{aircraft.livery}</Table.Cell>
+                <Table.Cell>
+                  <span>{aircraft.operator.shortName}</span>
+                  <span className="block">[{aircraft.operator.icaoCode}]</span>
+                </Table.Cell>
                 <Table.Cell>{aircraft.selcal}</Table.Cell>
                 <Table.Cell>
-                  <Button color="gray">
-                    <Link to={`/aircraft/${aircraft.id}/edit`} replace>
+                  <Link to={`/aircraft/${aircraft.id}/edit`} replace>
+                    <Button color="gray">
                       <HiPencil />
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 </Table.Cell>
               </Table.Row>
             ))}
