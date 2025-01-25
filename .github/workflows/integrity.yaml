@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: "Check if image version is available to publish"
-        run: './docker/ci/check_version_is_free "$(jq -r ''.version'' package.json)"'
+        run: './bin/check_version_is_free "$(jq -r ''.version'' package.json)"'
   integrate:
     runs-on: "ubuntu-24.04"
     environment: ci
