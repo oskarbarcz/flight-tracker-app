@@ -5,4 +5,8 @@ export type User = {
   role: UserRole;
 };
 
-export type UserRole = "admin" | "operations" | "cabincrew";
+export enum UserRole {
+  Operations = "operations",
+  Admin = "admin",
+  CabinCrew = "cabincrew",
+}
