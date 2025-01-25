@@ -5,17 +5,17 @@ on:
     branches: ["main"]
 jobs:
   tag:
-    runs-on: 'ubuntu-24.04'
+    runs-on: "ubuntu-24.04"
     steps:
-      - name: 'Clone repository'
+      - name: "Clone repository"
         uses: actions/checkout@v4
-      - name: 'Release and push git tag'
+      - name: "Release and push git tag"
         run: "git tag $(jq -r '.version' package.json) && git push --tags"
-      - name: 'Create a GitHub release'
+      - name: "Create a GitHub release"
         run: "gh release create $(jq -r '.version' package.json) --generate-notes"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: 'Push docker image to ghcr.io'
+      - name: "Push docker image to ghcr.io"
         run: "docker push ${{ env.IMAGE_NAME }}:$(jq -r '.version' package.json)"
   deploy:
     runs-on: "ubuntu-24.04"
