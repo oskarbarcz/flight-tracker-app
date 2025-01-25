@@ -1,5 +1,5 @@
 import { CreateOperatorDto, EditOperatorDto, Operator } from "~/models";
-import {buildApiUrl} from "~/functions/getApiBaseUrl";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const OperatorService = {
   getToken: (): string => {

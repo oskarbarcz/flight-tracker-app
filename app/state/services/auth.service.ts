@@ -1,4 +1,4 @@
-import {buildApiUrl} from "~/functions/getApiBaseUrl";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const AuthService = {
   authorize: async (email: string, password: string): Promise<string> => {

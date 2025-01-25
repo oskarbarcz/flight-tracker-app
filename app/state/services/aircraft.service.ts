@@ -1,5 +1,5 @@
 import { Aircraft, CreateAircraftDto, EditAircraftDto } from "~/models";
-import {buildApiUrl} from "~/functions/getApiBaseUrl";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const AircraftService = {
   getToken: (): string => {
@@ -13,7 +13,7 @@ export const AircraftService = {
   },
 
   getAll: async (): Promise<Aircraft[]> => {
-    const response = await fetch(buildApiUrl('api/v1/aircraft'), {
+    const response = await fetch(buildApiUrl("api/v1/aircraft"), {
       headers: {
         Authorization: `Bearer ${AircraftService.getToken()}`,
       },

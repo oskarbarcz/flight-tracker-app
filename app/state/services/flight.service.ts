@@ -1,5 +1,5 @@
 import { FlightStatus, Flight, Timesheet } from "~/models";
-import {buildApiUrl} from "~/functions/getApiBaseUrl";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const FlightService = {
   getToken: (): string => {

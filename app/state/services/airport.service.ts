@@ -1,5 +1,5 @@
 import { Airport, CreateAirportDto, EditAirportDto } from "~/models";
-import {buildApiUrl} from "~/functions/getApiBaseUrl";
+import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const AirportService = {
   getToken: (): string => {
