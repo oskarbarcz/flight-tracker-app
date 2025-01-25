@@ -1,4 +1,5 @@
 import { CreateOperatorDto, EditOperatorDto, Operator } from "~/models";
+import {buildApiUrl} from "~/functions/getApiBaseUrl";
 
 export const OperatorService = {
   getToken: (): string => {
@@ -13,7 +14,7 @@ export const OperatorService = {
 
   fetchAll: async (): Promise<Operator[]> => {
     const token = OperatorService.getToken();
-    const response = await fetch("http://localhost/api/v1/operator", {
+    const response = await fetch(buildApiUrl("api/v1/operator"), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -27,7 +28,7 @@ export const OperatorService = {
   },
 
   fetchById: async (id: string): Promise<Operator> => {
-    const response = await fetch(`http://localhost/api/v1/operator/${id}`, {
+    const response = await fetch(buildApiUrl(`api/v1/operator/${id}`), {
       headers: {
         Authorization: `Bearer ${OperatorService.getToken()}`,
       },
@@ -41,7 +42,7 @@ export const OperatorService = {
   },
 
   createNew: async (operator: CreateOperatorDto): Promise<Operator> => {
-    const response = await fetch("http://localhost/api/v1/operator", {
+    const response = await fetch(buildApiUrl("api/v1/operator"), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${OperatorService.getToken()}`,
@@ -58,7 +59,7 @@ export const OperatorService = {
   },
 
   update: async (id: string, data: EditOperatorDto): Promise<Operator> => {
-    const response = await fetch(`http://localhost/api/v1/operator/${id}`, {
+    const response = await fetch(buildApiUrl(`api/v1/operator/${id}`), {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${OperatorService.getToken()}`,
