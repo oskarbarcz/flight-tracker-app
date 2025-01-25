@@ -1,18 +1,18 @@
-import {HiHome} from "react-icons/hi";
+import { HiHome } from "react-icons/hi";
 import React from "react";
-import {MdLocalAirport, MdOutlineFlightClass} from "react-icons/md";
-import {LuTowerControl} from "react-icons/lu";
-import {HiOutlineBuildingOffice} from "react-icons/hi2";
+import { MdLocalAirport, MdOutlineFlightClass } from "react-icons/md";
+import { LuTowerControl } from "react-icons/lu";
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import SidebarElement from "~/components/Sidebar/SidebarElement";
 import SidebarSectionTitle from "~/components/Sidebar/SidebarSectionTitle";
-import {GrDocumentTime} from "react-icons/gr";
-import {useAuth} from "~/state/contexts/auth.context";
+import { GrDocumentTime } from "react-icons/gr";
+import { useAuth } from "~/state/contexts/auth.context";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
 import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
-import {UserRole} from "~/models/user.model";
+import { UserRole } from "~/models/user.model";
 
 export function Sidebar({
   isCollapsed,
