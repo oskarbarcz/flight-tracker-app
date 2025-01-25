@@ -62,14 +62,14 @@ export const SimpleFlightDataDisplay = ({
           <strong>Flight number:</strong> {flight.flightNumber} <br />
           From: [{departure.icaoCode}] {departure.name} <br />
           To: [{destination.icaoCode}] {destination.name} <br />
-          Alternates: Testtesttest
+          Alternates:
           {alternates
             .map((a) => `[${a.icaoCode}] ${a.name}`)
             .join(", ")} <br />
           <FlightProgressControl flightId={flight.id} status={flight.status} />
           {flight.status === FlightStatus.Ready && (
-            <Link to="/">
-              <Button>Close flight TEST</Button>
+            <Link to={`track/${flight.id}/check-in`}>
+              <Button className="mt-2">Go to flight check-in</Button>
             </Link>
           )}
         </p>
