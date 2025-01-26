@@ -2,23 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import PilotInformationBox from "~/components/PilotInformationBox";
-import {
-  Flight,
-  isFlightAvailableForCheckIn,
-  isFlightTrackable,
-} from "~/models";
-import { Link } from "react-router";
+import PilotInformationBox from "~/components/Box/PilotInformationBox";
+import { Flight } from "~/models";
 import { FlightService } from "~/state/services/flight.service";
 import { UserRole } from "~/models/user.model";
-import NextFlightBox from "~/components/NextFlightBox";
-
-const shouldFlightBeShown = (flight: Flight): boolean => {
-  return (
-    isFlightTrackable(flight.status) ||
-    isFlightAvailableForCheckIn(flight.status)
-  );
-};
+import NextFlightBox from "~/components/Box/NextFlightBox";
+import AllPendingFlightsBox from "~/components/Box/AllPendingFlightsBox";
+import FinishedFlightsBox from "~/components/Box/FinishedFlightsBox";
 
 export default function CabinCrewDashboardRoute() {
   const [flights, setFlights] = useState<Flight[]>([]);
@@ -33,21 +23,8 @@ export default function CabinCrewDashboardRoute() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <PilotInformationBox />
           <NextFlightBox flights={flights} />
-        </div>
-        <div className="mt-2">
-          {Array.isArray(flights) &&
-            flights
-              .filter(shouldFlightBeShown)
-              .map((flight: Flight, i: number) => (
-                <div key={i}>
-                  <Link
-                    className="text-teal-500 underline"
-                    to={`/track/${flight.id}`}
-                  >
-                    {flight.flightNumber} [{flight.status.toUpperCase()}]
-                  </Link>
-                </div>
-              ))}
+          <AllPendingFlightsBox flights={flights} />
+          <FinishedFlightsBox flights={flights} />
         </div>
       </ProtectedRoute>
     </>
