@@ -1,15 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  FlightStatus,
-  isFlightAvailableForCheckIn,
-} from "~/models";
+import { AirportOnFlight, AirportOnFlightType, FlightStatus } from "~/models";
 import FlightProgressControl from "~/components/FlightProgressControl/FlightProgressControl";
 import { useFlight } from "~/state/hooks/useFlight";
-import { Link, Navigate } from "react-router";
+import { Link } from "react-router";
 import { SimpleTimeComponent } from "~/components/SimpleTimeComponent";
 import { Button } from "flowbite-react";
 
@@ -27,10 +22,6 @@ export const SimpleFlightDataDisplay = ({
     loadFlightRef.current(flightId).then((flight) => {
       if (flight === null) {
         return;
-      }
-
-      if (isFlightAvailableForCheckIn(flight.status)) {
-        return <Navigate to={`/track/${flight.id}/check-in`} replace={true} />;
       }
     });
   }, [flightId, loadFlightRef]);
@@ -68,7 +59,7 @@ export const SimpleFlightDataDisplay = ({
             .join(", ")} <br />
           <FlightProgressControl flightId={flight.id} status={flight.status} />
           {flight.status === FlightStatus.Ready && (
-            <Link to={`track/${flight.id}/check-in`}>
+            <Link to={`/track/${flight.id}/check-in`}>
               <Button className="mt-2">Go to flight check-in</Button>
             </Link>
           )}

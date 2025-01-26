@@ -7,7 +7,7 @@ import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
-import { FaPlane } from "react-icons/fa";
+import { FaPlane, FaTrash } from "react-icons/fa";
 
 export function meta() {
   return [
@@ -43,6 +43,12 @@ export default function FlightsListRoute() {
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
     );
+  };
+
+  const handleRemove = async (flightId: string) => {
+    await FlightService.remove(flightId);
+
+    setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
   };
 
   return (
@@ -160,15 +166,26 @@ export default function FlightsListRoute() {
                       {flight.operator.icaoCode}
                     </Table.Cell>
                     <Table.Cell>
-                      <div className="text-gray-500">
+                      <div className="flex text-gray-500">
                         {flight.status === FlightStatus.Created && (
-                          <Button
-                            onClick={() => handleReleaseForPilot(flight.id)}
-                            color="success"
-                            size="xs"
-                          >
-                            Release for pilot
-                          </Button>
+                          <>
+                            <Button
+                              onClick={() => handleReleaseForPilot(flight.id)}
+                              color="success"
+                              size="xs"
+                              className="ms-1"
+                            >
+                              Release for pilot
+                            </Button>
+                            <Button
+                              onClick={() => handleRemove(flight.id)}
+                              color="red"
+                              size="xs"
+                              className="ms-1 flex items-center"
+                            >
+                              <FaTrash />
+                            </Button>
+                          </>
                         )}
                         {flight.status === FlightStatus.Ready && (
                           <span className="font-bold uppercase text-green-500">

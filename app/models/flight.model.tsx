@@ -56,8 +56,17 @@ export interface Flight {
   flightNumber: string;
   callsign: string;
   airports: AirportOnFlight[];
+  departureAirportId: string;
+  destinationAirportId: string;
+  aircraftId: string;
   aircraft: Aircraft;
+  operatorId: string;
   operator: Operator;
   timesheet: Schedule;
   status: FlightStatus;
 }
+
+export type CreateFlightDto = Omit<
+  Flight,
+  "id" | "airports" | "aircraft" | "operator" | "status"
+>;

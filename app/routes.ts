@@ -32,6 +32,9 @@ export default [
       route("new", "routes/operators/CreateOperatorRoute.tsx"),
       route(":id/edit", "routes/operators/EditOperatorRoute.tsx"),
     ]),
-    ...prefix("flights", [index("routes/flights/FlightsListRoute.tsx")]),
+    ...prefix("flights", [
+      index("routes/flights/FlightsListRoute.tsx"),
+      route("new", "routes/flights/CreateFlightRoute.tsx"),
+    ]),
   ]),
 ] satisfies RouteConfig;
