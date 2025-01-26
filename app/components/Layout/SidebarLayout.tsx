@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import { Sidebar } from "~/components/Sidebar/Sidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
+import Footer from "~/components/Layout/Footer";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -64,27 +65,30 @@ export default function SidebarLayout() {
   const handleMobileToggle = () => setIsMobileOpen((prev) => !prev);
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
-      <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
-        <Sidebar
-          isCollapsed={isCollapsed}
-          handleDesktopCollapse={toggleCollapse}
-        />
-      </div>
+    <>
+      <div className="flex min-h-screen flex-col md:flex-row">
+        <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
+          <Sidebar
+            isCollapsed={isCollapsed}
+            handleDesktopCollapse={toggleCollapse}
+          />
+        </div>
 
-      {isMobileOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/50 md:hidden"
-          onClick={() => setIsMobileOpen(false)}
-        />
-      )}
+        {isMobileOpen && (
+          <div
+            className="fixed inset-0 z-30 bg-black/50 md:hidden"
+            onClick={() => setIsMobileOpen(false)}
+          />
+        )}
 
-      <div className="p-2 md:hidden">
-        <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
+        <div className="p-2 md:hidden">
+          <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
+        </div>
+        <div className={getContentClasses(isCollapsed)}>
+          <Outlet />
+        </div>
       </div>
-      <div className={getContentClasses(isCollapsed)}>
-        <Outlet />
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 }
