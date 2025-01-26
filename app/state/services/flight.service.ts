@@ -1,4 +1,4 @@
-import { Flight, Timesheet } from "~/models";
+import { CreateFlightDto, Flight, Timesheet } from "~/models";
 import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const FlightService = {
@@ -10,6 +10,19 @@ export const FlightService = {
     }
 
     return <string>token;
+  },
+
+  createNew: async (flight: CreateFlightDto): Promise<Flight> => {
+    const response = await fetch(buildApiUrl("api/v1/flight"), {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${FlightService.getToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(flight),
+    });
+
+    return response.json();
   },
 
   fetchFlightById: async (id: string): Promise<Flight> => {
