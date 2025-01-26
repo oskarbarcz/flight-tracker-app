@@ -6,7 +6,7 @@ export interface Timesheet {
 }
 
 export interface Schedule {
-  scheduled: Timesheet;
+  scheduled: Required<Timesheet>;
   estimated?: Timesheet;
   actual?: Timesheet;
 }

@@ -4,12 +4,14 @@ import React, { useEffect, useRef } from "react";
 import {
   AirportOnFlight,
   AirportOnFlightType,
+  FlightStatus,
   isFlightAvailableForCheckIn,
 } from "~/models";
 import FlightProgressControl from "~/components/FlightProgressControl/FlightProgressControl";
 import { useFlight } from "~/state/hooks/useFlight";
-import { Navigate } from "react-router";
+import { Link, Navigate } from "react-router";
 import { SimpleTimeComponent } from "~/components/SimpleTimeComponent";
+import { Button } from "flowbite-react";
 
 type TrackFlightDashboardProps = {
   flightId: string;
@@ -60,9 +62,16 @@ export const SimpleFlightDataDisplay = ({
           <strong>Flight number:</strong> {flight.flightNumber} <br />
           From: [{departure.icaoCode}] {departure.name} <br />
           To: [{destination.icaoCode}] {destination.name} <br />
-          Alternates:{" "}
-          {alternates.map((a) => `[${a.icaoCode}] ${a.name}`).join(", ")} <br />
+          Alternates:
+          {alternates
+            .map((a) => `[${a.icaoCode}] ${a.name}`)
+            .join(", ")} <br />
           <FlightProgressControl flightId={flight.id} status={flight.status} />
+          {flight.status === FlightStatus.Ready && (
+            <Link to={`track/${flight.id}/check-in`}>
+              <Button className="mt-2">Go to flight check-in</Button>
+            </Link>
+          )}
         </p>
       </div>
       <div className="mr-6">

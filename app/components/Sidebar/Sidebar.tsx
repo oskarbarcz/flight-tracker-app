@@ -12,6 +12,7 @@ import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
 import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
+import { UserRole } from "~/models/user.model";
 
 export function Sidebar({
   isCollapsed,
@@ -27,22 +28,26 @@ export function Sidebar({
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div>
-        {isCollapsed && <SidebarDivider />}
-        {!isCollapsed && <SidebarSectionTitle label="Flight" />}
-        <SidebarElement
-          isCollapsed={isCollapsed}
-          label="Home"
-          href="/"
-          icon={HiHome}
-        />
-        <SidebarElement
-          isCollapsed={isCollapsed}
-          label="Current flight"
-          href="/track/23952e79-6b38-49ed-a1db-bd4d9b3cedab"
-          icon={MdOutlineFlightClass}
-        />
+        {user?.role === UserRole.CabinCrew && (
+          <>
+            {isCollapsed && <SidebarDivider />}
+            {!isCollapsed && <SidebarSectionTitle label="Flight" />}
+            <SidebarElement
+              isCollapsed={isCollapsed}
+              label="Home"
+              href="/"
+              icon={HiHome}
+            />
+            <SidebarElement
+              isCollapsed={isCollapsed}
+              label="Current flight"
+              href="/track/23952e79-6b38-49ed-a1db-bd4d9b3cedab"
+              icon={MdOutlineFlightClass}
+            />
+          </>
+        )}
 
-        {user?.role === "operations" && (
+        {user?.role === UserRole.Operations && (
           <>
             {isCollapsed && <SidebarDivider />}
             {!isCollapsed && <SidebarSectionTitle label="Management" />}
