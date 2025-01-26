@@ -1,4 +1,4 @@
-import { FlightStatus, Flight, Timesheet } from "~/models";
+import { Flight, Timesheet } from "~/models";
 import { buildApiUrl } from "~/functions/getApiBaseUrl";
 
 export const FlightService = {
@@ -41,23 +41,14 @@ export const FlightService = {
     localStorage.removeItem("user");
   },
 
-  getNextAction: (state: FlightStatus): FlightStatus | undefined => {
-    const nextStatus = {
-      [FlightStatus.Created]: FlightStatus.Ready,
-      [FlightStatus.Ready]: FlightStatus.CheckedIn,
-      [FlightStatus.CheckedIn]: FlightStatus.BoardingStarted,
-      [FlightStatus.BoardingStarted]: FlightStatus.BoardingFinished,
-      [FlightStatus.BoardingFinished]: FlightStatus.TaxiingOut,
-      [FlightStatus.TaxiingOut]: FlightStatus.InCruise,
-      [FlightStatus.InCruise]: FlightStatus.TaxiingIn,
-      [FlightStatus.TaxiingIn]: FlightStatus.OnBlock,
-      [FlightStatus.OnBlock]: FlightStatus.OffboardingStarted,
-      [FlightStatus.OffboardingStarted]: FlightStatus.OffboardingFinished,
-      [FlightStatus.OffboardingFinished]: FlightStatus.Closed,
-      [FlightStatus.Closed]: undefined,
-    } as Record<FlightStatus, FlightStatus | undefined>;
-
-    return nextStatus[state];
+  markAsReady: async (flightId: string): Promise<void> => {
+    await fetch(buildApiUrl(`api/v1/flight/${flightId}/mark-as-ready`), {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${FlightService.getToken()}`,
+        "Content-Type": "application/json",
+      },
+    });
   },
 
   checkIn: async (
