@@ -224,4 +224,13 @@ export const FlightService = {
       FlightService.handleUnauthorized();
     }
   },
+
+  remove: async (id: string): Promise<void> => {
+    await fetch(buildApiUrl(`api/v1/flight/${id}`), {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${FlightService.getToken()}`,
+      },
+    });
+  },
 };
