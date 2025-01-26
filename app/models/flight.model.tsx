@@ -1,4 +1,4 @@
-import { Aircraft, Schedule } from "~/models";
+import { Aircraft, Operator, Schedule } from "~/models";
 
 export enum FlightStatus {
   Created = "created",
@@ -57,6 +57,7 @@ export interface Flight {
   callsign: string;
   airports: AirportOnFlight[];
   aircraft: Aircraft;
+  operator: Operator;
   timesheet: Schedule;
   status: FlightStatus;
 }

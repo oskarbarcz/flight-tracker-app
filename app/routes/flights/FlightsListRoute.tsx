@@ -1,13 +1,14 @@
 "use client";
 
-import { Table } from "flowbite-react";
-import { Flight } from "~/models/flight.model";
+import { Button, Table } from "flowbite-react";
+import { Flight, FlightStatus } from "~/models/flight.model";
 import { FlightService } from "~/state/services/flight.service";
-import { Link, redirect, useLoaderData } from "react-router";
+import { redirect, useLoaderData } from "react-router";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
+import { FaPlane } from "react-icons/fa";
 
 export function meta() {
   return [
@@ -18,6 +19,17 @@ export function meta() {
 
 export async function clientLoader(): Promise<Flight[] | Response> {
   return FlightService.fetchAllFlights().catch(() => redirect("/sign-in"));
+}
+
+function dateToHour(date: string | undefined): string {
+  if (!date) {
+    return "";
+  }
+
+  const utcHours = String(new Date(date).getUTCHours()).padStart(2, "0");
+  const utcMinutes = String(new Date(date).getUTCMinutes()).padStart(2, "0");
+
+  return `${utcHours}:${utcMinutes}`;
 }
 
 export default function FlightsListRoute() {
@@ -35,10 +47,9 @@ export default function FlightsListRoute() {
           <Table.Head>
             <Table.HeadCell>Flight no</Table.HeadCell>
             <Table.HeadCell>Route</Table.HeadCell>
-            <Table.HeadCell>Departure</Table.HeadCell>
-            <Table.HeadCell>Block time</Table.HeadCell>
-            <Table.HeadCell>Arrival</Table.HeadCell>
+            <Table.HeadCell>Schedule (UTC)</Table.HeadCell>
             <Table.HeadCell>Aircraft</Table.HeadCell>
+            <Table.HeadCell>Operator</Table.HeadCell>
             <Table.HeadCell>Status</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
@@ -83,40 +94,61 @@ export default function FlightsListRoute() {
                     </div>
                   </Table.Cell>
                   <Table.Cell>
-                    <div></div>
-                    <div></div>
-                  </Table.Cell>
-                  <Table.Cell></Table.Cell>
-                  <Table.Cell>
-                    <div>
-                      {/*{flights?.timesheet?.scheduled?.arrivalTime.getTime()}*/}
-                    </div>
-                    <div>
-                      {/*{flights?.timesheet?.scheduled?.arrivalTime.getTime()}*/}
-                    </div>
+                    {flight.timesheet.scheduled && (
+                      <>
+                        <div>
+                          <span>
+                            <FaPlane className="me-1 inline-block" />
+                            {dateToHour(
+                              flight.timesheet.scheduled.offBlockTime,
+                            )}
+                          </span>
+                          <span className="ms-2">
+                            <FaPlane className="me-1 inline-block -rotate-45" />
+                            {dateToHour(flight.timesheet.scheduled.takeoffTime)}
+                          </span>
+                        </div>
+                        <div>
+                          <span>
+                            <FaPlane className="me-1 inline-block rotate-45" />
+                            {dateToHour(flight.timesheet.scheduled.arrivalTime)}
+                          </span>
+                          <span className="ms-2">
+                            <FaPlane className="me-1 inline-block" />
+                            {dateToHour(flight.timesheet.scheduled.onBlockTime)}
+                          </span>
+                        </div>
+                      </>
+                    )}
                   </Table.Cell>
                   <Table.Cell>
                     <div>{flight.aircraft.shortName}</div>
                     {flight.aircraft.registration}
                   </Table.Cell>
                   <Table.Cell>
-                    {flight.status === "ready" ? (
-                      <Link
-                        className="font-bold uppercase text-green-400 hover:underline dark:text-green-600"
-                        to={`/track/${flight.id}`}
-                      >
-                        Ready to check-in
-                      </Link>
-                    ) : (
-                      <div className="text-gray-500">
-                        <span className="font-bold uppercase">
-                          {flight.status}
+                    <div>{flight.operator.shortName}</div>
+                    {flight.operator.icaoCode}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="text-gray-500">
+                      {flight.status === FlightStatus.Created && (
+                        <Button color="success" size="xs">
+                          Release for pilot
+                        </Button>
+                      )}
+                      {flight.status === FlightStatus.Ready && (
+                        <span className="font-bold uppercase text-green-500">
+                          Ready to check-in
                         </span>
-                        <span className="block text-xs">
-                          Check in available soon
-                        </span>
-                      </div>
-                    )}
+                      )}
+
+                      {flight.status !== FlightStatus.Created &&
+                        flight.status !== FlightStatus.Ready && (
+                          <span className="font-bold uppercase">
+                            {flight.status}
+                          </span>
+                        )}
+                    </div>
                   </Table.Cell>
                 </Table.Row>
               ))}
