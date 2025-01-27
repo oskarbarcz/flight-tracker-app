@@ -26,6 +26,7 @@ export const JwtService = {
       name: jwtPayload.name,
       email: jwtPayload.email,
       role: jwtPayload.role,
+      session: jwtPayload.session,
     };
   },
 };

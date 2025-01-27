@@ -11,10 +11,11 @@ import AllPendingFlightsBox from "~/components/Box/AllPendingFlightsBox";
 import FinishedFlightsBox from "~/components/Box/FinishedFlightsBox";
 
 export default function CabinCrewDashboardRoute() {
+  const flightService = new FlightService();
   const [flights, setFlights] = useState<Flight[]>([]);
 
   useEffect(() => {
-    FlightService.fetchAllFlights().then(setFlights);
+    flightService.fetchAllFlights().then(setFlights);
   }, []);
 
   return (

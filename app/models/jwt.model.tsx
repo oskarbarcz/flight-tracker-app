@@ -7,4 +7,6 @@ export type JwtTokenPayload = {
   sub: string;
   name: string;
   email: string;
+  session: string;
+  type: string;
 };

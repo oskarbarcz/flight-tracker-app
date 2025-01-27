@@ -11,7 +11,8 @@ import { AuthService } from "~/state/services/auth.service";
 
 export interface AuthContextType {
   user: User | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   login: (
     email: string,
     password: string,
@@ -23,7 +24,8 @@ export interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   login: async () => {},
   logout: () => {},
   isLoading: true,
@@ -35,32 +37,37 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
+    const storedAccessToken = localStorage.getItem("at");
+    const storedRefreshToken = localStorage.getItem("rt");
     const storedUser = localStorage.getItem("user");
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
+    if (storedAccessToken && storedRefreshToken && storedUser) {
+      setAccessToken(storedAccessToken);
+      setRefreshToken(storedRefreshToken);
       setUser(JSON.parse(storedUser));
     }
 
     setIsLoading(false);
   }, []);
 
-  function saveAuthData(token: string, userData: User) {
-    setToken(token);
+  function saveAuthData(accessToken: string, refreshToken: string, userData: User) {
+    setAccessToken(accessToken);
     setUser(userData);
-    localStorage.setItem("token", token);
+    localStorage.setItem("at", accessToken);
+    localStorage.setItem("rt", refreshToken);
     localStorage.setItem("user", JSON.stringify(userData));
   }
 
   function clearAuthData() {
-    setToken(null);
+    setAccessToken(null);
     setUser(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem("at");
+    localStorage.removeItem("rt");
     localStorage.removeItem("user");
   }
 
@@ -70,9 +77,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     onSuccess: () => void,
   ): Promise<void> => {
     try {
-      const token = await AuthService.authorize(email, password);
-      const user = JwtService.getUserFromToken(token);
-      saveAuthData(token, user);
+      const { accessToken, refreshToken } = await AuthService.authorize(email, password);
+      const user = JwtService.getUserFromToken(accessToken);
+      saveAuthData(accessToken, refreshToken, user);
       onSuccess();
     } catch (error) {
       console.error(error);
@@ -85,7 +92,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, accessToken, refreshToken, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

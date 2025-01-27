@@ -28,17 +28,16 @@ function dateToHour(date: string | undefined): string {
 }
 
 export default function FlightsListRoute() {
+  const flightService = new FlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
 
   useEffect(() => {
-    FlightService.fetchAllFlights().then((flights: Flight[]) => {
-      setFlights(flights);
-    });
+    flightService.fetchAllFlights().then(setFlights);
   }, []);
 
   const handleReleaseForPilot = async (flightId: string) => {
-    await FlightService.markAsReady(flightId);
-    const updated = await FlightService.fetchFlightById(flightId);
+    await flightService.markAsReady(flightId);
+    const updated = await flightService.fetchFlightById(flightId);
 
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
@@ -46,7 +45,7 @@ export default function FlightsListRoute() {
   };
 
   const handleRemove = async (flightId: string) => {
-    await FlightService.remove(flightId);
+    await flightService.remove(flightId);
 
     setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
   };

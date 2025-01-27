@@ -1,7 +1,8 @@
-import { buildApiUrl } from "~/functions/getApiBaseUrl";
+import {buildApiUrl} from "~/functions/getApiBaseUrl";
+
 
 export const AuthService = {
-  authorize: async (email: string, password: string): Promise<string> => {
+  authorize: async (email: string, password: string): Promise<{ accessToken: string, refreshToken:string }> => {
     try {
       const response = await fetch(buildApiUrl("api/v1/auth/sign-in"), {
         method: "POST",
@@ -13,9 +14,7 @@ export const AuthService = {
         throw new Error("Login failed");
       }
 
-      const body = await response.json();
-
-      return body.token;
+      return response.json();
     } catch (error) {
       console.error(error);
       throw error;
