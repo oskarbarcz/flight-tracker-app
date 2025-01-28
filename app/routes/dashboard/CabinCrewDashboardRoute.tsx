@@ -4,18 +4,19 @@ import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import PilotInformationBox from "~/components/Box/PilotInformationBox";
 import { Flight } from "~/models";
-import { FlightService } from "~/state/services/flight.service";
 import { UserRole } from "~/models/user.model";
 import NextFlightBox from "~/components/Box/NextFlightBox";
 import AllPendingFlightsBox from "~/components/Box/AllPendingFlightsBox";
 import FinishedFlightsBox from "~/components/Box/FinishedFlightsBox";
+import { useFlightService } from "~/state/hooks/api/useFlightService";
 
 export default function CabinCrewDashboardRoute() {
+  const flightService = useFlightService();
   const [flights, setFlights] = useState<Flight[]>([]);
 
   useEffect(() => {
-    FlightService.fetchAllFlights().then(setFlights);
-  }, []);
+    flightService.fetchAllFlights().then(setFlights);
+  }, [flightService]);
 
   return (
     <>

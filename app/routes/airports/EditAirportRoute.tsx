@@ -5,7 +5,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
-import { AirportService } from "~/state/services/airport.service";
+import { AirportService } from "~/state/api/airport.service";
 import { Airport, EditAirportDto } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
@@ -16,6 +16,8 @@ export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
+  const airportService = new AirportService();
+
   const form = await request.formData();
   const airport: EditAirportDto = getFormData(form, [
     "icaoCode",
@@ -26,15 +28,15 @@ export async function clientAction({
     "timezone",
   ]);
 
-  await AirportService.update(params.id, airport);
+  await airportService.update(params.id, airport);
 
   return redirect("/airports");
 }
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Airport | Response> {
-  return AirportService.getById(params.id).catch(() => redirect("/sign-in"));
+}: Route.ClientLoaderArgs): Promise<Airport> {
+  return new AirportService().getById(params.id);
 }
 
 export default function EditAirportRoute() {

@@ -5,27 +5,29 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { JwtService } from "~/state/services/jwt.service";
 import { User } from "~/models/user.model";
-import { AuthService } from "~/state/services/auth.service";
+import { AuthService } from "~/state/api/auth.service";
+import { getUserFromToken } from "~/functions/getUserFromToken";
 
 export interface AuthContextType {
   user: User | null;
-  token: string | null;
-  login: (
+  accessToken: string | null;
+  refreshToken: string | null;
+  signIn: (
     email: string,
     password: string,
     onSuccess: () => void,
   ) => Promise<void>;
-  logout: () => void;
+  signOut: () => void;
   isLoading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  token: null,
-  login: async () => {},
-  logout: () => {},
+  accessToken: null,
+  refreshToken: null,
+  signIn: async () => {},
+  signOut: () => {},
   isLoading: true,
 });
 
@@ -35,44 +37,59 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
+    const storedAccessToken = localStorage.getItem("at");
+    const storedRefreshToken = localStorage.getItem("rt");
     const storedUser = localStorage.getItem("user");
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
+    if (storedAccessToken && storedRefreshToken && storedUser) {
+      setAccessToken(storedAccessToken);
+      setRefreshToken(storedRefreshToken);
       setUser(JSON.parse(storedUser));
     }
 
     setIsLoading(false);
   }, []);
 
-  function saveAuthData(token: string, userData: User) {
-    setToken(token);
+  function saveAuthData(
+    accessToken: string,
+    refreshToken: string,
+    userData: User,
+  ) {
+    setAccessToken(accessToken);
     setUser(userData);
-    localStorage.setItem("token", token);
+    localStorage.setItem("at", accessToken);
+    localStorage.setItem("rt", refreshToken);
     localStorage.setItem("user", JSON.stringify(userData));
   }
 
   function clearAuthData() {
-    setToken(null);
+    setAccessToken(null);
+    setRefreshToken(null);
     setUser(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem("at");
+    localStorage.removeItem("rt");
     localStorage.removeItem("user");
   }
 
-  const login = async (
+  const signIn = async (
     email: string,
     password: string,
     onSuccess: () => void,
   ): Promise<void> => {
     try {
-      const token = await AuthService.authorize(email, password);
-      const user = JwtService.getUserFromToken(token);
-      saveAuthData(token, user);
+      const { accessToken, refreshToken } = await new AuthService().signIn({
+        email,
+        password,
+      });
+
+      const user = getUserFromToken(accessToken);
+      saveAuthData(accessToken, refreshToken, user);
+
       onSuccess();
     } catch (error) {
       console.error(error);
@@ -80,12 +97,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logout = () => {
-    clearAuthData();
+  const signOut = async () => {
+    return new AuthService().signOut().then(() => {
+      clearAuthData();
+    });
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, accessToken, refreshToken, signIn, signOut, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

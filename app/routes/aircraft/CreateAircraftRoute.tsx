@@ -6,21 +6,23 @@ import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
-import { AircraftService } from "~/state/services/aircraft.service";
+import { AircraftService } from "~/state/api/aircraft.service";
 import getFormData from "~/functions/getFormData";
 import { CreateAircraftDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
-import { OperatorService } from "~/state/services/operator.service";
+import { OperatorService } from "~/state/api/operator.service";
 import InputBlock from "~/components/Form/InputBlock";
 import SelectBlock from "~/components/Form/SelectBlock";
 
 export async function clientLoader(): Promise<Operator[] | Response> {
-  return OperatorService.fetchAll().catch(() => redirect("/sign-in"));
+  return new OperatorService().fetchAll();
 }
 
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response> {
+  const aircraftService = new AircraftService();
+
   const form = await request.formData();
   const aircraft: CreateAircraftDto = getFormData<CreateAircraftDto>(form, [
     "icaoCode",
@@ -32,7 +34,7 @@ export async function clientAction({
     "livery",
   ]);
 
-  await AircraftService.createNew(aircraft);
+  await aircraftService.createNew(aircraft);
 
   return redirect("/aircraft");
 }

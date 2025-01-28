@@ -7,17 +7,19 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { Form, redirect, useLoaderData } from "react-router";
 import { Aircraft, CreateAircraftDto, Operator } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/aircraft/+types/EditAircraftRoute";
-import { AircraftService } from "~/state/services/aircraft.service";
+import { AircraftService } from "~/state/api/aircraft.service";
 import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
-import { OperatorService } from "~/state/services/operator.service";
+import { OperatorService } from "~/state/api/operator.service";
 import SelectBlock from "~/components/Form/SelectBlock";
 
 export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
+  const aircraftService = new AircraftService();
+
   const form = await request.formData();
   const aircraft = getFormData<CreateAircraftDto>(form, [
     "icaoCode",
@@ -28,7 +30,7 @@ export async function clientAction({
     "livery",
   ]);
 
-  await AircraftService.update(params.id, aircraft);
+  await aircraftService.update(params.id, aircraft);
 
   return redirect("/aircraft");
 }
@@ -41,9 +43,12 @@ type ClientLoaderData = {
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<ClientLoaderData> {
+  const aircraftService = new AircraftService();
+  const operatorService = new OperatorService();
+
   return {
-    aircraft: await AircraftService.getById(params.id),
-    operators: await OperatorService.fetchAll(),
+    aircraft: await aircraftService.getById(params.id),
+    operators: await operatorService.fetchAll(),
   };
 }
 

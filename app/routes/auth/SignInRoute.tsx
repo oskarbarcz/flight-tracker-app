@@ -6,7 +6,7 @@ import { useAuth } from "~/state/contexts/auth.context";
 
 export default function SignInRoute() {
   const navigate = useNavigate();
-  const { login, user } = useAuth();
+  const { signIn, user } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +14,7 @@ export default function SignInRoute() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      await login(email, password, () => {
+      await signIn(email, password, () => {
         navigate("/", { replace: true });
       });
     } catch (error: unknown) {

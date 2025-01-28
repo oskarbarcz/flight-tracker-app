@@ -2,12 +2,12 @@
 
 import { Button, Table } from "flowbite-react";
 import { Flight, FlightStatus } from "~/models/flight.model";
-import { FlightService } from "~/state/services/flight.service";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
 import { FaPlane, FaTrash } from "react-icons/fa";
+import { useFlightService } from "~/state/hooks/api/useFlightService";
 
 export function meta() {
   return [
@@ -28,17 +28,16 @@ function dateToHour(date: string | undefined): string {
 }
 
 export default function FlightsListRoute() {
+  const flightService = useFlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
 
   useEffect(() => {
-    FlightService.fetchAllFlights().then((flights: Flight[]) => {
-      setFlights(flights);
-    });
-  }, []);
+    flightService.fetchAllFlights().then(setFlights);
+  }, [flightService]);
 
   const handleReleaseForPilot = async (flightId: string) => {
-    await FlightService.markAsReady(flightId);
-    const updated = await FlightService.fetchFlightById(flightId);
+    await flightService.markAsReady(flightId);
+    const updated = await flightService.fetchFlightById(flightId);
 
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
@@ -46,7 +45,7 @@ export default function FlightsListRoute() {
   };
 
   const handleRemove = async (flightId: string) => {
-    await FlightService.remove(flightId);
+    await flightService.remove(flightId);
 
     setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
   };

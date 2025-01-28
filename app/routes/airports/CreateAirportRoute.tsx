@@ -6,7 +6,7 @@ import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
-import { AirportService } from "~/state/services/airport.service";
+import { AirportService } from "~/state/api/airport.service";
 import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { CreateAirportDto } from "~/models";
@@ -15,6 +15,8 @@ import { UserRole } from "~/models/user.model";
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response> {
+  const airportService = new AirportService();
+
   const form = await request.formData();
   const airport: CreateAirportDto = getFormData(form, [
     "icaoCode",
@@ -25,7 +27,7 @@ export async function clientAction({
     "timezone",
   ]);
 
-  await AirportService.createNew(airport);
+  await airportService.createNew(airport);
 
   return redirect("/airports");
 }

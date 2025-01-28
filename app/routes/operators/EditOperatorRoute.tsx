@@ -6,7 +6,7 @@ import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { CreateOperatorDto, Operator } from "~/models";
-import { OperatorService } from "~/state/services/operator.service";
+import { OperatorService } from "~/state/api/operator.service";
 import getFormData from "~/functions/getFormData";
 import InputBlock from "~/components/Form/InputBlock";
 import { Route } from "../../../.react-router/types/app/routes/operators/+types/EditOperatorRoute";
@@ -16,6 +16,8 @@ export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
+  const operatorService = new OperatorService();
+
   const form = await request.formData();
   const operator = getFormData<CreateOperatorDto>(form, [
     "icaoCode",
@@ -24,15 +26,15 @@ export async function clientAction({
     "callsign",
   ]);
 
-  await OperatorService.update(params.id, operator);
+  await operatorService.update(params.id, operator);
 
   return redirect("/operators");
 }
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Operator | Response> {
-  return OperatorService.fetchById(params.id).catch(() => redirect("/sign-in"));
+}: Route.ClientLoaderArgs): Promise<Operator> {
+  return new OperatorService().fetchById(params.id);
 }
 
 export default function EditOperatorRoute() {

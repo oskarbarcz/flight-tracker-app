@@ -6,19 +6,20 @@ import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/flights/+types/CreateFlightRoute";
-import { AirportService } from "~/state/services/airport.service";
+import { AirportService } from "~/state/api/airport.service";
 import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { Aircraft, Airport, CreateFlightDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
-import { FlightService } from "~/state/services/flight.service";
-import { OperatorService } from "~/state/services/operator.service";
-import { AircraftService } from "~/state/services/aircraft.service";
+import { OperatorService } from "~/state/api/operator.service";
+import { AircraftService } from "~/state/api/aircraft.service";
 import SelectBlock from "~/components/Form/SelectBlock";
+import { FlightService } from "~/state/api/flight.service";
 
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response | void> {
+  const flightService = new FlightService();
   const form = await request.formData();
   const rawFormData = getFormData(form, [
     "aircraftId",
@@ -50,7 +51,7 @@ export async function clientAction({
     },
   };
 
-  const created = await FlightService.createNew(flight);
+  const created = await flightService.createNew(flight);
 
   if (created) {
     return redirect(`/flights`);
@@ -66,10 +67,14 @@ type ClientLoaderTypes = {
 };
 
 export async function clientLoader(): Promise<ClientLoaderTypes> {
+  const aircraftService = new AircraftService();
+  const airportService = new AirportService();
+  const operatorService = new OperatorService();
+
   return {
-    airports: await AirportService.getAll(),
-    aircraft: await AircraftService.getAll(),
-    operators: await OperatorService.fetchAll(),
+    airports: await airportService.getAll(),
+    aircraft: await aircraftService.getAll(),
+    operators: await operatorService.fetchAll(),
   };
 }
 

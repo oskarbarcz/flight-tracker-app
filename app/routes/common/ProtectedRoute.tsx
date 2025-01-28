@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <div>Loading...</div>;
   }
 
-  if (!auth.user || !auth.token) {
+  if (!auth.user || !auth.accessToken) {
     return <Navigate to="/sign-in" replace />;
   }
   const { user } = auth;
