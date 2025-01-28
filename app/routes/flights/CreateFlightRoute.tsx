@@ -11,14 +11,15 @@ import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { Aircraft, Airport, CreateFlightDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
-import { FlightService } from "~/state/services/flight.service";
 import { OperatorService } from "~/state/services/operator.service";
 import { AircraftService } from "~/state/services/aircraft.service";
 import SelectBlock from "~/components/Form/SelectBlock";
+import { FlightService } from "~/state/services/flight.service";
 
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response | void> {
+  const flightService = new FlightService();
   const form = await request.formData();
   const rawFormData = getFormData(form, [
     "aircraftId",
@@ -50,7 +51,7 @@ export async function clientAction({
     },
   };
 
-  const created = await FlightService.createNew(flight);
+  const created = await flightService.createNew(flight);
 
   if (created) {
     return redirect(`/flights`);

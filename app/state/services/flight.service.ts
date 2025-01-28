@@ -1,249 +1,92 @@
 import { CreateFlightDto, Flight, Timesheet } from "~/models";
-import { buildApiUrl } from "~/functions/getApiBaseUrl";
+import { AbstractApiService } from "~/state/services/api.service";
 
-export const FlightService = {
-  getToken: (): string => {
-    const token: string | null = localStorage.getItem("token");
+export class FlightService extends AbstractApiService {
+  async fetchAllFlights(): Promise<Flight[]> {
+    return this.fetchWithAuth<Flight[]>("/api/v1/flight");
+  }
 
-    if (token === null) {
-      throw new Error("Unauthorized");
-    }
-
-    return <string>token;
-  },
-
-  createNew: async (flight: CreateFlightDto): Promise<Flight> => {
-    const response = await fetch(buildApiUrl("api/v1/flight"), {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${FlightService.getToken()}`,
-        "Content-Type": "application/json",
-      },
+  async createNew(flight: CreateFlightDto): Promise<Flight> {
+    return this.fetchWithAuth<Flight>("/api/v1/flight", {
       body: JSON.stringify(flight),
-    });
-
-    return response.json();
-  },
-
-  fetchFlightById: async (id: string): Promise<Flight> => {
-    const response = await fetch(buildApiUrl(`api/v1/flight/${id}`), {
-      headers: {
-        Authorization: `Bearer ${FlightService.getToken()}`,
-      },
-    });
-
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-
-    return response.json();
-  },
-
-  fetchAllFlights: async (): Promise<Flight[]> => {
-    const flights = await fetch(buildApiUrl("api/v1/flight"), {
-      headers: {
-        Authorization: `Bearer ${FlightService.getToken()}`,
-      },
-    });
-
-    return flights.json();
-  },
-
-  handleUnauthorized: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  },
-
-  markAsReady: async (flightId: string): Promise<void> => {
-    await fetch(buildApiUrl(`api/v1/flight/${flightId}/mark-as-ready`), {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${FlightService.getToken()}`,
-        "Content-Type": "application/json",
-      },
     });
-  },
+  }
 
-  checkIn: async (
-    flightId: string,
-    estimatedTimesheet: Timesheet,
-  ): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/check-in`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(estimatedTimesheet),
-      },
-    );
+  async fetchFlightById(id: string): Promise<Flight> {
+    return this.fetchWithAuth<Flight>(`/api/v1/flight/${id}`);
+  }
 
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
+  async markAsReady(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/mark-as-ready`, {
+      method: "POST",
+    });
+  }
 
-  startBoarding: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/start-boarding`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
+  async checkIn(id: string, timesheet: Timesheet): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/check-in`, {
+      body: JSON.stringify(timesheet),
+      method: "POST",
+    });
+  }
 
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
+  async startBoarding(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/start-boarding`, {
+      method: "POST",
+    });
+  }
 
-  finishBoarding: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/finish-boarding`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
+  async finishBoarding(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/finish-boarding`, {
+      method: "POST",
+    });
+  }
 
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
+  async reportOffBlock(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/report-off-block`, {
+      method: "POST",
+    });
+  }
 
-  reportOffBlock: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/report-off-block`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
+  async reportTakeoff(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/report-takeoff`, {
+      method: "POST",
+    });
+  }
 
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
+  async reportArrival(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/report-arrival`, {
+      method: "POST",
+    });
+  }
 
-  reportTakeoff: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/report-takeoff`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
+  async reportOnBlock(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/report-on-block`, {
+      method: "POST",
+    });
+  }
 
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
+  async startOffboarding(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/start-offboarding`, {
+      method: "POST",
+    });
+  }
 
-  reportArrival: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/report-arrival`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
+  async finishOffboarding(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/finish-offboarding`, {
+      method: "POST",
+    });
+  }
 
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
+  async close(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/close`, {
+      method: "POST",
+    });
+  }
 
-  reportOnBlock: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/report-on-block`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
-
-  startOffboarding: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/start-offboarding`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
-
-  finishOffboarding: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/finish-offboarding`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
-
-  close: async (flightId: string): Promise<void> => {
-    const response = await fetch(
-      buildApiUrl(`api/v1/flight/${flightId}/close`),
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${FlightService.getToken()}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (response.status === 401) {
-      FlightService.handleUnauthorized();
-    }
-  },
-
-  remove: async (id: string): Promise<void> => {
-    await fetch(buildApiUrl(`api/v1/flight/${id}`), {
+  async remove(id: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${FlightService.getToken()}`,
-      },
     });
-  },
-};
+  }
+}

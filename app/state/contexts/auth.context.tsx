@@ -55,7 +55,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoading(false);
   }, []);
 
-  function saveAuthData(accessToken: string, refreshToken: string, userData: User) {
+  function saveAuthData(
+    accessToken: string,
+    refreshToken: string,
+    userData: User,
+  ) {
     setAccessToken(accessToken);
     setUser(userData);
     localStorage.setItem("at", accessToken);
@@ -77,7 +81,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     onSuccess: () => void,
   ): Promise<void> => {
     try {
-      const { accessToken, refreshToken } = await AuthService.authorize(email, password);
+      const { accessToken, refreshToken } = await AuthService.authorize(
+        email,
+        password,
+      );
       const user = JwtService.getUserFromToken(accessToken);
       saveAuthData(accessToken, refreshToken, user);
       onSuccess();
@@ -92,7 +99,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, refreshToken, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, accessToken, refreshToken, login, logout, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

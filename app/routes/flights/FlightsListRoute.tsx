@@ -2,12 +2,12 @@
 
 import { Button, Table } from "flowbite-react";
 import { Flight, FlightStatus } from "~/models/flight.model";
-import { FlightService } from "~/state/services/flight.service";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
 import { FaPlane, FaTrash } from "react-icons/fa";
+import { useFlightService } from "~/state/hooks/api/useFlightService";
 
 export function meta() {
   return [
@@ -28,12 +28,12 @@ function dateToHour(date: string | undefined): string {
 }
 
 export default function FlightsListRoute() {
-  const flightService = new FlightService();
+  const flightService = useFlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
 
   useEffect(() => {
     flightService.fetchAllFlights().then(setFlights);
-  }, []);
+  }, [flightService]);
 
   const handleReleaseForPilot = async (flightId: string) => {
     await flightService.markAsReady(flightId);
