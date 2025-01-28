@@ -1,4 +1,4 @@
-import { FlightService } from "~/state/services/flight.service";
+import { FlightService } from "~/state/api/flight.service";
 
 const flightService = new FlightService();
 

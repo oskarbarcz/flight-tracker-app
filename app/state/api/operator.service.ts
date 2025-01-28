@@ -1,5 +1,5 @@
 import { CreateOperatorDto, EditOperatorDto, Operator } from "~/models";
-import { AbstractApiService } from "~/state/services/api.service";
+import { AbstractApiService } from "~/state/api/api.service";
 
 export class OperatorService extends AbstractApiService {
   async fetchAll(): Promise<Operator[]> {

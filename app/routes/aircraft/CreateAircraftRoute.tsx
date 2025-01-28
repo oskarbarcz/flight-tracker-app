@@ -6,11 +6,11 @@ import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
-import { AircraftService } from "~/state/services/aircraft.service";
+import { AircraftService } from "~/state/api/aircraft.service";
 import getFormData from "~/functions/getFormData";
 import { CreateAircraftDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
-import { OperatorService } from "~/state/services/operator.service";
+import { OperatorService } from "~/state/api/operator.service";
 import InputBlock from "~/components/Form/InputBlock";
 import SelectBlock from "~/components/Form/SelectBlock";
 

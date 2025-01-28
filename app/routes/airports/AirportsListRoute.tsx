@@ -6,7 +6,7 @@ import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import { Button, Table } from "flowbite-react";
 import { Airport } from "~/models";
 import { Link, useLoaderData } from "react-router";
-import { AirportService } from "~/state/services/airport.service";
+import { AirportService } from "~/state/api/airport.service";
 import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { HiPencil } from "react-icons/hi";
 import { UserRole } from "~/models/user.model";

@@ -7,7 +7,7 @@ import { Button, Table } from "flowbite-react";
 import { Operator } from "~/models";
 import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
-import { OperatorService } from "~/state/services/operator.service";
+import { OperatorService } from "~/state/api/operator.service";
 import { UserRole } from "~/models/user.model";
 
 export async function clientLoader(): Promise<Operator[]> {

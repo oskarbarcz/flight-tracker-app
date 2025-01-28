@@ -7,7 +7,7 @@ import { Button, Table } from "flowbite-react";
 import { Aircraft } from "~/models";
 import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
-import { AircraftService } from "~/state/services/aircraft.service";
+import { AircraftService } from "~/state/api/aircraft.service";
 import { UserRole } from "~/models/user.model";
 
 export async function clientLoader(): Promise<Aircraft[]> {

@@ -5,9 +5,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { JwtService } from "~/state/services/jwt.service";
 import { User } from "~/models/user.model";
-import { AuthService } from "~/state/services/auth.service";
+import { AuthService } from "~/state/api/auth.service";
+import { getUserFromToken } from "~/functions/getUserFromToken";
 
 export interface AuthContextType {
   user: User | null;
@@ -86,8 +86,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         email,
         password,
       });
-      const user = JwtService.getUserFromToken(accessToken);
+
+      const user = getUserFromToken(accessToken);
       saveAuthData(accessToken, refreshToken, user);
+
       onSuccess();
     } catch (error) {
       console.error(error);

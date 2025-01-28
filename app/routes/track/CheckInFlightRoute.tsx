@@ -10,7 +10,7 @@ import InputBlock from "~/components/Form/InputBlock";
 import { Button } from "flowbite-react";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
-import { FlightService } from "~/state/services/flight.service";
+import { FlightService } from "~/state/api/flight.service";
 
 export function meta() {
   return [{ title: "Check in for flight | FlightModel Tracker" }];

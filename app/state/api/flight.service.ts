@@ -1,5 +1,5 @@
 import { CreateFlightDto, Flight, Timesheet } from "~/models";
-import { AbstractApiService } from "~/state/services/api.service";
+import { AbstractApiService } from "~/state/api/api.service";
 
 export class FlightService extends AbstractApiService {
   async fetchAllFlights(): Promise<Flight[]> {

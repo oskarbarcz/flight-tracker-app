@@ -7,7 +7,7 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { Form, redirect } from "react-router";
 import getFormData from "~/functions/getFormData";
 import { CreateOperatorDto } from "~/models";
-import { OperatorService } from "~/state/services/operator.service";
+import { OperatorService } from "~/state/api/operator.service";
 import InputBlock from "~/components/Form/InputBlock";
 import { Route } from "../../../.react-router/types/app/routes/operators/+types/OperatorsListRoute";
 import { UserRole } from "~/models/user.model";
