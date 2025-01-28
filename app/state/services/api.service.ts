@@ -55,17 +55,30 @@ export abstract class AbstractApiService {
   private async doRequest(
     endpoint: string,
     options: RequestInit,
-    token: string,
+    token: string | undefined = undefined,
   ): Promise<Response> {
     return fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `Bearer ${token}`,
+        Authorization: token ? `Bearer ${token}` : "",
         "Content-Type": "application/json",
         Accept: "application/json",
       },
     });
+  }
+
+  protected async request<T>(
+    endpoint: string,
+    options: RequestInit = {},
+  ): Promise<T> {
+    const response = await this.doRequest(endpoint, options);
+
+    if (response.status === 204) {
+      return "" as T;
+    }
+
+    return (await response.json()) as T;
   }
 
   protected async requestWithAuth<T>(

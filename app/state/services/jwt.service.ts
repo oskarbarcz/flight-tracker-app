@@ -1,4 +1,4 @@
-import { JwtTokenPayload } from "~/models/jwt.model";
+import { JwtTokenPayload } from "~/models/auth.model";
 import { User } from "~/models/user.model";
 
 export const JwtService = {

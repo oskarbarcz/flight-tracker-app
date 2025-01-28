@@ -1,25 +1,17 @@
-import { buildApiUrl } from "~/functions/getApiBaseUrl";
+import { AbstractApiService } from "~/state/services/api.service";
+import { SignInRequest, SignInResponse } from "~/models";
 
-export const AuthService = {
-  authorize: async (
-    email: string,
-    password: string,
-  ): Promise<{ accessToken: string; refreshToken: string }> => {
-    try {
-      const response = await fetch(buildApiUrl("api/v1/auth/sign-in"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+export class AuthService extends AbstractApiService {
+  async signIn(credentials: SignInRequest): Promise<SignInResponse> {
+    return this.request<SignInResponse>("/api/v1/auth/sign-in", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    });
+  }
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-
-      return response.json();
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  },
-};
+  async signOut(): Promise<void> {
+    await this.requestWithAuth<void>("/api/v1/auth/sign-out", {
+      method: "POST",
+    });
+  }
+}

@@ -13,12 +13,12 @@ export interface AuthContextType {
   user: User | null;
   accessToken: string | null;
   refreshToken: string | null;
-  login: (
+  signIn: (
     email: string,
     password: string,
     onSuccess: () => void,
   ) => Promise<void>;
-  logout: () => void;
+  signOut: () => void;
   isLoading: boolean;
 }
 
@@ -26,8 +26,8 @@ export const AuthContext = createContext<AuthContextType>({
   user: null,
   accessToken: null,
   refreshToken: null,
-  login: async () => {},
-  logout: () => {},
+  signIn: async () => {},
+  signOut: () => {},
   isLoading: true,
 });
 
@@ -69,22 +69,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   function clearAuthData() {
     setAccessToken(null);
+    setRefreshToken(null);
     setUser(null);
     localStorage.removeItem("at");
     localStorage.removeItem("rt");
     localStorage.removeItem("user");
   }
 
-  const login = async (
+  const signIn = async (
     email: string,
     password: string,
     onSuccess: () => void,
   ): Promise<void> => {
     try {
-      const { accessToken, refreshToken } = await AuthService.authorize(
+      const { accessToken, refreshToken } = await new AuthService().signIn({
         email,
         password,
-      );
+      });
       const user = JwtService.getUserFromToken(accessToken);
       saveAuthData(accessToken, refreshToken, user);
       onSuccess();
@@ -94,13 +95,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logout = () => {
-    clearAuthData();
+  const signOut = async () => {
+    return new AuthService().signOut().then(() => {
+      clearAuthData();
+    });
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, accessToken, refreshToken, login, logout, isLoading }}
+      value={{ user, accessToken, refreshToken, signIn, signOut, isLoading }}
     >
       {children}
     </AuthContext.Provider>

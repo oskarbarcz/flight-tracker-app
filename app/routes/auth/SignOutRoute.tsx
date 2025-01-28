@@ -5,10 +5,10 @@ import { Navigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 
 export default function SignOutRoute() {
-  const { logout } = useAuth();
+  const { signOut } = useAuth();
 
   useEffect(() => {
-    logout();
+    signOut();
   });
 
   return <Navigate to="/sign-in" replace={true} />;
