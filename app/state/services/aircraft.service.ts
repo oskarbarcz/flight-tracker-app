@@ -1,81 +1,26 @@
 import { Aircraft, CreateAircraftDto, EditAircraftDto } from "~/models";
-import { buildApiUrl } from "~/functions/getApiBaseUrl";
+import { AbstractApiService } from "~/state/services/api.service";
 
-export const AircraftService = {
-  getToken: (): string => {
-    const token: string | null = localStorage.getItem("token");
+export class AircraftService extends AbstractApiService {
+  async getAll(): Promise<Aircraft[]> {
+    return this.fetchWithAuth<Aircraft[]>("/api/v1/aircraft");
+  }
 
-    if (token === null) {
-      throw new Error("Unauthorized");
-    }
-
-    return <string>token;
-  },
-
-  getAll: async (): Promise<Aircraft[]> => {
-    const response = await fetch(buildApiUrl("api/v1/aircraft"), {
-      headers: {
-        Authorization: `Bearer ${AircraftService.getToken()}`,
-      },
-    });
-
-    if (response.status === 401) {
-      AircraftService.handleUnauthorized();
-    }
-
-    return response.json();
-  },
-
-  getById: async (id: string): Promise<Aircraft> => {
-    const response = await fetch(buildApiUrl(`api/v1/aircraft/${id}`), {
-      headers: {
-        Authorization: `Bearer ${AircraftService.getToken()}`,
-      },
-    });
-
-    if (response.status === 401) {
-      AircraftService.handleUnauthorized();
-    }
-
-    return response.json();
-  },
-
-  createNew: async (airport: CreateAircraftDto): Promise<Aircraft> => {
-    const response = await fetch(buildApiUrl("api/v1/aircraft"), {
+  async createNew(aircraft: CreateAircraftDto): Promise<Aircraft> {
+    return this.fetchWithAuth<Aircraft>("/api/v1/aircraft", {
+      body: JSON.stringify(aircraft),
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${AircraftService.getToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(airport),
     });
+  }
 
-    if (response.status === 401) {
-      AircraftService.handleUnauthorized();
-    }
+  async getById(id: string): Promise<Aircraft> {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
+  }
 
-    return response.json();
-  },
-
-  update: async (id: string, data: EditAircraftDto): Promise<Aircraft> => {
-    const response = await fetch(buildApiUrl(`api/v1/aircraft/${id}`), {
+  async update(id: string, aircraft: EditAircraftDto): Promise<Aircraft> {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`, {
+      body: JSON.stringify(aircraft),
       method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${AircraftService.getToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
     });
-
-    if (response.status === 401) {
-      AircraftService.handleUnauthorized();
-    }
-
-    return response.json();
-  },
-
-  handleUnauthorized: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  },
-};
+  }
+}

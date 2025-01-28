@@ -67,9 +67,11 @@ type ClientLoaderTypes = {
 };
 
 export async function clientLoader(): Promise<ClientLoaderTypes> {
+  const aircraftService = new AircraftService();
+
   return {
     airports: await AirportService.getAll(),
-    aircraft: await AircraftService.getAll(),
+    aircraft: await aircraftService.getAll(),
     operators: await OperatorService.fetchAll(),
   };
 }

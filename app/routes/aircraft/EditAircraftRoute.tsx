@@ -18,6 +18,8 @@ export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
+  const aircraftService = new AircraftService();
+
   const form = await request.formData();
   const aircraft = getFormData<CreateAircraftDto>(form, [
     "icaoCode",
@@ -28,7 +30,7 @@ export async function clientAction({
     "livery",
   ]);
 
-  await AircraftService.update(params.id, aircraft);
+  await aircraftService.update(params.id, aircraft);
 
   return redirect("/aircraft");
 }
@@ -41,8 +43,10 @@ type ClientLoaderData = {
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<ClientLoaderData> {
+  const aircraftService = new AircraftService();
+
   return {
-    aircraft: await AircraftService.getById(params.id),
+    aircraft: await aircraftService.getById(params.id),
     operators: await OperatorService.fetchAll(),
   };
 }

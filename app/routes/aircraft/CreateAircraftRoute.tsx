@@ -21,6 +21,8 @@ export async function clientLoader(): Promise<Operator[] | Response> {
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response> {
+  const aircraftService = new AircraftService();
+
   const form = await request.formData();
   const aircraft: CreateAircraftDto = getFormData<CreateAircraftDto>(form, [
     "icaoCode",
@@ -32,7 +34,7 @@ export async function clientAction({
     "livery",
   ]);
 
-  await AircraftService.createNew(aircraft);
+  await aircraftService.createNew(aircraft);
 
   return redirect("/aircraft");
 }

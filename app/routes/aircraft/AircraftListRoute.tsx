@@ -5,13 +5,15 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import { Button, Table } from "flowbite-react";
 import { Aircraft } from "~/models";
-import { Link, redirect, useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { AircraftService } from "~/state/services/aircraft.service";
 import { UserRole } from "~/models/user.model";
 
-export async function clientLoader(): Promise<Aircraft[] | Response> {
-  return AircraftService.getAll().catch(() => redirect("/sign-in"));
+export async function clientLoader(): Promise<Aircraft[]> {
+  const aircraftService = new AircraftService();
+
+  return aircraftService.getAll();
 }
 
 export default function AircraftListRoute() {
