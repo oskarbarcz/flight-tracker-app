@@ -15,7 +15,7 @@ import InputBlock from "~/components/Form/InputBlock";
 import SelectBlock from "~/components/Form/SelectBlock";
 
 export async function clientLoader(): Promise<Operator[] | Response> {
-  return OperatorService.fetchAll().catch(() => redirect("/sign-in"));
+  return new OperatorService().fetchAll();
 }
 
 export async function clientAction({

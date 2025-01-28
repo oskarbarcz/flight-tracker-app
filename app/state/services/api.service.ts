@@ -7,7 +7,7 @@ export abstract class AbstractApiService {
     this.baseUrl = getApiBaseUrl();
   }
 
-  protected getAccessToken(): string {
+  private getAccessToken(): string {
     const token: string | null = localStorage.getItem("at");
 
     if (token === null) {
@@ -17,7 +17,7 @@ export abstract class AbstractApiService {
     return token;
   }
 
-  protected getRefreshToken(): string {
+  private getRefreshToken(): string {
     const refreshToken = localStorage.getItem("rt");
 
     if (!refreshToken) {
@@ -27,12 +27,12 @@ export abstract class AbstractApiService {
     return refreshToken;
   }
 
-  protected saveTokens(accessToken: string, refreshToken: string): void {
+  private saveTokens(accessToken: string, refreshToken: string): void {
     localStorage.setItem("at", accessToken);
     localStorage.setItem("rt", refreshToken);
   }
 
-  protected async refreshAccessToken(): Promise<string> {
+  private async refreshAccessToken(): Promise<string> {
     const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh`, {
       method: "POST",
       headers: {
@@ -52,28 +52,36 @@ export abstract class AbstractApiService {
     return accessToken;
   }
 
-  protected async fetchWithAuth<T>(
+  private async doRequest(
+    endpoint: string,
+    options: RequestInit,
+    token: string,
+  ): Promise<Response> {
+    return fetch(`${this.baseUrl}${endpoint}`, {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+  }
+
+  protected async requestWithAuth<T>(
     endpoint: string,
     options: RequestInit = {},
   ): Promise<T> {
     let token = this.getAccessToken();
-
-    const makeRequest = async (): Promise<Response> => {
-      return fetch(`${this.baseUrl}${endpoint}`, {
-        ...options,
-        headers: { ...options.headers, Authorization: `Bearer ${token}` },
-      });
-    };
-
-    let response = await makeRequest();
+    let response = await this.doRequest(endpoint, options, token);
 
     if (response.status === 401) {
       try {
         token = await this.refreshAccessToken();
-        response = await makeRequest();
-      } catch {
+        response = await this.doRequest(endpoint, options, token);
+      } catch (e) {
         this.handleUnauthorized();
-        throw new Error("Unauthorized");
+        throw e;
       }
     }
 
@@ -84,7 +92,7 @@ export abstract class AbstractApiService {
     return (await response.json()) as T;
   }
 
-  protected handleUnauthorized(): void {
+  private handleUnauthorized(): void {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");

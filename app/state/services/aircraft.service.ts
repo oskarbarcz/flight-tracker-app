@@ -3,22 +3,22 @@ import { AbstractApiService } from "~/state/services/api.service";
 
 export class AircraftService extends AbstractApiService {
   async getAll(): Promise<Aircraft[]> {
-    return this.fetchWithAuth<Aircraft[]>("/api/v1/aircraft");
+    return this.requestWithAuth<Aircraft[]>("/api/v1/aircraft");
   }
 
   async createNew(aircraft: CreateAircraftDto): Promise<Aircraft> {
-    return this.fetchWithAuth<Aircraft>("/api/v1/aircraft", {
+    return this.requestWithAuth<Aircraft>("/api/v1/aircraft", {
       body: JSON.stringify(aircraft),
       method: "POST",
     });
   }
 
   async getById(id: string): Promise<Aircraft> {
-    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
+    return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
   }
 
   async update(id: string, aircraft: EditAircraftDto): Promise<Aircraft> {
-    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`, {
+    return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`, {
       body: JSON.stringify(aircraft),
       method: "PATCH",
     });

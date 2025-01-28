@@ -16,6 +16,8 @@ export async function clientAction({
   request,
   params,
 }: Route.ClientActionArgs): Promise<Response> {
+  const airportService = new AirportService();
+
   const form = await request.formData();
   const airport: EditAirportDto = getFormData(form, [
     "icaoCode",
@@ -26,15 +28,15 @@ export async function clientAction({
     "timezone",
   ]);
 
-  await AirportService.update(params.id, airport);
+  await airportService.update(params.id, airport);
 
   return redirect("/airports");
 }
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Airport | Response> {
-  return AirportService.getById(params.id).catch(() => redirect("/sign-in"));
+}: Route.ClientLoaderArgs): Promise<Airport> {
+  return new AirportService().getById(params.id);
 }
 
 export default function EditAirportRoute() {

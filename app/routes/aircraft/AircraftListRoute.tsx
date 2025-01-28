@@ -11,9 +11,7 @@ import { AircraftService } from "~/state/services/aircraft.service";
 import { UserRole } from "~/models/user.model";
 
 export async function clientLoader(): Promise<Aircraft[]> {
-  const aircraftService = new AircraftService();
-
-  return aircraftService.getAll();
+  return new AircraftService().getAll();
 }
 
 export default function AircraftListRoute() {

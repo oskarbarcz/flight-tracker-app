@@ -11,8 +11,8 @@ import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { HiPencil } from "react-icons/hi";
 import { UserRole } from "~/models/user.model";
 
-export async function clientLoader(): Promise<Airport[] | Response> {
-  return AirportService.getAll();
+export async function clientLoader(): Promise<Airport[]> {
+  return new AirportService().getAll();
 }
 
 export default function AirportsListRoute() {

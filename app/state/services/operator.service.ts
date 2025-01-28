@@ -1,77 +1,26 @@
 import { CreateOperatorDto, EditOperatorDto, Operator } from "~/models";
-import { buildApiUrl } from "~/functions/getApiBaseUrl";
+import { AbstractApiService } from "~/state/services/api.service";
 
-export const OperatorService = {
-  getToken: (): string => {
-    const token: string | null = localStorage.getItem("token");
+export class OperatorService extends AbstractApiService {
+  async fetchAll(): Promise<Operator[]> {
+    return this.requestWithAuth<Operator[]>("/api/v1/operator");
+  }
 
-    if (token === null) {
-      throw new Error("Unauthorized");
-    }
+  async fetchById(id: string): Promise<Operator> {
+    return this.requestWithAuth<Operator>(`/api/v1/operator/${id}`);
+  }
 
-    return <string>token;
-  },
-
-  fetchAll: async (): Promise<Operator[]> => {
-    const token = OperatorService.getToken();
-    const response = await fetch(buildApiUrl("api/v1/operator"), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status === 401) {
-      throw new Error("Unauthorized");
-    }
-
-    return response.json();
-  },
-
-  fetchById: async (id: string): Promise<Operator> => {
-    const response = await fetch(buildApiUrl(`api/v1/operator/${id}`), {
-      headers: {
-        Authorization: `Bearer ${OperatorService.getToken()}`,
-      },
-    });
-
-    if (response.status === 401) {
-      throw new Error("Unauthorized");
-    }
-
-    return response.json();
-  },
-
-  createNew: async (operator: CreateOperatorDto): Promise<Operator> => {
-    const response = await fetch(buildApiUrl("api/v1/operator"), {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${OperatorService.getToken()}`,
-        "Content-Type": "application/json",
-      },
+  async createNew(operator: CreateOperatorDto): Promise<Operator> {
+    return this.requestWithAuth<Operator>("/api/v1/operator", {
       body: JSON.stringify(operator),
+      method: "POST",
     });
+  }
 
-    if (response.status === 401) {
-      throw new Error("Unauthorized");
-    }
-
-    return response.json();
-  },
-
-  update: async (id: string, data: EditOperatorDto): Promise<Operator> => {
-    const response = await fetch(buildApiUrl(`api/v1/operator/${id}`), {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${OperatorService.getToken()}`,
-        "Content-Type": "application/json",
-      },
+  async update(id: string, data: EditOperatorDto): Promise<Operator> {
+    return this.requestWithAuth<Operator>(`/api/v1/operator/${id}`, {
       body: JSON.stringify(data),
+      method: "PATCH",
     });
-
-    if (response.status === 401) {
-      throw new Error("Unauthorized");
-    }
-
-    return response.json();
-  },
-};
+  }
+}

@@ -44,10 +44,11 @@ export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<ClientLoaderData> {
   const aircraftService = new AircraftService();
+  const operatorService = new OperatorService();
 
   return {
     aircraft: await aircraftService.getById(params.id),
-    operators: await OperatorService.fetchAll(),
+    operators: await operatorService.fetchAll(),
   };
 }
 

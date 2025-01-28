@@ -5,13 +5,13 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import { Button, Table } from "flowbite-react";
 import { Operator } from "~/models";
-import { Link, redirect, useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { OperatorService } from "~/state/services/operator.service";
 import { UserRole } from "~/models/user.model";
 
-export async function clientLoader(): Promise<Operator[] | Response> {
-  return OperatorService.fetchAll().catch(() => redirect("/sign-in"));
+export async function clientLoader(): Promise<Operator[]> {
+  return new OperatorService().fetchAll();
 }
 
 export default function OperatorsListRoute() {

@@ -15,6 +15,8 @@ import { UserRole } from "~/models/user.model";
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response> {
+  const operatorService = new OperatorService();
+
   const form = await request.formData();
   const operator = getFormData<CreateOperatorDto>(form, [
     "icaoCode",
@@ -23,7 +25,7 @@ export async function clientAction({
     "callsign",
   ]);
 
-  await OperatorService.createNew(operator);
+  await operatorService.createNew(operator);
 
   return redirect("/operators");
 }

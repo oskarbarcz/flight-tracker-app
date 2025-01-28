@@ -15,6 +15,8 @@ import { UserRole } from "~/models/user.model";
 export async function clientAction({
   request,
 }: Route.ClientActionArgs): Promise<Response> {
+  const airportService = new AirportService();
+
   const form = await request.formData();
   const airport: CreateAirportDto = getFormData(form, [
     "icaoCode",
@@ -25,7 +27,7 @@ export async function clientAction({
     "timezone",
   ]);
 
-  await AirportService.createNew(airport);
+  await airportService.createNew(airport);
 
   return redirect("/airports");
 }
