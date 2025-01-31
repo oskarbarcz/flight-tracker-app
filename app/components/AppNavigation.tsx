@@ -11,7 +11,7 @@ import lightLogo from "~/assets/logo.light.svg";
 import darkLogo from "~/assets/logo.dark.svg";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
-import { User } from "~/models/user.model";
+import { User, UserRole } from "~/models/user.model";
 import React from "react";
 
 export function AppNavigation() {
@@ -88,28 +88,21 @@ export function AppNavigation() {
           <Link to="/">Home</Link>
         </Navbar.Link>
 
-        {user.role === "operations" && (
-          <Navbar.Link as="span" active={location.pathname === "/flights"}>
-            <Link to="/flights">Flights</Link>
-          </Navbar.Link>
-        )}
-
-        {user.role === "operations" && (
-          <Navbar.Link as="span" active={location.pathname === "/airports"}>
-            <Link to="/airports">Airports</Link>
-          </Navbar.Link>
-        )}
-
-        {user.role === "operations" && (
-          <Navbar.Link as="span" active={location.pathname === "/aircraft"}>
-            <Link to="/aircraft">Aircraft</Link>
-          </Navbar.Link>
-        )}
-
-        {user.role === "operations" && (
-          <Navbar.Link as="span" active={location.pathname === "/operators"}>
-            <Link to="/operators">Operators</Link>
-          </Navbar.Link>
+        {user.role === UserRole.Operations && (
+          <>
+            <Navbar.Link as="span" active={location.pathname === "/flights"}>
+              <Link to="/flights">Flights</Link>
+            </Navbar.Link>
+            <Navbar.Link as="span" active={location.pathname === "/airports"}>
+              <Link to="/airports">Airports</Link>
+            </Navbar.Link>
+            <Navbar.Link as="span" active={location.pathname === "/aircraft"}>
+              <Link to="/aircraft">Aircraft</Link>
+            </Navbar.Link>
+            <Navbar.Link as="span" active={location.pathname === "/operators"}>
+              <Link to="/operators">Operators</Link>
+            </Navbar.Link>
+          </>
         )}
 
         <Navbar.Link as="span" active={location.pathname === "/track"}>

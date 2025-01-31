@@ -4,3 +4,4 @@ export * from "./flight.model";
 export * from "./operator.model";
 export * from "./timesheet.model";
 export * from "./auth.model";
+export * from "./user.model";

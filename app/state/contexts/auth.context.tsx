@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import { User } from "~/models/user.model";
 import { AuthService } from "~/state/api/auth.service";
-import { getUserFromToken } from "~/functions/getUserFromToken";
+import { useUserService } from "~/state/hooks/api/useUserService";
+import { useAuthService } from "~/state/hooks/api/useAuthService";
 
 export interface AuthContextType {
   user: User | null;
@@ -36,6 +37,8 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const userService = useUserService();
+  const authService = useAuthService();
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
@@ -44,27 +47,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const storedAccessToken = localStorage.getItem("at");
     const storedRefreshToken = localStorage.getItem("rt");
-    const storedUser = localStorage.getItem("user");
 
-    if (storedAccessToken && storedRefreshToken && storedUser) {
+    if (storedAccessToken && storedRefreshToken) {
       setAccessToken(storedAccessToken);
       setRefreshToken(storedRefreshToken);
-      setUser(JSON.parse(storedUser));
     }
 
-    setIsLoading(false);
-  }, []);
+    userService.getCurrent().then((user) => {
+      setUser(user);
+      setIsLoading(false);
+    });
+  }, [userService]);
 
-  function saveAuthData(
-    accessToken: string,
-    refreshToken: string,
-    userData: User,
-  ) {
+  function saveAuthData(accessToken: string, refreshToken: string) {
     setAccessToken(accessToken);
-    setUser(userData);
+    setRefreshToken(refreshToken);
     localStorage.setItem("at", accessToken);
     localStorage.setItem("rt", refreshToken);
-    localStorage.setItem("user", JSON.stringify(userData));
+
+    userService.getCurrent().then(setUser);
   }
 
   function clearAuthData() {
@@ -73,7 +74,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
     localStorage.removeItem("at");
     localStorage.removeItem("rt");
-    localStorage.removeItem("user");
   }
 
   const signIn = async (
@@ -82,13 +82,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     onSuccess: () => void,
   ): Promise<void> => {
     try {
-      const { accessToken, refreshToken } = await new AuthService().signIn({
+      const { accessToken, refreshToken } = await authService.signIn({
         email,
         password,
       });
 
-      const user = getUserFromToken(accessToken);
-      saveAuthData(accessToken, refreshToken, user);
+      saveAuthData(accessToken, refreshToken);
 
       onSuccess();
     } catch (error) {
