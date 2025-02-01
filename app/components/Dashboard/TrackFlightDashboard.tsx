@@ -1,9 +1,10 @@
 import { FlightSummaryBox } from "~/components/Box/FlightSummaryBox";
 import { FlightPhaseBox } from "~/components/Box/FlightPhaseBox";
-import { SimpleFlightDataDisplay } from "~/components/SimpleFlightDataDisplay";
+import { AllDisplayBox } from "~/components/Box/AllDisplayBox";
 import React, { useEffect } from "react";
 import { useFlight } from "~/state/hooks/useFlight";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import FlightInfoHeader from "~/components/Box/FlightInfoHeader";
 
 type TrackFlightDashboardProps = {
   flightId: string;
@@ -23,9 +24,10 @@ export function TrackFlightDashboard({ flightId }: TrackFlightDashboardProps) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <FlightInfoHeader flight={flight} />
       <FlightSummaryBox flight={flight} />
       <FlightPhaseBox flight={flight} />
-      <SimpleFlightDataDisplay flight={flight} />
+      <AllDisplayBox flight={flight} />
     </div>
   );
 }

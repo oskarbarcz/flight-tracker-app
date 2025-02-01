@@ -14,7 +14,7 @@ type TrackFlightDashboardProps = {
   flight: Flight;
 };
 
-export function SimpleFlightDataDisplay({ flight }: TrackFlightDashboardProps) {
+export function AllDisplayBox({ flight }: TrackFlightDashboardProps) {
   const departure = flight.airports.find(
     (a) => a.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
@@ -31,10 +31,8 @@ export function SimpleFlightDataDisplay({ flight }: TrackFlightDashboardProps) {
   ) as AirportOnFlight[];
 
   return (
-    <div className="row-span-3 rounded-lg bg-gray-100 p-4 shadow dark:bg-gray-800">
-      <h2 className="text-xl font-bold dark:text-gray-300">Display</h2>
-      <hr className="mt-2 dark:border-gray-700" />
-      <div className="mt-4">
+    <div className="row-span-3 rounded-lg bg-gray-100 p-6 shadow dark:bg-gray-800">
+      <div>
         <div>
           <h2 className="font-bold">Flight info</h2>
           <p>

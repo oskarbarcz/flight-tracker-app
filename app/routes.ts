@@ -7,11 +7,11 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  layout("components/Layout/AuthLayout.tsx", [
+  layout("layout/AuthLayout.tsx", [
     route("sign-in", "routes/auth/SignInRoute.tsx"),
     route("sign-out", "routes/auth/SignOutRoute.tsx"),
   ]),
-  layout("routes/AppLayout.tsx", [
+  layout("layout/AppLayout.tsx", [
     index("routes/dashboard/DashboardRoute.tsx"),
     ...prefix("airports", [
       index("routes/airports/AirportsListRoute.tsx"),
