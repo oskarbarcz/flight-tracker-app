@@ -22,7 +22,7 @@ function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
 }
 
 function formatTime(date: Date) {
-  return date.toLocaleTimeString("pl", { hour: "2-digit", minute: "2-digit" });
+  return date.toISOString().slice(11, 16);
 }
 
 export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
