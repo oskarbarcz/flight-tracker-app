@@ -1,4 +1,4 @@
-import { CreateFlightDto, Flight, Timesheet } from "~/models";
+import { CreateFlightDto, Flight, Schedule } from "~/models";
 import { AbstractApiService } from "~/state/api/api.service";
 
 export class FlightService extends AbstractApiService {
@@ -23,7 +23,7 @@ export class FlightService extends AbstractApiService {
     });
   }
 
-  async checkIn(id: string, timesheet: Timesheet): Promise<void> {
+  async checkIn(id: string, timesheet: Schedule): Promise<void> {
     return this.requestWithAuth<void>(`/api/v1/flight/${id}/check-in`, {
       body: JSON.stringify(timesheet),
       method: "POST",

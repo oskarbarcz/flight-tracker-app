@@ -9,12 +9,14 @@ import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { UserRole } from "~/models/user.model";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Aircraft[]> {
   return new AircraftService().getAll();
 }
 
 export default function AircraftListRoute() {
+  usePageTitle("Aircraft list");
   const aircrafts = useLoaderData<Aircraft[]>();
 
   return (

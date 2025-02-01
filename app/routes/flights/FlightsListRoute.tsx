@@ -8,6 +8,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
 import { FaPlane, FaTrash } from "react-icons/fa";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export function meta() {
   return [
@@ -28,6 +29,7 @@ function dateToHour(date: string | undefined): string {
 }
 
 export default function FlightsListRoute() {
+  usePageTitle("Flights list");
   const flightService = useFlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
 

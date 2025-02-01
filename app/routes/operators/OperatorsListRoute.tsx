@@ -9,12 +9,14 @@ import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { OperatorService } from "~/state/api/operator.service";
 import { UserRole } from "~/models/user.model";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();
 }
 
 export default function OperatorsListRoute() {
+  usePageTitle("Operator list");
   const airports = useLoaderData<Operator[]>();
 
   return (

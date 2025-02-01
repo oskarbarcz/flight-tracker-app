@@ -15,6 +15,7 @@ import { OperatorService } from "~/state/api/operator.service";
 import { AircraftService } from "~/state/api/aircraft.service";
 import SelectBlock from "~/components/Form/SelectBlock";
 import { FlightService } from "~/state/api/flight.service";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientAction({
   request,
@@ -79,6 +80,7 @@ export async function clientLoader(): Promise<ClientLoaderTypes> {
 }
 
 export default function CreateAirportRoute() {
+  usePageTitle("Create new flight");
   const { airports, aircraft, operators } = useLoaderData<ClientLoaderTypes>();
 
   const airportSelectOptions = airports.map((airport) => ({

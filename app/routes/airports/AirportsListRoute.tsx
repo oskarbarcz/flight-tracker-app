@@ -10,12 +10,15 @@ import { AirportService } from "~/state/api/airport.service";
 import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { HiPencil } from "react-icons/hi";
 import { UserRole } from "~/models/user.model";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Airport[]> {
   return new AirportService().getAll();
 }
 
 export default function AirportsListRoute() {
+  usePageTitle("Airports list");
+
   const airports = useLoaderData<Airport[]>();
 
   return (

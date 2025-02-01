@@ -11,6 +11,7 @@ import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { CreateAirportDto } from "~/models";
 import { UserRole } from "~/models/user.model";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientAction({
   request,
@@ -33,6 +34,8 @@ export async function clientAction({
 }
 
 export default function CreateAirportRoute() {
+  usePageTitle("Create new airport");
+
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">

@@ -1,4 +1,10 @@
-import { Aircraft, Operator, Schedule } from "~/models";
+import {
+  Aircraft,
+  Airport,
+  CheckedInFlightTimesheet,
+  Operator,
+  Timesheet,
+} from "~/models";
 
 export enum FlightStatus {
   Created = "created",
@@ -38,18 +44,9 @@ export function isFlightTrackable(status: FlightStatus): boolean {
   return trackableStatuses.includes(status);
 }
 
-export function isFlightAvailableForCheckIn(status: FlightStatus): boolean {
-  return status === FlightStatus.Ready;
-}
-
-export interface AirportOnFlight {
-  id: string;
-  icaoCode: string;
-  country: string;
-  name: string;
+export type AirportOnFlight = Airport & {
   type: AirportOnFlightType;
-  timezone: string;
-}
+};
 
 export interface Flight {
   id: string;
@@ -62,7 +59,7 @@ export interface Flight {
   aircraft: Aircraft;
   operatorId: string;
   operator: Operator;
-  timesheet: Schedule;
+  timesheet: Timesheet | CheckedInFlightTimesheet;
   status: FlightStatus;
 }
 

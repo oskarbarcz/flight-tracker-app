@@ -4,6 +4,7 @@ import React from "react";
 import { useAuth } from "~/state/contexts/auth.context";
 import CabinCrewDashboardRoute from "~/routes/dashboard/CabinCrewDashboardRoute";
 import OperationsDashboardRoute from "~/routes/dashboard/OperationsDashboardRoute";
+import { UserRole } from "~/models";
 
 export default function DashboardRoute() {
   const { user } = useAuth();
@@ -12,11 +13,11 @@ export default function DashboardRoute() {
     return <div>Loading...</div>;
   }
 
-  if (user.role === "cabincrew") {
+  if (user.role === UserRole.CabinCrew) {
     return <CabinCrewDashboardRoute />;
   }
 
-  if (user.role === "operations") {
+  if (user.role === UserRole.Operations) {
     return <OperationsDashboardRoute />;
   }
 }
