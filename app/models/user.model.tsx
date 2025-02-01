@@ -9,6 +9,7 @@ export type User = {
   name: string;
   email: string;
   role: UserRole;
+  currentFlightId: string;
 };
 
 export type GetUserResponse = User;

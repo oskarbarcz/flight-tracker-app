@@ -13,7 +13,7 @@ export default function DashboardRoute() {
     return <div>Loading...</div>;
   }
 
-  if (user.role === UserRole.Admin) {
+  if (user.role === UserRole.CabinCrew) {
     return <CabinCrewDashboardRoute />;
   }
 

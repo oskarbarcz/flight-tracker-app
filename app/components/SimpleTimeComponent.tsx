@@ -1,13 +1,9 @@
 "use client";
 
-import { Timesheet } from "~/models";
+import { Schedule } from "~/models";
 import React from "react";
 
-export const SimpleTimeComponent = ({
-  timesheet,
-}: {
-  timesheet: Timesheet;
-}) => {
+export const SimpleTimeComponent = ({ timesheet }: { timesheet: Schedule }) => {
   return (
     <div>
       <p>

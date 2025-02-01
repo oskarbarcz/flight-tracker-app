@@ -1,5 +1,4 @@
 import { HiHome } from "react-icons/hi";
-import React from "react";
 import { MdLocalAirport, MdOutlineFlightClass } from "react-icons/md";
 import { LuTowerControl } from "react-icons/lu";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
@@ -12,7 +11,8 @@ import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
 import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
-import { UserRole } from "~/models/user.model";
+import { User, UserRole } from "~/models/user.model";
+import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
 
 export function Sidebar({
   isCollapsed,
@@ -21,14 +21,26 @@ export function Sidebar({
   isCollapsed: boolean;
   handleDesktopCollapse: () => void;
 }) {
-  const { user } = useAuth();
+  const { user } = useAuth() as { user: User };
+
+  if (user === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <aside className="flex size-full flex-col bg-gray-100 p-3 dark:bg-gray-800 dark:text-white">
+    <aside className="flex size-full flex-col bg-gray-100 p-3 text-gray-800 dark:bg-gray-800 dark:text-white">
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div>
-        {user?.role === UserRole.CabinCrew && (
+        {user.currentFlightId && (
+          <>
+            {isCollapsed && <SidebarDivider />}
+            {!isCollapsed && <SidebarSectionTitle label="Current flight" />}
+            <SidebarCurrentFlight flightId={user.currentFlightId} />
+          </>
+        )}
+
+        {user.role === UserRole.CabinCrew && (
           <>
             {isCollapsed && <SidebarDivider />}
             {!isCollapsed && <SidebarSectionTitle label="Flight" />}
@@ -38,16 +50,10 @@ export function Sidebar({
               href="/"
               icon={HiHome}
             />
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Current flight"
-              href="/track/23952e79-6b38-49ed-a1db-bd4d9b3cedab"
-              icon={MdOutlineFlightClass}
-            />
           </>
         )}
 
-        {user?.role === UserRole.Operations && (
+        {user.role === UserRole.Operations && (
           <>
             {isCollapsed && <SidebarDivider />}
             {!isCollapsed && <SidebarSectionTitle label="Management" />}

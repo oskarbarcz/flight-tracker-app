@@ -1,11 +1,11 @@
 "use client";
 
-import { Timesheet } from "~/models/timesheet.model";
+import { Schedule } from "~/models/timesheet.model";
 import Block from "~/components/Block";
 import AdvancedDateTimePreview from "~/components/AdvancedTimePreview";
 
 interface FlightTimesheetProps {
-  scheduled: Timesheet;
+  scheduled: Schedule;
 }
 
 export default function TrackedFlightTimesheet({

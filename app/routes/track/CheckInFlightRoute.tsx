@@ -3,7 +3,7 @@
 import React from "react";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
 import { Form, Navigate, redirect, useLoaderData } from "react-router";
-import { Flight, isFlightTrackable, Timesheet } from "~/models";
+import { Flight, isFlightTrackable, Schedule } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/track/+types/CheckInFlightRoute";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import InputBlock from "~/components/Form/InputBlock";
@@ -30,7 +30,7 @@ export async function clientAction({
 }: Route.ClientActionArgs): Promise<Response> {
   const flightService = new FlightService();
   const form = await request.formData();
-  const estimatedTimesheet: Timesheet = getFormData(form, [
+  const estimatedTimesheet: Schedule = getFormData(form, [
     "offBlockTime",
     "takeoffTime",
     "arrivalTime",
@@ -53,7 +53,7 @@ export default function TrackFlightRoute() {
     return <Navigate replace={true} to={`/track/${flight.id}`} />;
   }
 
-  const scheduledTimesheet = flight.timesheet.scheduled as Timesheet;
+  const scheduledTimesheet = flight.timesheet.scheduled as Schedule;
 
   return (
     <ProtectedRoute expectedRole={UserRole.CabinCrew}>

@@ -16,6 +16,7 @@
   "dependencies": {
     "@react-router/node": "^7.0.1",
     "@react-router/serve": "^7.0.1",
+    "dayjs": "^1.11.13",
     "flowbite-react": "^0.10.2",
     "isbot": "^5.1.17",
     "react": "^18.3.1",
