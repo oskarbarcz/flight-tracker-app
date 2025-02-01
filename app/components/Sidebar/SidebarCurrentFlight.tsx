@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   AirportOnFlight,
   AirportOnFlightType,
@@ -32,25 +32,23 @@ export default function SidebarCurrentFlight({
   const [trackedFlight, setTrackedFlight] = React.useState<Flight | null>(null);
   const [timeRemaining, setTimeRemaining] = React.useState<string | null>(null);
 
-  const handleTimeUpdate = () => {
-    if (!trackedFlight) {
-      return;
-    }
-
-    const timesheet = trackedFlight.timesheet as CheckedInFlightTimesheet;
-    setTimeRemaining(
-      calculateTimeToGo(new Date(timesheet.estimated.arrivalTime)),
+  const handleTimeUpdate = useCallback((flight: Flight) => {
+    const timesheet = flight.timesheet as CheckedInFlightTimesheet;
+    const timeRemaining = calculateTimeToGo(
+      new Date(timesheet.estimated.arrivalTime),
     );
-  };
+    setTimeRemaining(timeRemaining);
+  }, []);
 
   useEffect(() => {
     flightService
       .fetchFlightById(flightId)
-      .then(setTrackedFlight)
-      .then(handleTimeUpdate);
-  }, [flightService, flightId]);
-
-  setInterval(handleTimeUpdate, 1000 * 60);
+      .then((flight) => {
+        setTrackedFlight(flight);
+        return flight;
+      })
+      .then((flight) => handleTimeUpdate(flight));
+  }, [flightService, flightId, handleTimeUpdate]);
 
   const handleClick = () => {
     navigator(`/track/${flightId}`, { replace: true });
@@ -59,6 +57,8 @@ export default function SidebarCurrentFlight({
   if (!trackedFlight) {
     return <div>Loading...</div>;
   }
+
+  setInterval(() => handleTimeUpdate(trackedFlight), 1000 * 60);
 
   const departureAirport = trackedFlight.airports.find(
     (airport) => airport.type === AirportOnFlightType.Departure,
