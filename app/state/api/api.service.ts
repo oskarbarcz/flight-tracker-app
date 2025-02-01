@@ -42,7 +42,6 @@ export abstract class AbstractApiService {
     });
 
     if (!response.ok) {
-      this.handleUnauthorized();
       throw new Error("Failed to refresh access token");
     }
 
@@ -78,6 +77,10 @@ export abstract class AbstractApiService {
       return "" as T;
     }
 
+    if (response.status >= 300) {
+      return Promise.reject(response.body);
+    }
+
     return (await response.json()) as T;
   }
 
@@ -89,13 +92,8 @@ export abstract class AbstractApiService {
     let response = await this.doRequest(endpoint, options, token);
 
     if (response.status === 401) {
-      try {
-        token = await this.refreshAccessToken();
-        response = await this.doRequest(endpoint, options, token);
-      } catch (e) {
-        this.handleUnauthorized();
-        throw e;
-      }
+      token = await this.refreshAccessToken();
+      response = await this.doRequest(endpoint, options, token);
     }
 
     if (response.status === 204) {
@@ -103,12 +101,5 @@ export abstract class AbstractApiService {
     }
 
     return (await response.json()) as T;
-  }
-
-  private handleUnauthorized(): void {
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("refreshToken");
-    // localStorage.removeItem("user");
-    // window.location.href = "/sign-in";
   }
 }

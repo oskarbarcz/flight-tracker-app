@@ -14,11 +14,7 @@ export interface AuthContextType {
   user: User | null;
   accessToken: string | null;
   refreshToken: string | null;
-  signIn: (
-    email: string,
-    password: string,
-    onSuccess: () => void,
-  ) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   isLoading: boolean;
 }
@@ -48,15 +44,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const storedAccessToken = localStorage.getItem("at");
     const storedRefreshToken = localStorage.getItem("rt");
 
-    if (storedAccessToken && storedRefreshToken) {
-      setAccessToken(storedAccessToken);
-      setRefreshToken(storedRefreshToken);
+    if (!storedAccessToken || !storedRefreshToken) {
+      return;
     }
 
-    userService.getCurrent().then((user) => {
-      setUser(user);
-      setIsLoading(false);
-    });
+    setAccessToken(storedAccessToken);
+    setRefreshToken(storedRefreshToken);
+
+    userService
+      .getCurrent()
+      .then((user) => {
+        setUser(user);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   }, [userService]);
 
   function saveAuthData(accessToken: string, refreshToken: string) {
@@ -76,24 +79,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem("rt");
   }
 
-  const signIn = async (
-    email: string,
-    password: string,
-    onSuccess: () => void,
-  ): Promise<void> => {
-    try {
-      const { accessToken, refreshToken } = await authService.signIn({
-        email,
-        password,
+  const signIn = async (email: string, password: string): Promise<void> => {
+    return authService
+      .signIn({ email, password })
+      .then(({ accessToken, refreshToken }) => {
+        saveAuthData(accessToken, refreshToken);
       });
-
-      saveAuthData(accessToken, refreshToken);
-
-      onSuccess();
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
   };
 
   const signOut = async () => {
