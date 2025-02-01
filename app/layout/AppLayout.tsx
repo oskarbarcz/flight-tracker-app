@@ -6,7 +6,7 @@ import { useSidebarState } from "~/state/hooks/useSidebarState";
 import Footer from "~/components/Layout/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import {Flowbite} from "flowbite-react";
+import { Flowbite } from "flowbite-react";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
