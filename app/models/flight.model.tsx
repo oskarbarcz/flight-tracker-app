@@ -1,4 +1,10 @@
-import { Aircraft, Airport, Operator, Timesheet } from "~/models";
+import {
+  Aircraft,
+  Airport,
+  CheckedInFlightTimesheet,
+  Operator,
+  Timesheet,
+} from "~/models";
 
 export enum FlightStatus {
   Created = "created",
@@ -53,7 +59,7 @@ export interface Flight {
   aircraft: Aircraft;
   operatorId: string;
   operator: Operator;
-  timesheet: Timesheet;
+  timesheet: Timesheet | CheckedInFlightTimesheet;
   status: FlightStatus;
 }
 

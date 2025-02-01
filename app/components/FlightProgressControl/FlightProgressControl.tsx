@@ -54,12 +54,12 @@ export default function FlightProgressControl({
   const actionButton = mapStatusToButton(flightId, status);
 
   return (
-    <span>
+    <span className="mx-auto block text-center">
       <span className="font-bold">
         {"Current status: "}
         <FlightProgressTranslation status={status} />
       </span>
-      {actionButton}
+      <span className="block text-center">{actionButton}</span>
     </span>
   );
 }

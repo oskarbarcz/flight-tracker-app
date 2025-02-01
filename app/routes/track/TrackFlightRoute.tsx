@@ -35,8 +35,8 @@ export default function TrackFlightRoute({ params }: Route.ClientLoaderArgs) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <FlightSummaryBox flight={flight} />
           <FlightPhaseBox flight={flight} />
+          <SimpleFlightDataDisplay flight={flight} />
         </div>
-        <SimpleFlightDataDisplay flight={flight} />
       </FlightStateProvider>
     </ProtectedRoute>
   );
