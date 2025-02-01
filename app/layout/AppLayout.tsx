@@ -5,6 +5,8 @@ import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
 import Footer from "~/components/Layout/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import {Flowbite} from "flowbite-react";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -59,50 +61,52 @@ function getContentClasses(isCollapsed: boolean) {
   return classes.join(" ");
 }
 
-export default function SidebarLayout() {
+export default function AppLayout() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCollapsed, toggleCollapse] = useSidebarState();
 
   const handleMobileToggle = () => setIsMobileOpen((prev) => !prev);
 
   return (
-    <>
-      <div className="flex min-h-screen flex-col md:flex-row">
-        <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
-          <Sidebar
-            isCollapsed={isCollapsed}
-            handleDesktopCollapse={toggleCollapse}
-          />
-        </div>
+    <Flowbite>
+      <ProtectedRoute>
+        <div className="flex min-h-screen flex-col md:flex-row">
+          <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
+            <Sidebar
+              isCollapsed={isCollapsed}
+              handleDesktopCollapse={toggleCollapse}
+            />
+          </div>
 
-        {isMobileOpen && (
-          <div
-            className="fixed inset-0 z-30 bg-black/50 md:hidden"
-            onClick={() => setIsMobileOpen(false)}
-          />
-        )}
+          {isMobileOpen && (
+            <div
+              className="fixed inset-0 z-30 bg-black/50 md:hidden"
+              onClick={() => setIsMobileOpen(false)}
+            />
+          )}
 
-        <div className="p-2 md:hidden">
-          <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
+          <div className="p-2 md:hidden">
+            <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
+          </div>
+          <div className={getContentClasses(isCollapsed)}>
+            <Outlet />
+          </div>
         </div>
-        <div className={getContentClasses(isCollapsed)}>
-          <Outlet />
-        </div>
-      </div>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
-      <Footer />
-    </>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
+        <Footer />
+      </ProtectedRoute>
+    </Flowbite>
   );
 }
