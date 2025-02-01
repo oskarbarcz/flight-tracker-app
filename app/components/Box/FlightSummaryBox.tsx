@@ -54,10 +54,8 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
   }
 
   return (
-    <section className="rounded-lg bg-gray-100 p-4 shadow dark:bg-gray-800">
-      <h2 className="text-xl font-bold dark:text-gray-300">Summary</h2>
-      <hr className="mt-2 dark:border-gray-700" />
-      <div className="mt-8 flex items-center justify-between">
+    <section className="rounded-lg bg-gray-100 p-6 shadow dark:bg-gray-800">
+      <div className="flex items-center justify-between">
         <div className="text-start font-bold">
           <span className="block text-4xl">{departure.iataCode}</span>
           <span className="block">{departure.city}</span>
