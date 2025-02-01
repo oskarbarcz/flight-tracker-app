@@ -29,7 +29,7 @@ export function Sidebar({
   }
 
   return (
-    <aside className="flex size-full flex-col bg-gray-100 p-3 text-gray-800 dark:bg-gray-800 dark:text-white">
+    <aside className="flex size-full flex-col bg-indigo-500 p-3 text-gray-800 dark:bg-gray-800 dark:text-white">
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div>

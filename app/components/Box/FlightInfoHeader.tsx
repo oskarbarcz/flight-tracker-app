@@ -6,7 +6,7 @@ type FlightInfoHeaderProps = {
 };
 export default function FlightInfoHeader({ flight }: FlightInfoHeaderProps) {
   return (
-    <header className="col-span-1 mb-3 md:col-span-3">
+    <header className="col-span-1 md:col-span-3">
       <div className="mb-3 mt-1 flex items-center gap-2 text-gray-600">
         <span className="text-3xl font-bold text-indigo-500 md:text-4xl">
           {flight.flightNumber}

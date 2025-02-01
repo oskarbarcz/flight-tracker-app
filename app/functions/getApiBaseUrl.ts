@@ -9,7 +9,3 @@ export function getApiBaseUrl(): string {
 
   return baseUrl;
 }
-
-export function buildApiUrl(path: string): string {
-  return `${getApiBaseUrl()}/${path}`;
-}
