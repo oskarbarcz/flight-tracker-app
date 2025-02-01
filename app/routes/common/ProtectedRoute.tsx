@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from "react";
+import React, { ReactNode, useContext, useEffect } from "react";
 import { AuthContext } from "~/state/contexts/auth.context";
 import { Navigate } from "react-router";
 import { UserRole } from "~/models/user.model";
@@ -13,6 +13,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
 }: ProtectedRouteProps) => {
   const auth = useContext(AuthContext);
+
+  useEffect(() => {}, [auth.isLoading]);
 
   if (!auth) {
     return null;

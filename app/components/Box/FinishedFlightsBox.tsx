@@ -24,6 +24,7 @@ export default function FinishedFlightsBox({
             <Link
               to={`track/${flight.id}`}
               className="block text-teal-500 underline"
+              viewTransition
             >
               {flight.flightNumber} [{flight.status}]
             </Link>

@@ -51,7 +51,11 @@ export default function OperatorsListRoute() {
                 <Table.Cell>{operator.fullName}</Table.Cell>
                 <Table.Cell>{operator.callsign}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/operators/${operator.id}/edit`} replace>
+                  <Link
+                    to={`/operators/${operator.id}/edit`}
+                    replace
+                    viewTransition
+                  >
                     <Button color="gray">
                       <HiPencil />
                     </Button>

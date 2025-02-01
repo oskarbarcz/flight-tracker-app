@@ -17,7 +17,7 @@ export default function SectionHeaderWithLink({
       <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>
-      <Link to={linkUrl} replace={true}>
+      <Link to={linkUrl} replace viewTransition>
         <Button size="sm">{linkText}</Button>
       </Link>
     </div>

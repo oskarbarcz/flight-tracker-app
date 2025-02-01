@@ -45,7 +45,11 @@ export function SimpleFlightDataDisplay({ flight }: TrackFlightDashboardProps) {
             {alternates.map((a) => `[${a.icaoCode}] ${a.name}`).join(", ")}{" "}
             <br />
             {flight.status === FlightStatus.Ready && (
-              <Link to={`/track/${flight.id}/check-in`}>
+              <Link
+                to={`/track/${flight.id}/check-in`}
+                replace={true}
+                viewTransition
+              >
                 <Button className="mt-2">Go to flight check-in</Button>
               </Link>
             )}

@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { FloatingLabel } from "flowbite-react";
+import logoWhite from "~/assets/logo.white.svg";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");
@@ -11,84 +14,81 @@ export default function SignInRoute() {
   const navigate = useNavigate();
   const { signIn, user } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    try {
-      await signIn(email, password, () => {
-        navigate("/", { replace: true });
+
+    signIn(email, password)
+      .then(() => {
+        navigate("/", { replace: true, viewTransition: true });
+      })
+      .catch(() => {
+        setError("Incorrect credentials");
       });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        alert(error?.message || "Login failed");
-      }
-    }
   }
 
   if (user) {
-    return <Navigate to="/" replace />;
+    navigate("/", { replace: true, viewTransition: true });
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-sm rounded-lg bg-white px-6 py-8 shadow-md">
-        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
-          Sign In
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+    <div className="flex min-h-screen items-start justify-center bg-gray-100 p-3 pt-8 sm:items-center sm:pt-3">
+      <article className="flex w-full max-w-xl flex-col rounded-2xl bg-indigo-600 shadow-md sm:mt-0 sm:flex-row sm:shadow-xl">
+        <aside className="flex flex-row items-center justify-center rounded-2xl py-4 sm:w-96 sm:flex-col sm:px-8">
+          <img
+            src={logoWhite}
+            className="h-8 sm:h-20"
+            alt="Flight Tracker app logo"
+          />
+          <span className="text-xl font-bold text-gray-100 dark:text-gray-200 sm:mt-4">
+            Flight Tracker
+          </span>
+        </aside>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full space-y-2 rounded-2xl bg-white p-4 sm:p-8"
+        >
+          <h1 className="mb-6 text-center text-2xl font-bold text-gray-700">
+            Sign in
+          </h1>
+          <FloatingLabel
+            variant="outlined"
+            label="Email"
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <FloatingLabel
+            variant="outlined"
+            label="Password"
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && (
+            <p className="pb-2 pt-1 text-center text-sm text-red-500">
+              {error}
+            </p>
+          )}
+
+          <div className="flex items-center justify-end pt-2">
+            <button
+              type="submit"
+              className="ms-auto rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-            />
+              {"Sign in"}
+              <FaArrowRight className="ms-2 inline-block" />
+            </button>
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-4 w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Sign In
-          </button>
         </form>
-        <p className="mt-4 text-center text-sm text-gray-600">
-          Don&apos;t have an account?{" "}
-          <a
-            href="/register"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
-          >
-            Sign Up
-          </a>
-        </p>
-      </div>
+      </article>
     </div>
   );
 }

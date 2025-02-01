@@ -53,7 +53,8 @@ export default function SidebarUserPanel({
           </div>
           <Link
             to="/sign-out"
-            replace={true}
+            replace
+            viewTransition
             className="ms-auto flex size-10 cursor-pointer items-center justify-center rounded-full border-red-700 transition-colors duration-100 hover:bg-red-700 hover:text-white"
           >
             <PiSignOutBold />

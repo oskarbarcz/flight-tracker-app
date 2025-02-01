@@ -61,7 +61,11 @@ export default function AircraftListRoute() {
                 </Table.Cell>
                 <Table.Cell>{aircraft.selcal}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/aircraft/${aircraft.id}/edit`} replace>
+                  <Link
+                    to={`/aircraft/${aircraft.id}/edit`}
+                    replace
+                    viewTransition
+                  >
                     <Button color="gray">
                       <HiPencil />
                     </Button>
