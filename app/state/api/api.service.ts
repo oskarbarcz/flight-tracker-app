@@ -106,9 +106,9 @@ export abstract class AbstractApiService {
   }
 
   private handleUnauthorized(): void {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-    window.location.href = "/sign-in";
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("refreshToken");
+    // localStorage.removeItem("user");
+    // window.location.href = "/sign-in";
   }
 }

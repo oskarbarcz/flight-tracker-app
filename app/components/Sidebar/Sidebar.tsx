@@ -36,7 +36,10 @@ export function Sidebar({
           <>
             {isCollapsed && <SidebarDivider />}
             {!isCollapsed && <SidebarSectionTitle label="Current flight" />}
-            <SidebarCurrentFlight flightId={user.currentFlightId} />
+            <SidebarCurrentFlight
+              flightId={user.currentFlightId}
+              isCollapsed={isCollapsed}
+            />
           </>
         )}
 
