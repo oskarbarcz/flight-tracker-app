@@ -24,6 +24,16 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,700;1,400&display=swap",
   },
   { rel: "stylesheet", href: stylesheet },
+  {
+    rel: "icon",
+    type: "image/png",
+    href: "/favicon-96x96.png",
+    sizes: "96x96",
+  },
+  { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+  { rel: "shortcut icon", type: "shortcut icon", href: "/favicon.ico" },
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+  { rel: "manifest", href: "/site.webmanifest" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -33,6 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ThemeModeScript />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-title" content="Flight Tracker" />
         <Meta />
         <Links />
       </head>

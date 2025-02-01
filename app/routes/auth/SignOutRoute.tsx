@@ -9,10 +9,11 @@ export default function SignOutRoute() {
   const { signOut } = useAuth();
 
   useEffect(() => {
+    signOut();
+
     toast.info("You are successfully signed out.", {
       theme: "light",
     });
-    signOut();
   });
 
   return <Navigate to="/sign-in" replace={true} />;
