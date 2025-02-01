@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { FloatingLabel } from "flowbite-react";

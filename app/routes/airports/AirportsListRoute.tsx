@@ -63,7 +63,11 @@ export default function AirportsListRoute() {
                   </span>
                 </Table.Cell>
                 <Table.Cell>
-                  <Link to={`/airports/${airport.id}/edit`} replace>
+                  <Link
+                    to={`/airports/${airport.id}/edit`}
+                    replace
+                    viewTransition
+                  >
                     <Button color="gray">
                       <HiPencil />
                     </Button>

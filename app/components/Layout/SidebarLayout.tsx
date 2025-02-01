@@ -4,6 +4,7 @@ import { Sidebar } from "~/components/Sidebar/Sidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
 import Footer from "~/components/Layout/Footer";
+import { Bounce, ToastContainer } from "react-toastify";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -88,6 +89,19 @@ export default function SidebarLayout() {
           <Outlet />
         </div>
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <Footer />
     </>
   );
