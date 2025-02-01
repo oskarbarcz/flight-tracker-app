@@ -57,7 +57,7 @@ export default function CheckInFlightRoute() {
     return <Navigate replace={true} to={`/track/${flight.id}`} />;
   }
 
-  const scheduledTimesheet = flight.timesheet as Required<NonNullable<Schedule>>;
+  const scheduledTimesheet = flight.timesheet.scheduled;
 
   return (
     <ProtectedRoute expectedRole={UserRole.CabinCrew}>

@@ -1,20 +1,24 @@
 import { useFlightState } from "~/state/contexts/flight.state";
 import { Flight } from "~/models";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
+import { useCallback } from "react";
 
 export const useFlight = () => {
   const flightService = useFlightService();
   const { state, dispatch } = useFlightState();
 
-  const loadFlight = async (flightId: string): Promise<Flight> => {
-    dispatch({ type: "SET_LOADING", payload: true });
+  const loadFlight = useCallback(
+    async (flightId: string): Promise<Flight> => {
+      dispatch({ type: "SET_LOADING", payload: true });
 
-    const trackedFlight = await flightService.fetchFlightById(flightId);
-    dispatch({ type: "SET_TRACKED_FLIGHT_DETAILS", payload: trackedFlight });
-    dispatch({ type: "SET_LOADING", payload: false });
+      const trackedFlight = await flightService.fetchFlightById(flightId);
+      dispatch({ type: "SET_TRACKED_FLIGHT_DETAILS", payload: trackedFlight });
+      dispatch({ type: "SET_LOADING", payload: false });
 
-    return trackedFlight;
-  };
+      return trackedFlight;
+    },
+    [dispatch, flightService],
+  );
 
   const startBoarding = async (flightId: string) => {
     await flightService.startBoarding(flightId);

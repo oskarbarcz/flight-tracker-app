@@ -1,18 +1,25 @@
 export interface Schedule {
-  offBlockTime?: string | null;
-  takeoffTime?: string | null;
-  arrivalTime?: string | null;
-  onBlockTime?: string | null;
+  offBlockTime: string | null;
+  takeoffTime: string | null;
+  arrivalTime: string | null;
+  onBlockTime: string | null;
+}
+
+export interface FilledSchedule {
+  offBlockTime: string;
+  takeoffTime: string;
+  arrivalTime: string;
+  onBlockTime: string;
 }
 
 export interface Timesheet {
-  scheduled: Required<Schedule>;
+  scheduled: FilledSchedule;
   estimated?: Schedule;
   actual?: Schedule;
 }
 
 export interface CheckedInFlightTimesheet {
-  scheduled: Required<NonNullable<Schedule>>;
-  estimated: Required<NonNullable<Schedule>>;
+  scheduled: FilledSchedule;
+  estimated: FilledSchedule;
   actual?: Schedule;
 }
