@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { FloatingLabel } from "flowbite-react";
@@ -31,7 +31,7 @@ export default function SignInRoute() {
   }
 
   if (user) {
-    navigate("/", { replace: true, viewTransition: true });
+    return <Navigate to="/" replace />;
   }
 
   return (
