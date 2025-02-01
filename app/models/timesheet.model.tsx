@@ -1,8 +1,8 @@
 export interface Schedule {
-  offBlockTime: string | undefined;
-  takeoffTime: string | undefined;
-  arrivalTime: string | undefined;
-  onBlockTime: string | undefined;
+  offBlockTime?: string | null;
+  takeoffTime?: string | null;
+  arrivalTime?: string | null;
+  onBlockTime?: string | null;
 }
 
 export interface Timesheet {

@@ -43,7 +43,7 @@ export async function clientAction({
   return redirect(`/track/${params.id}`);
 }
 
-export default function TrackFlightRoute() {
+export default function CheckInFlightRoute() {
   const flight = useLoaderData<typeof clientLoader>();
   usePageTitle(
     flight ? `Check in for flight ${flight.flightNumber}` : "Check in",
@@ -57,7 +57,7 @@ export default function TrackFlightRoute() {
     return <Navigate replace={true} to={`/track/${flight.id}`} />;
   }
 
-  const scheduledTimesheet = flight.timesheet.scheduled as Schedule;
+  const scheduledTimesheet = flight.timesheet as Required<NonNullable<Schedule>>;
 
   return (
     <ProtectedRoute expectedRole={UserRole.CabinCrew}>
