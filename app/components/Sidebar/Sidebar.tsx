@@ -13,6 +13,7 @@ import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
 import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
 import { User, UserRole } from "~/models/user.model";
 import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
+import { FlightStateProvider } from "~/state/contexts/flight.state";
 
 export function Sidebar({
   isCollapsed,
@@ -36,10 +37,12 @@ export function Sidebar({
           <>
             {isCollapsed && <SidebarDivider />}
             {!isCollapsed && <SidebarSectionTitle label="Current flight" />}
-            <SidebarCurrentFlight
-              flightId={user.currentFlightId}
-              isCollapsed={isCollapsed}
-            />
+            <FlightStateProvider>
+              <SidebarCurrentFlight
+                flightId={user.currentFlightId}
+                isCollapsed={isCollapsed}
+              />
+            </FlightStateProvider>
           </>
         )}
 

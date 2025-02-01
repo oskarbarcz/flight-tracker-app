@@ -7,11 +7,11 @@ import {
   CheckedInFlightTimesheet,
   Flight,
 } from "~/models";
-import { useFlightService } from "~/state/hooks/api/useFlightService";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { FaArrowDown } from "react-icons/fa";
+import { useFlight } from "~/state/hooks/useFlight";
 
 type SidebarCurrentFlightProps = {
   flightId: string;
@@ -27,9 +27,7 @@ export default function SidebarCurrentFlight({
   flightId,
   isCollapsed,
 }: SidebarCurrentFlightProps) {
-  const flightService = useFlightService();
-  const navigator = useNavigate();
-  const [trackedFlight, setTrackedFlight] = React.useState<Flight | null>(null);
+  const { flight, loadFlight } = useFlight();
   const [timeRemaining, setTimeRemaining] = React.useState<string | null>(null);
 
   const handleTimeUpdate = useCallback((flight: Flight) => {
@@ -41,38 +39,30 @@ export default function SidebarCurrentFlight({
   }, []);
 
   useEffect(() => {
-    flightService
-      .fetchFlightById(flightId)
-      .then((flight) => {
-        setTrackedFlight(flight);
-        return flight;
-      })
-      .then((flight) => handleTimeUpdate(flight));
-  }, [flightService, flightId, handleTimeUpdate]);
+    loadFlight(flightId).then(handleTimeUpdate);
+  }, [flightId, loadFlight, handleTimeUpdate]);
 
-  const handleClick = () => {
-    navigator(`/track/${flightId}`, { replace: true });
-  };
-
-  if (!trackedFlight) {
+  if (!flight) {
     return <div>Loading...</div>;
   }
 
-  setInterval(() => handleTimeUpdate(trackedFlight), 1000 * 60);
+  setInterval(() => handleTimeUpdate(flight), 1000 * 60);
 
-  const departureAirport = trackedFlight.airports.find(
+  const departureAirport = flight.airports.find(
     (airport) => airport.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
 
-  const destinationAirport = trackedFlight.airports.find(
+  const destinationAirport = flight.airports.find(
     (airport) => airport.type === AirportOnFlightType.Destination,
   ) as AirportOnFlight;
 
   if (isCollapsed) {
     return (
-      <button
-        onClick={handleClick}
-        className="w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
+      <Link
+        to={`/track/${flight.id}`}
+        replace
+        viewTransition
+        className="block w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
       >
         <span className="text-xs">
           <span className="block text-center font-bold">
@@ -83,22 +73,24 @@ export default function SidebarCurrentFlight({
             {destinationAirport.iataCode}
           </span>
         </span>
-      </button>
+      </Link>
     );
   }
 
   return (
-    <button
-      onClick={handleClick}
-      className="w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
+    <Link
+      to={`/track/${flight.id}`}
+      replace
+      viewTransition
+      className="block w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
     >
       <span className="block text-xs">
-        <span className="font-bold">{trackedFlight.flightNumber}</span>
+        <span className="font-bold">{flight.flightNumber}</span>
         {" to "}
         <span className="font-bold">{destinationAirport.city}</span>
       </span>
 
       <span className="block text-xs">est. arrival in {timeRemaining}</span>
-    </button>
+    </Link>
   );
 }
