@@ -11,6 +11,7 @@ import { Button } from "flowbite-react";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { FlightService } from "~/state/api/flight.service";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export function meta() {
   return [{ title: "Check in for flight | FlightModel Tracker" }];
@@ -44,6 +45,9 @@ export async function clientAction({
 
 export default function TrackFlightRoute() {
   const flight = useLoaderData<typeof clientLoader>();
+  usePageTitle(
+    flight ? `Check in for flight ${flight.flightNumber}` : "Check in",
+  );
 
   if (flight === undefined) {
     return;

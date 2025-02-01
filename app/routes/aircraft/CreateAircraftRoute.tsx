@@ -13,6 +13,7 @@ import { UserRole } from "~/models/user.model";
 import { OperatorService } from "~/state/api/operator.service";
 import InputBlock from "~/components/Form/InputBlock";
 import SelectBlock from "~/components/Form/SelectBlock";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Operator[] | Response> {
   return new OperatorService().fetchAll();
@@ -40,6 +41,7 @@ export async function clientAction({
 }
 
 export default function CreateAirportRoute() {
+  usePageTitle("Create new aircraft");
   const operators = useLoaderData<Operator[]>();
 
   if (!operators) {

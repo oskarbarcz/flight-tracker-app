@@ -54,12 +54,10 @@ export default function SidebarCurrentFlight({
   return (
     <button
       onClick={handleClick}
-      className="w-full rounded-lg bg-gray-200 dark:bg-gray-700 p-2 text-start"
+      className="w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
     >
       <div className="text-xs">
-        <span className="font-bold">
-          {trackedFlight.flightNumber}
-        </span>
+        <span className="font-bold">{trackedFlight.flightNumber}</span>
         {" to "}
         <span className="font-bold">{destinationAirport.city}</span>
       </div>

@@ -1,35 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { AirportOnFlight, AirportOnFlightType, FlightStatus } from "~/models";
+import {
+  AirportOnFlight,
+  AirportOnFlightType,
+  Flight,
+  FlightStatus,
+} from "~/models";
 import FlightProgressControl from "~/components/FlightProgressControl/FlightProgressControl";
-import { useFlight } from "~/state/hooks/useFlight";
 import { Link } from "react-router";
 import { SimpleTimeComponent } from "~/components/SimpleTimeComponent";
 import { Button } from "flowbite-react";
 
 type TrackFlightDashboardProps = {
-  flightId: string;
+  flight: Flight;
 };
 
-export const SimpleFlightDataDisplay = ({
-  flightId,
-}: TrackFlightDashboardProps) => {
-  const { flight, loadFlight } = useFlight();
-  const loadFlightRef = useRef(loadFlight);
-
-  useEffect(() => {
-    loadFlightRef.current(flightId).then((flight) => {
-      if (flight === null) {
-        return;
-      }
-    });
-  }, [flightId, loadFlightRef]);
-
-  if (!flight) {
-    return <div>Loading...</div>;
-  }
-
+export function SimpleFlightDataDisplay({ flight }: TrackFlightDashboardProps) {
   const departure = flight.airports.find(
     (a) => a.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
@@ -99,4 +85,4 @@ export const SimpleFlightDataDisplay = ({
       </div>
     </div>
   );
-};
+}

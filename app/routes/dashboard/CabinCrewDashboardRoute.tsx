@@ -9,10 +9,12 @@ import NextFlightBox from "~/components/Box/NextFlightBox";
 import AllPendingFlightsBox from "~/components/Box/AllPendingFlightsBox";
 import FinishedFlightsBox from "~/components/Box/FinishedFlightsBox";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export default function CabinCrewDashboardRoute() {
   const flightService = useFlightService();
   const [flights, setFlights] = useState<Flight[]>([]);
+  usePageTitle("Dashboard");
 
   useEffect(() => {
     flightService.fetchAllFlights().then(setFlights);

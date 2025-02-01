@@ -11,6 +11,7 @@ import { Route } from "../../../.react-router/types/app/routes/airports/+types/E
 import getFormData from "~/functions/getFormData";
 import InputBlock from "~/components/Form/InputBlock";
 import { UserRole } from "~/models/user.model";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientAction({
   request,
@@ -40,6 +41,7 @@ export async function clientLoader({
 }
 
 export default function EditAirportRoute() {
+  usePageTitle("Edit airport");
   const airport = useLoaderData<Airport>();
 
   return (

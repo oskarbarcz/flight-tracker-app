@@ -13,6 +13,7 @@ import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { OperatorService } from "~/state/api/operator.service";
 import SelectBlock from "~/components/Form/SelectBlock";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientAction({
   request,
@@ -53,6 +54,7 @@ export async function clientLoader({
 }
 
 export default function EditAircraftRoute() {
+  usePageTitle("Edit aircraft");
   const { aircraft, operators } = useLoaderData<typeof clientLoader>();
 
   const options = operators.map((option) => {

@@ -1,5 +1,5 @@
 import { HiHome } from "react-icons/hi";
-import { MdLocalAirport, MdOutlineFlightClass } from "react-icons/md";
+import { MdLocalAirport } from "react-icons/md";
 import { LuTowerControl } from "react-icons/lu";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import SidebarElement from "~/components/Sidebar/SidebarElement";
