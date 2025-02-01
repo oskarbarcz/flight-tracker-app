@@ -3,8 +3,9 @@
 import {
   AirportOnFlight,
   AirportOnFlightType,
-  CheckedInFlightTimesheet,
+  FilledSchedule,
   Flight,
+  FlightStatus,
 } from "~/models";
 import { FaPlane } from "react-icons/fa";
 
@@ -32,17 +33,25 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
     (a) => a.type === AirportOnFlightType.Destination,
   ) as AirportOnFlight;
 
-  const timesheet = flight.timesheet as CheckedInFlightTimesheet;
+  const timesheet = flight.timesheet;
 
   const scheduledBlockTime = calculateBlockTime(
     new Date(timesheet.scheduled.offBlockTime),
     new Date(timesheet.scheduled.onBlockTime),
   );
 
-  const estimatedBlockTime = calculateBlockTime(
-    new Date(timesheet.estimated.offBlockTime),
-    new Date(timesheet.estimated.onBlockTime),
-  );
+  let estimatedBlockTime = null;
+
+  if (
+    flight.status !== FlightStatus.Created &&
+    flight.status !== FlightStatus.Ready
+  ) {
+    const schedule = timesheet.estimated as FilledSchedule;
+    estimatedBlockTime = calculateBlockTime(
+      new Date(schedule.offBlockTime),
+      new Date(schedule.onBlockTime),
+    );
+  }
 
   return (
     <section className="rounded-lg bg-gray-100 p-4 shadow dark:bg-gray-800">
@@ -56,10 +65,12 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
           <span className="block">{departure.city}</span>
         </div>
         <div>
-          <FaPlane className="mx-auto block" />
-          <span className="mt-2 block text-center text-green-500">
-            {estimatedBlockTime}
-          </span>
+          <FaPlane className="mx-auto mb-2 block" />
+          {estimatedBlockTime && (
+            <span className="block text-center text-green-500">
+              {estimatedBlockTime}
+            </span>
+          )}
           <span className="block text-center text-xs">
             {scheduledBlockTime}
           </span>
@@ -72,20 +83,28 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
 
       <div className="mb-4 mt-8 flex items-center justify-between">
         <div className="text-start">
-          <span className="block text-xs text-green-500">{"On time"}</span>
-          <span className="block text-2xl font-bold text-green-500">
-            {formatTime(new Date(timesheet.estimated.offBlockTime))}
-          </span>
+          {timesheet.estimated && (
+            <>
+              <span className="block text-xs text-green-500">{"On time"}</span>
+              <span className="block text-2xl font-bold text-green-500">
+                {formatTime(new Date(timesheet.estimated.offBlockTime))}
+              </span>
+            </>
+          )}
           <span className="block text-sm">
             {"Sched. "}
             {formatTime(new Date(timesheet.scheduled.offBlockTime))}
           </span>
         </div>
         <div className="text-end">
-          <span className="block text-xs text-green-500">{"On time"}</span>
-          <span className="block text-2xl font-bold text-green-500">
-            {formatTime(new Date(timesheet.estimated.onBlockTime))}
-          </span>
+          {timesheet.estimated && (
+            <>
+              <span className="block text-xs text-green-500">{"On time"}</span>
+              <span className="block text-2xl font-bold text-green-500">
+                {formatTime(new Date(timesheet.estimated.onBlockTime))}
+              </span>
+            </>
+          )}
           <span className="block text-sm">
             {"Sched. "}
             {formatTime(new Date(timesheet.scheduled.onBlockTime))}

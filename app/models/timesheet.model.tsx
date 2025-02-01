@@ -14,7 +14,7 @@ export interface FilledSchedule {
 
 export interface Timesheet {
   scheduled: FilledSchedule;
-  estimated?: Schedule;
+  estimated?: FilledSchedule;
   actual?: Schedule;
 }
 
