@@ -35,23 +35,23 @@ export default function SignInRoute() {
   }
 
   return (
-    <div className="flex min-h-screen items-start justify-center bg-gray-100 p-3 pt-8 sm:items-center sm:pt-3">
-      <article className="flex w-full max-w-xl flex-col rounded-2xl bg-indigo-600 shadow-md sm:mt-0 sm:flex-row sm:shadow-xl">
+    <div className="flex min-h-screen items-start justify-center bg-gray-100 p-3 pt-8 dark:bg-gray-900 sm:items-center sm:pt-3">
+      <article className="flex w-full max-w-xl flex-col rounded-2xl bg-indigo-700 shadow-md sm:mt-0 sm:flex-row sm:shadow-xl">
         <aside className="flex flex-row items-center justify-center rounded-2xl py-4 sm:w-96 sm:flex-col sm:px-8">
           <img
             src={logoWhite}
             className="h-8 sm:h-20"
             alt="Flight Tracker app logo"
           />
-          <span className="text-xl font-bold text-gray-100 dark:text-gray-200 sm:mt-4">
+          <span className="text-xl font-bold text-white sm:mt-4">
             Flight Tracker
           </span>
         </aside>
         <form
           onSubmit={handleSubmit}
-          className="w-full space-y-2 rounded-2xl bg-white p-4 sm:p-8"
+          className="w-full space-y-2 rounded-2xl bg-white p-4 dark:bg-gray-800 sm:p-8"
         >
-          <h1 className="mb-6 text-center text-2xl font-bold text-gray-700">
+          <h1 className="mb-6 text-center text-2xl font-bold text-gray-700 dark:text-gray-300">
             Sign in
           </h1>
           <FloatingLabel
@@ -60,6 +60,7 @@ export default function SignInRoute() {
             id="email"
             type="email"
             required
+            className="dark:bg-gray-800"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -69,6 +70,7 @@ export default function SignInRoute() {
             id="password"
             type="password"
             required
+            className="dark:bg-gray-800"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -81,7 +83,7 @@ export default function SignInRoute() {
           <div className="flex items-center justify-end pt-2">
             <button
               type="submit"
-              className="ms-auto rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="ms-auto rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               {"Sign in"}
               <FaArrowRight className="ms-2 inline-block" />

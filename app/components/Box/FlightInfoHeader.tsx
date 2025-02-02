@@ -7,7 +7,7 @@ type FlightInfoHeaderProps = {
 export default function FlightInfoHeader({ flight }: FlightInfoHeaderProps) {
   return (
     <header className="col-span-1 md:col-span-3">
-      <div className="mb-3 mt-1 flex items-center gap-2 text-gray-600">
+      <div className="mb-3 mt-1 flex items-center gap-3">
         <span className="text-3xl font-bold text-indigo-500 md:text-4xl">
           {flight.flightNumber}
         </span>
@@ -20,7 +20,7 @@ export default function FlightInfoHeader({ flight }: FlightInfoHeaderProps) {
           </span>
         </div>
       </div>
-      <div className="my-2 flex items-center gap-2 text-gray-600">
+      <div className="my-2 flex items-center gap-2">
         {flight.aircraft.shortName}
         <span>•</span>
         <span className="inline-block rounded-md border border-gray-600 px-2 py-0.5 text-xs">
@@ -31,7 +31,7 @@ export default function FlightInfoHeader({ flight }: FlightInfoHeaderProps) {
           {flight.aircraft.selcal}
         </span>
       </div>
-      <div className="my-2 text-gray-600">
+      <div className="my-2">
         {"Operated by "}
         <span className="font-bold">{flight.operator.shortName}</span>
       </div>

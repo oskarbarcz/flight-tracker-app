@@ -50,9 +50,9 @@ export default function SidebarThemeSwitch({
   return (
     <button
       onClick={() => handleThemeSwitch(nextMode(currentMode))}
-      className="my-1 flex w-full items-center rounded-lg bg-gray-100 p-2 text-gray-900 transition-colors duration-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600"
+      className="my-1 flex w-full items-center rounded-lg bg-indigo-500 p-2 transition-colors duration-100"
     >
-      <Icon size="24px" className="text-gray-500" />
+      <Icon size="24px" />
       {!isCollapsed && (
         <span className="mx-3 text-xs uppercase md:text-sm">
           {["auto", "light", "dark"].map((mode, index) => {
@@ -60,7 +60,7 @@ export default function SidebarThemeSwitch({
             return (
               <span
                 key={index}
-                className={`ps-2 dark:text-gray-100 md:ps-3 ${isCurrent && " font-bold"}`}
+                className={`ps-2 md:ps-3 ${isCurrent && " font-bold"}`}
               >
                 {mode}
               </span>

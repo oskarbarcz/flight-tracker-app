@@ -6,7 +6,7 @@ import { useSidebarState } from "~/state/hooks/useSidebarState";
 import Footer from "~/components/Layout/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import {Flowbite} from "flowbite-react";
+import { Flowbite } from "flowbite-react";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -42,7 +42,6 @@ function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
 function getContentClasses(isCollapsed: boolean) {
   const classes = [
     "flex-1",
-    "px-2",
     "md:p-3",
     "md:ps-0",
     "transition-all",
@@ -50,7 +49,6 @@ function getContentClasses(isCollapsed: boolean) {
     "text-gray-800",
     "dark:text-white",
     "bg-indigo-500",
-    "dark:bg-gray-900",
   ];
 
   if (isCollapsed) {
@@ -90,7 +88,7 @@ export default function AppLayout() {
             <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
           </div>
           <div className={getContentClasses(isCollapsed)}>
-            <div className="relative w-full h-full rounded-3xl md:px-8 md:py-6 bg-white">
+            <div className="relative size-full rounded-t-3xl bg-white px-3 py-2 text-gray-700 dark:bg-gray-900 dark:text-gray-300 md:rounded-3xl md:px-8 md:py-6">
               <Outlet />
               <Footer />
             </div>

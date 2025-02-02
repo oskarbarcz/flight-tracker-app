@@ -62,7 +62,7 @@ export default function SidebarCurrentFlight({
         to={`/track/${flight.id}`}
         replace
         viewTransition
-        className="block w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
+        className="block w-full rounded-lg bg-indigo-400 p-2 text-start"
       >
         <span className="text-xs">
           <span className="block text-center font-bold">
@@ -82,7 +82,7 @@ export default function SidebarCurrentFlight({
       to={`/track/${flight.id}`}
       replace
       viewTransition
-      className="block w-full rounded-lg bg-gray-200 p-2 text-start dark:bg-gray-700"
+      className="block w-full rounded-lg bg-indigo-400 p-2 text-start"
     >
       <span className="block text-xs">
         <span className="font-bold">{flight.flightNumber}</span>

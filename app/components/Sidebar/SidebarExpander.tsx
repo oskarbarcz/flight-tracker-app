@@ -15,11 +15,11 @@ export default function SidebarExpander({
   return (
     <button
       onClick={handleDesktopCollapse}
-      className="my-1 hidden items-center rounded-lg bg-gray-100 p-2 transition-colors duration-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 md:flex"
+      className="my-1 hidden items-center rounded-lg bg-indigo-500 p-2 transition-colors duration-100 hover:bg-indigo-400 md:flex"
     >
       <HiChevronDoubleLeft
         size="24px"
-        className={`text-gray-500 transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`}
+        className={`transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`}
       />
     </button>
   );

@@ -35,10 +35,10 @@ export default function SidebarUserPanel({
   const { user } = useAuth() as { user: User };
 
   return (
-    <div className="my-1 flex w-full items-center rounded-lg bg-gray-100 p-2 text-gray-900 duration-100  dark:bg-gray-800 dark:text-gray-200">
-      <div className="flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-600">
+    <div className="my-1 flex w-full items-center rounded-lg bg-indigo-400 p-2 duration-100">
+      <div className="flex items-center justify-center rounded-full bg-indigo-300">
         <span
-          className={`rounded-full text-gray-500 dark:text-gray-300 ${isCollapsed ? "p-1 text-xs" : "p-2 text-base"}`}
+          className={`rounded-full text-white ${isCollapsed ? "p-1 text-xs" : "p-2 text-base"}`}
         >
           {getInitials(user.name)}
         </span>
@@ -47,7 +47,7 @@ export default function SidebarUserPanel({
         <>
           <div className="mx-3">
             <span>{user.name}</span>
-            <span className="block text-xs font-bold uppercase text-gray-500">
+            <span className="block text-xs font-bold uppercase">
               {roleToDescription(user.role)}
             </span>
           </div>

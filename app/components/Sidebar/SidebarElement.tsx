@@ -19,7 +19,7 @@ export default function SidebarElement({
 }: SidebarElementProps) {
   return (
     <Link to={href} replace={true} viewTransition>
-      <span className="my-1 flex w-full items-center rounded-lg bg-indigo-500 p-2 transition-colors duration-100 hover:bg-indigo-600 dark:bg-gray-800 dark:hover:bg-gray-700">
+      <span className="my-1 flex w-full items-center rounded-lg bg-indigo-500 p-2 transition-colors duration-100 hover:bg-indigo-400">
         <Icon size="24px" />
         {!isCollapsed && <span className="mx-3">{label}</span>}
       </span>
