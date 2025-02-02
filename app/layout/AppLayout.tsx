@@ -88,9 +88,8 @@ export default function AppLayout() {
             <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
           </div>
           <div className={getContentClasses(isCollapsed)}>
-            <div className="relative size-full rounded-t-3xl bg-white px-3 py-2 text-gray-700 dark:bg-gray-900 dark:text-gray-300 md:rounded-3xl md:px-8 md:py-6">
+            <div className="size-full rounded-t-2xl bg-white p-4 text-gray-700 dark:bg-gray-900 dark:text-gray-300 md:rounded-3xl md:p-8">
               <Outlet />
-              <Footer />
             </div>
           </div>
         </div>

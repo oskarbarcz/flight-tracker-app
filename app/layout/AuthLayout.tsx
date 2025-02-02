@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router";
 import { Flowbite } from "flowbite-react";
 import { Bounce, ToastContainer } from "react-toastify";
+import Footer from "~/components/Layout/Footer";
 
 const AuthLayout = () => {
   return (
@@ -20,6 +21,7 @@ const AuthLayout = () => {
         theme="light"
         transition={Bounce}
       />
+      <Footer />
     </Flowbite>
   );
 };

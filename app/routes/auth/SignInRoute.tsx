@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import {FloatingLabel, Spinner} from "flowbite-react";
+import { FloatingLabel, Spinner } from "flowbite-react";
 import logoWhite from "~/assets/logo.white.svg";
 import { FaArrowRight } from "react-icons/fa";
 
@@ -80,7 +80,13 @@ export default function SignInRoute() {
           )}
 
           <div className="flex items-center justify-end pt-2">
-            {loading && <Spinner className="me-3" color="purple" aria-label="App is loading" />}
+            {loading && (
+              <Spinner
+                className="me-3"
+                color="purple"
+                aria-label="App is loading"
+              />
+            )}
 
             <button
               type="submit"

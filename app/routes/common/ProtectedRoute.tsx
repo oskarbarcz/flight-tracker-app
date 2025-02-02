@@ -12,16 +12,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   expectedRole,
   children,
 }: ProtectedRouteProps) => {
-  const auth = useContext(AuthContext);
+  const { user, isLoading, accessToken } = useContext(AuthContext);
 
-  if (auth.isLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!auth.user || !auth.accessToken) {
+  if (!user || !accessToken) {
     return <Navigate to="/sign-in" replace />;
   }
-  const { user } = auth;
 
   if (expectedRole && user.role !== expectedRole) {
     return <Navigate to="/unauthorized" replace />;
