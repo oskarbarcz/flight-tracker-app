@@ -4,33 +4,32 @@ import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { FloatingLabel } from "flowbite-react";
+import {FloatingLabel, Spinner} from "flowbite-react";
 import logoWhite from "~/assets/logo.white.svg";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const { signIn, user } = useAuth();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
     signIn(email, password)
-      .then(() => {
-        navigate("/", { replace: true, viewTransition: true });
-      })
-      .catch(() => {
-        setError("Incorrect credentials");
-      });
+      .then(() => new Promise((resolve) => setTimeout(resolve, 250)))
+      .then(() => navigate("/", { replace: true, viewTransition: true }))
+      .catch(() => setError("Incorrect credentials"))
+      .finally(() => setLoading(false));
   }
 
-  if (user) {
+  if (!loading && user) {
     return <Navigate to="/" replace />;
   }
 
@@ -81,9 +80,11 @@ export default function SignInRoute() {
           )}
 
           <div className="flex items-center justify-end pt-2">
+            {loading && <Spinner className="me-3" color="purple" aria-label="App is loading" />}
+
             <button
               type="submit"
-              className="ms-auto rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               {"Sign in"}
               <FaArrowRight className="ms-2 inline-block" />
