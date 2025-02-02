@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth } from "~/state/contexts/auth.context";
 import { User } from "~/models/user.model";
 import React from "react";

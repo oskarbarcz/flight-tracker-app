@@ -1,3 +1,5 @@
+"use client";
+
 import { Flight } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 

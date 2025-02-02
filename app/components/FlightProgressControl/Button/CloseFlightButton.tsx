@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "flowbite-react";
 import { useFlight } from "~/state/hooks/useFlight";
 

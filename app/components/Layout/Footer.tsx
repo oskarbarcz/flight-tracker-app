@@ -1,3 +1,5 @@
+"use client";
+
 import { FaHeart } from "react-icons/fa";
 
 export default function Footer() {

@@ -55,24 +55,12 @@ export default function FlightsListRoute() {
       <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table>
           <Table.Head className="dark:text-gray-100">
-            <Table.HeadCell>
-              Flight no
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Route
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Schedule (UTC)
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Aircraft
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Operator
-            </Table.HeadCell>
-            <Table.HeadCell>
-              Status
-            </Table.HeadCell>
+            <Table.HeadCell>Flight no</Table.HeadCell>
+            <Table.HeadCell>Route</Table.HeadCell>
+            <Table.HeadCell>Schedule (UTC)</Table.HeadCell>
+            <Table.HeadCell>Aircraft</Table.HeadCell>
+            <Table.HeadCell>Operator</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {Array.isArray(flights) &&

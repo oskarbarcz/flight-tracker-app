@@ -1,9 +1,10 @@
+"use client";
+
 import React, { useState } from "react";
 import { Outlet } from "react-router";
 import { Sidebar } from "~/components/Sidebar/Sidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
-import Footer from "~/components/Layout/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Flowbite } from "flowbite-react";

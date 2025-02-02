@@ -1,3 +1,5 @@
+"use client";
+
 import { FlightSummaryBox } from "~/components/Box/FlightSummaryBox";
 import { FlightPhaseBox } from "~/components/Box/FlightPhaseBox";
 import { AllDisplayBox } from "~/components/Box/AllDisplayBox";

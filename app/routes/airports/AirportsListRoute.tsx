@@ -23,17 +23,15 @@ export default function AirportsListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-        <SectionHeaderWithLink
-          sectionTitle="Airports"
-          linkText="Create new"
-          linkUrl="/airports/new"
-        />
+      <SectionHeaderWithLink
+        sectionTitle="Airports"
+        linkText="Create new"
+        linkUrl="/airports/new"
+      />
       <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table>
           <Table.Head className="dark:text-gray-100">
-            <Table.HeadCell>
-              ICAO / IATA code
-            </Table.HeadCell>
+            <Table.HeadCell>ICAO / IATA code</Table.HeadCell>
             <Table.HeadCell>Name / City</Table.HeadCell>
             <Table.HeadCell>Country</Table.HeadCell>
             <Table.HeadCell>Timezone</Table.HeadCell>
