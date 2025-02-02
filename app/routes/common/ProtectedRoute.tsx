@@ -1,4 +1,6 @@
-import React, { ReactNode, useContext, useEffect } from "react";
+"use client";
+
+import React, { ReactNode, useContext } from "react";
 import { AuthContext } from "~/state/contexts/auth.context";
 import { Navigate } from "react-router";
 import { UserRole } from "~/models/user.model";
@@ -12,22 +14,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   expectedRole,
   children,
 }: ProtectedRouteProps) => {
-  const auth = useContext(AuthContext);
+  const { user, isLoading, accessToken } = useContext(AuthContext);
 
-  useEffect(() => {}, [auth.isLoading]);
-
-  if (!auth) {
-    return null;
-  }
-
-  if (auth.isLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!auth.user || !auth.accessToken) {
+  if (!user || !accessToken) {
     return <Navigate to="/sign-in" replace />;
   }
-  const { user } = auth;
 
   if (expectedRole && user.role !== expectedRole) {
     return <Navigate to="/unauthorized" replace />;

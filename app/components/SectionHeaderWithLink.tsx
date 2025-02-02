@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "react-router";
 import { Button } from "flowbite-react";
 
@@ -13,8 +15,8 @@ export default function SectionHeaderWithLink({
   linkText,
 }: SectionHeaderWithLinkProps) {
   return (
-    <div className="my-6 flex items-center justify-between">
-      <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+    <div className="mb-8 flex items-center justify-between">
+      <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>
       <Link to={linkUrl} replace viewTransition>

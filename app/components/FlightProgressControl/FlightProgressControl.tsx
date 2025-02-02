@@ -1,3 +1,5 @@
+"use client";
+
 import StartBoardingButton from "~/components/FlightProgressControl/Button/StartBoardingButton";
 import { FlightStatus } from "~/models";
 import { ReactElement } from "react";

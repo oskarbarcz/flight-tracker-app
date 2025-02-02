@@ -1,3 +1,5 @@
+"use client";
+
 import { FlightStatus } from "~/models";
 
 type FlightProgressTranslationProps = {

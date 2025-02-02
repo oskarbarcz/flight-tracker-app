@@ -21,15 +21,14 @@ export default function OperatorsListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="pb-4">
-        <SectionHeaderWithLink
-          sectionTitle="Airports"
-          linkText="Create new"
-          linkUrl="/operators/new"
-        />
-
-        <Table className="shadow">
-          <Table.Head>
+      <SectionHeaderWithLink
+        sectionTitle="Airports"
+        linkText="Create new"
+        linkUrl="/operators/new"
+      />
+      <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
+        <Table>
+          <Table.Head className="dark:text-gray-100">
             <Table.HeadCell>ICAO code</Table.HeadCell>
             <Table.HeadCell>Short name</Table.HeadCell>
             <Table.HeadCell>Full name</Table.HeadCell>
@@ -42,9 +41,9 @@ export default function OperatorsListRoute() {
             {airports.map((operator: Operator, i: number) => (
               <Table.Row
                 key={i}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="font-medium text-gray-900 dark:text-white">
+                <Table.Cell className="text-gray-900 dark:text-white">
                   {operator.icaoCode}
                 </Table.Cell>
                 <Table.Cell>{operator.shortName}</Table.Cell>

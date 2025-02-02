@@ -23,15 +23,14 @@ export default function AirportsListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="pb-4">
-        <SectionHeaderWithLink
-          sectionTitle="Airports"
-          linkText="Create new"
-          linkUrl="/airports/new"
-        />
-
-        <Table className="shadow">
-          <Table.Head>
+      <SectionHeaderWithLink
+        sectionTitle="Airports"
+        linkText="Create new"
+        linkUrl="/airports/new"
+      />
+      <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
+        <Table>
+          <Table.Head className="dark:text-gray-100">
             <Table.HeadCell>ICAO / IATA code</Table.HeadCell>
             <Table.HeadCell>Name / City</Table.HeadCell>
             <Table.HeadCell>Country</Table.HeadCell>
@@ -44,9 +43,9 @@ export default function AirportsListRoute() {
             {airports.map((airport: Airport, i: number) => (
               <Table.Row
                 key={i}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="font-medium text-gray-900 dark:text-white">
+                <Table.Cell className="text-gray-900 dark:text-white">
                   {airport.icaoCode} / {airport.iataCode}
                 </Table.Cell>
                 <Table.Cell>

@@ -17,19 +17,19 @@ export async function clientLoader(): Promise<Aircraft[]> {
 
 export default function AircraftListRoute() {
   usePageTitle("Aircraft list");
+
   const aircrafts = useLoaderData<Aircraft[]>();
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="pb-4">
-        <SectionHeaderWithLink
-          sectionTitle="Aircrafts"
-          linkText="Create new"
-          linkUrl="/aircraft/new"
-        />
-
+      <SectionHeaderWithLink
+        sectionTitle="Aircrafts"
+        linkText="Create new"
+        linkUrl="/aircraft/new"
+      />
+      <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table className="shadow">
-          <Table.Head>
+          <Table.Head className="dark:text-gray-100">
             <Table.HeadCell>ICAO code</Table.HeadCell>
             <Table.HeadCell>Registration & livery</Table.HeadCell>
             <Table.HeadCell>Short name</Table.HeadCell>
@@ -44,9 +44,9 @@ export default function AircraftListRoute() {
             {aircrafts.map((aircraft: Aircraft, i: number) => (
               <Table.Row
                 key={i}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="font-medium text-gray-900 dark:text-white">
+                <Table.Cell className="text-gray-900 dark:text-white">
                   {aircraft.icaoCode}
                 </Table.Cell>
                 <Table.Cell>

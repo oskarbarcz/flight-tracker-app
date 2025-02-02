@@ -10,13 +10,6 @@ import { FaPlane, FaTrash } from "react-icons/fa";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
-export function meta() {
-  return [
-    { title: "Scheduled flights | Flight Tracker" },
-    { name: "description", content: "This is flights tracker app." },
-  ];
-}
-
 function dateToHour(date: string | undefined): string {
   if (!date) {
     return "";
@@ -29,7 +22,7 @@ function dateToHour(date: string | undefined): string {
 }
 
 export default function FlightsListRoute() {
-  usePageTitle("Flights list");
+  usePageTitle("Flight plans");
   const flightService = useFlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
 
@@ -54,32 +47,20 @@ export default function FlightsListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="pb-4">
-        <SectionHeaderWithLink
-          sectionTitle="Flights"
-          linkText="Create new"
-          linkUrl="/flights/new"
-        />
-        <Table className="mt-4 shadow">
-          <Table.Head>
-            <Table.HeadCell className="bg-gray-200 dark:bg-gray-700">
-              Flight no
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-gray-200 dark:bg-gray-700">
-              Route
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-gray-200 dark:bg-gray-700">
-              Schedule (UTC)
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-gray-200 dark:bg-gray-700">
-              Aircraft
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-gray-200 dark:bg-gray-700">
-              Operator
-            </Table.HeadCell>
-            <Table.HeadCell className="bg-gray-200 dark:bg-gray-700">
-              Status
-            </Table.HeadCell>
+      <SectionHeaderWithLink
+        sectionTitle="Flights"
+        linkText="Create new"
+        linkUrl="/flights/new"
+      />
+      <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
+        <Table>
+          <Table.Head className="dark:text-gray-100">
+            <Table.HeadCell>Flight no</Table.HeadCell>
+            <Table.HeadCell>Route</Table.HeadCell>
+            <Table.HeadCell>Schedule (UTC)</Table.HeadCell>
+            <Table.HeadCell>Aircraft</Table.HeadCell>
+            <Table.HeadCell>Operator</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {Array.isArray(flights) &&
@@ -88,9 +69,9 @@ export default function FlightsListRoute() {
                 .map((flight: Flight, i: number) => (
                   <Table.Row
                     key={i}
-                    className="bg-gray-50 dark:border-gray-700 dark:bg-gray-800"
+                    className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <Table.Cell className="font-medium text-gray-900 dark:text-white">
+                    <Table.Cell className="text-gray-900 dark:text-white">
                       {flight.flightNumber}
                     </Table.Cell>
                     <Table.Cell>

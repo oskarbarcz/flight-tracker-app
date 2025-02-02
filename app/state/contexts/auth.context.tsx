@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const storedRefreshToken = localStorage.getItem("rt");
 
     if (!storedAccessToken || !storedRefreshToken) {
+      setIsLoading(false);
+
       return;
     }
 
