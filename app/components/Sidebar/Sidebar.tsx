@@ -29,7 +29,7 @@ export function Sidebar({
   }
 
   return (
-    <aside className="flex size-full flex-col bg-gray-100 p-3 text-gray-800 dark:bg-gray-800 dark:text-white">
+    <aside className="flex size-full flex-col bg-indigo-500 p-3 text-white">
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div>
@@ -91,7 +91,7 @@ export function Sidebar({
         )}
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-1">
         <SidebarUserPanel isCollapsed={isCollapsed} />
         <SidebarThemeSwitch isCollapsed={isCollapsed} />
         <SidebarExpander

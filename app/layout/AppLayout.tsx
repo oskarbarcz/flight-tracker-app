@@ -18,7 +18,7 @@ function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
     "h-screen",
     "flex-col",
     "border-gray-50",
-    "bg-gray-100",
+    "bg-indigo-500",
     "transition-transform",
     "duration-300",
     "md:translate-x-0",
@@ -42,14 +42,13 @@ function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
 function getContentClasses(isCollapsed: boolean) {
   const classes = [
     "flex-1",
-    "px-2",
-    "md:p-4",
+    "md:p-3",
+    "md:ps-0",
     "transition-all",
     "duration-300",
     "text-gray-800",
     "dark:text-white",
-    "bg-white",
-    "dark:bg-gray-900",
+    "bg-indigo-500",
   ];
 
   if (isCollapsed) {
@@ -89,7 +88,10 @@ export default function AppLayout() {
             <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
           </div>
           <div className={getContentClasses(isCollapsed)}>
-            <Outlet />
+            <div className="relative size-full rounded-t-3xl bg-white px-3 py-2 text-gray-700 dark:bg-gray-900 dark:text-gray-300 md:rounded-3xl md:px-8 md:py-6">
+              <Outlet />
+              <Footer />
+            </div>
           </div>
         </div>
         <ToastContainer
@@ -105,7 +107,6 @@ export default function AppLayout() {
           theme="light"
           transition={Bounce}
         />
-        <Footer />
       </ProtectedRoute>
     </Flowbite>
   );
