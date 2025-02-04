@@ -15,7 +15,9 @@ export default function UserInformationBox() {
         <h2 className="text-3xl font-bold text-indigo-500 md:text-4xl">
           {user.name}
         </h2>
-        <span className="mt-1 block text-gray-600">{user.email}</span>
+        <span className="mt-1 block text-gray-600 dark:text-gray-400">
+          {user.email}
+        </span>
       </div>
       <div>
         <Button
