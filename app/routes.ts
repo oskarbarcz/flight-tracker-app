@@ -19,7 +19,6 @@ export default [
       route(":id/edit", "routes/airports/EditAirportRoute.tsx"),
     ]),
     ...prefix("track", [
-      route(":id/check-in", "routes/track/CheckInFlightRoute.tsx"),
       route(":id", "routes/track/TrackFlightRoute.tsx"),
     ]),
     ...prefix("aircraft", [

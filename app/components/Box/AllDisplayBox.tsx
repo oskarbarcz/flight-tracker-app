@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  Flight,
-  FlightStatus,
-} from "~/models";
-import { Link } from "react-router";
+import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
 import { SimpleTimeComponent } from "~/components/SimpleTimeComponent";
-import { Button } from "flowbite-react";
 
 type TrackFlightDashboardProps = {
   flight: Flight;
@@ -42,15 +35,6 @@ export function AllDisplayBox({ flight }: TrackFlightDashboardProps) {
             Alternates:
             {alternates.map((a) => `[${a.icaoCode}] ${a.name}`).join(", ")}{" "}
             <br />
-            {flight.status === FlightStatus.Ready && (
-              <Link
-                to={`/track/${flight.id}/check-in`}
-                replace={true}
-                viewTransition
-              >
-                <Button className="mt-2">Go to flight check-in</Button>
-              </Link>
-            )}
           </p>
         </div>
         <div>
