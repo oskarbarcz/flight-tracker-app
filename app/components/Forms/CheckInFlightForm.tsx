@@ -1,4 +1,3 @@
-import ModernControlledInputBlock from "~/components/Form/ModernControlledInputBlock";
 import { Form } from "react-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -7,6 +6,7 @@ import {
   getTimeDifferenceInMinutes,
 } from "~/functions/time";
 import { FilledSchedule } from "~/models";
+import { FloatingLabel } from "flowbite-react";
 
 type CheckInFlightFormProps = {
   estimation: FilledSchedule;
@@ -65,49 +65,53 @@ export default function CheckInFlightForm({
   return (
     <Form method="post">
       <h2 className="mb-4 text-xl font-bold">Estimation</h2>
-      <ModernControlledInputBlock
-        htmlName="offBlockTime"
+      <FloatingLabel
+        variant="outlined"
         label="Off-block time"
+        className="dark:bg-gray-800"
         value={offBlockTime}
-        changeValue={setOffBlockTime}
+        onChange={(e) => setOffBlockTime(e.target.value)}
       />
-      <div className="my-3 text-sm">
+      <p className="my-3 text-sm">
         <span>Taxi out: </span>
         {}
         <span className={`font-bold ${taxiOutColor}`}>
           {taxiOutTime} minutes
         </span>
-      </div>
-      <ModernControlledInputBlock
-        htmlName="takeoffTime"
+      </p>
+      <FloatingLabel
+        variant="outlined"
         label="Takeoff time"
+        className="dark:bg-gray-800"
         value={takeoffTime}
-        changeValue={setTakeoffTime}
+        onChange={(e) => setTakeoffTime(e.target.value)}
       />
-      <div className="my-3 text-sm">
+      <p className="my-3 text-sm">
         <span>Air time: </span>
         <span className={`font-bold ${airTimeColor}`}>{airTime} hours</span>
-      </div>
-      <ModernControlledInputBlock
-        htmlName="arrivalTime"
+      </p>
+      <FloatingLabel
+        variant="outlined"
         label="Landing time"
+        className="dark:bg-gray-800"
         value={arrivalTime}
-        changeValue={setArrivalTime}
+        onChange={(e) => setArrivalTime(e.target.value)}
       />
-      <div className="my-3 text-sm">
+      <p className="my-3 text-sm">
         <span>Taxi in: </span>
         <span className={`font-bold ${taxiInColor}`}>{taxiInTime} minutes</span>
-      </div>
-      <ModernControlledInputBlock
-        htmlName="onBlockTime"
+      </p>
+      <FloatingLabel
+        variant="outlined"
         label="On-block time"
+        className="dark:bg-gray-800"
         value={onBlockTime}
-        changeValue={setOnBlockTime}
+        onChange={(e) => setOnBlockTime(e.target.value)}
       />
-      <div className="my-3 text-sm">
+      <p className="my-3 text-sm">
         <span>Block time: </span>
         <span className="font-bold">{blockTime} hours</span>
-      </div>
+      </p>
     </Form>
   );
 }

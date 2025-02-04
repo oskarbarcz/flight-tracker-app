@@ -77,6 +77,10 @@ export default function CheckInFlightModal({
             />
           </div>
         </div>
+        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <span className="font-bold">Caution!</span>{" "}
+          <span>All times must be provided in UTC.</span>
+        </p>
       </Modal.Body>
       <Modal.Footer>
         <div className="ms-auto flex gap-2">
