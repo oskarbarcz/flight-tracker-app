@@ -32,43 +32,43 @@ export default function CheckInFlightModal({
     <Modal show={openModal} onClose={() => setOpenModal(false)}>
       <Modal.Header>Check in for flight</Modal.Header>
       <Modal.Body>
-        <div className="flex gap-4 text-gray-800 dark:text-white">
-          <div className="w-1/2">
+        <div className="flex flex-col gap-4 text-gray-800 dark:text-white md:flex-row">
+          <div className="w-full md:w-1/2">
             <h2 className="mb-4 text-xl font-bold">Schedule</h2>
             <div className="mb-3">
               <span className="block text-xs font-bold uppercase">
                 Off-block time
               </span>
-              <span className="block text-lg text-gray-500">
+              <span className="block text-lg text-gray-600 dark:text-gray-400">
                 {formatDate(new Date(schedule.offBlockTime))}
               </span>
             </div>
             <div className="mb-3">
-              <span className="block text-xs font-bold uppercase text-gray-800">
+              <span className="block text-xs font-bold uppercase">
                 Takeoff time
               </span>
-              <span className="block text-lg text-gray-500">
+              <span className="block text-lg text-gray-600 dark:text-gray-400">
                 {formatDate(new Date(schedule.takeoffTime))}
               </span>
             </div>
             <div className="mb-3">
-              <span className="block text-xs font-bold uppercase text-gray-800">
+              <span className="block text-xs font-bold uppercase">
                 Landing time
               </span>
-              <span className="block text-lg text-gray-500">
+              <span className="block text-lg text-gray-600 dark:text-gray-400">
                 {formatDate(new Date(schedule.arrivalTime))}
               </span>
             </div>
             <div className="mb-3">
-              <span className="block text-xs font-bold uppercase text-gray-800">
+              <span className="block text-xs font-bold uppercase">
                 On-block time
               </span>
-              <span className="block text-lg text-gray-500">
+              <span className="block text-lg text-gray-600 dark:text-gray-400">
                 {formatDate(new Date(schedule.onBlockTime))}
               </span>
             </div>
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <CheckInFlightForm
               estimation={estimation}
               setEstimation={useCallback((estimation: FilledSchedule) => {

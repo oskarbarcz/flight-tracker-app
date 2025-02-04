@@ -45,17 +45,22 @@ export default function CheckInFlightForm({
   );
   const taxiOutColor = taxiOutTime < 0 ? "text-red-500" : "";
 
-  const blockTime = getTimeDifferenceInHours(
+  const airTime = getTimeDifferenceInHours(
     new Date(takeoffTime),
     new Date(arrivalTime),
   );
-  const blockTimeColor = blockTime.startsWith("-") ? "text-red-500" : "";
+  const airTimeColor = airTime.startsWith("-") ? "text-red-500" : "";
 
   const taxiInTime = getTimeDifferenceInMinutes(
     new Date(arrivalTime),
     new Date(onBlockTime),
   );
   const taxiInColor = taxiInTime < 0 ? "text-red-500" : "";
+
+  const blockTime = getTimeDifferenceInHours(
+    new Date(offBlockTime),
+    new Date(onBlockTime),
+  );
 
   return (
     <Form method="post">
@@ -81,7 +86,7 @@ export default function CheckInFlightForm({
       />
       <div className="my-3 text-sm">
         <span>Air time: </span>
-        <span className={`font-bold ${blockTimeColor}`}>{blockTime} hours</span>
+        <span className={`font-bold ${airTimeColor}`}>{airTime} hours</span>
       </div>
       <ModernControlledInputBlock
         htmlName="arrivalTime"
@@ -99,6 +104,10 @@ export default function CheckInFlightForm({
         value={onBlockTime}
         changeValue={setOnBlockTime}
       />
+      <div className="my-3 text-sm">
+        <span>Block time: </span>
+        <span className="font-bold">{blockTime} hours</span>
+      </div>
     </Form>
   );
 }

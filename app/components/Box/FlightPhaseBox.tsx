@@ -14,7 +14,7 @@ export function FlightPhaseBox({ flight }: FlightPhaseBoxProps) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <section className="rounded-lg bg-gray-100 p-4 shadow dark:bg-gray-800">
+    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
       <div className="flex h-full flex-col items-center justify-center">
         <FlightProgressControl flightId={flight.id} status={flight.status} />
         {flight.status === FlightStatus.Ready && (
