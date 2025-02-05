@@ -88,8 +88,6 @@ npm install
 
 # start the development server with hmr
 npm run dev
-
-#
 ```
 
 6. open browser and go to [http://localhost:5173](http://localhost:5173) to see the app. Default credentials are:
