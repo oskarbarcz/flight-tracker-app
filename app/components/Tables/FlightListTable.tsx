@@ -131,24 +131,24 @@ export default function FlightListTable() {
                     {flight.operator.icaoCode}
                   </Table.Cell>
                   <Table.Cell>
-                    <div className="flex text-gray-500">
+                    <div className="flex gap-2 text-gray-500">
                       {flight.status === FlightStatus.Created && (
                         <>
                           <Button
-                            onClick={() => handleReleaseForPilot(flight.id)}
-                            color="success"
-                            size="xs"
-                            className="ms-1"
-                          >
-                            Release for pilot
-                          </Button>
-                          <Button
                             onClick={() => setFlightToRemove(flight)}
-                            color="red"
+                            color="failure"
                             size="xs"
-                            className="ms-1 flex items-center"
+                            className="ms-1 flex cursor-pointer items-center"
                           >
                             <FaTrash />
+                          </Button>
+                          <span className="my-1 block border-e border-gray-400 dark:border-gray-600"></span>
+                          <Button
+                            onClick={() => handleReleaseForPilot(flight.id)}
+                            size="xs"
+                            className="flex cursor-pointer items-center"
+                          >
+                            Release for pilot
                           </Button>
                         </>
                       )}

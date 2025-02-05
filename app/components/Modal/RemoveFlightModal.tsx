@@ -2,6 +2,7 @@
 
 import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
 import { Button, Modal } from "flowbite-react";
+import { formatDate } from "~/functions/time";
 
 type RemoveFlightModalProps = {
   flight: Flight | null;
@@ -27,7 +28,7 @@ export default function RemoveFlightModal({
     <Modal show onClose={cancel}>
       <Modal.Header>Remove flight</Modal.Header>
       <Modal.Body>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-900 dark:text-gray-100">
           You are going to remove flight{" "}
           <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
@@ -38,9 +39,13 @@ export default function RemoveFlightModal({
           <span className="font-bold">
             {destination.city} ({destination.iataCode})
           </span>
+          , departing at{" "}
+          <span className="font-bold">
+            {formatDate(new Date(flight.timesheet.scheduled.takeoffTime))}
+          </span>
           .
         </p>
-        <p className="pt-2 text-gray-600 dark:text-gray-400">
+        <p className="pt-2 text-gray-900 dark:text-gray-100">
           <span className="font-bold">This action is unrecoverable.</span> Are
           you sure to proceed?
         </p>
