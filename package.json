@@ -1,7 +1,11 @@
 {
   "name": "flight-tracker-app",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
+  "homepage": "https://flights.barcz.me",
+  "author": "Oskar Barcz",
+  "license": "Unlicense",
+  "description": "A comprehensive web app for scheduling and tracking flights in a flight simulator environment. Designed for virtual aviation enthusiasts, it enables seamless management of flights, aircraft, airports, crews, and passengers.",
   "type": "module",
   "scripts": {
     "build": "react-router build",

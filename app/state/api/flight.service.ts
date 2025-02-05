@@ -17,6 +17,19 @@ export class FlightService extends AbstractApiService {
     return this.requestWithAuth<Flight>(`/api/v1/flight/${id}`);
   }
 
+  async updateScheduledTimesheet(
+    id: string,
+    timesheet: Schedule,
+  ): Promise<void> {
+    return this.requestWithAuth<void>(
+      `/api/v1/flight/${id}/timesheet/scheduled`,
+      {
+        body: JSON.stringify(timesheet),
+        method: "PATCH",
+      },
+    );
+  }
+
   async markAsReady(id: string): Promise<void> {
     return this.requestWithAuth<void>(`/api/v1/flight/${id}/mark-as-ready`, {
       method: "POST",

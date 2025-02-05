@@ -1,10 +1,25 @@
-# Flight tracker
+![My Project Header](.github/image/header.png)
 
-Flight tracker app for personal use in Microsoft Flight Simulator
+# Flight Tracker
 
-## Contents
+A comprehensive web app for scheduling and tracking flights in a flight simulator environment. Designed for virtual
+aviation enthusiasts, it enables seamless management of flights, aircraft, airports, crews, and passengers.
 
-Repository contains frontend code for [Flight Tracker](https://flight-tracker.barcz.me) app.
+With this app, you can:
+
+- Plan & manage flights with detailed flight plans
+- Track flights step-by-step from departure to arrival
+- Generate timesheets & loadsheets for accurate record-keeping
+- Monitor aircraft status and optimize resource allocation
+
+Take full control of your virtual airline operations with a realistic and structured workflow for flight simulation
+
+This is frontend part of the project. For backend part, please visit
+[this repository](https://github.com/oskarbarcz/flight-tracker-api).
+
+## Repository contents
+
+Repository contains frontend code for [Flight Tracker](https://flights.barcz.me) app.
 
 Project is using **Node.js** and **TypeScript** in versions listed below:
 
@@ -24,69 +39,107 @@ Main dependencies are **Vite**, **React**, **React Router** and **Flowbite** in 
 
 ## Getting Started
 
-### Installation
+### Environment
 
-Install the dependencies:
+App requires server to run, otherwise you won't be able to see anything more than sign in screen.
 
-```bash
-npm install
+### Installation using locally-set-up API (recommended)
+
+1. Clone projects by running:
+
+```shell
+git@github.com:oskarbarcz/flight-tracker-app.git
+git@github.com:oskarbarcz/flight-tracker-api.git
 ```
 
-### Development
+2. Prepare environment variable file by copying `.env.example` to `.env` and fill it with your data.
 
-Start the development server with HMR:
+```shell
+cd flight-tracker-app
+cp .env .env.local
+```
 
-```bash
+3. Fill new created file with URL to locally set-up API. Default value would be:
+
+```shell
+VITE_API_BASE_URL=http://localhost
+```
+
+4. Set up API:
+
+```shell
+# go to backend project directory
+cd ../flight-tracker-api
+
+# use docker to set up the environment
+# packages, database schema, seed data will be configured automatically
+docker compose up -d --build
+```
+
+5. Set up frontend project
+
+```shell
+# go back to frontend project directory
+cd ../flight-tracker-app
+# (optional) use nvm to select node version for frontend project
+nvm use
+# install all dependencies
+npm install
+
+# start the development server with hmr
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+6. open browser and go to [http://localhost:5173](http://localhost:5173) to see the app. Default credentials are:
 
-## Building for Production
+| Role       | Username               | Password |
+| ---------- | ---------------------- | -------- |
+| Cabin crew | cabin-crew@example.com | P@$$w0rd |
+| Operations | operations@example.com | P@$$w0rd |
+| Admin      | admin@example.com      | P@$$w0rd |
 
-Create a production build:
+7. Enjoy!
 
-```bash
-npm run build
+### Installation using production API
+
+1. Clone project by running:
+
+```shell
+git@github.com:oskarbarcz/flight-tracker-app.git
 ```
 
-## Deployment
+2. Set up frontend project
 
-### Docker Deployment
+```shell
+# go back to frontend project directory
+cd ../flight-tracker-app
+# (optional) use nvm to select node version for frontend project
+nvm use
+# install all dependencies
+npm install
 
-This template includes three Dockerfiles optimized for different package managers:
+# start the development server with hmr
+npm run dev
 
-- `Dockerfile` - for npm
-
-To build and run using Docker:
-
-```bash
-# For npm
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+#
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+3. open browser and go to [http://localhost:5173](http://localhost:5173) to see the app. There are no public available
+   accounts for now, you have to be already registered in the system to be able to sign in.
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+## Build, Test and Deploy
 
-### DIY Deployment
+This project uses [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+This project has configured continuous integration and continuous deployment pipelines. It uses GitHub Actions to
+automatically build, test and deploy the app to the DigitalOcean. You can find the configuration in `.github/workflows`
+directory.
 
-Make sure to deploy the output of `npm run build`
+## License
 
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
+This projects adapts UNLICENSE. For more information, please visit [UNLICENSE](UNLICENSE) file.
+
+## Disclaimer
+
+I am experienced software engineer, but I am not connected anyhow with airline industry. This project is created for
+educational purposes only and should not be used for real-world aviation operations.
