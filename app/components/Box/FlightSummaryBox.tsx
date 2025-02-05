@@ -54,7 +54,7 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
   }
 
   return (
-    <section className="rounded-lg bg-gray-100 p-6 shadow dark:bg-gray-800">
+    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
       <div className="flex items-center justify-between">
         <div className="text-start font-bold">
           <span className="block text-4xl">{departure.iataCode}</span>

@@ -16,7 +16,7 @@ export default function FinishedFlightsBox({
   );
 
   return (
-    <section className="rounded-lg bg-gray-100 p-4 shadow dark:bg-gray-800">
+    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
       <h2 className="text-xl font-bold dark:text-gray-300">Finished flights</h2>
       <div className="mt-2">
         {readyFlights.map((flight: Flight) => (

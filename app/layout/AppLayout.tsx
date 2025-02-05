@@ -5,7 +5,6 @@ import { Outlet } from "react-router";
 import { Sidebar } from "~/components/Sidebar/Sidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
-import { Bounce, ToastContainer } from "react-toastify";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Flowbite } from "flowbite-react";
 
@@ -94,19 +93,6 @@ export default function AppLayout() {
             </div>
           </div>
         </div>
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
-        />
       </ProtectedRoute>
     </Flowbite>
   );

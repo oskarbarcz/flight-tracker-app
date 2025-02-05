@@ -7,6 +7,8 @@ import React, { useEffect } from "react";
 import { useFlight } from "~/state/hooks/useFlight";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import FlightInfoHeader from "~/components/Box/FlightInfoHeader";
+import { FlightStatus } from "~/models";
+import StatusBox from "~/components/Box/StatusBox";
 
 type TrackFlightDashboardProps = {
   flightId: string;
@@ -27,6 +29,9 @@ export function TrackFlightDashboard({ flightId }: TrackFlightDashboardProps) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <FlightInfoHeader flight={flight} />
+      {flight.status === FlightStatus.Closed && (
+        <StatusBox>Flight has been closed.</StatusBox>
+      )}
       <FlightSummaryBox flight={flight} />
       <FlightPhaseBox flight={flight} />
       <AllDisplayBox flight={flight} />

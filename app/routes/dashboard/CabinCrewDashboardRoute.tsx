@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import PilotInformationBox from "~/components/Box/PilotInformationBox";
+import UserInformationBox from "~/components/Box/UserInformationBox";
 import { Flight } from "~/models";
 import { UserRole } from "~/models/user.model";
 import NextFlightBox from "~/components/Box/NextFlightBox";
@@ -24,7 +24,7 @@ export default function CabinCrewDashboardRoute() {
     <>
       <ProtectedRoute expectedRole={UserRole.CabinCrew}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <PilotInformationBox />
+          <UserInformationBox />
           <NextFlightBox flights={flights} />
           <AllPendingFlightsBox flights={flights} />
           <FinishedFlightsBox flights={flights} />

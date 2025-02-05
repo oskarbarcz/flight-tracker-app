@@ -4,6 +4,7 @@ import React, { ReactNode, useContext } from "react";
 import { AuthContext } from "~/state/contexts/auth.context";
 import { Navigate } from "react-router";
 import { UserRole } from "~/models/user.model";
+import Splash from "~/layout/Splash";
 
 interface ProtectedRouteProps {
   expectedRole?: UserRole;
@@ -17,7 +18,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { user, isLoading, accessToken } = useContext(AuthContext);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Splash />;
   }
 
   if (!user || !accessToken) {
