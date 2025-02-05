@@ -35,7 +35,7 @@ export default function SignInRoute() {
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-gray-100 p-3 pt-8 dark:bg-gray-900 sm:items-center sm:pt-3">
-      <article className="flex w-full max-w-xl flex-col rounded-2xl bg-indigo-700 shadow-md sm:mt-0 sm:flex-row sm:shadow-xl">
+      <article className="flex w-full max-w-xl flex-col rounded-2xl bg-indigo-500 shadow-md sm:mt-0 sm:flex-row sm:shadow-xl">
         <aside className="flex flex-row items-center justify-center rounded-2xl py-4 sm:w-96 sm:flex-col sm:px-8">
           <img
             src={logoWhite}
@@ -90,7 +90,7 @@ export default function SignInRoute() {
 
             <button
               type="submit"
-              className="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               {"Sign in"}
               <FaArrowRight className="ms-2 inline-block" />
