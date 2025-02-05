@@ -1,6 +1,6 @@
 "use client";
 
-import { Flight, FlightStatus } from "~/models";
+import { FilledSchedule, Flight, FlightStatus } from "~/models";
 import { Button, Table } from "flowbite-react";
 import { FaPlane, FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
@@ -8,11 +8,16 @@ import { getHourFromDate } from "~/functions/time";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
+import { FaPencil } from "react-icons/fa6";
+import UpdateFlightScheduledTimesheetModal from "~/components/Modal/UpdateFlightScheduledTimesheetModal";
 
 export default function FlightListTable() {
   const flightService = useFlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
   const [flightToRemove, setFlightToRemove] = React.useState<Flight | null>(
+    null,
+  );
+  const [flightToUpdate, setFlightToUpdate] = React.useState<Flight | null>(
     null,
   );
   const [flightToRelease, setFlightToRelease] = React.useState<Flight | null>(
@@ -27,6 +32,16 @@ export default function FlightListTable() {
     await flightService.remove(flightId);
     setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
     setFlightToRemove(null);
+  };
+
+  const updateFlight = async (flightId: string, schedule: FilledSchedule) => {
+    await flightService.updateScheduledTimesheet(flightId, schedule);
+    const updated = await flightService.fetchFlightById(flightId);
+
+    setFlights((state) =>
+      state.map((prev) => (prev.id === updated.id ? updated : prev)),
+    );
+    setFlightToUpdate(null);
   };
 
   const releaseFlight = async (flightId: string) => {
@@ -147,10 +162,18 @@ export default function FlightListTable() {
                       {flight.status === FlightStatus.Created && (
                         <>
                           <Button
+                            onClick={() => setFlightToUpdate(flight)}
+                            color="gray"
+                            size="xs"
+                            className="flex cursor-pointer items-center"
+                          >
+                            <FaPencil />
+                          </Button>
+                          <Button
                             onClick={() => setFlightToRemove(flight)}
                             color="failure"
                             size="xs"
-                            className="ms-1 flex cursor-pointer items-center"
+                            className="flex cursor-pointer items-center"
                           >
                             <FaTrash />
                           </Button>
@@ -188,6 +211,13 @@ export default function FlightListTable() {
           flight={flightToRemove}
           remove={removeFlight}
           cancel={() => setFlightToRemove(null)}
+        />
+      )}
+      {flightToUpdate && (
+        <UpdateFlightScheduledTimesheetModal
+          flight={flightToUpdate}
+          update={updateFlight}
+          cancel={() => setFlightToUpdate(null)}
         />
       )}
       {flightToRelease && (
