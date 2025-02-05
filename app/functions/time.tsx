@@ -23,3 +23,14 @@ export function getTimeDifferenceInHours(a: Date, b: Date): string {
 
   return `${sign}${hours}:${minutes}`;
 }
+
+export function getHourFromDate(date: string | undefined): string {
+  if (!date) {
+    return "";
+  }
+
+  const utcHours = String(new Date(date).getUTCHours()).padStart(2, "0");
+  const utcMinutes = String(new Date(date).getUTCMinutes()).padStart(2, "0");
+
+  return `${utcHours}:${utcMinutes}`;
+}
