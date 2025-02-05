@@ -123,8 +123,15 @@ export default function FlightListTable() {
                     )}
                   </Table.Cell>
                   <Table.Cell>
-                    <div>{flight.aircraft.shortName}</div>
-                    {flight.aircraft.registration}
+                    <div className="mb-1">{flight.aircraft.shortName}</div>
+                    <div className="flex gap-2">
+                      <span className="inline-block rounded-md border border-gray-600 px-2 py-0.5 text-xs">
+                        {flight.aircraft.registration}
+                      </span>
+                      <span className="inline-block border border-gray-600 px-2 py-0.5 text-xs">
+                        {flight.aircraft.selcal}
+                      </span>
+                    </div>
                   </Table.Cell>
                   <Table.Cell>
                     <div>{flight.operator.shortName}</div>
