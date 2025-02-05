@@ -3,18 +3,19 @@
 import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
 import { Button, Modal } from "flowbite-react";
 import { formatDate } from "~/functions/time";
+import React from "react";
 
-type RemoveFlightModalProps = {
+type ReleaseFlightModalProps = {
   flight: Flight;
-  remove: (flightId: string) => void;
+  release: (flightId: string) => void;
   cancel: () => void;
 };
 
-export default function RemoveFlightModal({
+export default function ReleaseFlightModal({
   flight,
-  remove,
+  release,
   cancel,
-}: RemoveFlightModalProps) {
+}: ReleaseFlightModalProps) {
   const departure = flight.airports.find(
     (airport) => airport.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
@@ -24,10 +25,10 @@ export default function RemoveFlightModal({
 
   return (
     <Modal show onClose={cancel}>
-      <Modal.Header>Remove flight</Modal.Header>
+      <Modal.Header>Release flight</Modal.Header>
       <Modal.Body className="text-gray-900 dark:text-gray-100">
         <p>
-          You are going to remove flight{" "}
+          You are going to release flight{" "}
           <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
           <span className="font-bold">
@@ -43,18 +44,22 @@ export default function RemoveFlightModal({
           </span>
           .
         </p>
-        <p>
-          <span className="font-bold">This action is unrecoverable.</span> Are
-          you sure to proceed?
+        <p className="my-4">
+          After you release the flight, the pilot will be able to start the
+          flight plan. <span className="font-bold">Removing a flight </span>
+          and
+          <span className="font-bold"> changing the schedule </span>
+          won't be available anymore.
         </p>
+        <p className="my-4">Are you sure to proceed?</p>
       </Modal.Body>
       <Modal.Footer>
         <div className="ms-auto flex gap-2">
           <Button color="gray" onClick={cancel}>
             Back
           </Button>
-          <Button onClick={() => remove(flight.id)} color="failure">
-            Remove flight {flight.flightNumber}
+          <Button onClick={() => release(flight.id)}>
+            Release flight {flight.flightNumber}
           </Button>
         </div>
       </Modal.Footer>

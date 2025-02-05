@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import { getHourFromDate } from "~/functions/time";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
+import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
 
 export default function FlightListTable() {
   const flightService = useFlightService();
@@ -14,24 +15,28 @@ export default function FlightListTable() {
   const [flightToRemove, setFlightToRemove] = React.useState<Flight | null>(
     null,
   );
+  const [flightToRelease, setFlightToRelease] = React.useState<Flight | null>(
+    null,
+  );
 
   useEffect(() => {
     flightService.fetchAllFlights().then(setFlights);
   }, [flightService]);
 
-  const handleReleaseForPilot = async (flightId: string) => {
+  const removeFlight = async (flightId: string) => {
+    await flightService.remove(flightId);
+    setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
+    setFlightToRemove(null);
+  };
+
+  const releaseFlight = async (flightId: string) => {
     await flightService.markAsReady(flightId);
     const updated = await flightService.fetchFlightById(flightId);
 
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
     );
-  };
-
-  const removeFlight = async (flightId: string) => {
-    await flightService.remove(flightId);
-    setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
-    setFlightToRemove(null);
+    setFlightToRelease(null);
   };
 
   return (
@@ -151,9 +156,9 @@ export default function FlightListTable() {
                           </Button>
                           <span className="my-1 block border-e border-gray-400 dark:border-gray-600"></span>
                           <Button
-                            onClick={() => handleReleaseForPilot(flight.id)}
+                            onClick={() => setFlightToRelease(flight)}
                             size="xs"
-                            className="flex cursor-pointer items-center"
+                            className="cursor-pointer"
                           >
                             Release for pilot
                           </Button>
@@ -183,6 +188,13 @@ export default function FlightListTable() {
           flight={flightToRemove}
           remove={removeFlight}
           cancel={() => setFlightToRemove(null)}
+        />
+      )}
+      {flightToRelease && (
+        <ReleaseFlightModal
+          flight={flightToRelease}
+          release={releaseFlight}
+          cancel={() => setFlightToRelease(null)}
         />
       )}
     </div>
