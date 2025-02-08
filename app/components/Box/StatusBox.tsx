@@ -8,7 +8,7 @@ type StatusBoxProps = {
 
 export default function StatusBox({ children }: StatusBoxProps) {
   return (
-    <div className="col-span-1 rounded-md bg-indigo-500 p-4 text-white shadow-md md:col-span-3">
+    <div className="col-span-1 rounded-2xl bg-indigo-500 p-4 text-white md:col-span-3">
       {children}
     </div>
   );
