@@ -36,7 +36,7 @@ export function FlightTimerBox({ flight }: FlightTimeBoxProps) {
     <section className="flex flex-col justify-center rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
       {showOffBlockTimer && <OffBlockTimer schedule={schedule} />}
       {showTakeoffTimer && <TakeoffTimer schedule={schedule} />}
-      {showArrivalTimer && <ArrivalTimer schedule={schedule} />}
+      {showArrivalTimer && <ArrivalTimer schedule={schedule} actual={actual} />}
       {showOnBlockTimer && <OnBlockTimer schedule={schedule} />}
       {showSummary && <SummaryTimer schedule={schedule} actual={actual} />}
     </section>
