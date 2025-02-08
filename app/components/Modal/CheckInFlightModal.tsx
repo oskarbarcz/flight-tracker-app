@@ -5,31 +5,23 @@ import { FilledSchedule, Flight } from "~/models";
 import { formatDate } from "~/functions/time";
 import { Button, Modal } from "flowbite-react";
 import CheckInFlightForm from "~/components/Forms/CheckInFlightForm";
-import { useFlight } from "~/state/hooks/useFlight";
 
 type CheckInFlightModalProps = {
-  openModal: boolean;
-  setOpenModal: (open: boolean) => void;
   flight: Flight;
+  checkIn: (estimation: FilledSchedule) => void;
+  close: () => void;
 };
 
 export default function CheckInFlightModal({
-  openModal,
-  setOpenModal,
   flight,
+  checkIn,
+  close,
 }: CheckInFlightModalProps) {
   const schedule = flight.timesheet.scheduled;
-  const { checkIn } = useFlight();
   const [estimation, setEstimation] = useState<FilledSchedule>(schedule);
 
-  const handleCheckIn = () => {
-    checkIn(flight.id, estimation)
-      .then(() => setOpenModal(false))
-      .catch((error: unknown) => console.error("Failed to check in", error));
-  };
-
   return (
-    <Modal show={openModal} onClose={() => setOpenModal(false)}>
+    <Modal show onClose={close}>
       <Modal.Header>Check in for flight</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col gap-4 text-gray-800 dark:text-white md:flex-row">
@@ -84,10 +76,10 @@ export default function CheckInFlightModal({
       </Modal.Body>
       <Modal.Footer>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={() => setOpenModal(false)}>
+          <Button color="gray" onClick={close}>
             Back to preview
           </Button>
-          <Button type="submit" onClick={() => handleCheckIn()}>
+          <Button type="submit" onClick={() => checkIn(estimation)}>
             Check in for flight {flight.flightNumber}
           </Button>
         </div>

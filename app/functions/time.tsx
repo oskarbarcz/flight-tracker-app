@@ -45,18 +45,22 @@ export function getHourFromDate(date: string | undefined): string {
   return `${utcHours}:${utcMinutes}`;
 }
 
-export function utcFromAny(date: string): Date {
-  const localDate = new Date(date);
+export function formatTimeInterval(seconds: number) {
+  const sign = seconds < 0 ? "-" : "";
+  const absSeconds = Math.abs(seconds);
 
-  return new Date(
-    Date.UTC(
-      localDate.getFullYear(),
-      localDate.getMonth(),
-      localDate.getDate(),
-      localDate.getHours(),
-      localDate.getMinutes(),
-      localDate.getSeconds(),
-      localDate.getMilliseconds(),
-    ),
-  );
+  const hours = Math.floor(absSeconds / 3600);
+  const minutes = Math.floor((absSeconds % 3600) / 60);
+  const secs = absSeconds % 60;
+
+  return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
+
+export function timeDiff(a: Date, b: Date): number {
+  const diff = b.getTime() - a.getTime();
+  return Math.round(diff / 1000);
+}
+
+export function secondsToNow(time: Date): number {
+  return timeDiff(new Date(), time);
 }
