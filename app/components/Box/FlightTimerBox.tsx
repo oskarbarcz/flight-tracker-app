@@ -16,6 +16,7 @@ export function FlightTimerBox({ flight }: FlightTimeBoxProps) {
   const actual = flight.timesheet.actual as FilledSchedule;
 
   const showOffBlockTimer = [
+    FlightStatus.Ready,
     FlightStatus.CheckedIn,
     FlightStatus.BoardingStarted,
     FlightStatus.BoardingFinished,
