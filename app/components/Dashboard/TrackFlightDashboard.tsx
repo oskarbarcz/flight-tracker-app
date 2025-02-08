@@ -9,6 +9,7 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 import FlightInfoHeader from "~/components/Box/FlightInfoHeader";
 import { FlightStatus } from "~/models";
 import StatusBox from "~/components/Box/StatusBox";
+import { FlightTimeBox } from "~/components/Box/FlightTimeBox";
 
 type TrackFlightDashboardProps = {
   flightId: string;
@@ -33,8 +34,9 @@ export function TrackFlightDashboard({ flightId }: TrackFlightDashboardProps) {
         <StatusBox>Flight has been closed.</StatusBox>
       )}
       <FlightSummaryBox flight={flight} />
-      <FlightPhaseBox flight={flight} />
+      <FlightTimeBox />
       <AllDisplayBox flight={flight} />
+      <FlightPhaseBox flight={flight} />
     </div>
   );
 }
