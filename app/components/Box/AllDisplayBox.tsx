@@ -24,7 +24,7 @@ export function AllDisplayBox({ flight }: TrackFlightDashboardProps) {
   ) as AirportOnFlight[];
 
   return (
-    <div className="row-span-2 rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
+    <div className="row-span-3 rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
       <div>
         <div>
           <h2 className="font-bold">Flight info</h2>
