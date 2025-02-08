@@ -1,17 +1,25 @@
 "use client";
 
-import { Flight, FlightStatus } from "~/models";
+import { FilledSchedule, Flight, FlightStatus } from "~/models";
 import FlightProgressControl from "~/components/FlightProgressControl/FlightProgressControl";
 import React, { useState } from "react";
 import { Button } from "flowbite-react";
 import CheckInFlightModal from "~/components/Modal/CheckInFlightModal";
+import { useFlight } from "~/state/hooks/useFlight";
 
 type FlightPhaseBoxProps = {
   flight: Flight;
 };
 
 export function FlightPhaseBox({ flight }: FlightPhaseBoxProps) {
-  const [openModal, setOpenModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const { checkIn } = useFlight();
+
+  const handleCheckIn = (estimation: FilledSchedule) => {
+    checkIn(flight.id, estimation)
+      .then(() => setShowModal(false))
+      .catch((error: unknown) => console.error("Failed to check in", error));
+  };
 
   return (
     <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
@@ -19,14 +27,16 @@ export function FlightPhaseBox({ flight }: FlightPhaseBoxProps) {
         <FlightProgressControl flightId={flight.id} status={flight.status} />
         {flight.status === FlightStatus.Ready && (
           <>
-            <Button className="mt-2" onClick={() => setOpenModal(true)}>
+            <Button className="mt-2" onClick={() => setShowModal(true)}>
               Go to flight check-in
             </Button>
-            <CheckInFlightModal
-              openModal={openModal}
-              setOpenModal={setOpenModal}
-              flight={flight}
-            />
+            {showModal && (
+              <CheckInFlightModal
+                flight={flight}
+                checkIn={handleCheckIn}
+                close={() => setShowModal(false)}
+              />
+            )}
           </>
         )}
       </div>
