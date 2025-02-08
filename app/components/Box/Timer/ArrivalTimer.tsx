@@ -23,7 +23,7 @@ function timeToColor(time: number): string {
     return "text-yellow-500";
   }
 
-  return "text-red-500";
+  return "text-green-500";
 }
 
 export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
