@@ -289,7 +289,7 @@ export default function FlightListTable() {
                                     Zero-fuel weight
                                   </span>
                                   <span className="block font-bold text-gray-900">
-                                    {flight.loadsheets.preliminary.passengers}
+                                    {flight.loadsheets.preliminary.zeroFuelWeight}
                                     {" t"}
                                   </span>
                                 </div>
