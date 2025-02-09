@@ -48,7 +48,27 @@ export type AirportOnFlight = Airport & {
   type: AirportOnFlightType;
 };
 
-export interface Flight {
+export type FlightCrew = {
+  pilots: number;
+  reliefPilots: number;
+  cabinCrew: number;
+};
+
+export type Loadsheet = {
+  flightCrew: FlightCrew;
+  passengers: number;
+  cargo: number;
+  payload: number;
+  zeroFuelWeight: number;
+  blockFuel: number;
+};
+
+export type Loadsheets = {
+  preliminary: Loadsheet | null;
+  final: Loadsheet | null;
+};
+
+export type Flight = {
   id: string;
   flightNumber: string;
   callsign: string;
@@ -61,7 +81,8 @@ export interface Flight {
   operator: Operator;
   timesheet: Timesheet | CheckedInFlightTimesheet;
   status: FlightStatus;
-}
+  loadsheets: Loadsheets;
+};
 
 export type CreateFlightDto = Omit<
   Flight,
