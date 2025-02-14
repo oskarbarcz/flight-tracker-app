@@ -18,6 +18,13 @@ export function formatDateKeepLocal(date: Date): string {
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
 
+export function formattedToISO(dateStr: string): string {
+  const [day, month, year, hours, minutes] = dateStr.split(/[- :]/).map(Number);
+  const dateObj = new Date(year, month - 1, day, hours + 1, minutes);
+
+  return dateObj.toISOString();
+}
+
 export function getTimeDifferenceInMinutes(a: Date, b: Date): number {
   const diffInMs = b.getTime() - a.getTime();
   return Math.floor(diffInMs / (1000 * 60));
