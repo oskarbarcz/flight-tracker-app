@@ -221,13 +221,40 @@ export default function FlightListTable() {
                   >
                     {expandedFlight?.id === flight.id && (
                       <Table.Cell colSpan={7}>
-                        <div className="flex gap-4">
+                        <div className="flex w-1/4 gap-4">
                           <div>
-                            <h3 className="mb-3 text-lg font-bold">
-                              Flight crew
-                            </h3>
+                            <div className="mb-3 flex items-center justify-between">
+                              <h3 className="text-lg font-bold">
+                                Timesheet
+                              </h3>
+                              <Button
+                                onClick={() => setFlightToUpdate(flight)}
+                                color="gray"
+                                size="xs"
+                                className="ms-3 flex cursor-pointer items-center"
+                              >
+                                <FaPencil />
+                              </Button>
+                            </div>
+                          </div>
+                          <span className="border-e"></span>
+                          <div className="w-full">
+                            <div className="mb-3 flex items-center justify-between">
+                              <h3 className="text-lg font-bold">
+                                Loadsheet
+                              </h3>
+                              <Button
+                                onClick={() => setFlightToUpdate(flight)}
+                                color="gray"
+                                size="xs"
+                                className="ms-3 flex cursor-pointer items-center"
+                              >
+                                <FaPencil />
+                              </Button>
+                            </div>
+
                             {flight.loadsheets.preliminary && (
-                              <div className="flex gap-6">
+                              <div className="flex w-full flex-wrap gap-6">
                                 <div className="text-center">
                                   <span className="mb-1 block text-xs">
                                     Pilots
@@ -261,21 +288,6 @@ export default function FlightListTable() {
                                     }
                                   </span>
                                 </div>
-                              </div>
-                            )}
-                            {!flight.loadsheets.preliminary && (
-                              <Alert color="warning" icon={HiInformationCircle}>
-                                Preliminary loadsheet is missing.
-                              </Alert>
-                            )}
-                          </div>
-                          <span className="my-1 block border-e dark:border-gray-600"></span>
-                          <div className="grow">
-                            <h3 className="mb-3 text-lg font-bold">
-                              Loadsheet
-                            </h3>
-                            {flight.loadsheets.preliminary && (
-                              <div className="flex gap-6">
                                 <div className="text-center">
                                   <span className="mb-1 block text-xs">
                                     Passengers
@@ -289,7 +301,10 @@ export default function FlightListTable() {
                                     Zero-fuel weight
                                   </span>
                                   <span className="block font-bold text-gray-900">
-                                    {flight.loadsheets.preliminary.zeroFuelWeight}
+                                    {
+                                      flight.loadsheets.preliminary
+                                        .zeroFuelWeight
+                                    }
                                     {" t"}
                                   </span>
                                 </div>
