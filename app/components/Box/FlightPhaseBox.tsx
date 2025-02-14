@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Button } from "flowbite-react";
 import CheckInFlightModal from "~/components/Modal/CheckInFlightModal";
 import { useFlight } from "~/state/hooks/useFlight";
+import { formattedToISO } from "~/functions/time";
 
 type FlightPhaseBoxProps = {
   flight: Flight;
@@ -15,8 +16,15 @@ export function FlightPhaseBox({ flight }: FlightPhaseBoxProps) {
   const [showModal, setShowModal] = useState(false);
   const { checkIn } = useFlight();
 
-  const handleCheckIn = (estimation: FilledSchedule) => {
-    checkIn(flight.id, estimation)
+  const handleCheckIn = (schedule: FilledSchedule) => {
+    const normalizedSchedule = {
+      offBlockTime: formattedToISO(schedule.offBlockTime),
+      takeoffTime: formattedToISO(schedule.takeoffTime),
+      arrivalTime: formattedToISO(schedule.arrivalTime),
+      onBlockTime: formattedToISO(schedule.onBlockTime),
+    };
+
+    checkIn(flight.id, normalizedSchedule)
       .then(() => setShowModal(false))
       .catch((error: unknown) => console.error("Failed to check in", error));
   };
