@@ -2,9 +2,9 @@
 
 import { FilledSchedule, Flight, FlightStatus } from "~/models";
 import { Alert, Button, Table } from "flowbite-react";
-import { FaPlane, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
-import { formattedToISO, getHourFromDate } from "~/functions/time";
+import { formatDate, formattedToISO, getHourFromDate } from "~/functions/time";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
@@ -79,7 +79,7 @@ export default function FlightListTable() {
         <Table.Head className="dark:text-gray-100">
           <Table.HeadCell>Flight no</Table.HeadCell>
           <Table.HeadCell>Route</Table.HeadCell>
-          <Table.HeadCell>Schedule (UTC)</Table.HeadCell>
+          <Table.HeadCell>Departure (UTC)</Table.HeadCell>
           <Table.HeadCell>Aircraft</Table.HeadCell>
           <Table.HeadCell>Operator</Table.HeadCell>
           <Table.HeadCell>Status</Table.HeadCell>
@@ -130,38 +130,13 @@ export default function FlightListTable() {
                       </div>
                     </Table.Cell>
                     <Table.Cell>
-                      {flight.timesheet.scheduled && (
-                        <>
-                          <div>
-                            <span>
-                              <FaPlane className="me-1 inline-block" />
-                              {getHourFromDate(
-                                flight.timesheet.scheduled.offBlockTime,
-                              )}
-                            </span>
-                            <span className="ms-2">
-                              <FaPlane className="me-1 inline-block -rotate-45" />
-                              {getHourFromDate(
-                                flight.timesheet.scheduled.takeoffTime,
-                              )}
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              <FaPlane className="me-1 inline-block rotate-45" />
-                              {getHourFromDate(
-                                flight.timesheet.scheduled.arrivalTime,
-                              )}
-                            </span>
-                            <span className="ms-2">
-                              <FaPlane className="me-1 inline-block" />
-                              {getHourFromDate(
-                                flight.timesheet.scheduled.onBlockTime,
-                              )}
-                            </span>
-                          </div>
-                        </>
-                      )}
+                      {flight.timesheet.scheduled.offBlockTime &&
+                        formatDate(
+                          new Date(flight.timesheet.scheduled.offBlockTime),
+                        )}
+                      <span className="block text-xs text-gray-500">
+                        Click for details
+                      </span>
                     </Table.Cell>
                     <Table.Cell>
                       <div className="mb-1">{flight.aircraft.shortName}</div>
@@ -228,12 +203,10 @@ export default function FlightListTable() {
                   >
                     {expandedFlight?.id === flight.id && (
                       <Table.Cell colSpan={7}>
-                        <div className="flex w-1/4 gap-4">
-                          <div>
+                        <div className="flex gap-4">
+                          <div className="shrink-0">
                             <div className="mb-3 flex items-center justify-between">
-                              <h3 className="text-lg font-bold">
-                                Timesheet
-                              </h3>
+                              <h3 className="text-lg font-bold">Timesheet</h3>
                               <Button
                                 onClick={() => setFlightToUpdate(flight)}
                                 color="gray"
@@ -243,13 +216,53 @@ export default function FlightListTable() {
                                 <FaPencil />
                               </Button>
                             </div>
+                            <div className="flex shrink-0 items-center gap-6">
+                              <div className="shrink-0 text-center">
+                                <span className="mb-1 block text-xs">
+                                  Off-block
+                                </span>
+                                <span className="block font-bold text-gray-900">
+                                  {getHourFromDate(
+                                    flight.timesheet.scheduled.offBlockTime,
+                                  )}
+                                </span>
+                              </div>
+                              <div className="shrink-0 text-center">
+                                <span className="mb-1 block text-xs">
+                                  Takeoff
+                                </span>
+                                <span className="block font-bold text-gray-900">
+                                  {getHourFromDate(
+                                    flight.timesheet.scheduled.takeoffTime,
+                                  )}
+                                </span>
+                              </div>
+                              <div className="shrink-0 text-center">
+                                <span className="mb-1 block text-xs">
+                                  Arrival
+                                </span>
+                                <span className="block font-bold text-gray-900">
+                                  {getHourFromDate(
+                                    flight.timesheet.scheduled.arrivalTime,
+                                  )}
+                                </span>
+                              </div>
+                              <div className="shrink-0 text-center">
+                                <span className="mb-1 block text-xs">
+                                  On-block
+                                </span>
+                                <span className="block font-bold text-gray-900">
+                                  {getHourFromDate(
+                                    flight.timesheet.scheduled.onBlockTime,
+                                  )}
+                                </span>
+                              </div>
+                            </div>
                           </div>
                           <span className="border-e"></span>
-                          <div className="w-full">
+                          <div>
                             <div className="mb-3 flex items-center justify-between">
-                              <h3 className="text-lg font-bold">
-                                Loadsheet
-                              </h3>
+                              <h3 className="text-lg font-bold">Loadsheet</h3>
                               <Button
                                 onClick={() => setFlightToUpdate(flight)}
                                 color="gray"
@@ -261,7 +274,7 @@ export default function FlightListTable() {
                             </div>
 
                             {flight.loadsheets.preliminary && (
-                              <div className="flex w-full flex-wrap gap-6">
+                              <div className="flex gap-6">
                                 <div className="text-center">
                                   <span className="mb-1 block text-xs">
                                     Pilots
