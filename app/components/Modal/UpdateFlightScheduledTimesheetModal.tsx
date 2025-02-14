@@ -2,7 +2,7 @@
 
 import { FilledSchedule, Flight } from "~/models";
 import { Button, Modal } from "flowbite-react";
-import { formatDateKeepLocal } from "~/functions/time";
+import { formatDate } from "~/functions/time";
 import React, { useCallback, useState } from "react";
 import UpdateFlightScheduleForm from "~/components/Forms/UpdateFlightScheduleForm";
 
@@ -32,7 +32,7 @@ export default function UpdateFlightScheduledTimesheetModal({
                 Off-block time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDateKeepLocal(new Date(newSchedule.offBlockTime))}
+                {formatDate(new Date(oldSchedule.offBlockTime))}
               </span>
             </div>
             <div className="mb-3">
@@ -40,7 +40,7 @@ export default function UpdateFlightScheduledTimesheetModal({
                 Takeoff time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDateKeepLocal(new Date(newSchedule.takeoffTime))}
+                {formatDate(new Date(oldSchedule.takeoffTime))}
               </span>
             </div>
             <div className="mb-3">
@@ -48,7 +48,7 @@ export default function UpdateFlightScheduledTimesheetModal({
                 Landing time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDateKeepLocal(new Date(newSchedule.arrivalTime))}
+                {formatDate(new Date(oldSchedule.arrivalTime))}
               </span>
             </div>
             <div className="mb-3">
@@ -56,13 +56,13 @@ export default function UpdateFlightScheduledTimesheetModal({
                 On-block time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDateKeepLocal(new Date(newSchedule.onBlockTime))}
+                {formatDate(new Date(oldSchedule.onBlockTime))}
               </span>
             </div>
           </div>
           <div className="w-full md:w-1/2">
             <UpdateFlightScheduleForm
-              schedule={newSchedule}
+              schedule={oldSchedule}
               setSchedule={useCallback((estimation: FilledSchedule) => {
                 setNewSchedule(estimation);
               }, [])}

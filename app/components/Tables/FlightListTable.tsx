@@ -4,7 +4,7 @@ import { FilledSchedule, Flight, FlightStatus } from "~/models";
 import { Button, Table } from "flowbite-react";
 import { FaPlane, FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
-import { getHourFromDate } from "~/functions/time";
+import { formattedToISO, getHourFromDate } from "~/functions/time";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
@@ -35,7 +35,14 @@ export default function FlightListTable() {
   };
 
   const updateFlight = async (flightId: string, schedule: FilledSchedule) => {
-    await flightService.updateScheduledTimesheet(flightId, schedule);
+    const normalizedSchedule = {
+      offBlockTime: formattedToISO(schedule.offBlockTime),
+      takeoffTime: formattedToISO(schedule.takeoffTime),
+      arrivalTime: formattedToISO(schedule.arrivalTime),
+      onBlockTime: formattedToISO(schedule.onBlockTime),
+    };
+
+    await flightService.updateScheduledTimesheet(flightId, normalizedSchedule);
     const updated = await flightService.fetchFlightById(flightId);
 
     setFlights((state) =>
