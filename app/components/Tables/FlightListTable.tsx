@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledSchedule, Flight, FlightStatus } from "~/models";
+import { FilledSchedule, Flight, FlightStatus, Loadsheet } from "~/models";
 import { Alert, Button, Table } from "flowbite-react";
 import { FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
@@ -9,8 +9,9 @@ import { useFlightService } from "~/state/hooks/api/useFlightService";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
 import { FaPencil } from "react-icons/fa6";
-import UpdateFlightScheduledTimesheetModal from "~/components/Modal/UpdateFlightScheduledTimesheetModal";
+import UpdateScheduledTimesheetModal from "~/components/Modal/UpdateScheduledTimesheetModal";
 import { HiInformationCircle } from "react-icons/hi";
+import UpdatePreliminaryLoadsheetModal from "~/components/Modal/UpdatePreliminaryLoadsheetModal";
 
 export default function FlightListTable() {
   const flightService = useFlightService();
@@ -18,9 +19,10 @@ export default function FlightListTable() {
   const [flightToRemove, setFlightToRemove] = React.useState<Flight | null>(
     null,
   );
-  const [flightToUpdate, setFlightToUpdate] = React.useState<Flight | null>(
-    null,
-  );
+  const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
+    React.useState<Flight | null>(null);
+  const [flightToUpdateLoadsheet, setFlightToUpdateLoadsheet] =
+    React.useState<Flight | null>(null);
   const [flightToRelease, setFlightToRelease] = React.useState<Flight | null>(
     null,
   );
@@ -38,7 +40,7 @@ export default function FlightListTable() {
     setFlightToRemove(null);
   };
 
-  const updateFlight = async (flightId: string, schedule: FilledSchedule) => {
+  const updateSchedule = async (flightId: string, schedule: FilledSchedule) => {
     const normalizedSchedule = {
       offBlockTime: formattedToISO(schedule.offBlockTime),
       takeoffTime: formattedToISO(schedule.takeoffTime),
@@ -52,7 +54,17 @@ export default function FlightListTable() {
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
     );
-    setFlightToUpdate(null);
+    setFlightToUpdateTimesheet(null);
+  };
+
+  const updateLoadsheet = async (flightId: string, loadsheet: Loadsheet) => {
+    await flightService.updatePreliminaryLoadsheet(flightId, loadsheet);
+    const updated = await flightService.fetchFlightById(flightId);
+
+    setFlights((state) =>
+      state.map((prev) => (prev.id === updated.id ? updated : prev)),
+    );
+    setFlightToUpdateLoadsheet(null);
   };
 
   const releaseFlight = async (flightId: string) => {
@@ -158,7 +170,7 @@ export default function FlightListTable() {
                         {flight.status === FlightStatus.Created && (
                           <>
                             <Button
-                              onClick={() => setFlightToUpdate(flight)}
+                              onClick={() => setFlightToUpdateTimesheet(flight)}
                               color="gray"
                               size="xs"
                               className="flex cursor-pointer items-center"
@@ -173,14 +185,18 @@ export default function FlightListTable() {
                             >
                               <FaTrash />
                             </Button>
-                            <span className="my-1 block border-e border-gray-400 dark:border-gray-600"></span>
-                            <Button
-                              onClick={() => setFlightToRelease(flight)}
-                              size="xs"
-                              className="cursor-pointer"
-                            >
-                              Release for pilot
-                            </Button>
+                            {flight.loadsheets.preliminary && (
+                              <>
+                                <span className="my-1 block border-e border-gray-400 dark:border-gray-600"></span>
+                                <Button
+                                  onClick={() => setFlightToRelease(flight)}
+                                  size="xs"
+                                  className="cursor-pointer"
+                                >
+                                  Release for pilot
+                                </Button>
+                              </>
+                            )}
                           </>
                         )}
                         {flight.status === FlightStatus.Ready && (
@@ -207,14 +223,18 @@ export default function FlightListTable() {
                           <div className="shrink-0">
                             <div className="mb-3 flex items-center justify-between">
                               <h3 className="text-lg font-bold">Timesheet</h3>
-                              <Button
-                                onClick={() => setFlightToUpdate(flight)}
-                                color="gray"
-                                size="xs"
-                                className="ms-3 flex cursor-pointer items-center"
-                              >
-                                <FaPencil />
-                              </Button>
+                              {flight.status === FlightStatus.Created && (
+                                <Button
+                                  onClick={() =>
+                                    setFlightToUpdateTimesheet(flight)
+                                  }
+                                  color="gray"
+                                  size="xs"
+                                  className="ms-3 flex cursor-pointer items-center"
+                                >
+                                  <FaPencil />
+                                </Button>
+                              )}
                             </div>
                             <div className="flex shrink-0 items-center gap-6">
                               <div className="shrink-0 text-center">
@@ -263,14 +283,18 @@ export default function FlightListTable() {
                           <div>
                             <div className="mb-3 flex items-center justify-between">
                               <h3 className="text-lg font-bold">Loadsheet</h3>
-                              <Button
-                                onClick={() => setFlightToUpdate(flight)}
-                                color="gray"
-                                size="xs"
-                                className="ms-3 flex cursor-pointer items-center"
-                              >
-                                <FaPencil />
-                              </Button>
+                              {flight.status === FlightStatus.Created && (
+                                <Button
+                                  onClick={() =>
+                                    setFlightToUpdateLoadsheet(flight)
+                                  }
+                                  color="gray"
+                                  size="xs"
+                                  className="ms-3 flex cursor-pointer items-center"
+                                >
+                                  <FaPencil />
+                                </Button>
+                              )}
                             </div>
 
                             {flight.loadsheets.preliminary && (
@@ -379,11 +403,18 @@ export default function FlightListTable() {
           cancel={() => setFlightToRemove(null)}
         />
       )}
-      {flightToUpdate && (
-        <UpdateFlightScheduledTimesheetModal
-          flight={flightToUpdate}
-          update={updateFlight}
-          cancel={() => setFlightToUpdate(null)}
+      {flightToUpdateTimesheet && (
+        <UpdateScheduledTimesheetModal
+          flight={flightToUpdateTimesheet}
+          update={updateSchedule}
+          cancel={() => setFlightToUpdateTimesheet(null)}
+        />
+      )}
+      {flightToUpdateLoadsheet && (
+        <UpdatePreliminaryLoadsheetModal
+          flight={flightToUpdateLoadsheet}
+          update={updateLoadsheet}
+          cancel={() => setFlightToUpdateLoadsheet(null)}
         />
       )}
       {flightToRelease && (

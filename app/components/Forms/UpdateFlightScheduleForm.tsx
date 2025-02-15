@@ -59,7 +59,6 @@ export default function UpdateFlightScheduleForm({
 
   return (
     <Form method="post">
-      <h2 className="mb-4 text-xl font-bold">New schedule</h2>
       <FloatingLabel
         variant="outlined"
         label="Off-block time"
