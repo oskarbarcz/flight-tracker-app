@@ -25,9 +25,7 @@ export default function UpdateFlightLoadsheetForm({
   );
   const [cargo, setCargo] = useState<number>(loadsheet.cargo);
   const [payload, setPayload] = useState<number>(loadsheet.payload);
-  const [blockFuel, setBlockFuel] = useState<number>(
-    loadsheet.flightCrew.pilots,
-  );
+  const [blockFuel, setBlockFuel] = useState<number>(loadsheet.blockFuel);
 
   useEffect(() => {
     setLoadsheet({
@@ -77,7 +75,7 @@ export default function UpdateFlightLoadsheetForm({
           label="Cabin crew"
           className="dark:bg-gray-800"
           type="number"
-          value={reliefPilots}
+          value={cabinCrew}
           onChange={(e) => setCabinCrew(Number(e.target.value))}
         />
         <FloatingLabel

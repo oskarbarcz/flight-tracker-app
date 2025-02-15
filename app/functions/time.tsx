@@ -8,21 +8,13 @@ export function formatDate(date: Date): string {
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
 
-export function formatDateKeepLocal(date: Date): string {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-  const year = date.getFullYear();
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${day}-${month}-${year} ${hours}:${minutes}`;
+export function formattedToISO(dateStr: string): string {
+  return formattedToDate(dateStr).toISOString();
 }
 
-export function formattedToISO(dateStr: string): string {
+export function formattedToDate(dateStr: string): Date {
   const [day, month, year, hours, minutes] = dateStr.split(/[- :]/).map(Number);
-  const dateObj = new Date(year, month - 1, day, hours + 1, minutes);
-
-  return dateObj.toISOString();
+  return new Date(Date.UTC(year, month - 1, day, hours, minutes));
 }
 
 export function getTimeDifferenceInMinutes(a: Date, b: Date): number {

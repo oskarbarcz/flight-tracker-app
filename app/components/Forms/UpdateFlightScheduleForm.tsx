@@ -2,6 +2,7 @@ import { Form } from "react-router";
 import React, { useEffect, useState } from "react";
 import {
   formatDate,
+  formattedToDate,
   getTimeDifferenceInHours,
   getTimeDifferenceInMinutes,
 } from "~/functions/time";
@@ -35,26 +36,26 @@ export default function UpdateFlightScheduleForm({
   }, [offBlockTime, takeoffTime, arrivalTime, onBlockTime, setSchedule]);
 
   const taxiOutTime = getTimeDifferenceInMinutes(
-    new Date(offBlockTime),
-    new Date(takeoffTime),
+    formattedToDate(offBlockTime),
+    formattedToDate(takeoffTime),
   );
   const taxiOutColor = taxiOutTime < 0 ? "text-red-500" : "";
 
   const airTime = getTimeDifferenceInHours(
-    new Date(takeoffTime),
-    new Date(arrivalTime),
+    formattedToDate(takeoffTime),
+    formattedToDate(arrivalTime),
   );
   const airTimeColor = airTime.startsWith("-") ? "text-red-500" : "";
 
   const taxiInTime = getTimeDifferenceInMinutes(
-    new Date(arrivalTime),
-    new Date(onBlockTime),
+    formattedToDate(arrivalTime),
+    formattedToDate(onBlockTime),
   );
   const taxiInColor = taxiInTime < 0 ? "text-red-500" : "";
 
   const blockTime = getTimeDifferenceInHours(
-    new Date(offBlockTime),
-    new Date(onBlockTime),
+    formattedToDate(offBlockTime),
+    formattedToDate(onBlockTime),
   );
 
   return (

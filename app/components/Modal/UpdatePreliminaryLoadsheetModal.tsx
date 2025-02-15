@@ -16,8 +16,8 @@ export default function UpdatePreliminaryLoadsheetModal({
   update,
   cancel,
 }: UpdatePreliminaryLoadsheetModalProps) {
-  const oldLoadsheet = flight.loadsheets.preliminary;
-  const loadsheetTemplate = {
+  console.log(flight.loadsheets);
+  const oldLoadsheet = flight.loadsheets.preliminary ?? {
     flightCrew: { pilots: 0, reliefPilots: 0, cabinCrew: 0 },
     passengers: 0,
     zeroFuelWeight: 0,
@@ -25,9 +25,7 @@ export default function UpdatePreliminaryLoadsheetModal({
     payload: 0,
     blockFuel: 0,
   };
-  const [newLoadsheet, setNewLoadsheet] = useState<Loadsheet>(
-    oldLoadsheet || loadsheetTemplate,
-  );
+  const [newLoadsheet, setNewLoadsheet] = useState<Loadsheet>(oldLoadsheet);
 
   return (
     <Modal
@@ -39,7 +37,7 @@ export default function UpdatePreliminaryLoadsheetModal({
       <Modal.Header>Update preliminary loadsheet</Modal.Header>
       <Modal.Body>
         <UpdateFlightLoadsheetForm
-          loadsheet={newLoadsheet}
+          loadsheet={oldLoadsheet}
           setLoadsheet={useCallback((loadsheet: Loadsheet) => {
             setNewLoadsheet(loadsheet);
           }, [])}
