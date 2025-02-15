@@ -1,4 +1,4 @@
-import { CreateFlightDto, Flight, Schedule } from "~/models";
+import { CreateFlightDto, Flight, Loadsheet, Schedule } from "~/models";
 import { AbstractApiService } from "~/state/api/api.service";
 
 export class FlightService extends AbstractApiService {
@@ -25,6 +25,19 @@ export class FlightService extends AbstractApiService {
       `/api/v1/flight/${id}/timesheet/scheduled`,
       {
         body: JSON.stringify(timesheet),
+        method: "PATCH",
+      },
+    );
+  }
+
+  async updatePreliminaryLoadsheet(
+    id: string,
+    loadsheet: Loadsheet,
+  ): Promise<void> {
+    return this.requestWithAuth<void>(
+      `/api/v1/flight/${id}/loadsheet/preliminary`,
+      {
+        body: JSON.stringify(loadsheet),
         method: "PATCH",
       },
     );

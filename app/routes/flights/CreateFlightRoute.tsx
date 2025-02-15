@@ -50,6 +50,10 @@ export async function clientAction({
         onBlockTime: rawFormData.onBlockTime,
       },
     },
+    loadsheets: {
+      final: null,
+      preliminary: null,
+    },
   };
 
   const created = await flightService.createNew(flight);
