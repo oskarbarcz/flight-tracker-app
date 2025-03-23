@@ -2,18 +2,19 @@
 
 import { Button } from "flowbite-react";
 import { useFlight } from "~/state/hooks/useFlight";
+import { Flight } from "~/models";
 
 type FinishOffboardingButtonProps = {
-  flightId: string;
+  flight: Flight;
 };
 
 export default function FinishOffboardingButton({
-  flightId,
+  flight,
 }: FinishOffboardingButtonProps) {
   const { finishOffboarding } = useFlight();
 
   const onClick = async () => {
-    await finishOffboarding(flightId);
+    await finishOffboarding(flight.id);
   };
 
   return <Button onClick={onClick}>Finish offboarding</Button>;

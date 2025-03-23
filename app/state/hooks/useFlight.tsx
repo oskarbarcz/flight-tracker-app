@@ -1,5 +1,5 @@
 import { useFlightState } from "~/state/contexts/flight.state";
-import { FilledSchedule, Flight } from "~/models";
+import { FilledSchedule, Flight, Loadsheet } from "~/models";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { useCallback } from "react";
 
@@ -30,8 +30,8 @@ export const useFlight = () => {
     await loadFlight(flightId);
   };
 
-  const finishBoarding = async (flightId: string) => {
-    await flightService.finishBoarding(flightId);
+  const finishBoarding = async (flightId: string, loadsheet: Loadsheet) => {
+    await flightService.finishBoarding(flightId, loadsheet);
     await loadFlight(flightId);
   };
 

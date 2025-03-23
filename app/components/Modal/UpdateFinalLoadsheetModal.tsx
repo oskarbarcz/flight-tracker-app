@@ -5,25 +5,18 @@ import { Button, Modal } from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import FlightLoadsheetForm from "~/components/Forms/FlightLoadsheetForm";
 
-type UpdatePreliminaryLoadsheetModalProps = {
+type UpdateFinalLoadsheetModalProps = {
   flight: Flight;
   update: (flightId: string, loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
-export default function UpdatePreliminaryLoadsheetModal({
+export default function UpdateFinalLoadsheetModal({
   flight,
   update,
   cancel,
-}: UpdatePreliminaryLoadsheetModalProps) {
-  const oldLoadsheet = flight.loadsheets.preliminary ?? {
-    flightCrew: { pilots: 0, reliefPilots: 0, cabinCrew: 0 },
-    passengers: 0,
-    zeroFuelWeight: 0,
-    cargo: 0,
-    payload: 0,
-    blockFuel: 0,
-  };
+}: UpdateFinalLoadsheetModalProps) {
+  const oldLoadsheet = flight.loadsheets.preliminary as Loadsheet;
   const [newLoadsheet, setNewLoadsheet] = useState<Loadsheet>(oldLoadsheet);
 
   return (
@@ -33,7 +26,7 @@ export default function UpdatePreliminaryLoadsheetModal({
       show
       onClose={cancel}
     >
-      <Modal.Header>Update preliminary loadsheet</Modal.Header>
+      <Modal.Header>Fill final loadsheet</Modal.Header>
       <Modal.Body>
         <FlightLoadsheetForm
           loadsheet={oldLoadsheet}
@@ -48,7 +41,7 @@ export default function UpdatePreliminaryLoadsheetModal({
             Back
           </Button>
           <Button onClick={() => update(flight.id, newLoadsheet)}>
-            Update loadsheet for flight {flight.flightNumber}
+            Finish boarding
           </Button>
         </div>
       </Modal.Footer>

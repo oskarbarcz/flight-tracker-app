@@ -2,18 +2,19 @@
 
 import { Button } from "flowbite-react";
 import { useFlight } from "~/state/hooks/useFlight";
+import { Flight } from "~/models";
 
 type ReportTakeoffButtonProps = {
-  flightId: string;
+  flight: Flight;
 };
 
 export default function ReportTakeoffButton({
-  flightId,
+  flight,
 }: ReportTakeoffButtonProps) {
   const { reportTakeoff } = useFlight();
 
   const onClick = async () => {
-    await reportTakeoff(flightId);
+    await reportTakeoff(flight.id);
   };
 
   return <Button onClick={onClick}>Report takeoff</Button>;
