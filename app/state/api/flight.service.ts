@@ -62,8 +62,9 @@ export class FlightService extends AbstractApiService {
     });
   }
 
-  async finishBoarding(id: string): Promise<void> {
+  async finishBoarding(id: string, loadsheet: Loadsheet): Promise<void> {
     return this.requestWithAuth<void>(`/api/v1/flight/${id}/finish-boarding`, {
+      body: JSON.stringify(loadsheet),
       method: "POST",
     });
   }

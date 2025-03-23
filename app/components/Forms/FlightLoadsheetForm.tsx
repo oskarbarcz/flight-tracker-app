@@ -8,7 +8,7 @@ type UpdateFlightLoadsheetFormProps = {
   setLoadsheet: (loadsheet: Loadsheet) => void;
 };
 
-export default function UpdateFlightLoadsheetForm({
+export default function FlightLoadsheetForm({
   loadsheet,
   setLoadsheet,
 }: UpdateFlightLoadsheetFormProps) {
