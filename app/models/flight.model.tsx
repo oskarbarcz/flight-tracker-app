@@ -28,6 +28,35 @@ export enum AirportOnFlightType {
   DestinationAlternate = "destination_alternate",
 }
 
+export enum FlightPrecedenceStatus {
+  Upcoming = "upcoming",
+  Ongoing = "ongoing",
+  Finished = "finished",
+}
+
+export function precedenceToStatus(
+  precedence: FlightPrecedenceStatus,
+): FlightStatus[] {
+  switch (precedence) {
+    case FlightPrecedenceStatus.Ongoing:
+      return [
+        FlightStatus.CheckedIn,
+        FlightStatus.BoardingStarted,
+        FlightStatus.BoardingFinished,
+        FlightStatus.TaxiingOut,
+        FlightStatus.InCruise,
+        FlightStatus.TaxiingIn,
+        FlightStatus.OnBlock,
+        FlightStatus.OffboardingStarted,
+        FlightStatus.OffboardingFinished,
+      ];
+    case FlightPrecedenceStatus.Finished:
+      return [FlightStatus.Closed];
+    default:
+      return [FlightStatus.Created, FlightStatus.Ready];
+  }
+}
+
 export function isFlightTrackable(status: FlightStatus): boolean {
   const trackableStatuses = [
     FlightStatus.CheckedIn,

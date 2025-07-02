@@ -1,6 +1,13 @@
 "use client";
 
-import { FilledSchedule, Flight, FlightStatus, Loadsheet } from "~/models";
+import {
+  FilledSchedule,
+  Flight,
+  FlightPrecedenceStatus,
+  FlightStatus,
+  Loadsheet,
+  precedenceToStatus,
+} from "~/models";
 import { Alert, Button, Table } from "flowbite-react";
 import { FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
@@ -13,7 +20,11 @@ import UpdateScheduledTimesheetModal from "~/components/Modal/UpdateScheduledTim
 import { HiInformationCircle } from "react-icons/hi";
 import UpdatePreliminaryLoadsheetModal from "~/components/Modal/UpdatePreliminaryLoadsheetModal";
 
-export default function FlightListTable() {
+export type FlightListTableProps = {
+  precedence: FlightPrecedenceStatus;
+};
+
+export default function FlightListTable({ precedence }: FlightListTableProps) {
   const flightService = useFlightService();
   const [flights, setFlights] = React.useState<Flight[]>([]);
   const [flightToRemove, setFlightToRemove] = React.useState<Flight | null>(
@@ -32,7 +43,7 @@ export default function FlightListTable() {
 
   useEffect(() => {
     flightService.fetchAllFlights().then(setFlights);
-  }, [flightService]);
+  }, [flightService, precedence]);
 
   const removeFlight = async (flightId: string) => {
     await flightService.remove(flightId);
@@ -99,6 +110,9 @@ export default function FlightListTable() {
         <Table.Body className="divide-y">
           {Array.isArray(flights) &&
             flights
+              .filter((flight) =>
+                precedenceToStatus(precedence).includes(flight.status),
+              )
               .sort((a, b) => a.flightNumber.localeCompare(b.flightNumber))
               .map((flight: Flight, i: number) => (
                 <>

@@ -4,7 +4,8 @@ import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import FlightListTable from "~/components/Tables/FlightListTable";
+import FlightStatusSelector from "~/components/Tables/Selectors/FlightStatusSelector";
+import React from "react";
 
 export default function FlightsListRoute() {
   usePageTitle("Flight plans");
@@ -16,7 +17,7 @@ export default function FlightsListRoute() {
         linkText="Create new"
         linkUrl="/flights/new"
       />
-      <FlightListTable />
+      <FlightStatusSelector />
     </ProtectedRoute>
   );
 }
