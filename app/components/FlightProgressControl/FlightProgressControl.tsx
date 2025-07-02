@@ -17,7 +17,7 @@ type FlightProgressButtonProps = {
   flight: Flight;
 };
 
-function mapStatusToButton(flight: Flight): ReactElement | null {
+function mapStatusToButton(flight: Flight): ReactElement<typeof StartBoardingButton> | null {
   switch (flight.status) {
     case FlightStatus.CheckedIn:
       return <StartBoardingButton flight={flight} />;
