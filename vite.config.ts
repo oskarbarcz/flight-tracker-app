@@ -12,6 +12,6 @@ export default defineConfig({
   },
   plugins: [reactRouter(), tsconfigPaths()],
   define: {
-    "process.env": process.env,
+    "process.env.VITE_API_BASE_URL": process.env.VITE_API_BASE_URL,
   },
 });
