@@ -1,5 +1,5 @@
 import { HiHome } from "react-icons/hi";
-import { MdLocalAirport } from "react-icons/md";
+import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
 import { LuTowerControl } from "react-icons/lu";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import SidebarElement from "~/components/Sidebar/SidebarElement";
@@ -68,6 +68,12 @@ export function Sidebar({
               label="Flight plans"
               href="/flights"
               icon={GrDocumentTime}
+            />
+            <SidebarElement
+              isCollapsed={isCollapsed}
+              label="Rotations"
+              href="/rotations"
+              icon={MdOutlineScreenRotationAlt}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
