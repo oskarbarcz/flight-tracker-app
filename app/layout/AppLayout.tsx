@@ -7,6 +7,7 @@ import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Flowbite } from "flowbite-react";
+import { ToastContainer } from "react-toastify";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
   const classes = [
@@ -93,6 +94,7 @@ export default function AppLayout() {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </ProtectedRoute>
     </Flowbite>
   );

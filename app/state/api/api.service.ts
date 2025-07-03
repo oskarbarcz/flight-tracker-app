@@ -1,5 +1,13 @@
 import { getApiBaseUrl } from "~/functions/getApiBaseUrl";
 
+export type BadRequestViolations<T> = Record<keyof T, string[]>;
+
+export type ErrorResponse<T> = {
+  error: string;
+  message: string;
+  violations?: BadRequestViolations<T>;
+};
+
 export abstract class AbstractApiService {
   protected baseUrl: string;
 
@@ -98,6 +106,11 @@ export abstract class AbstractApiService {
 
     if (response.status === 204) {
       return "" as T;
+    }
+
+    if (response.status >= 400 && response.status < 500) {
+      const errorResponse = (await response.json()) as ErrorResponse<T>;
+      return Promise.reject(errorResponse);
     }
 
     return (await response.json()) as T;
