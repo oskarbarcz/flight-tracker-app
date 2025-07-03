@@ -2,7 +2,7 @@
 
 import { Label, TextInput } from "flowbite-react";
 import React from "react";
-import InputErrorList from "~/components/Form/Section/InputErrorList";
+import InputErrorList from "~/components/BaseComponents/Form/Partial/InputErrorList";
 
 type InputProps = {
   htmlName: string;
@@ -35,7 +35,7 @@ export default function InputBlock({
         required={required}
         color={errors.length ? "failure" : undefined}
       />
-      {errors.length > 0 && <InputErrorList errors={errors} />}
+      <InputErrorList errors={errors} />
     </div>
   );
 }

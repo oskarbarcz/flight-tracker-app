@@ -12,7 +12,7 @@ import {
   useNavigate,
 } from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/rotations/+types/EditRotationRoute";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/BaseComponents/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

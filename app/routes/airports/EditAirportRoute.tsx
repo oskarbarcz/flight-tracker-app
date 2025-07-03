@@ -9,7 +9,7 @@ import { AirportService } from "~/state/api/airport.service";
 import { Airport, EditAirportDto } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/BaseComponents/Form/InputBlock";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

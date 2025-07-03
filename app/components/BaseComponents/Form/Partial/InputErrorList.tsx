@@ -6,6 +6,10 @@ type InputErrorListProps = {
 };
 
 export default function InputErrorList({ errors }: InputErrorListProps) {
+  if (errors.length === 0) {
+    return;
+  }
+
   return (
     <HelperText color="failure">
       {errors.map((error, index) => (

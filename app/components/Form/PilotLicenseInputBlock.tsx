@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { GetUserResponse } from "~/models";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
 import { useUserService } from "~/state/hooks/api/useUserService";
-import { FaTrash } from "react-icons/fa";
-import InputErrorList from "~/components/Form/Section/InputErrorList";
+import InputErrorList from "~/components/BaseComponents/Form/Partial/InputErrorList";
+import PilotInputPreview from "~/components/Form/Section/PilotInputPreview";
 
 type PilotLicenseInputBlockProps = {
   htmlName: string;
@@ -101,33 +101,16 @@ export default function PilotLicenseInputBlock({
         value={pilotLicenseId}
         onChange={onInputChange}
       />
-      {errors.length > 0 && <InputErrorList errors={errors} />}
+      <InputErrorList errors={errors} />
       {pilot && (
-        <div className="mt-2 flex items-center justify-between rounded-lg border p-3 dark:border-gray-600 dark:bg-gray-700">
-          <div>
-            <span className="block text-lg dark:text-white">{pilot.name}</span>
-            <span className="mt-1 block text-xs dark:text-gray-300">
-              Email: {pilot.email}
-            </span>
-            <span className="text-xs dark:text-gray-300">
-              License ID: {pilot.pilotLicenseId}
-            </span>
-          </div>
-          <div>
-            <Button
-              onClick={() => {
-                setPilotLicenseId("");
-                setPilotId(undefined);
-                setPilot(null);
-              }}
-              color="gray"
-              size="lg"
-              className="cursor-pointer"
-            >
-              <FaTrash />
-            </Button>
-          </div>
-        </div>
+        <PilotInputPreview
+          user={pilot}
+          onClose={() => {
+            setPilotLicenseId("");
+            setPilotId(undefined);
+            setPilot(null);
+          }}
+        />
       )}
     </div>
   );
