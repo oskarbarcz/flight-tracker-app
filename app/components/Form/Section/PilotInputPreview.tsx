@@ -13,7 +13,7 @@ export default function PilotInputPreview({
   user,
 }: PilotInputPreviewProps) {
   return (
-    <div className="mt-2 flex items-center justify-between rounded-lg border p-3 dark:border-gray-600 dark:bg-gray-700">
+    <div className="mt-2 flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-3 dark:border-gray-600 dark:bg-gray-700">
       <div>
         <span className="block text-lg dark:text-white">{user.name}</span>
         <span className="mt-1 block text-xs dark:text-gray-300">
