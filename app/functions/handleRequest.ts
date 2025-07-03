@@ -24,6 +24,20 @@ function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function errorForKey<T>(
+  response: ErrorResponse<T>,
+  fieldName: keyof T,
+): string[] {
+  if (!response.violations) {
+    return [];
+  }
+  if (!response.violations[fieldName]) {
+    return [];
+  }
+  console.log(response.violations[fieldName]);
+  return response.violations[fieldName].map(capitalizeFirstLetter);
+}
+
 export function handleRequestSuccess<ResponseDto>(
   response: ResponseDto,
   redirectUrl: string,
@@ -41,18 +55,11 @@ export function handleRequestError<RequestDto>(
 ): ErrorResponseWrapper<RequestDto> {
   const hasViolations =
     response.violations && Object.keys(response.violations).length > 0;
-
   return {
     body: response,
     oneGeneralError: hasViolations ? undefined : response.error,
     violations: response.violations,
-    errorsForKey: (fieldName: keyof RequestDto): string[] => {
-      return hasViolations
-        ? (response.violations?.[fieldName].map(
-            capitalizeFirstLetter,
-          ) as string[])
-        : [];
-    },
+    errorsForKey: (key) => errorForKey<RequestDto>(response, key),
     isSuccessful: false,
     isError: true,
   };

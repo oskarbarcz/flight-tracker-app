@@ -10,6 +10,8 @@ export type User = {
   email: string;
   role: UserRole;
   currentFlightId: string;
+  pilotLicenseId: string;
 };
 
 export type GetUserResponse = User;
+export type ListUsersResponse = User[];

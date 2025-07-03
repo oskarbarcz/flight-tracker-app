@@ -18,6 +18,7 @@ import {
   handleRequestSuccess,
   ResponseWrapper,
 } from "~/functions/handleRequest";
+import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
 
 type CreateRotationResponse = ResponseWrapper<
   CreateRotationRequest,
@@ -70,9 +71,9 @@ export default function CreateRotationRoute() {
             label="Rotation name"
             errors={response?.isError ? response.errorsForKey("name") : []}
           />
-          <InputBlock
+          <PilotLicenseInputBlock
             htmlName="pilotId"
-            label="Pilot ID"
+            label="Captain pilot license ID"
             errors={response?.isError ? response.errorsForKey("pilotId") : []}
           />
 
