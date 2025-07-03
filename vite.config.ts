@@ -11,7 +11,5 @@ export default defineConfig({
     },
   },
   plugins: [reactRouter(), tsconfigPaths()],
-  define: {
-    "process.env": process.env,
-  },
+  define: {},
 });
