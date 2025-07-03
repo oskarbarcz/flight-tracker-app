@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
@@ -61,9 +61,9 @@ export default function EditRotationRoute() {
   const navigate = useNavigate();
   const response = useActionData<typeof clientAction>();
 
-  React.useEffect(() => {
-    if (response?.isSuccessful && response.redirectUrl) {
-      navigate(response.redirectUrl);
+  useEffect(() => {
+    if (response?.isSuccessful) {
+      navigate(response.redirectUrl, { viewTransition: true });
     }
     if (response?.isError && response.oneGeneralError) {
       showFormSubmitErrorToast(response.oneGeneralError);

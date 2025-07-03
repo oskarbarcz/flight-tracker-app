@@ -11,10 +11,6 @@ type InputProps = {
   errors?: string[];
 };
 
-function capitalizeFirstLetter(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 export default function InputBlock({
   htmlName,
   label,
@@ -48,7 +44,7 @@ export default function InputBlock({
               >
                 Error
               </Badge>
-              {capitalizeFirstLetter(error)}
+              {error}
             </span>
           ))}
         </HelperText>

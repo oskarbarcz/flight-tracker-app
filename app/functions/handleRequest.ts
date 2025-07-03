@@ -20,6 +20,10 @@ export type ResponseWrapper<RequestDto, ResponseDto> =
   | SuccessResponseWrapper<ResponseDto>
   | ErrorResponseWrapper<RequestDto>;
 
+function capitalizeFirstLetter(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export function handleRequestSuccess<ResponseDto>(
   response: ResponseDto,
   redirectUrl: string,
@@ -44,7 +48,9 @@ export function handleRequestError<RequestDto>(
     violations: response.violations,
     errorsForKey: (fieldName: keyof RequestDto): string[] => {
       return hasViolations
-        ? (response.violations?.[fieldName] as string[])
+        ? (response.violations?.[fieldName].map(
+            capitalizeFirstLetter,
+          ) as string[])
         : [];
     },
     isSuccessful: false,
