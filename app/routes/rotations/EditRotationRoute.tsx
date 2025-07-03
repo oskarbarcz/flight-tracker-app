@@ -5,7 +5,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, useLoaderData, useActionData, useNavigate } from "react-router";
-import { Route } from "../../../.react-router/types/app/routes/aircraft/+types/EditAircraftRoute";
+import { Route } from "../../../.react-router/types/app/routes/rotations/+types/EditRotationRoute";
 import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";

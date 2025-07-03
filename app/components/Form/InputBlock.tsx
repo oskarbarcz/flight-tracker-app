@@ -41,8 +41,8 @@ export default function InputBlock({
       {errors.length > 0 && (
         <HelperText color="failure">
           {errors.map((error, index) => (
-            <div>
-              <span key={index} className="block">
+            <div key={index}>
+              <span className="block">
                 <Badge
                   className="mb-1 me-2 inline-block uppercase"
                   color="failure"
