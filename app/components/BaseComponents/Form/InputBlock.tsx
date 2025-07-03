@@ -1,7 +1,7 @@
 "use client";
 
 import { Label, TextInput } from "flowbite-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InputErrorList from "~/components/BaseComponents/Form/Partial/InputErrorList";
 
 type InputProps = {
@@ -19,13 +19,19 @@ export default function InputBlock({
   defaultValue,
   errors = [],
 }: InputProps) {
+  const [isMarkedRed, setisMarkedRed] = useState<boolean>(false);
+
+  useEffect(() => {
+    setisMarkedRed(errors.length > 0);
+  }, [errors]);
+
   return (
     <div>
       <div className="mb-2 block">
         <Label
           htmlFor={htmlName}
           value={label}
-          color={errors.length ? "failure" : undefined}
+          color={isMarkedRed ? "failure" : undefined}
         />
       </div>
       <TextInput
@@ -33,9 +39,12 @@ export default function InputBlock({
         name={htmlName}
         defaultValue={defaultValue}
         required={required}
-        color={errors.length ? "failure" : undefined}
+        onChange={() => {
+          setisMarkedRed(false);
+        }}
+        color={isMarkedRed ? "failure" : undefined}
       />
-      <InputErrorList errors={errors} />
+      <InputErrorList errorFocus={isMarkedRed} errors={errors} />
     </div>
   );
 }

@@ -15,8 +15,6 @@ type PilotLicenseInputBlockProps = {
 };
 
 const errorToMessage = (error: unknown): string => {
-  console.log(error);
-
   if (typeof error === "object" && error !== null && "statusCode" in error) {
     const errorObj = error as { statusCode: number };
     if (errorObj.statusCode === 400) {
@@ -64,6 +62,7 @@ export default function PilotLicenseInputBlock({
     const value = e.target.value;
     setPilotLicenseId(value);
     setPilot(null);
+    setPilotId("");
 
     if (value && value.length !== 8) {
       setErrors([]);
@@ -92,7 +91,7 @@ export default function PilotLicenseInputBlock({
       <TextInput
         id={htmlName}
         name={htmlName}
-        value={pilotId}
+        defaultValue={pilotId}
         className="hidden"
       />
       <TextInput
@@ -101,7 +100,7 @@ export default function PilotLicenseInputBlock({
         value={pilotLicenseId}
         onChange={onInputChange}
       />
-      <InputErrorList errors={errors} />
+      <InputErrorList errors={errors} errorFocus={true} />
       {pilot && (
         <PilotInputPreview
           user={pilot}

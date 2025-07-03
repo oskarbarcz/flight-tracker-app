@@ -34,7 +34,7 @@ function errorForKey<T>(
   if (!response.violations[fieldName]) {
     return [];
   }
-  console.log(response.violations[fieldName]);
+
   return response.violations[fieldName].map(capitalizeFirstLetter);
 }
 
