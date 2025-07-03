@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
@@ -24,6 +24,7 @@ import {
   ResponseWrapper,
 } from "~/functions/handleRequest";
 import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
+import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
 
 type EditRotationResponse = ResponseWrapper<
   EditRotationRequest,
@@ -88,9 +89,9 @@ export default function EditRotationRoute() {
             defaultValue={rotation.name}
             errors={response?.isError ? response.errorsForKey("name") : []}
           />
-          <InputBlock
+          <PilotLicenseInputBlock
             htmlName="pilotId"
-            label="Pilot ID"
+            label="Captain pilot license ID"
             defaultValue={rotation.pilot.id}
             errors={response?.isError ? response.errorsForKey("pilotId") : []}
           />

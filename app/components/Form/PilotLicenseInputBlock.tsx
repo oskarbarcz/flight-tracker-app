@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { GetUserResponse } from "~/models";
-import { Badge, Button, HelperText, Label, TextInput } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { useUserService } from "~/state/hooks/api/useUserService";
 import { FaTrash } from "react-icons/fa";
+import InputErrorList from "~/components/Form/Section/InputErrorList";
 
 type PilotLicenseInputBlockProps = {
   htmlName: string;
@@ -16,7 +17,6 @@ type PilotLicenseInputBlockProps = {
 const errorToMessage = (error: unknown): string => {
   console.log(error);
 
-  // Type guard for error objects with statusCode
   if (typeof error === "object" && error !== null && "statusCode" in error) {
     const errorObj = error as { statusCode: number };
     if (errorObj.statusCode === 400) {
@@ -43,6 +43,18 @@ export default function PilotLicenseInputBlock({
   const [pilotId, setPilotId] = useState<string | undefined>(defaultValue);
   const [pilotLicenseId, setPilotLicenseId] = useState<string>("");
   const [errors, setErrors] = useState<string[]>(parentErrors);
+
+  useEffect(() => {
+    if (!defaultValue) {
+      return;
+    }
+
+    userService.getUserById(defaultValue).then((user) => {
+      setPilot(user);
+      setPilotId(user.id);
+      setPilotLicenseId(user.pilotLicenseId);
+    });
+  }, [defaultValue, userService]);
 
   useEffect(() => {
     setErrors(parentErrors);
@@ -89,21 +101,7 @@ export default function PilotLicenseInputBlock({
         value={pilotLicenseId}
         onChange={onInputChange}
       />
-      {errors.length > 0 && (
-        <HelperText color="failure">
-          {errors.map((error, index) => (
-            <span key={index} className="block">
-              <Badge
-                className="mb-1 me-2 inline-block uppercase"
-                color="failure"
-              >
-                Error
-              </Badge>
-              {error}
-            </span>
-          ))}
-        </HelperText>
-      )}
+      {errors.length > 0 && <InputErrorList errors={errors} />}
       {pilot && (
         <div className="mt-2 flex items-center justify-between rounded-lg border p-3 dark:border-gray-600 dark:bg-gray-700">
           <div>

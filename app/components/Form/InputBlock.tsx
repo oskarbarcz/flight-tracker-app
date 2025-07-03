@@ -1,7 +1,8 @@
 "use client";
 
-import { Badge, HelperText, Label, TextInput } from "flowbite-react";
+import { Label, TextInput } from "flowbite-react";
 import React from "react";
+import InputErrorList from "~/components/Form/Section/InputErrorList";
 
 type InputProps = {
   htmlName: string;
@@ -34,21 +35,7 @@ export default function InputBlock({
         required={required}
         color={errors.length ? "failure" : undefined}
       />
-      {errors.length > 0 && (
-        <HelperText color="failure">
-          {errors.map((error, index) => (
-            <span key={index} className="block">
-              <Badge
-                className="mb-1 me-2 inline-block uppercase"
-                color="failure"
-              >
-                Error
-              </Badge>
-              {error}
-            </span>
-          ))}
-        </HelperText>
-      )}
+      {errors.length > 0 && <InputErrorList errors={errors} />}
     </div>
   );
 }
