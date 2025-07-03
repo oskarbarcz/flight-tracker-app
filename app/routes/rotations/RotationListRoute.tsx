@@ -8,7 +8,7 @@ import { Link } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Rotation } from "~/models";
+import { RotationResponse } from "~/models";
 import { useRotationService } from "~/state/hooks/api/useRotationService";
 import { FaTrash } from "react-icons/fa";
 import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
@@ -16,9 +16,9 @@ import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
 export default function RotationListRoute() {
   usePageTitle("Rotation list");
   const rotationService = useRotationService();
-  const [rotations, setRotations] = React.useState<Rotation[]>([]);
+  const [rotations, setRotations] = React.useState<RotationResponse[]>([]);
   const [rotationToRemove, setRotationToRemove] =
-    React.useState<Rotation | null>(null);
+    React.useState<RotationResponse | null>(null);
 
   useEffect(() => {
     rotationService.getAll().then(setRotations);
@@ -47,7 +47,7 @@ export default function RotationListRoute() {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {rotations.map((rotation: Rotation, i: number) => (
+            {rotations.map((rotation: RotationResponse, i: number) => (
               <Table.Row
                 key={i}
                 className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
@@ -55,7 +55,16 @@ export default function RotationListRoute() {
                 <Table.Cell className="text-gray-900 dark:text-white">
                   {rotation.name}
                 </Table.Cell>
-                <Table.Cell>{rotation.pilotId}</Table.Cell>
+                <Table.Cell>
+                  <div>
+                    <span className="block text-gray-900 dark:text-white">
+                      {rotation.pilot.name}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      License: {rotation.pilot.pilotLicenseId}
+                    </span>
+                  </div>
+                </Table.Cell>
                 <Table.Cell>
                   <div className="flex gap-2 text-gray-500">
                     <Link

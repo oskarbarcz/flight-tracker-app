@@ -1,8 +1,16 @@
+export type Pilot = {
+  id: string;
+  name: string;
+  pilotLicenseId: string;
+};
+
 export type Rotation = {
   id: string;
   name: string;
   pilotId: string;
+  pilot: Pilot;
 };
 
-export type CreateRotationDto = Omit<Rotation, "id">;
-export type EditRotationDto = CreateRotationDto;
+export type CreateRotationRequest = Omit<Rotation, "id" | "pilot">;
+export type EditRotationRequest = CreateRotationRequest;
+export type RotationResponse = Omit<Rotation, "pilotId">;

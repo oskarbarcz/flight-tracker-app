@@ -11,10 +11,6 @@ type InputProps = {
   errors?: string[];
 };
 
-function capitalizeFirstLetter(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
 export default function InputBlock({
   htmlName,
   label,
@@ -41,17 +37,15 @@ export default function InputBlock({
       {errors.length > 0 && (
         <HelperText color="failure">
           {errors.map((error, index) => (
-            <div key={index}>
-              <span className="block">
-                <Badge
-                  className="mb-1 me-2 inline-block uppercase"
-                  color="failure"
-                >
-                  Error
-                </Badge>
-                {capitalizeFirstLetter(error)}
-              </span>
-            </div>
+            <span key={index} className="block">
+              <Badge
+                className="mb-1 me-2 inline-block uppercase"
+                color="failure"
+              >
+                Error
+              </Badge>
+              {error}
+            </span>
           ))}
         </HelperText>
       )}
