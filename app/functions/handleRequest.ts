@@ -1,18 +1,29 @@
 import { ErrorResponse, BadRequestViolations } from "~/state/api/api.service";
 
-export type ResponseWrapper<T> = {
-  body: T | ErrorResponse<T>;
-  redirectUrl?: string;
-  isSuccessful: boolean;
-  isError: boolean;
-  oneGeneralError?: string;
-  violations?: BadRequestViolations<T>;
+type SuccessResponseWrapper<ResponseDto> = {
+  body: ResponseDto;
+  redirectUrl: string;
+  isSuccessful: true;
+  isError: false;
 };
 
-export function handleRequestSuccess<T>(
-  response: T,
+type ErrorResponseWrapper<RequestDto> = {
+  body: ErrorResponse<RequestDto>;
+  isSuccessful: false;
+  isError: true;
+  oneGeneralError?: string;
+  violations?: BadRequestViolations<RequestDto>;
+  errorsForKey: (fieldName: keyof RequestDto) => string[];
+};
+
+export type ResponseWrapper<RequestDto, ResponseDto> =
+  | SuccessResponseWrapper<ResponseDto>
+  | ErrorResponseWrapper<RequestDto>;
+
+export function handleRequestSuccess<ResponseDto>(
+  response: ResponseDto,
   redirectUrl: string,
-): ResponseWrapper<T> {
+): SuccessResponseWrapper<ResponseDto> {
   return {
     body: response,
     redirectUrl: redirectUrl,
@@ -21,15 +32,21 @@ export function handleRequestSuccess<T>(
   };
 }
 
-export function handleRequestError<T>(
-  response: ErrorResponse<T>,
-): ResponseWrapper<T> {
+export function handleRequestError<RequestDto>(
+  response: ErrorResponse<RequestDto>,
+): ErrorResponseWrapper<RequestDto> {
   const hasViolations =
     response.violations && Object.keys(response.violations).length > 0;
+
   return {
     body: response,
     oneGeneralError: hasViolations ? undefined : response.error,
     violations: response.violations,
+    errorsForKey: (fieldName: keyof RequestDto): string[] => {
+      return hasViolations
+        ? (response.violations?.[fieldName] as string[])
+        : [];
+    },
     isSuccessful: false,
     isError: true,
   };

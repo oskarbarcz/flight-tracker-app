@@ -9,7 +9,7 @@ import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import InputBlock from "~/components/Form/InputBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { CreateRotationDto, Rotation } from "~/models";
+import { CreateRotationRequest, RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { Route } from "../../../.react-router/types/app/routes/rotations/+types/CreateRotationRoute";
 import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
@@ -19,13 +19,21 @@ import {
   ResponseWrapper,
 } from "~/functions/handleRequest";
 
+type CreateRotationResponse = ResponseWrapper<
+  CreateRotationRequest,
+  RotationResponse
+>;
+
 export async function clientAction({
   request,
-}: Route.ClientActionArgs): Promise<ResponseWrapper<Rotation>> {
+}: Route.ClientActionArgs): Promise<CreateRotationResponse> {
   const rotationService = new RotationService();
 
   const form = await request.formData();
-  const rotation = getFormData<CreateRotationDto>(form, ["name", "pilotId"]);
+  const rotation = getFormData<CreateRotationRequest>(form, [
+    "name",
+    "pilotId",
+  ]);
   return rotationService
     .createNew(rotation)
     .then((response) => handleRequestSuccess(response, "/rotations"))
@@ -60,12 +68,12 @@ export default function CreateRotationRoute() {
           <InputBlock
             htmlName="name"
             label="Rotation name"
-            errors={response?.violations?.name}
+            errors={response?.isError ? response?.violations?.name : []}
           />
           <InputBlock
             htmlName="pilotId"
             label="Pilot ID"
-            errors={response?.violations?.pilotId}
+            errors={response?.isError ? response.errorsForKey("pilotId") : []}
           />
 
           <Button type="submit">Create new rotation</Button>

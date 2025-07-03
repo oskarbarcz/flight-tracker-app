@@ -4,14 +4,20 @@ import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
-import { Form, useLoaderData, useActionData, useNavigate } from "react-router";
+import {
+  Form,
+  useLoaderData,
+  useActionData,
+  redirect,
+  useNavigate,
+} from "react-router";
 import { Route } from "../../../.react-router/types/app/routes/rotations/+types/EditRotationRoute";
 import InputBlock from "~/components/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { RotationService } from "~/state/api/rotation.service";
-import { EditRotationDto, Rotation } from "~/models";
+import { EditRotationRequest, RotationResponse } from "~/models";
 import {
   handleRequestError,
   handleRequestSuccess,
@@ -19,14 +25,19 @@ import {
 } from "~/functions/handleRequest";
 import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
 
+type EditRotationResponse = ResponseWrapper<
+  EditRotationRequest,
+  RotationResponse
+>;
+
 export async function clientAction({
   request,
   params,
-}: Route.ClientActionArgs): Promise<ResponseWrapper<Rotation>> {
+}: Route.ClientActionArgs): Promise<EditRotationResponse> {
   const rotationService = new RotationService();
 
   const form = await request.formData();
-  const rotation = getFormData<EditRotationDto>(form, ["name", "pilotId"]);
+  const rotation = getFormData<EditRotationRequest>(form, ["name", "pilotId"]);
 
   return rotationService
     .update(params.id, rotation)
@@ -36,10 +47,13 @@ export async function clientAction({
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Rotation> {
-  const rotationService = new RotationService();
-
-  return rotationService.getById(params.id);
+}: Route.ClientLoaderArgs): Promise<RotationResponse | Response> {
+  try {
+    const rotationService = new RotationService();
+    return await rotationService.getById(params.id);
+  } catch {
+    return redirect("/rotations");
+  }
 }
 
 export default function EditRotationRoute() {
@@ -72,13 +86,13 @@ export default function EditRotationRoute() {
             htmlName="name"
             label="Rotation name"
             defaultValue={rotation.name}
-            errors={response?.violations?.name}
+            errors={response?.isError ? response.errorsForKey("name") : []}
           />
           <InputBlock
             htmlName="pilotId"
             label="Pilot ID"
-            defaultValue={rotation.pilotId}
-            errors={response?.violations?.pilotId}
+            defaultValue={rotation.pilot.id}
+            errors={response?.isError ? response.errorsForKey("pilotId") : []}
           />
 
           <Button type="submit">Save changes</Button>
