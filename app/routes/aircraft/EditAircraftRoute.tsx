@@ -8,11 +8,11 @@ import { Form, redirect, useLoaderData } from "react-router";
 import { Aircraft, CreateAircraftDto, Operator } from "~/models";
 import { Route } from "../../../.react-router/types/app/routes/aircraft/+types/EditAircraftRoute";
 import { AircraftService } from "~/state/api/aircraft.service";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/BaseComponents/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { OperatorService } from "~/state/api/operator.service";
-import SelectBlock from "~/components/Form/SelectBlock";
+import SelectBlock from "~/components/BaseComponents/Form/SelectBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientAction({

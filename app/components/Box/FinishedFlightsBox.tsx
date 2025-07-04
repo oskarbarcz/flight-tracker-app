@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Flight, FlightStatus } from "~/models";
 import { Link } from "react-router";
 

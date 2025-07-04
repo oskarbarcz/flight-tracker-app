@@ -7,7 +7,7 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { Form, useActionData, useNavigate } from "react-router";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/BaseComponents/Form/InputBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { CreateRotationRequest, RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
@@ -18,6 +18,7 @@ import {
   handleRequestSuccess,
   ResponseWrapper,
 } from "~/functions/handleRequest";
+import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
 
 type CreateRotationResponse = ResponseWrapper<
   CreateRotationRequest,
@@ -70,9 +71,9 @@ export default function CreateRotationRoute() {
             label="Rotation name"
             errors={response?.isError ? response.errorsForKey("name") : []}
           />
-          <InputBlock
+          <PilotLicenseInputBlock
             htmlName="pilotId"
-            label="Pilot ID"
+            label="Captain pilot license ID"
             errors={response?.isError ? response.errorsForKey("pilotId") : []}
           />
 

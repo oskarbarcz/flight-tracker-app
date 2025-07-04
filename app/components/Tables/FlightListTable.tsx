@@ -115,9 +115,9 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
               )
               .sort((a, b) => a.flightNumber.localeCompare(b.flightNumber))
               .map((flight: Flight, i: number) => (
-                <>
+                <React.Fragment key={i}>
                   <Table.Row
-                    key={i}
+                    key={flight.id}
                     className="cursor-pointer bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
                     onClick={() => expandFlight(flight)}
                   >
@@ -236,7 +236,9 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                         <div className="flex gap-4">
                           <div className="shrink-0">
                             <div className="mb-3 flex items-center justify-between">
-                              <h3 className="text-lg font-bold">Timesheet</h3>
+                              <h3 className="text-lg font-bold dark:text-white">
+                                Timesheet
+                              </h3>
                               {flight.status === FlightStatus.Created && (
                                 <Button
                                   onClick={() =>
@@ -255,7 +257,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                 <span className="mb-1 block text-xs">
                                   Off-block
                                 </span>
-                                <span className="block font-bold text-gray-900">
+                                <span className="block font-bold text-gray-900 dark:text-white">
                                   {getHourFromDate(
                                     flight.timesheet.scheduled.offBlockTime,
                                   )}
@@ -265,7 +267,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                 <span className="mb-1 block text-xs">
                                   Takeoff
                                 </span>
-                                <span className="block font-bold text-gray-900">
+                                <span className="block font-bold text-gray-900 dark:text-white">
                                   {getHourFromDate(
                                     flight.timesheet.scheduled.takeoffTime,
                                   )}
@@ -275,7 +277,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                 <span className="mb-1 block text-xs">
                                   Arrival
                                 </span>
-                                <span className="block font-bold text-gray-900">
+                                <span className="block font-bold text-gray-900 dark:text-white">
                                   {getHourFromDate(
                                     flight.timesheet.scheduled.arrivalTime,
                                   )}
@@ -285,7 +287,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                 <span className="mb-1 block text-xs">
                                   On-block
                                 </span>
-                                <span className="block font-bold text-gray-900">
+                                <span className="block font-bold text-gray-900 dark:text-white">
                                   {getHourFromDate(
                                     flight.timesheet.scheduled.onBlockTime,
                                   )}
@@ -296,7 +298,9 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                           <span className="border-e"></span>
                           <div>
                             <div className="mb-3 flex items-center justify-between">
-                              <h3 className="text-lg font-bold">Loadsheet</h3>
+                              <h3 className="text-lg font-bold dark:text-white">
+                                Loadsheet
+                              </h3>
                               {flight.status === FlightStatus.Created && (
                                 <Button
                                   onClick={() =>
@@ -317,7 +321,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Pilots
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary.flightCrew
                                         .pilots
@@ -328,7 +332,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Relief pilots
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary.flightCrew
                                         .reliefPilots
@@ -339,7 +343,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Cabin crew
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary.flightCrew
                                         .cabinCrew
@@ -350,7 +354,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Passengers
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.passengers}
                                   </span>
                                 </div>
@@ -358,7 +362,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Zero-fuel weight
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary
                                         .zeroFuelWeight
@@ -370,7 +374,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Cargo
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.cargo}
                                     {" t"}
                                   </span>
@@ -379,7 +383,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Payload
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.payload}
                                     {" t"}
                                   </span>
@@ -388,7 +392,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Block fuel
                                   </span>
-                                  <span className="block font-bold text-gray-900">
+                                  <span className="block font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.blockFuel}
                                     {" t"}
                                   </span>
@@ -405,7 +409,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       </Table.Cell>
                     )}
                   </Table.Row>
-                </>
+                </React.Fragment>
               ))}
         </Table.Body>
       </Table>

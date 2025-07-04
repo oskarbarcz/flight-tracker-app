@@ -8,7 +8,7 @@ import { Form, redirect, useLoaderData } from "react-router";
 import { CreateOperatorDto, Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/Form/InputBlock";
+import InputBlock from "~/components/BaseComponents/Form/InputBlock";
 import { Route } from "../../../.react-router/types/app/routes/operators/+types/EditOperatorRoute";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

@@ -21,6 +21,7 @@ export default function RemoveRotationModal({
         <p>
           You are going to remove rotation{" "}
           <span className="font-bold">{rotation.name} </span>
+          for <span className="font-bold">{rotation.pilot.name}</span>.
         </p>
         <p>
           <span className="font-bold">This action is unrecoverable.</span> Are
