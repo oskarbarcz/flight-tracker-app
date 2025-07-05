@@ -44,7 +44,7 @@ export default function RotationListRoute() {
             <Table.HeadCell>Rotation name</Table.HeadCell>
             <Table.HeadCell>Legs</Table.HeadCell>
             <Table.HeadCell>Pilot ID</Table.HeadCell>
-            <Table.HeadCell>Hist ory</Table.HeadCell>
+            <Table.HeadCell>History</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Actions</span>
             </Table.HeadCell>

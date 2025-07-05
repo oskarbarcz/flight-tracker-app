@@ -60,11 +60,13 @@ export default function RotationFlightsInputBlock({
         </div>
       ) : (
         <div>
-          <p className="mt-4 block text-center">Currently there are no legs in this rotation.</p>
+          <p className="mt-4 block text-center">
+            Currently there are no legs in this rotation.
+          </p>
           <button
             type="button"
             onClick={addLegAction}
-            className="mx-auto mb-4 mt-1 block font-bold text-blue-500 hover:text-blue-600"
+            className="mx-auto mb-4 mt-1 block font-bold text-blue-500 hover:text-blue-600 dark:text-blue-600 dark:hover:text-blue-400"
           >
             Add first leg
           </button>
