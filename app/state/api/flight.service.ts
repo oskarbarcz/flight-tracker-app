@@ -13,7 +13,7 @@ export class FlightService extends AbstractApiService {
     });
   }
 
-  async fetchFlightById(id: string): Promise<Flight> {
+  async getById(id: string): Promise<Flight> {
     return this.requestWithAuth<Flight>(`/api/v1/flight/${id}`);
   }
 

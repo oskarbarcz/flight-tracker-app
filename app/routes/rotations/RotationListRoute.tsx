@@ -12,7 +12,7 @@ import { RotationResponse } from "~/models";
 import { useRotationService } from "~/state/hooks/api/useRotationService";
 import { FaTrash } from "react-icons/fa";
 import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
-import {formatDateToLocal} from "~/functions/time";
+import { formatDateToLocal } from "~/functions/time";
 
 export default function RotationListRoute() {
   usePageTitle("Rotation list");
@@ -47,7 +47,8 @@ export default function RotationListRoute() {
             <Table.HeadCell>Hist ory</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Actions</span>
-            </Table.HeadCell>`
+            </Table.HeadCell>
+            `
           </Table.Head>
           <Table.Body className="divide-y">
             {rotations.map((rotation: RotationResponse, i: number) => (
@@ -61,9 +62,11 @@ export default function RotationListRoute() {
                 <Table.Cell>
                   {rotation.flights.length > 0 ? (
                     <span className="text-wrap">
-                      { rotation.flights.map((flight, idx) => (
-                        flight.flightNumber + (idx < rotation.flights.length - 1 ? ', ' : '')
-                      ))}
+                      {rotation.flights.map(
+                        (flight, idx) =>
+                          flight.flightNumber +
+                          (idx < rotation.flights.length - 1 ? ", " : ""),
+                      )}
                     </span>
                   ) : (
                     <span className="text-gray-500">No legs yet added.</span>
@@ -83,22 +86,18 @@ export default function RotationListRoute() {
                   <div>
                     <span className="block text-gray-900 dark:text-white">
                       <span>Created on </span>
-                      {formatDateToLocal(
-                    new Date(rotation.createdAt),
-                      )}
+                      {formatDateToLocal(new Date(rotation.createdAt))}
                     </span>
-                    { rotation.updatedAt ? (
+                    {rotation.updatedAt ? (
                       <span className="text-xs text-gray-500">
                         <span>Last changed on </span>
-                        {formatDateToLocal(
-                    new Date(rotation.updatedAt),
-                        )}
+                        {formatDateToLocal(new Date(rotation.updatedAt))}
                       </span>
-                      ) : (
-                        <span className="text-gray-500">
-                          Not changed since created.
-                        </span>
-                      )}
+                    ) : (
+                      <span className="text-gray-500">
+                        Not changed since created.
+                      </span>
+                    )}
                   </div>
                 </Table.Cell>
                 <Table.Cell>

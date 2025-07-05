@@ -26,9 +26,9 @@ export default function PilotInputPreview({
       <div>
         <Button
           onClick={() => onClose()}
-          color="gray"
+          color="light"
           size="lg"
-          className="cursor-pointer"
+          className="cursor-pointer text-gray-500"
         >
           <FaTrash />
         </Button>

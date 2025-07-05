@@ -4,10 +4,10 @@ type Pilot = {
   pilotLicenseId: string;
 };
 
-type RotationFlight = {
-  id: string,
-  flightNumber: string,
-}
+export type RotationFlight = {
+  id: string;
+  flightNumber: string;
+};
 
 export type Rotation = {
   id: string;

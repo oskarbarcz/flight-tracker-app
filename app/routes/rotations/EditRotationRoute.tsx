@@ -25,6 +25,7 @@ import {
 } from "~/functions/handleRequest";
 import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
 import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
+import RotationFlightsInputBlock from "~/components/Form/RotationFlightsInputBlock";
 
 type EditRotationResponse = ResponseWrapper<
   EditRotationRequest,
@@ -94,6 +95,10 @@ export default function EditRotationRoute() {
             label="Captain pilot license ID"
             defaultValue={rotation.pilot.id}
             errors={response?.isError ? response.errorsForKey("pilotId") : []}
+          />
+          <RotationFlightsInputBlock
+            rotation={rotation}
+            legs={rotation.flights}
           />
 
           <Button type="submit">Save changes</Button>
