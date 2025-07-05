@@ -36,4 +36,22 @@ export class RotationService extends AbstractApiService {
       method: "DELETE",
     });
   }
+
+  async addFlight(rotationId: string, flightId: string): Promise<void> {
+    await this.requestWithAuth<RotationResponse>(
+      `/api/v1/rotation/${rotationId}/flight/${flightId}`,
+      {
+        method: "POST",
+      },
+    );
+  }
+
+  async removeFlight(rotationId: string, flightId: string): Promise<void> {
+    await this.requestWithAuth<RotationResponse>(
+      `/api/v1/rotation/${rotationId}/flight/${flightId}`,
+      {
+        method: "DELETE",
+      },
+    );
+  }
 }

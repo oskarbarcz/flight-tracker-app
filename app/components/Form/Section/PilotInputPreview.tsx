@@ -1,7 +1,6 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { GetUserResponse } from "~/models";
-import { FaTrash } from "react-icons/fa";
 
 type PilotInputPreviewProps = {
   user: GetUserResponse;
@@ -26,11 +25,10 @@ export default function PilotInputPreview({
       <div>
         <Button
           onClick={() => onClose()}
-          color="gray"
-          size="lg"
+          color="light"
           className="cursor-pointer"
         >
-          <FaTrash />
+          Remove
         </Button>
       </div>
     </div>

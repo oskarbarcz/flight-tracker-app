@@ -11,7 +11,7 @@ export const useFlight = () => {
     async (flightId: string): Promise<Flight> => {
       dispatch({ type: "SET_LOADING", payload: true });
 
-      const trackedFlight = await flightService.fetchFlightById(flightId);
+      const trackedFlight = await flightService.getById(flightId);
       dispatch({ type: "SET_TRACKED_FLIGHT_DETAILS", payload: trackedFlight });
       dispatch({ type: "SET_LOADING", payload: false });
 

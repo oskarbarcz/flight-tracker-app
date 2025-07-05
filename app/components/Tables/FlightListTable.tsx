@@ -60,7 +60,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
     };
 
     await flightService.updateScheduledTimesheet(flightId, normalizedSchedule);
-    const updated = await flightService.fetchFlightById(flightId);
+    const updated = await flightService.getById(flightId);
 
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
@@ -70,7 +70,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
 
   const updateLoadsheet = async (flightId: string, loadsheet: Loadsheet) => {
     await flightService.updatePreliminaryLoadsheet(flightId, loadsheet);
-    const updated = await flightService.fetchFlightById(flightId);
+    const updated = await flightService.getById(flightId);
 
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),
@@ -80,7 +80,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
 
   const releaseFlight = async (flightId: string) => {
     await flightService.markAsReady(flightId);
-    const updated = await flightService.fetchFlightById(flightId);
+    const updated = await flightService.getById(flightId);
 
     setFlights((state) =>
       state.map((prev) => (prev.id === updated.id ? updated : prev)),

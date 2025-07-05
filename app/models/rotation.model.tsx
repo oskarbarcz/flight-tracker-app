@@ -1,7 +1,12 @@
-export type Pilot = {
+type Pilot = {
   id: string;
   name: string;
   pilotLicenseId: string;
+};
+
+export type RotationFlight = {
+  id: string;
+  flightNumber: string;
 };
 
 export type Rotation = {
@@ -9,6 +14,9 @@ export type Rotation = {
   name: string;
   pilotId: string;
   pilot: Pilot;
+  flights: RotationFlight[];
+  createdAt: string;
+  updatedAt: string | null;
 };
 
 export type CreateRotationRequest = Omit<Rotation, "id" | "pilot">;
