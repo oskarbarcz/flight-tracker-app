@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
@@ -61,6 +61,8 @@ export async function clientLoader({
 export default function EditRotationRoute() {
   usePageTitle("Edit rotation");
   const navigate = useNavigate();
+  const [rotation, setRotation] =
+    useState<RotationResponse>(useLoaderData<typeof clientLoader>());
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {
@@ -72,7 +74,10 @@ export default function EditRotationRoute() {
     }
   }, [response, navigate]);
 
-  const rotation = useLoaderData<typeof clientLoader>();
+  const updateLegs = async () => {
+    const rotationService = new RotationService();
+    rotationService.getById(rotation.id).then(setRotation);
+  };
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
@@ -99,6 +104,7 @@ export default function EditRotationRoute() {
           <RotationFlightsInputBlock
             rotation={rotation}
             legs={rotation.flights}
+            updateLegs={updateLegs}
           />
 
           <Button type="submit">Save changes</Button>

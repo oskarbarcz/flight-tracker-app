@@ -4,17 +4,14 @@ import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
 import { FaArrowRight } from "react-icons/fa";
 import { formatDate, getHourFromDate } from "~/functions/time";
 import React from "react";
-import { Button, Tooltip } from "flowbite-react";
+import { Tooltip } from "flowbite-react";
 
 type LegPreviewProps = {
   flight: Flight;
-  removeLegAction: (flightId: string) => void;
+  actionButton?: React.ReactNode;
 };
 
-export default function LegPreview({
-  flight,
-  removeLegAction,
-}: LegPreviewProps) {
+export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
   const departure = flight.airports.find(
     (airport) => airport.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
@@ -113,9 +110,7 @@ export default function LegPreview({
           </div>
           <div></div>
         </div>
-        <Button color="light" onClick={() => removeLegAction(flight.id)}>
-          Remove
-        </Button>
+        {actionButton}
       </div>
     </div>
   );

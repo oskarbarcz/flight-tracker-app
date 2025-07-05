@@ -1,9 +1,22 @@
-import { CreateFlightDto, Flight, Loadsheet, Schedule } from "~/models";
+import {
+  CreateFlightDto,
+  Flight,
+  FlightStatus,
+  Loadsheet,
+  Schedule,
+} from "~/models";
 import { AbstractApiService } from "~/state/api/api.service";
 
 export class FlightService extends AbstractApiService {
   async fetchAllFlights(): Promise<Flight[]> {
     return this.requestWithAuth<Flight[]>("/api/v1/flight");
+  }
+
+  async fetchAllCreatedFlights(): Promise<Flight[]> {
+    const allFlights = await this.fetchAllFlights();
+    return allFlights.filter(
+      (flight) => flight.status === FlightStatus.Created,
+    );
   }
 
   async createNew(flight: CreateFlightDto): Promise<Flight> {
