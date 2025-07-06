@@ -5,7 +5,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { Form, redirect, useLoaderData } from "react-router";
-import { Route } from "../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
+import { Route } from "../../../../.react-router/types/app/routes/airports/+types/CreateAirportRoute";
 import { AircraftService } from "~/state/api/aircraft.service";
 import getFormData from "~/functions/getFormData";
 import { CreateAircraftDto, Operator } from "~/models";

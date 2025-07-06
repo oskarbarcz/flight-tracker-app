@@ -11,16 +11,18 @@ import { FlightStatus } from "~/models";
 import StatusBox from "~/components/Box/StatusBox";
 import { FlightTimerBox } from "~/components/Box/FlightTimerBox";
 
-type TrackFlightDashboardProps = {
+type OldTrackFlightDashboardProps = {
   flightId: string;
 };
 
-export function TrackFlightDashboard({ flightId }: TrackFlightDashboardProps) {
+export function OldTrackFlightDashboard({
+  flightId,
+}: OldTrackFlightDashboardProps) {
   const { flight, loadFlight } = useFlight();
   usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
 
   useEffect(() => {
-    loadFlight(flightId);
+    loadFlight(flightId).then();
   }, [flightId, loadFlight]);
 
   if (!flight) {
