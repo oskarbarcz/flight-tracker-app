@@ -6,6 +6,7 @@ import SidebarElement from "~/components/Sidebar/SidebarElement";
 import SidebarSectionTitle from "~/components/Sidebar/SidebarSectionTitle";
 import { GrDocumentTime } from "react-icons/gr";
 import { useAuth } from "~/state/contexts/auth.context";
+import OldSidebarLogo from "~/components/Sidebar/OldSidebarLogo";
 import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
@@ -13,9 +14,8 @@ import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
 import { User, UserRole } from "~/models/user.model";
 import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
-import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 
-export function Sidebar({
+export function OldSidebar({
   isCollapsed,
   handleDesktopCollapse,
 }: {
@@ -29,10 +29,10 @@ export function Sidebar({
   }
 
   return (
-    <aside className="flex size-full flex-col rounded-4xl p-4 border shadow-lg bg-white dark:bg-gray-800 border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900">
-      <SidebarLogo isCollapsed={isCollapsed} />
+    <aside className="flex size-full flex-col rounded-3xl p-3 text-gray-800 shadow">
+      <OldSidebarLogo isCollapsed={isCollapsed} />
 
-      <div className="text-white mb-4">
+      <div>
         {user.currentFlightId && (
           <>
             {isCollapsed && <SidebarDivider />}
@@ -97,7 +97,7 @@ export function Sidebar({
         )}
       </div>
 
-      <div className="mt-auto flex flex-col gap-4">
+      <div className="mt-auto flex flex-col gap-1">
         <SidebarUserPanel isCollapsed={isCollapsed} />
         <SidebarThemeSwitch isCollapsed={isCollapsed} />
         <SidebarExpander

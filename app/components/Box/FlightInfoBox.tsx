@@ -7,11 +7,8 @@ import {
   Flight,
   FlightStatus,
 } from "~/models";
+import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
-
-type FlightSummaryBoxProps = {
-  flight: Flight;
-};
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
   const diff = Math.abs(onBlockTime.getTime() - offBlockTime.getTime());
@@ -25,7 +22,10 @@ function formatTime(date: Date) {
   return date.toISOString().slice(11, 16);
 }
 
-export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
+type FlightInfoBoxProps = {
+  flight: Flight;
+};
+export default function FlightInfoBox({ flight }: FlightInfoBoxProps) {
   const departure = flight.airports.find(
     (a) => a.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
@@ -54,8 +54,37 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
   }
 
   return (
-    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
-      <div className="flex items-center justify-between">
+    <>
+      <div className="mb-3">
+        <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">
+          {flight.flightNumber}
+        </h2>
+        <div className="flex items-center">
+          <span>{flight.callsign}</span>
+          <span className="mx-2">•</span>
+          <span className="text-xs">
+            <PiUserSoundBold className="me-2 inline-block" />
+            {flight.operator.callsign}
+          </span>
+        </div>
+      </div>
+      <div className="my-2 flex items-center gap-2">
+        {flight.aircraft.shortName}
+        <span>•</span>
+        <span className="inline-block rounded-md border border-gray-600 px-2 py-0.5 text-xs">
+          {flight.aircraft.registration}
+        </span>
+        <span>•</span>
+        <span className="inline-block border border-gray-600 px-2 py-0.5 text-xs">
+          {flight.aircraft.selcal}
+        </span>
+      </div>
+      <div className="my-2">
+        {"Operated by "}
+        <span className="font-bold">{flight.operator.shortName}</span>
+      </div>
+
+      <div className="flex items-center justify-between mt-4">
         <div className="text-start font-bold">
           <span className="block text-4xl">{departure.iataCode}</span>
           <span className="block">{departure.city}</span>
@@ -92,6 +121,7 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
             {formatTime(new Date(timesheet.scheduled.offBlockTime))}
           </span>
         </div>
+
         <div className="text-end">
           {timesheet.estimated && (
             <>
@@ -107,6 +137,6 @@ export function FlightSummaryBox({ flight }: FlightSummaryBoxProps) {
           </span>
         </div>
       </div>
-    </section>
+    </>
   );
 }

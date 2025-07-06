@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Outlet } from "react-router";
-import { Sidebar } from "~/components/Sidebar/Sidebar";
+import { OldSidebar } from "~/components/Sidebar/OldSidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
@@ -71,7 +71,7 @@ export default function OldAppLayout() {
       <ProtectedRoute>
         <div className="flex min-h-screen flex-col md:flex-row">
           <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
-            <Sidebar
+            <OldSidebar
               isCollapsed={isCollapsed}
               handleDesktopCollapse={toggleCollapse}
             />

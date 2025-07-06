@@ -33,7 +33,7 @@ export function FlightTimerBox({ flight }: FlightTimeBoxProps) {
   ].includes(flight.status);
 
   return (
-    <section className="flex flex-col justify-center rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
+    <section className="flex flex-col justify-center rounded-2xl p-6">
       {showOffBlockTimer && <OffBlockTimer schedule={schedule} />}
       {showTakeoffTimer && <TakeoffTimer schedule={schedule} />}
       {showArrivalTimer && <ArrivalTimer schedule={schedule} actual={actual} />}

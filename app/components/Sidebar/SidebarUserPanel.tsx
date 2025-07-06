@@ -35,7 +35,7 @@ export default function SidebarUserPanel({
   const { user } = useAuth() as { user: User };
 
   return (
-    <div className="my-1 flex w-full items-center rounded-lg bg-indigo-400 p-2 duration-100">
+    <div className="flex w-full text-white items-center rounded-3xl bg-indigo-500 p-2 duration-100">
       <div className="flex items-center justify-center rounded-full bg-indigo-300">
         <span
           className={`rounded-full text-white ${isCollapsed ? "p-1 text-xs" : "p-2 text-base"}`}

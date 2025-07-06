@@ -2,7 +2,7 @@
 
 import { Link } from "react-router";
 import React from "react";
-import logo from "~/assets/logo.white.svg";
+import logo from "~/assets/logo.svg";
 
 type SidebarLogoProps = {
   isCollapsed: boolean;
@@ -10,10 +10,12 @@ type SidebarLogoProps = {
 
 export default function SidebarLogo({ isCollapsed }: SidebarLogoProps) {
   return (
-    <Link to="/" replace={true} className="mb-3 mt-1 flex items-center">
-      <img src={logo} className="ms-1 h-8" alt="Flight Tracker app logo" />
+    <Link to="/" replace={true} className="mx-auto mb-2 p-1 flex items-center">
+      <img src={logo} className="h-8" alt="FlightTracker app logo" />
       {!isCollapsed && (
-        <span className="ms-3 text-xl font-bold">Flight Tracker</span>
+        <span className="text-2xl text-indigo-500 ms-2 font-bold">
+          FlightTracker
+        </span>
       )}
     </Link>
   );
