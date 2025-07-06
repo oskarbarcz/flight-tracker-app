@@ -31,7 +31,7 @@ Project is using **Node.js** and **TypeScript** in versions listed below:
 Main dependencies are **Vite**, **React**, **React Router** and **Flowbite** in versions listed below.
 
 | Vendor       | Version |
-| ------------ |---------|
+| ------------ | ------- |
 | Vite         | ^7.4    |
 | React        | ^19.3   |
 | React Router | ^7.0    |

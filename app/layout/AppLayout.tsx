@@ -16,7 +16,10 @@ export default function OldAppLayout() {
           <div className="md:container md:mx-auto">
             <div className="min-h-[200px] w-full bg-red-800">
               <div className="w-[300px] h-full">
-                <Sidebar isCollapsed={isCollapsed} handleDesktopCollapse={toggleCollapse} />
+                <Sidebar
+                  isCollapsed={isCollapsed}
+                  handleDesktopCollapse={toggleCollapse}
+                />
               </div>
             </div>
           </div>

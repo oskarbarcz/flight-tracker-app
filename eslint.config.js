@@ -17,8 +17,8 @@ export default [
         version: "18",
       },
       "better-tailwindcss": {
-        "entryPoint": "src/app.css",
-      }
+        entryPoint: "src/app.css",
+      },
     },
     rules: {
       "react/react-in-jsx-scope": "off",
