@@ -70,27 +70,12 @@ export default function OldAppLayout() {
   return (
     <Flowbite>
       <ProtectedRoute>
-        <div className="flex min-h-screen flex-col md:flex-row">
-          <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
-            <Sidebar
-              isCollapsed={isCollapsed}
-              handleDesktopCollapse={toggleCollapse}
-            />
-          </div>
-
-          {isMobileOpen && (
-            <div
-              className="fixed inset-0 z-30 bg-black/50 md:hidden"
-              onClick={() => setIsMobileOpen(false)}
-            />
-          )}
-
-          <div className="p-2 md:hidden">
-            <MobileSidebarExpander handleMobileToggle={handleMobileToggle} />
-          </div>
-          <div className={getContentClasses(isCollapsed)}>
-            <div className="size-full rounded-t-2xl bg-white p-4 text-gray-700 dark:bg-gray-900 dark:text-gray-300 md:rounded-3xl md:p-8">
-              <Outlet />
+        <div className="min-h-full min-w-full bg-white">
+          <div className="md:container md:mx-auto">
+            <div className="min-h-[200px] w-full bg-red-800">
+              <div className="w-[300px] h-full">
+                <Sidebar isCollapsed={isCollapsed} handleDesktopCollapse={toggleCollapse} />
+              </div>
             </div>
           </div>
         </div>

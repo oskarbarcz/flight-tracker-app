@@ -11,9 +11,9 @@ export default [
     route("sign-in", "routes/common/auth/SignInRoute.tsx"),
     route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
   ]),
-  // layout('layout/AppLayout.tsx', [
-  //   ...prefix("tracking", [route(":id", "routes/pilot/track/TrackFlightRoute.tsx")]),
-  // ]),
+  layout('layout/AppLayout.tsx', [
+    ...prefix("tracking", [route(":id", "routes/pilot/track/TrackFlightRoute.tsx")]),
+  ]),
   layout("layout/OldAppLayout.tsx", [
     index("routes/common/dashboard/DashboardRoute.tsx"),
     ...prefix("airports", [
