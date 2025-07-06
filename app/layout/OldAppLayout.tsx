@@ -6,7 +6,6 @@ import { Sidebar } from "~/components/Sidebar/Sidebar";
 import MobileSidebarExpander from "~/components/Sidebar/MobileSidebarExpander";
 import { useSidebarState } from "~/state/hooks/useSidebarState";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { Flowbite } from "flowbite-react";
 import { ToastContainer } from "react-toastify";
 
 function getSidebarClasses(isMobileOpen: boolean, isCollapsed: boolean) {
@@ -68,7 +67,7 @@ export default function OldAppLayout() {
   const handleMobileToggle = () => setIsMobileOpen((prev) => !prev);
 
   return (
-    <Flowbite>
+    <>
       <ProtectedRoute>
         <div className="flex min-h-screen flex-col md:flex-row">
           <div className={getSidebarClasses(isMobileOpen, isCollapsed)}>
@@ -96,6 +95,6 @@ export default function OldAppLayout() {
         </div>
         <ToastContainer />
       </ProtectedRoute>
-    </Flowbite>
+    </>
   );
 }
