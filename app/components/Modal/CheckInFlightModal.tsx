@@ -3,7 +3,13 @@
 import React, { useCallback, useState } from "react";
 import { FilledSchedule, Flight } from "~/models";
 import { formatDate } from "~/functions/time";
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "flowbite-react";
 import CheckInFlightForm from "~/components/Forms/CheckInFlightForm";
 
 type CheckInFlightModalProps = {

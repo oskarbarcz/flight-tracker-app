@@ -11,7 +11,7 @@ import {
   redirect,
   useNavigate,
 } from "react-router";
-import { Route } from "../../../../.react-router/types/app/routes/rotations/+types/EditRotationRoute";
+import { Route } from ".react-router/types/app/routes/admin/rotations/+types/EditRotationRoute";
 import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";

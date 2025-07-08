@@ -1,7 +1,13 @@
 "use client";
 
 import { FilledSchedule, Flight } from "~/models";
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import UpdateFlightScheduleForm from "~/components/Forms/UpdateFlightScheduleForm";
 

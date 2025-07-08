@@ -1,7 +1,13 @@
 "use client";
 
 import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "flowbite-react";
 import { formatDate } from "~/functions/time";
 import React from "react";
 

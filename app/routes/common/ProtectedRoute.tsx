@@ -2,7 +2,7 @@
 
 import React, { ReactNode, useContext } from "react";
 import { AuthContext } from "~/state/contexts/auth.context";
-import {Navigate, useNavigate} from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { UserRole } from "~/models/user.model";
 import Splash from "~/layout/Splash";
 

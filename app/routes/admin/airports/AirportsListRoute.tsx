@@ -3,7 +3,15 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Button, Table } from "flowbite-react";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
 import { Airport } from "~/models";
 import { Link, useLoaderData } from "react-router";
 import { AirportService } from "~/state/api/airport.service";
@@ -30,38 +38,38 @@ export default function AirportsListRoute() {
       />
       <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table>
-          <Table.Head className="dark:text-gray-100">
-            <Table.HeadCell>ICAO / IATA code</Table.HeadCell>
-            <Table.HeadCell>Name / City</Table.HeadCell>
-            <Table.HeadCell>Country</Table.HeadCell>
-            <Table.HeadCell>Timezone</Table.HeadCell>
-            <Table.HeadCell>
+          <TableHead className="dark:text-gray-100">
+            <TableHeadCell>ICAO / IATA code</TableHeadCell>
+            <TableHeadCell>Name / City</TableHeadCell>
+            <TableHeadCell>Country</TableHeadCell>
+            <TableHeadCell>Timezone</TableHeadCell>
+            <TableHeadCell>
               <span className="sr-only">Actions</span>
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
+            </TableHeadCell>
+          </TableHead>
+          <TableBody className="divide-y">
             {airports.map((airport: Airport, i: number) => (
-              <Table.Row
+              <TableRow
                 key={i}
                 className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="text-gray-900 dark:text-white">
+                <TableCell className="text-gray-900 dark:text-white">
                   {airport.icaoCode} / {airport.iataCode}
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <span>{airport.name}</span>
                   <span className="block">{airport.city}</span>
-                </Table.Cell>
-                <Table.Cell>{airport.country}</Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>{airport.country}</TableCell>
+                <TableCell>
                   {airport.timezone}
                   <br />
                   <span className="text-xs font-light">
                     (currently:{" "}
                     <LocalizedTimeDisplay timezone={airport.timezone} />)
                   </span>
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <Link
                     to={`/airports/${airport.id}/edit`}
                     replace
@@ -71,10 +79,10 @@ export default function AirportsListRoute() {
                       <HiPencil />
                     </Button>
                   </Link>
-                </Table.Cell>
-              </Table.Row>
+                </TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
+          </TableBody>
         </Table>
       </div>
     </ProtectedRoute>

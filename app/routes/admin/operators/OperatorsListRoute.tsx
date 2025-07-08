@@ -3,7 +3,15 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Button, Table } from "flowbite-react";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
 import { Operator } from "~/models";
 import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
@@ -28,28 +36,28 @@ export default function OperatorsListRoute() {
       />
       <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table>
-          <Table.Head className="dark:text-gray-100">
-            <Table.HeadCell>ICAO code</Table.HeadCell>
-            <Table.HeadCell>Short name</Table.HeadCell>
-            <Table.HeadCell>Full name</Table.HeadCell>
-            <Table.HeadCell>Callsign</Table.HeadCell>
-            <Table.HeadCell>
+          <TableHead className="dark:text-gray-100">
+            <TableHeadCell>ICAO code</TableHeadCell>
+            <TableHeadCell>Short name</TableHeadCell>
+            <TableHeadCell>Full name</TableHeadCell>
+            <TableHeadCell>Callsign</TableHeadCell>
+            <TableHeadCell>
               <span className="sr-only">Actions</span>
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
+            </TableHeadCell>
+          </TableHead>
+          <TableBody className="divide-y">
             {airports.map((operator: Operator, i: number) => (
-              <Table.Row
+              <TableRow
                 key={i}
                 className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="text-gray-900 dark:text-white">
+                <TableCell className="text-gray-900 dark:text-white">
                   {operator.icaoCode}
-                </Table.Cell>
-                <Table.Cell>{operator.shortName}</Table.Cell>
-                <Table.Cell>{operator.fullName}</Table.Cell>
-                <Table.Cell>{operator.callsign}</Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>{operator.shortName}</TableCell>
+                <TableCell>{operator.fullName}</TableCell>
+                <TableCell>{operator.callsign}</TableCell>
+                <TableCell>
                   <Link
                     to={`/operators/${operator.id}/edit`}
                     replace
@@ -59,10 +67,10 @@ export default function OperatorsListRoute() {
                       <HiPencil />
                     </Button>
                   </Link>
-                </Table.Cell>
-              </Table.Row>
+                </TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
+          </TableBody>
         </Table>
       </div>
     </ProtectedRoute>

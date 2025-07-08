@@ -28,9 +28,7 @@ export default function InputBlock({
   return (
     <div>
       <div className="mb-2 block">
-        <Label
-          htmlFor={htmlName}
-          color={isMarkedRed ? "failure" : undefined}>
+        <Label htmlFor={htmlName} color={isMarkedRed ? "failure" : undefined}>
           {label}
         </Label>
       </div>

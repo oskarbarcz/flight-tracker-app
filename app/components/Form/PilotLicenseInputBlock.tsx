@@ -86,7 +86,7 @@ export default function PilotLicenseInputBlock({
   return (
     <div>
       <div className="mb-2 block">
-        <Label htmlFor={htmlName} value={label} />
+        <Label htmlFor={htmlName}>{label}</Label>
       </div>
       <TextInput
         id={htmlName}

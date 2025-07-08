@@ -9,7 +9,7 @@ import getFormData from "~/functions/getFormData";
 import { CreateOperatorDto } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import InputBlock from "~/components/Intrinsic/Form/InputBlock";
-import { Route } from "../../../../.react-router/types/app/routes/operators/+types/OperatorsListRoute";
+import { Route } from ".react-router/types/app/routes/admin/operators/+types/OperatorsListRoute";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

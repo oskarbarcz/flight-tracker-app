@@ -3,7 +3,15 @@
 import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Button, Table } from "flowbite-react";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
 import { Link } from "react-router";
 import { HiPencil } from "react-icons/hi";
 import { UserRole } from "~/models/user.model";
@@ -40,26 +48,25 @@ export default function RotationListRoute() {
       />
       <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table className="shadow">
-          <Table.Head className="dark:text-gray-100">
-            <Table.HeadCell>Rotation name</Table.HeadCell>
-            <Table.HeadCell>Legs</Table.HeadCell>
-            <Table.HeadCell>Pilot ID</Table.HeadCell>
-            <Table.HeadCell>History</Table.HeadCell>
-            <Table.HeadCell>
+          <TableHead className="dark:text-gray-100">
+            <TableHeadCell>Rotation name</TableHeadCell>
+            <TableHeadCell>Legs</TableHeadCell>
+            <TableHeadCell>Pilot ID</TableHeadCell>
+            <TableHeadCell>History</TableHeadCell>
+            <TableHeadCell>
               <span className="sr-only">Actions</span>
-            </Table.HeadCell>
-            `
-          </Table.Head>
-          <Table.Body className="divide-y">
+            </TableHeadCell>
+          </TableHead>
+          <TableBody className="divide-y">
             {rotations.map((rotation: RotationResponse, i: number) => (
-              <Table.Row
+              <TableRow
                 key={i}
                 className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="text-gray-900 dark:text-white">
+                <TableCell className="text-gray-900 dark:text-white">
                   {rotation.name}
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   {rotation.flights.length > 0 ? (
                     <span className="text-wrap">
                       {rotation.flights.map(
@@ -71,8 +78,8 @@ export default function RotationListRoute() {
                   ) : (
                     <span className="text-gray-500">No legs yet added.</span>
                   )}
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <div>
                     <span className="block text-gray-900 dark:text-white">
                       {rotation.pilot.name}
@@ -81,8 +88,8 @@ export default function RotationListRoute() {
                       License: {rotation.pilot.pilotLicenseId}
                     </span>
                   </div>
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <div>
                     <span className="block text-gray-900 dark:text-white">
                       <span>Created on </span>
@@ -99,8 +106,8 @@ export default function RotationListRoute() {
                       </span>
                     )}
                   </div>
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <div className="flex gap-2 text-gray-500">
                     <Link
                       to={`/rotations/${rotation.id}/edit`}
@@ -120,10 +127,10 @@ export default function RotationListRoute() {
                       <FaTrash />
                     </Button>
                   </div>
-                </Table.Cell>
-              </Table.Row>
+                </TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
+          </TableBody>
         </Table>
       </div>
 

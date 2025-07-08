@@ -8,7 +8,16 @@ import {
   Loadsheet,
   precedenceToStatus,
 } from "~/models";
-import { Alert, Button, Table } from "flowbite-react";
+import {
+  Alert,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
 import { FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
 import { formatDate, formattedToISO, getHourFromDate } from "~/functions/time";
@@ -99,15 +108,15 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
   return (
     <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
       <Table>
-        <Table.Head className="dark:text-gray-100">
-          <Table.HeadCell>Flight no</Table.HeadCell>
-          <Table.HeadCell>Route</Table.HeadCell>
-          <Table.HeadCell>Departure (UTC)</Table.HeadCell>
-          <Table.HeadCell>Aircraft</Table.HeadCell>
-          <Table.HeadCell>Operator</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
+        <TableHead className="dark:text-gray-100">
+          <TableHeadCell>Flight no</TableHeadCell>
+          <TableHeadCell>Route</TableHeadCell>
+          <TableHeadCell>Departure (UTC)</TableHeadCell>
+          <TableHeadCell>Aircraft</TableHeadCell>
+          <TableHeadCell>Operator</TableHeadCell>
+          <TableHeadCell>Status</TableHeadCell>
+        </TableHead>
+        <TableBody className="divide-y">
           {Array.isArray(flights) &&
             flights
               .filter((flight) =>
@@ -116,15 +125,15 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
               .sort((a, b) => a.flightNumber.localeCompare(b.flightNumber))
               .map((flight: Flight, i: number) => (
                 <React.Fragment key={i}>
-                  <Table.Row
+                  <TableRow
                     key={flight.id}
                     className="cursor-pointer bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
                     onClick={() => expandFlight(flight)}
                   >
-                    <Table.Cell className="text-gray-900 dark:text-white">
+                    <TableCell className="text-gray-900 dark:text-white">
                       {flight.flightNumber}
-                    </Table.Cell>
-                    <Table.Cell>
+                    </TableCell>
+                    <TableCell>
                       <div className="flex items-center">
                         {
                           flight.airports.find(
@@ -154,8 +163,8 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                           )?.icaoCode
                         }
                       </div>
-                    </Table.Cell>
-                    <Table.Cell>
+                    </TableCell>
+                    <TableCell>
                       {flight.timesheet.scheduled.offBlockTime &&
                         formatDate(
                           new Date(flight.timesheet.scheduled.offBlockTime),
@@ -163,8 +172,8 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       <span className="block text-xs text-gray-500">
                         Click for details
                       </span>
-                    </Table.Cell>
-                    <Table.Cell>
+                    </TableCell>
+                    <TableCell>
                       <div className="mb-1">{flight.aircraft.shortName}</div>
                       <div className="flex gap-2">
                         <span className="flex min-w-16 justify-center rounded-md border border-gray-600 px-2 py-0.5 text-xs">
@@ -174,12 +183,12 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                           {flight.aircraft.selcal}
                         </span>
                       </div>
-                    </Table.Cell>
-                    <Table.Cell>
+                    </TableCell>
+                    <TableCell>
                       <div>{flight.operator.shortName}</div>
                       {flight.operator.icaoCode}
-                    </Table.Cell>
-                    <Table.Cell>
+                    </TableCell>
+                    <TableCell>
                       <div className="flex gap-2 text-gray-500">
                         {flight.status === FlightStatus.Created && (
                           <>
@@ -226,13 +235,13 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             </span>
                           )}
                       </div>
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row
+                    </TableCell>
+                  </TableRow>
+                  <TableRow
                     className={`opacity-0 transition-all duration-300 ease-in-out ${expandedFlight?.id === flight.id ? "opacity-100" : ""}`}
                   >
                     {expandedFlight?.id === flight.id && (
-                      <Table.Cell colSpan={7}>
+                      <TableCell colSpan={7}>
                         <div className="flex gap-4">
                           <div className="shrink-0">
                             <div className="mb-3 flex items-center justify-between">
@@ -406,12 +415,12 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             )}
                           </div>
                         </div>
-                      </Table.Cell>
+                      </TableCell>
                     )}
-                  </Table.Row>
+                  </TableRow>
                 </React.Fragment>
               ))}
-        </Table.Body>
+        </TableBody>
       </Table>
 
       {flightToRemove && (

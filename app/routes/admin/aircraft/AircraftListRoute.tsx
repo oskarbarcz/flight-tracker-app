@@ -3,7 +3,15 @@
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Button, Table } from "flowbite-react";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
 import { Aircraft } from "~/models";
 import { Link, useLoaderData } from "react-router";
 import { HiPencil } from "react-icons/hi";
@@ -29,38 +37,38 @@ export default function AircraftListRoute() {
       />
       <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
         <Table className="shadow">
-          <Table.Head className="dark:text-gray-100">
-            <Table.HeadCell>ICAO code</Table.HeadCell>
-            <Table.HeadCell>Registration & livery</Table.HeadCell>
-            <Table.HeadCell>Short name</Table.HeadCell>
-            <Table.HeadCell>Long name</Table.HeadCell>
-            <Table.HeadCell>Operator</Table.HeadCell>
-            <Table.HeadCell>SELCAL</Table.HeadCell>
-            <Table.HeadCell>
+          <TableHead className="dark:text-gray-100">
+            <TableHeadCell>ICAO code</TableHeadCell>
+            <TableHeadCell>Registration & livery</TableHeadCell>
+            <TableHeadCell>Short name</TableHeadCell>
+            <TableHeadCell>Long name</TableHeadCell>
+            <TableHeadCell>Operator</TableHeadCell>
+            <TableHeadCell>SELCAL</TableHeadCell>
+            <TableHeadCell>
               <span className="sr-only">Actions</span>
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
+            </TableHeadCell>
+          </TableHead>
+          <TableBody className="divide-y">
             {aircrafts.map((aircraft: Aircraft, i: number) => (
-              <Table.Row
+              <TableRow
                 key={i}
                 className="bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
               >
-                <Table.Cell className="text-gray-900 dark:text-white">
+                <TableCell className="text-gray-900 dark:text-white">
                   {aircraft.icaoCode}
-                </Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>
                   <span>{aircraft.registration}</span>
                   <span className="block">{aircraft.livery}</span>
-                </Table.Cell>
-                <Table.Cell>{aircraft.shortName}</Table.Cell>
-                <Table.Cell>{aircraft.fullName}</Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>{aircraft.shortName}</TableCell>
+                <TableCell>{aircraft.fullName}</TableCell>
+                <TableCell>
                   <span>{aircraft.operator.shortName}</span>
                   <span className="block">[{aircraft.operator.icaoCode}]</span>
-                </Table.Cell>
-                <Table.Cell>{aircraft.selcal}</Table.Cell>
-                <Table.Cell>
+                </TableCell>
+                <TableCell>{aircraft.selcal}</TableCell>
+                <TableCell>
                   <Link
                     to={`/aircraft/${aircraft.id}/edit`}
                     replace
@@ -70,10 +78,10 @@ export default function AircraftListRoute() {
                       <HiPencil />
                     </Button>
                   </Link>
-                </Table.Cell>
-              </Table.Row>
+                </TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
+          </TableBody>
         </Table>
       </div>
     </ProtectedRoute>

@@ -1,6 +1,12 @@
 "use client";
 
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "flowbite-react";
 import { RotationResponse } from "~/models";
 
 type RemoveRotationModalProps = {
