@@ -7,13 +7,13 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { Form, redirect, useLoaderData } from "react-router";
 import { Route } from "../../../../.react-router/types/app/routes/flights/+types/CreateFlightRoute";
 import { AirportService } from "~/state/api/airport.service";
-import InputBlock from "~/components/BaseComponents/Form/InputBlock";
+import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { Aircraft, Airport, CreateFlightDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
 import { OperatorService } from "~/state/api/operator.service";
 import { AircraftService } from "~/state/api/aircraft.service";
-import SelectBlock from "~/components/BaseComponents/Form/SelectBlock";
+import SelectBlock from "~/components/Intrinsic/Form/SelectBlock";
 import { FlightService } from "~/state/api/flight.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

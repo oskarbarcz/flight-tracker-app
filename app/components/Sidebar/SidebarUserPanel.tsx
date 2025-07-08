@@ -37,7 +37,9 @@ export default function SidebarUserPanel({
   return (
     <div className="flex w-full items-center rounded-3xl border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 duration-100">
       <div className="flex items-center justify-center rounded-full bg-indigo-500">
-        <span className={`rounded-full text-white text-xs size-6 flex items-center justify-center`}>
+        <span
+          className={`rounded-full text-white text-xs size-6 flex items-center justify-center`}
+        >
           {getInitials(user.name)}
         </span>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
-import { Button, Modal } from "flowbite-react";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
 import { formatDate } from "~/functions/time";
 import React from "react";
 
@@ -25,8 +25,8 @@ export default function ReleaseFlightModal({
 
   return (
     <Modal show onClose={cancel}>
-      <Modal.Header>Release flight</Modal.Header>
-      <Modal.Body className="text-gray-900 dark:text-gray-100">
+      <ModalHeader>Release flight</ModalHeader>
+      <ModalBody className="text-gray-900 dark:text-gray-100">
         <p>
           You are going to release flight{" "}
           <span className="font-bold">{flight.flightNumber} </span>
@@ -52,8 +52,8 @@ export default function ReleaseFlightModal({
           won't be available anymore.
         </p>
         <p className="my-4">Are you sure to proceed?</p>
-      </Modal.Body>
-      <Modal.Footer>
+      </ModalBody>
+      <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" onClick={cancel}>
             Back
@@ -62,7 +62,7 @@ export default function ReleaseFlightModal({
             Release flight {flight.flightNumber}
           </Button>
         </div>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 }

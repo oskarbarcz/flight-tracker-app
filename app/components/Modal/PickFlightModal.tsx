@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "flowbite-react";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
 import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { Flight, RotationResponse } from "~/models";
 import { useRotationService } from "~/state/hooks/api/useRotationService";
@@ -43,8 +43,8 @@ export default function PickFlightModal({
 
   return (
     <Modal show onClose={close}>
-      <Modal.Header>Add leg</Modal.Header>
-      <Modal.Body className="text-gray-900 dark:text-gray-100">
+      <ModalHeader>Add leg</ModalHeader>
+      <ModalBody className="text-gray-900 dark:text-gray-100">
         <div>
           {flights.length > 0 &&
             flights.map((flight) => (
@@ -69,12 +69,12 @@ export default function PickFlightModal({
               />
             ))}
         </div>
-      </Modal.Body>
-      <Modal.Footer>
+      </ModalBody>
+      <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button onClick={close}>Back to rotation</Button>
         </div>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 }

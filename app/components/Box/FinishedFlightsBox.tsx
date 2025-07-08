@@ -2,6 +2,7 @@
 
 import { Flight, FlightStatus } from "~/models";
 import { Link } from "react-router";
+import Container from "~/components/Container";
 
 type FinishedFlightsBoxProps = {
   flights: Flight[];
@@ -15,7 +16,7 @@ export default function FinishedFlightsBox({
   );
 
   return (
-    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
+    <Container>
       <h2 className="text-xl font-bold dark:text-gray-300">Finished flights</h2>
       <div className="mt-2">
         {readyFlights.map((flight: Flight) => (
@@ -31,6 +32,6 @@ export default function FinishedFlightsBox({
         ))}
       </div>
       <div></div>
-    </section>
+    </Container>
   );
 }

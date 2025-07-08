@@ -40,10 +40,10 @@ export default function SignInRoute() {
           <img
             src={logoWhite}
             className="h-8 sm:h-20"
-            alt="Flight Tracker app logo"
+            alt="FlightTracker app logo"
           />
           <span className="text-xl font-bold text-white sm:mt-4">
-            Flight Tracker
+            FlightTracker
           </span>
         </aside>
         <form

@@ -23,8 +23,10 @@ export default function CabinCrewDashboardRoute() {
   return (
     <>
       <ProtectedRoute expectedRole={UserRole.CabinCrew}>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="w-full">
           <UserInformationBox />
+        </div>
+        <div className=" pt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
           <NextFlightBox flights={flights} />
           <AllPendingFlightsBox flights={flights} />
           <FinishedFlightsBox flights={flights} />

@@ -11,8 +11,8 @@ import getFormData from "~/functions/getFormData";
 import { CreateAircraftDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
 import { OperatorService } from "~/state/api/operator.service";
-import InputBlock from "~/components/BaseComponents/Form/InputBlock";
-import SelectBlock from "~/components/BaseComponents/Form/SelectBlock";
+import InputBlock from "~/components/Intrinsic/Form/InputBlock";
+import SelectBlock from "~/components/Intrinsic/Form/SelectBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Operator[] | Response> {

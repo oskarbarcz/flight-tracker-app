@@ -2,7 +2,7 @@
 
 import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import InputErrorList from "~/components/BaseComponents/Form/Partial/InputErrorList";
+import InputErrorList from "~/components/Intrinsic/Form/Partial/InputErrorList";
 
 type InputProps = {
   htmlName: string;
@@ -30,9 +30,9 @@ export default function InputBlock({
       <div className="mb-2 block">
         <Label
           htmlFor={htmlName}
-          value={label}
-          color={isMarkedRed ? "failure" : undefined}
-        />
+          color={isMarkedRed ? "failure" : undefined}>
+          {label}
+        </Label>
       </div>
       <TextInput
         id={htmlName}

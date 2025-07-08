@@ -19,14 +19,13 @@ export default function SidebarElement({
 }: SidebarElementProps) {
   if (isCollapsed) {
     return (
-    <Link to={href} replace={true} viewTransition>
-      <span className="flex justify-center items-center rounded-3xl text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 transition-colors duration-100 ease-in-out">
-        <Icon size="24px" />
-      </span>
-    </Link>
-  );
+      <Link to={href} replace={true} viewTransition>
+        <span className="flex justify-center items-center rounded-3xl text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 transition-colors duration-100 ease-in-out">
+          <Icon size="24px" />
+        </span>
+      </Link>
+    );
   }
-
 
   return (
     <Link to={href} replace={true} viewTransition>

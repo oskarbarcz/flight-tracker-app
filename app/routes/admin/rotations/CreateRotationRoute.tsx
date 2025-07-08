@@ -7,7 +7,7 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { Form, useActionData, useNavigate } from "react-router";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
-import InputBlock from "~/components/BaseComponents/Form/InputBlock";
+import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { CreateRotationRequest, RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";

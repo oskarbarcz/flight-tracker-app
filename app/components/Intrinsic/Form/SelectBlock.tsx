@@ -26,7 +26,7 @@ export default function SelectBlock({
   return (
     <div>
       <div className="mb-2 block">
-        <Label htmlFor={htmlName} value={label} />
+        <Label htmlFor={htmlName}>{label}</Label>
       </div>
       <Select
         id={htmlName}

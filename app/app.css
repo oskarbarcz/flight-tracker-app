@@ -6,9 +6,7 @@
 
 html,
 body {
-  @apply bg-indigo-500;
-  @apply h-full;
-
+  @apply bg-indigo-50 h-full dark:dark:bg-gray-900;
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }

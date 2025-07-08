@@ -11,9 +11,9 @@ type SidebarLogoProps = {
 export default function OldSidebarLogo({ isCollapsed }: SidebarLogoProps) {
   return (
     <Link to="/" replace={true} className="mb-3 mt-1 flex items-center">
-      <img src={logo} className="ms-1 h-8" alt="Flight Tracker app logo" />
+      <img src={logo} className="ms-1 h-8" alt="FlightTracker app logo" />
       {!isCollapsed && (
-        <span className="ms-3 text-xl font-bold">Flight Tracker</span>
+        <span className="ms-3 text-xl font-bold">FlightTracker</span>
       )}
     </Link>
   );

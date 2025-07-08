@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { FilledSchedule, Flight } from "~/models";
 import { formatDate } from "~/functions/time";
-import { Button, Modal } from "flowbite-react";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
 import CheckInFlightForm from "~/components/Forms/CheckInFlightForm";
 
 type CheckInFlightModalProps = {
@@ -21,9 +21,9 @@ export default function CheckInFlightModal({
   const [estimation, setEstimation] = useState<FilledSchedule>(schedule);
 
   return (
-    <Modal show onClose={close}>
-      <Modal.Header>Check in for flight</Modal.Header>
-      <Modal.Body>
+    <Modal show onClose={close} className="rounded-4xl">
+      <ModalHeader>Check in for flight</ModalHeader>
+      <ModalBody>
         <div className="flex flex-col gap-4 text-gray-800 dark:text-white md:flex-row">
           <div className="w-full md:w-1/2">
             <h2 className="mb-4 text-xl font-bold">Schedule</h2>
@@ -73,8 +73,8 @@ export default function CheckInFlightModal({
           <span className="font-bold">Caution!</span>{" "}
           <span>All times must be provided in UTC.</span>
         </p>
-      </Modal.Body>
-      <Modal.Footer>
+      </ModalBody>
+      <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" onClick={close}>
             Back to preview
@@ -83,7 +83,7 @@ export default function CheckInFlightModal({
             Check in for flight {flight.flightNumber}
           </Button>
         </div>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 }

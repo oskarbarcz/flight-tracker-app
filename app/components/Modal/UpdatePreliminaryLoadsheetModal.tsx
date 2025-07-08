@@ -1,7 +1,7 @@
 "use client";
 
 import { Flight, Loadsheet } from "~/models";
-import { Button, Modal } from "flowbite-react";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import FlightLoadsheetForm from "~/components/Forms/FlightLoadsheetForm";
 
@@ -33,16 +33,16 @@ export default function UpdatePreliminaryLoadsheetModal({
       show
       onClose={cancel}
     >
-      <Modal.Header>Update preliminary loadsheet</Modal.Header>
-      <Modal.Body>
+      <ModalHeader>Update preliminary loadsheet</ModalHeader>
+      <ModalBody>
         <FlightLoadsheetForm
           loadsheet={oldLoadsheet}
           setLoadsheet={useCallback((loadsheet: Loadsheet) => {
             setNewLoadsheet(loadsheet);
           }, [])}
         />
-      </Modal.Body>
-      <Modal.Footer>
+      </ModalBody>
+      <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" onClick={cancel}>
             Back
@@ -51,7 +51,7 @@ export default function UpdatePreliminaryLoadsheetModal({
             Update loadsheet for flight {flight.flightNumber}
           </Button>
         </div>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 }

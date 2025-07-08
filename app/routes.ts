@@ -12,19 +12,16 @@ export default [
     route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
   ]),
   layout("layout/AppLayout.tsx", [
-    ...prefix("tracking", [
+    index("routes/common/dashboard/DashboardRoute.tsx"),
+    ...prefix("track", [
       route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
   ]),
   layout("layout/OldAppLayout.tsx", [
-    index("routes/common/dashboard/DashboardRoute.tsx"),
     ...prefix("airports", [
       index("routes/admin/airports/AirportsListRoute.tsx"),
       route("new", "routes/admin/airports/CreateAirportRoute.tsx"),
       route(":id/edit", "routes/admin/airports/EditAirportRoute.tsx"),
-    ]),
-    ...prefix("track", [
-      route(":id", "routes/pilot/track/OldTrackFlightRoute.tsx"),
     ]),
     ...prefix("aircraft", [
       index("routes/admin/aircraft/AircraftListRoute.tsx"),
