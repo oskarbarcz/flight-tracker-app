@@ -17,8 +17,8 @@ export default function OldAppLayout() {
       <ProtectedRoute>
         <div className="min-h-full min-w-full bg-indigo-50 dark:bg-gray-900">
           <div className="md:container py-8 md:mx-auto">
-            <div className="min-h-[200px] w-full flex gap-8">
-              <div className="w-[300px] h-full">
+            <div className="min-h-[200px] ease-in-out transition-all duration-500 w-full flex gap-8">
+              <div className={isCollapsed ? "w-[76px] h-full transition-[width] ease-in-out" : "w-[300px] transition-[width] ease-in-out"}>
                 <Sidebar
                   isCollapsed={isCollapsed}
                   handleDesktopCollapse={toggleCollapse}

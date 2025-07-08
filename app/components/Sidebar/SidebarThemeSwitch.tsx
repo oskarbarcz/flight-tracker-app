@@ -50,7 +50,7 @@ export default function SidebarThemeSwitch({
   return (
     <button
       onClick={() => handleThemeSwitch(nextMode(currentMode))}
-      className="flex w-full items-center cursor-pointer rounded-3xl text-white bg-indigo-500 hover:bg-indigo-400 p-2 transition-colors duration-100"
+      className="flex w-full items-center cursor-pointer rounded-3xl border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 transition-colors duration-100"
     >
       <Icon size="24px" />
       {!isCollapsed && (
