@@ -16,8 +16,11 @@ export default [
     ...prefix("track", [
       route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
-  ]),
-  layout("layout/OldAppLayout.tsx", [
+    ...prefix("operators", [
+      index("routes/admin/operators/OperatorsListRoute.tsx"),
+      route("new", "routes/admin/operators/CreateOperatorRoute.tsx"),
+      route(":id/edit", "routes/admin/operators/EditOperatorRoute.tsx"),
+    ]),
     ...prefix("airports", [
       index("routes/admin/airports/AirportsListRoute.tsx"),
       route("new", "routes/admin/airports/CreateAirportRoute.tsx"),
@@ -27,11 +30,6 @@ export default [
       index("routes/admin/aircraft/AircraftListRoute.tsx"),
       route("new", "routes/admin/aircraft/CreateAircraftRoute.tsx"),
       route(":id/edit", "routes/admin/aircraft/EditAircraftRoute.tsx"),
-    ]),
-    ...prefix("operators", [
-      index("routes/admin/operators/OperatorsListRoute.tsx"),
-      route("new", "routes/admin/operators/CreateOperatorRoute.tsx"),
-      route(":id/edit", "routes/admin/operators/EditOperatorRoute.tsx"),
     ]),
     ...prefix("rotations", [
       index("routes/admin/rotations/RotationListRoute.tsx"),

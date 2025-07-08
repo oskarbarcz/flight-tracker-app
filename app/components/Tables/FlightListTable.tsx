@@ -106,7 +106,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-2xl border dark:border-gray-700">
+    <>
       <Table>
         <TableHead className="dark:text-gray-100">
           <TableHeadCell>Flight no</TableHeadCell>
@@ -127,7 +127,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                 <React.Fragment key={i}>
                   <TableRow
                     key={flight.id}
-                    className="cursor-pointer bg-gray-100 dark:border-gray-700 dark:bg-gray-800"
+                    className="cursor-pointer dark:border-gray-700 dark:bg-gray-800"
                     onClick={() => expandFlight(flight)}
                   >
                     <TableCell className="text-gray-900 dark:text-white">
@@ -451,6 +451,6 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
           cancel={() => setFlightToRelease(null)}
         />
       )}
-    </div>
+    </>
   );
 }

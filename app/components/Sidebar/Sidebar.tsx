@@ -16,6 +16,7 @@ import { User, UserRole } from "~/models/user.model";
 import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
+import {useLocation} from "react-router";
 
 export function Sidebar({
   isCollapsed,
@@ -24,6 +25,8 @@ export function Sidebar({
   isCollapsed: boolean;
   handleDesktopCollapse: () => void;
 }) {
+  const path = useLocation().pathname;
+  console.log(path);
   const { user } = useAuth() as { user: User };
 
   if (user === null) {
@@ -56,6 +59,7 @@ export function Sidebar({
               isCollapsed={isCollapsed}
               label="Home"
               href="/"
+              isSelected={path === "/"}
               icon={HiHome}
             />
           </>
@@ -69,30 +73,35 @@ export function Sidebar({
               isCollapsed={isCollapsed}
               label="Flight plans"
               href="/flights"
+              isSelected={path.startsWith("/flights")}
               icon={GrDocumentTime}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Rotations"
               href="/rotations"
+              isSelected={path.startsWith("/rotations")}
               icon={MdOutlineScreenRotationAlt}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Aircraft"
               href="/aircraft"
+              isSelected={path.startsWith("/aircraft")}
               icon={MdLocalAirport}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Airports"
               href="/airports"
+              isSelected={path.startsWith("/airports")}
               icon={LuTowerControl}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Operators"
               href="/operators"
+              isSelected={path.startsWith("/operators")}
               icon={HiOutlineBuildingOffice}
             />
           </>

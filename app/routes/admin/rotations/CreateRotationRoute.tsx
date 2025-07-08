@@ -11,7 +11,7 @@ import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { CreateRotationRequest, RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
-import { Route } from "../../../../.react-router/types/app/routes/admin/rotations/+types/CreateRotationRoute";
+import { Route } from ".react-router/types/app/routes/admin/rotations/+types/CreateRotationRoute";
 import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
 import {
   handleRequestError,
