@@ -40,7 +40,7 @@ export default function InputBlock({
         onChange={() => {
           setisMarkedRed(false);
         }}
-        color={isMarkedRed ? "red" : undefined}
+        color={isMarkedRed ? "failure" : undefined}
       />
       <InputErrorList errorFocus={isMarkedRed} errors={errors} />
     </div>

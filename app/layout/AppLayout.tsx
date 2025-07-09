@@ -30,7 +30,7 @@ export default function OldAppLayout() {
                   handleDesktopCollapse={toggleCollapse}
                 />
               </div>
-              <div className="flex-1 overflow-hidden max-w-full">
+              <div className="flex-1 max-w-full min-w-0">
                 <Outlet />
               </div>
             </div>

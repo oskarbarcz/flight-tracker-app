@@ -24,11 +24,13 @@ export default function InputErrorList({
         <span key={index} className="block">
           <Badge
             className="mb-1 me-2 inline-block uppercase"
-            color={errorFocus ? "red" : "gray"}
+            color={errorFocus ? "failure" : "gray"}
           >
             Error
           </Badge>
-          {error}
+          <span className={errorFocus ? "text-red-500" : "text-gray-500"}>
+            {error}
+          </span>
         </span>
       ))}
     </HelperText>
