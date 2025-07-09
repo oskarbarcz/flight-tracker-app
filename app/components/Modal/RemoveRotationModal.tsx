@@ -21,25 +21,28 @@ export default function RemoveRotationModal({
   cancel,
 }: RemoveRotationModalProps) {
   return (
-    <Modal show onClose={cancel}>
+    <Modal size="md" show onClose={cancel}>
       <ModalHeader>Remove rotation</ModalHeader>
-      <ModalBody className="text-gray-900 dark:text-gray-100">
+      <ModalBody>
         <p>
           You are going to remove rotation{" "}
-          <span className="font-bold">{rotation.name} </span>
-          for <span className="font-bold">{rotation.pilot.name}</span>.
+          <span className="font-bold">{rotation.name}</span>.
         </p>
-        <p>
+        <p className="mt-3">
           <span className="font-bold">This action is unrecoverable.</span> Are
           you sure to proceed?
         </p>
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={cancel}>
+          <Button color="light" onClick={cancel} className="cursor-pointer">
             Back
           </Button>
-          <Button onClick={() => remove(rotation.id)} color="failure">
+          <Button
+            onClick={() => remove(rotation.id)}
+            color="red"
+            className="cursor-pointer"
+          >
             Remove rotation
           </Button>
         </div>

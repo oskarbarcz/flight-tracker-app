@@ -9,8 +9,9 @@ import {
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import React from "react";
-import { ThemeModeScript } from "flowbite-react";
+import { ThemeModeScript, ThemeProvider } from "flowbite-react";
 import { AuthProvider } from "~/state/contexts/auth.context";
+import getAppTheme from "~/theme/getAppTheme";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -57,9 +58,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const appTheme = getAppTheme();
+
   return (
     <AuthProvider>
-      <Outlet />
+      <ThemeProvider theme={appTheme}>
+        <Outlet />
+      </ThemeProvider>
     </AuthProvider>
   );
 }

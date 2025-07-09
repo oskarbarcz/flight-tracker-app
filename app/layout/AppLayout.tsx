@@ -7,6 +7,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import { ThemeConfig } from "flowbite-react";
 import { Outlet } from "react-router";
+import { MobileSidebar } from "~/components/Sidebar/MobileSidebar";
 
 export default function OldAppLayout() {
   const [isCollapsed, toggleCollapse] = useSidebarState();
@@ -15,27 +16,27 @@ export default function OldAppLayout() {
     <>
       <ThemeConfig />
       <ProtectedRoute>
-        <div className="min-h-full min-w-full bg-indigo-50 dark:bg-gray-900">
-          <div className="md:container py-8 md:mx-auto">
-            <div className="min-h-[200px] ease-in-out transition-all duration-500 w-full flex gap-8">
+        <div className="min-h-full min-w-full bg-indigo-50 dark:bg-gray-900 pb-[110px]">
+          <div className="md:container p-2 md:px-0 md:py-8 md:mx-auto">
+            <div className="flex min-h-[200px] ease-in-out transition-all duration-500 w-full gap-8">
               <div
-                className={
-                  isCollapsed
-                    ? "w-[76px] h-full transition-[width] ease-in-out"
-                    : "w-[300px] transition-[width] ease-in-out"
-                }
+                className={`
+                transition-[width] ease-in-out hidden md:flex
+                ${isCollapsed ? " w-[76px] h-full" : " w-[300px]"}
+              `}
               >
                 <Sidebar
                   isCollapsed={isCollapsed}
                   handleDesktopCollapse={toggleCollapse}
                 />
               </div>
-              <div className="w-full">
+              <div className="flex-1 max-w-full min-w-0">
                 <Outlet />
               </div>
             </div>
           </div>
         </div>
+        <MobileSidebar />
         <ToastContainer />
       </ProtectedRoute>
     </>

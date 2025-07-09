@@ -15,7 +15,7 @@ export default function InputErrorList({
   }
 
   return (
-    <HelperText color={errorFocus ? "failure" : undefined}>
+    <HelperText color={errorFocus ? "red" : undefined}>
       {!errorFocus && (
         <span className="mb-2 block">Previous field errors:</span>
       )}
@@ -28,7 +28,9 @@ export default function InputErrorList({
           >
             Error
           </Badge>
-          {error}
+          <span className={errorFocus ? "text-red-500" : "text-gray-500"}>
+            {error}
+          </span>
         </span>
       ))}
     </HelperText>

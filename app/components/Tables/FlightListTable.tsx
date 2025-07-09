@@ -106,7 +106,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
   };
 
   return (
-    <>
+    <div className="rounded-t-4xl overflow-x-auto mb-6">
       <Table>
         <TableHead className="dark:text-gray-100">
           <TableHeadCell>Flight no</TableHeadCell>
@@ -202,7 +202,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             </Button>
                             <Button
                               onClick={() => setFlightToRemove(flight)}
-                              color="failure"
+                              color="red"
                               size="xs"
                               className="flex cursor-pointer items-center"
                             >
@@ -451,6 +451,6 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
           cancel={() => setFlightToRelease(null)}
         />
       )}
-    </>
+    </div>
   );
 }

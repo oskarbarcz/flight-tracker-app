@@ -23,7 +23,7 @@ export default function FlightStatusSelector() {
       <Tabs variant="underline">
         {Object.values(FlightPrecedenceStatus).map((precedence, i) => (
           <TabItem title={precedenceToLabel(precedence)} key={i}>
-            <Container className="overflow-x-auto" noPadding>
+            <Container noPadding>
               <FlightListTable precedence={precedence} />
             </Container>
           </TabItem>

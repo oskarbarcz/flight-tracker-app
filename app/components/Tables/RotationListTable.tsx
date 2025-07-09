@@ -1,6 +1,5 @@
 import { RotationResponse } from "~/models";
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -9,10 +8,8 @@ import {
   TableRow,
 } from "flowbite-react";
 import { Link } from "react-router";
-import { HiPencil } from "react-icons/hi";
 import React from "react";
 import { formatDateToLocal } from "~/functions/time";
-import { FaTrash } from "react-icons/fa";
 
 type RotationListTableProps = {
   rotations: RotationResponse[];
@@ -28,11 +25,9 @@ export default function RotationListTable({
       <TableHead className="dark:text-gray-100">
         <TableHeadCell>Rotation name</TableHeadCell>
         <TableHeadCell>Legs</TableHeadCell>
-        <TableHeadCell>Pilot ID</TableHeadCell>
+        <TableHeadCell>Captain</TableHeadCell>
         <TableHeadCell>History</TableHeadCell>
-        <TableHeadCell>
-          <span className="sr-only">Actions</span>
-        </TableHeadCell>
+        <TableHeadCell>Actions</TableHeadCell>
       </TableHead>
       <TableBody className="divide-y">
         {rotations.map((rotation: RotationResponse, i: number) => (
@@ -82,24 +77,21 @@ export default function RotationListTable({
               </div>
             </TableCell>
             <TableCell>
-              <div className="flex gap-2 text-gray-500">
+              <div className="block text-primary-500 font-bold">
                 <Link
+                  className="block"
                   to={`/rotations/${rotation.id}/edit`}
                   replace
                   viewTransition
                 >
-                  <Button color="gray">
-                    <HiPencil />
-                  </Button>
+                  Edit
                 </Link>
-                <Button
+                <button
                   onClick={() => removeRotation(rotation)}
-                  color="failure"
-                  size="xs"
-                  className="flex cursor-pointer items-center"
+                  className="mt-1 cursor-pointer text-red-500"
                 >
-                  <FaTrash />
-                </Button>
+                  Remove
+                </button>
               </div>
             </TableCell>
           </TableRow>
