@@ -16,8 +16,8 @@ export default function OldAppLayout() {
     <>
       <ThemeConfig />
       <ProtectedRoute>
-        <div className="min-h-full min-w-full bg-indigo-50 dark:bg-gray-900">
-          <div className="md:container p-2 md:py-8 md:mx-auto">
+        <div className="min-h-full min-w-full bg-indigo-50 dark:bg-gray-900 pb-[110px]">
+          <div className="md:container p-2 md:px-0 md:py-8 md:mx-auto">
             <div className="flex min-h-[200px] ease-in-out transition-all duration-500 w-full gap-8">
               <div
                 className={`
@@ -30,7 +30,7 @@ export default function OldAppLayout() {
                   handleDesktopCollapse={toggleCollapse}
                 />
               </div>
-              <div className="w-full">
+              <div className="flex-1 overflow-hidden max-w-full">
                 <Outlet />
               </div>
             </div>
