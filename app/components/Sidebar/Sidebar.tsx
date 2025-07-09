@@ -34,7 +34,7 @@ export function Sidebar({
   }
 
   return (
-    <aside className="flex min-h-[600px] w-full flex-col rounded-4xl p-4 border shadow-lg bg-white dark:bg-gray-800 border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900">
+    <aside className="flex min-h-[600px] h-min w-full flex-col rounded-4xl p-4 border shadow-lg bg-white dark:bg-gray-800 border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900">
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div className="text-white mb-4">
