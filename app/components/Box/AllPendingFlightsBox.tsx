@@ -3,6 +3,7 @@
 import React from "react";
 import { Flight, isFlightTrackable } from "~/models";
 import { Link } from "react-router";
+import Container from "~/components/Container";
 
 type AllPendingFlightsBoxProps = {
   flights: Flight[];
@@ -16,7 +17,7 @@ export default function AllPendingFlightsBox({
   );
 
   return (
-    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
+    <Container>
       <h2 className="text-xl font-bold dark:text-gray-300">
         Trackable flights
       </h2>
@@ -34,6 +35,6 @@ export default function AllPendingFlightsBox({
         ))}
       </div>
       <div></div>
-    </section>
+    </Container>
   );
 }

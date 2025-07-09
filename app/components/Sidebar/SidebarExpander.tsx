@@ -15,7 +15,7 @@ export default function SidebarExpander({
   return (
     <button
       onClick={handleDesktopCollapse}
-      className="my-1 hidden items-center rounded-lg bg-indigo-500 p-2 transition-colors duration-100 hover:bg-indigo-400 md:flex"
+      className="w-min cursor-pointer items-center text-indigo-500 rounded-3xl p-2 transition-colors duration-100 hover:bg-gray-100 dark:hover:bg-gray-700 md:flex"
     >
       <HiChevronDoubleLeft
         size="24px"

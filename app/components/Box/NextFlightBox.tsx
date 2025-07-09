@@ -3,6 +3,7 @@
 import React from "react";
 import { Flight, FlightStatus } from "~/models";
 import { Link } from "react-router";
+import Container from "~/components/Container";
 
 type NextFlightBoxProps = {
   flights: Flight[];
@@ -14,7 +15,7 @@ export default function NextFlightBox({ flights }: NextFlightBoxProps) {
   );
 
   return (
-    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
+    <Container>
       <h2 className="text-xl font-bold dark:text-gray-300">
         Available flights
       </h2>
@@ -31,7 +32,6 @@ export default function NextFlightBox({ flights }: NextFlightBoxProps) {
           </div>
         ))}
       </div>
-      <div></div>
-    </section>
+    </Container>
   );
 }

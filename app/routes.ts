@@ -8,35 +8,37 @@ import {
 
 export default [
   layout("layout/AuthLayout.tsx", [
-    route("sign-in", "routes/auth/SignInRoute.tsx"),
-    route("sign-out", "routes/auth/SignOutRoute.tsx"),
+    route("sign-in", "routes/common/auth/SignInRoute.tsx"),
+    route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
   ]),
   layout("layout/AppLayout.tsx", [
-    index("routes/dashboard/DashboardRoute.tsx"),
-    ...prefix("airports", [
-      index("routes/airports/AirportsListRoute.tsx"),
-      route("new", "routes/airports/CreateAirportRoute.tsx"),
-      route(":id/edit", "routes/airports/EditAirportRoute.tsx"),
-    ]),
-    ...prefix("track", [route(":id", "routes/track/TrackFlightRoute.tsx")]),
-    ...prefix("aircraft", [
-      index("routes/aircraft/AircraftListRoute.tsx"),
-      route("new", "routes/aircraft/CreateAircraftRoute.tsx"),
-      route(":id/edit", "routes/aircraft/EditAircraftRoute.tsx"),
+    index("routes/common/dashboard/DashboardRoute.tsx"),
+    ...prefix("track", [
+      route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
     ...prefix("operators", [
-      index("routes/operators/OperatorsListRoute.tsx"),
-      route("new", "routes/operators/CreateOperatorRoute.tsx"),
-      route(":id/edit", "routes/operators/EditOperatorRoute.tsx"),
+      index("routes/operations/operators/OperatorsListRoute.tsx"),
+      route("new", "routes/operations/operators/CreateOperatorRoute.tsx"),
+      route(":id/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
+    ]),
+    ...prefix("airports", [
+      index("routes/operations/airports/AirportsListRoute.tsx"),
+      route("new", "routes/operations/airports/CreateAirportRoute.tsx"),
+      route(":id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
+    ]),
+    ...prefix("aircraft", [
+      index("routes/operations/aircraft/AircraftListRoute.tsx"),
+      route("new", "routes/operations/aircraft/CreateAircraftRoute.tsx"),
+      route(":id/edit", "routes/operations/aircraft/EditAircraftRoute.tsx"),
     ]),
     ...prefix("rotations", [
-      index("routes/rotations/RotationListRoute.tsx"),
-      route("new", "routes/rotations/CreateRotationRoute.tsx"),
-      route(":id/edit", "routes/rotations/EditRotationRoute.tsx"),
+      index("routes/operations/rotations/RotationListRoute.tsx"),
+      route("new", "routes/operations/rotations/CreateRotationRoute.tsx"),
+      route(":id/edit", "routes/operations/rotations/EditRotationRoute.tsx"),
     ]),
     ...prefix("flights", [
-      index("routes/flights/FlightsListRoute.tsx"),
-      route("new", "routes/flights/CreateFlightRoute.tsx"),
+      index("routes/operations/flights/FlightsListRoute.tsx"),
+      route("new", "routes/operations/flights/CreateFlightRoute.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

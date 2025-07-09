@@ -1,6 +1,12 @@
 "use client";
 
-import { Button, Modal } from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "flowbite-react";
 import { RotationResponse } from "~/models";
 
 type RemoveRotationModalProps = {
@@ -16,8 +22,8 @@ export default function RemoveRotationModal({
 }: RemoveRotationModalProps) {
   return (
     <Modal show onClose={cancel}>
-      <Modal.Header>Remove rotation</Modal.Header>
-      <Modal.Body className="text-gray-900 dark:text-gray-100">
+      <ModalHeader>Remove rotation</ModalHeader>
+      <ModalBody className="text-gray-900 dark:text-gray-100">
         <p>
           You are going to remove rotation{" "}
           <span className="font-bold">{rotation.name} </span>
@@ -27,8 +33,8 @@ export default function RemoveRotationModal({
           <span className="font-bold">This action is unrecoverable.</span> Are
           you sure to proceed?
         </p>
-      </Modal.Body>
-      <Modal.Footer>
+      </ModalBody>
+      <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" onClick={cancel}>
             Back
@@ -37,7 +43,7 @@ export default function RemoveRotationModal({
             Remove rotation
           </Button>
         </div>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 }

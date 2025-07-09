@@ -1,6 +1,6 @@
 ![My Project Header](.github/image/header.png)
 
-# Flight Tracker
+# FlightTracker
 
 A comprehensive web app for scheduling and tracking flights in a flight simulator environment. Designed for virtual
 aviation enthusiasts, it enables seamless management of flights, aircraft, airports, crews, and passengers.
@@ -19,7 +19,7 @@ This is frontend part of the project. For backend part, please visit
 
 ## Repository contents
 
-Repository contains frontend code for [Flight Tracker](https://flights.barcz.me) app.
+Repository contains frontend code for [FlightTracker](https://flights.barcz.me) app.
 
 Project is using **Node.js** and **TypeScript** in versions listed below:
 
@@ -32,8 +32,8 @@ Main dependencies are **Vite**, **React**, **React Router** and **Flowbite** in 
 
 | Vendor       | Version |
 | ------------ | ------- |
-| Vite         | ^5.4    |
-| React        | ^18.3   |
+| Vite         | ^7.4    |
+| React        | ^19.3   |
 | React Router | ^7.0    |
 | Flowbite     | ^0.10   |
 

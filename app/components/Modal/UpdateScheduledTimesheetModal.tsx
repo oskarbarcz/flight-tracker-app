@@ -1,7 +1,13 @@
 "use client";
 
 import { FilledSchedule, Flight } from "~/models";
-import { Button, Modal } from "flowbite-react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import UpdateFlightScheduleForm from "~/components/Forms/UpdateFlightScheduleForm";
 
@@ -26,16 +32,16 @@ export default function UpdateScheduledTimesheetModal({
       show
       onClose={cancel}
     >
-      <Modal.Header>Update scheduled timesheet</Modal.Header>
-      <Modal.Body>
+      <ModalHeader>Update scheduled timesheet</ModalHeader>
+      <ModalBody>
         <UpdateFlightScheduleForm
           schedule={oldSchedule}
           setSchedule={useCallback((estimation: FilledSchedule) => {
             setNewSchedule(estimation);
           }, [])}
         />
-      </Modal.Body>
-      <Modal.Footer>
+      </ModalBody>
+      <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" onClick={cancel}>
             Back
@@ -44,7 +50,7 @@ export default function UpdateScheduledTimesheetModal({
             Update schedule for flight {flight.flightNumber}
           </Button>
         </div>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 }

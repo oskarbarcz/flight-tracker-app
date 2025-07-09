@@ -1,6 +1,6 @@
 {
-  "name": "Flight Tracker",
-  "short_name": "Flight Tracker",
+  "name": "Fligh Tracker",
+  "short_name": "FlightTracker",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

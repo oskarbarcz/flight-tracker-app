@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { GetUserResponse } from "~/models";
 import { Label, TextInput } from "flowbite-react";
 import { useUserService } from "~/state/hooks/api/useUserService";
-import InputErrorList from "~/components/BaseComponents/Form/Partial/InputErrorList";
+import InputErrorList from "~/components/Intrinsic/Form/Partial/InputErrorList";
 import PilotInputPreview from "~/components/Form/Section/PilotInputPreview";
 
 type PilotLicenseInputBlockProps = {
@@ -86,7 +86,7 @@ export default function PilotLicenseInputBlock({
   return (
     <div>
       <div className="mb-2 block">
-        <Label htmlFor={htmlName} value={label} />
+        <Label htmlFor={htmlName}>{label}</Label>
       </div>
       <TextInput
         id={htmlName}

@@ -1,3 +1,5 @@
+"use client";
+
 import { HiHome } from "react-icons/hi";
 import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
 import { LuTowerControl } from "react-icons/lu";
@@ -6,7 +8,6 @@ import SidebarElement from "~/components/Sidebar/SidebarElement";
 import SidebarSectionTitle from "~/components/Sidebar/SidebarSectionTitle";
 import { GrDocumentTime } from "react-icons/gr";
 import { useAuth } from "~/state/contexts/auth.context";
-import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 import SidebarExpander from "~/components/Sidebar/SidebarExpander";
 import SidebarDivider from "~/components/Sidebar/SidebarDivider";
 import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
@@ -14,6 +15,8 @@ import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
 import { User, UserRole } from "~/models/user.model";
 import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
+import SidebarLogo from "~/components/Sidebar/SidebarLogo";
+import { useLocation } from "react-router";
 
 export function Sidebar({
   isCollapsed,
@@ -22,6 +25,8 @@ export function Sidebar({
   isCollapsed: boolean;
   handleDesktopCollapse: () => void;
 }) {
+  const path = useLocation().pathname;
+  console.log(path);
   const { user } = useAuth() as { user: User };
 
   if (user === null) {
@@ -29,10 +34,10 @@ export function Sidebar({
   }
 
   return (
-    <aside className="flex size-full flex-col bg-indigo-500 p-3 text-white">
+    <aside className="flex min-h-[600px] w-full flex-col rounded-4xl p-4 border shadow-lg bg-white dark:bg-gray-800 border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900">
       <SidebarLogo isCollapsed={isCollapsed} />
 
-      <div>
+      <div className="text-white mb-4">
         {user.currentFlightId && (
           <>
             {isCollapsed && <SidebarDivider />}
@@ -54,6 +59,7 @@ export function Sidebar({
               isCollapsed={isCollapsed}
               label="Home"
               href="/"
+              isSelected={path === "/"}
               icon={HiHome}
             />
           </>
@@ -67,37 +73,42 @@ export function Sidebar({
               isCollapsed={isCollapsed}
               label="Flight plans"
               href="/flights"
+              isSelected={path.startsWith("/flights")}
               icon={GrDocumentTime}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Rotations"
               href="/rotations"
+              isSelected={path.startsWith("/rotations")}
               icon={MdOutlineScreenRotationAlt}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Aircraft"
               href="/aircraft"
+              isSelected={path.startsWith("/aircraft")}
               icon={MdLocalAirport}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Airports"
               href="/airports"
+              isSelected={path.startsWith("/airports")}
               icon={LuTowerControl}
             />
             <SidebarElement
               isCollapsed={isCollapsed}
               label="Operators"
               href="/operators"
+              isSelected={path.startsWith("/operators")}
               icon={HiOutlineBuildingOffice}
             />
           </>
         )}
       </div>
 
-      <div className="mt-auto flex flex-col gap-1">
+      <div className="mt-auto flex flex-col gap-4">
         <SidebarUserPanel isCollapsed={isCollapsed} />
         <SidebarThemeSwitch isCollapsed={isCollapsed} />
         <SidebarExpander

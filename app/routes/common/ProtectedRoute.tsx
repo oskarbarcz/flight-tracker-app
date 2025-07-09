@@ -2,7 +2,7 @@
 
 import React, { ReactNode, useContext } from "react";
 import { AuthContext } from "~/state/contexts/auth.context";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { UserRole } from "~/models/user.model";
 import Splash from "~/layout/Splash";
 
@@ -16,13 +16,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
 }: ProtectedRouteProps) => {
   const { user, isLoading, accessToken } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <Splash />;
   }
 
   if (!user || !accessToken) {
-    return <Navigate to="/sign-in" replace />;
+    navigate("/sign-in", { replace: true, viewTransition: true });
+    return;
+    // return <Navigate to="/sign-in" replace />;
   }
 
   if (expectedRole && user.role !== expectedRole) {

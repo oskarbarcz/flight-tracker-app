@@ -1,12 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 html,
 body {
-  @apply bg-indigo-500;
-  @apply h-full;
-
+  @apply bg-indigo-50 h-full dark:dark:bg-gray-900;
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }

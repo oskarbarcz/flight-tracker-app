@@ -30,7 +30,7 @@ export function FlightPhaseBox({ flight }: FlightPhaseBoxProps) {
   };
 
   return (
-    <section className="rounded-2xl border bg-gray-100 p-6 dark:border-gray-700 dark:bg-gray-800">
+    <section className="rounded-2xl p-6">
       <div className="flex h-full flex-col items-center justify-center">
         <FlightProgressControl flight={flight} />
         {flight.status === FlightStatus.Ready && (

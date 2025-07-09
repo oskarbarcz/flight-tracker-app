@@ -15,7 +15,7 @@ export default function SectionHeaderWithLink({
   linkText,
 }: SectionHeaderWithLinkProps) {
   return (
-    <div className="mb-8 flex items-center justify-between">
+    <div className="mb-4 p-8 flex items-center justify-between">
       <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>
