@@ -59,7 +59,7 @@ export default function RemoveFlightModal({
           <Button color="gray" onClick={cancel}>
             Back
           </Button>
-          <Button onClick={() => remove(flight.id)} color="failure">
+          <Button onClick={() => remove(flight.id)} color="red">
             Remove flight {flight.flightNumber}
           </Button>
         </div>

@@ -12,6 +12,7 @@ export default function Footer() {
         <a
           href="https://github.com/oskarbarcz"
           className="font-bold text-indigo-500"
+          target={"_blank"}
         >
           Oskar Barcz
         </a>
@@ -19,6 +20,7 @@ export default function Footer() {
         <a
           href="https://github.com/kodowiec"
           className="font-bold text-indigo-500"
+          target={"_blank"}
         >
           Kamil Synowiec
         </a>

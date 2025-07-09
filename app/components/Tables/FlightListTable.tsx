@@ -202,7 +202,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             </Button>
                             <Button
                               onClick={() => setFlightToRemove(flight)}
-                              color="failure"
+                              color="red"
                               size="xs"
                               className="flex cursor-pointer items-center"
                             >
