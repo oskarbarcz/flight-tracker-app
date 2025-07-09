@@ -1,6 +1,6 @@
 {
   "name": "flight-tracker-app",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "private": true,
   "homepage": "https://flights.barcz.me",
   "author": "Oskar Barcz",
@@ -29,7 +29,8 @@
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router": "^7.6.3",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "tailwindcss-safe-area": "^0.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
