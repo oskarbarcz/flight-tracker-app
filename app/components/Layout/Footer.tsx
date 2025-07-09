@@ -10,11 +10,17 @@ export default function Footer() {
         <FaHeart className="inline-block" />
         {" by "}
         <a
-          href="https://barcz.me"
-          title="Let's get in touch!"
-          className="font-bold text-teal-500"
+          href="https://github.com/oskarbarcz"
+          className="font-bold text-indigo-500"
         >
           Oskar Barcz
+        </a>
+        {" and "}
+        <a
+          href="https://github.com/kodowiec"
+          className="font-bold text-indigo-500"
+        >
+          Kamil Synowiec
         </a>
       </div>
     </>

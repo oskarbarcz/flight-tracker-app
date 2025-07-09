@@ -1,68 +1,50 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
-import {
-  Form,
-  useLoaderData,
-  useActionData,
-  redirect,
-  useNavigate,
-} from "react-router";
-import { Route } from ".react-router/types/app/routes/admin/rotations/+types/EditRotationRoute";
-import InputBlock from "~/components/Intrinsic/Form/InputBlock";
+import { Form, useActionData, useNavigate } from "react-router";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
+import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { CreateRotationRequest, RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
-import { EditRotationRequest, RotationResponse } from "~/models";
+import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/CreateRotationRoute";
+import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
 import {
   handleRequestError,
   handleRequestSuccess,
   ResponseWrapper,
 } from "~/functions/handleRequest";
-import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
 import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
-import RotationFlightsInputBlock from "~/components/Form/RotationFlightsInputBlock";
 
-type EditRotationResponse = ResponseWrapper<
-  EditRotationRequest,
+type CreateRotationResponse = ResponseWrapper<
+  CreateRotationRequest,
   RotationResponse
 >;
 
 export async function clientAction({
   request,
-  params,
-}: Route.ClientActionArgs): Promise<EditRotationResponse> {
+}: Route.ClientActionArgs): Promise<CreateRotationResponse> {
   const rotationService = new RotationService();
 
   const form = await request.formData();
-  const rotation = getFormData<EditRotationRequest>(form, ["name", "pilotId"]);
-
+  const rotation = getFormData<CreateRotationRequest>(form, [
+    "name",
+    "pilotId",
+  ]);
   return rotationService
-    .update(params.id, rotation)
+    .createNew(rotation)
     .then((response) => handleRequestSuccess(response, "/rotations"))
     .catch((error) => handleRequestError(error));
 }
 
-export async function clientLoader({
-  params,
-}: Route.ClientLoaderArgs): Promise<RotationResponse | Response> {
-  try {
-    const rotationService = new RotationService();
-    return await rotationService.getById(params.id);
-  } catch {
-    return redirect("/rotations");
-  }
-}
+export default function CreateRotationRoute() {
+  usePageTitle("Create new rotation");
 
-export default function EditRotationRoute() {
-  usePageTitle("Edit rotation");
   const navigate = useNavigate();
-  const [rotation, setRotation] =
-    useState<RotationResponse>(useLoaderData<typeof clientLoader>());
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {
@@ -74,16 +56,11 @@ export default function EditRotationRoute() {
     }
   }, [response, navigate]);
 
-  const updateLegs = async () => {
-    const rotationService = new RotationService();
-    rotationService.getById(rotation.id).then(setRotation);
-  };
-
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
-          sectionTitle="Edit rotation"
+          sectionTitle="Create new rotation"
           backText="Back to rotations"
           backUrl="/rotations"
         />
@@ -92,22 +69,15 @@ export default function EditRotationRoute() {
           <InputBlock
             htmlName="name"
             label="Rotation name"
-            defaultValue={rotation.name}
             errors={response?.isError ? response.errorsForKey("name") : []}
           />
           <PilotLicenseInputBlock
             htmlName="pilotId"
             label="Captain pilot license ID"
-            defaultValue={rotation.pilot.id}
             errors={response?.isError ? response.errorsForKey("pilotId") : []}
           />
-          <RotationFlightsInputBlock
-            rotation={rotation}
-            legs={rotation.flights}
-            updateLegs={updateLegs}
-          />
 
-          <Button type="submit">Save changes</Button>
+          <Button type="submit">Create new rotation</Button>
         </Form>
       </div>
     </ProtectedRoute>

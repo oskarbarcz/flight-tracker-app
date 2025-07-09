@@ -7,7 +7,7 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { Form, redirect, useLoaderData } from "react-router";
 import { AirportService } from "~/state/api/airport.service";
 import { Airport, EditAirportDto } from "~/models";
-import { Route } from ".react-router/types/app/routes/admin/airports/+types/EditAirportRoute";
+import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
 import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import { UserRole } from "~/models/user.model";

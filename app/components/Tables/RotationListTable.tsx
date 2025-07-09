@@ -1,17 +1,28 @@
-import { RotationResponse} from "~/models";
-import {Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow} from "flowbite-react";
-import {Link} from "react-router";
-import {HiPencil} from "react-icons/hi";
+import { RotationResponse } from "~/models";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
+import { Link } from "react-router";
+import { HiPencil } from "react-icons/hi";
 import React from "react";
-import {formatDateToLocal} from "~/functions/time";
-import {FaTrash} from "react-icons/fa";
+import { formatDateToLocal } from "~/functions/time";
+import { FaTrash } from "react-icons/fa";
 
 type RotationListTableProps = {
   rotations: RotationResponse[];
   removeRotation: (rotationId: RotationResponse) => void;
-}
+};
 
-export default function RotationListTable({rotations, removeRotation}: RotationListTableProps){
+export default function RotationListTable({
+  rotations,
+  removeRotation,
+}: RotationListTableProps) {
   return (
     <Table className="shadow">
       <TableHead className="dark:text-gray-100">
@@ -25,10 +36,7 @@ export default function RotationListTable({rotations, removeRotation}: RotationL
       </TableHead>
       <TableBody className="divide-y">
         {rotations.map((rotation: RotationResponse, i: number) => (
-          <TableRow
-            key={i}
-            className="dark:border-gray-700 dark:bg-gray-800"
-          >
+          <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
             <TableCell className="text-gray-900 dark:text-white">
               {rotation.name}
             </TableCell>

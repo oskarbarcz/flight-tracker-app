@@ -16,7 +16,7 @@ import { User, UserRole } from "~/models/user.model";
 import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
-import {useLocation} from "react-router";
+import { useLocation } from "react-router";
 
 export function Sidebar({
   isCollapsed,

@@ -1,14 +1,24 @@
-import {Aircraft} from "~/models";
-import {Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow} from "flowbite-react";
-import {Link} from "react-router";
-import {HiPencil} from "react-icons/hi";
+import { Aircraft } from "~/models";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
+import { Link } from "react-router";
+import { HiPencil } from "react-icons/hi";
 import React from "react";
 
 type AircraftListTableProps = {
   aircraft: Aircraft[];
-}
+};
 
-export default  function AircraftListTable({aircraft}: AircraftListTableProps){
+export default function AircraftListTable({
+  aircraft,
+}: AircraftListTableProps) {
   return (
     <Table className="shadow">
       <TableHead className="dark:text-gray-100">
@@ -24,10 +34,7 @@ export default  function AircraftListTable({aircraft}: AircraftListTableProps){
       </TableHead>
       <TableBody className="divide-y">
         {aircraft.map((each: Aircraft, i: number) => (
-          <TableRow
-            key={i}
-            className="dark:border-gray-700 dark:bg-gray-800"
-          >
+          <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
             <TableCell className="text-gray-900 dark:text-white">
               {each.icaoCode}
             </TableCell>
@@ -43,11 +50,7 @@ export default  function AircraftListTable({aircraft}: AircraftListTableProps){
             </TableCell>
             <TableCell>{each.selcal}</TableCell>
             <TableCell>
-              <Link
-                to={`/aircraft/${each.id}/edit`}
-                replace
-                viewTransition
-              >
+              <Link to={`/aircraft/${each.id}/edit`} replace viewTransition>
                 <Button color="gray">
                   <HiPencil />
                 </Button>

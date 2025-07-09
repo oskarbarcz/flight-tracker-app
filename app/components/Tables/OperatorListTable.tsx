@@ -1,14 +1,24 @@
-import {Operator} from "~/models";
-import {Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow} from "flowbite-react";
-import {Link} from "react-router";
-import {HiPencil} from "react-icons/hi";
+import { Operator } from "~/models";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+} from "flowbite-react";
+import { Link } from "react-router";
+import { HiPencil } from "react-icons/hi";
 import React from "react";
 
 type OperatorListTableProps = {
   operators: Operator[];
-}
+};
 
-export default function OperatorListTable({operators}: OperatorListTableProps){
+export default function OperatorListTable({
+  operators,
+}: OperatorListTableProps) {
   return (
     <Table>
       <TableHead className="dark:text-gray-100">
@@ -22,10 +32,7 @@ export default function OperatorListTable({operators}: OperatorListTableProps){
       </TableHead>
       <TableBody className="divide-y">
         {operators.map((operator: Operator, i: number) => (
-          <TableRow
-            key={i}
-            className="dark:border-gray-700"
-          >
+          <TableRow key={i} className="dark:border-gray-700">
             <TableCell className="text-gray-900 dark:text-white">
               {operator.icaoCode}
             </TableCell>

@@ -3,7 +3,6 @@
 import { TabItem, Tabs } from "flowbite-react";
 import { FlightPrecedenceStatus } from "~/models";
 import FlightListTable from "../FlightListTable";
-import RotationListTable from "~/components/Tables/RotationListTable";
 import Container from "~/components/Container";
 import React from "react";
 
