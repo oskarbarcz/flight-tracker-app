@@ -9,6 +9,13 @@ export class AdsbService extends AbstractApiService {
   }
 
   async getByCallsign(callsign: string): Promise<FlightPathElement[]> {
-    return this.request<FlightPathElement[]>(`/api/v1/position/${callsign}`);
+    const trimmedCallsign = callsign.replace(/\s/g, "").toUpperCase();
+    const path = await this.request<FlightPathElement[]>(
+      `/api/v1/position/${trimmedCallsign}`,
+    );
+
+    return path.filter(
+      (entry) => !(entry.latitude === 0 && entry.longitude === 0),
+    );
   }
 }
