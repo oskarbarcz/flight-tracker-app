@@ -21,7 +21,7 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
 
   useEffect(() => {
     const fetchData = () => {
-      adsbService.getByCallsign("FIN1175").then(setPath);
+      adsbService.getByCallsign(flight.callsign).then(setPath);
     };
     fetchData();
 
