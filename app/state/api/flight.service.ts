@@ -1,13 +1,14 @@
 import {
   CreateFlightDto,
   Flight,
+  FlightPathElement,
   FlightStatus,
   Loadsheet,
   Schedule,
 } from "~/models";
-import { AbstractApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
-export class FlightService extends AbstractApiService {
+export class FlightService extends AbstractAuthorizedApiService {
   async fetchAllFlights(): Promise<Flight[]> {
     return this.requestWithAuth<Flight[]>("/api/v1/flight");
   }
@@ -28,6 +29,12 @@ export class FlightService extends AbstractApiService {
 
   async getById(id: string): Promise<Flight> {
     return this.requestWithAuth<Flight>(`/api/v1/flight/${id}`);
+  }
+
+  async getFlightPath(id: string): Promise<FlightPathElement[]> {
+    return this.requestWithAuth<FlightPathElement[]>(
+      `/api/v1/flight/${id}/path`,
+    );
   }
 
   async updateScheduledTimesheet(

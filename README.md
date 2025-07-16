@@ -62,7 +62,7 @@ cp .env .env.local
 3. Fill new created file with URL to locally set-up API. Default value would be:
 
 ```shell
-VITE_API_BASE_URL=http://localhost
+VITE_FLIGHT_TRACKER_API_HOST=http://localhost
 ```
 
 4. Set up API:

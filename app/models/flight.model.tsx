@@ -117,3 +117,10 @@ export type CreateFlightDto = Omit<
   Flight,
   "id" | "airports" | "aircraft" | "operator" | "status"
 >;
+
+export type FlightPathElement = {
+  callsign: string;
+  date: string;
+  latitude: number;
+  longitude: number;
+};

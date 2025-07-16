@@ -1,7 +1,7 @@
 import { Airport, CreateAirportDto, EditAirportDto } from "~/models";
-import { AbstractApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
-export class AirportService extends AbstractApiService {
+export class AirportService extends AbstractAuthorizedApiService {
   async getAll(): Promise<Airport[]> {
     return this.requestWithAuth<Airport[]>("/api/v1/airport");
   }

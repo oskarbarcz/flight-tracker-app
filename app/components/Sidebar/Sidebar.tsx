@@ -26,7 +26,6 @@ export function Sidebar({
   handleDesktopCollapse: () => void;
 }) {
   const path = useLocation().pathname;
-  console.log(path);
   const { user } = useAuth() as { user: User };
 
   if (user === null) {
