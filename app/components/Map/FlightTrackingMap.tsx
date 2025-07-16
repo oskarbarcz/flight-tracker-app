@@ -20,7 +20,15 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
-    adsbService.getByCallsign("FIN1175").then(setPath);
+    const fetchData = () => {
+      adsbService.getByCallsign("FIN1175").then(setPath);
+    };
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 10000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [adsbService, flight.callsign]);
 
   const pathPoints: Position[] = useMemo(
