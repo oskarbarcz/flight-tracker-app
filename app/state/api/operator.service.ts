@@ -1,7 +1,7 @@
 import { CreateOperatorDto, EditOperatorDto, Operator } from "~/models";
-import { AbstractApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
-export class OperatorService extends AbstractApiService {
+export class OperatorService extends AbstractAuthorizedApiService {
   async fetchAll(): Promise<Operator[]> {
     return this.requestWithAuth<Operator[]>("/api/v1/operator");
   }

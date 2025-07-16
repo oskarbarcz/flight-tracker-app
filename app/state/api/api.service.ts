@@ -1,4 +1,4 @@
-import { getApiBaseUrl } from "~/functions/getApiBaseUrl";
+import { getFlightTrackerApiHost } from "~/functions/getFlightTrackerApiHost";
 
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 
@@ -9,62 +9,18 @@ export type ErrorResponse<T> = {
 };
 
 export abstract class AbstractApiService {
-  protected baseUrl: string;
+  protected host: string;
 
   constructor() {
-    this.baseUrl = getApiBaseUrl();
+    this.host = getFlightTrackerApiHost();
   }
 
-  private getAccessToken(): string {
-    const token: string | null = localStorage.getItem("at");
-
-    if (token === null) {
-      throw new Error("Unauthorized");
-    }
-
-    return token;
-  }
-
-  private getRefreshToken(): string {
-    const refreshToken = localStorage.getItem("rt");
-
-    if (!refreshToken) {
-      throw new Error("Refresh token not found");
-    }
-
-    return refreshToken;
-  }
-
-  private saveTokens(accessToken: string, refreshToken: string): void {
-    localStorage.setItem("at", accessToken);
-    localStorage.setItem("rt", refreshToken);
-  }
-
-  private async refreshAccessToken(): Promise<string> {
-    const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getRefreshToken()}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to refresh access token");
-    }
-
-    const { accessToken, refreshToken } = await response.json();
-    this.saveTokens(accessToken, refreshToken);
-
-    return accessToken;
-  }
-
-  private async doRequest(
+  protected async doRequest(
     endpoint: string,
     options: RequestInit,
     token: string | undefined = undefined,
   ): Promise<Response> {
-    return fetch(`${this.baseUrl}${endpoint}`, {
+    return fetch(`${this.host}${endpoint}`, {
       ...options,
       headers: {
         ...options.headers,
@@ -91,17 +47,63 @@ export abstract class AbstractApiService {
 
     return (await response.json()) as T;
   }
+}
+
+export abstract class AbstractAuthorizedApiService extends AbstractApiService {
+  private getAccessToken(): string {
+    const token: string | null = localStorage.getItem("at");
+
+    if (token === null) {
+      throw new Error("Unauthorized");
+    }
+
+    return token;
+  }
+
+  private getRefreshToken(): string {
+    const refreshToken = localStorage.getItem("rt");
+
+    if (!refreshToken) {
+      throw new Error("Refresh token not found");
+    }
+
+    return refreshToken;
+  }
+
+  private saveTokens(accessToken: string, refreshToken: string): void {
+    localStorage.setItem("at", accessToken);
+    localStorage.setItem("rt", refreshToken);
+  }
+
+  private async refreshAccessToken(): Promise<string> {
+    const response = await fetch(`${this.host}/api/v1/auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getRefreshToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to refresh access token");
+    }
+
+    const { accessToken, refreshToken } = await response.json();
+    this.saveTokens(accessToken, refreshToken);
+
+    return accessToken;
+  }
 
   protected async requestWithAuth<T>(
     endpoint: string,
     options: RequestInit = {},
   ): Promise<T> {
     let token = this.getAccessToken();
-    let response = await this.doRequest(endpoint, options, token);
+    let response = await super.doRequest(endpoint, options, token);
 
     if (response.status === 401) {
       token = await this.refreshAccessToken();
-      response = await this.doRequest(endpoint, options, token);
+      response = await super.doRequest(endpoint, options, token);
     }
 
     if (response.status === 204) {

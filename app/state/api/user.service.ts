@@ -1,7 +1,7 @@
-import { AbstractApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import { GetUserResponse, ListUsersResponse } from "~/models";
 
-export class UserService extends AbstractApiService {
+export class UserService extends AbstractAuthorizedApiService {
   async getCurrent(): Promise<GetUserResponse> {
     return this.requestWithAuth<GetUserResponse>("/api/v1/user/me");
   }

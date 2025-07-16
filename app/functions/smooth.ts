@@ -2,7 +2,7 @@ import { LatLngExpression, LatLngTuple } from "leaflet";
 
 type Position = LatLngTuple | LatLngExpression;
 
-export function createSmoothPath(
+export function smoothPath(
   points: Position[],
   granularity: number = 16,
 ): LatLngTuple[] {
@@ -70,16 +70,16 @@ export function calculateBearing(p1: LatLngTuple, p2: LatLngTuple): number {
   return (bearing + 360) % 360;
 }
 
-export function calculateLastBearing(positions: Position[]): number {
-  if (positions.length < 2) {
+export function calculateLastBearing(path: Position[]): number {
+  if (path.length < 2) {
     return 0;
   }
 
-  const lastPoint = positions[positions.length - 1] as LatLngTuple;
+  const lastPoint = path[path.length - 1] as LatLngTuple;
   let secondLastPoint: LatLngTuple | null = null;
 
-  for (let i = positions.length - 2; i >= 0; i--) {
-    const currentPoint = positions[i] as LatLngTuple;
+  for (let i = path.length - 2; i >= 0; i--) {
+    const currentPoint = path[i] as LatLngTuple;
     if (currentPoint[0] !== lastPoint[0] || currentPoint[1] !== lastPoint[1]) {
       secondLastPoint = currentPoint;
       break;

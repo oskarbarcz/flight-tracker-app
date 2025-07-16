@@ -5,7 +5,7 @@ import FlightInfoBox from "~/components/Box/FlightInfoBox";
 import { FlightTimerBox } from "~/components/Box/FlightTimerBox";
 import { FlightPhaseBox } from "~/components/Box/FlightPhaseBox";
 import Container from "~/components/Container";
-import { MapBox } from "~/components/Box/MapBox";
+import { MapBox } from "~/components/Box/Map/MapBox";
 
 type FlightTrackingDashboardProps = {
   flightId: string;
@@ -32,7 +32,7 @@ export default function FlightTrackingDashboard({
           <FlightInfoBox flight={flight} />
         </Container>
         <Container className="col-span-1 md:col-span-2" noPadding={true}>
-          <MapBox flightId={flightId} />
+          <MapBox flight={flight} />
         </Container>
       </div>
       <Container className="mt-8">

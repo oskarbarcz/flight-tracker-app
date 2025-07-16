@@ -2,7 +2,7 @@
 
 import image from "~/assets/map.jpg";
 
-export function EmptyMapBox() {
+export function MapBoxNoSignal() {
   return (
     <div className="w-full h-full rounded-2xl">
       <div className="relative h-full w-full">
@@ -12,7 +12,7 @@ export function EmptyMapBox() {
           alt="Map illustration"
         />
         <span className="absolute flex parent items-center justify-center z-10 top-1/2 left-1/2 -translate-1/2 text-gray-800 dark:text-white">
-          Live map is not available for this flight.
+          ADSB tracking was lost.
         </span>
       </div>
     </div>

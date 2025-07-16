@@ -6,9 +6,9 @@ import {
   Loadsheet,
   Schedule,
 } from "~/models";
-import { AbstractApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
-export class FlightService extends AbstractApiService {
+export class FlightService extends AbstractAuthorizedApiService {
   async fetchAllFlights(): Promise<Flight[]> {
     return this.requestWithAuth<Flight[]>("/api/v1/flight");
   }
