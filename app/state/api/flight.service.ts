@@ -1,6 +1,7 @@
 import {
   CreateFlightDto,
   Flight,
+  FlightPathElement,
   FlightStatus,
   Loadsheet,
   Schedule,
@@ -28,6 +29,12 @@ export class FlightService extends AbstractApiService {
 
   async getById(id: string): Promise<Flight> {
     return this.requestWithAuth<Flight>(`/api/v1/flight/${id}`);
+  }
+
+  async getFlightPath(id: string): Promise<FlightPathElement[]> {
+    return this.requestWithAuth<FlightPathElement[]>(
+      `/api/v1/flight/${id}/path`,
+    );
   }
 
   async updateScheduledTimesheet(

@@ -32,7 +32,7 @@ export default function FlightTrackingDashboard({
           <FlightInfoBox flight={flight} />
         </Container>
         <Container className="col-span-1 md:col-span-2" noPadding={true}>
-          <MapBox />
+          <MapBox flightId={flightId} />
         </Container>
       </div>
       <Container className="mt-8">
