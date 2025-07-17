@@ -3,6 +3,7 @@
 import { Flight, FlightStatus } from "~/models";
 import FlightHistoryMap from "~/components/Map/FlightHistoryMap";
 import FlightTrackingMap from "~/components/Map/FlightTrackingMap";
+import MapTopOverlay from "~/components/Map/Element/MapTopOverlay";
 
 type MapBoxProps = {
   flight: Flight;
@@ -24,8 +25,10 @@ export function MapBox({ flight }: MapBoxProps) {
   }
 
   return (
-    <div className="w-full h-full rounded-2xl">
+    <div className="relative w-full h-full rounded-2xl">
       <FlightHistoryMap flight={flight} />
+      <MapTopOverlay isTrackable={isFlightTrackable} />
+      {/*<MapBottomOverlay />*/}
     </div>
   );
 }

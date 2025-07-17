@@ -12,13 +12,17 @@ export default function MapEventsHandler({ bounds }: MapEventsHandlerProps) {
 
   const resetView = useCallback(() => {
     if (bounds.isValid()) {
-      map.flyToBounds(bounds, { padding: [50, 50], duration: 1.5 });
+      map.flyToBounds(bounds, {
+        paddingTopLeft: [0, 70],
+        paddingBottomRight: [0, 0],
+        duration: 1,
+      });
     }
   }, [map, bounds]);
 
   const startTimeout = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(resetView, 10000);
+    timeoutRef.current = setTimeout(resetView, 7500);
   }, [resetView]);
 
   useEffect(() => {

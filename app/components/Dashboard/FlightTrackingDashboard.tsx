@@ -31,7 +31,10 @@ export default function FlightTrackingDashboard({
         <Container>
           <FlightInfoBox flight={flight} />
         </Container>
-        <Container className="col-span-1 md:col-span-2" noPadding={true}>
+        <Container
+          className="col-span-1 md:col-span-2 min-h-[400px] lg:min-h-0"
+          noPadding={true}
+        >
           <MapBox flight={flight} />
         </Container>
       </div>
