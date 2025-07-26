@@ -14,7 +14,7 @@ With this app, you can:
 
 Take full control of your virtual airline operations with a realistic and structured workflow for flight simulation
 
-This is frontend part of the project. For backend part, please visit
+This is the frontend part of the project. For backend part, please visit
 [this repository](https://github.com/oskarbarcz/flight-tracker-api).
 
 ## Repository contents
