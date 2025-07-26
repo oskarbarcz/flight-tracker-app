@@ -5,7 +5,7 @@ import { FaHeart } from "react-icons/fa";
 export default function Footer() {
   return (
     <>
-      <div className="fixed bottom-4 right-6 pt-4 text-end text-sm text-gray-500">
+      <div className="fixed bottom-4 right-6 pt-4 text-end text-xs md:text-sm text-gray-500">
         {"Created with "}
         <FaHeart className="inline-block" />
         {" by "}
@@ -14,7 +14,7 @@ export default function Footer() {
           className="font-bold text-indigo-500"
           target={"_blank"}
         >
-          Oskar Barcz
+          Oskar&nbsp;Barcz
         </a>
         {" and "}
         <a
@@ -22,7 +22,7 @@ export default function Footer() {
           className="font-bold text-indigo-500"
           target={"_blank"}
         >
-          Kamil Synowiec
+          Kamil&nbsp;Synowiec
         </a>
       </div>
     </>
