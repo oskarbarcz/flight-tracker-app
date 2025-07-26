@@ -35,7 +35,7 @@ export default function SignInRoute() {
   }
 
   return (
-    <div className="flex min-h-full flex-col pt-8 sm:pt-24 md:pt-48 gap-8 p-3 dark:bg-gray-900 sm:items-center">
+    <div className="flex min-h-full flex-col justify-center gap-4 sm:gap-6 md:gap-8 p-3 dark:bg-gray-900 items-center">
       <aside className="flex items-center justify-center">
         <img
           src={logo}
