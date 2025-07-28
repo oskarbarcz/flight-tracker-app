@@ -28,12 +28,18 @@ export default function AirportLocationFormSection({
 
   useEffect(() => {
     setFormData(data);
-  }, [data]);
+
+    if (data.city !== "") {
+      // when filled with SkyLink, set as submitted
+      setEditable(false);
+      setIsSubmittable(true);
+    }
+  }, [data, setIsSubmittable]);
 
   const handleSave = (setEditMode: boolean) => {
     setEditable(setEditMode);
     if (!setEditMode) {
-      // on save
+      // when clicked “Save”, set as submitted
       setData(formData);
       setIsSubmittable(true);
     }

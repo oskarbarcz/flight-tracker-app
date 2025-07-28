@@ -1,3 +1,5 @@
+"use client";
+
 import {
   isRouteErrorResponse,
   Links,
@@ -8,7 +10,6 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
-import "leaflet/dist/leaflet.css";
 import React from "react";
 import { ThemeModeScript, ThemeProvider } from "flowbite-react";
 import { AuthProvider } from "~/state/contexts/auth.context";

@@ -26,12 +26,18 @@ export default function AirportGeneralFormSection({
 
   useEffect(() => {
     setFormData(data);
-  }, [data]);
+
+    // when filled with SkyLink, set as submitted
+    if (data.iataCode !== "") {
+      setEditable(false);
+      setIsSubmittable(true);
+    }
+  }, [data, setIsSubmittable]);
 
   const handleSave = (setEditMode: boolean) => {
     setEditable(setEditMode);
     if (!setEditMode) {
-      // on save
+      // when clicked “Save”, set as submitted
       setData(formData);
       setIsSubmittable(true);
     }
