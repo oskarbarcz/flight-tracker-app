@@ -1,3 +1,5 @@
+"use client";
+
 import { Polyline } from "react-leaflet";
 import { LatLngExpression, LatLngTuple } from "leaflet";
 import { useMemo } from "react";

@@ -1,3 +1,5 @@
+"use client";
+
 import { Marker } from "react-leaflet";
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 

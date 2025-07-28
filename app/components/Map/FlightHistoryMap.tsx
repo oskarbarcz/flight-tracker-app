@@ -1,3 +1,5 @@
+"use client";
+
 import { MapContainer } from "react-leaflet";
 import FlightPath from "~/components/Map/Element/FlightPath";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
