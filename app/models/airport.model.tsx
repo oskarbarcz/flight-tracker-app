@@ -6,8 +6,10 @@ export type Airport = {
   name: string;
   country: string;
   timezone: string;
-  longitude: number;
-  latitude: number;
+  location: {
+    longitude: number;
+    latitude: number;
+  };
 };
 
 export type CreateAirportDto = Omit<Airport, "id">;

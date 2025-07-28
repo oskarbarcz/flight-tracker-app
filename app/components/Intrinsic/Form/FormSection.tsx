@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Container from "~/components/Container";
-import { Button } from "flowbite-react";
 import { FaCheckCircle } from "react-icons/fa";
 
 type FormSectionProps = {
@@ -36,30 +35,26 @@ export default function FormSection({
       <div className="mb-4 flex justify-between align-center">
         <h3 className="font-bold text-2xl">{title}</h3>
         <div className="flex gap-6 items-center">
-          {isSaved && (
-            <div className="flex items-center gap-1 text-green-500 font-bold text-sm">
-              Saved <FaCheckCircle className="inline" />
-            </div>
-          )}
           {editMode ? (
-            <Button
-              className="cursor-pointer"
+            <button
+              className="cursor-pointer font-bold text-primary-500 px-4"
               type="button"
-              size="sm"
               onClick={handleSave}
             >
               Save
-            </Button>
+            </button>
+          ) : isSaved ? (
+            <div className="flex items-center gap-1 px-4 text-green-500 font-bold">
+              Saved <FaCheckCircle className="inline" />
+            </div>
           ) : (
-            <Button
-              className="cursor-pointer"
+            <button
+              className="cursor-pointer font-bold text-primary-500 px-4"
               type="button"
-              size="sm"
-              outline
               onClick={handleEdit}
             >
               Edit
-            </Button>
+            </button>
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import {AirportService} from "~/state/api/airport.service";
+import { AirportService } from "~/state/api/airport.service";
 
 const instance = new AirportService();
 

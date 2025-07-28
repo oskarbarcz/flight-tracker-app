@@ -11,9 +11,9 @@ import { useSkyLinkService } from "~/state/hooks/api/useSkyLinkService";
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
 import FormSubmit from "~/components/Intrinsic/Form/FormSubmit";
 import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
-import {CreateAirportDto, SkyLinkAirportResponse} from "~/models";
-import {useAirportService} from "~/state/hooks/api/useAirportService";
-import {useNavigate} from "react-router";
+import { CreateAirportDto, SkyLinkAirportResponse } from "~/models";
+import { useAirportService } from "~/state/hooks/api/useAirportService";
+import { useNavigate } from "react-router";
 
 type CreateAirportFormData = {
   general: {
@@ -45,7 +45,9 @@ const initialFormData = {
   },
 };
 
-const skyLinkToFormData = (input: SkyLinkAirportResponse): CreateAirportFormData => ({
+const skyLinkToFormData = (
+  input: SkyLinkAirportResponse,
+): CreateAirportFormData => ({
   general: {
     icaoCode: input.icao,
     iataCode: input.iata,
@@ -60,9 +62,17 @@ const skyLinkToFormData = (input: SkyLinkAirportResponse): CreateAirportFormData
   },
 });
 
-const formDataToApiFormat = (input: CreateAirportFormData): CreateAirportDto => ({
+const formDataToApiFormat = (
+  input: CreateAirportFormData,
+): CreateAirportDto => ({
   ...input.general,
-  ...input.location,
+  city: input.location.city,
+  country: input.location.country,
+  timezone: input.location.timezone,
+  location: {
+    latitude: input.location.latitude,
+    longitude: input.location.longitude,
+  },
 });
 
 export default function CreateAirportRoute() {
@@ -72,6 +82,10 @@ export default function CreateAirportRoute() {
   const [iataCodeInput, setIataCodeInput] = useState<string>("");
   const [formData, setFormData] =
     useState<CreateAirportFormData>(initialFormData);
+  const [isGeneralSubmitted, setIsGeneralSubmitted] = useState<boolean>(false);
+  const [isLocationSubmitted, setIsLocationSubmitted] =
+    useState<boolean>(false);
+  const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
   usePageTitle("Create new airport");
 
@@ -88,25 +102,43 @@ export default function CreateAirportRoute() {
         ...form,
         ...skyLinkToFormData(response),
       }));
+      setIsGeneralSubmitted(true);
+      setIsLocationSubmitted(true);
     });
   };
 
-  const handleGeneralDataChange = (general: CreateAirportFormData["general"]) =>
+  const handleGeneralDataChange = (
+    general: CreateAirportFormData["general"],
+  ) => {
     setFormData((prev) => ({ ...prev, general }));
+    setFormErrorMessage(null);
+  };
 
   const handleLocationDataChange = (
     location: CreateAirportFormData["location"],
-  ) => setFormData((prev) => ({ ...prev, location }));
+  ) => {
+    setFormData((prev) => ({ ...prev, location }));
+    setFormErrorMessage(null);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+
+    if (!isGeneralSubmitted || !isLocationSubmitted) {
+      setFormErrorMessage("At least one of sections above is not saved.");
+      return;
+    }
 
     const newAirport = formDataToApiFormat(formData);
-    airportService.createNew(newAirport).then(() => {
-      navigate("/airports");
-    });
-  }
+    airportService
+      .createNew(newAirport)
+      .then(() => {
+        navigate("/airports");
+      })
+      .catch((err: { message: never }) => {
+        setFormErrorMessage(err.message);
+      });
+  };
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
@@ -130,35 +162,34 @@ export default function CreateAirportRoute() {
                 className="grow"
                 value={iataCodeInput}
                 onChange={(e) => setIataCodeInput(e.target.value)}
-                required
               />
               <Button
-                className="min-w-fit"
+                className="min-w-fit cursor-pointer"
+                onClick={handleCreateWithSkyLink}
                 outline
-                onClick={() => {
-                  console.log(formData);
-                }}
               >
-                Fill manually
-              </Button>
-              <Button className="min-w-fit" onClick={handleCreateWithSkyLink}>
                 <span className="pe-1">Fill with</span>
                 <span className="font-mono font-bold">SkyLink</span>
               </Button>
+            </div>
+            <div className="text-center pt-4 font-bold text-gray-500">
+              or file manually below
             </div>
           </Container>
 
           <AirportGeneralFormSection
             data={formData.general}
             setData={handleGeneralDataChange}
+            setIsSubmittable={setIsGeneralSubmitted}
           />
 
           <AirportLocationFormSection
             data={formData.location}
             setData={handleLocationDataChange}
+            setIsSubmittable={setIsLocationSubmitted}
           />
 
-          <FormSubmit message="Cannot save airport." button="Create airport" />
+          <FormSubmit message={formErrorMessage} button="Create airport" />
         </form>
       </div>
     </ProtectedRoute>

@@ -13,13 +13,15 @@ type AirportGeneralData = {
 type AirportGeneralFormSectionProps = {
   data: AirportGeneralData;
   setData: (data: AirportGeneralData) => void;
+  setIsSubmittable: (isSubmittable: boolean) => void;
 };
 
 export default function AirportGeneralFormSection({
   data,
   setData,
+  setIsSubmittable,
 }: AirportGeneralFormSectionProps) {
-  const [editable, setEditable] = useState<boolean>(false);
+  const [editable, setEditable] = useState<boolean>(true);
   const [formData, setFormData] = useState<AirportGeneralData>(data);
 
   useEffect(() => {
@@ -31,6 +33,7 @@ export default function AirportGeneralFormSection({
     if (!setEditMode) {
       // on save
       setData(formData);
+      setIsSubmittable(true);
     }
   };
 

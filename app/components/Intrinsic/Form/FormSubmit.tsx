@@ -3,21 +3,33 @@
 import React from "react";
 import Container from "~/components/Container";
 import { Button } from "flowbite-react";
+import { MdError } from "react-icons/md";
 
 type FormSubmitProps = {
-  message?: string;
+  message: string | null;
   button: string;
 };
 
-export default function FormSubmit({ message = "", button }: FormSubmitProps) {
+export default function FormSubmit({ message, button }: FormSubmitProps) {
   return (
     <Container invisible>
-      <div className="flex items-center justify-between">
-        <span className="font-bold text-gray-500">{message}</span>
-        <Button className="cursor-pointer" type="submit">
-          {button}
-        </Button>
-      </div>
+      {message ? (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center font-bold text-sm text-red-500">
+            <MdError className="inline mr-1" />
+            {message}
+          </div>
+          <Button className="cursor-pointer" type="submit">
+            {button}
+          </Button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-end">
+          <Button className="cursor-pointer" type="submit">
+            {button}
+          </Button>
+        </div>
+      )}
     </Container>
   );
 }
