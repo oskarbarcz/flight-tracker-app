@@ -1,3 +1,5 @@
+"use client";
+
 type MapTopOverlayProps = {
   isTrackable: boolean;
 };

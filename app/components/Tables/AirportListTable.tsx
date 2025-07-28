@@ -21,13 +21,15 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
   return (
     <Table>
       <TableHead className="dark:text-gray-100">
-        <TableHeadCell>ICAO / IATA code</TableHeadCell>
-        <TableHeadCell>Name / City</TableHeadCell>
-        <TableHeadCell>Country</TableHeadCell>
-        <TableHeadCell>Timezone</TableHeadCell>
-        <TableHeadCell>
-          <span className="sr-only">Actions</span>
-        </TableHeadCell>
+        <TableRow>
+          <TableHeadCell>ICAO / IATA code</TableHeadCell>
+          <TableHeadCell>Name / City</TableHeadCell>
+          <TableHeadCell>Country</TableHeadCell>
+          <TableHeadCell>Timezone</TableHeadCell>
+          <TableHeadCell>
+            <span className="sr-only">Actions</span>
+          </TableHeadCell>
+        </TableRow>
       </TableHead>
       <TableBody className="divide-y">
         {airports.map((airport: Airport, i: number) => (

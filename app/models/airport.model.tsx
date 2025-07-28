@@ -1,3 +1,12 @@
+export enum Continent {
+  Africa = "africa",
+  Asia = "asia",
+  Europe = "europe",
+  NorthAmerica = "north_america",
+  Oceania = "oceania",
+  SouthAmerica = "south_america",
+}
+
 export type Airport = {
   id: string;
   icaoCode: string;
@@ -6,6 +15,11 @@ export type Airport = {
   name: string;
   country: string;
   timezone: string;
+  continent: Continent;
+  location: {
+    longitude: number;
+    latitude: number;
+  };
 };
 
 export type CreateAirportDto = Omit<Airport, "id">;

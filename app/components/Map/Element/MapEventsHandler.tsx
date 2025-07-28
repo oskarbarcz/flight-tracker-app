@@ -1,3 +1,5 @@
+"use client";
+
 import { LatLngBounds } from "leaflet";
 import { useMap } from "react-leaflet";
 import { useCallback, useEffect, useRef } from "react";
