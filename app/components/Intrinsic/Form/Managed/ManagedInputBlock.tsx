@@ -12,6 +12,7 @@ type ManagedInputBlockProps = {
   setValue: (value: string) => void;
   type?: HTMLInputTypeAttribute;
   errors?: string[];
+  disabled?: boolean;
 };
 
 export default function ManagedInputBlock({
@@ -22,6 +23,7 @@ export default function ManagedInputBlock({
   value,
   setValue,
   errors = [],
+  disabled = false,
 }: ManagedInputBlockProps) {
   const [isMarkedRed, setisMarkedRed] = useState<boolean>(false);
 
@@ -47,6 +49,7 @@ export default function ManagedInputBlock({
           setValue(e.target.value);
         }}
         color={isMarkedRed ? "failure" : undefined}
+        disabled={disabled}
       />
       <InputErrorList errorFocus={isMarkedRed} errors={errors} />
     </div>

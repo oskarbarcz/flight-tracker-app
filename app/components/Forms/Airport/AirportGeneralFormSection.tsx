@@ -1,8 +1,8 @@
 "use client";
 
-import DisplayInputBlock from "~/components/Intrinsic/Form/DisplayInputBlock";
-import FormSection from "~/components/Intrinsic/Form/FormSection";
+import FormSection from "~/components/Form/Section/FormSection";
 import React, { useEffect, useState } from "react";
+import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
 
 type AirportGeneralData = {
   iataCode: string;
@@ -47,34 +47,34 @@ export default function AirportGeneralFormSection({
     <FormSection title="General" editMode={editable} setEditMode={handleSave}>
       <div className="flex gap-4">
         <div className="basis-1/4">
-          <DisplayInputBlock
+          <ManagedInputBlock
             htmlName="iataCode"
             label="IATA code"
             value={formData.iataCode}
             setValue={(iataCode) =>
               setFormData((prev) => ({ ...prev, iataCode }))
             }
-            isEditable={editable}
+            disabled={!editable}
           />
         </div>
         <div className="basis-1/4">
-          <DisplayInputBlock
+          <ManagedInputBlock
             htmlName="icaoCode"
             label="ICAO code"
             value={formData.icaoCode}
             setValue={(icaoCode) =>
               setFormData((prev) => ({ ...prev, icaoCode }))
             }
-            isEditable={editable}
+            disabled={!editable}
           />
         </div>
         <div className="basis-1/2">
-          <DisplayInputBlock
+          <ManagedInputBlock
             htmlName="name"
             label="Airport name"
             value={formData.name}
             setValue={(name) => setFormData((prev) => ({ ...prev, name }))}
-            isEditable={editable}
+            disabled={!editable}
           />
         </div>
       </div>

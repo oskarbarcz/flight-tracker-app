@@ -9,9 +9,9 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 import Container from "~/components/Container";
 import { useSkyLinkService } from "~/state/hooks/api/useSkyLinkService";
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
-import FormSubmit from "~/components/Intrinsic/Form/FormSubmit";
+import FormSubmit from "~/components/Form/Section/FormSubmit";
 import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
-import { CreateAirportDto, SkyLinkAirportResponse } from "~/models";
+import { Continent, CreateAirportDto, SkyLinkAirportResponse } from "~/models";
 import { useAirportService } from "~/state/hooks/api/useAirportService";
 import { useNavigate } from "react-router";
 
@@ -25,6 +25,7 @@ type CreateAirportFormData = {
     city: string;
     country: string;
     timezone: string;
+    continent: string;
     latitude: number;
     longitude: number;
   };
@@ -40,6 +41,7 @@ const initialFormData = {
     city: "",
     country: "",
     timezone: "",
+    continent: Continent.Europe,
     latitude: 0,
     longitude: 0,
   },
@@ -57,6 +59,7 @@ const skyLinkToFormData = (
     city: input.city,
     country: input.country,
     timezone: input.timezone,
+    continent: Continent.Europe,
     latitude: parseFloat(input.latitude),
     longitude: parseFloat(input.longitude),
   },
@@ -68,6 +71,7 @@ const formDataToApiFormat = (
   ...input.general,
   city: input.location.city,
   country: input.location.country,
+  continent: input.location.continent as Continent,
   timezone: input.location.timezone,
   location: {
     latitude: input.location.latitude,
