@@ -49,6 +49,7 @@ export default function AirportLocationFormSection({
 
   const handleSave = (setEditMode: boolean) => {
     setEditable(setEditMode);
+
     if (!setEditMode) {
       // when clicked “Save”, set as submitted
       setData(formData);
