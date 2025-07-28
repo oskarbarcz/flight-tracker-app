@@ -176,8 +176,8 @@ export default function CreateAirportRoute() {
                 <span className="font-mono font-bold">SkyLink</span>
               </Button>
             </div>
-            <div className="text-center pt-4 font-bold text-gray-500">
-              or file manually below
+            <div className="text-center pt-4 italic text-sm text-gray-500">
+              or fill manually below
             </div>
           </Container>
 
