@@ -8,9 +8,14 @@ import { MdError } from "react-icons/md";
 type FormSubmitProps = {
   message: string | null;
   button: string;
+  onSubmit: () => void;
 };
 
-export default function FormSubmit({ message, button }: FormSubmitProps) {
+export default function FormSubmit({
+  message,
+  button,
+  onSubmit,
+}: FormSubmitProps) {
   return (
     <Container invisible>
       {message ? (
@@ -25,7 +30,7 @@ export default function FormSubmit({ message, button }: FormSubmitProps) {
         </div>
       ) : (
         <div className="flex items-center justify-end">
-          <Button className="cursor-pointer" type="submit">
+          <Button className="cursor-pointer" onClick={onSubmit}>
             {button}
           </Button>
         </div>

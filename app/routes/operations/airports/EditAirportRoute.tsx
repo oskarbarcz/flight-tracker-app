@@ -21,7 +21,7 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 import Container from "~/components/Container";
 import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
-import FormSubmit from "~/components/Form/Section/FormSubmit";
+import FormSubmit from "~/components/Form/FormSubmit";
 import { useApi } from "~/state/contexts/api.context";
 
 export async function clientAction({
@@ -61,12 +61,9 @@ export default function EditAirportRoute() {
   const [formData, setFormData] = useState<CreateAirportFormData>(
     airportToFormData(airport),
   );
-  const [isGeneralSubmitted, setIsGeneralSubmitted] = useState<boolean>(false);
-  const [isLocationSubmitted, setIsLocationSubmitted] =
-    useState<boolean>(false);
   const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 
-  const handleCreateWithSkyLink = async () => {
+  async function handleCreateWithSkyLink() {
     const iataCode = iataCodeInput.trim().toUpperCase();
 
     if (!iataCode || iataCode.length !== 3) {
@@ -79,36 +76,27 @@ export default function EditAirportRoute() {
         ...form,
         ...skyLinkToFormData(response),
       }));
-      setIsGeneralSubmitted(true);
-      setIsLocationSubmitted(true);
     });
-  };
+  }
 
-  const handleGeneralDataChange = (
+  const onGeneralSectionSubmit = (
     general: CreateAirportFormData["general"],
   ) => {
     setFormData((prev) => ({ ...prev, general }));
     setFormErrorMessage(null);
   };
 
-  const handleLocationDataChange = (
+  const onLocationSectionSubmit = (
     location: CreateAirportFormData["location"],
   ) => {
     setFormData((prev) => ({ ...prev, location }));
     setFormErrorMessage(null);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!isGeneralSubmitted || !isLocationSubmitted) {
-      setFormErrorMessage("At least one of sections above is not saved.");
-      return;
-    }
-
-    const newAirport = formDataToApiFormat(formData);
+  const handleSubmit = () => {
+    const updatedAirport = formDataToApiFormat(formData);
     airportService
-      .update(airport.id, newAirport)
+      .update(airport.id, updatedAirport)
       .then(() => {
         navigate("/airports");
       })
@@ -125,8 +113,7 @@ export default function EditAirportRoute() {
           backText="Back to airports"
           backUrl="/airports"
         />
-
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-4">
           <Container>
             <h2 className="sr-only">Enter IATA code first</h2>
             <div className="mb-2 block">
@@ -156,18 +143,20 @@ export default function EditAirportRoute() {
 
           <AirportGeneralFormSection
             data={formData.general}
-            setData={handleGeneralDataChange}
-            setIsSubmittable={setIsGeneralSubmitted}
+            onSectionSubmit={onGeneralSectionSubmit}
           />
 
           <AirportLocationFormSection
             data={formData.location}
-            setData={handleLocationDataChange}
-            setIsSubmittable={setIsLocationSubmitted}
+            onSectionSubmit={onLocationSectionSubmit}
           />
 
-          <FormSubmit message={formErrorMessage} button="Save changes" />
-        </form>
+          <FormSubmit
+            message={formErrorMessage}
+            onSubmit={handleSubmit}
+            button="Save changes"
+          />
+        </div>
       </div>
     </ProtectedRoute>
   );

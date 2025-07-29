@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { GetUserResponse } from "~/models";
 import { Label, TextInput } from "flowbite-react";
 import InputErrorList from "~/components/Intrinsic/Form/Partial/InputErrorList";
-import PilotInputPreview from "~/components/Form/Section/PilotInputPreview";
+import PilotInputPreview from "~/components/Form/Preview/PilotInputPreview";
 import { useApi } from "~/state/contexts/api.context";
 
 type PilotLicenseInputBlockProps = {

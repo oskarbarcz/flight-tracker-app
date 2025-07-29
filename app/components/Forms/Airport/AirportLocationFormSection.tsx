@@ -1,6 +1,6 @@
 "use client";
 
-import FormSection from "~/components/Form/Section/FormSection";
+import FormSection from "~/components/Form/FormSection";
 import React, { useEffect, useState } from "react";
 import ManagedSelectBlock from "~/components/Intrinsic/Form/Managed/ManagedSelectBlock";
 import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
@@ -17,8 +17,7 @@ type AirportLocationData = {
 
 type AirportLocationFormSectionProps = {
   data: AirportLocationData;
-  setData: (data: AirportLocationData) => void;
-  setIsSubmittable: (isSubmittable: boolean) => void;
+  onSectionSubmit: (formData: AirportLocationData) => void;
 };
 
 const continentOptions = [
@@ -32,10 +31,9 @@ const continentOptions = [
 
 export default function AirportLocationFormSection({
   data,
-  setData,
-  setIsSubmittable,
+  onSectionSubmit,
 }: AirportLocationFormSectionProps) {
-  const [editable, setEditable] = useState<boolean>(true);
+  const [isEditable, setIsEditable] = useState<boolean>(true);
   const [formData, setFormData] = useState<AirportLocationData>(data);
 
   useEffect(() => {
@@ -43,23 +41,21 @@ export default function AirportLocationFormSection({
 
     if (data.city !== "") {
       // when filled with SkyLink, set as submitted
-      setEditable(false);
-      setIsSubmittable(true);
+      setIsEditable(false);
     }
-  }, [data, setIsSubmittable]);
+  }, [data]);
 
-  const handleSave = (setEditMode: boolean) => {
-    setEditable(setEditMode);
-
-    if (!setEditMode) {
-      // when clicked “Save”, set as submitted
-      setData(formData);
-      setIsSubmittable(true);
-    }
+  const handleSubmit = () => {
+    onSectionSubmit(formData);
   };
 
   return (
-    <FormSection title="Location" editMode={editable} setEditMode={handleSave}>
+    <FormSection
+      isEditable={isEditable}
+      setIsEditable={setIsEditable}
+      title="Location"
+      onSubmit={handleSubmit}
+    >
       <div className="flex gap-4">
         <div className="basis-1/2">
           <ManagedInputBlock
@@ -67,7 +63,7 @@ export default function AirportLocationFormSection({
             label="City"
             value={formData.city}
             setValue={(city) => setFormData((prev) => ({ ...prev, city }))}
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
         <div className="basis-1/2">
@@ -78,7 +74,7 @@ export default function AirportLocationFormSection({
             setValue={(country) =>
               setFormData((prev) => ({ ...prev, country }))
             }
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
       </div>
@@ -91,7 +87,7 @@ export default function AirportLocationFormSection({
             setValue={(timezone) =>
               setFormData((prev) => ({ ...prev, timezone }))
             }
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
         <div className="basis-1/2">
@@ -103,7 +99,7 @@ export default function AirportLocationFormSection({
               setFormData((prev) => ({ ...prev, continent }))
             }
             options={continentOptions}
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
       </div>
@@ -119,7 +115,7 @@ export default function AirportLocationFormSection({
                 longitude: parseFloat(longitude),
               }))
             }
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
         <div className="basis-1/2">
@@ -133,7 +129,7 @@ export default function AirportLocationFormSection({
                 latitude: parseFloat(latitude),
               }))
             }
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
       </div>
