@@ -13,9 +13,9 @@ import {
 import { useEffect, useState } from "react";
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
-import { useAdsbService } from "~/state/hooks/api/useAdsbService";
 import { MapBoxNoSignal } from "~/components/Box/Map/MapBoxNoSignal";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
+import { useAdsbApi } from "~/state/contexts/adsb.context";
 
 type Position = LatLngTuple | LatLngExpression;
 
@@ -24,12 +24,12 @@ type FlightTrackingMapProps = {
 };
 
 export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
-  const adsbService = useAdsbService();
+  const adsbApi = useAdsbApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
     const fetchData = () => {
-      adsbService.getByCallsign(flight.callsign).then(setPath);
+      adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
     };
     fetchData();
 
@@ -37,7 +37,7 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [adsbService, flight.callsign]);
+  }, [flight.callsign, adsbApi]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);

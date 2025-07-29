@@ -14,6 +14,7 @@ import React from "react";
 import { ThemeModeScript, ThemeProvider } from "flowbite-react";
 import { AuthProvider } from "~/state/contexts/auth.context";
 import getAppTheme from "~/theme/getAppTheme";
+import { ApiProvider } from "~/state/contexts/api.context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -66,11 +67,13 @@ export default function App() {
   const appTheme = getAppTheme();
 
   return (
-    <AuthProvider>
-      <ThemeProvider theme={appTheme}>
-        <Outlet />
-      </ThemeProvider>
-    </AuthProvider>
+    <ApiProvider>
+      <AuthProvider>
+        <ThemeProvider theme={appTheme}>
+          <Outlet />
+        </ThemeProvider>
+      </AuthProvider>
+    </ApiProvider>
   );
 }
 

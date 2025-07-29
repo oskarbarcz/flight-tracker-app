@@ -1,10 +1,10 @@
 import { useFlightState } from "~/state/contexts/flight.state";
 import { FilledSchedule, Flight, Loadsheet } from "~/models";
-import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { useCallback } from "react";
+import { useApi } from "~/state/contexts/api.context";
 
 export const useFlight = () => {
-  const flightService = useFlightService();
+  const { flightService } = useApi();
   const { state, dispatch } = useFlightState();
 
   const loadFlight = useCallback(

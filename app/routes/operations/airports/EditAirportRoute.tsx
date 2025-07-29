@@ -1,17 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { Button } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
-import { Form, redirect, useLoaderData } from "react-router";
+import { redirect, useLoaderData, useNavigate } from "react-router";
 import { AirportService } from "~/state/api/airport.service";
-import { Airport, EditAirportDto } from "~/models";
+import {
+  airportToFormData,
+  CreateAirportFormData,
+  EditAirportRequest,
+  formDataToApiFormat,
+  GetAirportResponse,
+  skyLinkToFormData,
+} from "~/models";
 import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
 import getFormData from "~/functions/getFormData";
-import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import Container from "~/components/Container";
+import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
+import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
+import FormSubmit from "~/components/Form/Section/FormSubmit";
+import { useApi } from "~/state/contexts/api.context";
 
 export async function clientAction({
   request,
@@ -20,7 +31,7 @@ export async function clientAction({
   const airportService = new AirportService();
 
   const form = await request.formData();
-  const airport: EditAirportDto = getFormData(form, [
+  const airport: EditAirportRequest = getFormData(form, [
     "icaoCode",
     "iataCode",
     "city",
@@ -36,13 +47,75 @@ export async function clientAction({
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<Airport> {
+}: Route.ClientLoaderArgs): Promise<GetAirportResponse> {
   return new AirportService().getById(params.id);
 }
 
 export default function EditAirportRoute() {
   usePageTitle("Edit airport");
-  const airport = useLoaderData<Airport>();
+  const airport = useLoaderData<GetAirportResponse>();
+
+  const { skyLinkService, airportService } = useApi();
+  const navigate = useNavigate();
+  const [iataCodeInput, setIataCodeInput] = useState<string>("");
+  const [formData, setFormData] = useState<CreateAirportFormData>(
+    airportToFormData(airport),
+  );
+  const [isGeneralSubmitted, setIsGeneralSubmitted] = useState<boolean>(false);
+  const [isLocationSubmitted, setIsLocationSubmitted] =
+    useState<boolean>(false);
+  const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
+
+  const handleCreateWithSkyLink = async () => {
+    const iataCode = iataCodeInput.trim().toUpperCase();
+
+    if (!iataCode || iataCode.length !== 3) {
+      alert("Please enter a valid IATA code.");
+      return;
+    }
+
+    skyLinkService.getAirportByIataCode(iataCodeInput).then((response) => {
+      setFormData((form) => ({
+        ...form,
+        ...skyLinkToFormData(response),
+      }));
+      setIsGeneralSubmitted(true);
+      setIsLocationSubmitted(true);
+    });
+  };
+
+  const handleGeneralDataChange = (
+    general: CreateAirportFormData["general"],
+  ) => {
+    setFormData((prev) => ({ ...prev, general }));
+    setFormErrorMessage(null);
+  };
+
+  const handleLocationDataChange = (
+    location: CreateAirportFormData["location"],
+  ) => {
+    setFormData((prev) => ({ ...prev, location }));
+    setFormErrorMessage(null);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isGeneralSubmitted || !isLocationSubmitted) {
+      setFormErrorMessage("At least one of sections above is not saved.");
+      return;
+    }
+
+    const newAirport = formDataToApiFormat(formData);
+    airportService
+      .update(airport.id, newAirport)
+      .then(() => {
+        navigate("/airports");
+      })
+      .catch((err: { message: never }) => {
+        setFormErrorMessage(err.message);
+      });
+  };
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
@@ -53,40 +126,48 @@ export default function EditAirportRoute() {
           backUrl="/airports"
         />
 
-        <Form className="flex max-w-md flex-col gap-4" method="post">
-          <InputBlock
-            htmlName="icaoCode"
-            label="ICAO code"
-            defaultValue={airport.icaoCode}
-          />
-          <InputBlock
-            htmlName="iataCode"
-            label="IATA code"
-            defaultValue={airport.iataCode}
-          />
-          <InputBlock
-            htmlName="name"
-            label="Name"
-            defaultValue={airport.name}
-          />
-          <InputBlock
-            htmlName="city"
-            label="City"
-            defaultValue={airport.city}
-          />
-          <InputBlock
-            htmlName="country"
-            label="County"
-            defaultValue={airport.country}
-          />
-          <InputBlock
-            htmlName="timezone"
-            label="Timezone"
-            defaultValue={airport.timezone}
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <Container>
+            <h2 className="sr-only">Enter IATA code first</h2>
+            <div className="mb-2 block">
+              <Label htmlFor="iataCode">IATA code</Label>
+            </div>
+            <div className="flex gap-2">
+              <TextInput
+                id="iataCode"
+                name="iataCode"
+                className="grow"
+                value={iataCodeInput}
+                onChange={(e) => setIataCodeInput(e.target.value)}
+              />
+              <Button
+                className="min-w-fit cursor-pointer"
+                onClick={handleCreateWithSkyLink}
+                outline
+              >
+                <span className="pe-1">Fill with</span>
+                <span className="font-mono font-bold">SkyLink</span>
+              </Button>
+            </div>
+            <div className="text-center pt-4 italic text-sm text-gray-500">
+              or fill manually below
+            </div>
+          </Container>
+
+          <AirportGeneralFormSection
+            data={formData.general}
+            setData={handleGeneralDataChange}
+            setIsSubmittable={setIsGeneralSubmitted}
           />
 
-          <Button type="submit">Save changes</Button>
-        </Form>
+          <AirportLocationFormSection
+            data={formData.location}
+            setData={handleLocationDataChange}
+            setIsSubmittable={setIsLocationSubmitted}
+          />
+
+          <FormSubmit message={formErrorMessage} button="Save changes" />
+        </form>
       </div>
     </ProtectedRoute>
   );

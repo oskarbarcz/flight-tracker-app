@@ -8,7 +8,7 @@ export class AdsbService extends AbstractApiService {
     this.host = getAdsbApiHost();
   }
 
-  async getByCallsign(callsign: string): Promise<FlightPathElement[]> {
+  async getRecordsByCallsign(callsign: string): Promise<FlightPathElement[]> {
     const trimmedCallsign = callsign.replace(/\s/g, "").toUpperCase();
     const path = await this.request<FlightPathElement[]>(
       `/api/v1/position/${trimmedCallsign}`,

@@ -14,14 +14,12 @@ function currentTimeInRegion(timezone: string) {
       timeZone: timezone,
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
       hour12: false,
     });
   } catch {
     return now.toLocaleString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
       hour12: false,
     });
   }
@@ -39,7 +37,7 @@ export default function LocalizedTimeDisplay({
     }
 
     updateTime();
-    const intervalId = setInterval(updateTime, 1000);
+    const intervalId = setInterval(updateTime, 1000 * 60);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);

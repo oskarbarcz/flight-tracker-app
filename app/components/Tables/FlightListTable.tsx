@@ -21,20 +21,20 @@ import {
 import { FaTrash } from "react-icons/fa";
 import React, { useEffect } from "react";
 import { formatDate, formattedToISO, getHourFromDate } from "~/functions/time";
-import { useFlightService } from "~/state/hooks/api/useFlightService";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
 import { FaPencil } from "react-icons/fa6";
 import UpdateScheduledTimesheetModal from "~/components/Modal/UpdateScheduledTimesheetModal";
 import { HiInformationCircle } from "react-icons/hi";
 import UpdatePreliminaryLoadsheetModal from "~/components/Modal/UpdatePreliminaryLoadsheetModal";
+import { useApi } from "~/state/contexts/api.context";
 
 export type FlightListTableProps = {
   precedence: FlightPrecedenceStatus;
 };
 
 export default function FlightListTable({ precedence }: FlightListTableProps) {
-  const flightService = useFlightService();
+  const { flightService } = useApi();
   const [flights, setFlights] = React.useState<Flight[]>([]);
   const [flightToRemove, setFlightToRemove] = React.useState<Flight | null>(
     null,
@@ -109,12 +109,14 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
     <div className="rounded-t-4xl overflow-x-auto mb-6">
       <Table>
         <TableHead className="dark:text-gray-100">
-          <TableHeadCell>Flight no</TableHeadCell>
-          <TableHeadCell>Route</TableHeadCell>
-          <TableHeadCell>Departure (UTC)</TableHeadCell>
-          <TableHeadCell>Aircraft</TableHeadCell>
-          <TableHeadCell>Operator</TableHeadCell>
-          <TableHeadCell>Status</TableHeadCell>
+          <TableRow>
+            <TableHeadCell>Flight no</TableHeadCell>
+            <TableHeadCell>Route</TableHeadCell>
+            <TableHeadCell>Departure (UTC)</TableHeadCell>
+            <TableHeadCell>Aircraft</TableHeadCell>
+            <TableHeadCell>Operator</TableHeadCell>
+            <TableHeadCell>Status</TableHeadCell>
+          </TableRow>
         </TableHead>
         <TableBody className="divide-y">
           {Array.isArray(flights) &&

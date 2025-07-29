@@ -21,6 +21,3 @@ export type Airport = {
     latitude: number;
   };
 };
-
-export type CreateAirportDto = Omit<Airport, "id">;
-export type EditAirportDto = CreateAirportDto;

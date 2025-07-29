@@ -23,11 +23,13 @@ export default function RotationListTable({
   return (
     <Table className="shadow">
       <TableHead className="dark:text-gray-100">
-        <TableHeadCell>Rotation name</TableHeadCell>
-        <TableHeadCell>Legs</TableHeadCell>
-        <TableHeadCell>Captain</TableHeadCell>
-        <TableHeadCell>History</TableHeadCell>
-        <TableHeadCell>Actions</TableHeadCell>
+        <TableRow>
+          <TableHeadCell>Rotation name</TableHeadCell>
+          <TableHeadCell>Legs</TableHeadCell>
+          <TableHeadCell>Captain</TableHeadCell>
+          <TableHeadCell>History</TableHeadCell>
+          <TableHeadCell>Actions</TableHeadCell>
+        </TableRow>
       </TableHead>
       <TableBody className="divide-y">
         {rotations.map((rotation: RotationResponse, i: number) => (
