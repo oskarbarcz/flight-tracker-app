@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { GetUserResponse } from "~/models";
 import { Label, TextInput } from "flowbite-react";
-import { useUserService } from "~/state/hooks/api/useUserService";
 import InputErrorList from "~/components/Intrinsic/Form/Partial/InputErrorList";
 import PilotInputPreview from "~/components/Form/Section/PilotInputPreview";
+import { useApi } from "~/state/contexts/api.context";
 
 type PilotLicenseInputBlockProps = {
   htmlName: string;
@@ -35,7 +35,7 @@ export default function PilotLicenseInputBlock({
   errors: parentErrors,
   defaultValue,
 }: PilotLicenseInputBlockProps) {
-  const userService = useUserService();
+  const { userService } = useApi();
 
   const [pilot, setPilot] = useState<GetUserResponse | null>(null);
   const [pilotId, setPilotId] = useState<string | undefined>(defaultValue);

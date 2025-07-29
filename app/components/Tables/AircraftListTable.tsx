@@ -22,15 +22,17 @@ export default function AircraftListTable({
   return (
     <Table className="shadow">
       <TableHead className="dark:text-gray-100">
-        <TableHeadCell>ICAO code</TableHeadCell>
-        <TableHeadCell>Registration & livery</TableHeadCell>
-        <TableHeadCell>Short name</TableHeadCell>
-        <TableHeadCell>Long name</TableHeadCell>
-        <TableHeadCell>Operator</TableHeadCell>
-        <TableHeadCell>SELCAL</TableHeadCell>
-        <TableHeadCell>
-          <span className="sr-only">Actions</span>
-        </TableHeadCell>
+        <TableRow>
+          <TableHeadCell>ICAO code</TableHeadCell>
+          <TableHeadCell>Registration & livery</TableHeadCell>
+          <TableHeadCell>Short name</TableHeadCell>
+          <TableHeadCell>Long name</TableHeadCell>
+          <TableHeadCell>Operator</TableHeadCell>
+          <TableHeadCell>SELCAL</TableHeadCell>
+          <TableHeadCell>
+            <span className="sr-only">Actions</span>
+          </TableHeadCell>
+        </TableRow>
       </TableHead>
       <TableBody className="divide-y">
         {aircraft.map((each: Aircraft, i: number) => (

@@ -8,11 +8,11 @@ import { UserRole } from "~/models/user.model";
 import NextFlightBox from "~/components/Box/NextFlightBox";
 import AllPendingFlightsBox from "~/components/Box/AllPendingFlightsBox";
 import FinishedFlightsBox from "~/components/Box/FinishedFlightsBox";
-import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useApi } from "~/state/contexts/api.context";
 
 export default function CabinCrewDashboardRoute() {
-  const flightService = useFlightService();
+  const { flightService } = useApi();
   const [flights, setFlights] = useState<Flight[]>([]);
   usePageTitle("Dashboard");
 

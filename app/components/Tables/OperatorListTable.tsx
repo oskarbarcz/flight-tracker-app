@@ -22,13 +22,15 @@ export default function OperatorListTable({
   return (
     <Table>
       <TableHead className="dark:text-gray-100">
-        <TableHeadCell>ICAO code</TableHeadCell>
-        <TableHeadCell>Short name</TableHeadCell>
-        <TableHeadCell>Full name</TableHeadCell>
-        <TableHeadCell>Callsign</TableHeadCell>
-        <TableHeadCell>
-          <span className="sr-only">Actions</span>
-        </TableHeadCell>
+        <TableRow>
+          <TableHeadCell>ICAO code</TableHeadCell>
+          <TableHeadCell>Short name</TableHeadCell>
+          <TableHeadCell>Full name</TableHeadCell>
+          <TableHeadCell>Callsign</TableHeadCell>
+          <TableHeadCell>
+            <span className="sr-only">Actions</span>
+          </TableHeadCell>
+        </TableRow>
       </TableHead>
       <TableBody className="divide-y">
         {operators.map((operator: Operator, i: number) => (

@@ -7,13 +7,12 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import Container from "~/components/Container";
-import { useSkyLinkService } from "~/state/hooks/api/useSkyLinkService";
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
 import FormSubmit from "~/components/Form/Section/FormSubmit";
 import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
 import { Continent, CreateAirportDto, SkyLinkAirportResponse } from "~/models";
-import { useAirportService } from "~/state/hooks/api/useAirportService";
 import { useNavigate } from "react-router";
+import { useApi } from "~/state/contexts/api.context";
 
 type CreateAirportFormData = {
   general: {
@@ -80,8 +79,7 @@ const formDataToApiFormat = (
 });
 
 export default function CreateAirportRoute() {
-  const skyLinkService = useSkyLinkService();
-  const airportService = useAirportService();
+  const { skyLinkService, airportService } = useApi();
   const navigate = useNavigate();
   const [iataCodeInput, setIataCodeInput] = useState<string>("");
   const [formData, setFormData] =

@@ -10,12 +10,12 @@ import {
   Flight,
   FlightPathElement,
 } from "~/models";
-import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { useEffect, useState } from "react";
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
 import { MapBoxUnavailable } from "~/components/Box/Map/MapBoxUnavailable";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
+import { useApi } from "~/state/contexts/api.context";
 
 type Position = LatLngTuple | LatLngExpression;
 
@@ -24,7 +24,7 @@ type FlightHistoryMapProps = {
 };
 
 export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
-  const flightService = useFlightService();
+  const { flightService } = useApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {

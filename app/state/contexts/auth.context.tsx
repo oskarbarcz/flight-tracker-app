@@ -7,8 +7,7 @@ import React, {
 } from "react";
 import { User } from "~/models/user.model";
 import { AuthService } from "~/state/api/auth.service";
-import { useUserService } from "~/state/hooks/api/useUserService";
-import { useAuthService } from "~/state/hooks/api/useAuthService";
+import { useApi } from "~/state/contexts/api.context";
 
 export interface AuthContextType {
   user: User | null;
@@ -32,9 +31,8 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const userService = useUserService();
-  const authService = useAuthService();
+export function AuthProvider({ children }: AuthProviderProps) {
+  const { userService, authService } = useApi();
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
@@ -102,6 +100,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth(): AuthContextType {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useApi must be used within a ApiProvider");
+  return context;
+}

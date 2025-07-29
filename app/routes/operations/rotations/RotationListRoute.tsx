@@ -1,22 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { RotationResponse } from "~/models";
-import { useRotationService } from "~/state/hooks/api/useRotationService";
 import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
 import Container from "~/components/Container";
 import RotationListTable from "~/components/Tables/RotationListTable";
+import { useApi } from "~/state/contexts/api.context";
 
 export default function RotationListRoute() {
   usePageTitle("Rotation list");
-  const rotationService = useRotationService();
-  const [rotations, setRotations] = React.useState<RotationResponse[]>([]);
+  const { rotationService } = useApi();
+  const [rotations, setRotations] = useState<RotationResponse[]>([]);
   const [rotationToRemove, setRotationToRemove] =
-    React.useState<RotationResponse | null>(null);
+    useState<RotationResponse | null>(null);
 
   useEffect(() => {
     rotationService.getAll().then(setRotations);

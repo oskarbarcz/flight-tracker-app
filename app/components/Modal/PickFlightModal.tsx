@@ -8,11 +8,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import { useFlightService } from "~/state/hooks/api/useFlightService";
 import { Flight, RotationResponse } from "~/models";
-import { useRotationService } from "~/state/hooks/api/useRotationService";
 import LegPreview from "~/components/Form/Section/LegPreview";
 import { FaCheck } from "react-icons/fa";
+import { useApi } from "~/state/contexts/api.context";
 
 type PickFlightModalProps = {
   rotation: RotationResponse;
@@ -23,8 +22,7 @@ export default function PickFlightModal({
   rotation,
   close,
 }: PickFlightModalProps) {
-  const flightService = useFlightService();
-  const rotationService = useRotationService();
+  const { flightService, rotationService } = useApi();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [addedFlightsIds, setAddedFlightsIds] = useState<string[]>([]);
 
