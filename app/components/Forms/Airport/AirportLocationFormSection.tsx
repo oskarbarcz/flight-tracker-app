@@ -4,6 +4,7 @@ import FormSection from "~/components/Form/Section/FormSection";
 import React, { useEffect, useState } from "react";
 import ManagedSelectBlock from "~/components/Intrinsic/Form/Managed/ManagedSelectBlock";
 import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
+import { Continent } from "~/models";
 
 type AirportLocationData = {
   city: string;
@@ -21,12 +22,12 @@ type AirportLocationFormSectionProps = {
 };
 
 const continentOptions = [
-  { label: "Europe", value: "europe" },
-  { label: "North America", value: "north_america" },
-  { label: "South America", value: "south_america" },
-  { label: "Oceania", value: "oceania" },
-  { label: "Asia", value: "asia" },
-  { label: "Africa", value: "africa" },
+  { label: "Europe", value: Continent.Europe },
+  { label: "North America", value: Continent.NorthAmerica },
+  { label: "South America", value: Continent.SouthAmerica },
+  { label: "Oceania", value: Continent.Oceania },
+  { label: "Asia", value: Continent.Asia },
+  { label: "Africa", value: Continent.Africa },
 ];
 
 export default function AirportLocationFormSection({

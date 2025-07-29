@@ -22,9 +22,8 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
     <Table>
       <TableHead className="dark:text-gray-100">
         <TableRow>
-          <TableHeadCell>ICAO / IATA code</TableHeadCell>
-          <TableHeadCell>Name / City</TableHeadCell>
-          <TableHeadCell>Country</TableHeadCell>
+          <TableHeadCell>IATA code</TableHeadCell>
+          <TableHeadCell>Name and location</TableHeadCell>
           <TableHeadCell>Timezone</TableHeadCell>
           <TableHeadCell>
             <span className="sr-only">Actions</span>
@@ -34,14 +33,15 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
       <TableBody className="divide-y">
         {airports.map((airport: Airport, i: number) => (
           <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="text-gray-900 dark:text-white">
-              {airport.icaoCode} / {airport.iataCode}
+            <TableCell className=" font-bold text-gray-900 dark:text-white">
+              {airport.iataCode}
             </TableCell>
             <TableCell>
-              <span>{airport.name}</span>
-              <span className="block">{airport.city}</span>
+              <span className="font-bold">{airport.name}</span>
+              <span className="block">
+                {airport.city}, {airport.country}
+              </span>
             </TableCell>
-            <TableCell>{airport.country}</TableCell>
             <TableCell>
               {airport.timezone}
               <br />

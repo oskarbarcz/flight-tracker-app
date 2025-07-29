@@ -10,80 +10,22 @@ import Container from "~/components/Container";
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
 import FormSubmit from "~/components/Form/Section/FormSubmit";
 import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
-import { Continent, CreateAirportDto, SkyLinkAirportResponse } from "~/models";
 import { useNavigate } from "react-router";
 import { useApi } from "~/state/contexts/api.context";
-
-type CreateAirportFormData = {
-  general: {
-    icaoCode: string;
-    iataCode: string;
-    name: string;
-  };
-  location: {
-    city: string;
-    country: string;
-    timezone: string;
-    continent: string;
-    latitude: number;
-    longitude: number;
-  };
-};
-
-const initialFormData = {
-  general: {
-    icaoCode: "",
-    iataCode: "",
-    name: "",
-  },
-  location: {
-    city: "",
-    country: "",
-    timezone: "",
-    continent: Continent.Europe,
-    latitude: 0,
-    longitude: 0,
-  },
-};
-
-const skyLinkToFormData = (
-  input: SkyLinkAirportResponse,
-): CreateAirportFormData => ({
-  general: {
-    icaoCode: input.icao,
-    iataCode: input.iata,
-    name: input.name,
-  },
-  location: {
-    city: input.city,
-    country: input.country,
-    timezone: input.timezone,
-    continent: Continent.Europe,
-    latitude: parseFloat(input.latitude),
-    longitude: parseFloat(input.longitude),
-  },
-});
-
-const formDataToApiFormat = (
-  input: CreateAirportFormData,
-): CreateAirportDto => ({
-  ...input.general,
-  city: input.location.city,
-  country: input.location.country,
-  continent: input.location.continent as Continent,
-  timezone: input.location.timezone,
-  location: {
-    latitude: input.location.latitude,
-    longitude: input.location.longitude,
-  },
-});
+import {
+  CreateAirportFormData,
+  formDataToApiFormat,
+  initCreateAirportData,
+  skyLinkToFormData,
+} from "~/models";
 
 export default function CreateAirportRoute() {
   const { skyLinkService, airportService } = useApi();
   const navigate = useNavigate();
   const [iataCodeInput, setIataCodeInput] = useState<string>("");
-  const [formData, setFormData] =
-    useState<CreateAirportFormData>(initialFormData);
+  const [formData, setFormData] = useState<CreateAirportFormData>(
+    initCreateAirportData(),
+  );
   const [isGeneralSubmitted, setIsGeneralSubmitted] = useState<boolean>(false);
   const [isLocationSubmitted, setIsLocationSubmitted] =
     useState<boolean>(false);
