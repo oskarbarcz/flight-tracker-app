@@ -24,12 +24,12 @@ type FlightTrackingMapProps = {
 };
 
 export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
-  const { getRecordsByCallsign } = useAdsbApi();
+  const adsbApi = useAdsbApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
     const fetchData = () => {
-      getRecordsByCallsign(flight.callsign).then(setPath);
+      adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
     };
     fetchData();
 
@@ -37,7 +37,7 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [flight.callsign, getRecordsByCallsign]);
+  }, [flight.callsign, adsbApi]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
