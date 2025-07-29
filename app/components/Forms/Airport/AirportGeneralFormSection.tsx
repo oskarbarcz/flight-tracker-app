@@ -1,51 +1,47 @@
 "use client";
 
-import FormSection from "~/components/Form/Section/FormSection";
+import FormSection from "~/components/Form/FormSection";
 import React, { useEffect, useState } from "react";
 import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
 
-type AirportGeneralData = {
+export type AirportGeneralFormData = {
   iataCode: string;
   icaoCode: string;
   name: string;
 };
 
 type AirportGeneralFormSectionProps = {
-  data: AirportGeneralData;
-  setData: (data: AirportGeneralData) => void;
-  setIsSubmittable: (isSubmittable: boolean) => void;
+  data: AirportGeneralFormData;
+  onSectionSubmit: (data: AirportGeneralFormData) => void;
 };
 
 export default function AirportGeneralFormSection({
   data,
-  setData,
-  setIsSubmittable,
+  onSectionSubmit,
 }: AirportGeneralFormSectionProps) {
-  const [editable, setEditable] = useState<boolean>(true);
-  const [formData, setFormData] = useState<AirportGeneralData>(data);
+  const [isEditable, setIsEditable] = useState<boolean>(true);
+  const [formData, setFormData] = useState<AirportGeneralFormData>(data);
 
   useEffect(() => {
     setFormData(data);
 
     if (data.iataCode !== "") {
       // when filled with SkyLink, set as submitted
-      setEditable(false);
-      setIsSubmittable(true);
+      setIsEditable(false);
     }
-  }, [data, setIsSubmittable]);
+  }, [data]);
 
-  const handleSave = (setEditMode: boolean) => {
-    setEditable(setEditMode);
-
-    if (!setEditMode) {
-      // when clicked “Save”, set as submitted
-      setData(formData);
-      setIsSubmittable(true);
-    }
+  const handleSubmit = () => {
+    onSectionSubmit(formData);
   };
 
   return (
-    <FormSection title="General" editMode={editable} setEditMode={handleSave}>
+    <FormSection
+      isEditable={isEditable}
+      setIsEditable={setIsEditable}
+      title="General"
+      onSubmit={handleSubmit}
+    >
       <div className="flex gap-4">
         <div className="basis-1/4">
           <ManagedInputBlock
@@ -55,7 +51,7 @@ export default function AirportGeneralFormSection({
             setValue={(iataCode) =>
               setFormData((prev) => ({ ...prev, iataCode }))
             }
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
         <div className="basis-1/4">
@@ -66,7 +62,7 @@ export default function AirportGeneralFormSection({
             setValue={(icaoCode) =>
               setFormData((prev) => ({ ...prev, icaoCode }))
             }
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
         <div className="basis-1/2">
@@ -75,7 +71,7 @@ export default function AirportGeneralFormSection({
             label="Airport name"
             value={formData.name}
             setValue={(name) => setFormData((prev) => ({ ...prev, name }))}
-            disabled={!editable}
+            disabled={!isEditable}
           />
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Flight, RotationFlight, RotationResponse } from "~/models";
-import LegPreview from "./Section/LegPreview";
+import LegPreview from "./Preview/LegPreview";
 import PickFlightModal from "~/components/Modal/PickFlightModal";
 import { Button } from "flowbite-react";
 import { useApi } from "~/state/contexts/api.context";
