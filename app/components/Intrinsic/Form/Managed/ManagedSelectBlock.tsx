@@ -2,6 +2,7 @@
 
 import { Label, Select } from "flowbite-react";
 import React from "react";
+import { useField } from "formik";
 
 type SelectOption = {
   value: string;
@@ -9,36 +10,32 @@ type SelectOption = {
 };
 
 type SelectBlockProps = {
-  htmlName: string;
+  field: string;
   label: string;
   required?: boolean;
   options: SelectOption[];
-  value: string;
-  setValue: (value: string) => void;
   disabled?: boolean;
 };
 
 export default function ManagedSelectBlock({
-  htmlName,
+  field,
   label,
-  required,
-  options,
-  value,
-  setValue,
+  required = true,
+  options = [],
   disabled = false,
 }: SelectBlockProps) {
+  const [fieldProps] = useField(field);
+
   return (
     <div>
       <div className="mb-2 block">
-        <Label htmlFor={htmlName}>{label}</Label>
+        <Label htmlFor={field}>{label}</Label>
       </div>
       <Select
-        id={htmlName}
-        name={htmlName}
-        value={value}
+        id={field}
         required={required}
-        onChange={(e) => setValue(e.target.value)}
         disabled={disabled}
+        {...fieldProps}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

@@ -143,12 +143,12 @@ export default function EditAirportRoute() {
 
           <AirportGeneralFormSection
             data={formData.general}
-            onSectionSubmit={onGeneralSectionSubmit}
+            onSubmit={onGeneralSectionSubmit}
           />
 
           <AirportLocationFormSection
             data={formData.location}
-            onSectionSubmit={onLocationSectionSubmit}
+            onSubmit={onLocationSectionSubmit}
           />
 
           <FormSubmit
