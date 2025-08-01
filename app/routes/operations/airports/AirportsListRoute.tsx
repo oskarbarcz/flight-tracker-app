@@ -13,6 +13,7 @@ import ContinentFilterTabs from "~/components/Tabs/ContinentFilterTabs";
 import { useApi } from "~/state/contexts/api.context";
 import { LoadingData } from "~/components/Tables/LoadingStates/LoadingData";
 import { EmptyData } from "~/components/Tables/LoadingStates/EmptyData";
+import { capitalize } from "~/functions/text";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");
@@ -48,7 +49,9 @@ export default function AirportsListRoute() {
 
       {isLoading && <LoadingData />}
       {isEmptyResult && (
-        <EmptyData message="No airports found with these criteria." />
+        <EmptyData
+          message={`No airports found in ${capitalize(currentContinent)} yet.`}
+        />
       )}
 
       {!isLoading && !isEmptyResult && (
