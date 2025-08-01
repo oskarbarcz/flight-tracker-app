@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import ManagedSelectBlock from "~/components/Intrinsic/Form/Managed/ManagedSelectBlock";
 import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
 import { Continent } from "~/models";
+import { createAirportLocationSchema } from "~/validator/form/create-airport.schema";
 
 export type AirportLocationData = {
   city: string;
@@ -38,6 +39,7 @@ export default function AirportLocationFormSection({
   return (
     <FormSection<AirportLocationData>
       initialValues={data}
+      validationSchema={createAirportLocationSchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
       title="Location"

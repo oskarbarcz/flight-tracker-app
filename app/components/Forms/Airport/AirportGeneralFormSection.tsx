@@ -3,6 +3,7 @@
 import FormSection from "~/components/Form/FormSection";
 import React, { useEffect, useState } from "react";
 import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
+import { createAirportGeneralSchema } from "~/validator/form/create-airport.schema";
 
 export type AirportGeneralFormData = {
   iataCode: string;
@@ -30,6 +31,7 @@ export default function AirportGeneralFormSection({
   return (
     <FormSection<AirportGeneralFormData>
       initialValues={initialValues}
+      validationSchema={createAirportGeneralSchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
       title="General"

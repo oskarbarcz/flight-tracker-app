@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import Container from "~/components/Container";
 import FormSectionHeader from "~/components/Form/Partial/FormSectionHeader";
 import { Formik, Form } from "formik";
+import { ObjectSchema } from "yup";
 
 type FormSectionProps<T extends object> = {
   initialValues: T;
+  validationSchema?: ObjectSchema<T>;
   isEditable: boolean;
   setIsEditable: (isEditable: boolean) => void;
   onSubmit: (data: T) => void;
@@ -16,11 +18,13 @@ type FormSectionProps<T extends object> = {
 
 export default function FormSection<T extends object>({
   initialValues,
+  validationSchema,
+  isEditable,
+  setIsEditable,
   title,
   onSubmit,
   children,
 }: FormSectionProps<T>) {
-  const [isEditable, setIsEditable] = useState<boolean>(true);
   const [showSavedInfo, setShowSavedInfo] = useState<boolean>(false);
 
   const handleSubmit = (values: T) => {
@@ -37,6 +41,7 @@ export default function FormSection<T extends object>({
         initialValues={initialValues}
         onSubmit={handleSubmit}
         enableReinitialize
+        validationSchema={validationSchema}
       >
         <Form>
           <FormSectionHeader
