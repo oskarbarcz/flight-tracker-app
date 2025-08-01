@@ -7,6 +7,33 @@ export enum Continent {
   SouthAmerica = "south_america",
 }
 
+export function continentToDisplayName(continent: Continent): string {
+  switch (continent) {
+    case Continent.Africa:
+      return "Africa";
+    case Continent.Asia:
+      return "Asia";
+    case Continent.Europe:
+      return "Europe";
+    case Continent.NorthAmerica:
+      return "North America";
+    case Continent.Oceania:
+      return "Oceania";
+    case Continent.SouthAmerica:
+      return "South America";
+  }
+}
+
+export function allContinents(): Continent[] {
+  return [
+    Continent.Europe,
+    Continent.NorthAmerica,
+    Continent.SouthAmerica,
+    Continent.Asia,
+    Continent.Oceania,
+  ];
+}
+
 export type Airport = {
   id: string;
   icaoCode: string;

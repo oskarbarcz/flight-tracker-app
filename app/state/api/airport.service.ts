@@ -1,4 +1,5 @@
 import {
+  Continent,
   CreateAirportRequest,
   EditAirportRequest,
   GetAirportResponse,
@@ -8,6 +9,12 @@ import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 export class AirportService extends AbstractAuthorizedApiService {
   async getAll(): Promise<GetAirportResponse[]> {
     return this.requestWithAuth<GetAirportResponse[]>("/api/v1/airport");
+  }
+
+  async getAllByContinent(continent: Continent): Promise<GetAirportResponse[]> {
+    return this.requestWithAuth<GetAirportResponse[]>(
+      `/api/v1/airport?continent=${continent}`,
+    );
   }
 
   async createNew(airport: CreateAirportRequest): Promise<GetAirportResponse> {
