@@ -1,57 +1,47 @@
 "use client";
 
 import { Label, TextInput } from "flowbite-react";
-import React, { HTMLInputTypeAttribute, useEffect, useState } from "react";
+import React, { HTMLInputTypeAttribute } from "react";
 import InputErrorList from "~/components/Intrinsic/Form/Partial/InputErrorList";
+import { useField } from "formik";
 
 type ManagedInputBlockProps = {
-  htmlName: string;
+  field: string;
   label: string;
   required?: boolean;
-  value: string;
-  setValue: (value: string) => void;
   type?: HTMLInputTypeAttribute;
-  errors?: string[];
   disabled?: boolean;
 };
 
 export default function ManagedInputBlock({
-  htmlName,
+  field,
   label,
-  required,
+  required = true,
   type = "text",
-  value,
-  setValue,
-  errors = [],
   disabled = false,
 }: ManagedInputBlockProps) {
-  const [isMarkedRed, setisMarkedRed] = useState<boolean>(false);
-
-  useEffect(() => {
-    setisMarkedRed(errors.length > 0);
-  }, [errors]);
+  const [fieldProps, meta] = useField(field);
+  const isError = meta.touched && meta.error;
 
   return (
     <div className="mb-4 w-full">
       <div className="mb-2 block">
-        <Label htmlFor={htmlName} color={isMarkedRed ? "failure" : undefined}>
+        <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}
         </Label>
       </div>
       <TextInput
-        id={htmlName}
+        id={field}
         type={type}
-        name={htmlName}
-        value={value}
         required={required}
-        onChange={(e) => {
-          setisMarkedRed(false);
-          setValue(e.target.value);
-        }}
-        color={isMarkedRed ? "failure" : undefined}
+        color={isError ? "failure" : undefined}
         disabled={disabled}
+        {...fieldProps}
       />
-      <InputErrorList errorFocus={isMarkedRed} errors={errors} />
+      <InputErrorList
+        errorFocus={Boolean(isError)}
+        errors={isError ? [meta.error as string] : []}
+      />
     </div>
   );
 }

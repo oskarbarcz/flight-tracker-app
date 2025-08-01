@@ -10,7 +10,7 @@ export type CreateAirportFormData = {
     city: string;
     country: string;
     timezone: string;
-    continent: string;
+    continent: Continent;
     latitude: number;
     longitude: number;
   };

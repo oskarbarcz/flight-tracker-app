@@ -1,23 +1,23 @@
 "use client";
 
 import FormSection from "~/components/Form/FormSection";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ManagedSelectBlock from "~/components/Intrinsic/Form/Managed/ManagedSelectBlock";
 import ManagedInputBlock from "~/components/Intrinsic/Form/Managed/ManagedInputBlock";
 import { Continent } from "~/models";
 
-type AirportLocationData = {
+export type AirportLocationData = {
   city: string;
   country: string;
   timezone: string;
-  continent: string;
+  continent: Continent;
   latitude: number;
   longitude: number;
 };
 
 type AirportLocationFormSectionProps = {
   data: AirportLocationData;
-  onSectionSubmit: (formData: AirportLocationData) => void;
+  onSubmit: (data: AirportLocationData) => void;
 };
 
 const continentOptions = [
@@ -31,49 +31,26 @@ const continentOptions = [
 
 export default function AirportLocationFormSection({
   data,
-  onSectionSubmit,
+  onSubmit,
 }: AirportLocationFormSectionProps) {
   const [isEditable, setIsEditable] = useState<boolean>(true);
-  const [formData, setFormData] = useState<AirportLocationData>(data);
-
-  useEffect(() => {
-    setFormData(data);
-
-    if (data.city !== "") {
-      // when filled with SkyLink, set as submitted
-      setIsEditable(false);
-    }
-  }, [data]);
-
-  const handleSubmit = () => {
-    onSectionSubmit(formData);
-  };
 
   return (
-    <FormSection
+    <FormSection<AirportLocationData>
+      initialValues={data}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
       title="Location"
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
     >
       <div className="flex gap-4">
         <div className="basis-1/2">
-          <ManagedInputBlock
-            htmlName="city"
-            label="City"
-            value={formData.city}
-            setValue={(city) => setFormData((prev) => ({ ...prev, city }))}
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="city" label="City" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
           <ManagedInputBlock
-            htmlName="country"
+            field="country"
             label="Country"
-            value={formData.country}
-            setValue={(country) =>
-              setFormData((prev) => ({ ...prev, country }))
-            }
             disabled={!isEditable}
           />
         </div>
@@ -81,23 +58,15 @@ export default function AirportLocationFormSection({
       <div className="flex gap-4">
         <div className="basis-1/2">
           <ManagedInputBlock
-            htmlName="timezone"
+            field="timezone"
             label="Timezone"
-            value={formData.timezone}
-            setValue={(timezone) =>
-              setFormData((prev) => ({ ...prev, timezone }))
-            }
             disabled={!isEditable}
           />
         </div>
         <div className="basis-1/2">
           <ManagedSelectBlock
-            htmlName="continent"
+            field="continent"
             label="Continent"
-            value={formData.continent}
-            setValue={(continent) =>
-              setFormData((prev) => ({ ...prev, continent }))
-            }
             options={continentOptions}
             disabled={!isEditable}
           />
@@ -106,29 +75,15 @@ export default function AirportLocationFormSection({
       <div className="flex gap-4">
         <div className="basis-1/2">
           <ManagedInputBlock
-            htmlName="longitude"
+            field="longitude"
             label="Longitude"
-            value={formData.longitude.toString()}
-            setValue={(longitude) =>
-              setFormData((prev) => ({
-                ...prev,
-                longitude: parseFloat(longitude),
-              }))
-            }
             disabled={!isEditable}
           />
         </div>
         <div className="basis-1/2">
           <ManagedInputBlock
-            htmlName="latitude"
+            field="latitude"
             label="Latitude"
-            value={formData.latitude.toString()}
-            setValue={(latitude) =>
-              setFormData((prev) => ({
-                ...prev,
-                latitude: parseFloat(latitude),
-              }))
-            }
             disabled={!isEditable}
           />
         </div>

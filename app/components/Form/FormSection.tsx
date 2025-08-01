@@ -1,36 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "~/components/Container";
 import FormSectionHeader from "~/components/Form/Partial/FormSectionHeader";
+import { Formik, Form } from "formik";
 
-type FormSectionProps = {
+type FormSectionProps<T extends object> = {
+  initialValues: T;
   isEditable: boolean;
   setIsEditable: (isEditable: boolean) => void;
-  onSubmit: () => void;
+  onSubmit: (data: T) => void;
   title: string;
   children: React.ReactNode;
 };
 
-export default function FormSection({
-  isEditable,
-  setIsEditable,
+export default function FormSection<T extends object>({
+  initialValues,
   title,
   onSubmit,
   children,
-}: FormSectionProps) {
-  const [, setAllowEdit] = useState<boolean>(isEditable);
+}: FormSectionProps<T>) {
+  const [isEditable, setIsEditable] = useState<boolean>(true);
   const [showSavedInfo, setShowSavedInfo] = useState<boolean>(false);
 
-  useEffect(() => {
-    setAllowEdit(isEditable);
-  }, [isEditable]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = (values: T) => {
     setIsEditable(false);
-    onSubmit();
+    onSubmit(values);
 
     setShowSavedInfo(true);
     setTimeout(() => setShowSavedInfo(false), 3000);
@@ -38,15 +33,17 @@ export default function FormSection({
 
   return (
     <Container>
-      <form onSubmit={handleSubmit}>
-        <FormSectionHeader
-          title={title}
-          edit={isEditable}
-          setEdit={setIsEditable}
-          showSaveConfirmation={showSavedInfo}
-        />
-        {children}
-      </form>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <Form>
+          <FormSectionHeader
+            title={title}
+            edit={isEditable}
+            setEdit={setIsEditable}
+            showSaveConfirmation={showSavedInfo}
+          />
+          {children}
+        </Form>
+      </Formik>
     </Container>
   );
 }

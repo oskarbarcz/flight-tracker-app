@@ -7,7 +7,9 @@ import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButto
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import Container from "~/components/Container";
-import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
+import AirportLocationFormSection, {
+  AirportLocationData,
+} from "~/components/Forms/Airport/AirportLocationFormSection";
 import FormSubmit from "~/components/Form/FormSubmit";
 import AirportGeneralFormSection, {
   AirportGeneralFormData,
@@ -53,9 +55,7 @@ export default function CreateAirportRoute() {
     setFormErrorMessage(null);
   }
 
-  const onLocationSectionSubmit = (
-    location: CreateAirportFormData["location"],
-  ) => {
+  const onLocationSectionSubmit = (location: AirportLocationData) => {
     setFormData((prev) => ({ ...prev, location }));
     setFormErrorMessage(null);
   };
@@ -111,12 +111,12 @@ export default function CreateAirportRoute() {
 
           <AirportGeneralFormSection
             data={formData.general}
-            onSectionSubmit={onGeneralSectionSubmit}
+            onSubmit={onGeneralSectionSubmit}
           />
 
           <AirportLocationFormSection
             data={formData.location}
-            onSectionSubmit={onLocationSectionSubmit}
+            onSubmit={onLocationSectionSubmit}
           />
 
           <FormSubmit
