@@ -33,7 +33,11 @@ export default function FormSection<T extends object>({
 
   return (
     <Container>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
         <Form>
           <FormSectionHeader
             title={title}
