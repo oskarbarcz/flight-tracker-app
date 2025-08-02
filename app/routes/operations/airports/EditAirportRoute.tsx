@@ -98,7 +98,7 @@ export default function EditAirportRoute() {
     airportService
       .update(airport.id, updatedAirport)
       .then(() => {
-        navigate("/airports");
+        navigate(`/airports?continent=${updatedAirport.continent}`, {viewTransition: true});
       })
       .catch((err: { message: never }) => {
         setFormErrorMessage(err.message);

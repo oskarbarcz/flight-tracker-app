@@ -65,7 +65,7 @@ export default function CreateAirportRoute() {
     airportService
       .createNew(newAirport)
       .then(() => {
-        navigate("/airports");
+        navigate(`/airports?continent=${newAirport.continent}`, {viewTransition: true});
       })
       .catch((err: { message: never }) => {
         setFormErrorMessage(err.message);
