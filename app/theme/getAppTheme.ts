@@ -15,5 +15,17 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
         base: "text-gray-800 dark:text-gray-200",
       },
     },
+    tabs: {
+      tablist: {
+        tabitem: {
+          base: "cursor-pointer",
+        },
+      },
+    },
+    table: {
+      row: {
+        base: "border-gray-300 dark:border-gray-700 dark:bg-gray-800",
+      },
+    },
   });
 }
