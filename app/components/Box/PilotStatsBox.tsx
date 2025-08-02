@@ -1,25 +1,25 @@
 "use client";
 
 import React from "react";
-import { Flight, FlightStatus } from "~/models";
+import { Flight, isFlightTrackable } from "~/models";
 import { Link } from "react-router";
 import Container from "~/components/Container";
 
-type NextFlightBoxProps = {
+type PilotStatsBoxProps = {
   flights: Flight[];
 };
 
-export default function NextFlightBox({ flights }: NextFlightBoxProps) {
-  const readyFlights = flights.filter(
-    (flight: Flight) => flight.status === FlightStatus.Ready,
+export default function PilotStatsBox({ flights }: PilotStatsBoxProps) {
+  const readyFlights = flights.filter((flight: Flight) =>
+    isFlightTrackable(flight.status),
   );
 
   return (
     <Container>
-      <h2 className="text-xl font-bold dark:text-gray-300">
-        Available flights
+      <h2 className="text-2xl pb-4 font-bold dark:text-gray-300">
+        Last month summary
       </h2>
-      <div className="mt-2">
+      <div>
         {readyFlights.map((flight: Flight) => (
           <div key={flight.id}>
             <Link
@@ -32,6 +32,7 @@ export default function NextFlightBox({ flights }: NextFlightBoxProps) {
           </div>
         ))}
       </div>
+      <div></div>
     </Container>
   );
 }

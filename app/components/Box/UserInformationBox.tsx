@@ -7,14 +7,13 @@ import Container from "~/components/Container";
 
 export default function UserInformationBox() {
   const { user } = useAuth() as { user: User };
+
+  const [name] = user.name.split(" ");
   return (
-    <Container>
-      <h2 className="text-3xl font-bold text-indigo-500 md:text-4xl">
-        {user.name}
+    <Container invisible>
+      <h2 className="text-3xl text-gray-500 font-bold md:text-4xl">
+        Hi <span className="text-indigo-500">{name}</span>, howdy?
       </h2>
-      <span className="mt-1 block text-gray-600 dark:text-gray-400">
-        {user.email}
-      </span>
     </Container>
   );
 }
