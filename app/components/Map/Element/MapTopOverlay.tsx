@@ -6,8 +6,8 @@ type MapTopOverlayProps = {
 
 export default function MapTopOverlay({ isTrackable }: MapTopOverlayProps) {
   return (
-    <div className="absolute rounded-4xl grid grid-flow-col p-4 w-full top-0 z-[500] text-xs">
-      <div className="bg-white justify-items-start w-fit flex gap-4 rounded-2xl px-4 py-2 dark:bg-gray-800 shadow border border-indigo-100">
+    <div className="absolute rounded-4xl grid grid-flow-col p-4 w-full top-0 text-xs">
+      <div className="bg-white justify-items-start w-fit flex gap-4 rounded-2xl px-4 py-2 dark:bg-gray-800 shadow border border-indigo-100 dark:border-gray-500">
         {isTrackable ? (
           <span className="flex items-center font-bold uppercase animate-pulse">
             <span className="bg-red-600  h-3 rounded-full w-3 inline-block mr-1"></span>
