@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
-import { MapBoxNoSignal } from "~/components/Box/Map/MapBoxNoSignal";
+import { MapBoxNoSignal } from "~/components/Box/FlightTracking/Map/MapBoxNoSignal";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useAdsbApi } from "~/state/contexts/adsb.context";
 

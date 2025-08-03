@@ -20,11 +20,11 @@ export function MapBox({ flight, className }: MapBoxProps) {
 
   if (isFlightTrackable) {
     return (
-      <div className="w-full h-full rounded-2xl">
+      <Container className={className} padding="none">
         <AdsbProvider>
           <FlightTrackingMap flight={flight} />
         </AdsbProvider>
-      </div>
+      </Container>
     );
   }
 

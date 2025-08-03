@@ -2,17 +2,19 @@
 
 import React from "react";
 import Container from "~/components/Layout/Container";
-import { FaCircleInfo } from "react-icons/fa6";
 import ContainerTitle from "~/components/Layout/ContainerTitle";
+import { FlightTimerBox } from "~/components/Box/FlightTimerBox";
+import { Flight } from "~/models";
 
-export default function FlightScheduleBox() {
+type FlightScheduleBoxProps = {
+  flight: Flight;
+};
+
+export default function FlightScheduleBox({ flight }: FlightScheduleBoxProps) {
   return (
     <Container padding="condensed">
       <ContainerTitle>Schedule</ContainerTitle>
-      <div className="min-h-[100px] flex items-center justify-center text-gray-500">
-        <FaCircleInfo className="inline mr-2" />
-        <span>Scheduling feature will be available soon.</span>
-      </div>
+      <FlightTimerBox flight={flight} />
     </Container>
   );
 }

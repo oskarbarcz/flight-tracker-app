@@ -27,7 +27,7 @@ export default function CheckInFlightModal({
   const [estimation, setEstimation] = useState<FilledSchedule>(schedule);
 
   return (
-    <Modal show onClose={close} className="rounded-4xl">
+    <Modal show onClose={close}>
       <ModalHeader>Check in for flight</ModalHeader>
       <ModalBody>
         <div className="flex flex-col gap-4 text-gray-800 dark:text-white md:flex-row">

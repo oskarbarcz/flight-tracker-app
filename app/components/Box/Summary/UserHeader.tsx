@@ -5,7 +5,7 @@ import { User } from "~/models/user.model";
 import React from "react";
 import Container from "~/components/Layout/Container";
 
-export default function UserInformationBox() {
+export default function UserHeader() {
   const { user } = useAuth() as { user: User };
 
   const [name] = user.name.split(" ");
