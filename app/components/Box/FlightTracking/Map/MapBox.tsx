@@ -30,7 +30,7 @@ export function MapBox({ flight, className }: MapBoxProps) {
 
   return (
     <Container className={className} padding="none">
-      <div className="relative w-full h-full rounded-2xl">
+      <div className="relative w-full h-full">
         <FlightHistoryMap flight={flight} />
         <MapTopOverlay isTrackable={isFlightTrackable} />
         {/*<MapBottomOverlay />*/}

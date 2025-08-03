@@ -53,7 +53,7 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
       bounds={bounds}
       boundsOptions={{ paddingTopLeft: [0, 70], paddingBottomRight: [0, 0] }}
       scrollWheelZoom={true}
-      className="rounded-4xl h-full w-full z-0"
+      className="rounded-xl h-full w-full z-0"
       zoomControl={false}
       attributionControl={false}
     >
