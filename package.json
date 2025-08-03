@@ -15,8 +15,7 @@
     "lint": "eslint app",
     "lint:fix": "eslint app --fix",
     "format": "prettier --check .",
-    "format:fix": "prettier --write .",
-    "postinstall": "flowbite-react patch"
+    "format:fix": "prettier --write ."
   },
   "dependencies": {
     "@react-router/node": "^7.0.1",
