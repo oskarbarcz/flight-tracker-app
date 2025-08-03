@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
-import { MapBoxNoSignal } from "~/components/Box/Map/MapBoxNoSignal";
+import { MapBoxNoSignal } from "~/components/Box/FlightTracking/Map/MapBoxNoSignal";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useAdsbApi } from "~/state/contexts/adsb.context";
 
@@ -40,20 +40,26 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
   }, [flight.callsign, adsbApi]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
-  const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
+  // const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
 
   if (path.length === 0) {
     return <MapBoxNoSignal />;
   }
 
-  const startPosition = pathPoints[0];
   const departure = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Departure,
+    (airport) => airport.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
+  const destination = flight.airports.find(
+    (airport) => airport.type === AirportOnFlightType.Destination,
+  ) as AirportOnFlight;
+  const planBounds = L.latLngBounds([
+    [departure.location.latitude, departure.location.longitude],
+    [destination.location.latitude, destination.location.longitude],
+  ]);
 
   return (
     <MapContainer
-      bounds={bounds}
+      bounds={planBounds}
       boundsOptions={{ padding: [60, 60] }}
       scrollWheelZoom={true}
       className="rounded-4xl h-full w-full"
@@ -65,9 +71,19 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
       <FlightPath path={pathPoints} />
       <MapAircraftMarker path={pathPoints} />
 
-      <MapAirportLabel position={startPosition} label={departure.iataCode} />
+      <MapAirportLabel
+        position={[departure.location.latitude, departure.location.longitude]}
+        label={departure.iataCode}
+      />
+      <MapAirportLabel
+        position={[
+          destination.location.latitude,
+          destination.location.longitude,
+        ]}
+        label={destination.iataCode}
+      />
 
-      <MapEventsHandler bounds={bounds} />
+      <MapEventsHandler bounds={planBounds} />
     </MapContainer>
   );
 }

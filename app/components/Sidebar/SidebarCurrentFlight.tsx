@@ -62,7 +62,7 @@ export default function SidebarCurrentFlight({
         to={`/track/${flight.id}`}
         replace
         viewTransition
-        className="block w-full rounded-3xl text-xs border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 py-4 text-start"
+        className="block w-full rounded-xl text-xs border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 py-4 text-start"
       >
         <span className="block text-center font-bold">
           {departureAirport.iataCode}
@@ -80,7 +80,7 @@ export default function SidebarCurrentFlight({
       to={`/track/${flight.id}`}
       replace
       viewTransition
-      className="block w-full rounded-3xl border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 p-4 text-start"
+      className="block w-full rounded-xl border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 p-4 text-start"
     >
       <span className="block text-xs">
         <span className="font-bold">{flight.flightNumber}</span>

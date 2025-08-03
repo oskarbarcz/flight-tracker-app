@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 import { Button } from "flowbite-react";
 import { MdError } from "react-icons/md";
 
@@ -17,7 +17,7 @@ export default function FormSubmit({
   onSubmit,
 }: FormSubmitProps) {
   return (
-    <Container invisible>
+    <Container padding="none">
       {message ? (
         <div className="flex items-center justify-between">
           <div className="flex items-center font-bold text-sm text-red-500">

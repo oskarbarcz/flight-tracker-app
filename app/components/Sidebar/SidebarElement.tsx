@@ -22,7 +22,7 @@ export default function SidebarElement({
   return (
     <Link to={href} replace={true} className="shrink-0" viewTransition>
       <span
-        className={`flex flex-col md:flex-row md:min-w-fit items-center rounded-3xl my-1 transition-colors duration-200 ease-in-out
+        className={`flex flex-col md:flex-row md:min-w-fit items-center rounded-xl my-1 transition-colors duration-200 ease-in-out
          ${isSelected ? "text-indigo-500 cursor-default" : "text-gray-500 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"}
          ${isCollapsed ? "justify-center p-2 md:p-2" : " p-2 md:px-4 md:py-2"}
       `}

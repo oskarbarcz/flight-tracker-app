@@ -8,7 +8,7 @@ import { useLoaderData } from "react-router";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 import AircraftListTable from "~/components/Tables/AircraftListTable";
 
 export async function clientLoader(): Promise<Aircraft[]> {
@@ -27,7 +27,7 @@ export default function AircraftListRoute() {
         linkText="Create new"
         linkUrl="/aircraft/new"
       />
-      <Container className="overflow-x-auto" noPadding>
+      <Container className="overflow-x-auto" padding="none">
         <AircraftListTable aircraft={aircrafts} />
       </Container>
     </ProtectedRoute>

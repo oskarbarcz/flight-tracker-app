@@ -2,10 +2,12 @@ import { useFlight } from "~/state/hooks/useFlight";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import React, { useEffect } from "react";
 import FlightInfoBox from "~/components/Box/FlightInfoBox";
-import { FlightTimerBox } from "~/components/Box/FlightTimerBox";
-import { FlightPhaseBox } from "~/components/Box/FlightPhaseBox";
-import Container from "~/components/Container";
-import { MapBox } from "~/components/Box/Map/MapBox";
+import { MapBox } from "~/components/Box/FlightTracking/Map/MapBox";
+import FlightLogBox from "~/components/Box/FlightLogBox";
+import AircraftBox from "~/components/Box/AircraftBox";
+import FlightControlBox from "~/components/Box/FlightControlBox";
+import TimeManagementBox from "~/components/Box/TimeManagementBox";
+import FlightScheduleBox from "~/components/Box/FlightScheduleBox";
 
 type FlightTrackingDashboardProps = {
   flightId: string;
@@ -27,23 +29,18 @@ export default function FlightTrackingDashboard({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        <Container>
-          <FlightInfoBox flight={flight} />
-        </Container>
-        <Container
-          className="col-span-1 md:col-span-2 min-h-[400px] lg:min-h-0"
-          noPadding={true}
-        >
-          <MapBox flight={flight} />
-        </Container>
+      <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-[auto_1fr_1fr] gap-4">
+        <FlightInfoBox flight={flight} className="col-span-1" />
+        <MapBox
+          flight={flight}
+          className="md:col-span-2 min-h-[400px] md:min-h-0"
+        />
+        <FlightControlBox flight={flight} />
+        <FlightScheduleBox flight={flight} />
+        <TimeManagementBox />
+        <AircraftBox />
+        <FlightLogBox className="md:row-span-2 md:row-start-2 md:col-start-3" />
       </div>
-      <Container className="mt-8">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <FlightTimerBox flight={flight} />
-          <FlightPhaseBox flight={flight} />
-        </div>
-      </Container>
     </>
   );
 }

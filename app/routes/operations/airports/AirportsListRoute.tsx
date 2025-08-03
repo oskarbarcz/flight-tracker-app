@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import AirportListTable from "~/components/Tables/AirportListTable";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 import ContinentFilterTabs from "~/components/Tabs/ContinentFilterTabs";
 import { useApi } from "~/state/contexts/api.context";
 import { LoadingData } from "~/components/Tables/LoadingStates/LoadingData";
@@ -55,7 +55,7 @@ export default function AirportsListRoute() {
       )}
 
       {!isLoading && !isEmptyResult && (
-        <Container className="overflow-x-auto" noPadding>
+        <Container className="overflow-x-auto" padding="none">
           <AirportListTable airports={airports} />
         </Container>
       )}

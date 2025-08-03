@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
-import { MapBoxUnavailable } from "~/components/Box/Map/MapBoxUnavailable";
+import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useApi } from "~/state/contexts/api.context";
 
@@ -53,7 +53,7 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
       bounds={bounds}
       boundsOptions={{ paddingTopLeft: [0, 70], paddingBottomRight: [0, 0] }}
       scrollWheelZoom={true}
-      className="rounded-4xl h-full w-full z-0"
+      className="rounded-xl h-full w-full z-0"
       zoomControl={false}
       attributionControl={false}
     >

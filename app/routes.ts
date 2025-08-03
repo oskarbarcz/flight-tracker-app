@@ -12,7 +12,7 @@ export default [
     route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
   ]),
   layout("layout/AppLayout.tsx", [
-    index("routes/common/dashboard/DashboardRoute.tsx"),
+    index("routes/common/DashboardRoute.tsx"),
     ...prefix("track", [
       route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
