@@ -3,7 +3,7 @@
 import { useAuth } from "~/state/contexts/auth.context";
 import { User } from "~/models/user.model";
 import React from "react";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 
 export default function UserInformationBox() {
   const { user } = useAuth() as { user: User };

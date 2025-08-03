@@ -9,6 +9,7 @@ import {
 } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
+import Container, { ContainerClassProps } from "~/components/Layout/Container";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
   const diff = Math.abs(onBlockTime.getTime() - offBlockTime.getTime());
@@ -22,10 +23,13 @@ function formatTime(date: Date) {
   return date.toISOString().slice(11, 16);
 }
 
-type FlightInfoBoxProps = {
+type FlightInfoBoxProps = ContainerClassProps & {
   flight: Flight;
 };
-export default function FlightInfoBox({ flight }: FlightInfoBoxProps) {
+export default function FlightInfoBox({
+  flight,
+  className,
+}: FlightInfoBoxProps) {
   const departure = flight.airports.find(
     (a) => a.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
@@ -54,7 +58,7 @@ export default function FlightInfoBox({ flight }: FlightInfoBoxProps) {
   }
 
   return (
-    <>
+    <Container className={className} padding="condensed">
       <div className="mb-3">
         <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">
           {flight.flightNumber}
@@ -137,6 +141,6 @@ export default function FlightInfoBox({ flight }: FlightInfoBoxProps) {
           </span>
         </div>
       </div>
-    </>
+    </Container>
   );
 }

@@ -3,7 +3,8 @@
 import React from "react";
 import { Flight } from "~/models";
 import { Link } from "react-router";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
+import ContainerTitle from "~/components/Layout/ContainerTitle";
 
 type DebugFlightListBoxProps = {
   flights: Flight[];
@@ -13,13 +14,11 @@ export default function DebugFlightListBox({
   flights,
 }: DebugFlightListBoxProps) {
   return (
-    <Container>
-      <h2 className="text-2xl pb-4 font-bold dark:text-gray-300">
-        Flight list [debug]
-      </h2>
+    <Container padding="condensed">
+      <ContainerTitle>Flight list [debug]</ContainerTitle>
       <div>
         {flights.map((flight) => (
-          <div>
+          <div key={flight.id}>
             <Link
               to={`track/${flight.id}`}
               className="block text-teal-500 underline"

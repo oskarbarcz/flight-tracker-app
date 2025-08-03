@@ -9,7 +9,7 @@ import { OperatorService } from "~/state/api/operator.service";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import OperatorListTable from "~/components/Tables/OperatorListTable";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();
@@ -26,7 +26,7 @@ export default function OperatorsListRoute() {
         linkText="Create new"
         linkUrl="/operators/new"
       />
-      <Container className="overflow-x-auto" noPadding>
+      <Container className="overflow-x-auto" padding="none">
         <OperatorListTable operators={operators} />
       </Container>
     </ProtectedRoute>

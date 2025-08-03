@@ -3,7 +3,7 @@
 import { TabItem, Tabs } from "flowbite-react";
 import { FlightPrecedenceStatus } from "~/models";
 import FlightListTable from "../FlightListTable";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 import React from "react";
 
 const precedenceToLabel = (precedence: FlightPrecedenceStatus): string => {
@@ -23,7 +23,7 @@ export default function FlightStatusSelector() {
       <Tabs variant="underline">
         {Object.values(FlightPrecedenceStatus).map((precedence, i) => (
           <TabItem title={precedenceToLabel(precedence)} key={i}>
-            <Container noPadding>
+            <Container padding="none">
               <FlightListTable precedence={precedence} />
             </Container>
           </TabItem>

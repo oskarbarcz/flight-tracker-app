@@ -1,16 +1,18 @@
 "use client";
 
 import React from "react";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
+import { FaCircleInfo } from "react-icons/fa6";
+import ContainerTitle from "~/components/Layout/ContainerTitle";
 
 export default function CurrentRotationBox() {
   return (
-    <Container>
-      <h2 className="text-2xl pb-4 font-bold dark:text-gray-300">
-        Current rotation
-      </h2>
-      <div></div>
-      <div></div>
+    <Container padding="condensed">
+      <ContainerTitle>Current rotation</ContainerTitle>
+      <div className="min-h-[100px] flex items-center justify-center text-gray-500">
+        <FaCircleInfo className="inline mr-2" />
+        <span>Rotation display will be available soon.</span>
+      </div>
     </Container>
   );
 }

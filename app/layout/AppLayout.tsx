@@ -17,12 +17,12 @@ export default function OldAppLayout() {
       <ThemeConfig />
       <ProtectedRoute>
         <div className="min-h-full min-w-full bg-indigo-50 dark:bg-gray-900">
-          <div className="md:container p-2 md:px-0 md:py-8 md:mx-auto">
-            <div className="flex min-h-[200px] ease-in-out transition-all duration-500 w-full gap-8">
+          <div className="md:container p-2 md:px-0 md:py-4 md:mx-auto">
+            <div className="flex min-h-[200px] ease-in-out transition-all duration-500 w-full gap-4">
               <div
                 className={`
                 transition-[width] ease-in-out hidden md:flex
-                ${isCollapsed ? " w-[76px] h-full" : " w-[300px]"}
+                ${isCollapsed ? " w-[80px] h-full" : " w-[300px]"}
               `}
               >
                 <Sidebar

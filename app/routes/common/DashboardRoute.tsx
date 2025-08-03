@@ -3,7 +3,7 @@
 import React from "react";
 import { useAuth } from "~/state/contexts/auth.context";
 import PilotDashboardRoute from "~/routes/pilot/PilotDashboardRoute";
-import OperationsDashboardRoute from "~/routes/common/dashboard/OperationsDashboardRoute";
+import OperationsDashboardRoute from "~/routes/operations/OperationsDashboardRoute";
 import { UserRole } from "~/models";
 
 export default function DashboardRoute() {

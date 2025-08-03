@@ -7,7 +7,7 @@ import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { RotationResponse } from "~/models";
 import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
 import RotationListTable from "~/components/Tables/RotationListTable";
 import { useApi } from "~/state/contexts/api.context";
 
@@ -35,7 +35,7 @@ export default function RotationListRoute() {
         linkText="Create new"
         linkUrl="/rotations/new"
       />
-      <Container className="overflow-x-auto" noPadding>
+      <Container className="overflow-x-auto" padding="none">
         <RotationListTable
           rotations={rotations}
           removeRotation={setRotationToRemove}

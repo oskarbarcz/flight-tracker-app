@@ -17,6 +17,7 @@ import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
 import { FlightStateProvider } from "~/state/contexts/flight.state";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 import { useLocation } from "react-router";
+import Container from "~/components/Layout/Container";
 
 export function Sidebar({
   isCollapsed,
@@ -33,7 +34,10 @@ export function Sidebar({
   }
 
   return (
-    <aside className="flex min-h-[600px] h-min w-full flex-col rounded-4xl p-4 border shadow-lg bg-white dark:bg-gray-800 border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900">
+    <Container
+      className="flex flex-col min-h-[600px] h-min w-full"
+      padding="condensed"
+    >
       <SidebarLogo isCollapsed={isCollapsed} />
 
       <div className="text-white mb-4">
@@ -115,6 +119,6 @@ export function Sidebar({
           isCollapsed={isCollapsed}
         />
       </div>
-    </aside>
+    </Container>
   );
 }

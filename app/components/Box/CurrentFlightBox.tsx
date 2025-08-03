@@ -3,7 +3,9 @@
 import React from "react";
 import { Flight } from "~/models";
 import { Link } from "react-router";
-import Container from "~/components/Container";
+import Container from "~/components/Layout/Container";
+import { FaCircleInfo } from "react-icons/fa6";
+import ContainerTitle from "~/components/Layout/ContainerTitle";
 
 type CurrentFlightBoxProps = {
   flight?: Flight;
@@ -11,13 +13,18 @@ type CurrentFlightBoxProps = {
 
 export default function CurrentFlightBox({ flight }: CurrentFlightBoxProps) {
   return (
-    <Container>
-      <h2 className="text-2xl pb-4 font-bold dark:text-gray-300">
-        Current flight
-      </h2>
+    <Container padding="condensed">
+      <ContainerTitle>Current flight</ContainerTitle>
       <div>
+        {!flight && (
+          <div className="min-h-[100px] flex items-center justify-center text-gray-500">
+            <FaCircleInfo className="inline mr-2" />
+            <span>You don't have any ongoing flight right now.</span>
+          </div>
+        )}
+
         {flight && (
-          <div key={flight.id}>
+          <div>
             <Link
               to={`track/${flight.id}`}
               className="block text-teal-500 underline"

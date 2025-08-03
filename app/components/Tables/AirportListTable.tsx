@@ -1,6 +1,5 @@
 import { Airport } from "~/models";
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -10,7 +9,6 @@ import {
 } from "flowbite-react";
 import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
 import { Link } from "react-router";
-import { HiPencil } from "react-icons/hi";
 import React from "react";
 
 type AirportListTableProps = {
@@ -51,10 +49,13 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
               </span>
             </TableCell>
             <TableCell>
-              <Link to={`/airports/${airport.id}/edit`} replace viewTransition>
-                <Button color="gray">
-                  <HiPencil />
-                </Button>
+              <Link
+                className="block text-primary-500 font-bold"
+                to={`/airports/${airport.id}/edit`}
+                replace
+                viewTransition
+              >
+                Edit
               </Link>
             </TableCell>
           </TableRow>

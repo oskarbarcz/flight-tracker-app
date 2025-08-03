@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import UserInformationBox from "~/components/Box/UserInformationBox";
-import { Flight, isFlightTrackable } from "~/models";
+import { Flight, FlightStatus, isFlightTrackable } from "~/models";
 import { UserRole } from "~/models/user.model";
 import AvailableFlightsBox from "~/components/Box/AvailableFlightsBox";
 import CurrentFlightBox from "~/components/Box/CurrentFlightBox";
@@ -24,7 +24,9 @@ export default function PilotDashboardRoute() {
     flightService.fetchAllFlights().then(setFlights);
   }, [flightService]);
 
-  const nextFlight = flights[0] ?? undefined;
+  const nextFlight = flights.filter(
+    (flight) => flight.status === FlightStatus.Ready,
+  )[0];
   const currentFlight = flights.filter((flight) =>
     isFlightTrackable(flight.status),
   )[0];
@@ -33,14 +35,14 @@ export default function PilotDashboardRoute() {
     <>
       <ProtectedRoute expectedRole={UserRole.CabinCrew}>
         <UserInformationBox />
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div className="grid gap-8">
+        <div className="grid grid-cols-1 gap-4 pt-4 md:grid-cols-2">
+          <div className="grid gap-4">
             <AvailableFlightsBox flight={nextFlight} />
             <CurrentFlightBox flight={currentFlight} />
             <CurrentRotationBox />
           </div>
-          <div className="grid gap-8">
-            <PilotStatsBox flights={flights} />
+          <div className="grid gap-4">
+            <PilotStatsBox />
             {isDebug && <DebugFlightListBox flights={flights} />}
           </div>
         </div>
