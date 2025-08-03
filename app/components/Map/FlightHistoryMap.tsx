@@ -16,6 +16,7 @@ import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUna
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useApi } from "~/state/contexts/api.context";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
+import FlightPath from "~/components/Map/Element/FlightPath";
 
 type Position = LatLngTuple | LatLngExpression;
 
@@ -60,6 +61,7 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
       <MapTileLayer />
 
       <GreatCirclePath start={departure} end={destination} />
+      <FlightPath path={pathPoints} />
 
       <MapAircraftMarker path={pathPoints} />
 
