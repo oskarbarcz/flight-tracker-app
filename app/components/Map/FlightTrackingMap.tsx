@@ -16,6 +16,7 @@ import MapTileLayer from "~/components/Map/Element/MapTileLayer";
 import { MapBoxNoSignal } from "~/components/Box/FlightTracking/Map/MapBoxNoSignal";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useAdsbApi } from "~/state/contexts/adsb.context";
+import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 
 type Position = LatLngTuple | LatLngExpression;
 
@@ -62,13 +63,15 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
       bounds={planBounds}
       boundsOptions={{ padding: [60, 60] }}
       scrollWheelZoom={true}
-      className="rounded-4xl h-full w-full"
+      className="rounded-xl h-full w-full z-0"
       zoomControl={false}
       attributionControl={false}
     >
       <MapTileLayer />
 
       <FlightPath path={pathPoints} />
+      <GreatCirclePath start={departure} end={destination} />
+
       <MapAircraftMarker path={pathPoints} />
 
       <MapAirportLabel

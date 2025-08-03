@@ -1,7 +1,6 @@
 "use client";
 
 import { MapContainer } from "react-leaflet";
-import FlightPath from "~/components/Map/Element/FlightPath";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
 import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
 import {
@@ -16,6 +15,7 @@ import MapTileLayer from "~/components/Map/Element/MapTileLayer";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useApi } from "~/state/contexts/api.context";
+import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 
 type Position = LatLngTuple | LatLngExpression;
 
@@ -59,7 +59,8 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
     >
       <MapTileLayer />
 
-      <FlightPath path={pathPoints} />
+      <GreatCirclePath start={departure} end={destination} />
+
       <MapAircraftMarker path={pathPoints} />
 
       <MapAirportLabel position={startPosition} label={departure.iataCode} />
