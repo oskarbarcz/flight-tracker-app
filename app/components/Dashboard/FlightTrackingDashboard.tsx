@@ -8,6 +8,8 @@ import AircraftBox from "~/components/Box/AircraftBox";
 import FlightControlBox from "~/components/Box/FlightControlBox";
 import TimeManagementBox from "~/components/Box/TimeManagementBox";
 import FlightScheduleBox from "~/components/Box/FlightScheduleBox";
+import FlightWasClosedBox from "~/components/Box/FlightWasClosedBox";
+import { FlightStatus } from "~/models";
 
 type FlightTrackingDashboardProps = {
   flightId: string;
@@ -27,9 +29,15 @@ export default function FlightTrackingDashboard({
     return <div>Loading...</div>;
   }
 
+  const isFlightClosed = flight.status === FlightStatus.Closed;
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-[auto_1fr_1fr] gap-4">
+        {isFlightClosed && (
+          <FlightWasClosedBox className="text-white bg-indigo-500 border-indigo-500 md:col-span-3" />
+        )}
+
         <FlightInfoBox flight={flight} className="col-span-1" />
         <MapBox
           flight={flight}
@@ -39,7 +47,7 @@ export default function FlightTrackingDashboard({
         <FlightScheduleBox flight={flight} />
         <TimeManagementBox />
         <AircraftBox />
-        <FlightLogBox className="md:row-span-2 md:row-start-2 md:col-start-3" />
+        <FlightLogBox className="md:row-span-2 md:row-start-3 md:col-start-3" />
       </div>
     </>
   );
