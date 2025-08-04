@@ -54,11 +54,16 @@ export default function ChangeFlightProgressButton() {
     setDisabled(true);
   }, [flight]);
 
+  useEffect(() => {
+    if (!disabled) {
+      const timeout = setTimeout(() => setDisabled(true), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [disabled]);
+
   function onClick(): void {
     if (disabled) {
       setDisabled(false);
-      setTimeout(() => setDisabled(true), 5000);
-
       return;
     }
 
