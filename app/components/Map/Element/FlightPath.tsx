@@ -1,11 +1,9 @@
 "use client";
 
 import { Polyline } from "react-leaflet";
-import { LatLngExpression, LatLngTuple } from "leaflet";
 import { useMemo } from "react";
 import { smoothPath } from "~/functions/smooth";
-
-type Position = LatLngTuple | LatLngExpression;
+import { Position } from "~/models/common/geo";
 
 type FlightPathProps = {
   path: Position[];

@@ -2,10 +2,9 @@
 
 import { Marker } from "react-leaflet";
 import { useMemo } from "react";
-import L, { LatLngExpression, LatLngTuple } from "leaflet";
+import L from "leaflet";
 import { calculateLastBearing } from "~/functions/smooth";
-
-type Position = LatLngTuple | LatLngExpression;
+import { Position } from "~/models/common/geo";
 
 type MapAircraftMarkerProps = {
   path: Position[];

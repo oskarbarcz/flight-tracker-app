@@ -1,6 +1,5 @@
-import { LatLngExpression, LatLngTuple } from "leaflet";
-
-type Position = LatLngTuple | LatLngExpression;
+import { LatLngTuple } from "leaflet";
+import { Position } from "~/models/common/geo";
 
 export function smoothPath(
   points: Position[],

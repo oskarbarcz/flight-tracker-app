@@ -10,15 +10,14 @@ import {
   FlightPathElement,
 } from "~/models";
 import { useEffect, useState } from "react";
-import L, { LatLngExpression, LatLngTuple } from "leaflet";
+import L, { LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import { useApi } from "~/state/contexts/api.context";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 import FlightPath from "~/components/Map/Element/FlightPath";
-
-type Position = LatLngTuple | LatLngExpression;
+import { Position } from "~/models/common/geo";
 
 type FlightHistoryMapProps = {
   flight: Flight;
