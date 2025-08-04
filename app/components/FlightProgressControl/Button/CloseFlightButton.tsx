@@ -1,18 +1,13 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import { useFlight } from "~/state/hooks/useFlight";
-import { Flight } from "~/models";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
-type CloseFlightButtonProps = {
-  flight: Flight;
-};
-
-export default function CloseFlightButton({ flight }: CloseFlightButtonProps) {
-  const { close } = useFlight();
+export default function CloseFlightButton() {
+  const { close } = useTrackedFlight();
 
   const onClick = async () => {
-    await close(flight.id);
+    await close();
   };
 
   return <Button onClick={onClick}>Close flight</Button>;

@@ -1,20 +1,13 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import { useFlight } from "~/state/hooks/useFlight";
-import { Flight } from "~/models";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
-type ReportArrivalButtonProps = {
-  flight: Flight;
-};
-
-export default function ReportArrivalButton({
-  flight,
-}: ReportArrivalButtonProps) {
-  const { reportArrival } = useFlight();
+export default function ReportArrivalButton() {
+  const { reportArrival } = useTrackedFlight();
 
   const onClick = async () => {
-    await reportArrival(flight.id);
+    await reportArrival();
   };
 
   return <Button onClick={onClick}>Report arrival</Button>;

@@ -1,7 +1,7 @@
 "use client";
 
 import StartBoardingButton from "~/components/FlightProgressControl/Button/StartBoardingButton";
-import { Flight, FlightStatus } from "~/models";
+import { FlightStatus } from "~/models";
 import { ReactElement } from "react";
 import FlightProgressTranslation from "~/components/FlightProgressControl/FlightProgressTranslation";
 import FinishBoardingButton from "~/components/FlightProgressControl/Button/FinishBoardingButton";
@@ -12,33 +12,30 @@ import ReportOnBlockButton from "~/components/FlightProgressControl/Button/Repor
 import StartOffboardingButton from "~/components/FlightProgressControl/Button/StartOffboardingButton";
 import FinishOffboardingButton from "~/components/FlightProgressControl/Button/FinishOffboardingButton";
 import CloseFlightButton from "~/components/FlightProgressControl/Button/CloseFlightButton";
-
-type FlightProgressButtonProps = {
-  flight: Flight;
-};
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
 function mapStatusToButton(
-  flight: Flight,
+  status: FlightStatus,
 ): ReactElement<typeof StartBoardingButton> | null {
-  switch (flight.status) {
+  switch (status) {
     case FlightStatus.CheckedIn:
-      return <StartBoardingButton flight={flight} />;
+      return <StartBoardingButton />;
     case FlightStatus.BoardingStarted:
-      return <FinishBoardingButton flight={flight} />;
+      return <FinishBoardingButton />;
     case FlightStatus.BoardingFinished:
-      return <ReportOffBlockButton flight={flight} />;
+      return <ReportOffBlockButton />;
     case FlightStatus.TaxiingOut:
-      return <ReportTakeoffButton flight={flight} />;
+      return <ReportTakeoffButton />;
     case FlightStatus.InCruise:
-      return <ReportArrivalButton flight={flight} />;
+      return <ReportArrivalButton />;
     case FlightStatus.TaxiingIn:
-      return <ReportOnBlockButton flight={flight} />;
+      return <ReportOnBlockButton />;
     case FlightStatus.OnBlock:
-      return <StartOffboardingButton flight={flight} />;
+      return <StartOffboardingButton />;
     case FlightStatus.OffboardingStarted:
-      return <FinishOffboardingButton flight={flight} />;
+      return <FinishOffboardingButton />;
     case FlightStatus.OffboardingFinished:
-      return <CloseFlightButton flight={flight} />;
+      return <CloseFlightButton />;
     case FlightStatus.Created:
     case FlightStatus.Ready:
     case FlightStatus.Closed:
@@ -47,10 +44,13 @@ function mapStatusToButton(
   }
 }
 
-export default function FlightProgressControl({
-  flight,
-}: FlightProgressButtonProps) {
-  const actionButton = mapStatusToButton(flight);
+export default function FlightProgressControl() {
+  const { flight } = useTrackedFlight();
+
+  if (!flight) {
+    return;
+  }
+  const actionButton = mapStatusToButton(flight.status);
 
   return (
     <span className="mx-auto block text-center">

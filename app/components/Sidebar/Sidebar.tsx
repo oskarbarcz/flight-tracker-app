@@ -14,7 +14,7 @@ import SidebarThemeSwitch from "~/components/Sidebar/SidebarThemeSwitch";
 import SidebarUserPanel from "~/components/Sidebar/SidebarUserPanel";
 import { User, UserRole } from "~/models/user.model";
 import SidebarCurrentFlight from "~/components/Sidebar/SidebarCurrentFlight";
-import { FlightStateProvider } from "~/state/contexts/flight.state";
+import { TrackedFlightProvider } from "~/state/contexts/tracked-flight.context";
 import SidebarLogo from "~/components/Sidebar/SidebarLogo";
 import { useLocation } from "react-router";
 import Container from "~/components/Layout/Container";
@@ -45,12 +45,12 @@ export function Sidebar({
           <>
             {isCollapsed && <SidebarDivider />}
             {!isCollapsed && <SidebarSectionTitle label="Current flight" />}
-            <FlightStateProvider>
+            <TrackedFlightProvider>
               <SidebarCurrentFlight
                 flightId={user.currentFlightId}
                 isCollapsed={isCollapsed}
               />
-            </FlightStateProvider>
+            </TrackedFlightProvider>
           </>
         )}
 

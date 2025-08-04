@@ -1,20 +1,13 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import { useFlight } from "~/state/hooks/useFlight";
-import { Flight } from "~/models";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
-type StartOffboardingButtonProps = {
-  flight: Flight;
-};
-
-export default function StartOffboardingButton({
-  flight,
-}: StartOffboardingButtonProps) {
-  const { startOffboarding } = useFlight();
+export default function StartOffboardingButton() {
+  const { startOffboarding } = useTrackedFlight();
 
   const onClick = async () => {
-    await startOffboarding(flight.id);
+    await startOffboarding();
   };
 
   return <Button onClick={onClick}>Start offboarding</Button>;

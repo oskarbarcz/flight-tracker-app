@@ -1,17 +1,18 @@
 "use client";
 
-import { FilledSchedule, Flight, FlightStatus } from "~/models";
+import { FilledSchedule, FlightStatus } from "~/models";
 import { OffBlockTimer } from "~/components/Box/Timer/OffBlockTimer";
 import { TakeoffTimer } from "~/components/Box/Timer/TakeoffTimer";
 import { ArrivalTimer } from "~/components/Box/Timer/ArrivalTimer";
 import { OnBlockTimer } from "~/components/Box/Timer/OnBlockTimer";
 import { SummaryTimer } from "~/components/Box/Timer/SummaryTimer";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
-type FlightTimeBoxProps = {
-  flight: Flight;
-};
-
-export function FlightTimerBox({ flight }: FlightTimeBoxProps) {
+export function FlightTimerBox() {
+  const { flight } = useTrackedFlight();
+  if (!flight) {
+    return <div>Loading...</div>;
+  }
   const schedule = flight.timesheet.scheduled;
   const actual = flight.timesheet.actual as FilledSchedule;
 

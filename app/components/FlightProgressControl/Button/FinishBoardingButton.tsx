@@ -1,29 +1,24 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import { useFlight } from "~/state/hooks/useFlight";
 import React, { useState } from "react";
-import { Flight, Loadsheet } from "~/models";
+import { Loadsheet } from "~/models";
 import UpdateFinalLoadsheetModal from "~/components/Modal/UpdateFinalLoadsheetModal";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
-type FinishBoardingButtonProps = {
-  flight: Flight;
-};
-
-export default function FinishBoardingButton({
-  flight,
-}: FinishBoardingButtonProps) {
-  const { finishBoarding } = useFlight();
+export default function FinishBoardingButton() {
+  const { flight, finishBoarding } = useTrackedFlight();
   const [showModal, setShowModal] = useState(false);
 
-  const handleFinishBoarding = async (
-    flightId: string,
-    loadsheet: Loadsheet,
-  ) => {
-    await finishBoarding(flightId, loadsheet)
+  const handleFinishBoarding = async (loadsheet: Loadsheet): Promise<void> => {
+    await finishBoarding(loadsheet)
       .then(() => setShowModal(false))
       .catch((error: unknown) => console.error("Failed to check in", error));
   };
+
+  if (!flight) {
+    return null;
+  }
 
   return (
     <>

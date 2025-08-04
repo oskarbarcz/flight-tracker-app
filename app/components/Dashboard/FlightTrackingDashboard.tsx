@@ -1,4 +1,3 @@
-import { useFlight } from "~/state/hooks/useFlight";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import React, { useEffect } from "react";
 import FlightInfoBox from "~/components/Box/FlightInfoBox";
@@ -10,6 +9,7 @@ import TimeManagementBox from "~/components/Box/TimeManagementBox";
 import FlightScheduleBox from "~/components/Box/FlightScheduleBox";
 import FlightWasClosedBox from "~/components/Box/FlightWasClosedBox";
 import { FlightStatus } from "~/models";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
 type FlightTrackingDashboardProps = {
   flightId: string;
@@ -18,18 +18,21 @@ type FlightTrackingDashboardProps = {
 export default function FlightTrackingDashboard({
   flightId,
 }: FlightTrackingDashboardProps) {
-  const { flight, loadFlight } = useFlight();
+  const { flight, setFlightId } = useTrackedFlight();
   usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
 
   useEffect(() => {
-    loadFlight(flightId).then();
-  }, [flightId, loadFlight]);
+    setFlightId(flightId);
+  }, [flightId, setFlightId]);
 
   if (!flight) {
     return <div>Loading...</div>;
   }
 
   const isFlightClosed = flight.status === FlightStatus.Closed;
+  const flightLogPosition = isFlightClosed
+    ? "md:row-start-3"
+    : "md:row-start-2";
 
   return (
     <>
@@ -38,16 +41,15 @@ export default function FlightTrackingDashboard({
           <FlightWasClosedBox className="text-white bg-indigo-500 border-indigo-500 md:col-span-3" />
         )}
 
-        <FlightInfoBox flight={flight} className="col-span-1" />
-        <MapBox
-          flight={flight}
-          className="md:col-span-2 min-h-[400px] md:min-h-0"
-        />
-        <FlightControlBox flight={flight} />
-        <FlightScheduleBox flight={flight} />
+        <FlightInfoBox className="col-span-1" />
+        <MapBox className="md:col-span-2" />
+        <FlightControlBox />
+        <FlightScheduleBox />
         <TimeManagementBox />
         <AircraftBox />
-        <FlightLogBox className="md:row-span-2 md:row-start-3 md:col-start-3" />
+        <FlightLogBox
+          className={`md:row-span-2 ${flightLogPosition} md:col-start-3`}
+        />
       </div>
     </>
   );
