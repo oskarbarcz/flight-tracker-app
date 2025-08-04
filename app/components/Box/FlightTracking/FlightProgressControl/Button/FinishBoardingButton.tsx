@@ -13,7 +13,9 @@ export default function FinishBoardingButton() {
   const handleFinishBoarding = async (loadsheet: Loadsheet): Promise<void> => {
     await finishBoarding(loadsheet)
       .then(() => setShowModal(false))
-      .catch((error: unknown) => console.error("Failed to finish boarding", error));
+      .catch((error: unknown) =>
+        console.error("Failed to finish boarding", error),
+      );
   };
 
   if (!flight) {
