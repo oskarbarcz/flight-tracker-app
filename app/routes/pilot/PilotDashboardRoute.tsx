@@ -10,7 +10,7 @@ import CurrentFlightBox from "~/components/Box/Summary/CurrentFlightBox";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { useApi } from "~/state/contexts/api.context";
 import PilotStatsBox from "~/components/Box/Summary/PilotStatsBox";
-import CurrentRotationBox from "~/components/Box/CurrentRotationBox";
+import CurrentRotationBox from "~/components/Box/Summary/CurrentRotationBox";
 import DebugFlightListBox from "~/components/Box/Summary/DebugFlightListBox";
 import { useEnvironment } from "~/state/hooks/useEnvironment";
 

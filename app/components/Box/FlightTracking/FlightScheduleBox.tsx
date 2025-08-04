@@ -3,7 +3,7 @@
 import React from "react";
 import Container from "~/components/Layout/Container";
 import ContainerTitle from "~/components/Layout/ContainerTitle";
-import { FlightTimerBox } from "~/components/Box/FlightTimerBox";
+import { FlightTimerBox } from "~/components/Box/FlightTracking/FlightTimerBox";
 
 export default function FlightScheduleBox() {
   return (

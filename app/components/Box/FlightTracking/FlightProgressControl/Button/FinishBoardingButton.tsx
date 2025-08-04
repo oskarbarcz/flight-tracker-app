@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { Loadsheet } from "~/models";
+import { Loadsheet, describeNextActionStatus } from "~/models";
 import UpdateFinalLoadsheetModal from "~/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
@@ -22,8 +22,8 @@ export default function FinishBoardingButton() {
 
   return (
     <>
-      <Button className="mt-2" onClick={() => setShowModal(true)}>
-        Fill final loadsheet and finish boarding
+      <Button size="xs" className="mt-2" onClick={() => setShowModal(true)}>
+        {describeNextActionStatus(flight.status)}
       </Button>
       {showModal && (
         <UpdateFinalLoadsheetModal

@@ -27,5 +27,11 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
         base: "border-gray-300 dark:border-gray-700 dark:bg-gray-800",
       },
     },
+    buttonGroup: {
+      base: "shadow-none",
+    },
+    button: {
+      base: "cursor-pointer",
+    },
   });
 }

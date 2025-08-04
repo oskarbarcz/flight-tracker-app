@@ -1,13 +1,13 @@
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import React, { useEffect } from "react";
-import FlightInfoBox from "~/components/Box/FlightInfoBox";
+import FlightInfoBox from "~/components/Box/FlightTracking/FlightInfoBox";
 import { MapBox } from "~/components/Box/FlightTracking/Map/MapBox";
-import FlightLogBox from "~/components/Box/FlightLogBox";
-import AircraftBox from "~/components/Box/AircraftBox";
-import FlightControlBox from "~/components/Box/FlightControlBox";
-import TimeManagementBox from "~/components/Box/TimeManagementBox";
-import FlightScheduleBox from "~/components/Box/FlightScheduleBox";
-import FlightWasClosedBox from "~/components/Box/FlightWasClosedBox";
+import FlightLogBox from "~/components/Box/FlightTracking/FlightLogBox";
+import AircraftBox from "~/components/Box/FlightTracking/AircraftBox";
+import FlightProgressBox from "~/components/Box/FlightTracking/FlightProgressBox";
+import TimeManagementBox from "~/components/Box/FlightTracking/TimeManagementBox";
+import FlightScheduleBox from "~/components/Box/FlightTracking/FlightScheduleBox";
+import FlightWasClosedBox from "~/components/Box/FlightTracking/FlightWasClosedBox";
 import { FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
@@ -43,7 +43,7 @@ export default function FlightTrackingDashboard({
 
         <FlightInfoBox className="col-span-1" />
         <MapBox className="md:col-span-2" />
-        <FlightControlBox />
+        <FlightProgressBox />
         <FlightScheduleBox />
         <TimeManagementBox />
         <AircraftBox />
