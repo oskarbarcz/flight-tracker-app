@@ -1,17 +1,21 @@
 "use client";
 
-import { Flight, FlightStatus } from "~/models";
+import { FlightStatus } from "~/models";
 import FlightHistoryMap from "~/components/Map/FlightHistoryMap";
 import FlightTrackingMap from "~/components/Map/FlightTrackingMap";
 import MapTopOverlay from "~/components/Map/Element/MapTopOverlay";
 import { AdsbProvider } from "~/state/contexts/adsb.context";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
-type MapBoxProps = ContainerClassProps & {
-  flight: Flight;
-};
+type MapBoxProps = ContainerClassProps;
 
-export function MapBox({ flight, className }: MapBoxProps) {
+export function MapBox({ className }: MapBoxProps) {
+  const { flight } = useTrackedFlight();
+
+  if (!flight) {
+    return null;
+  }
   const isFlightTrackable = [
     FlightStatus.TaxiingOut,
     FlightStatus.InCruise,

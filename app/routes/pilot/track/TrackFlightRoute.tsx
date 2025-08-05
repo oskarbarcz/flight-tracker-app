@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FlightStateProvider } from "~/state/contexts/flight.state";
+import { TrackedFlightProvider } from "~/state/contexts/tracked-flight.context";
 import { Route } from ".react-router/types/app/routes/pilot/track/+types/TrackFlightRoute";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
@@ -14,9 +14,9 @@ export function meta() {
 export default function TrackFlightRoute({ params }: Route.ClientLoaderArgs) {
   return (
     <ProtectedRoute expectedRole={UserRole.CabinCrew}>
-      <FlightStateProvider>
+      <TrackedFlightProvider>
         <FlightTrackingDashboard flightId={params.id} />
-      </FlightStateProvider>
+      </TrackedFlightProvider>
     </ProtectedRoute>
   );
 }

@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router";
 import { FaArrowDown } from "react-icons/fa";
-import { useFlight } from "~/state/hooks/useFlight";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
 type SidebarCurrentFlightProps = {
   flightId: string;
@@ -27,7 +27,7 @@ export default function SidebarCurrentFlight({
   flightId,
   isCollapsed,
 }: SidebarCurrentFlightProps) {
-  const { flight, loadFlight } = useFlight();
+  const { flight, setFlightId } = useTrackedFlight();
   const [timeRemaining, setTimeRemaining] = React.useState<string | null>(null);
 
   const handleTimeUpdate = useCallback((flight: Flight) => {
@@ -39,8 +39,8 @@ export default function SidebarCurrentFlight({
   }, []);
 
   useEffect(() => {
-    loadFlight(flightId).then(handleTimeUpdate);
-  }, [flightId, loadFlight, handleTimeUpdate]);
+    setFlightId(flightId);
+  }, [flightId, setFlightId, handleTimeUpdate]);
 
   if (!flight) {
     return <div>Loading...</div>;

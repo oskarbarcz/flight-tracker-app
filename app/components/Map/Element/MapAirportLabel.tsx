@@ -1,14 +1,13 @@
 "use client";
 
 import { Marker } from "react-leaflet";
-import L, { LatLngExpression, LatLngTuple } from "leaflet";
+import L from "leaflet";
+import { Position } from "~/models/common/geo";
 
 type MapAirportLabelProps = {
   position: Position;
   label: string;
 };
-
-type Position = LatLngTuple | LatLngExpression;
 
 const createAirportLabelIcon = (label: string) => {
   return new L.DivIcon({

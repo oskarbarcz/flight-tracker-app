@@ -13,7 +13,7 @@ import FlightLoadsheetForm from "~/components/Forms/FlightLoadsheetForm";
 
 type UpdateFinalLoadsheetModalProps = {
   flight: Flight;
-  update: (flightId: string, loadsheet: Loadsheet) => void;
+  update: (loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
@@ -46,9 +46,7 @@ export default function UpdateFinalLoadsheetModal({
           <Button color="gray" onClick={cancel}>
             Back
           </Button>
-          <Button onClick={() => update(flight.id, newLoadsheet)}>
-            Finish boarding
-          </Button>
+          <Button onClick={() => update(newLoadsheet)}>Finish boarding</Button>
         </div>
       </ModalFooter>
     </Modal>

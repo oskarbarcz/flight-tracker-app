@@ -21,6 +21,52 @@ export enum FlightStatus {
   Closed = "closed",
 }
 
+export default function describeStatus(status: FlightStatus): string {
+  const statuses = {
+    [FlightStatus.Created]: "Created",
+    [FlightStatus.Ready]: "Ready",
+    [FlightStatus.CheckedIn]: "Checked in",
+    [FlightStatus.BoardingStarted]: "Boarding in progress",
+    [FlightStatus.BoardingFinished]: "Boarding finished",
+    [FlightStatus.TaxiingOut]: "Taxiing out",
+    [FlightStatus.InCruise]: "In cruise",
+    [FlightStatus.TaxiingIn]: "Taxiing in",
+    [FlightStatus.OnBlock]: "On block",
+    [FlightStatus.OffboardingStarted]: "Offboarding in progress",
+    [FlightStatus.OffboardingFinished]: "Offboarding was finished",
+    [FlightStatus.Closed]: "Closed",
+  };
+
+  return statuses[status];
+}
+
+export function describeNextActionStatus(status: FlightStatus): string | null {
+  switch (status) {
+    case FlightStatus.Ready:
+      return "Go to flight check-in";
+    case FlightStatus.CheckedIn:
+      return "Start boarding";
+    case FlightStatus.BoardingStarted:
+      return "Fill final loadsheet and finish boarding";
+    case FlightStatus.BoardingFinished:
+      return "Report off-block";
+    case FlightStatus.TaxiingOut:
+      return "Report takeoff";
+    case FlightStatus.InCruise:
+      return "Report arrival";
+    case FlightStatus.TaxiingIn:
+      return "Report on-block";
+    case FlightStatus.OnBlock:
+      return "Start offboarding";
+    case FlightStatus.OffboardingStarted:
+      return "Finish offboarding";
+    case FlightStatus.OffboardingFinished:
+      return "Close flight";
+    default:
+      return null;
+  }
+}
+
 export enum AirportOnFlightType {
   Departure = "departure",
   Destination = "destination",

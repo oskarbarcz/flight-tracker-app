@@ -3,18 +3,13 @@
 import React from "react";
 import Container from "~/components/Layout/Container";
 import ContainerTitle from "~/components/Layout/ContainerTitle";
-import { FlightTimerBox } from "~/components/Box/FlightTimerBox";
-import { Flight } from "~/models";
+import { FlightTimerBox } from "~/components/Box/FlightTracking/FlightTimerBox";
 
-type FlightScheduleBoxProps = {
-  flight: Flight;
-};
-
-export default function FlightScheduleBox({ flight }: FlightScheduleBoxProps) {
+export default function FlightScheduleBox() {
   return (
     <Container padding="condensed">
       <ContainerTitle>Schedule</ContainerTitle>
-      <FlightTimerBox flight={flight} />
+      <FlightTimerBox />
     </Container>
   );
 }

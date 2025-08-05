@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 export type ContainerClassProps = {
   className?: string;
@@ -31,12 +32,11 @@ export default function Container({
   padding = "normal",
 }: ContainerProps) {
   const border =
-    " shadow-lg rounded-2xl bg-white dark:bg-gray-800 border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900";
-  const paddingValue = ` ${spacingToPadding(padding)} `;
-  let finalClassList = className + paddingValue;
+    "shadow-lg rounded-2xl bg-white dark:bg-gray-800 border border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900";
+  let finalClassList = twMerge(className, spacingToPadding(padding));
 
   if (!invisible) {
-    finalClassList += border;
+    finalClassList = twMerge(border, finalClassList);
   }
 
   return <section className={finalClassList}>{children}</section>;

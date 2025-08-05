@@ -4,12 +4,12 @@ import {
   AirportOnFlight,
   AirportOnFlightType,
   FilledSchedule,
-  Flight,
   FlightStatus,
 } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
+import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
   const diff = Math.abs(onBlockTime.getTime() - offBlockTime.getTime());
@@ -23,13 +23,14 @@ function formatTime(date: Date) {
   return date.toISOString().slice(11, 16);
 }
 
-type FlightInfoBoxProps = ContainerClassProps & {
-  flight: Flight;
-};
-export default function FlightInfoBox({
-  flight,
-  className,
-}: FlightInfoBoxProps) {
+type FlightInfoBoxProps = ContainerClassProps;
+
+export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
+  const { flight } = useTrackedFlight();
+  if (!flight) {
+    return <div>Loading...</div>;
+  }
+
   const departure = flight.airports.find(
     (a) => a.type === AirportOnFlightType.Departure,
   ) as AirportOnFlight;
