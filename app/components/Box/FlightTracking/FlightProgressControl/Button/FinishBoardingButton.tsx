@@ -5,8 +5,11 @@ import React, { useState } from "react";
 import { Loadsheet, describeNextActionStatus } from "~/models";
 import UpdateFinalLoadsheetModal from "~/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { FlightProgressButtonProps } from "~/components/Box/FlightTracking/FlightProgressControl/ChangeFlightProgressButton";
 
-export default function FinishBoardingButton() {
+export default function FinishBoardingButton({
+  disabled,
+}: FlightProgressButtonProps) {
   const { flight, finishBoarding } = useTrackedFlight();
   const [showModal, setShowModal] = useState(false);
 
@@ -24,7 +27,12 @@ export default function FinishBoardingButton() {
 
   return (
     <>
-      <Button size="xs" className="mt-2" onClick={() => setShowModal(true)}>
+      <Button
+        size="xs"
+        className="mt-2"
+        onClick={() => setShowModal(true)}
+        disabled={disabled}
+      >
         {describeNextActionStatus(flight.status)}
       </Button>
       {showModal && (
