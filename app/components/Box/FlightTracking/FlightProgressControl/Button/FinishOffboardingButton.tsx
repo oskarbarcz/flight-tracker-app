@@ -3,8 +3,11 @@
 import { Button } from "flowbite-react";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 import { describeNextActionStatus } from "~/models";
+import { FlightProgressButtonProps } from "~/components/Box/FlightTracking/FlightProgressControl/ChangeFlightProgressButton";
 
-export default function FinishOffboardingButton() {
+export default function FinishOffboardingButton({
+  disabled,
+}: FlightProgressButtonProps) {
   const { flight, finishOffboarding } = useTrackedFlight();
 
   if (!flight) {
@@ -16,7 +19,7 @@ export default function FinishOffboardingButton() {
   };
 
   return (
-    <Button size="xs" onClick={onClick}>
+    <Button size="xs" onClick={onClick} disabled={disabled}>
       {describeNextActionStatus(flight.status)}
     </Button>
   );
