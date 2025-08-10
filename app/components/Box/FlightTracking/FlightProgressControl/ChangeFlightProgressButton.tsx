@@ -19,7 +19,7 @@ import CheckInButton from "~/components/Box/FlightTracking/FlightProgressControl
 
 function mapStatusToButton(
   status: FlightStatus,
-  disabled = true,
+  disabled: boolean,
 ): ReactElement<typeof StartBoardingButton> | null {
   switch (status) {
     case FlightStatus.Ready:
