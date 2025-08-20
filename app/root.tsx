@@ -2,6 +2,7 @@
 
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -11,7 +12,7 @@ import {
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import React from "react";
-import { ThemeModeScript, ThemeProvider } from "flowbite-react";
+import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
 import { AuthProvider } from "~/state/contexts/auth.context";
 import getAppTheme from "~/theme/getAppTheme";
 import { ApiProvider } from "~/state/contexts/api.context";
@@ -77,6 +78,29 @@ export default function App() {
   );
 }
 
+export function NotFoundError() {
+  return (
+    <main className="container mx-auto p-8 pt-24 md:pt-48 xl:pt-64">
+      <h1 className="text-9xl font-bold text-center text-indigo-500 mb-4">
+        404
+      </h1>
+      <div className="w-24 h-1 mx-auto bg-gray-600 dark:bg-gray-400 my-6"></div>
+      <h2 className="text-3xl font-semibold text-center text-indigo-500 mb-4">
+        Page not found
+      </h2>
+      <p className="text-gray-600 mx-auto text-center dark:text-gray-400 max-w-md mb-8">
+        The page you are looking for might have been removed, had its name
+        changed, or is temporarily unavailable.
+      </p>
+      <Link to="/" viewTransition replace className="text-center">
+        <Button color="indigo" className="mx-auto">
+          Return to homepage
+        </Button>
+      </Link>
+    </main>
+  );
+}
+
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
@@ -86,6 +110,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   if (isRouteErrorResponse(error)) {
     if (error.status === 401) {
       return error;
+    }
+
+    if (error.status === 404) {
+      return <NotFoundError />;
     }
 
     message = error.status === 404 ? "404" : "Error";
@@ -100,10 +128,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="container mx-auto p-4 pt-16">
-      <h1>{message}</h1>
-      <p>{details}</p>
+      <h1 className="text-gray-800">{message}</h1>
+      <p className="text-gray-800">{details}</p>
       {stack && (
-        <pre className="w-full overflow-x-auto p-4">
+        <pre className="text-gray-800 w-full overflow-x-auto p-4">
           <code>{stack}</code>
         </pre>
       )}
