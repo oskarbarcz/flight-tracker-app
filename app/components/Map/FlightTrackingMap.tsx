@@ -62,7 +62,7 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
       bounds={planBounds}
       boundsOptions={{ padding: [60, 60] }}
       scrollWheelZoom={true}
-      className="rounded-xl h-full w-full z-0"
+      className="rounded-xl h-screen w-screen z-0"
       zoomControl={false}
       attributionControl={false}
     >

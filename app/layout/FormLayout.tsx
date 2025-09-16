@@ -7,7 +7,7 @@ import { ThemeConfig } from "flowbite-react";
 import { Outlet } from "react-router";
 import { MobileSidebar } from "~/components/Sidebar/MobileSidebar";
 
-export default function OldAppLayout() {
+export default function FormLayout() {
   return (
     <>
       <ThemeConfig />

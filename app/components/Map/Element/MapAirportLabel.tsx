@@ -2,7 +2,10 @@
 
 import { Marker } from "react-leaflet";
 import L from "leaflet";
+import ReactDOMServer from "react-dom/server";
+
 import { Position } from "~/models/common/geo";
+import MapAirportLabelContent from "~/components/Map/Element/MapAirportLabelContent";
 
 type MapAirportLabelProps = {
   position: Position;
@@ -10,9 +13,10 @@ type MapAirportLabelProps = {
 };
 
 const createAirportLabelIcon = (label: string) => {
+  const content = ReactDOMServer.renderToString(<MapAirportLabelContent label={label} />);
+
   return new L.DivIcon({
-    html: `<span style="background-color: rgba(46, 16, 101, 0.6); color: white; padding: 4px 8px; border-radius: 15px; font-weight: bold; font-family: sans-serif; font-size: 12px; white-space: nowrap;">${label}</span>`,
-    className: "",
+    html: content,
     iconSize: [0, 0],
     iconAnchor: [-10, 0],
   });
