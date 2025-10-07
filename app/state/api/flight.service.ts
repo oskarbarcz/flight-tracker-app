@@ -1,6 +1,7 @@
 import {
   CreateFlightDto,
   Flight,
+  FlightEvent,
   FlightPathElement,
   FlightStatus,
   Loadsheet,
@@ -32,6 +33,21 @@ export class FlightService extends AbstractAuthorizedApiService {
 
   async getById(id: string): Promise<Flight> {
     return this.requestWithAuth<Flight>(`/api/v1/flight/${id}`);
+  }
+
+  async getEventsByFlightId(id: string): Promise<FlightEvent[]> {
+    const events = await this.requestWithAuth<FlightEvent[]>(
+      `/api/v1/flight/${id}/events`,
+    );
+
+    const eventsWithTypesAdjusted = events.map((event) => ({
+      ...event,
+      createdAt: new Date(event.createdAt),
+    }));
+
+    return eventsWithTypesAdjusted.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    );
   }
 
   async getFlightPath(id: string): Promise<FlightPathElement[]> {

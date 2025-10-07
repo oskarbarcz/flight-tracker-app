@@ -73,3 +73,27 @@ export function timeDiff(a: Date, b: Date): number {
 export function secondsToNow(time: Date): number {
   return timeDiff(new Date(), time);
 }
+
+export function dateToIcao(date: Date): string {
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+  const month = months[date.getUTCMonth()];
+  const year = date.getUTCFullYear();
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+  return `${day} ${month} ${year} · ${hours}:${minutes}Z`;
+}

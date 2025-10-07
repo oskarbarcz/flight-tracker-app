@@ -159,6 +159,44 @@ export type Flight = {
   loadsheets: Loadsheets;
 };
 
+export enum FlightEventScope {
+  System = "system",
+  Operations = "operations",
+  User = "user",
+}
+
+export enum FlightEventType {
+  FlightWasCreated = "flight.created",
+  PreliminaryLoadsheetWasUpdated = "flight.preliminary-loadsheet-updated",
+  ScheduledTimesheetWasUpdated = "flight.scheduled-timesheet-updated",
+  FlightWasAddedToRotation = "flight.added-to-rotation",
+  FlightWasRemovedFromRotation = "flight.removed-from-rotation",
+  FlightWasReleased = "flight.released",
+  PilotCheckedIn = "flight.pilot-checked-in",
+  BoardingWasStarted = "flight.boarding-started",
+  BoardingWasFinished = "flight.boarding-finished",
+  OffBlockWasReported = "flight.off-block-reported",
+  TakeoffWasReported = "flight.takeoff-reported",
+  ArrivalWasReported = "flight.arrival-reported",
+  OnBlockWasReported = "flight.on-block-reported",
+  OffboardingWasStarted = "flight.offboarding-started",
+  OffboardingWasFinished = "flight.offboarding-finished",
+  FlightWasClosed = "flight.closed",
+  FlightTrackWasSaved = "flight.track-saved",
+}
+
+export type FlightEvent = {
+  id: string;
+  scope: FlightEventScope;
+  type: FlightEventType;
+  payload: never;
+  actor: {
+    id: string;
+    name: string;
+  };
+  createdAt: Date;
+};
+
 export type CreateFlightDto = Omit<
   Flight,
   "id" | "airports" | "aircraft" | "operator" | "status"
