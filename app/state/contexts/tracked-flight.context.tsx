@@ -1,4 +1,4 @@
-import { Flight, FilledSchedule, Loadsheet } from "~/models";
+import { Flight, FilledSchedule, Loadsheet, FlightEvent } from "~/models";
 import React, {
   createContext,
   ReactNode,
@@ -11,6 +11,7 @@ import { useApi } from "~/state/contexts/api.context";
 
 type State = {
   flightId: string | null;
+  events: FlightEvent[];
   flight: Flight | null;
   loading: boolean;
 };
@@ -18,11 +19,13 @@ type State = {
 const initialState: State = {
   flightId: null,
   flight: null,
+  events: [],
   loading: false,
 };
 
 type Action =
   | { type: "SET_TRACKED_FLIGHT"; payload: Flight }
+  | { type: "SET_TRACKED_FLIGHT_EVENTS"; payload: FlightEvent[] }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_FLIGHT_ID"; payload: string | null };
 
@@ -30,6 +33,8 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_TRACKED_FLIGHT":
       return { ...state, flight: action.payload };
+    case "SET_TRACKED_FLIGHT_EVENTS":
+      return { ...state, events: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     case "SET_FLIGHT_ID":
@@ -41,6 +46,7 @@ const reducer = (state: State, action: Action): State => {
 
 type TrackedFlightContextType = {
   flight: Flight | null;
+  events: FlightEvent[];
   loading: boolean;
   setFlightId: (flightId: string) => void;
   checkIn: (schedule: FilledSchedule) => Promise<void>;
@@ -57,6 +63,7 @@ type TrackedFlightContextType = {
 
 const TrackedFlightContext = createContext<TrackedFlightContextType>({
   flight: null,
+  events: [],
   loading: false,
   setFlightId: () => {},
   checkIn: async () => {},
@@ -89,7 +96,9 @@ export const TrackedFlightProvider = ({
     if (!state.flightId) return;
     dispatch({ type: "SET_LOADING", payload: true });
     const updatedFlight = await flightService.getById(state.flightId);
+    const events = await flightService.getEventsByFlightId(state.flightId);
     dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
+    dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: events });
     dispatch({ type: "SET_LOADING", payload: false });
   }, [flightService, state.flightId]);
 
@@ -170,6 +179,7 @@ export const TrackedFlightProvider = ({
     <TrackedFlightContext.Provider
       value={{
         flight: state.flight,
+        events: state.events,
         loading: state.loading,
         setFlightId,
         checkIn,
