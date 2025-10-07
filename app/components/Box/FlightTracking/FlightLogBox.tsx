@@ -18,11 +18,7 @@ import { translateFlightEventType } from "~/functions/translate";
 type FlightLogBoxProps = ContainerClassProps;
 
 export default function FlightLogBox({ className }: FlightLogBoxProps) {
-  const { events, loading } = useTrackedFlight();
-
-  if (loading) {
-    return;
-  }
+  const { events } = useTrackedFlight();
 
   return (
     <Container className={className} padding="condensed">
