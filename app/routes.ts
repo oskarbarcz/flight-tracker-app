@@ -45,4 +45,9 @@ export default [
       route(":id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
     ]),
   ]),
+  layout("layout/MapLayout.tsx", [
+    ...prefix("live-tracking", [
+      route(":id", "routes/public/LiveTrackingRoute.tsx"),
+    ]),
+  ]),
 ] satisfies RouteConfig;

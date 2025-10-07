@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router";
 import { MobileSidebar } from "~/components/Sidebar/MobileSidebar";
 
-export default function OldAppLayout() {
+export default function AppLayout() {
   const [isCollapsed, toggleCollapse] = useSidebarState();
 
   return (
