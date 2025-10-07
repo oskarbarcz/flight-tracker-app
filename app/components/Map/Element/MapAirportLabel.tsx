@@ -12,7 +12,9 @@ type MapAirportLabelProps = {
 };
 
 const createAirportLabelIcon = (label: string) => {
-  const content = ReactDOMServer.renderToString(<MapAirportLabelContent label={label} />);
+  const content = ReactDOMServer.renderToString(
+    <MapAirportLabelContent label={label} />,
+  );
 
   return new L.DivIcon({
     html: content,

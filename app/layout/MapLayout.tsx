@@ -2,8 +2,8 @@
 
 import React from "react";
 import { ToastContainer } from "react-toastify";
-import {Outlet} from "react-router";
-import {AdsbProvider} from "~/state/contexts/adsb.context";
+import { Outlet } from "react-router";
+import { AdsbProvider } from "~/state/contexts/adsb.context";
 
 export default function MapLayout() {
   return (
