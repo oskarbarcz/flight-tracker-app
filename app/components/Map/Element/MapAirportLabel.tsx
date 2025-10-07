@@ -3,7 +3,6 @@
 import { Marker } from "react-leaflet";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
-
 import { Position } from "~/models/common/geo";
 import MapAirportLabelContent from "~/components/Map/Element/MapAirportLabelContent";
 
