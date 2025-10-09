@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
 import Container from "~/components/Layout/Container";
 import {
   FaCircleInfo,
@@ -18,6 +18,17 @@ import { FormattedLocalTime } from "~/components/Intrinsic/Date/FormattedLocalTi
 
 export default function TimeManagementBox() {
   const { flight } = useTrackedFlight();
+
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60_000); // update every minute
+    setCurrentTime(new Date());
+
+    return () => clearInterval(interval);
+  }, []);
 
   if (!flight) {
     return (
@@ -46,19 +57,20 @@ export default function TimeManagementBox() {
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Zulu time</span>
           <p className="font-bold">
-            <FormattedIcaoTime date={new Date()} />
+            <FormattedIcaoTime date={currentTime} />
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Date</span>
           <p className="font-bold">
-            <FormattedIcaoDate date={new Date()} />
+            <FormattedIcaoDate date={currentTime} />
           </p>
         </div>
+        <hr className="w-full mt-1 mb-3 border-gray-300 dark:border-gray-700" />
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Local time (now)</span>
           <p className="font-bold">
-            <FormattedLocalTime date={new Date()} />
+            <FormattedLocalTime date={currentTime} />
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
@@ -72,7 +84,7 @@ export default function TimeManagementBox() {
           </span>
           <p className="font-bold text-lg">
             <FormattedTimezoneTime
-              date={new Date()}
+              date={currentTime}
               timezone={departureAirport.timezone}
             />
           </p>
@@ -91,7 +103,7 @@ export default function TimeManagementBox() {
           </span>
           <p className="font-bold text-lg">
             <FormattedTimezoneTime
-              date={new Date()}
+              date={currentTime}
               timezone={arrivalAirport.timezone}
             />
           </p>
