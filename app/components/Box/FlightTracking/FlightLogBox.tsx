@@ -14,6 +14,7 @@ import {
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 import { translateFlightEventType } from "~/functions/translate";
 import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 
 type FlightLogBoxProps = ContainerClassProps;
 
@@ -31,6 +32,8 @@ export default function FlightLogBox({ className }: FlightLogBoxProps) {
               <TimelineContent>
                 <TimelineTime>
                   <FormattedIcaoDate date={event.createdAt} />
+                  {" • "}
+                  <FormattedIcaoTime date={event.createdAt} />
                 </TimelineTime>
                 <TimelineTitle>
                   {translateFlightEventType(event.type)}
