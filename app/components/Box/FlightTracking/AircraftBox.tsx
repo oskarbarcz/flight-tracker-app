@@ -28,7 +28,7 @@ export default function AircraftBox() {
         <span className="text-gray-500 text-sm">Owner</span>
         <p className="font-bold">{flight.aircraft.operator.shortName}</p>
       </div>
-      <div className="flex space-between flex-wrap text-lg">
+      <div className="flex flex-wrap text-lg">
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Model</span>
           <p className="font-bold">{flight.aircraft.fullName}</p>

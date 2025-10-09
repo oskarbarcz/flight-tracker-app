@@ -53,7 +53,7 @@ export default function TimeManagementBox() {
   return (
     <Container>
       <ContainerTitle>Time management</ContainerTitle>
-      <div className="flex space-between items-center flex-wrap text-lg">
+      <div className="flex items-center flex-wrap text-lg">
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Zulu time</span>
           <p className="font-bold">
