@@ -33,6 +33,8 @@ type FormattedIcaoDateProps = {
 
 export function FormattedIcaoDate({ date, className }: FormattedIcaoDateProps) {
   return (
-    <span className={twMerge(className, "font-mono")}>{dateToIcao(date)}</span>
+    <span className={twMerge(className, "font-mono text-gray-500")}>
+      {dateToIcao(date)}
+    </span>
   );
 }

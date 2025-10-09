@@ -7,7 +7,6 @@ import {
   Timeline,
   TimelineContent,
   TimelineItem,
-  TimelinePoint,
   TimelineTime,
   TimelineTitle,
 } from "flowbite-react";
@@ -27,7 +26,6 @@ export default function FlightLogBox({ className }: FlightLogBoxProps) {
         <Timeline>
           {events.map((event) => (
             <TimelineItem className="mb-4" key={event.id}>
-              <TimelinePoint />
               <TimelineContent>
                 <TimelineTime>
                   <FormattedIcaoDate date={event.createdAt} />
