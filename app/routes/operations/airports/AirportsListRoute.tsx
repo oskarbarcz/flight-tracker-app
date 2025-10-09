@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Airport, Continent } from "~/models";
+import { Airport, Continent, continentToDisplayName } from "~/models";
 import { useSearchParams } from "react-router";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
@@ -13,7 +13,6 @@ import ContinentFilterTabs from "~/components/Tabs/ContinentFilterTabs";
 import { useApi } from "~/state/contexts/api.context";
 import { LoadingData } from "~/components/Tables/LoadingStates/LoadingData";
 import { EmptyData } from "~/components/Tables/LoadingStates/EmptyData";
-import { capitalize } from "~/functions/text";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");
@@ -50,7 +49,7 @@ export default function AirportsListRoute() {
       {isLoading && <LoadingData />}
       {isEmptyResult && (
         <EmptyData
-          message={`No airports found in ${capitalize(currentContinent)} yet.`}
+          message={`No airports found in ${continentToDisplayName(currentContinent)} yet.`}
         />
       )}
 

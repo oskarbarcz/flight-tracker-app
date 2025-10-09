@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Container from "~/components/Layout/Container";
 import { Button } from "flowbite-react";
 import { MdError } from "react-icons/md";
 
@@ -16,25 +15,29 @@ export default function FormSubmit({
   button,
   onSubmit,
 }: FormSubmitProps) {
+  if (!message) {
+    return (
+      <div className="flex items-center justify-end py-3 px-6">
+        <Button className="cursor-pointer" onClick={onSubmit}>
+          {button}
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <Container padding="none">
-      {message ? (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center font-bold text-sm text-red-500">
-            <MdError className="inline mr-1" />
-            {message}
-          </div>
-          <Button className="cursor-pointer" type="submit">
-            {button}
-          </Button>
-        </div>
-      ) : (
-        <div className="flex items-center justify-end">
-          <Button className="cursor-pointer" onClick={onSubmit}>
-            {button}
-          </Button>
-        </div>
-      )}
-    </Container>
+    <div className="flex items-center justify-between py-3 px-6">
+      <div className="flex items-center font-bold text-sm text-red-500">
+        <MdError className="inline mr-1" />
+        {message}
+      </div>
+      <Button
+        disabled={Boolean(message)}
+        className="cursor-pointer"
+        type="submit"
+      >
+        {button}
+      </Button>
+    </div>
   );
 }
