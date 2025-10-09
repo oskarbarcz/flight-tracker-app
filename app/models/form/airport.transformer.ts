@@ -21,6 +21,8 @@ export function airportToFormData(
   input: GetAirportResponse,
 ): CreateAirportFormData {
   return {
+    isGeneralSubmitted: false,
+    isLocationSubmitted: false,
     general: {
       icaoCode: input.icaoCode,
       iataCode: input.iataCode,

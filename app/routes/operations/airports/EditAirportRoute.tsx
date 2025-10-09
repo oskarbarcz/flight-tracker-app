@@ -4,18 +4,16 @@ import React, { useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button, Label, TextInput } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
-import { redirect, useLoaderData, useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { AirportService } from "~/state/api/airport.service";
 import {
   airportToFormData,
   CreateAirportFormData,
-  EditAirportRequest,
   formDataToApiFormat,
   GetAirportResponse,
   skyLinkToFormData,
 } from "~/models";
 import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
-import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import Container from "~/components/Layout/Container";
@@ -23,27 +21,6 @@ import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneral
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
 import FormSubmit from "~/components/Form/FormSubmit";
 import { useApi } from "~/state/contexts/api.context";
-
-export async function clientAction({
-  request,
-  params,
-}: Route.ClientActionArgs): Promise<Response> {
-  const airportService = new AirportService();
-
-  const form = await request.formData();
-  const airport: EditAirportRequest = getFormData(form, [
-    "icaoCode",
-    "iataCode",
-    "city",
-    "name",
-    "country",
-    "timezone",
-  ]);
-
-  await airportService.update(params.id, airport);
-
-  return redirect("/airports");
-}
 
 export async function clientLoader({
   params,
@@ -61,7 +38,11 @@ export default function EditAirportRoute() {
   const [formData, setFormData] = useState<CreateAirportFormData>(
     airportToFormData(airport),
   );
-  const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
+
+  const [formMessage, setFormMessage] = useState<string | undefined>(
+    "Save all sections first.",
+  );
+  const [formError, setFormError] = useState<string | undefined>();
 
   async function handleCreateWithSkyLink() {
     const iataCode = iataCodeInput.trim().toUpperCase();
@@ -82,15 +63,31 @@ export default function EditAirportRoute() {
   const onGeneralSectionSubmit = (
     general: CreateAirportFormData["general"],
   ) => {
-    setFormData((prev) => ({ ...prev, general }));
-    setFormErrorMessage(null);
+    setFormData((prev) => ({
+      ...prev,
+      general,
+      isGeneralSubmitted: true,
+    }));
+    setFormError(undefined);
+
+    if (formData.isLocationSubmitted) {
+      setFormMessage(undefined);
+    }
   };
 
   const onLocationSectionSubmit = (
     location: CreateAirportFormData["location"],
   ) => {
-    setFormData((prev) => ({ ...prev, location }));
-    setFormErrorMessage(null);
+    setFormData((prev) => ({
+      ...prev,
+      location,
+      isLocationSubmitted: true,
+    }));
+    setFormError(undefined);
+
+    if (formData.isGeneralSubmitted) {
+      setFormMessage(undefined);
+    }
   };
 
   const handleSubmit = () => {
@@ -103,7 +100,7 @@ export default function EditAirportRoute() {
         });
       })
       .catch((err: { message: never }) => {
-        setFormErrorMessage(err.message);
+        setFormError(err.message);
       });
   };
 
@@ -154,7 +151,8 @@ export default function EditAirportRoute() {
           />
 
           <FormSubmit
-            message={formErrorMessage}
+            message={formMessage}
+            error={formError}
             onSubmit={handleSubmit}
             button="Save changes"
           />
