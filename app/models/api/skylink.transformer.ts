@@ -5,6 +5,8 @@ export function skyLinkToFormData(
   input: SkyLinkAirportResponse,
 ): CreateAirportFormData {
   return {
+    isLocationSubmitted: false,
+    isGeneralSubmitted: false,
     general: {
       icaoCode: input.icao,
       iataCode: input.iata,
