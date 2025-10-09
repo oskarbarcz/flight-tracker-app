@@ -60,7 +60,7 @@ export default function CreateAirportRoute() {
     setFormData((prev) => ({
       ...prev,
       general,
-      isGeneralSubmitted: true
+      isGeneralSubmitted: true,
     }));
     setFormError(undefined);
 
@@ -73,7 +73,7 @@ export default function CreateAirportRoute() {
     setFormData((prev) => ({
       ...prev,
       location,
-      isLocationSubmitted: true
+      isLocationSubmitted: true,
     }));
     setFormError(undefined);
 
