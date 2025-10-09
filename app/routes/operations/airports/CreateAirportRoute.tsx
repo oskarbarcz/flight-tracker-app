@@ -77,8 +77,6 @@ export default function CreateAirportRoute() {
     }));
     setFormError(undefined);
 
-    console.log(formData);
-
     if (formData.isGeneralSubmitted) {
       setFormMessage(undefined);
     }
