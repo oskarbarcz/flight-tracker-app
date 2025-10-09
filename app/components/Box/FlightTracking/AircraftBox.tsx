@@ -31,7 +31,7 @@ export default function AircraftBox() {
       <div className="flex space-between flex-wrap text-lg">
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Model</span>
-          <p className="font-bold">{flight.aircraft.shortName}</p>
+          <p className="font-bold">{flight.aircraft.fullName}</p>
         </div>
         <div className="w-1/2 shrink-0">
           <span className="text-gray-500 text-sm">Type</span>

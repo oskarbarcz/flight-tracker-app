@@ -6,7 +6,8 @@ import ContainerTitle from "~/components/Layout/ContainerTitle";
 import {
   Timeline,
   TimelineContent,
-  TimelineItem, TimelinePoint,
+  TimelineItem,
+  TimelinePoint,
   TimelineTime,
   TimelineTitle,
 } from "flowbite-react";
