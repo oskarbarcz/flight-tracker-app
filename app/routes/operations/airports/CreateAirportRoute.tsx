@@ -30,7 +30,11 @@ export default function CreateAirportRoute() {
   const [formData, setFormData] = useState<CreateAirportFormData>(
     initCreateAirportData(),
   );
-  const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
+
+  const [formMessage, setFormMessage] = useState<string | undefined>(
+    "Save all sections first.",
+  );
+  const [formError, setFormError] = useState<string | undefined>();
 
   usePageTitle("Create new airport");
 
@@ -46,18 +50,38 @@ export default function CreateAirportRoute() {
       setFormData((form) => ({
         ...form,
         ...skyLinkToFormData(response),
+        isLocationSubmitted: true,
+        isGeneralSubmitted: true,
       }));
     });
   }
 
   function onGeneralSectionSubmit(general: AirportGeneralFormData) {
-    setFormData((prev) => ({ ...prev, general }));
-    setFormErrorMessage(null);
+    setFormData((prev) => ({
+      ...prev,
+      general,
+      isGeneralSubmitted: true
+    }));
+    setFormError(undefined);
+
+    if (formData.isLocationSubmitted) {
+      setFormMessage(undefined);
+    }
   }
 
   const onLocationSectionSubmit = (location: AirportLocationData) => {
-    setFormData((prev) => ({ ...prev, location }));
-    setFormErrorMessage(null);
+    setFormData((prev) => ({
+      ...prev,
+      location,
+      isLocationSubmitted: true
+    }));
+    setFormError(undefined);
+
+    console.log(formData);
+
+    if (formData.isGeneralSubmitted) {
+      setFormMessage(undefined);
+    }
   };
 
   const handleSubmit = () => {
@@ -70,7 +94,8 @@ export default function CreateAirportRoute() {
         });
       })
       .catch((err: { message: never }) => {
-        setFormErrorMessage(err.message);
+        setFormError(err.message);
+        setFormMessage(undefined);
       });
   };
 
@@ -122,7 +147,8 @@ export default function CreateAirportRoute() {
           />
 
           <FormSubmit
-            message={formErrorMessage}
+            message={formMessage}
+            error={formError}
             onSubmit={handleSubmit}
             button="Create airport"
           />

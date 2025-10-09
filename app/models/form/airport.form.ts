@@ -1,6 +1,8 @@
 import { Continent } from "~/models";
 
 export type CreateAirportFormData = {
+  isGeneralSubmitted: boolean;
+  isLocationSubmitted: boolean;
   general: {
     icaoCode: string;
     iataCode: string;
@@ -18,6 +20,8 @@ export type CreateAirportFormData = {
 
 export function initCreateAirportData(): CreateAirportFormData {
   return {
+    isGeneralSubmitted: false,
+    isLocationSubmitted: false,
     general: {
       icaoCode: "",
       iataCode: "",
