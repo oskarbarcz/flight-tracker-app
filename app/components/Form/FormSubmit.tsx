@@ -43,7 +43,7 @@ export default function FormSubmit({
         </div>
       )}
 
-      <Button disabled className="cursor-pointer" type="submit">
+      <Button disabled className="cursor-not-allowed" type="submit">
         {button}
       </Button>
     </div>
