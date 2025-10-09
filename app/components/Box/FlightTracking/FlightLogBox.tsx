@@ -12,8 +12,8 @@ import {
   TimelineTitle,
 } from "flowbite-react";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
-import { dateToIcao } from "~/functions/time";
 import { translateFlightEventType } from "~/functions/translate";
+import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
 
 type FlightLogBoxProps = ContainerClassProps;
 
@@ -30,9 +30,7 @@ export default function FlightLogBox({ className }: FlightLogBoxProps) {
               <TimelinePoint />
               <TimelineContent>
                 <TimelineTime>
-                  <span className="font-mono">
-                    {dateToIcao(event.createdAt)}
-                  </span>
+                  <FormattedIcaoDate date={event.createdAt} />
                 </TimelineTime>
                 <TimelineTitle>
                   {translateFlightEventType(event.type)}
