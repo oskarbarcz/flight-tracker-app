@@ -1,10 +1,10 @@
+import { Continent } from "~/models";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import {
-  Continent,
   CreateAirportRequest,
   EditAirportRequest,
   GetAirportResponse,
-} from "~/models";
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+} from "~/state/api/model/airport.dto";
 
 export class AirportService extends AbstractAuthorizedApiService {
   async getAll(): Promise<GetAirportResponse[]> {

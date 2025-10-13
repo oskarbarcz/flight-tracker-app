@@ -4,12 +4,7 @@ import { MapContainer } from "react-leaflet";
 import FlightPath from "~/components/Map/Element/FlightPath";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
 import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  Flight,
-  FlightPathElement,
-} from "~/models";
+import { Flight, FlightPathElement } from "~/models";
 import { useEffect, useState } from "react";
 import L from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
@@ -46,12 +41,8 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
     return <MapBoxNoSignal />;
   }
 
-  const departure = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-  const destination = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
+  const departure = flight.departureAirport;
+  const destination = flight.destinationAirport;
   const planBounds = L.latLngBounds([
     [departure.location.latitude, departure.location.longitude],
     [destination.location.latitude, destination.location.longitude],

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  FilledSchedule,
-  FlightStatus,
-} from "~/models";
+import { FilledSchedule, FlightStatus } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
@@ -30,13 +25,6 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
   if (!flight) {
     return <div>Loading...</div>;
   }
-
-  const departure = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-  const destination = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
 
   const timesheet = flight.timesheet;
 
@@ -91,8 +79,10 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
       <div className="flex items-center justify-between mt-4">
         <div className="text-start font-bold">
-          <span className="block text-4xl">{departure.iataCode}</span>
-          <span className="block">{departure.city}</span>
+          <span className="block text-4xl">
+            {flight.departureAirport.iataCode}
+          </span>
+          <span className="block">{flight.departureAirport.city}</span>
         </div>
         <div>
           <FaPlane className="mx-auto mb-2 block" />
@@ -106,8 +96,10 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
           </span>
         </div>
         <div className="text-end font-bold">
-          <span className="block text-4xl">{destination.iataCode}</span>
-          <span className="block">{destination.city}</span>
+          <span className="block text-4xl">
+            {flight.destinationAirport.iataCode}
+          </span>
+          <span className="block">{flight.destinationAirport.city}</span>
         </div>
       </div>
 

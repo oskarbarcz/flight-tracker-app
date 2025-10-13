@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { Loadsheet, describeNextActionStatus } from "~/models";
+import { Loadsheet, translateNextActionStatus } from "~/models";
 import UpdateFinalLoadsheetModal from "~/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 import { FlightProgressButtonProps } from "~/components/Box/FlightTracking/FlightProgressControl/ChangeFlightProgressButton";
@@ -33,7 +33,7 @@ export default function FinishBoardingButton({
         onClick={() => setShowModal(true)}
         disabled={disabled}
       >
-        {describeNextActionStatus(flight.status)}
+        {translateNextActionStatus(flight.status)}
       </Button>
       {showModal && (
         <UpdateFinalLoadsheetModal

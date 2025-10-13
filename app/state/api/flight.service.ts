@@ -1,5 +1,4 @@
 import {
-  CreateFlightDto,
   Flight,
   FlightEvent,
   FlightPathElement,
@@ -11,10 +10,17 @@ import {
   AbstractApiService,
   AbstractAuthorizedApiService,
 } from "~/state/api/api.service";
+import {
+  ApiFlightResponse,
+  CreateFlightRequest,
+} from "~/state/api/model/flight.dto";
 
 export class FlightService extends AbstractAuthorizedApiService {
   async fetchAllFlights(): Promise<Flight[]> {
-    return this.requestWithAuth<Flight[]>("/api/v1/flight");
+    const response =
+      await this.requestWithAuth<ApiFlightResponse[]>("/api/v1/flight");
+
+    return response.map((flight) => new Flight(flight));
   }
 
   async fetchAllCreatedFlights(): Promise<Flight[]> {
@@ -24,15 +30,24 @@ export class FlightService extends AbstractAuthorizedApiService {
     );
   }
 
-  async createNew(flight: CreateFlightDto): Promise<Flight> {
-    return this.requestWithAuth<Flight>("/api/v1/flight", {
-      body: JSON.stringify(flight),
-      method: "POST",
-    });
+  async createNew(flight: CreateFlightRequest): Promise<Flight> {
+    const response = await this.requestWithAuth<ApiFlightResponse>(
+      "/api/v1/flight",
+      {
+        body: JSON.stringify(flight),
+        method: "POST",
+      },
+    );
+
+    return new Flight(response);
   }
 
   async getById(id: string): Promise<Flight> {
-    return this.requestWithAuth<Flight>(`/api/v1/flight/${id}`);
+    const response = await this.requestWithAuth<ApiFlightResponse>(
+      `/api/v1/flight/${id}`,
+    );
+
+    return new Flight(response);
   }
 
   async getEventsByFlightId(id: string): Promise<FlightEvent[]> {
@@ -165,7 +180,11 @@ export class FlightService extends AbstractAuthorizedApiService {
 
 export class UnauthorizedFlightService extends AbstractApiService {
   async getById(id: string): Promise<Flight> {
-    return this.request<Flight>(`/api/v1/flight/${id}`);
+    const response = await this.request<ApiFlightResponse>(
+      `/api/v1/flight/${id}`,
+    );
+
+    return new Flight(response);
   }
 
   async getFlightPath(id: string): Promise<FlightPathElement[]> {

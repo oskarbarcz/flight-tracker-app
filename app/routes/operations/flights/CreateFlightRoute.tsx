@@ -9,13 +9,14 @@ import { Route } from "../../../../.react-router/types/app/routes/operations/fli
 import { AirportService } from "~/state/api/airport.service";
 import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
-import { Aircraft, Airport, CreateFlightDto, Operator } from "~/models";
+import { Aircraft, Airport, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
 import { OperatorService } from "~/state/api/operator.service";
 import { AircraftService } from "~/state/api/aircraft.service";
 import SelectBlock from "~/components/Intrinsic/Form/SelectBlock";
 import { FlightService } from "~/state/api/flight.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { CreateFlightRequest } from "~/state/api/model/flight.dto";
 
 export async function clientAction({
   request,
@@ -35,7 +36,7 @@ export async function clientAction({
     "onBlockTime",
   ]);
 
-  const flight: CreateFlightDto = {
+  const flight: CreateFlightRequest = {
     departureAirportId: rawFormData.departureAirportId,
     destinationAirportId: rawFormData.destinationAirportId,
     aircraftId: rawFormData.aircraftId,

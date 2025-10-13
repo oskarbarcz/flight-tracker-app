@@ -3,12 +3,7 @@
 import { MapContainer } from "react-leaflet";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
 import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  Flight,
-  FlightPathElement,
-} from "~/models";
+import { Flight, FlightPathElement } from "~/models";
 import { useEffect, useState } from "react";
 import L, { LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
@@ -41,13 +36,6 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
   const startPosition = pathPoints[0];
   const lastPosition = pathPoints[pathPoints.length - 1];
 
-  const departure = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-  const destination = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
-
   return (
     <MapContainer
       bounds={bounds}
@@ -59,13 +47,22 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
     >
       <MapTileLayer />
 
-      <GreatCirclePath start={departure} end={destination} />
+      <GreatCirclePath
+        start={flight.departureAirport}
+        end={flight.destinationAirport}
+      />
       <FlightPath path={pathPoints} />
 
       <MapAircraftMarker path={pathPoints} />
 
-      <MapAirportLabel position={startPosition} label={departure.iataCode} />
-      <MapAirportLabel position={lastPosition} label={destination.iataCode} />
+      <MapAirportLabel
+        position={startPosition}
+        label={flight.departureAirport.iataCode}
+      />
+      <MapAirportLabel
+        position={lastPosition}
+        label={flight.destinationAirport.iataCode}
+      />
 
       <MapEventsHandler bounds={bounds} />
     </MapContainer>

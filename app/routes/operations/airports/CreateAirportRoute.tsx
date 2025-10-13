@@ -16,12 +16,9 @@ import AirportGeneralFormSection, {
 } from "~/components/Forms/Airport/AirportGeneralFormSection";
 import { useNavigate } from "react-router";
 import { useApi } from "~/state/contexts/api.context";
-import {
-  CreateAirportFormData,
-  formDataToApiFormat,
-  initCreateAirportData,
-  skyLinkToFormData,
-} from "~/models";
+import { CreateAirportFormData, initCreateAirportData } from "~/models";
+import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
+import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
 
 export default function CreateAirportRoute() {
   const { skyLinkService, airportService } = useApi();

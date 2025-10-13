@@ -5,12 +5,7 @@ import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useEffect, useState } from "react";
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  Flight,
-  FlightPathElement,
-} from "~/models";
+import { Flight, FlightPathElement } from "~/models";
 import { Position } from "~/models/common/geo";
 import L, { LatLngTuple } from "leaflet";
 import { UnauthorizedFlightService } from "~/state/api/flight.service";
@@ -49,13 +44,6 @@ export default function LiveTrackingRoute() {
   const startPosition = pathPoints[0];
   const lastPosition = pathPoints[pathPoints.length - 1];
 
-  const departure = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-  const destination = flight.airports.find(
-    (a) => a.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
-
   return (
     <div className="h-screen w-screen">
       <MapContainer
@@ -69,13 +57,22 @@ export default function LiveTrackingRoute() {
         <MapTileLayer />
         <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
 
-        <GreatCirclePath start={departure} end={destination} />
+        <GreatCirclePath
+          start={flight.departureAirport}
+          end={flight.destinationAirport}
+        />
         <FlightPath path={pathPoints} />
 
         <MapAircraftMarker path={pathPoints} />
 
-        <MapAirportLabel position={startPosition} label={departure.iataCode} />
-        <MapAirportLabel position={lastPosition} label={destination.iataCode} />
+        <MapAirportLabel
+          position={startPosition}
+          label={flight.departureAirport.iataCode}
+        />
+        <MapAirportLabel
+          position={lastPosition}
+          label={flight.destinationAirport.iataCode}
+        />
 
         <MapEventsHandler bounds={bounds} />
       </MapContainer>
