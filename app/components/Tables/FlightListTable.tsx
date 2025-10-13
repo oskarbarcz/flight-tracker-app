@@ -137,11 +137,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center">
-                        {
-                          flight.airports.find(
-                            (airport) => airport.type === "departure",
-                          )?.icaoCode
-                        }
+                        {flight.departureAirport.icaoCode}
                         <svg
                           className="size-4 text-gray-800 dark:text-white"
                           aria-hidden="true"
@@ -159,11 +155,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             d="M19 12H5m14 0-4 4m4-4-4-4"
                           />
                         </svg>
-                        {
-                          flight.airports.find(
-                            (airport) => airport.type === "destination",
-                          )?.icaoCode
-                        }
+                        {flight.destinationAirport.icaoCode}
                       </div>
                     </TableCell>
                     <TableCell>

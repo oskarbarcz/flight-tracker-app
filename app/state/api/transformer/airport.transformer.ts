@@ -1,5 +1,9 @@
 import { CreateAirportFormData } from "~/models/form/airport.form";
-import { Continent, CreateAirportRequest, GetAirportResponse } from "~/models";
+import { Continent } from "~/models";
+import {
+  CreateAirportRequest,
+  GetAirportResponse,
+} from "~/state/api/model/airport.dto";
 
 export function formDataToApiFormat(
   input: CreateAirportFormData,

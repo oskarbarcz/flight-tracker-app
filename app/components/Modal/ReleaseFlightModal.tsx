@@ -1,6 +1,6 @@
 "use client";
 
-import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
+import { Flight } from "~/models";
 import {
   Button,
   Modal,
@@ -22,13 +22,6 @@ export default function ReleaseFlightModal({
   release,
   cancel,
 }: ReleaseFlightModalProps) {
-  const departure = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-  const destination = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
-
   return (
     <Modal show onClose={cancel}>
       <ModalHeader>Release flight</ModalHeader>
@@ -38,11 +31,13 @@ export default function ReleaseFlightModal({
           <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
           <span className="font-bold">
-            {departure.city} ({departure.iataCode}){" "}
+            {flight.departureAirport.city} ({flight.departureAirport.iataCode}
+            ){" "}
           </span>
           to{" "}
           <span className="font-bold">
-            {destination.city} ({destination.iataCode})
+            {flight.destinationAirport.city} (
+            {flight.destinationAirport.iataCode})
           </span>
           , departing at{" "}
           <span className="font-bold">

@@ -1,12 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect } from "react";
-import {
-  AirportOnFlight,
-  AirportOnFlightType,
-  CheckedInFlightTimesheet,
-  Flight,
-} from "~/models";
+import { CheckedInFlightTimesheet, Flight } from "~/models";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router";
@@ -48,14 +43,6 @@ export default function SidebarCurrentFlight({
 
   setInterval(() => handleTimeUpdate(flight), 1000 * 60);
 
-  const departureAirport = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-
-  const destinationAirport = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
-
   if (isCollapsed) {
     return (
       <Link
@@ -65,11 +52,11 @@ export default function SidebarCurrentFlight({
         className="block w-full rounded-xl text-xs border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 py-4 text-start"
       >
         <span className="block text-center font-bold">
-          {departureAirport.iataCode}
+          {flight.departureAirport.iataCode}
         </span>
         <FaArrowDown className="mx-auto my-1 block" />
         <span className="block text-center font-bold">
-          {destinationAirport.iataCode}
+          {flight.destinationAirport.iataCode}
         </span>
       </Link>
     );
@@ -85,7 +72,7 @@ export default function SidebarCurrentFlight({
       <span className="block text-xs">
         <span className="font-bold">{flight.flightNumber}</span>
         {" to "}
-        <span className="font-bold">{destinationAirport.city}</span>
+        <span className="font-bold">{flight.destinationAirport.city}</span>
       </span>
 
       <span className="block text-xs">est. arrival in {timeRemaining}</span>

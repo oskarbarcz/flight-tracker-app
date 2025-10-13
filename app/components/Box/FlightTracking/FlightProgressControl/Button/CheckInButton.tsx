@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { describeNextActionStatus, FilledSchedule } from "~/models";
+import { translateNextActionStatus, FilledSchedule } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
 import CheckInFlightModal from "~/components/Modal/CheckInFlightModal";
 import { FlightProgressButtonProps } from "~/components/Box/FlightTracking/FlightProgressControl/ChangeFlightProgressButton";
@@ -24,7 +24,7 @@ export default function CheckInButton({ disabled }: FlightProgressButtonProps) {
   return (
     <>
       <Button size="xs" onClick={() => setShowModal(true)} disabled={disabled}>
-        {describeNextActionStatus(flight.status)}
+        {translateNextActionStatus(flight.status)}
       </Button>
       {showModal && (
         <CheckInFlightModal

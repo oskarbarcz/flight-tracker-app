@@ -10,7 +10,6 @@ import {
 } from "react-icons/fa6";
 import ContainerTitle from "~/components/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
-import { AirportOnFlight, AirportOnFlightType } from "~/models";
 import { FormattedTimezoneTime } from "~/components/Intrinsic/Date/FormattedTimezoneTime";
 import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
@@ -42,14 +41,6 @@ export default function TimeManagementBox() {
     );
   }
 
-  const departureAirport = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-
-  const arrivalAirport = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
-
   return (
     <Container>
       <ContainerTitle>Time management</ContainerTitle>
@@ -80,12 +71,12 @@ export default function TimeManagementBox() {
         </div>
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">
-            Departure ({departureAirport.iataCode})
+            Departure ({flight.departureAirport.iataCode})
           </span>
           <p className="font-bold text-lg">
             <FormattedTimezoneTime
               date={currentTime}
-              timezone={departureAirport.timezone}
+              timezone={flight.departureAirport.timezone}
             />
           </p>
         </div>
@@ -99,12 +90,12 @@ export default function TimeManagementBox() {
         </div>
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">
-            Arrival ({arrivalAirport.iataCode})
+            Arrival ({flight.destinationAirport.iataCode})
           </span>
           <p className="font-bold text-lg">
             <FormattedTimezoneTime
               date={currentTime}
-              timezone={arrivalAirport.timezone}
+              timezone={flight.destinationAirport.timezone}
             />
           </p>
         </div>

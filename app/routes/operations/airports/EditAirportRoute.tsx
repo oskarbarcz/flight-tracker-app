@@ -6,13 +6,7 @@ import { Button, Label, TextInput } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
 import { useLoaderData, useNavigate } from "react-router";
 import { AirportService } from "~/state/api/airport.service";
-import {
-  airportToFormData,
-  CreateAirportFormData,
-  formDataToApiFormat,
-  GetAirportResponse,
-  skyLinkToFormData,
-} from "~/models";
+import { CreateAirportFormData } from "~/models";
 import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
@@ -21,6 +15,12 @@ import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneral
 import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
 import FormSubmit from "~/components/Form/FormSubmit";
 import { useApi } from "~/state/contexts/api.context";
+import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
+import {
+  airportToFormData,
+  formDataToApiFormat,
+} from "~/state/api/transformer/airport.transformer";
+import { GetAirportResponse } from "~/state/api/model/airport.dto";
 
 export async function clientLoader({
   params,

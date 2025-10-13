@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
-import { describeNextActionStatus } from "~/models";
+import { translateNextActionStatus } from "~/models";
 import { FlightProgressButtonProps } from "~/components/Box/FlightTracking/FlightProgressControl/ChangeFlightProgressButton";
 
 export default function StartBoardingButton({
@@ -19,7 +19,7 @@ export default function StartBoardingButton({
 
   return (
     <Button size="xs" onClick={onClick} disabled={disabled}>
-      {describeNextActionStatus(flight.status)}
+      {translateNextActionStatus(flight.status)}
     </Button>
   );
 }

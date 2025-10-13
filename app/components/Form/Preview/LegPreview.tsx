@@ -1,6 +1,6 @@
 "use client";
 
-import { AirportOnFlight, AirportOnFlightType, Flight } from "~/models";
+import { Flight } from "~/models";
 import { FaArrowRight } from "react-icons/fa";
 import { formatDate, getHourFromDate } from "~/functions/time";
 import React from "react";
@@ -12,13 +12,6 @@ type LegPreviewProps = {
 };
 
 export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
-  const departure = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Departure,
-  ) as AirportOnFlight;
-  const destination = flight.airports.find(
-    (airport) => airport.type === AirportOnFlightType.Destination,
-  ) as AirportOnFlight;
-
   return (
     <div className="mb-2 rounded-xl border border-gray-300 bg-gray-50 p-3 dark:border-gray-600 dark:bg-gray-700">
       <div className="flex items-center justify-between">
@@ -28,16 +21,16 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
             <Tooltip
               content={
                 <span>
-                  {departure.name}{" "}
+                  {flight.departureAirport.name}{" "}
                   <FaArrowRight className="inline-block text-gray-500" />{" "}
-                  {destination.name}
+                  {flight.destinationAirport.name}
                 </span>
               }
             >
               <span className="inline-block text-sm text-gray-500 dark:text-gray-300">
-                {departure.iataCode}
+                {flight.departureAirport.iataCode}
                 <FaArrowRight className="mx-1 inline-block" />
-                {destination.iataCode}
+                {flight.destinationAirport.iataCode}
               </span>
             </Tooltip>
           </div>
