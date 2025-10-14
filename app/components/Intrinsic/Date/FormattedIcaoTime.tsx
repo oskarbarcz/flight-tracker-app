@@ -1,4 +1,3 @@
-import { twMerge } from "tailwind-merge";
 import React from "react";
 
 export function dateToIcaoTime(date: Date): string {
@@ -10,12 +9,11 @@ export function dateToIcaoTime(date: Date): string {
 
 type FormattedIcaoTimeProps = {
   date: Date;
-  className?: string;
 };
 
-export function FormattedIcaoTime({ date, className }: FormattedIcaoTimeProps) {
+export function FormattedIcaoTime({ date }: FormattedIcaoTimeProps) {
   return (
-    <span className={twMerge(className, "font-mono")}>
+    <span className="font-mono">
       {dateToIcaoTime(date)}
       <span className="text-xs">z</span>
     </span>

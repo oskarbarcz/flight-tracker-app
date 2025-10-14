@@ -1,5 +1,3 @@
-import { twMerge } from "tailwind-merge";
-
 export function dateToIcaoDate(date: Date): string {
   const day = String(date.getUTCDate()).padStart(2, "0");
   const months = [
@@ -26,13 +24,8 @@ export function dateToIcaoDate(date: Date): string {
 
 type FormattedIcaoDateProps = {
   date: Date;
-  className?: string;
 };
 
-export function FormattedIcaoDate({ date, className }: FormattedIcaoDateProps) {
-  return (
-    <span className={twMerge(className, "font-mono")}>
-      {dateToIcaoDate(date)}
-    </span>
-  );
+export function FormattedIcaoDate({ date }: FormattedIcaoDateProps) {
+  return <span className="font-mono">{dateToIcaoDate(date)}</span>;
 }

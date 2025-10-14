@@ -1,23 +1,20 @@
-import { twMerge } from "tailwind-merge";
+import React from "react";
 
 export function dateToLocalTime(date: Date): string {
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
-  return `${hours}:${minutes}LT`;
+  return `${hours}:${minutes}`;
 }
 
 type FormattedLocalTimeProps = {
   date: Date;
-  className?: string;
 };
 
-export function FormattedLocalTime({
-  date,
-  className,
-}: FormattedLocalTimeProps) {
+export function FormattedLocalTime({ date }: FormattedLocalTimeProps) {
   return (
-    <span className={twMerge(className, "font-mono")}>
+    <span className="font-mono">
       {dateToLocalTime(date)}
+      <span className="text-xs">LT</span>
     </span>
   );
 }
