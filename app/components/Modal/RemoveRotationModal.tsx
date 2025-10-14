@@ -35,7 +35,12 @@ export default function RemoveRotationModal({
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="light" onClick={cancel} className="cursor-pointer">
+          <Button
+            color="gray"
+            outline
+            onClick={cancel}
+            className="cursor-pointer"
+          >
             Back
           </Button>
           <Button

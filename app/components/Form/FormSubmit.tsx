@@ -20,7 +20,7 @@ export default function FormSubmit({
   if (!error && !message) {
     return (
       <div className="flex items-center justify-end py-3 px-6">
-        <Button className="cursor-pointer" onClick={onSubmit}>
+        <Button className="cursor-pointer" color="indigo" onClick={onSubmit}>
           {button}
         </Button>
       </div>
@@ -43,7 +43,12 @@ export default function FormSubmit({
         </div>
       )}
 
-      <Button disabled className="cursor-not-allowed" type="submit">
+      <Button
+        disabled
+        color="indigo"
+        className="cursor-not-allowed"
+        type="submit"
+      >
         {button}
       </Button>
     </div>

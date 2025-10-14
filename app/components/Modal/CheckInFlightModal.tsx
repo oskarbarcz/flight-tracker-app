@@ -91,9 +91,9 @@ export default function CheckInFlightModal({
             outline
             onClick={() => checkIn(estimation)}
           >
-            Check in for flight{" "}
+            Check in for flight
             <span className="font-mono font-bold ms-2">
-              {flight.flightNumber}
+              {flight.flightNumberWithoutSpaces}
             </span>
           </Button>
         </div>

@@ -20,7 +20,7 @@ const precedenceToLabel = (precedence: FlightPrecedenceStatus): string => {
 export default function FlightStatusSelector() {
   return (
     <>
-      <Tabs variant="underline">
+      <Tabs variant="underline" color="indigo">
         {Object.values(FlightPrecedenceStatus).map((precedence, i) => (
           <TabItem title={precedenceToLabel(precedence)} key={i}>
             <Container padding="none">

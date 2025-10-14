@@ -75,9 +75,9 @@ export default function PickFlightModal({
         </div>
       </ModalBody>
       <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button onClick={close}>Back to rotation</Button>
-        </div>
+        <Button outline color="gray" onClick={close}>
+          Back to rotation
+        </Button>
       </ModalFooter>
     </Modal>
   );

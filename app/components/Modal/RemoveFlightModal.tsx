@@ -51,7 +51,7 @@ export default function RemoveFlightModal({
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={cancel}>
+          <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
           <Button onClick={() => remove(flight.id)} color="red">

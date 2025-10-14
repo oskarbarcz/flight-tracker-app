@@ -43,11 +43,18 @@ export default function UpdateScheduledTimesheetModal({
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={cancel}>
+          <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button onClick={() => update(flight.id, newSchedule)}>
-            Update schedule for flight {flight.flightNumber}
+          <Button
+            color="indigo"
+            outline
+            onClick={() => update(flight.id, newSchedule)}
+          >
+            Update schedule for flight
+            <span className="font-mono font-bold ms-1">
+              {flight.flightNumberWithoutSpaces}
+            </span>
           </Button>
         </div>
       </ModalFooter>

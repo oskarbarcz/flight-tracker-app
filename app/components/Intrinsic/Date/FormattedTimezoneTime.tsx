@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import React from "react";
 
 export function dateToTimezoneTime(date: Date, timezone: string): string {
   const formatter = new Intl.DateTimeFormat("en-GB", {
@@ -8,24 +8,22 @@ export function dateToTimezoneTime(date: Date, timezone: string): string {
     timeZone: timezone,
   });
 
-  const formatted = formatter.format(date);
-  return `${formatted}LT`;
+  return formatter.format(date);
 }
 
 type FormattedTimezoneTimeProps = {
   date: Date;
   timezone: string;
-  className?: string;
 };
 
 export function FormattedTimezoneTime({
   date,
   timezone,
-  className,
 }: FormattedTimezoneTimeProps) {
   return (
-    <span className={twMerge(className, "font-mono")}>
+    <span className="font-mono">
       {dateToTimezoneTime(date, timezone)}
+      <span className="text-xs">LT</span>
     </span>
   );
 }
