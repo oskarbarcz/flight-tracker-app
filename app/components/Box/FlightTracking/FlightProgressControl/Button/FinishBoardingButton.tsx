@@ -29,6 +29,7 @@ export default function FinishBoardingButton({
     <>
       <Button
         color="indigo"
+        outline
         onClick={() => setShowModal(true)}
         disabled={disabled}
       >

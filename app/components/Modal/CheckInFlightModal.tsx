@@ -82,11 +82,19 @@ export default function CheckInFlightModal({
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={close}>
+          <Button color="gray" outline onClick={close}>
             Back to preview
           </Button>
-          <Button type="submit" onClick={() => checkIn(estimation)}>
-            Check in for flight {flight.flightNumber}
+          <Button
+            type="submit"
+            color="indigo"
+            outline
+            onClick={() => checkIn(estimation)}
+          >
+            Check in for flight{" "}
+            <span className="font-mono font-bold ms-2">
+              {flight.flightNumber}
+            </span>
           </Button>
         </div>
       </ModalFooter>

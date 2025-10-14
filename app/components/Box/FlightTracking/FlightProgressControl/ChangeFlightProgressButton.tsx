@@ -81,7 +81,7 @@ export default function ChangeFlightProgressButton() {
 
   return (
     <div className="mt-4 flex w-full justify-end gap-3">
-      <Button color="indigo" onClick={onClick}>
+      <Button color="indigo" outline onClick={onClick}>
         {disabled && <FaUnlock />}
         {!disabled && <FaLock />}
       </Button>

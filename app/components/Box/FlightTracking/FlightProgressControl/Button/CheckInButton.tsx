@@ -25,6 +25,7 @@ export default function CheckInButton({ disabled }: FlightProgressButtonProps) {
     <>
       <Button
         color="indigo"
+        outline
         onClick={() => setShowModal(true)}
         disabled={disabled}
       >

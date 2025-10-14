@@ -19,7 +19,7 @@ export default function StartOffboardingButton({
   };
 
   return (
-    <Button color="indigo" onClick={onClick} disabled={disabled}>
+    <Button color="indigo" outline onClick={onClick} disabled={disabled}>
       {translateNextActionStatus(flight.status)}
     </Button>
   );

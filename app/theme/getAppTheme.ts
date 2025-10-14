@@ -32,9 +32,10 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
     },
     button: {
       base: "cursor-pointer",
-      color: {
+      outlineColor: {
         indigo:
-          "bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-800 dark:hover:bg-indigo-500 dark:hover:text-indigo-50 focus:ring-indigo-200 dark:focus:ring-indigo-500",
+          "bg-indigo-100 border-indigo-100 dark:border-indigo-700 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-600 hover:border-indigo-200 dark:hover:border-indigo-500 dark:hover:bg-indigo-500 dark:hover:text-indigo-50 focus:ring-indigo-300 dark:focus:ring-indigo-700",
+        gray: "bg-gray-200 text-gray-800 border-gray-200 hover:text-gray-800 hover:bg-gray-300 hover:border-gray-300 focus:ring-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-600 dark:hover:border-gray-600 dark:focus:ring-gray-500",
       },
     },
   });
