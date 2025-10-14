@@ -63,7 +63,7 @@ export default function RotationFlightsInputBlock({
           <button
             type="button"
             onClick={() => setShowFlightPicker(true)}
-            className="mx-auto my-4 block font-bold text-blue-500 hover:text-blue-600"
+            className="mx-auto my-4 block font-bold text-indigo-500 hover:text-indigo-600"
           >
             Add next leg
           </button>
@@ -76,7 +76,7 @@ export default function RotationFlightsInputBlock({
           <button
             type="button"
             onClick={() => setShowFlightPicker(true)}
-            className="mx-auto mb-4 mt-1 block font-bold text-blue-500 hover:text-blue-600 dark:text-blue-600 dark:hover:text-blue-400"
+            className="mx-auto mb-4 mt-1 block font-bold text-indigo-500 hover:text-indigo-600 dark:text-indigo-600 dark:hover:text-indigo-400"
           >
             Add first leg
           </button>

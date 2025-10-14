@@ -20,7 +20,7 @@ export default function SectionHeaderWithLink({
         {sectionTitle}
       </h2>
       <Link to={linkUrl} replace viewTransition>
-        <Button size="sm" className="cursor-pointer">
+        <Button size="sm" color="indigo" className="cursor-pointer">
           {linkText}
         </Button>
       </Link>

@@ -107,7 +107,9 @@ export default function EditRotationRoute() {
             updateLegs={updateLegs}
           />
 
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" color="indigo">
+            Save changes
+          </Button>
         </Form>
       </div>
     </ProtectedRoute>

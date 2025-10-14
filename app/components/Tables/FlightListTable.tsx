@@ -18,16 +18,18 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { FaTrash } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import React, { useEffect } from "react";
-import { formatDate, formattedToISO, getHourFromDate } from "~/functions/time";
+import { formattedToISO } from "~/functions/time";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
-import { FaPencil } from "react-icons/fa6";
 import UpdateScheduledTimesheetModal from "~/components/Modal/UpdateScheduledTimesheetModal";
 import { HiInformationCircle } from "react-icons/hi";
 import UpdatePreliminaryLoadsheetModal from "~/components/Modal/UpdatePreliminaryLoadsheetModal";
 import { useApi } from "~/state/contexts/api.context";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
+import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
+import translateStatus from "~/models/translate/flight.translate";
 
 export type FlightListTableProps = {
   precedence: FlightPrecedenceStatus;
@@ -132,12 +134,12 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                     className="cursor-pointer dark:border-gray-700 dark:bg-gray-800"
                     onClick={() => expandFlight(flight)}
                   >
-                    <TableCell className="text-gray-900 dark:text-white">
-                      {flight.flightNumber}
+                    <TableCell className="text-gray-900 font-bold font-mono dark:text-white">
+                      {flight.flightNumberWithoutSpaces}
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center">
-                        {flight.departureAirport.icaoCode}
+                      <div className="flex gap-1 items-center">
+                        {flight.departureAirport.iataCode}
                         <svg
                           className="size-4 text-gray-800 dark:text-white"
                           aria-hidden="true"
@@ -155,14 +157,25 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             d="M19 12H5m14 0-4 4m4-4-4-4"
                           />
                         </svg>
-                        {flight.destinationAirport.icaoCode}
+                        {flight.destinationAirport.iataCode}
                       </div>
                     </TableCell>
                     <TableCell>
-                      {flight.timesheet.scheduled.offBlockTime &&
-                        formatDate(
-                          new Date(flight.timesheet.scheduled.offBlockTime),
-                        )}
+                      {flight.timesheet.scheduled.offBlockTime && (
+                        <>
+                          <FormattedIcaoDate
+                            date={
+                              new Date(flight.timesheet.scheduled.offBlockTime)
+                            }
+                          />
+                          {" • "}
+                          <FormattedIcaoTime
+                            date={
+                              new Date(flight.timesheet.scheduled.offBlockTime)
+                            }
+                          />
+                        </>
+                      )}
                       <span className="block text-xs text-gray-500">
                         Click for details
                       </span>
@@ -170,10 +183,10 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                     <TableCell>
                       <div className="mb-1">{flight.aircraft.shortName}</div>
                       <div className="flex gap-2">
-                        <span className="flex min-w-16 justify-center rounded-md border border-gray-600 px-2 py-0.5 text-xs">
+                        <span className="flex min-w-16 justify-center rounded-md border border-gray-500 px-2 py-0.5 text-xs">
                           {flight.aircraft.registration}
                         </span>
-                        <span className="flex min-w-16 justify-center border border-gray-600 px-2 py-0.5 text-xs">
+                        <span className="flex min-w-16 justify-center border border-gray-500 px-2 py-0.5 text-xs">
                           {flight.aircraft.selcal}
                         </span>
                       </div>
@@ -183,16 +196,17 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       {flight.operator.icaoCode}
                     </TableCell>
                     <TableCell>
-                      <div className="flex gap-2 text-gray-500">
+                      <div className="flex items-center gap-2 text-gray-500">
                         {flight.status === FlightStatus.Created && (
                           <>
                             <Button
                               onClick={() => setFlightToUpdateTimesheet(flight)}
                               color="gray"
+                              outline
                               size="xs"
                               className="flex cursor-pointer items-center"
                             >
-                              <FaPencil />
+                              Edit
                             </Button>
                             <Button
                               onClick={() => setFlightToRemove(flight)}
@@ -200,12 +214,13 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                               size="xs"
                               className="flex cursor-pointer items-center"
                             >
-                              <FaTrash />
+                              Remove
                             </Button>
                             {flight.loadsheets.preliminary && (
                               <>
-                                <span className="my-1 block border-e border-gray-400 dark:border-gray-600"></span>
                                 <Button
+                                  color="indigo"
+                                  outline
                                   onClick={() => setFlightToRelease(flight)}
                                   size="xs"
                                   className="cursor-pointer"
@@ -217,15 +232,16 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                           </>
                         )}
                         {flight.status === FlightStatus.Ready && (
-                          <span className="font-bold uppercase text-green-500">
-                            Ready to check-in
-                          </span>
+                          <div className="font-bold flex items-center gap-1 text-green-500">
+                            <FaCheckCircle className="inline" />
+                            Pilot can check-in
+                          </div>
                         )}
 
                         {flight.status !== FlightStatus.Created &&
                           flight.status !== FlightStatus.Ready && (
-                            <span className="font-bold uppercase">
-                              {flight.status}
+                            <span className="font-bold text-indigo-500">
+                              {translateStatus(flight.status)}
                             </span>
                           )}
                       </div>
@@ -238,9 +254,9 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       <TableCell colSpan={7}>
                         <div className="flex gap-4">
                           <div className="shrink-0">
-                            <div className="mb-3 flex items-center justify-between">
+                            <div className="mb-4 flex items-center justify-between">
                               <h3 className="text-lg font-bold dark:text-white">
-                                Timesheet
+                                Scheduled timesheet
                               </h3>
                               {flight.status === FlightStatus.Created && (
                                 <Button
@@ -248,22 +264,41 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                     setFlightToUpdateTimesheet(flight)
                                   }
                                   color="gray"
+                                  outline
                                   size="xs"
-                                  className="ms-3 flex cursor-pointer items-center"
+                                  className="ms-12 flex cursor-pointer items-center"
                                 >
-                                  <FaPencil />
+                                  Update
                                 </Button>
                               )}
                             </div>
                             <div className="flex shrink-0 items-center gap-6">
                               <div className="shrink-0 text-center">
                                 <span className="mb-1 block text-xs">
+                                  Departure
+                                </span>
+                                <span className="block font-bold text-gray-900 dark:text-white">
+                                  <FormattedIcaoDate
+                                    date={
+                                      new Date(
+                                        flight.timesheet.scheduled.offBlockTime,
+                                      )
+                                    }
+                                  />
+                                </span>
+                              </div>
+                              <div className="shrink-0 text-center">
+                                <span className="mb-1 block text-xs">
                                   Off-block
                                 </span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
-                                  {getHourFromDate(
-                                    flight.timesheet.scheduled.offBlockTime,
-                                  )}
+                                  <FormattedIcaoTime
+                                    date={
+                                      new Date(
+                                        flight.timesheet.scheduled.offBlockTime,
+                                      )
+                                    }
+                                  />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
@@ -271,9 +306,13 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   Takeoff
                                 </span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
-                                  {getHourFromDate(
-                                    flight.timesheet.scheduled.takeoffTime,
-                                  )}
+                                  <FormattedIcaoTime
+                                    date={
+                                      new Date(
+                                        flight.timesheet.scheduled.takeoffTime,
+                                      )
+                                    }
+                                  />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
@@ -281,9 +320,13 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   Arrival
                                 </span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
-                                  {getHourFromDate(
-                                    flight.timesheet.scheduled.arrivalTime,
-                                  )}
+                                  <FormattedIcaoTime
+                                    date={
+                                      new Date(
+                                        flight.timesheet.scheduled.arrivalTime,
+                                      )
+                                    }
+                                  />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
@@ -291,18 +334,22 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   On-block
                                 </span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
-                                  {getHourFromDate(
-                                    flight.timesheet.scheduled.onBlockTime,
-                                  )}
+                                  <FormattedIcaoTime
+                                    date={
+                                      new Date(
+                                        flight.timesheet.scheduled.onBlockTime,
+                                      )
+                                    }
+                                  />
                                 </span>
                               </div>
                             </div>
                           </div>
-                          <span className="border-e"></span>
+                          <span className="border-e mx-3 border-gray-300 dark:border-gray-600"></span>
                           <div>
-                            <div className="mb-3 flex items-center justify-between">
+                            <div className="mb-4 flex items-center justify-between">
                               <h3 className="text-lg font-bold dark:text-white">
-                                Loadsheet
+                                Preliminary loadsheet
                               </h3>
                               {flight.status === FlightStatus.Created && (
                                 <Button
@@ -310,10 +357,11 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                     setFlightToUpdateLoadsheet(flight)
                                   }
                                   color="gray"
+                                  outline
                                   size="xs"
                                   className="ms-3 flex cursor-pointer items-center"
                                 >
-                                  <FaPencil />
+                                  Update
                                 </Button>
                               )}
                             </div>
@@ -324,7 +372,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Pilots
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary.flightCrew
                                         .pilots
@@ -335,7 +383,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Relief pilots
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary.flightCrew
                                         .reliefPilots
@@ -346,7 +394,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Cabin crew
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary.flightCrew
                                         .cabinCrew
@@ -357,7 +405,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Passengers
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.passengers}
                                   </span>
                                 </div>
@@ -365,39 +413,39 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                                   <span className="mb-1 block text-xs">
                                     Zero-fuel weight
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {
                                       flight.loadsheets.preliminary
                                         .zeroFuelWeight
                                     }
-                                    {" t"}
+                                    <span className="text-xs">t</span>
                                   </span>
                                 </div>
                                 <div className="text-center">
                                   <span className="mb-1 block text-xs">
                                     Cargo
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.cargo}
-                                    {" t"}
+                                    <span className="text-xs">t</span>
                                   </span>
                                 </div>
                                 <div className="text-center">
                                   <span className="mb-1 block text-xs">
                                     Payload
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.payload}
-                                    {" t"}
+                                    <span className="text-xs">t</span>
                                   </span>
                                 </div>
                                 <div className="text-center">
                                   <span className="mb-1 block text-xs">
                                     Block fuel
                                   </span>
-                                  <span className="block font-bold text-gray-900 dark:text-white">
+                                  <span className="block font-mono font-bold text-gray-900 dark:text-white">
                                     {flight.loadsheets.preliminary.blockFuel}
-                                    {" t"}
+                                    <span className="text-xs">t</span>
                                   </span>
                                 </div>
                               </div>

@@ -112,6 +112,10 @@ export class Flight {
       (airport) => airport.type === AirportOnFlightType.Destination,
     ) as AirportOnFlight;
   }
+
+  get flightNumberWithoutSpaces(): string {
+    return this.flightNumber.replace(/\s+/g, "");
+  }
 }
 
 export enum FlightEventScope {

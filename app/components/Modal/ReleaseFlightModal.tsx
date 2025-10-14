@@ -56,11 +56,14 @@ export default function ReleaseFlightModal({
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={cancel}>
+          <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button onClick={() => release(flight.id)}>
-            Release flight {flight.flightNumber}
+          <Button outline color="indigo" onClick={() => release(flight.id)}>
+            Release flight
+            <span className="font-mono font-bold ms-2">
+              {flight.flightNumberWithoutSpaces}
+            </span>
           </Button>
         </div>
       </ModalFooter>

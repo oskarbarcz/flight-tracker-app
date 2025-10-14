@@ -128,6 +128,7 @@ export default function EditAirportRoute() {
               />
               <Button
                 className="min-w-fit cursor-pointer"
+                color="indigo"
                 onClick={handleCreateWithSkyLink}
                 outline
               >
