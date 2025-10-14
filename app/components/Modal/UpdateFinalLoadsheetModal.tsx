@@ -43,10 +43,10 @@ export default function UpdateFinalLoadsheetModal({
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
-          <Button color="gray" onClick={cancel}>
+          <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button color="indigo" onClick={() => update(newLoadsheet)}>
+          <Button color="indigo" outline onClick={() => update(newLoadsheet)}>
             Finish boarding
           </Button>
         </div>

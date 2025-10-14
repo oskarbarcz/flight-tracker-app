@@ -93,7 +93,7 @@ export function NotFoundError() {
         changed, or is temporarily unavailable.
       </p>
       <Link to="/" viewTransition replace className="text-center">
-        <Button color="indigo" className="mx-auto">
+        <Button color="indigo" outline className="mx-auto">
           Return to homepage
         </Button>
       </Link>

@@ -50,7 +50,9 @@ export default function FlightLoadsheetForm({
 
   return (
     <Form method="post">
-      <h3 className="mb-4 text-xl font-bold text-gray-700">Souls on board</h3>
+      <h3 className="mb-6 text-xl font-bold text-gray-700 dark:text-gray-300">
+        Souls on board
+      </h3>
       <div className="flex gap-4">
         <FloatingLabel
           variant="outlined"
@@ -69,7 +71,7 @@ export default function FlightLoadsheetForm({
           onChange={(e) => setReliefPilots(Number(e.target.value))}
         />
       </div>
-      <div className="mt-4 flex gap-4">
+      <div className="my-4 flex gap-4">
         <FloatingLabel
           variant="outlined"
           label="Cabin crew"
@@ -87,11 +89,13 @@ export default function FlightLoadsheetForm({
           onChange={(e) => setPassengers(Number(e.target.value))}
         />
       </div>
-      <h3 className="mb-4 text-xl font-bold text-gray-700">Weights</h3>
+      <h3 className="mb-4 text-xl font-bold text-gray-700 dark:text-gray-300">
+        Weights
+      </h3>
       <div className="flex gap-4">
         <FloatingLabel
           variant="outlined"
-          label="Zero-fuel weight"
+          label="Zero-fuel weight [tons]"
           className="dark:bg-gray-800"
           type="number"
           value={zeroFuelWeight}
@@ -99,7 +103,7 @@ export default function FlightLoadsheetForm({
         />
         <FloatingLabel
           variant="outlined"
-          label="Cargo (in tons)"
+          label="Cargo [tons]"
           className="dark:bg-gray-800"
           type="number"
           value={cargo}
@@ -109,7 +113,7 @@ export default function FlightLoadsheetForm({
       <div className="mt-4 flex gap-4">
         <FloatingLabel
           variant="outlined"
-          label="Payload (in tons)"
+          label="Payload [tons]"
           className="dark:bg-gray-800"
           type="number"
           value={payload}
@@ -117,7 +121,7 @@ export default function FlightLoadsheetForm({
         />
         <FloatingLabel
           variant="outlined"
-          label="Block fuel (in tons)"
+          label="Block fuel [tons]"
           className="dark:bg-gray-800"
           type="number"
           value={blockFuel}
