@@ -32,7 +32,7 @@ export default function FlightProgressBox() {
     <Container padding="condensed" className="relative">
       <ContainerTitle>Flight progress</ContainerTitle>
       <div className="flex items-center flex-wrap text-lg">
-        <div className="w-1/2 shrink-0 mb-2">
+        <div className="w-full mb-2">
           <span className="text-gray-500 text-sm">Flight status</span>
           <p className="font-bold text-indigo-500">
             {translateFlightStatus(flight.status)}

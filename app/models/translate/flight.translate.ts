@@ -30,7 +30,7 @@ export default function translateStatus(status: FlightStatus): string {
   const statuses = {
     [FlightStatus.Created]: "Created",
     [FlightStatus.Ready]: "Ready",
-    [FlightStatus.CheckedIn]: "Checked in",
+    [FlightStatus.CheckedIn]: "Crew checked in",
     [FlightStatus.BoardingStarted]: "Boarding in progress",
     [FlightStatus.BoardingFinished]: "Boarding finished",
     [FlightStatus.TaxiingOut]: "Taxiing out",
@@ -38,7 +38,7 @@ export default function translateStatus(status: FlightStatus): string {
     [FlightStatus.TaxiingIn]: "Taxiing in",
     [FlightStatus.OnBlock]: "On block",
     [FlightStatus.OffboardingStarted]: "Offboarding in progress",
-    [FlightStatus.OffboardingFinished]: "Offboarding was finished",
+    [FlightStatus.OffboardingFinished]: "Offboarding finished",
     [FlightStatus.Closed]: "Closed",
   };
 
@@ -52,7 +52,7 @@ export function translateNextActionStatus(status: FlightStatus): string | null {
     case FlightStatus.CheckedIn:
       return "Start boarding";
     case FlightStatus.BoardingStarted:
-      return "Fill final loadsheet and finish boarding";
+      return "Fill loadsheet and finish boarding";
     case FlightStatus.BoardingFinished:
       return "Report off-block";
     case FlightStatus.TaxiingOut:
