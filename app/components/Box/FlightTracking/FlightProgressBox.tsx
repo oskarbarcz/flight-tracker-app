@@ -29,12 +29,21 @@ export default function FlightProgressBox() {
   if (!flight) return null;
 
   return (
-    <Container padding="condensed">
+    <Container padding="condensed" className="relative">
       <ContainerTitle>Flight progress</ContainerTitle>
-      <div className="text-center uppercase font-bold text-indigo-500 text-xl my-8">
-        {translateFlightStatus(flight.status)}
+      <div className="flex items-center flex-wrap text-lg">
+        <div className="w-1/2 shrink-0 mb-2">
+          <span className="text-gray-500 text-sm">Flight status</span>
+          <p className="font-bold text-indigo-500">
+            {translateFlightStatus(flight.status)}
+          </p>
+        </div>
       </div>
-      {showNextAction(flight.status) && <ChangeFlightProgressButton />}
+      <hr className="mt-1 mb-3 border-gray-300 dark:border-gray-700" />
+      <div className="absolute bottom-0 right-0 left-0 p-4">
+        <hr className="w-full mt-1 mb-3 border-gray-300 dark:border-gray-700" />
+        {showNextAction(flight.status) && <ChangeFlightProgressButton />}
+      </div>
     </Container>
   );
 }

@@ -32,6 +32,10 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
     },
     button: {
       base: "cursor-pointer",
+      color: {
+        indigo:
+          "bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-800 dark:hover:bg-indigo-500 dark:hover:text-indigo-50 focus:ring-indigo-200 dark:focus:ring-indigo-500",
+      },
     },
   });
 }

@@ -28,8 +28,7 @@ export default function FinishBoardingButton({
   return (
     <>
       <Button
-        size="xs"
-        className="mt-2"
+        color="indigo"
         onClick={() => setShowModal(true)}
         disabled={disabled}
       >

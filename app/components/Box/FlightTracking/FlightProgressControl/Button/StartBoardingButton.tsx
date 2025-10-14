@@ -18,7 +18,7 @@ export default function StartBoardingButton({
   };
 
   return (
-    <Button size="xs" onClick={onClick} disabled={disabled}>
+    <Button color="indigo" onClick={onClick} disabled={disabled}>
       {translateNextActionStatus(flight.status)}
     </Button>
   );
