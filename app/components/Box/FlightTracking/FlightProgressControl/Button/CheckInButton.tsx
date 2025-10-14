@@ -23,7 +23,11 @@ export default function CheckInButton({ disabled }: FlightProgressButtonProps) {
 
   return (
     <>
-      <Button size="xs" onClick={() => setShowModal(true)} disabled={disabled}>
+      <Button
+        color="indigo"
+        onClick={() => setShowModal(true)}
+        disabled={disabled}
+      >
         {translateNextActionStatus(flight.status)}
       </Button>
       {showModal && (

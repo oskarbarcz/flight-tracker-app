@@ -18,7 +18,7 @@ export default function ReportOnBlockButton({
     await reportOnBlock();
   };
   return (
-    <Button size="xs" onClick={onClick} disabled={disabled}>
+    <Button onClick={onClick} color="indigo" disabled={disabled}>
       {translateNextActionStatus(flight.status)}
     </Button>
   );

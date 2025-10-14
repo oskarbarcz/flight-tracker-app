@@ -46,7 +46,9 @@ export default function UpdateFinalLoadsheetModal({
           <Button color="gray" onClick={cancel}>
             Back
           </Button>
-          <Button onClick={() => update(newLoadsheet)}>Finish boarding</Button>
+          <Button color="indigo" onClick={() => update(newLoadsheet)}>
+            Finish boarding
+          </Button>
         </div>
       </ModalFooter>
     </Modal>

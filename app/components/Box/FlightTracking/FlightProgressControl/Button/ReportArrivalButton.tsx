@@ -15,7 +15,7 @@ export default function ReportArrivalButton({
   }
 
   return (
-    <Button size="xs" onClick={reportArrival} disabled={disabled}>
+    <Button color="indigo" onClick={reportArrival} disabled={disabled}>
       {translateNextActionStatus(flight.status)}
     </Button>
   );
