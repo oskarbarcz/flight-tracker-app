@@ -39,8 +39,9 @@ export default function LiveTrackingRoute() {
     const fetchPath = () => {
       adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
     };
+    fetchPath();
 
-    const intervalId = setInterval(fetchPath, 5000);
+    const intervalId = setInterval(fetchPath, 10000);
     return () => {
       clearInterval(intervalId);
     };
