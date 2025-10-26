@@ -8,11 +8,12 @@ import { useEffect, useState } from "react";
 import { Flight, FlightPathElement } from "~/models";
 import { Position } from "~/models/common/geo";
 import L, { LatLngTuple } from "leaflet";
-import { UnauthorizedFlightService } from "~/state/api/flight.service";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 import FlightPath from "~/components/Map/Element/FlightPath";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
+import { useAdsbApi } from "~/state/contexts/adsb.context";
+import { usePublicApi } from "~/state/contexts/public-api.context";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return { id: params.id };
@@ -20,15 +21,30 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function LiveTrackingRoute() {
   const { id } = useLoaderData<typeof clientLoader>();
+  const adsbApi = useAdsbApi();
+  const { publicFlightService } = usePublicApi();
 
   const [flight, setFlight] = useState<Flight | undefined>();
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
-    const flightService = new UnauthorizedFlightService();
-    flightService.getById(id).then(setFlight);
-    flightService.getFlightPath(id).then(setPath);
-  }, [id]);
+    publicFlightService.getById(id).then(setFlight);
+  }, [id, publicFlightService]);
+
+  useEffect(() => {
+    if (!flight) {
+      return;
+    }
+
+    const fetchPath = () => {
+      adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
+    };
+
+    const intervalId = setInterval(fetchPath, 5000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [adsbApi, flight]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);

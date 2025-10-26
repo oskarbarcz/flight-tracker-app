@@ -178,7 +178,7 @@ export class FlightService extends AbstractAuthorizedApiService {
   }
 }
 
-export class UnauthorizedFlightService extends AbstractApiService {
+export class PublicFlightService extends AbstractApiService {
   async getById(id: string): Promise<Flight> {
     const response = await this.request<ApiFlightResponse>(
       `/api/v1/flight/${id}`,
