@@ -27,7 +27,7 @@ export function MapBox({ className }: MapBoxProps) {
   if (isFlightTrackable) {
     return (
       <Container className={className} padding="none">
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full bg-gray-900 rounded-2xl overflow-hidden">
           <AdsbProvider>
             <FlightTrackingMap flight={flight} />
             <MapLiveStatusOverlay />

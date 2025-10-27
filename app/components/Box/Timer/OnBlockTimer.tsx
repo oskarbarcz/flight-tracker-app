@@ -1,11 +1,11 @@
 "use client";
 
-import { FilledSchedule } from "~/models";
+import { FilledScheduleWithoutTypes } from "~/models";
 import { formatDate, formatTimeInterval, secondsToNow } from "~/functions/time";
 import { useEffect, useState } from "react";
 
 type OnBlockTimerProps = {
-  schedule: FilledSchedule;
+  schedule: FilledScheduleWithoutTypes;
 };
 
 function timeToColor(time: number): string {

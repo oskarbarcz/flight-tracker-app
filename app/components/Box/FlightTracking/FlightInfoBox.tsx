@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledSchedule, FlightStatus } from "~/models";
+import { FilledScheduleWithoutTypes, FlightStatus } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
@@ -39,7 +39,7 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
     flight.status !== FlightStatus.Created &&
     flight.status !== FlightStatus.Ready
   ) {
-    const schedule = timesheet.estimated as FilledSchedule;
+    const schedule = timesheet.estimated as FilledScheduleWithoutTypes;
     estimatedBlockTime = calculateBlockTime(
       new Date(schedule.offBlockTime),
       new Date(schedule.onBlockTime),

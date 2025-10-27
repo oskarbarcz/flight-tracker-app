@@ -6,12 +6,12 @@ import {
   getTimeDifferenceInHours,
   getTimeDifferenceInMinutes,
 } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import { FilledScheduleWithoutTypes } from "~/models";
 import { FloatingLabel } from "flowbite-react";
 
 type UpdateFlightScheduleFormProps = {
-  schedule: FilledSchedule;
-  setSchedule: (schedule: FilledSchedule) => void;
+  schedule: FilledScheduleWithoutTypes;
+  setSchedule: (schedule: FilledScheduleWithoutTypes) => void;
 };
 
 export default function UpdateFlightScheduleForm({
