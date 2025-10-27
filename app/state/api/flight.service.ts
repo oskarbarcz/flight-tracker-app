@@ -1,4 +1,5 @@
 import {
+  FilledSchedule,
   Flight,
   FlightEvent,
   FlightPathElement,
@@ -103,7 +104,7 @@ export class FlightService extends AbstractAuthorizedApiService {
     });
   }
 
-  async checkIn(id: string, timesheet: Schedule): Promise<void> {
+  async checkIn(id: string, timesheet: FilledSchedule): Promise<void> {
     return this.requestWithAuth<void>(`/api/v1/flight/${id}/check-in`, {
       body: JSON.stringify(timesheet),
       method: "POST",

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { FilledSchedule, Flight } from "~/models";
+import { FilledSchedule, FilledScheduleWithoutTypes, Flight } from "~/models";
 import { formatDate } from "~/functions/time";
 import {
   Button,
@@ -24,7 +24,8 @@ export default function CheckInFlightModal({
   close,
 }: CheckInFlightModalProps) {
   const schedule = flight.timesheet.scheduled;
-  const [estimation, setEstimation] = useState<FilledSchedule>(schedule);
+  const [estimation, setEstimation] =
+    useState<FilledScheduleWithoutTypes>(schedule);
 
   return (
     <Modal show onClose={close}>
@@ -69,9 +70,12 @@ export default function CheckInFlightModal({
           <div className="w-full md:w-1/2">
             <CheckInFlightForm
               estimation={estimation}
-              setEstimation={useCallback((estimation: FilledSchedule) => {
-                setEstimation(estimation);
-              }, [])}
+              setEstimation={useCallback(
+                (estimation: FilledScheduleWithoutTypes) => {
+                  setEstimation(estimation);
+                },
+                [],
+              )}
             />
           </div>
         </div>
@@ -89,7 +93,14 @@ export default function CheckInFlightModal({
             type="submit"
             color="indigo"
             outline
-            onClick={() => checkIn(estimation)}
+            onClick={() =>
+              checkIn({
+                offBlockTime: new Date(estimation.offBlockTime),
+                takeoffTime: new Date(estimation.takeoffTime),
+                arrivalTime: new Date(estimation.arrivalTime),
+                onBlockTime: new Date(estimation.onBlockTime),
+              })
+            }
           >
             Check in for flight
             <span className="font-mono font-bold ms-2">

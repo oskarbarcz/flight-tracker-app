@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledSchedule } from "~/models";
+import { FilledScheduleWithoutTypes } from "~/models";
 import {
   formatDate,
   formatTimeInterval,
@@ -10,8 +10,8 @@ import {
 import { useEffect, useState } from "react";
 
 type ArrivalTimerProps = {
-  schedule: FilledSchedule;
-  actual: FilledSchedule;
+  schedule: FilledScheduleWithoutTypes;
+  actual: FilledScheduleWithoutTypes;
 };
 
 function timeToColor(time: number): string {

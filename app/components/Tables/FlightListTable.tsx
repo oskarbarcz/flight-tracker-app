@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  FilledSchedule,
+  FilledScheduleWithoutTypes,
   Flight,
   FlightPrecedenceStatus,
   FlightStatus,
@@ -62,7 +62,10 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
     setFlightToRemove(null);
   };
 
-  const updateSchedule = async (flightId: string, schedule: FilledSchedule) => {
+  const updateSchedule = async (
+    flightId: string,
+    schedule: FilledScheduleWithoutTypes,
+  ) => {
     const normalizedSchedule = {
       offBlockTime: formattedToISO(schedule.offBlockTime),
       takeoffTime: formattedToISO(schedule.takeoffTime),

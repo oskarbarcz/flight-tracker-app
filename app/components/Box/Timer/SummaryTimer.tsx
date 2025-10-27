@@ -1,11 +1,11 @@
 "use client";
 
-import { FilledSchedule } from "~/models";
+import { FilledScheduleWithoutTypes } from "~/models";
 import { getHourFromDate } from "~/functions/time";
 
 type SummaryTimerProps = {
-  schedule: FilledSchedule;
-  actual: FilledSchedule;
+  schedule: FilledScheduleWithoutTypes;
+  actual: FilledScheduleWithoutTypes;
 };
 export function SummaryTimer({ actual }: SummaryTimerProps) {
   return (

@@ -6,12 +6,12 @@ import {
   getTimeDifferenceInHours,
   getTimeDifferenceInMinutes,
 } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import { FilledScheduleWithoutTypes } from "~/models";
 import { FloatingLabel } from "flowbite-react";
 
 type CheckInFlightFormProps = {
-  estimation: FilledSchedule;
-  setEstimation: (estimation: FilledSchedule) => void;
+  estimation: FilledScheduleWithoutTypes;
+  setEstimation: (estimation: FilledScheduleWithoutTypes) => void;
 };
 
 export default function CheckInFlightForm({
