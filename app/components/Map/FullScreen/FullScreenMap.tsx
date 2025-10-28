@@ -29,24 +29,26 @@ export default function FullScreenMap({ flightId }: FullScreenMapProps) {
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
-    publicFlightService.getById(flightId).then(setFlight);
-  }, [flightId, publicFlightService]);
-
-  useEffect(() => {
-    if (!flight) {
-      return;
-    }
-
-    const fetchPath = () => {
-      adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
+    const fetchFlightAndPath = async () => {
+      try {
+        const flightData = await publicFlightService.getById(flightId);
+        setFlight(flightData);
+        if (flightData) {
+          const pathData = await adsbApi.getRecordsByCallsign(
+            flightData.callsign,
+          );
+          setPath(pathData);
+        }
+      } catch (error) {
+        console.error("Error fetching flight or path:", error);
+      }
     };
-    fetchPath();
 
-    const intervalId = setInterval(fetchPath, 10000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [adsbApi, flight]);
+    fetchFlightAndPath().then();
+    const intervalId = setInterval(fetchFlightAndPath, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [flightId, publicFlightService, adsbApi]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
@@ -63,36 +65,37 @@ export default function FullScreenMap({ flightId }: FullScreenMapProps) {
   const lastPosition = pathPoints[pathPoints.length - 1];
 
   return (
-    <MapContainer
-      bounds={bounds}
-      boundsOptions={{ padding: [100, 100] }}
-      scrollWheelZoom={true}
-      className="h-screen w-screen z-20"
-      zoomControl={false}
-      attributionControl={false}
-    >
-      <MapTileLayer />
+    <div>
+      <MapContainer
+        bounds={bounds}
+        boundsOptions={{ padding: [100, 100] }}
+        scrollWheelZoom={true}
+        className="h-screen w-screen z-20"
+        zoomControl={false}
+        attributionControl={false}
+      >
+        <MapTileLayer />
 
-      <GreatCirclePath
-        start={flight.departureAirport}
-        end={flight.destinationAirport}
-      />
-      <FlightPath path={pathPoints} />
+        <GreatCirclePath
+          start={flight.departureAirport}
+          end={flight.destinationAirport}
+        />
+        <FlightPath path={pathPoints} />
 
-      <MapAircraftMarker path={pathPoints} />
+        <MapAircraftMarker path={pathPoints} />
 
+        <MapAirportLabel
+          position={startPosition}
+          label={flight.departureAirport.iataCode}
+        />
+        <MapAirportLabel
+          position={lastPosition}
+          label={flight.destinationAirport.iataCode}
+        />
+
+        <MapEventsHandler bounds={bounds} options={mapOptions} />
+      </MapContainer>
       <FlightDetailsSectionOverlay flight={flight} />
-
-      <MapAirportLabel
-        position={startPosition}
-        label={flight.departureAirport.iataCode}
-      />
-      <MapAirportLabel
-        position={lastPosition}
-        label={flight.destinationAirport.iataCode}
-      />
-
-      <MapEventsHandler bounds={bounds} options={mapOptions} />
-    </MapContainer>
+    </div>
   );
 }
