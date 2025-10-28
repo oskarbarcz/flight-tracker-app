@@ -1,26 +1,26 @@
 "use client";
 
-import { LatLngBounds } from "leaflet";
+import { FitBoundsOptions, LatLngBounds } from "leaflet";
 import { useMap } from "react-leaflet";
 import { useCallback, useEffect, useRef } from "react";
 
 type MapEventsHandlerProps = {
   bounds: LatLngBounds;
+  options?: FitBoundsOptions;
 };
 
-export default function MapEventsHandler({ bounds }: MapEventsHandlerProps) {
+export default function MapEventsHandler({
+  bounds,
+  options,
+}: MapEventsHandlerProps) {
   const map = useMap();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const resetView = useCallback(() => {
     if (bounds.isValid()) {
-      map.flyToBounds(bounds, {
-        paddingTopLeft: [0, 70],
-        paddingBottomRight: [0, 0],
-        duration: 1,
-      });
+      map.flyToBounds(bounds, options);
     }
-  }, [map, bounds]);
+  }, [bounds, map, options]);
 
   const startTimeout = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
