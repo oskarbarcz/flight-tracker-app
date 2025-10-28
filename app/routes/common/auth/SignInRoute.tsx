@@ -5,9 +5,9 @@ import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { FloatingLabel, Spinner } from "flowbite-react";
-import logo from "~/assets/logo.svg";
 import { FaArrowRight } from "react-icons/fa";
 import Container from "~/components/Layout/Container";
+import Logo from "~/components/Layout/Logo";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");
@@ -37,14 +37,7 @@ export default function SignInRoute() {
   return (
     <div className="flex min-h-full flex-col justify-center md:mt-[-100px] gap-4 sm:gap-6 md:gap-8 p-3 dark:bg-gray-900 items-center">
       <aside className="flex items-center justify-center">
-        <img
-          src={logo}
-          className="h-8 mr-2 sm:h-12 sm:mr-3"
-          alt="FlightTracker app logo"
-        />
-        <span className="text-2xl sm:text-4xl font-bold text-indigo-500">
-          FlightTracker
-        </span>
+        <Logo />
       </aside>
       <Container className="w-full sm:w-[400px]">
         <h1 className="text-center mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">

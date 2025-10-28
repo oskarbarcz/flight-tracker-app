@@ -18,9 +18,16 @@ type FlightTrackingMapProps = {
   flight: Flight;
 };
 
-export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
+export default function FlightTrackingMapBox({
+  flight,
+}: FlightTrackingMapProps) {
   const adsbApi = useAdsbApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
+  const mapOptions = {
+    paddingTopLeft: [0, 70],
+    paddingBottomRight: [0, 0],
+    duration: 1,
+  } as L.FitBoundsOptions;
 
   useEffect(() => {
     const fetchData = () => {
@@ -76,7 +83,7 @@ export default function FlightTrackingMap({ flight }: FlightTrackingMapProps) {
         label={destination.iataCode}
       />
 
-      <MapEventsHandler bounds={planBounds} />
+      <MapEventsHandler bounds={planBounds} options={mapOptions} />
     </MapContainer>
   );
 }

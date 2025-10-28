@@ -18,9 +18,14 @@ type FlightHistoryMapProps = {
   flight: Flight;
 };
 
-export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
+export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
   const { flightService } = useApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
+  const mapOptions = {
+    paddingTopLeft: [0, 70],
+    paddingBottomRight: [0, 0],
+    duration: 1,
+  } as L.FitBoundsOptions;
 
   useEffect(() => {
     flightService.getFlightPath(flight.id).then(setPath);
@@ -64,7 +69,7 @@ export default function FlightHistoryMap({ flight }: FlightHistoryMapProps) {
         label={flight.destinationAirport.iataCode}
       />
 
-      <MapEventsHandler bounds={bounds} />
+      <MapEventsHandler bounds={bounds} options={mapOptions} />
     </MapContainer>
   );
 }

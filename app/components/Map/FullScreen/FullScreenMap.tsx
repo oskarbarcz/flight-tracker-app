@@ -1,51 +1,54 @@
-import { Route } from "../../../.react-router/types/app/routes/public/+types/LiveTrackingRoute";
-import { useLoaderData } from "react-router";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
-import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
-import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
-import { MapContainer, TileLayer } from "react-leaflet";
-import { useEffect, useState } from "react";
-import { Flight, FlightPathElement } from "~/models";
-import { Position } from "~/models/common/geo";
-import L, { LatLngTuple } from "leaflet";
-import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 import FlightPath from "~/components/Map/Element/FlightPath";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
+import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
+import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
+import { MapContainer } from "react-leaflet";
 import { useAdsbApi } from "~/state/contexts/adsb.context";
 import { usePublicApi } from "~/state/contexts/public-api.context";
+import { useEffect, useState } from "react";
+import { Flight, FlightPathElement, Position } from "~/models";
+import L, { LatLngTuple } from "leaflet";
+import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
+import FlightDetailsSectionOverlay from "~/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  return { id: params.id };
-}
+type FullScreenMapProps = {
+  flightId: string;
+};
 
-export default function LiveTrackingRoute() {
-  const { id } = useLoaderData<typeof clientLoader>();
+export default function FullScreenMap({ flightId }: FullScreenMapProps) {
   const adsbApi = useAdsbApi();
   const { publicFlightService } = usePublicApi();
+  const mapOptions = {
+    padding: [100, 100],
+    duration: 1,
+  } as L.FitBoundsOptions;
 
   const [flight, setFlight] = useState<Flight | undefined>();
   const [path, setPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
-    publicFlightService.getById(id).then(setFlight);
-  }, [id, publicFlightService]);
-
-  useEffect(() => {
-    if (!flight) {
-      return;
-    }
-
-    const fetchPath = () => {
-      adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
+    const fetchFlightAndPath = async () => {
+      try {
+        const flightData = await publicFlightService.getById(flightId);
+        setFlight(flightData);
+        if (flightData) {
+          const pathData = await adsbApi.getRecordsByCallsign(
+            flightData.callsign,
+          );
+          setPath(pathData);
+        }
+      } catch (error) {
+        console.error("Error fetching flight or path:", error);
+      }
     };
-    fetchPath();
 
-    const intervalId = setInterval(fetchPath, 10000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [adsbApi, flight]);
+    fetchFlightAndPath().then();
+    const intervalId = setInterval(fetchFlightAndPath, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [flightId, publicFlightService, adsbApi]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
@@ -62,17 +65,16 @@ export default function LiveTrackingRoute() {
   const lastPosition = pathPoints[pathPoints.length - 1];
 
   return (
-    <div className="h-screen w-screen">
+    <div>
       <MapContainer
         bounds={bounds}
-        boundsOptions={{ paddingTopLeft: [0, 70], paddingBottomRight: [0, 0] }}
+        boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
-        className="rounded-xl h-full w-full z-20"
+        className="h-screen w-screen z-20"
         zoomControl={false}
         attributionControl={false}
       >
         <MapTileLayer />
-        <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
 
         <GreatCirclePath
           start={flight.departureAirport}
@@ -91,8 +93,9 @@ export default function LiveTrackingRoute() {
           label={flight.destinationAirport.iataCode}
         />
 
-        <MapEventsHandler bounds={bounds} />
+        <MapEventsHandler bounds={bounds} options={mapOptions} />
       </MapContainer>
+      <FlightDetailsSectionOverlay flight={flight} />
     </div>
   );
 }

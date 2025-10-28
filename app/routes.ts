@@ -47,7 +47,7 @@ export default [
   ]),
   layout("layout/MapLayout.tsx", [
     ...prefix("live-tracking", [
-      route(":id", "routes/public/LiveTrackingRoute.tsx"),
+      route(":id", "routes/public/PublicTrackingRoute.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;
