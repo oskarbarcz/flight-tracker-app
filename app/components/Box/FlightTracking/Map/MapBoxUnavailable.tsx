@@ -4,9 +4,9 @@ import image from "~/assets/map.jpg";
 
 export function MapBoxUnavailable() {
   return (
-    <div className="grow relative size-full rounded-2xl">
+    <div className="grow relative rounded-2xl overflow-hidden">
       <img
-        className="rounded-4xl mask-radial-from-10% size-full object-cover z-0 blur-[2px] dark:invert"
+        className="absolute top-0 mask-radial-from-10% left-0 w-full h-full object-cover z-0 blur-[2px] dark:invert"
         src={image}
         alt="Map illustration"
       />

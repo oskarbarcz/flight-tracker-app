@@ -12,7 +12,7 @@ export default function PublicTrackingRoute() {
   const { flightId } = useLoaderData<typeof clientLoader>();
 
   return (
-    <div className="flex flex-col items-stretch size-full p-2">
+    <div className="h-screen-safe flex flex-col items-stretch size-full p-2">
       <TopBar />
       <FullScreenMap flightId={flightId} />
       <BottomBar />

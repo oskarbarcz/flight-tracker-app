@@ -9,7 +9,7 @@
 
 html,
 body {
-  @apply bg-indigo-50 h-full dark:dark:bg-gray-900;
+  @apply bg-indigo-50 h-screen-safe dark:dark:bg-gray-900;
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
@@ -17,5 +17,5 @@ body {
 
 .leaflet-container {
   /* Prevent rounded corners dithering */
-  @apply bg-indigo-50 h-full dark:dark:bg-gray-900;
+  @apply bg-indigo-50 dark:dark:bg-gray-900;
 }
