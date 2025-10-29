@@ -18,7 +18,7 @@ export default function MapSplash() {
           className="hidden dark:block mx-auto mb-4 size-14 md:mb-8 md:size-24"
         />
         <h1 className="text-2xl font-bold text-indigo-500 dark:text-white md:text-4xl">
-          FlightTracker
+          Flight Tracker
         </h1>
       </div>
     </div>
