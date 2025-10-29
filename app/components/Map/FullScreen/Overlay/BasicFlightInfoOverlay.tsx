@@ -1,5 +1,4 @@
 import { FilledScheduleWithoutTypes, Flight, FlightStatus } from "~/models";
-import Container from "~/components/Layout/Container";
 import { FaPlane } from "react-icons/fa";
 import translateStatus from "~/models/translate/flight.translate";
 
@@ -47,7 +46,7 @@ export default function BasicFlightInfoOverlay({
   }
 
   return (
-    <Container className="shadow-xs">
+    <div className="rounded-xl bg-white p-6 dark:bg-gray-950 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900 min-w-[375px]">
       <div className="mb-4">
         <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">
           {flight.flightNumber}
@@ -115,6 +114,6 @@ export default function BasicFlightInfoOverlay({
       <div className="mt-8 text-indigo-500 text-center text-lg p-1 uppercase font-bold">
         {translateStatus(flight.status)}
       </div>
-    </Container>
+    </div>
   );
 }

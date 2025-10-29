@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tailwindcss-safe-area";
 @import "leaflet/dist/leaflet.css";
 
 @plugin "flowbite-react/plugin/tailwindcss";
@@ -12,4 +13,9 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+.leaflet-container {
+  /* Prevent rounded corners dithering */
+  @apply bg-indigo-50 h-full dark:dark:bg-gray-900;
 }
