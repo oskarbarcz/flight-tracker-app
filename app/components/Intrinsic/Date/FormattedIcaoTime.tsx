@@ -15,7 +15,7 @@ export function FormattedIcaoTime({ date }: FormattedIcaoTimeProps) {
   return (
     <span className="font-mono">
       {dateToIcaoTime(date)}
-      <span className="text-xs">Z</span>
+      <span className="text-xs ms-1">Z</span>
     </span>
   );
 }

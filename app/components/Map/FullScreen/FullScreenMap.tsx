@@ -65,12 +65,12 @@ export default function FullScreenMap({ flightId }: FullScreenMapProps) {
   const lastPosition = pathPoints[pathPoints.length - 1];
 
   return (
-    <div>
+    <div className="grow relative rounded-2xl">
       <MapContainer
         bounds={bounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
-        className="h-screen w-screen z-20"
+        className="rounded-2xl bg-gray-800 size-full z-200"
         zoomControl={false}
         attributionControl={false}
       >

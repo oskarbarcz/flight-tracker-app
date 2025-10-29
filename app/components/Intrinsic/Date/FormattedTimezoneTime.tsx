@@ -23,7 +23,7 @@ export function FormattedTimezoneTime({
   return (
     <span className="font-mono">
       {dateToTimezoneTime(date, timezone)}
-      <span className="text-xs">LT</span>
+      <span className="text-xs ms-1">LT</span>
     </span>
   );
 }
