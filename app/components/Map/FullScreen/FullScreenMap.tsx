@@ -70,7 +70,7 @@ export default function FullScreenMap({ flightId }: FullScreenMapProps) {
         bounds={bounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
-        className="rounded-2xl bg-gray-800 size-full z-200"
+        className="rounded-2xl bg-gray-800 size-full z-20"
         zoomControl={false}
         attributionControl={false}
       >
