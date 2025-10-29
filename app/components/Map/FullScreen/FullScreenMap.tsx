@@ -36,7 +36,7 @@ export default function FullScreenMap({ flight, path }: Props) {
   const lastPosition = pathPoints[pathPoints.length - 1];
 
   return (
-    <div className="grow relative size-full rounded-2xl">
+    <div className="flex-1 relative rounded-2xl">
       <MapContainer
         bounds={bounds}
         boundsOptions={{ padding: [100, 100] }}
