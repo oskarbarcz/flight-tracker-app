@@ -10,9 +10,9 @@ import L from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
 import { MapBoxNoSignal } from "~/components/Box/FlightTracking/Map/MapBoxNoSignal";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
-import { useAdsbApi } from "~/state/contexts/adsb.context";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 import { Position } from "~/models/common/geo";
+import { usePublicApi } from "~/state/contexts/public-api.context";
 
 type FlightTrackingMapProps = {
   flight: Flight;
@@ -21,7 +21,7 @@ type FlightTrackingMapProps = {
 export default function FlightTrackingMapBox({
   flight,
 }: FlightTrackingMapProps) {
-  const adsbApi = useAdsbApi();
+  const { adsbService } = usePublicApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
   const mapOptions = {
     paddingTopLeft: [0, 70],
@@ -31,7 +31,7 @@ export default function FlightTrackingMapBox({
 
   useEffect(() => {
     const fetchData = () => {
-      adsbApi.getRecordsByCallsign(flight.callsign).then(setPath);
+      adsbService.getRecordsByCallsign(flight.callsign).then(setPath);
     };
     fetchData();
 
@@ -39,7 +39,7 @@ export default function FlightTrackingMapBox({
     return () => {
       clearInterval(intervalId);
     };
-  }, [flight.callsign, adsbApi]);
+  }, [flight.callsign, adsbService]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   // const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);

@@ -5,50 +5,21 @@ import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
 import { MapContainer } from "react-leaflet";
-import { useAdsbApi } from "~/state/contexts/adsb.context";
-import { usePublicApi } from "~/state/contexts/public-api.context";
-import { useEffect, useState } from "react";
 import { Flight, FlightPathElement, Position } from "~/models";
 import L, { LatLngTuple } from "leaflet";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import FlightDetailsSectionOverlay from "~/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 
-type FullScreenMapProps = {
-  flightId: string;
+type Props = {
+  flight: Flight;
+  path: FlightPathElement[];
 };
 
-export default function FullScreenMap({ flightId }: FullScreenMapProps) {
-  const adsbApi = useAdsbApi();
-  const { publicFlightService } = usePublicApi();
+export default function FullScreenMap({ flight, path }: Props) {
   const mapOptions = {
     padding: [100, 100],
     duration: 1,
   } as L.FitBoundsOptions;
-
-  const [flight, setFlight] = useState<Flight | undefined>();
-  const [path, setPath] = useState<FlightPathElement[]>([]);
-
-  useEffect(() => {
-    const fetchFlightAndPath = async () => {
-      try {
-        const flightData = await publicFlightService.getById(flightId);
-        setFlight(flightData);
-        if (flightData) {
-          const pathData = await adsbApi.getRecordsByCallsign(
-            flightData.callsign,
-          );
-          setPath(pathData);
-        }
-      } catch (error) {
-        console.error("Error fetching flight or path:", error);
-      }
-    };
-
-    fetchFlightAndPath().then();
-    const intervalId = setInterval(fetchFlightAndPath, 10000);
-
-    return () => clearInterval(intervalId);
-  }, [flightId, publicFlightService, adsbApi]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
@@ -70,7 +41,7 @@ export default function FullScreenMap({ flightId }: FullScreenMapProps) {
         bounds={bounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
-        className="rounded-2xl bg-gray-800 size-full z-200"
+        className="rounded-2xl bg-gray-800 size-full z-20"
         zoomControl={false}
         attributionControl={false}
       >
