@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export const usePageTitle = (
   title: string,
-  suffix: string = " | FlightTracker",
+  suffix: string = " | Flight Tracker",
 ) => {
   useEffect(() => {
     document.title = title + suffix;
