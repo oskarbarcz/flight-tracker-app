@@ -63,7 +63,7 @@ export default function PublicTrackingRoute({
   }
 
   return (
-    <div className="h-screen-safe flex flex-col items-stretch size-full p-2">
+    <div className="h-vh-safe flex flex-col items-stretch size-full p-2">
       <TopBar />
       <FullScreenMap flight={flight} path={flightPath} />
       <BottomBar lastRefreshedAt={lastRequestedAt} />

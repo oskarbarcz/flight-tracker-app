@@ -5,7 +5,7 @@ import logoWhite from "~/assets/logo.white.svg";
 
 export default function MapSplash() {
   return (
-    <div className="flex flex-col h-screen w-screen items-center justify-center bg-indigo-50 dark:bg-gray-950">
+    <div className="flex flex-col h-screen w-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
       <div className="text-center animate-pulse">
         <img
           src={logo}
