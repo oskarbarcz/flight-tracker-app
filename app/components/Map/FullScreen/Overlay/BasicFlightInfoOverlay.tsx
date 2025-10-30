@@ -46,7 +46,7 @@ export default function BasicFlightInfoOverlay({
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-300 p-6 w-full sm:w-sm rounded-xl">
+    <div className="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-300 p-6 w-full sm:w-sm rounded-xl">
       <div className="mb-4">
         <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">
           {flight.flightNumber}
