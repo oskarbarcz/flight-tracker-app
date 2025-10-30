@@ -36,7 +36,7 @@ export default function FullScreenMap({ flight, path }: Props) {
   const lastPosition = pathPoints[pathPoints.length - 1];
 
   return (
-    <div className="flex-1 relative rounded-2xl">
+    <div className="grow relative rounded-2xl">
       <MapContainer
         bounds={bounds}
         boundsOptions={{ padding: [100, 100] }}
@@ -46,7 +46,6 @@ export default function FullScreenMap({ flight, path }: Props) {
         attributionControl={false}
       >
         <MapTileLayer />
-
         <GreatCirclePath
           start={flight.departureAirport}
           end={flight.destinationAirport}
