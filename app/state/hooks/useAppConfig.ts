@@ -6,6 +6,7 @@ type AppConfig = {
   adsbApiHost: string;
   isProductionEnvironment: boolean;
   isDevelopmentEnvironment: boolean;
+  appVersion: string;
 };
 
 export function useAppConfig(): AppConfig {
@@ -19,6 +20,7 @@ export function useAppConfig(): AppConfig {
       adsbApiHost: import.meta.env.VITE_ADSB_API_HOST as string,
       isProductionEnvironment: environment === "production",
       isDevelopmentEnvironment: environment === "development",
+      appVersion: import.meta.env.PACKAGE_VERSION,
     };
   }, []);
 }
