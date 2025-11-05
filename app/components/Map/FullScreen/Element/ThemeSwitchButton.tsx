@@ -11,23 +11,35 @@ export default function ThemeSwitchButton() {
     }
   }, [computedMode, mode, setMode]);
 
-  return (
-    <Tooltip
-      content={`Change theme to ${mode === "dark" ? "light" : "dark"}`}
-      style="auto"
-      placement="bottom"
-    >
-      {mode === "dark" && (
-        <Button color="alternative" size="sm" onClick={() => setMode("light")}>
-          <FaSun size={18} />
-        </Button>
-      )}
+  const darkButton = (
+    <Button color="alternative" size="sm" onClick={() => setMode("light")}>
+      <FaSun size={18} />
+    </Button>
+  );
 
-      {mode === "light" && (
-        <Button color="alternative" size="sm" onClick={() => setMode("dark")}>
-          <FaMoon size={18} />
-        </Button>
-      )}
-    </Tooltip>
+  const lightButton = (
+    <Button color="alternative" size="sm" onClick={() => setMode("dark")}>
+      <FaMoon size={18} />
+    </Button>
+  );
+
+  return (
+    <>
+      <div className="hidden md:block">
+        <Tooltip
+          content={`Change theme to ${mode === "dark" ? "light" : "dark"}`}
+          style="auto"
+          placement="bottom"
+        >
+          {mode === "dark" && darkButton}
+          {mode === "light" && lightButton}
+        </Tooltip>
+      </div>
+
+      <div className="md:hidden">
+        {mode === "dark" && darkButton}
+        {mode === "light" && lightButton}
+      </div>
+    </>
   );
 }

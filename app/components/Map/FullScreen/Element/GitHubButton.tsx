@@ -3,17 +3,31 @@ import { Link } from "react-router";
 import { FaGithub } from "react-icons/fa6";
 
 export default function GitHubButton() {
+  const button = (
+    <Button
+      color="alternative"
+      size="sm"
+      target="_blank"
+      as={Link}
+      to="https://github.com/oskarbarcz/flight-tracker-app"
+    >
+      <FaGithub size={18} />
+    </Button>
+  );
+
   return (
-    <Tooltip content="See project repository" style="auto" placement="bottom">
-      <Button
-        color="alternative"
-        size="sm"
-        target="_blank"
-        as={Link}
-        to="https://github.com/oskarbarcz/flight-tracker-app"
-      >
-        <FaGithub size={18} />
-      </Button>
-    </Tooltip>
+    <>
+      <div className="hidden md:block">
+        <Tooltip
+          content="See project repository"
+          style="auto"
+          placement="bottom"
+        >
+          {button}
+        </Tooltip>
+      </div>
+
+      <div className="md:hidden">{button}</div>
+    </>
   );
 }
