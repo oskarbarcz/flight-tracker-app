@@ -12,11 +12,11 @@ import { useApi } from "~/state/contexts/api.context";
 import PilotStatsBox from "~/components/Box/Summary/PilotStatsBox";
 import CurrentRotationBox from "~/components/Box/Summary/CurrentRotationBox";
 import DebugFlightListBox from "~/components/Box/Summary/DebugFlightListBox";
-import { useEnvironment } from "~/state/hooks/useEnvironment";
+import { useAppConfig } from "~/state/hooks/useAppConfig";
 
 export default function PilotDashboardRoute() {
   const { flightService } = useApi();
-  const { isDebug } = useEnvironment();
+  const { isDevelopmentEnvironment } = useAppConfig();
   const [flights, setFlights] = useState<Flight[]>([]);
   usePageTitle("Dashboard");
 
@@ -43,7 +43,9 @@ export default function PilotDashboardRoute() {
           </div>
           <div className="grid gap-4">
             <PilotStatsBox />
-            {isDebug && <DebugFlightListBox flights={flights} />}
+            {isDevelopmentEnvironment && (
+              <DebugFlightListBox flights={flights} />
+            )}
           </div>
         </div>
       </ProtectedRoute>
