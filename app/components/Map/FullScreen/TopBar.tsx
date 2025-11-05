@@ -16,7 +16,7 @@ export default function TopBar() {
   };
 
   return (
-    <nav className="mb-2 py-2 px-4 w-full">
+    <nav className="mb-2 py-1 px-3 w-full">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <img src={logo} className="h-6 mr-2" alt="FlightTracker app logo" />
