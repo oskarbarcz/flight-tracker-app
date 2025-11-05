@@ -8,7 +8,7 @@ export default function MapTileLayer() {
 
   const tileUrls = {
     light:
-      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
     dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
     auto: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
   };
