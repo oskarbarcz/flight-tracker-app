@@ -41,7 +41,7 @@ export default function FullScreenMap({ flight, path }: Props) {
         bounds={bounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
-        className="rounded-2xl bg-gray-800 size-full z-20"
+        className="rounded-2xl bg-gray-800 size-full z-10"
         zoomControl={false}
         attributionControl={false}
       >

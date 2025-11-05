@@ -27,11 +27,18 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
         base: "border-gray-300 dark:border-gray-700 dark:bg-gray-800",
       },
     },
+    tooltip: {
+      base: "z-100",
+    },
     buttonGroup: {
       base: "shadow-none",
     },
     button: {
       base: "cursor-pointer",
+      color: {
+        alternative:
+          "bg-gray-200 hover:bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 hover:text-gray-900 dark:text-gray-300 border-0",
+      },
       outlineColor: {
         indigo:
           "bg-indigo-100 border-indigo-100 dark:border-indigo-700 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-600 hover:border-indigo-200 dark:hover:border-indigo-500 dark:hover:bg-indigo-500 dark:hover:text-indigo-50 focus:ring-indigo-300 dark:focus:ring-indigo-700",
