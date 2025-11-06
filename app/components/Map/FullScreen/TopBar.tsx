@@ -18,12 +18,12 @@ export default function TopBar() {
   return (
     <nav className="mb-2 py-1 px-3 w-full">
       <div className="flex justify-between items-center">
-        <div className="flex items-center">
+        <a href="/" className="flex items-center">
           <img src={logo} className="h-6 mr-2" alt="FlightTracker app logo" />
           <span className="text-xl font-bold text-indigo-500">
             Flight Tracker
           </span>
-        </div>
+        </a>
 
         <div className="md:hidden">
           <Button color="alternative" size="sm" onClick={toggleMenu}>
