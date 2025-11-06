@@ -5,7 +5,7 @@ import BottomBar from "~/components/Map/FullScreen/BottomBar";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { useAdsbData } from "~/state/contexts/adsb.context";
 import { usePublicApi } from "~/state/contexts/public-api.context";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Flight } from "~/models";
 import MapSplash from "~/layout/MapSplash";
 
@@ -19,34 +19,36 @@ export default function PublicTrackingRoute({
   const [flight, setFlight] = useState<Flight | null>(null);
   const [showSplash, setShowSplash] = useState<boolean>(true);
 
-  // fetch flight on mount
-  useEffect(() => {
-    const fetchFlight = async () => {
-      try {
-        const flightData = await publicFlightService.getById(params.id);
-        setFlight(flightData);
-        if (flightData) {
-          setCallsign(flightData.callsign);
-        }
-      } catch (error) {
-        console.error("Error fetching flight:", error);
+  const fetchFlight = useCallback(async () => {
+    try {
+      const flightData = await publicFlightService.getById(params.id);
+      setFlight(flightData);
+      if (flightData) {
+        setCallsign(flightData.callsign);
+        await loadFlightPath();
       }
-    };
+    } catch (error) {
+      console.error("Error fetching flight:", error);
+    }
+  }, [params.id, publicFlightService, setCallsign, loadFlightPath]);
 
-    fetchFlight();
-  }, [params.id, publicFlightService, setCallsign]);
+  // Initial fetch on mount
+  useEffect(() => {
+    fetchFlight().then();
+  }, [fetchFlight]);
 
-  // refresh
+  // Refresh flight data every 5 seconds
   useEffect(() => {
     if (!flight) return;
 
     const intervalId = setInterval(() => {
-      loadFlightPath();
-    }, 10000); // 10 seconds
+      fetchFlight().then();
+    }, 5000); // 5 seconds
 
     return () => clearInterval(intervalId);
-  }, [flight, loadFlightPath]);
+  }, [flight, fetchFlight]);
 
+  // Hide splash screen after 1 second
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 1000);
     return () => clearTimeout(timer);
