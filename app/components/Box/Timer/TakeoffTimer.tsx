@@ -1,11 +1,12 @@
 "use client";
 
-import { FilledScheduleWithoutTypes } from "~/models";
-import { formatDate, formatTimeInterval, secondsToNow } from "~/functions/time";
+import { FilledSchedule } from "~/models";
+import { formatTimeInterval, secondsToNow } from "~/functions/time";
 import { useEffect, useState } from "react";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 
 type TakeoffTimerProps = {
-  schedule: FilledScheduleWithoutTypes;
+  schedule: FilledSchedule;
 };
 
 function timeToColor(time: number): string {
@@ -21,12 +22,12 @@ function timeToColor(time: number): string {
 }
 
 export function TakeoffTimer({ schedule }: TakeoffTimerProps) {
-  const timeToTakeoff = secondsToNow(new Date(schedule.takeoffTime));
+  const timeToTakeoff = secondsToNow(schedule.takeoffTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToTakeoff);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(secondsToNow(new Date(schedule.takeoffTime)));
+      setTimeLeft(secondsToNow(schedule.takeoffTime));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -42,7 +43,7 @@ export function TakeoffTimer({ schedule }: TakeoffTimerProps) {
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          {formatDate(new Date(schedule.takeoffTime))}
+          <FormattedIcaoTime date={schedule.takeoffTime} />
         </span>
         <span className="block text-sm">scheduled takeoff time</span>
       </div>

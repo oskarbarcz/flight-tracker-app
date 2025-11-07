@@ -41,7 +41,7 @@ export default function ReleaseFlightModal({
           </span>
           , departing at{" "}
           <span className="font-bold">
-            {formatDate(new Date(flight.timesheet.scheduled.takeoffTime))}
+            {formatDate(flight.timesheet.scheduled.takeoffTime)}
           </span>
           .
         </p>

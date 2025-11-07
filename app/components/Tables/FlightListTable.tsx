@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  FilledScheduleWithoutTypes,
+  FilledSchedule,
   Flight,
   FlightPrecedenceStatus,
   FlightStatus,
@@ -20,7 +20,6 @@ import {
 } from "flowbite-react";
 import { FaCheckCircle } from "react-icons/fa";
 import React, { useEffect } from "react";
-import { formattedToISO } from "~/functions/time";
 import RemoveFlightModal from "~/components/Modal/RemoveFlightModal";
 import ReleaseFlightModal from "~/components/Modal/ReleaseFlightModal";
 import UpdateScheduledTimesheetModal from "~/components/Modal/UpdateScheduledTimesheetModal";
@@ -62,18 +61,8 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
     setFlightToRemove(null);
   };
 
-  const updateSchedule = async (
-    flightId: string,
-    schedule: FilledScheduleWithoutTypes,
-  ) => {
-    const normalizedSchedule = {
-      offBlockTime: formattedToISO(schedule.offBlockTime),
-      takeoffTime: formattedToISO(schedule.takeoffTime),
-      arrivalTime: formattedToISO(schedule.arrivalTime),
-      onBlockTime: formattedToISO(schedule.onBlockTime),
-    };
-
-    await flightService.updateScheduledTimesheet(flightId, normalizedSchedule);
+  const updateSchedule = async (flightId: string, schedule: FilledSchedule) => {
+    await flightService.updateScheduledTimesheet(flightId, schedule);
     const updated = await flightService.getById(flightId);
 
     setFlights((state) =>
@@ -167,15 +156,11 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       {flight.timesheet.scheduled.offBlockTime && (
                         <>
                           <FormattedIcaoDate
-                            date={
-                              new Date(flight.timesheet.scheduled.offBlockTime)
-                            }
+                            date={flight.timesheet.scheduled.offBlockTime}
                           />
                           {" • "}
                           <FormattedIcaoTime
-                            date={
-                              new Date(flight.timesheet.scheduled.offBlockTime)
-                            }
+                            date={flight.timesheet.scheduled.offBlockTime}
                           />
                         </>
                       )}
@@ -278,70 +263,52 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                             <div className="flex shrink-0 items-center gap-6">
                               <div className="shrink-0 text-center">
                                 <span className="mb-1 block text-xs">
-                                  Departure
+                                  DEP DATE
                                 </span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
                                   <FormattedIcaoDate
                                     date={
-                                      new Date(
-                                        flight.timesheet.scheduled.offBlockTime,
-                                      )
+                                      flight.timesheet.scheduled.offBlockTime
                                     }
                                   />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
-                                <span className="mb-1 block text-xs">
-                                  Off-block
-                                </span>
+                                <span className="mb-1 block text-xs">OFF</span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
                                   <FormattedIcaoTime
                                     date={
-                                      new Date(
-                                        flight.timesheet.scheduled.offBlockTime,
-                                      )
+                                      flight.timesheet.scheduled.offBlockTime
                                     }
                                   />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
-                                <span className="mb-1 block text-xs">
-                                  Takeoff
-                                </span>
+                                <span className="mb-1 block text-xs">OUT</span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
                                   <FormattedIcaoTime
                                     date={
-                                      new Date(
-                                        flight.timesheet.scheduled.takeoffTime,
-                                      )
+                                      flight.timesheet.scheduled.takeoffTime
                                     }
                                   />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
-                                <span className="mb-1 block text-xs">
-                                  Arrival
-                                </span>
+                                <span className="mb-1 block text-xs">IN</span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
                                   <FormattedIcaoTime
                                     date={
-                                      new Date(
-                                        flight.timesheet.scheduled.arrivalTime,
-                                      )
+                                      flight.timesheet.scheduled.arrivalTime
                                     }
                                   />
                                 </span>
                               </div>
                               <div className="shrink-0 text-center">
-                                <span className="mb-1 block text-xs">
-                                  On-block
-                                </span>
+                                <span className="mb-1 block text-xs">ON</span>
                                 <span className="block font-bold text-gray-900 dark:text-white">
                                   <FormattedIcaoTime
                                     date={
-                                      new Date(
-                                        flight.timesheet.scheduled.onBlockTime,
-                                      )
+                                      flight.timesheet.scheduled.onBlockTime
                                     }
                                   />
                                 </span>

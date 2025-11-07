@@ -1,8 +1,8 @@
 import {
   Aircraft,
   Airport,
-  CheckedInFlightTimesheet,
   Operator,
+  parseTimesheet,
   Timesheet,
 } from "~/models";
 import { ApiFlightResponse } from "~/state/api/model/flight.dto";
@@ -82,7 +82,7 @@ export class Flight {
   airports: AirportOnFlight[];
   aircraft: Aircraft;
   operator: Operator;
-  timesheet: Timesheet | CheckedInFlightTimesheet;
+  timesheet: Timesheet;
   status: FlightStatus;
   loadsheets: Loadsheets;
 
@@ -93,7 +93,7 @@ export class Flight {
     this.airports = flight.airports;
     this.aircraft = flight.aircraft;
     this.operator = flight.operator;
-    this.timesheet = flight.timesheet;
+    this.timesheet = parseTimesheet(flight.timesheet);
     this.status = flight.status;
     this.loadsheets = {
       preliminary: flight.loadsheets.preliminary,

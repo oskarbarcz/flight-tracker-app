@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledScheduleWithoutTypes, FlightStatus } from "~/models";
+import { FilledSchedule, FlightStatus } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
@@ -29,8 +29,8 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
   const timesheet = flight.timesheet;
 
   const scheduledBlockTime = calculateBlockTime(
-    new Date(timesheet.scheduled.offBlockTime),
-    new Date(timesheet.scheduled.onBlockTime),
+    timesheet.scheduled.offBlockTime,
+    timesheet.scheduled.onBlockTime,
   );
 
   let estimatedBlockTime = null;
@@ -39,10 +39,10 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
     flight.status !== FlightStatus.Created &&
     flight.status !== FlightStatus.Ready
   ) {
-    const schedule = timesheet.estimated as FilledScheduleWithoutTypes;
+    const schedule = timesheet.estimated as FilledSchedule;
     estimatedBlockTime = calculateBlockTime(
-      new Date(schedule.offBlockTime),
-      new Date(schedule.onBlockTime),
+      schedule.offBlockTime,
+      schedule.onBlockTime,
     );
   }
 
@@ -109,13 +109,13 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
             <>
               <span className="block text-xs text-green-500">{"On time"}</span>
               <span className="block text-2xl font-bold text-green-500">
-                {formatTime(new Date(timesheet.estimated.offBlockTime))}
+                {formatTime(timesheet.estimated.offBlockTime)}
               </span>
             </>
           )}
           <span className="block text-sm">
             {"Sched. "}
-            {formatTime(new Date(timesheet.scheduled.offBlockTime))}
+            {formatTime(timesheet.scheduled.offBlockTime)}
           </span>
         </div>
 
@@ -124,13 +124,13 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
             <>
               <span className="block text-xs text-green-500">{"On time"}</span>
               <span className="block text-2xl font-bold text-green-500">
-                {formatTime(new Date(timesheet.estimated.onBlockTime))}
+                {formatTime(timesheet.estimated.onBlockTime)}
               </span>
             </>
           )}
           <span className="block text-sm">
             {"Sched. "}
-            {formatTime(new Date(timesheet.scheduled.onBlockTime))}
+            {formatTime(timesheet.scheduled.onBlockTime)}
           </span>
         </div>
       </div>

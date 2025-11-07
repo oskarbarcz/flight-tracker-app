@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledScheduleWithoutTypes, Flight } from "~/models";
+import { FilledSchedule, Flight } from "~/models";
 import {
   Button,
   Modal,
@@ -13,7 +13,7 @@ import UpdateFlightScheduleForm from "~/components/Forms/UpdateFlightScheduleFor
 
 type UpdateFlightScheduledTimesheetModalProps = {
   flight: Flight;
-  update: (flightId: string, schedule: FilledScheduleWithoutTypes) => void;
+  update: (flightId: string, schedule: FilledSchedule) => void;
   cancel: () => void;
 };
 
@@ -23,8 +23,7 @@ export default function UpdateScheduledTimesheetModal({
   cancel,
 }: UpdateFlightScheduledTimesheetModalProps) {
   const oldSchedule = flight.timesheet.scheduled;
-  const [newSchedule, setNewSchedule] =
-    useState<FilledScheduleWithoutTypes>(oldSchedule);
+  const [newSchedule, setNewSchedule] = useState<FilledSchedule>(oldSchedule);
 
   return (
     <Modal
@@ -37,7 +36,7 @@ export default function UpdateScheduledTimesheetModal({
       <ModalBody>
         <UpdateFlightScheduleForm
           schedule={oldSchedule}
-          setSchedule={useCallback((estimation: FilledScheduleWithoutTypes) => {
+          setSchedule={useCallback((estimation: FilledSchedule) => {
             setNewSchedule(estimation);
           }, [])}
         />
@@ -53,7 +52,7 @@ export default function UpdateScheduledTimesheetModal({
             onClick={() => update(flight.id, newSchedule)}
           >
             Update schedule for flight
-            <span className="font-mono font-bold ms-1">
+            <span className="font-bold font-mono  ms-1">
               {flight.flightNumberWithoutSpaces}
             </span>
           </Button>

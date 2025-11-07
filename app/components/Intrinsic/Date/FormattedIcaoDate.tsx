@@ -19,7 +19,7 @@ export function dateToIcaoDate(date: Date): string {
   const currentYear = new Date().getUTCFullYear();
 
   const yearPart = year === currentYear ? "" : ` ${year}`;
-  return `${day} ${month}${yearPart}`;
+  return `${day}${month}${yearPart}`;
 }
 
 type FormattedIcaoDateProps = {

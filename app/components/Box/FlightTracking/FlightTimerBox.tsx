@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledScheduleWithoutTypes, FlightStatus } from "~/models";
+import { FilledSchedule, FlightStatus } from "~/models";
 import { OffBlockTimer } from "~/components/Box/Timer/OffBlockTimer";
 import { TakeoffTimer } from "~/components/Box/Timer/TakeoffTimer";
 import { ArrivalTimer } from "~/components/Box/Timer/ArrivalTimer";
@@ -14,7 +14,7 @@ export function FlightTimerBox() {
     return <div>Loading...</div>;
   }
   const schedule = flight.timesheet.scheduled;
-  const actual = flight.timesheet.actual as FilledScheduleWithoutTypes;
+  const actual = flight.timesheet.actual as FilledSchedule;
 
   const showOffBlockTimer = [
     FlightStatus.Ready,

@@ -1,17 +1,15 @@
 import { Form } from "react-router";
 import React, { useEffect, useState } from "react";
 import {
-  formatDate,
-  formattedToDate,
   getTimeDifferenceInHours,
   getTimeDifferenceInMinutes,
 } from "~/functions/time";
-import { FilledScheduleWithoutTypes } from "~/models";
+import { FilledSchedule } from "~/models";
 import { FloatingLabel } from "flowbite-react";
 
 type UpdateFlightScheduleFormProps = {
-  schedule: FilledScheduleWithoutTypes;
-  setSchedule: (schedule: FilledScheduleWithoutTypes) => void;
+  schedule: FilledSchedule;
+  setSchedule: (schedule: FilledSchedule) => void;
 };
 
 export default function UpdateFlightScheduleForm({
@@ -19,43 +17,48 @@ export default function UpdateFlightScheduleForm({
   setSchedule,
 }: UpdateFlightScheduleFormProps) {
   const [offBlockTime, setOffBlockTime] = useState<string>(
-    formatDate(new Date(schedule.offBlockTime)),
+    schedule.offBlockTime.toISOString(),
   );
   const [takeoffTime, setTakeoffTime] = useState<string>(
-    formatDate(new Date(schedule.takeoffTime)),
+    schedule.takeoffTime.toISOString(),
   );
   const [arrivalTime, setArrivalTime] = useState<string>(
-    formatDate(new Date(schedule.arrivalTime)),
+    schedule.arrivalTime.toISOString(),
   );
   const [onBlockTime, setOnBlockTime] = useState<string>(
-    formatDate(new Date(schedule.onBlockTime)),
+    schedule.onBlockTime.toISOString(),
   );
 
   useEffect(() => {
-    setSchedule({ offBlockTime, takeoffTime, arrivalTime, onBlockTime });
+    setSchedule({
+      offBlockTime: new Date(offBlockTime),
+      takeoffTime: new Date(takeoffTime),
+      arrivalTime: new Date(arrivalTime),
+      onBlockTime: new Date(onBlockTime),
+    });
   }, [offBlockTime, takeoffTime, arrivalTime, onBlockTime, setSchedule]);
 
   const taxiOutTime = getTimeDifferenceInMinutes(
-    formattedToDate(offBlockTime),
-    formattedToDate(takeoffTime),
+    new Date(offBlockTime),
+    new Date(takeoffTime),
   );
   const taxiOutColor = taxiOutTime < 0 ? "text-red-500" : "";
 
   const airTime = getTimeDifferenceInHours(
-    formattedToDate(takeoffTime),
-    formattedToDate(arrivalTime),
+    new Date(takeoffTime),
+    new Date(arrivalTime),
   );
   const airTimeColor = airTime.startsWith("-") ? "text-red-500" : "";
 
   const taxiInTime = getTimeDifferenceInMinutes(
-    formattedToDate(arrivalTime),
-    formattedToDate(onBlockTime),
+    new Date(arrivalTime),
+    new Date(onBlockTime),
   );
   const taxiInColor = taxiInTime < 0 ? "text-red-500" : "";
 
   const blockTime = getTimeDifferenceInHours(
-    formattedToDate(offBlockTime),
-    formattedToDate(onBlockTime),
+    new Date(offBlockTime),
+    new Date(onBlockTime),
   );
 
   return (
