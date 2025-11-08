@@ -1,11 +1,9 @@
 import {
   Aircraft,
   AirportOnFlight,
-  CheckedInFlightTimesheet,
   FlightCrew,
   FlightStatus,
   Operator,
-  Timesheet,
 } from "~/models";
 
 export type CreateFlightRequest = Omit<
@@ -38,7 +36,26 @@ export type ApiFlightResponse = {
   aircraft: Aircraft;
   operatorId: string;
   operator: Operator;
-  timesheet: Timesheet | CheckedInFlightTimesheet;
+  timesheet: {
+    scheduled: {
+      offBlockTime: string;
+      takeoffTime: string;
+      arrivalTime: string;
+      onBlockTime: string;
+    };
+    estimated?: {
+      offBlockTime: string;
+      takeoffTime: string;
+      arrivalTime: string;
+      onBlockTime: string;
+    };
+    actual?: {
+      offBlockTime: string | null;
+      takeoffTime: string | null;
+      arrivalTime: string | null;
+      onBlockTime: string | null;
+    };
+  };
   status: FlightStatus;
   loadsheets: ApiLoadsheetsResponse;
 };

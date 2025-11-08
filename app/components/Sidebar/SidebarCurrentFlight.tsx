@@ -27,9 +27,7 @@ export default function SidebarCurrentFlight({
 
   const handleTimeUpdate = useCallback((flight: Flight) => {
     const timesheet = flight.timesheet as CheckedInFlightTimesheet;
-    const timeRemaining = calculateTimeToGo(
-      new Date(timesheet.estimated.arrivalTime),
-    );
+    const timeRemaining = calculateTimeToGo(timesheet.estimated.arrivalTime);
     setTimeRemaining(timeRemaining);
   }, []);
 

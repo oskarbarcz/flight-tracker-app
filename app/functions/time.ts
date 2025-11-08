@@ -18,15 +18,6 @@ export function formatDateToLocal(date: Date): string {
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
 
-export function formattedToISO(dateStr: string): string {
-  return formattedToDate(dateStr).toISOString();
-}
-
-export function formattedToDate(dateStr: string): Date {
-  const [day, month, year, hours, minutes] = dateStr.split(/[- :]/).map(Number);
-  return new Date(Date.UTC(year, month - 1, day, hours, minutes));
-}
-
 export function getTimeDifferenceInMinutes(a: Date, b: Date): number {
   const diffInMs = b.getTime() - a.getTime();
   return Math.floor(diffInMs / (1000 * 60));
@@ -41,17 +32,6 @@ export function getTimeDifferenceInHours(a: Date, b: Date): string {
   const minutes = String(absMinutes % 60).padStart(2, "0");
 
   return `${sign}${hours}:${minutes}`;
-}
-
-export function getHourFromDate(date: string | undefined): string {
-  if (!date) {
-    return "";
-  }
-
-  const utcHours = String(new Date(date).getUTCHours()).padStart(2, "0");
-  const utcMinutes = String(new Date(date).getUTCMinutes()).padStart(2, "0");
-
-  return `${utcHours}:${utcMinutes}`;
 }
 
 export function formatTimeInterval(seconds: number) {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { FilledSchedule, FilledScheduleWithoutTypes, Flight } from "~/models";
+import { FilledSchedule, Flight } from "~/models";
 import { formatDate } from "~/functions/time";
 import {
   Button,
@@ -24,8 +24,7 @@ export default function CheckInFlightModal({
   close,
 }: CheckInFlightModalProps) {
   const schedule = flight.timesheet.scheduled;
-  const [estimation, setEstimation] =
-    useState<FilledScheduleWithoutTypes>(schedule);
+  const [estimation, setEstimation] = useState<FilledSchedule>(schedule);
 
   return (
     <Modal show onClose={close}>
@@ -39,7 +38,7 @@ export default function CheckInFlightModal({
                 Off-block time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(new Date(schedule.offBlockTime))}
+                {formatDate(schedule.offBlockTime)}
               </span>
             </div>
             <div className="mb-3">
@@ -47,7 +46,7 @@ export default function CheckInFlightModal({
                 Takeoff time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(new Date(schedule.takeoffTime))}
+                {formatDate(schedule.takeoffTime)}
               </span>
             </div>
             <div className="mb-3">
@@ -55,7 +54,7 @@ export default function CheckInFlightModal({
                 Landing time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(new Date(schedule.arrivalTime))}
+                {formatDate(schedule.arrivalTime)}
               </span>
             </div>
             <div className="mb-3">
@@ -63,19 +62,16 @@ export default function CheckInFlightModal({
                 On-block time
               </span>
               <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(new Date(schedule.onBlockTime))}
+                {formatDate(schedule.onBlockTime)}
               </span>
             </div>
           </div>
           <div className="w-full md:w-1/2">
             <CheckInFlightForm
               estimation={estimation}
-              setEstimation={useCallback(
-                (estimation: FilledScheduleWithoutTypes) => {
-                  setEstimation(estimation);
-                },
-                [],
-              )}
+              setEstimation={useCallback((estimation: FilledSchedule) => {
+                setEstimation(estimation);
+              }, [])}
             />
           </div>
         </div>
@@ -93,14 +89,7 @@ export default function CheckInFlightModal({
             type="submit"
             color="indigo"
             outline
-            onClick={() =>
-              checkIn({
-                offBlockTime: new Date(estimation.offBlockTime),
-                takeoffTime: new Date(estimation.takeoffTime),
-                arrivalTime: new Date(estimation.arrivalTime),
-                onBlockTime: new Date(estimation.onBlockTime),
-              })
-            }
+            onClick={() => checkIn(estimation)}
           >
             Check in for flight
             <span className="font-mono font-bold ms-2">

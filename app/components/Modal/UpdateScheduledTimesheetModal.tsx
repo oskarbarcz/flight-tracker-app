@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledScheduleWithoutTypes, Flight } from "~/models";
+import { FilledSchedule, Flight } from "~/models";
 import {
   Button,
   Modal,
@@ -8,12 +8,14 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import UpdateFlightScheduleForm from "~/components/Forms/UpdateFlightScheduleForm";
+import { updateScheduleSchema } from "~/validator/form/flight.schema";
+import Form from "../Form/Form";
 
 type UpdateFlightScheduledTimesheetModalProps = {
   flight: Flight;
-  update: (flightId: string, schedule: FilledScheduleWithoutTypes) => void;
+  update: (flightId: string, schedule: FilledSchedule) => void;
   cancel: () => void;
 };
 
@@ -22,25 +24,27 @@ export default function UpdateScheduledTimesheetModal({
   update,
   cancel,
 }: UpdateFlightScheduledTimesheetModalProps) {
-  const oldSchedule = flight.timesheet.scheduled;
-  const [newSchedule, setNewSchedule] =
-    useState<FilledScheduleWithoutTypes>(oldSchedule);
+  const handleSubmit = (values: FilledSchedule) => {
+    update(flight.id, values);
+  };
 
   return (
     <Modal
-      size="md"
+      size="sm"
       className="text-gray-800 dark:text-white"
       show
       onClose={cancel}
     >
       <ModalHeader>Update scheduled timesheet</ModalHeader>
       <ModalBody>
-        <UpdateFlightScheduleForm
-          schedule={oldSchedule}
-          setSchedule={useCallback((estimation: FilledScheduleWithoutTypes) => {
-            setNewSchedule(estimation);
-          }, [])}
-        />
+        <Form<FilledSchedule>
+          id="updateScheduleForm"
+          initialValues={flight.timesheet.scheduled}
+          validationSchema={updateScheduleSchema}
+          onSubmit={handleSubmit}
+        >
+          <UpdateFlightScheduleForm />
+        </Form>
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
@@ -49,13 +53,11 @@ export default function UpdateScheduledTimesheetModal({
           </Button>
           <Button
             color="indigo"
+            type="submit"
+            form="updateScheduleForm"
             outline
-            onClick={() => update(flight.id, newSchedule)}
           >
-            Update schedule for flight
-            <span className="font-mono font-bold ms-1">
-              {flight.flightNumberWithoutSpaces}
-            </span>
+            Save changes
           </Button>
         </div>
       </ModalFooter>

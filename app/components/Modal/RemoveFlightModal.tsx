@@ -40,7 +40,7 @@ export default function RemoveFlightModal({
           </span>
           , departing at{" "}
           <span className="font-bold">
-            {formatDate(new Date(flight.timesheet.scheduled.takeoffTime))}
+            {formatDate(flight.timesheet.scheduled.takeoffTime)}
           </span>
           .
         </p>

@@ -1,11 +1,13 @@
 "use client";
 
-import { FilledScheduleWithoutTypes } from "~/models";
-import { formatDate, formatTimeInterval, secondsToNow } from "~/functions/time";
+import { FilledSchedule } from "~/models";
+import { formatTimeInterval, secondsToNow } from "~/functions/time";
 import { useEffect, useState } from "react";
+import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 
 type OnBlockTimerProps = {
-  schedule: FilledScheduleWithoutTypes;
+  schedule: FilledSchedule;
 };
 
 function timeToColor(time: number): string {
@@ -21,12 +23,12 @@ function timeToColor(time: number): string {
 }
 
 export function OnBlockTimer({ schedule }: OnBlockTimerProps) {
-  const timeToOnBlock = secondsToNow(new Date(schedule.onBlockTime));
+  const timeToOnBlock = secondsToNow(schedule.onBlockTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToOnBlock);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(secondsToNow(new Date(schedule.onBlockTime)));
+      setTimeLeft(secondsToNow(schedule.onBlockTime));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -42,7 +44,8 @@ export function OnBlockTimer({ schedule }: OnBlockTimerProps) {
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          {formatDate(new Date(schedule.onBlockTime))}
+          <FormattedIcaoDate date={schedule.onBlockTime} />
+          <FormattedIcaoTime date={schedule.onBlockTime} />
         </span>
         <span className="block text-sm">scheduled on-block time</span>
       </div>

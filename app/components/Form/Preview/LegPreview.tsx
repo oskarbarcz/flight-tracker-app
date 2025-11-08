@@ -2,9 +2,10 @@
 
 import { Flight } from "~/models";
 import { FaArrowRight } from "react-icons/fa";
-import { formatDate, getHourFromDate } from "~/functions/time";
+import { formatDate } from "~/functions/time";
 import React from "react";
 import { Tooltip } from "flowbite-react";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 
 type LegPreviewProps = {
   flight: Flight;
@@ -56,7 +57,9 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                 <span className="block text-center text-gray-500 dark:text-gray-400">
                   OFF
                 </span>
-                {getHourFromDate(flight.timesheet.scheduled.offBlockTime)}
+                <FormattedIcaoTime
+                  date={flight.timesheet.scheduled.offBlockTime}
+                />
               </Tooltip>
             </div>
             <div className="inline-block text-sm text-gray-800 dark:text-gray-300">
@@ -69,7 +72,9 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                 <span className="block text-center text-gray-500 dark:text-gray-400">
                   OUT
                 </span>
-                {getHourFromDate(flight.timesheet.scheduled.takeoffTime)}
+                <FormattedIcaoTime
+                  date={flight.timesheet.scheduled.takeoffTime}
+                />
               </Tooltip>
             </div>
             <div className="flex gap-4">
@@ -83,7 +88,9 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                   <span className="block text-center text-gray-500 dark:text-gray-400">
                     IN
                   </span>
-                  {getHourFromDate(flight.timesheet.scheduled.arrivalTime)}
+                  <FormattedIcaoTime
+                    date={flight.timesheet.scheduled.arrivalTime}
+                  />
                 </Tooltip>
               </div>
               <div className="inline-block text-sm text-gray-800 dark:text-gray-300">
@@ -96,7 +103,9 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                   <span className="block text-center text-gray-500 dark:text-gray-400">
                     ON
                   </span>
-                  {getHourFromDate(flight.timesheet.scheduled.onBlockTime)}
+                  <FormattedIcaoTime
+                    date={flight.timesheet.scheduled.onBlockTime}
+                  />
                 </Tooltip>
               </div>
             </div>

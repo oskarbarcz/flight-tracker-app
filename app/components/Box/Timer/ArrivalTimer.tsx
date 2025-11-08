@@ -1,6 +1,6 @@
 "use client";
 
-import { FilledScheduleWithoutTypes } from "~/models";
+import { FilledSchedule } from "~/models";
 import {
   formatDate,
   formatTimeInterval,
@@ -8,10 +8,12 @@ import {
   timeDiff,
 } from "~/functions/time";
 import { useEffect, useState } from "react";
+import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 
 type ArrivalTimerProps = {
-  schedule: FilledScheduleWithoutTypes;
-  actual: FilledScheduleWithoutTypes;
+  schedule: FilledSchedule;
+  actual: FilledSchedule;
 };
 
 function timeToColor(time: number): string {
@@ -27,21 +29,20 @@ function timeToColor(time: number): string {
 }
 
 export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
-  const timeToArrival = secondsToNow(new Date(schedule.arrivalTime));
+  const timeToArrival = secondsToNow(schedule.arrivalTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToArrival);
 
   const estimatedBlockTime = timeDiff(
-    new Date(schedule.takeoffTime),
-    new Date(schedule.arrivalTime),
+    schedule.takeoffTime,
+    schedule.arrivalTime,
   );
-  const actualTakeoffTime = new Date(actual.takeoffTime);
   const calculatedArrivalTime = new Date(
-    actualTakeoffTime.getTime() + estimatedBlockTime * 1000,
+    actual.takeoffTime.getTime() + estimatedBlockTime * 1000,
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeLeft(secondsToNow(new Date(schedule.arrivalTime)));
+      setTimeLeft(secondsToNow(schedule.arrivalTime));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -63,7 +64,8 @@ export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          {formatDate(new Date(schedule.arrivalTime))}
+          <FormattedIcaoDate date={schedule.onBlockTime} />
+          <FormattedIcaoTime date={schedule.onBlockTime} />
         </span>
         <span className="block text-sm">scheduled arrival time</span>
       </div>
