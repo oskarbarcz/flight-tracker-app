@@ -24,10 +24,6 @@ export default function UpdateScheduledTimesheetModal({
   update,
   cancel,
 }: UpdateFlightScheduledTimesheetModalProps) {
-  const handleSubmit = (values: FilledSchedule) => {
-    update(flight.id, values);
-  };
-
   return (
     <Modal
       size="sm"
@@ -41,7 +37,7 @@ export default function UpdateScheduledTimesheetModal({
           id="updateScheduleForm"
           initialValues={flight.timesheet.scheduled}
           validationSchema={updateScheduleSchema}
-          onSubmit={handleSubmit}
+          onSubmit={(schedule) => update(flight.id, schedule)}
         >
           <UpdateFlightScheduleForm />
         </Form>

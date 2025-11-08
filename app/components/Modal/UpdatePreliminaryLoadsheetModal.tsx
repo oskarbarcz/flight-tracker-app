@@ -8,8 +8,15 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import React, { useCallback, useState } from "react";
-import FlightLoadsheetForm from "~/components/Forms/FlightLoadsheetForm";
+import React from "react";
+import UpdateLoadsheetForm from "~/components/Forms/UpdateLoadsheetForm";
+import { updatePreliminaryLoadsheetSchema } from "~/validator/form/flight.schema";
+import Form from "~/components/Form/Form";
+import {
+  FlatLoadsheetFormData,
+  flatLoadsheetToLoadsheet,
+  loadsheetToFlatLoadsheet,
+} from "~/validator/form/types/flight.form-types";
 
 type UpdatePreliminaryLoadsheetModalProps = {
   flight: Flight;
@@ -30,7 +37,10 @@ export default function UpdatePreliminaryLoadsheetModal({
     payload: 0,
     blockFuel: 0,
   };
-  const [newLoadsheet, setNewLoadsheet] = useState<Loadsheet>(oldLoadsheet);
+
+  const handleSubmit = (loadsheet: FlatLoadsheetFormData) => {
+    update(flight.id, flatLoadsheetToLoadsheet(loadsheet));
+  };
 
   return (
     <Modal
@@ -41,12 +51,14 @@ export default function UpdatePreliminaryLoadsheetModal({
     >
       <ModalHeader>Update preliminary loadsheet</ModalHeader>
       <ModalBody>
-        <FlightLoadsheetForm
-          loadsheet={oldLoadsheet}
-          setLoadsheet={useCallback((loadsheet: Loadsheet) => {
-            setNewLoadsheet(loadsheet);
-          }, [])}
-        />
+        <Form<FlatLoadsheetFormData>
+          id="updatePreliminaryLoadsheetForm"
+          initialValues={loadsheetToFlatLoadsheet(oldLoadsheet)}
+          validationSchema={updatePreliminaryLoadsheetSchema}
+          onSubmit={handleSubmit}
+        >
+          <UpdateLoadsheetForm />
+        </Form>
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
@@ -54,9 +66,10 @@ export default function UpdatePreliminaryLoadsheetModal({
             Back
           </Button>
           <Button
+            type="submit"
+            form="updatePreliminaryLoadsheetForm"
             color="indigo"
             outline
-            onClick={() => update(flight.id, newLoadsheet)}
           >
             Update loadsheet for flight
             <span className="font-mono font-bold ms-1">
