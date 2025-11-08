@@ -26,7 +26,7 @@ export default function InputErrorList({
             className="mb-1 me-2 inline-block uppercase"
             color={errorFocus ? "failure" : "gray"}
           >
-            Error
+            !
           </Badge>
           <span className={errorFocus ? "text-red-500" : "text-gray-500"}>
             {error}

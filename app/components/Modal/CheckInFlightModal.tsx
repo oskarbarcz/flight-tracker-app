@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { FilledSchedule, Flight } from "~/models";
-import { formatDate } from "~/functions/time";
 import {
   Button,
   Modal,
@@ -10,7 +9,11 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import CheckInFlightForm from "~/components/Forms/CheckInFlightForm";
+import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
+import { updateScheduleSchema } from "~/validator/form/flight.schema";
+import Form from "~/components/Form/Form";
+import UpdateFlightScheduleForm from "~/components/Forms/UpdateFlightScheduleForm";
 
 type CheckInFlightModalProps = {
   flight: Flight;
@@ -24,73 +27,60 @@ export default function CheckInFlightModal({
   close,
 }: CheckInFlightModalProps) {
   const schedule = flight.timesheet.scheduled;
-  const [estimation, setEstimation] = useState<FilledSchedule>(schedule);
 
   return (
-    <Modal show onClose={close}>
+    <Modal size="md" show onClose={close}>
       <ModalHeader>Check in for flight</ModalHeader>
       <ModalBody>
-        <div className="flex flex-col gap-4 text-gray-800 dark:text-white md:flex-row">
-          <div className="w-full md:w-1/2">
-            <h2 className="mb-4 text-xl font-bold">Schedule</h2>
-            <div className="mb-3">
-              <span className="block text-xs font-bold uppercase">
-                Off-block time
-              </span>
-              <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(schedule.offBlockTime)}
-              </span>
-            </div>
-            <div className="mb-3">
-              <span className="block text-xs font-bold uppercase">
-                Takeoff time
-              </span>
-              <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(schedule.takeoffTime)}
-              </span>
-            </div>
-            <div className="mb-3">
-              <span className="block text-xs font-bold uppercase">
-                Landing time
-              </span>
-              <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(schedule.arrivalTime)}
-              </span>
-            </div>
-            <div className="mb-3">
-              <span className="block text-xs font-bold uppercase">
-                On-block time
-              </span>
-              <span className="block text-lg text-gray-600 dark:text-gray-400">
-                {formatDate(schedule.onBlockTime)}
-              </span>
-            </div>
+        <h2 className="mb-3 text-xl font-bold">Schedule</h2>
+        <div className="space-x-4 text-center font-mono">
+          <div className="inline-block">
+            <p className="text-xs text-gray-500">DEP DATE</p>
+            <p className="font-bold">
+              <FormattedIcaoDate date={schedule.offBlockTime} />
+            </p>
           </div>
-          <div className="w-full md:w-1/2">
-            <CheckInFlightForm
-              estimation={estimation}
-              setEstimation={useCallback((estimation: FilledSchedule) => {
-                setEstimation(estimation);
-              }, [])}
-            />
+          <div className="inline-block">
+            <p className="text-xs text-gray-500">OFF</p>
+            <p className="font-bold">
+              <FormattedIcaoTime date={schedule.offBlockTime} />
+            </p>
+          </div>
+          <div className="inline-block">
+            <p className="text-xs text-gray-500">OUT</p>
+            <p className="font-bold">
+              <FormattedIcaoTime date={schedule.takeoffTime} />
+            </p>
+          </div>
+          <div className="inline-block">
+            <p className="text-xs text-gray-500">IN</p>
+            <p className="font-bold">
+              <FormattedIcaoTime date={schedule.arrivalTime} />
+            </p>
+          </div>
+          <div className="inline-block">
+            <p className="text-xs text-gray-500">ON</p>
+            <p className="font-bold">
+              <FormattedIcaoTime date={schedule.onBlockTime} />
+            </p>
           </div>
         </div>
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-          <span className="font-bold">Caution!</span>{" "}
-          <span>All times must be provided in UTC.</span>
-        </p>
+        <h2 className="my-4 text-xl font-bold">Estimation</h2>
+        <Form<FilledSchedule>
+          id="checkInFlightForm"
+          initialValues={schedule}
+          validationSchema={updateScheduleSchema}
+          onSubmit={(schedule) => checkIn(schedule)}
+        >
+          <UpdateFlightScheduleForm />
+        </Form>
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" outline onClick={close}>
             Back to preview
           </Button>
-          <Button
-            type="submit"
-            color="indigo"
-            outline
-            onClick={() => checkIn(estimation)}
-          >
+          <Button type="submit" color="indigo" outline form="checkInFlightForm">
             Check in for flight
             <span className="font-mono font-bold ms-2">
               {flight.flightNumberWithoutSpaces}

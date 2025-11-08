@@ -48,7 +48,7 @@ export default function translateStatus(status: FlightStatus): string {
 export function translateNextActionStatus(status: FlightStatus): string | null {
   switch (status) {
     case FlightStatus.Ready:
-      return "Go to flight check-in";
+      return "Check in for flight";
     case FlightStatus.CheckedIn:
       return "Start boarding";
     case FlightStatus.BoardingStarted:

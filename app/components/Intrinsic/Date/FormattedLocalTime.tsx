@@ -24,7 +24,7 @@ export function FormattedLocalTime({
   return (
     <span className="font-mono">
       {dateToLocalTime(date, seconds)}
-      <span className="text-xs ms-1">LT</span>
+      <span className="text-xs">LT</span>
     </span>
   );
 }

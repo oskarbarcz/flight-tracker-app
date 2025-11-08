@@ -8,8 +8,15 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import React, { useCallback, useState } from "react";
-import FlightLoadsheetForm from "~/components/Forms/FlightLoadsheetForm";
+import React from "react";
+import UpdateLoadsheetForm from "~/components/Forms/UpdateLoadsheetForm";
+import {
+  FlatLoadsheetFormData,
+  flatLoadsheetToLoadsheet,
+  loadsheetToFlatLoadsheet,
+} from "~/validator/form/types/flight.form-types";
+import { updatePreliminaryLoadsheetSchema } from "~/validator/form/flight.schema";
+import Form from "~/components/Form/Form";
 
 type UpdateFinalLoadsheetModalProps = {
   flight: Flight;
@@ -22,8 +29,11 @@ export default function UpdateFinalLoadsheetModal({
   update,
   cancel,
 }: UpdateFinalLoadsheetModalProps) {
-  const oldLoadsheet = flight.loadsheets.preliminary as Loadsheet;
-  const [newLoadsheet, setNewLoadsheet] = useState<Loadsheet>(oldLoadsheet);
+  const loadsheet = flight.loadsheets.preliminary as Loadsheet;
+
+  const handleSubmit = (loadsheet: FlatLoadsheetFormData) => {
+    update(flatLoadsheetToLoadsheet(loadsheet));
+  };
 
   return (
     <Modal
@@ -34,19 +44,26 @@ export default function UpdateFinalLoadsheetModal({
     >
       <ModalHeader>Fill final loadsheet</ModalHeader>
       <ModalBody>
-        <FlightLoadsheetForm
-          loadsheet={oldLoadsheet}
-          setLoadsheet={useCallback((loadsheet: Loadsheet) => {
-            setNewLoadsheet(loadsheet);
-          }, [])}
-        />
+        <Form<FlatLoadsheetFormData>
+          id="updateFinalLoadsheetForm"
+          initialValues={loadsheetToFlatLoadsheet(loadsheet)}
+          validationSchema={updatePreliminaryLoadsheetSchema}
+          onSubmit={handleSubmit}
+        >
+          <UpdateLoadsheetForm />
+        </Form>
       </ModalBody>
       <ModalFooter>
         <div className="ms-auto flex gap-2">
           <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button color="indigo" outline onClick={() => update(newLoadsheet)}>
+          <Button
+            color="indigo"
+            outline
+            type="submit"
+            form="updateFinalLoadsheetForm"
+          >
             Finish boarding
           </Button>
         </div>
