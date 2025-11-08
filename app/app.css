@@ -1,8 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:wght@100..700&display=swap");
+
 @import "tailwindcss";
 @import "tailwindcss-safe-area";
 @import "leaflet/dist/leaflet.css";
-
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:wght@100..700&display=swap");
 
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
