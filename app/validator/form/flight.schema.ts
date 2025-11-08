@@ -58,7 +58,8 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
       "max-decimals",
       "Maximum 3 decimal places allowed",
       (value) =>
-        value === undefined || /^\d+(\.\d{0,3})?$/.test(value.toString()),
+        value === undefined ||
+        Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 
   zeroFuelWeight: number()
@@ -68,7 +69,8 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
       "max-decimals",
       "Maximum 3 decimal places allowed",
       (value) =>
-        value === undefined || /^\d+(\.\d{0,3})?$/.test(value.toString()),
+        value === undefined ||
+        Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 
   blockFuel: number()
@@ -78,6 +80,7 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
       "max-decimals",
       "Maximum 3 decimal places allowed",
       (value) =>
-        value === undefined || /^\d+(\.\d{0,3})?$/.test(value.toString()),
+        value === undefined ||
+        Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 });
