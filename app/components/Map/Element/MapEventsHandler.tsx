@@ -8,7 +8,7 @@ import { FlightPathElement, Position } from "~/models";
 
 type MapEventsHandlerProps = {
   bounds: LatLngBounds;
-  aircraftPosition: FlightPathElement;
+  aircraftPosition?: FlightPathElement;
   options?: FitBoundsOptions;
 };
 
@@ -22,16 +22,15 @@ export default function MapEventsHandler({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const resetView = useCallback(() => {
-    const lastPosition: Position = [
-      aircraftPosition.latitude,
-      aircraftPosition.longitude,
-    ];
-
     if (!mapSettings.autoCenter) return;
 
-    if (mapSettings.centerOn === "aircraft") {
+    if (mapSettings.centerOn === "aircraft" && aircraftPosition) {
+      const lastPosition: Position = [
+        aircraftPosition.latitude,
+        aircraftPosition.longitude,
+      ];
       map.flyTo(lastPosition, map.getZoom(), options);
-    } else if (mapSettings.centerOn === "route" && bounds.isValid()) {
+    } else if (mapSettings.centerOn === "route") {
       map.flyToBounds(bounds, options);
     }
   }, [aircraftPosition, mapSettings, bounds, map, options]);

@@ -51,6 +51,16 @@ export function isFlightTrackable(status: FlightStatus): boolean {
   return trackableStatuses.includes(status);
 }
 
+export function shouldPollForAdsbData(status: FlightStatus): boolean {
+  const trackableStatuses = [
+    FlightStatus.TaxiingOut,
+    FlightStatus.InCruise,
+    FlightStatus.TaxiingIn,
+  ];
+
+  return trackableStatuses.includes(status);
+}
+
 export type AirportOnFlight = Airport & {
   type: AirportOnFlightType;
 };

@@ -10,6 +10,7 @@ import FlightScheduleBox from "~/components/Box/FlightTracking/FlightScheduleBox
 import FlightWasClosedBox from "~/components/Box/FlightTracking/FlightWasClosedBox";
 import { FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { AdsbProvider } from "~/state/contexts/content/adsb.context";
 
 type FlightTrackingDashboardProps = {
   flightId: string;
@@ -42,7 +43,9 @@ export default function FlightTrackingDashboard({
         )}
 
         <FlightInfoBox className="col-span-1" />
-        <MapBox className="md:col-span-2" />
+        <AdsbProvider>
+          <MapBox className="md:col-span-2" />
+        </AdsbProvider>
         <FlightProgressBox />
         <FlightScheduleBox />
         <TimeManagementBox />
