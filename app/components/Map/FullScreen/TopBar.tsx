@@ -19,7 +19,7 @@ export default function TopBar() {
     <nav className="mb-2 py-1 px-3 w-full">
       <div className="flex justify-between items-center">
         <a href="/" className="flex items-center">
-          <img src={logo} className="h-6 mr-2" alt="FlightTracker app logo" />
+          <img src={logo} className="h-6 mr-2" alt="Flight Tracker app logo" />
           <span className="text-xl font-bold text-indigo-500">
             Flight Tracker
           </span>

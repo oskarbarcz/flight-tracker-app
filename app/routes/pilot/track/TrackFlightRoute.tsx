@@ -8,7 +8,7 @@ import { UserRole } from "~/models/user.model";
 import FlightTrackingDashboard from "~/components/Dashboard/FlightTrackingDashboard";
 
 export function meta() {
-  return [{ title: "Tracking | FlightTracker" }];
+  return [{ title: "Tracking | Flight Tracker" }];
 }
 
 export default function TrackFlightRoute({ params }: Route.ClientLoaderArgs) {

@@ -51,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        <meta name="apple-mobile-web-app-title" content="FlightTracker" />
+        <meta name="apple-mobile-web-app-title" content="Flight Tracker" />
         <Meta />
         <Links />
       </head>
