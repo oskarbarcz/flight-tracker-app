@@ -8,7 +8,7 @@ type Props = {
 
 export default function AirportShortLabel({ airport }: Props) {
   return (
-    <span className="text-white font-bold whitespace-nowrap text-xs rounded-2xl py-1 px-2 bg-indigo-500">
+    <span className="text-white font-bold text-xs rounded-xl font-mono py-1 px-2 bg-indigo-500">
       {airport.iataCode}
     </span>
   );

@@ -49,7 +49,7 @@ export default function FullScreenMap({ flight, path }: Props) {
           start={flight.departureAirport}
           end={flight.destinationAirport}
         />
-        <FlightPath path={pathPoints} />
+        <FlightPath path={path} />
 
         <MapAircraftMarker path={pathPoints} />
 

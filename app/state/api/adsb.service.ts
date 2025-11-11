@@ -18,4 +18,10 @@ export class AdsbService extends AbstractApiService {
       (entry) => !(entry.latitude === 0 && entry.longitude === 0),
     );
   }
+
+  async isFlightTracked(callsign: string): Promise<boolean> {
+    const records = await this.getRecordsByCallsign(callsign);
+
+    return records.length > 0;
+  }
 }
