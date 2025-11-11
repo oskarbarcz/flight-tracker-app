@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/state/contexts/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { FloatingLabel, Spinner } from "flowbite-react";
+import { Button, FloatingLabel, Spinner } from "flowbite-react";
 import { FaArrowRight } from "react-icons/fa";
 import Container from "~/components/Layout/Container";
 import Logo from "~/components/Layout/Logo";
@@ -35,23 +35,21 @@ export default function SignInRoute() {
   }
 
   return (
-    <div className="flex min-h-full flex-col justify-center md:mt-[-100px] gap-4 sm:gap-6 md:gap-8 p-3 dark:bg-gray-900 items-center">
+    <div className="z-10 flex min-h-full flex-col justify-center md:mt-[-100px] gap-4 sm:gap-6 md:gap-8 p-3 items-center">
       <aside className="flex items-center justify-center">
         <Logo />
       </aside>
-      <Container className="w-full sm:w-[400px]">
+      <Container className="w-full max-w-[350px] shadow-0 border-0">
         <h1 className="text-center mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
           Sign in
         </h1>
-        <form
-          onSubmit={handleSubmit}
-          className="w-full space-y-2 rounded-4xl bg-white dark:bg-gray-800"
-        >
+        <form onSubmit={handleSubmit} className="w-full space-y-2 rounded-4xl">
           <FloatingLabel
             variant="outlined"
             label="Email"
             id="email"
             type="email"
+            autoComplete="email"
             required
             className="dark:bg-gray-800"
             value={email}
@@ -62,6 +60,7 @@ export default function SignInRoute() {
             label="Password"
             id="password"
             type="password"
+            autoComplete="current-password"
             required
             className="dark:bg-gray-800"
             value={password}
@@ -75,20 +74,14 @@ export default function SignInRoute() {
 
           <div className="flex items-center justify-end pt-2">
             {loading ? (
-              <button
-                type="submit"
-                className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
+              <Button type="submit" color="indigo">
                 <Spinner color="purple" size="md" />
-              </button>
+              </Button>
             ) : (
-              <button
-                type="submit"
-                className="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                {"Sign in"}
+              <Button type="submit" color="indigo">
+                <span className="font-bold">Sign in</span>
                 <FaArrowRight className="ms-2 inline-block" />
-              </button>
+              </Button>
             )}
           </div>
         </form>

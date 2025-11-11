@@ -5,10 +5,10 @@ export default function Logo() {
     <>
       <img
         src={logo}
-        className="h-8 mr-2 sm:h-12 sm:mr-3"
+        className="h-6 mr-1 sm:h-9 sm:mr-2"
         alt="Flight Tracker app logo"
       />
-      <span className="text-2xl sm:text-4xl font-bold text-indigo-500">
+      <span className="text-xl sm:text-3xl font-bold text-indigo-500">
         Flight Tracker
       </span>
     </>

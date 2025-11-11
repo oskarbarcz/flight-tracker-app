@@ -1,0 +1,5 @@
+/* Leaflet map styling */
+.leaflet-container {
+  /* Prevent rounded corners dithering */
+  @apply bg-gray-100 dark:bg-gray-900;
+}

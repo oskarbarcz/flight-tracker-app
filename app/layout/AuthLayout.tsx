@@ -3,14 +3,17 @@
 import React from "react";
 import { Outlet } from "react-router";
 import Footer from "~/components/Layout/Footer";
+import { AnimatedBlobs } from "~/components/Blob/AnimatedBlobs";
 
-const AuthLayout = () => {
+export default function AuthLayout() {
   return (
-    <>
-      <Outlet />
-      <Footer />
-    </>
-  );
-};
+    <div className="relative h-full">
+      <AnimatedBlobs />
 
-export default AuthLayout;
+      <div className="relative z-10 h-full">
+        <Outlet />
+        <Footer />
+      </div>
+    </div>
+  );
+}

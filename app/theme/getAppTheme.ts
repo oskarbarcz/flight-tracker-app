@@ -34,7 +34,7 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
       base: "shadow-none",
     },
     button: {
-      base: "cursor-pointer",
+      base: "cursor-pointer transition-colors duration-200",
       color: {
         indigo:
           "bg-indigo-500 hover:bg-indigo-600 text-white dark:text-gray-100 border-0 focus:ring-indigo-300 dark:focus:ring-indigo-400",

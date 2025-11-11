@@ -1,0 +1,18 @@
+html,
+body {
+  @apply bg-gray-100 h-dvh-safe dark:bg-gray-900;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-optical-sizing: auto;
+}
+
+.font-mono {
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+}
