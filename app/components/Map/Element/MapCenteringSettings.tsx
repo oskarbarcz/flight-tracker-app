@@ -3,7 +3,20 @@ import { FaChevronRight, FaCrosshairs, FaRoute } from "react-icons/fa6";
 import { useMapSettings } from "~/state/contexts/settings/map-settings.context";
 import { FaPlane } from "react-icons/fa";
 
-export default function MapCenteringSettings() {
+type Props = {
+  size?: "sm" | "md";
+};
+
+function sizeToButtonSize(size: "sm" | "md") {
+  switch (size) {
+    case "sm":
+      return "xs";
+    case "md":
+      return "sm";
+  }
+}
+
+export default function MapCenteringSettings({ size = "md" }: Props) {
   const { mapSettings, updateMapSettings } = useMapSettings();
 
   const toggleAutoCenter = () => {
@@ -24,17 +37,17 @@ export default function MapCenteringSettings() {
   const autoCenterButton = (
     <Button
       color={isCenteringActive ? "indigo" : "alternative"}
-      size="sm"
+      size={sizeToButtonSize(size)}
       onClick={toggleAutoCenter}
     >
-      <FaCrosshairs size={18} />
+      <FaCrosshairs />
     </Button>
   );
   const routeButton = (
     <Button
       color={isRouteActive ? "indigo" : "alternative"}
       onClick={() => setCenterOn("route")}
-      size="sm"
+      size={sizeToButtonSize(size)}
       className="space-x-2 font-bold"
     >
       <FaRoute />
@@ -46,7 +59,7 @@ export default function MapCenteringSettings() {
     <Button
       color={isAircraftActive ? "indigo" : "alternative"}
       onClick={() => setCenterOn("aircraft")}
-      size="sm"
+      size={sizeToButtonSize(size)}
       className="space-x-2 font-bold"
     >
       <FaPlane className="rotate-315" />
