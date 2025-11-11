@@ -9,6 +9,7 @@ import { Flight, FlightPathElement, Position } from "~/models";
 import L, { LatLngTuple } from "leaflet";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import FlightDetailsSectionOverlay from "~/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
+import MapBottomDrawer from "~/components/Map/Element/MapBottomDrawer";
 
 type Props = {
   flight: Flight;
@@ -22,6 +23,7 @@ export default function FullScreenMap({ flight, path }: Props) {
   } as L.FitBoundsOptions;
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
+  const lastPosition = path[path.length - 1];
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
 
   if (path.length === 0) {
@@ -54,9 +56,14 @@ export default function FullScreenMap({ flight, path }: Props) {
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />
 
-        <MapEventsHandler bounds={bounds} options={mapOptions} />
+        <MapEventsHandler
+          bounds={bounds}
+          options={mapOptions}
+          aircraftPosition={lastPosition}
+        />
       </MapContainer>
       <FlightDetailsSectionOverlay flight={flight} />
+      <MapBottomDrawer />
     </div>
   );
 }

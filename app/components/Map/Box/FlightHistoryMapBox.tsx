@@ -2,7 +2,6 @@
 
 import { MapContainer } from "react-leaflet";
 import MapAircraftMarker from "~/components/Map/Element/MapAircraftMarker";
-import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
 import { Flight, FlightPathElement } from "~/models";
 import { useEffect, useState } from "react";
 import L, { LatLngTuple } from "leaflet";
@@ -21,11 +20,6 @@ type FlightHistoryMapProps = {
 export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
   const { flightService } = useApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
-  const mapOptions = {
-    paddingTopLeft: [0, 70],
-    paddingBottomRight: [0, 0],
-    duration: 1,
-  } as L.FitBoundsOptions;
 
   useEffect(() => {
     flightService.getFlightPath(flight.id).then(setPath);
@@ -59,8 +53,6 @@ export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
 
       <MapAirportLabel airport={flight.departureAirport} />
       <MapAirportLabel airport={flight.destinationAirport} />
-
-      <MapEventsHandler bounds={bounds} options={mapOptions} />
     </MapContainer>
   );
 }

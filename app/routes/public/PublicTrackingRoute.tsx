@@ -8,13 +8,13 @@ import { usePublicApi } from "~/state/contexts/content/public-api.context";
 import { useCallback, useEffect, useState } from "react";
 import { Flight } from "~/models";
 import MapSplash from "~/layout/MapSplash";
+import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
 
 export default function PublicTrackingRoute({
   params,
 }: Route.ClientLoaderArgs) {
   const { publicFlightService } = usePublicApi();
-  const { setCallsign, lastRequestedAt, flightPath, loadFlightPath } =
-    useAdsbData();
+  const { setCallsign, flightPath, loadFlightPath } = useAdsbData();
 
   const [flight, setFlight] = useState<Flight | null>(null);
   const [showSplash, setShowSplash] = useState<boolean>(true);
@@ -60,15 +60,17 @@ export default function PublicTrackingRoute({
       : "Loading flight tracking...",
   );
 
-  if (!flight || !lastRequestedAt || showSplash) {
+  if (!flight || showSplash) {
     return <MapSplash />;
   }
 
   return (
     <div className="h-dvh-safe flex flex-col items-stretch size-full p-2">
       <TopBar />
-      <FullScreenMap flight={flight} path={flightPath} />
-      <BottomBar lastRefreshedAt={lastRequestedAt} />
+      <MapSettingsProvider>
+        <FullScreenMap flight={flight} path={flightPath} />
+      </MapSettingsProvider>
+      <BottomBar />
     </div>
   );
 }

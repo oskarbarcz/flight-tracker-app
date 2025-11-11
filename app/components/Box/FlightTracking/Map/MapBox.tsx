@@ -10,6 +10,7 @@ import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context
 import MapLinkOverlay from "~/components/Map/Box/Overlay/MapLinkOverlay";
 import MapLiveStatusOverlay from "~/components/Map/Box/Overlay/MapLiveStatusOverlay";
 import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
+import MapBottomDrawer from "~/components/Map/Element/MapBottomDrawer";
 
 type MapBoxProps = ContainerClassProps;
 
@@ -34,7 +35,7 @@ export function MapBox({ className }: MapBoxProps) {
               <FlightTrackingMapBox flight={flight} />
               <MapLiveStatusOverlay />
               <MapLinkOverlay />
-              <MapLinkOverlay />
+              <MapBottomDrawer size="sm" />
             </MapSettingsProvider>
           </AdsbProvider>
         </div>
@@ -49,6 +50,7 @@ export function MapBox({ className }: MapBoxProps) {
           <FlightHistoryMapBox flight={flight} />
           <MapHistoryStatusOverlay />
           <MapLinkOverlay />
+          <MapBottomDrawer size="sm" />
         </MapSettingsProvider>
       </div>
     </Container>
