@@ -8,6 +8,7 @@ import { usePublicApi } from "~/state/contexts/content/public-api.context";
 import { useCallback, useEffect, useState } from "react";
 import { Flight } from "~/models";
 import MapSplash from "~/layout/MapSplash";
+import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
 
 export default function PublicTrackingRoute({
   params,
@@ -67,7 +68,9 @@ export default function PublicTrackingRoute({
   return (
     <div className="h-dvh-safe flex flex-col items-stretch size-full p-2">
       <TopBar />
-      <FullScreenMap flight={flight} path={flightPath} />
+      <MapSettingsProvider>
+        <FullScreenMap flight={flight} path={flightPath} />
+      </MapSettingsProvider>
       <BottomBar lastRefreshedAt={lastRequestedAt} />
     </div>
   );

@@ -9,6 +9,7 @@ import { Flight, FlightPathElement, Position } from "~/models";
 import L, { LatLngTuple } from "leaflet";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import FlightDetailsSectionOverlay from "~/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
+import MapBottomDrawer from "~/components/Map/Element/MapBottomDrawer";
 
 type Props = {
   flight: Flight;
@@ -57,6 +58,7 @@ export default function FullScreenMap({ flight, path }: Props) {
         <MapEventsHandler bounds={bounds} options={mapOptions} />
       </MapContainer>
       <FlightDetailsSectionOverlay flight={flight} />
+      <MapBottomDrawer />
     </div>
   );
 }
