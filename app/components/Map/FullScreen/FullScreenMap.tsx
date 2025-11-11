@@ -6,10 +6,9 @@ import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import MapEventsHandler from "~/components/Map/Element/MapEventsHandler";
 import { MapContainer } from "react-leaflet";
 import { Flight, FlightPathElement, Position } from "~/models";
-import L, { LatLngTuple } from "leaflet";
-import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import FlightDetailsSectionOverlay from "~/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 import MapBottomDrawer from "~/components/Map/Element/MapBottomDrawer";
+import { FitBoundsOptions, latLngBounds } from "leaflet";
 
 type Props = {
   flight: Flight;
@@ -20,24 +19,25 @@ export default function FullScreenMap({ flight, path }: Props) {
   const mapOptions = {
     padding: [100, 100],
     duration: 1,
-  } as L.FitBoundsOptions;
+  } as FitBoundsOptions;
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const lastPosition = path[path.length - 1];
-  const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
-
-  if (path.length === 0) {
-    return <MapBoxUnavailable />;
-  }
-
-  if (!flight) {
-    return;
-  }
+  const mapBounds = latLngBounds([
+    [
+      flight.departureAirport.location.latitude,
+      flight.departureAirport.location.longitude,
+    ],
+    [
+      flight.destinationAirport.location.latitude,
+      flight.destinationAirport.location.longitude,
+    ],
+  ]);
 
   return (
     <div className="grow relative rounded-2xl">
       <MapContainer
-        bounds={bounds}
+        bounds={mapBounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
         className="rounded-2xl bg-gray-800 size-full z-10"
@@ -51,13 +51,13 @@ export default function FullScreenMap({ flight, path }: Props) {
         />
         <FlightPath path={path} />
 
-        <MapAircraftMarker path={pathPoints} />
+        {pathPoints.length && <MapAircraftMarker path={pathPoints} />}
 
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />
 
         <MapEventsHandler
-          bounds={bounds}
+          bounds={mapBounds}
           options={mapOptions}
           aircraftPosition={lastPosition}
         />
