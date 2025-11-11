@@ -60,14 +60,8 @@ export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
 
       <MapAircraftMarker path={pathPoints} />
 
-      <MapAirportLabel
-        position={startPosition}
-        label={flight.departureAirport.iataCode}
-      />
-      <MapAirportLabel
-        position={lastPosition}
-        label={flight.destinationAirport.iataCode}
-      />
+      <MapAirportLabel airport={flight.departureAirport} />
+      <MapAirportLabel airport={flight.destinationAirport} />
 
       <MapEventsHandler bounds={bounds} options={mapOptions} />
     </MapContainer>

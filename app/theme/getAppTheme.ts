@@ -40,6 +40,8 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
           "bg-indigo-500 hover:bg-indigo-600 text-white dark:text-gray-100 border-0 focus:ring-indigo-300 dark:focus:ring-indigo-400",
         alternative:
           "bg-gray-200 hover:bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 hover:text-gray-900 dark:text-gray-300 border-0",
+        light:
+          "bg-gray-100 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 hover:text-gray-900 dark:text-gray-300 border-0",
       },
       outlineColor: {
         indigo:

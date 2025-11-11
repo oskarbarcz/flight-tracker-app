@@ -4,30 +4,11 @@
 @import "tailwindcss-safe-area";
 @import "leaflet/dist/leaflet.css";
 
+@import "./styles/base.css";
+@import "./styles/animations.css";
+@import "./styles/utilities.css";
+
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
 @custom-variant dark (&:where(.dark, .dark *));
-
-html,
-body {
-  @apply bg-gray-100 h-dvh-safe dark:dark:bg-gray-900;
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
-}
-
-body {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-optical-sizing: auto;
-}
-
-.leaflet-container {
-  /* Prevent rounded corners dithering */
-  @apply bg-gray-100 dark:bg-gray-900;
-}
-
-.font-mono {
-  font-family: "Roboto Mono", monospace;
-  font-optical-sizing: auto;
-}

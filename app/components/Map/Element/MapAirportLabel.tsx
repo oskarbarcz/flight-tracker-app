@@ -1,19 +1,20 @@
 "use client";
 
 import { Marker } from "react-leaflet";
-import L from "leaflet";
+import L, { type LatLngExpression } from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import { Position } from "~/models/common/geo";
-import MapAirportLabelContent from "~/components/Map/Element/MapAirportLabelContent";
+import AirportShortLabel from "~/components/Map/Element/AirportShortLabel";
+import { Airport } from "~/models";
+import AirportExtendedLabel from "~/components/Map/Element/AirportExtendedLabel";
 
 type MapAirportLabelProps = {
-  position: Position;
-  label: string;
+  airport: Airport;
+  extended?: boolean;
 };
 
-const createAirportLabelIcon = (label: string) => {
+const shortLabel = (airport: Airport) => {
   const content = ReactDOMServer.renderToString(
-    <MapAirportLabelContent label={label} />,
+    <AirportShortLabel airport={airport} />,
   );
 
   return new L.DivIcon({
@@ -23,9 +24,29 @@ const createAirportLabelIcon = (label: string) => {
   });
 };
 
+const extendedLabel = (airport: Airport) => {
+  const content = ReactDOMServer.renderToString(
+    <AirportExtendedLabel airport={airport} />,
+  );
+
+  return new L.DivIcon({
+    html: content,
+    className: "custom-airport-marker",
+    iconSize: [300, 300],
+    iconAnchor: [-15, 30],
+  });
+};
+
 export default function MapAirportLabel({
-  position,
-  label,
+  airport,
+  extended = false,
 }: MapAirportLabelProps) {
-  return <Marker position={position} icon={createAirportLabelIcon(label)} />;
+  const position: LatLngExpression = [
+    airport.location.latitude,
+    airport.location.longitude,
+  ];
+
+  const label = extended ? extendedLabel(airport) : shortLabel(airport);
+
+  return <Marker position={position} icon={label} />;
 }

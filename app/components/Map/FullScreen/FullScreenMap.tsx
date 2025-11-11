@@ -32,9 +32,6 @@ export default function FullScreenMap({ flight, path }: Props) {
     return;
   }
 
-  const startPosition = pathPoints[0];
-  const lastPosition = pathPoints[pathPoints.length - 1];
-
   return (
     <div className="grow relative rounded-2xl">
       <MapContainer
@@ -54,14 +51,8 @@ export default function FullScreenMap({ flight, path }: Props) {
 
         <MapAircraftMarker path={pathPoints} />
 
-        <MapAirportLabel
-          position={startPosition}
-          label={flight.departureAirport.iataCode}
-        />
-        <MapAirportLabel
-          position={lastPosition}
-          label={flight.destinationAirport.iataCode}
-        />
+        <MapAirportLabel airport={flight.departureAirport} extended />
+        <MapAirportLabel airport={flight.destinationAirport} extended />
 
         <MapEventsHandler bounds={bounds} options={mapOptions} />
       </MapContainer>

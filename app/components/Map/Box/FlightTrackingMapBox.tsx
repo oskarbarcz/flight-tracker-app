@@ -23,9 +23,8 @@ export default function FlightTrackingMapBox({
 }: FlightTrackingMapProps) {
   const { adsbService } = usePublicApi();
   const [path, setPath] = useState<FlightPathElement[]>([]);
-  const mapOptions = {
-    paddingTopLeft: [0, 70],
-    paddingBottomRight: [0, 0],
+  const leafletMapOptions = {
+    padding: [80, 80],
     duration: 1,
   } as L.FitBoundsOptions;
 
@@ -42,7 +41,6 @@ export default function FlightTrackingMapBox({
   }, [flight.callsign, adsbService]);
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
-  // const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
 
   if (path.length === 0) {
     return <MapBoxNoSignal />;
@@ -58,7 +56,7 @@ export default function FlightTrackingMapBox({
   return (
     <MapContainer
       bounds={planBounds}
-      boundsOptions={{ padding: [60, 60] }}
+      boundsOptions={{ padding: [80, 80] }}
       scrollWheelZoom={true}
       className="bg-gray-800 h-full w-full z-0"
       zoomControl={false}
@@ -71,19 +69,10 @@ export default function FlightTrackingMapBox({
 
       <MapAircraftMarker path={pathPoints} />
 
-      <MapAirportLabel
-        position={[departure.location.latitude, departure.location.longitude]}
-        label={departure.iataCode}
-      />
-      <MapAirportLabel
-        position={[
-          destination.location.latitude,
-          destination.location.longitude,
-        ]}
-        label={destination.iataCode}
-      />
+      <MapAirportLabel airport={departure} />
+      <MapAirportLabel airport={destination} />
 
-      <MapEventsHandler bounds={planBounds} options={mapOptions} />
+      <MapEventsHandler bounds={planBounds} options={leafletMapOptions} />
     </MapContainer>
   );
 }
