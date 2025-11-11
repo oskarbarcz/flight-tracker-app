@@ -23,6 +23,7 @@ export default function FullScreenMap({ flight, path }: Props) {
   } as L.FitBoundsOptions;
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
+  const lastPosition = path[path.length - 1];
   const bounds = L.latLngBounds(pathPoints as LatLngTuple[]);
 
   if (path.length === 0) {
@@ -55,7 +56,11 @@ export default function FullScreenMap({ flight, path }: Props) {
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />
 
-        <MapEventsHandler bounds={bounds} options={mapOptions} />
+        <MapEventsHandler
+          bounds={bounds}
+          options={mapOptions}
+          aircraftPosition={lastPosition}
+        />
       </MapContainer>
       <FlightDetailsSectionOverlay flight={flight} />
       <MapBottomDrawer />

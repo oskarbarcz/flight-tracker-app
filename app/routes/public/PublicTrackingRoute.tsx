@@ -14,8 +14,7 @@ export default function PublicTrackingRoute({
   params,
 }: Route.ClientLoaderArgs) {
   const { publicFlightService } = usePublicApi();
-  const { setCallsign, lastRequestedAt, flightPath, loadFlightPath } =
-    useAdsbData();
+  const { setCallsign, flightPath, loadFlightPath } = useAdsbData();
 
   const [flight, setFlight] = useState<Flight | null>(null);
   const [showSplash, setShowSplash] = useState<boolean>(true);
@@ -61,7 +60,7 @@ export default function PublicTrackingRoute({
       : "Loading flight tracking...",
   );
 
-  if (!flight || !lastRequestedAt || showSplash) {
+  if (!flight || showSplash) {
     return <MapSplash />;
   }
 
@@ -71,7 +70,7 @@ export default function PublicTrackingRoute({
       <MapSettingsProvider>
         <FullScreenMap flight={flight} path={flightPath} />
       </MapSettingsProvider>
-      <BottomBar lastRefreshedAt={lastRequestedAt} />
+      <BottomBar />
     </div>
   );
 }

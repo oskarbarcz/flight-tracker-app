@@ -46,6 +46,8 @@ export default function FlightTrackingMapBox({
     return <MapBoxNoSignal />;
   }
 
+  const lastPathPoint = path[path.length - 1];
+
   const departure = flight.departureAirport;
   const destination = flight.destinationAirport;
   const planBounds = L.latLngBounds([
@@ -72,7 +74,11 @@ export default function FlightTrackingMapBox({
       <MapAirportLabel airport={departure} />
       <MapAirportLabel airport={destination} />
 
-      <MapEventsHandler bounds={planBounds} options={leafletMapOptions} />
+      <MapEventsHandler
+        bounds={planBounds}
+        options={leafletMapOptions}
+        aircraftPosition={lastPathPoint}
+      />
     </MapContainer>
   );
 }
