@@ -3,6 +3,12 @@ import { useAppConfig } from "~/state/hooks/useAppConfig";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import VerticalSeparator from "~/components/Map/FullScreen/Element/VerticalSeparator";
 
+function getMessage(count: number) {
+  if (count === 0) return "No segments";
+  if (count === 1) return "1 segment";
+  return `${count} segments`;
+}
+
 export default function BottomBar() {
   const { appVersion } = useAppConfig();
   const { lastRequestedAt, flightPath } = useAdsbData();
@@ -16,8 +22,7 @@ export default function BottomBar() {
       <div className="flex items-center gap-3">
         <div className="hidden md:flex items-center gap-3">
           <div className="bg-gray-200/50 dark:bg-gray-900 text-sm text-gray-500 dark:text-gray-500 py-2 px-4 rounded-lg">
-            <span className="font-bold">{flightPath.length}</span>
-            {" segments"}
+            {getMessage(flightPath.length)}
           </div>
           <VerticalSeparator />
         </div>
