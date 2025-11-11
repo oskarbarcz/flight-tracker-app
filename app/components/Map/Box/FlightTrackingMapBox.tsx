@@ -12,7 +12,7 @@ import { MapBoxNoSignal } from "~/components/Box/FlightTracking/Map/MapBoxNoSign
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 import { Position } from "~/models/common/geo";
-import { usePublicApi } from "~/state/contexts/public-api.context";
+import { usePublicApi } from "~/state/contexts/content/public-api.context";
 
 type FlightTrackingMapProps = {
   flight: Flight;

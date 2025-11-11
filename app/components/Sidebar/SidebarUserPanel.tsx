@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAuth } from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/session/auth.context";
 import { User, UserRole } from "~/models/user.model";
 import { PiSignOutBold } from "react-icons/pi";
 import { Link } from "react-router";

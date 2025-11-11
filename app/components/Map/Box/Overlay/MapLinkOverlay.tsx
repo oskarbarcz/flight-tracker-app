@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import { Link } from "react-router";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
 

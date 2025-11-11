@@ -3,7 +3,7 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router";
-import { AdsbProvider } from "~/state/contexts/adsb.context";
+import { AdsbProvider } from "~/state/contexts/content/adsb.context";
 
 export default function MapLayout() {
   return (

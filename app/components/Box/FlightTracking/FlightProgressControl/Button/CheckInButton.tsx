@@ -3,7 +3,7 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { translateNextActionStatus, FilledSchedule } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import CheckInFlightModal from "~/components/Modal/CheckInFlightModal";
 import { FlightProgressButtonProps } from "~/components/Box/FlightTracking/FlightProgressControl/ChangeFlightProgressButton";
 

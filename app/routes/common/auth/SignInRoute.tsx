@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
-import { useAuth } from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/session/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { Button, FloatingLabel, Spinner } from "flowbite-react";
 import { FaArrowRight } from "react-icons/fa";
@@ -39,7 +39,7 @@ export default function SignInRoute() {
       <aside className="flex items-center justify-center">
         <Logo />
       </aside>
-      <Container className="w-full max-w-[350px] shadow-0 border-0">
+      <Container className="w-full max-w-[350px] shadow-none border-0">
         <h1 className="text-center mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
           Sign in
         </h1>

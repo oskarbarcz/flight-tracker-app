@@ -9,7 +9,7 @@ import TimeManagementBox from "~/components/Box/FlightTracking/TimeManagementBox
 import FlightScheduleBox from "~/components/Box/FlightTracking/FlightScheduleBox";
 import FlightWasClosedBox from "~/components/Box/FlightTracking/FlightWasClosedBox";
 import { FlightStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 type FlightTrackingDashboardProps = {
   flightId: string;

@@ -11,7 +11,7 @@ import ReportOnBlockButton from "~/components/Box/FlightTracking/FlightProgressC
 import StartOffboardingButton from "~/components/Box/FlightTracking/FlightProgressControl/Button/StartOffboardingButton";
 import FinishOffboardingButton from "~/components/Box/FlightTracking/FlightProgressControl/Button/FinishOffboardingButton";
 import CloseFlightButton from "~/components/Box/FlightTracking/FlightProgressControl/Button/CloseFlightButton";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { Button } from "flowbite-react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";

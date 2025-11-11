@@ -4,9 +4,9 @@ import { FlightStatus } from "~/models";
 import FlightHistoryMapBox from "~/components/Map/Box/FlightHistoryMapBox";
 import FlightTrackingMapBox from "~/components/Map/Box/FlightTrackingMapBox";
 import MapHistoryStatusOverlay from "~/components/Map/Box/Overlay/MapHistoryStatusOverlay";
-import { AdsbProvider } from "~/state/contexts/adsb.context";
+import { AdsbProvider } from "~/state/contexts/content/adsb.context";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import MapLinkOverlay from "~/components/Map/Box/Overlay/MapLinkOverlay";
 import MapLiveStatusOverlay from "~/components/Map/Box/Overlay/MapLiveStatusOverlay";
 
