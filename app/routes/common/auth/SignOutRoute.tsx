@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Navigate } from "react-router";
-import { useAuth } from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/session/auth.context";
 
 export default function SignOutRoute() {
   const { signOut } = useAuth();

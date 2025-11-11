@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { User } from "~/models/user.model";
 import { AuthService } from "~/state/api/auth.service";
-import { useApi } from "~/state/contexts/api.context";
+import { useApi } from "~/state/contexts/content/api.context";
 
 export interface AuthContextType {
   user: User | null;

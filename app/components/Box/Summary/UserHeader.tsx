@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/session/auth.context";
 import { User } from "~/models/user.model";
 import React from "react";
 import Container from "~/components/Layout/Container";

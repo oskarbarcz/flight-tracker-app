@@ -6,7 +6,7 @@ import { TakeoffTimer } from "~/components/Box/Timer/TakeoffTimer";
 import { ArrivalTimer } from "~/components/Box/Timer/ArrivalTimer";
 import { OnBlockTimer } from "~/components/Box/Timer/OnBlockTimer";
 import { SummaryTimer } from "~/components/Box/Timer/SummaryTimer";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 export function FlightTimerBox() {
   const { flight } = useTrackedFlight();

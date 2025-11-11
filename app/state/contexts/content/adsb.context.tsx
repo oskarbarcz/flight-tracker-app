@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { FlightPathElement } from "~/models";
-import { usePublicApi } from "~/state/contexts/public-api.context";
+import { usePublicApi } from "~/state/contexts/content/public-api.context";
 
 type State = {
   callsign: string | null;

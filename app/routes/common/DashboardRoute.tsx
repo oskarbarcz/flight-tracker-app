@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAuth } from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/session/auth.context";
 import PilotDashboardRoute from "~/routes/pilot/PilotDashboardRoute";
 import OperationsDashboardRoute from "~/routes/operations/OperationsDashboardRoute";
 import { UserRole } from "~/models";

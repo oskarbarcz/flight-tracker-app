@@ -1,0 +1,26 @@
+/* Leaflet map styling */
+.leaflet-container {
+  /* Prevent rounded corners dithering */
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+.leaflet-div-icon.custom-airport-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.airport-marker {
+  @apply max-w-fit text-xs flex font-sans gap-5 items-center bg-gray-100 dark:bg-gray-900 px-4 py-3 rounded-xl;
+}
+
+.airport-marker__code {
+  @apply text-indigo-500 font-mono font-bold rounded-lg text-lg;
+}
+
+.airport-marker__name {
+  @apply font-bold block text-gray-800 dark:text-gray-300 text-sm;
+}
+
+.airport-marker__location {
+  @apply text-gray-500 block;
+}

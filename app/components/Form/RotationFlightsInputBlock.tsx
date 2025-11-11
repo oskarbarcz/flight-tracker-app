@@ -5,7 +5,7 @@ import { Flight, RotationFlight, RotationResponse } from "~/models";
 import LegPreview from "./Preview/LegPreview";
 import PickFlightModal from "~/components/Modal/PickFlightModal";
 import { Button } from "flowbite-react";
-import { useApi } from "~/state/contexts/api.context";
+import { useApi } from "~/state/contexts/content/api.context";
 
 type RotationFlightsInputBlockProps = {
   rotation: RotationResponse;

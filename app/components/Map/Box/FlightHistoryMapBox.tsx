@@ -9,7 +9,7 @@ import L, { LatLngTuple } from "leaflet";
 import MapTileLayer from "~/components/Map/Element/MapTileLayer";
 import { MapBoxUnavailable } from "~/components/Box/FlightTracking/Map/MapBoxUnavailable";
 import MapAirportLabel from "~/components/Map/Element/MapAirportLabel";
-import { useApi } from "~/state/contexts/api.context";
+import { useApi } from "~/state/contexts/content/api.context";
 import GreatCirclePath from "~/components/Map/Element/GreatCirclePath";
 import FlightPath from "~/components/Map/Element/FlightPath";
 import { Position } from "~/models/common/geo";
@@ -38,9 +38,6 @@ export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
     return <MapBoxUnavailable />;
   }
 
-  const startPosition = pathPoints[0];
-  const lastPosition = pathPoints[pathPoints.length - 1];
-
   return (
     <MapContainer
       bounds={bounds}
@@ -60,14 +57,8 @@ export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
 
       <MapAircraftMarker path={pathPoints} />
 
-      <MapAirportLabel
-        position={startPosition}
-        label={flight.departureAirport.iataCode}
-      />
-      <MapAirportLabel
-        position={lastPosition}
-        label={flight.destinationAirport.iataCode}
-      />
+      <MapAirportLabel airport={flight.departureAirport} />
+      <MapAirportLabel airport={flight.destinationAirport} />
 
       <MapEventsHandler bounds={bounds} options={mapOptions} />
     </MapContainer>

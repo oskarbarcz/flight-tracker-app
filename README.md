@@ -19,7 +19,7 @@ This is the frontend part of the project. For backend part, please visit
 
 ## Repository contents
 
-Repository contains frontend code for [FlightTracker](https://flights.barcz.me) app.
+Repository contains frontend code for [Flight Tracker](https://flights.barcz.me) app.
 
 Project is using **Node.js** and **TypeScript**. Main dependencies are **Vite**, **React**, **React Router**. This
 project uses **Flowbite** component library.

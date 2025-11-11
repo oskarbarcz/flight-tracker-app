@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "~/state/contexts/auth.context";
+import { useAuth } from "~/state/contexts/session/auth.context";
 import { User, UserRole } from "~/models/user.model";
 import { useLocation } from "react-router";
 import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";

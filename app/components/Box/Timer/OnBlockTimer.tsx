@@ -44,7 +44,7 @@ export function OnBlockTimer({ schedule }: OnBlockTimerProps) {
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          <FormattedIcaoDate date={schedule.onBlockTime} />
+          <FormattedIcaoDate date={schedule.onBlockTime} /> &bull;{" "}
           <FormattedIcaoTime date={schedule.onBlockTime} />
         </span>
         <span className="block text-sm">scheduled on-block time</span>

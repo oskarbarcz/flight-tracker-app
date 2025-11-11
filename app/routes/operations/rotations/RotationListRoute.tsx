@@ -9,7 +9,7 @@ import { RotationResponse } from "~/models";
 import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
 import Container from "~/components/Layout/Container";
 import RotationListTable from "~/components/Tables/RotationListTable";
-import { useApi } from "~/state/contexts/api.context";
+import { useApi } from "~/state/contexts/content/api.context";
 
 export default function RotationListRoute() {
   usePageTitle("Rotation list");

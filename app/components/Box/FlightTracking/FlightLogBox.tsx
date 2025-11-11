@@ -11,7 +11,7 @@ import {
   TimelineTime,
   TimelineTitle,
 } from "flowbite-react";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { translateFlightEventType } from "~/models/translate/flight.translate";
 import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";

@@ -9,7 +9,7 @@ import {
   FaPlaneDeparture,
 } from "react-icons/fa6";
 import ContainerTitle from "~/components/Layout/ContainerTitle";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { FormattedTimezoneTime } from "~/components/Intrinsic/Date/FormattedTimezoneTime";
 import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
 import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";

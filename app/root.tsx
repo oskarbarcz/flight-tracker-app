@@ -13,9 +13,9 @@ import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 import React from "react";
 import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
-import { AuthProvider } from "~/state/contexts/auth.context";
+import { AuthProvider } from "~/state/contexts/session/auth.context";
 import getAppTheme from "~/theme/getAppTheme";
-import { ApiProvider } from "~/state/contexts/api.context";
+import { ApiProvider } from "~/state/contexts/content/api.context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -51,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        <meta name="apple-mobile-web-app-title" content="FlightTracker" />
+        <meta name="apple-mobile-web-app-title" content="Flight Tracker" />
         <Meta />
         <Links />
       </head>

@@ -1,12 +1,7 @@
 "use client";
 
 import { FilledSchedule } from "~/models";
-import {
-  formatDate,
-  formatTimeInterval,
-  secondsToNow,
-  timeDiff,
-} from "~/functions/time";
+import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
 import { useEffect, useState } from "react";
 import { FormattedIcaoDate } from "~/components/Intrinsic/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/Intrinsic/Date/FormattedIcaoTime";
@@ -58,13 +53,14 @@ export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
       </div>
       <div className="mb-3 text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          {formatDate(new Date(calculatedArrivalTime))}
+          <FormattedIcaoDate date={calculatedArrivalTime} /> &bull;{" "}
+          <FormattedIcaoTime date={calculatedArrivalTime} />
         </span>
         <span className="block text-sm">calculated arrival time</span>
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          <FormattedIcaoDate date={schedule.onBlockTime} />
+          <FormattedIcaoDate date={schedule.onBlockTime} /> &bull;{" "}
           <FormattedIcaoTime date={schedule.onBlockTime} />
         </span>
         <span className="block text-sm">scheduled arrival time</span>

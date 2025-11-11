@@ -14,11 +14,11 @@ export default function SidebarLogo({ isCollapsed }: SidebarLogoProps) {
       <img
         src={logo}
         className={isCollapsed ? "h-7" : "h-8"}
-        alt="FlightTracker app logo"
+        alt="Flight Tracker app logo"
       />
       {!isCollapsed && (
         <span className="text-2xl text-indigo-500 ms-2 font-bold">
-          FlightTracker
+          Flight Tracker
         </span>
       )}
     </Link>

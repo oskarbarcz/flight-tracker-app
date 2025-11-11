@@ -4,7 +4,7 @@ import { FilledSchedule, FlightStatus } from "~/models";
 import { PiUserSoundBold } from "react-icons/pi";
 import { FaPlane } from "react-icons/fa";
 import Container, { ContainerClassProps } from "~/components/Layout/Container";
-import { useTrackedFlight } from "~/state/contexts/tracked-flight.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
   const diff = Math.abs(onBlockTime.getTime() - offBlockTime.getTime());
