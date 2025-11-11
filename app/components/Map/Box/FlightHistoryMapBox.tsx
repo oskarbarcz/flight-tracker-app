@@ -38,9 +38,6 @@ export default function FlightHistoryMapBox({ flight }: FlightHistoryMapProps) {
     return <MapBoxUnavailable />;
   }
 
-  const startPosition = pathPoints[0];
-  const lastPosition = pathPoints[pathPoints.length - 1];
-
   return (
     <MapContainer
       bounds={bounds}
