@@ -19,7 +19,6 @@ export function formatDateToLocal(date: Date): string {
 }
 
 export function getTimeDifferenceInMinutes(a: Date, b: Date): number {
-  console.log(a, b);
   const diffInMs = b.getTime() - a.getTime();
   return Math.floor(diffInMs / (1000 * 60));
 }

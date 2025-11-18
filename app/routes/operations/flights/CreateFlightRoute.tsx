@@ -162,7 +162,7 @@ export default function CreateAirportRoute() {
             message={formMessage}
             error={formError}
             onSubmit={handleSubmit}
-            button="Create airport"
+            button="Create flight"
           />
         </div>
       </div>
