@@ -8,11 +8,14 @@ import React, {
 } from "react";
 import InputErrorList from "~/components/Intrinsic/Form/Partial/InputErrorList";
 import { useField } from "formik";
+import { twMerge } from "tailwind-merge";
 
 type ManagedDateTimeInputBlockProps = {
+  className?: string;
   field: string;
   label: string;
   autoComplete?: HTMLInputAutoCompleteAttribute;
+  defaultValue?: Date;
   required?: boolean;
   disabled?: boolean;
 };
@@ -57,9 +60,11 @@ const parseDateTime = (dateTimeString: string): Date | null => {
 };
 
 export default function ManagedDateTimeInputBlock({
+  className,
   field,
   label,
   autoComplete,
+  defaultValue,
   required = true,
   disabled = false,
 }: ManagedDateTimeInputBlockProps) {
@@ -89,10 +94,14 @@ export default function ManagedDateTimeInputBlock({
     if (fieldProps.value instanceof Date) {
       setInputValue(formatDateTimeLocal(fieldProps.value));
     }
-  }, [fieldProps.value]);
+
+    if (defaultValue) {
+      setInputValue(formatDateTimeLocal(defaultValue));
+    }
+  }, [defaultValue, fieldProps.value]);
 
   return (
-    <div className="mb-4 w-full">
+    <div className={twMerge("w-full", className)}>
       <FloatingLabel
         variant="outlined"
         label={label}

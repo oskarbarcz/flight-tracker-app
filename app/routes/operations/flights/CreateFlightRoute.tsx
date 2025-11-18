@@ -1,22 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { Button } from "flowbite-react";
 import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
-import { Form, redirect, useLoaderData } from "react-router";
+import { redirect, useNavigate } from "react-router";
 import { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
-import { AirportService } from "~/state/api/airport.service";
-import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
-import { Aircraft, Airport, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
-import { OperatorService } from "~/state/api/operator.service";
-import { AircraftService } from "~/state/api/aircraft.service";
-import SelectBlock from "~/components/Intrinsic/Form/SelectBlock";
 import { FlightService } from "~/state/api/flight.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { CreateFlightRequest } from "~/state/api/model/flight.dto";
+import FormSubmit from "~/components/Form/FormSubmit";
+import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
+import FlightScheduleFormSection from "~/components/flight/FormSection/FlightScheduleFormSection";
+import {
+  CreateFlightFormData,
+  initCreateFlightData,
+} from "~/models/form/flight.form";
+import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
+import { useApi } from "~/state/contexts/content/api.context";
+import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";
 
 export async function clientAction({
   request,
@@ -66,45 +69,72 @@ export async function clientAction({
   console.error("Failed to create flight");
 }
 
-type ClientLoaderTypes = {
-  airports: Airport[];
-  aircraft: Aircraft[];
-  operators: Operator[];
-};
-
-export async function clientLoader(): Promise<ClientLoaderTypes> {
-  const aircraftService = new AircraftService();
-  const airportService = new AirportService();
-  const operatorService = new OperatorService();
-
-  return {
-    airports: await airportService.getAll(),
-    aircraft: await aircraftService.getAll(),
-    operators: await operatorService.fetchAll(),
-  };
-}
-
 export default function CreateAirportRoute() {
   usePageTitle("Create new flight");
-  const { airports, aircraft, operators } = useLoaderData<ClientLoaderTypes>();
+  const [formData, setFormData] = useState<CreateFlightFormData>(
+    initCreateFlightData(),
+  );
+  const [formMessage, setFormMessage] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | undefined>();
+  const { flightService } = useApi();
+  const navigate = useNavigate();
 
-  const airportSelectOptions = airports.map((airport) => ({
-    value: airport.id,
-    label: `${airport.iataCode} - ${airport.name}`,
-  }));
+  useEffect(() => {
+    const isAllSubmitted = [
+      formData.isRouteSubmitted,
+      formData.isScheduleSubmitted,
+      formData.isIdentitySubmitted,
+    ].every((isSubmitted) => isSubmitted);
 
-  const aircraftSelectOptions = aircraft.map((aircraft) => ({
-    value: aircraft.id,
-    label: `${aircraft.registration} - ${aircraft.shortName} - ${aircraft.operator.shortName}`,
-  }));
+    const formMessage = isAllSubmitted ? undefined : "Save all sections first.";
+    setFormMessage(formMessage);
+  }, [
+    formData.isIdentitySubmitted,
+    formData.isRouteSubmitted,
+    formData.isScheduleSubmitted,
+  ]);
 
-  const operatorSelectOptions = operators.map((operator) => ({
-    value: operator.id,
-    label: `${operator.icaoCode} - ${operator.shortName}`,
-  }));
+  const handleSubmit = () => {
+    const flight = formDataToApiFormat(formData);
+    flightService
+      .createNew(flight)
+      .then(() => {
+        navigate("/flights", {
+          viewTransition: true,
+        });
+      })
+      .catch((err: { message: never }) => {
+        setFormError(err.message);
+        setFormMessage(undefined);
+      });
+  };
 
-  const currentDate = new Date();
-  currentDate.setSeconds(0, 0);
+  function onRouteSubmit(route: CreateFlightFormData["route"]) {
+    setFormData((prev) => ({
+      ...prev,
+      route,
+      isRouteSubmitted: true,
+    }));
+    setFormError(undefined);
+  }
+
+  function onScheduleSubmit(schedule: CreateFlightFormData["schedule"]) {
+    setFormData((prev) => ({
+      ...prev,
+      schedule,
+      isScheduleSubmitted: true,
+    }));
+    setFormError(undefined);
+  }
+
+  function onIdentitySubmit(identity: CreateFlightFormData["identity"]) {
+    setFormData((prev) => ({
+      ...prev,
+      identity,
+      isIdentitySubmitted: true,
+    }));
+    setFormError(undefined);
+  }
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
@@ -114,53 +144,27 @@ export default function CreateAirportRoute() {
           backText="Back to flights"
           backUrl="/flights"
         />
-
-        <Form className="flex max-w-md flex-col gap-4" method="post">
-          <SelectBlock
-            htmlName="departureAirportId"
-            label="Departure"
-            options={airportSelectOptions}
+        <div className="space-y-4">
+          <FlightIdentityFormSection
+            data={formData.identity}
+            onSubmit={onIdentitySubmit}
           />
-          <SelectBlock
-            htmlName="destinationAirportId"
-            label="Destination"
-            options={airportSelectOptions}
+          <FlightRouteFormSection
+            data={formData.route}
+            onSubmit={onRouteSubmit}
           />
-          <SelectBlock
-            htmlName="aircraftId"
-            label="Aircraft"
-            options={aircraftSelectOptions}
-          />
-          <SelectBlock
-            htmlName="operatorId"
-            label="Operator"
-            options={operatorSelectOptions}
-          />
-          <InputBlock htmlName="callsign" label="Callsign" />
-          <InputBlock htmlName="flightNumber" label="Flight number" />
-          <InputBlock
-            htmlName="offBlockTime"
-            label="Offblock time (UTC)"
-            defaultValue={currentDate.toISOString()}
-          />
-          <InputBlock
-            htmlName="takeoffTime"
-            label="Takeoff time (UTC)"
-            defaultValue={currentDate.toISOString()}
-          />
-          <InputBlock
-            htmlName="arrivalTime"
-            label="Arrival time (UTC)"
-            defaultValue={currentDate.toISOString()}
-          />
-          <InputBlock
-            htmlName="onBlockTime"
-            label="On-block time (UTC)"
-            defaultValue={currentDate.toISOString()}
+          <FlightScheduleFormSection
+            data={formData.schedule}
+            onSubmit={onScheduleSubmit}
           />
 
-          <Button type="submit">Create new flight</Button>
-        </Form>
+          <FormSubmit
+            message={formMessage}
+            error={formError}
+            onSubmit={handleSubmit}
+            button="Create airport"
+          />
+        </div>
       </div>
     </ProtectedRoute>
   );
