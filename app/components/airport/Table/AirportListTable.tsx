@@ -7,7 +7,7 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import LocalizedTimeDisplay from "~/components/LocalizedTimeDisplay";
+import LocalizedTimeDisplay from "~/components/airport/LocalizedTimeDisplay";
 import { Link } from "react-router";
 import React from "react";
 
