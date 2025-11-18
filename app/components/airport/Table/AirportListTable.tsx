@@ -7,9 +7,9 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import LocalizedTimeDisplay from "~/components/airport/LocalizedTimeDisplay";
 import { Link } from "react-router";
 import React from "react";
+import {FormattedTimezoneTime} from "~/components/shared/Date/FormattedTimezoneTime";
 
 type AirportListTableProps = {
   airports: Airport[];
@@ -41,12 +41,7 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
               </span>
             </TableCell>
             <TableCell>
-              {airport.timezone}
-              <br />
-              <span className="text-xs font-light">
-                (currently: <LocalizedTimeDisplay timezone={airport.timezone} />
-                )
-              </span>
+              <FormattedTimezoneTime date={new Date()} timezone={airport.timezone} />
             </TableCell>
             <TableCell>
               <Link
