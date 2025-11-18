@@ -1,7 +1,7 @@
 import { Route } from "../../../.react-router/types/app/routes/public/+types/PublicTrackingRoute";
-import FullScreenMap from "~/components/Map/FullScreen/FullScreenMap";
-import TopBar from "~/components/Map/FullScreen/TopBar";
-import BottomBar from "~/components/Map/FullScreen/BottomBar";
+import FullScreenMap from "~/components/flight/Map/FullScreen/FullScreenMap";
+import TopBar from "~/components/flight/Map/FullScreen/TopBar";
+import BottomBar from "~/components/flight/Map/FullScreen/BottomBar";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import { usePublicApi } from "~/state/contexts/content/public-api.context";

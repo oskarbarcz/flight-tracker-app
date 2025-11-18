@@ -3,22 +3,22 @@
 import React, { useEffect } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { Form, useActionData, useNavigate } from "react-router";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
-import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { CreateRotationRequest, RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/CreateRotationRoute";
-import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
+import showFormSubmitErrorToast from "~/components/shared/Toasts/ShowFormSubmitErrorToast";
 import {
   handleRequestError,
   handleRequestSuccess,
   ResponseWrapper,
 } from "~/functions/handleRequest";
-import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
+import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInputBlock";
+import InputBlock from "~/components/shared/Form/InputBlock";
 
 type CreateRotationResponse = ResponseWrapper<
   CreateRotationRequest,

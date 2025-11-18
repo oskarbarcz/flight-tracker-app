@@ -5,7 +5,7 @@ import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import { ThemeConfig } from "flowbite-react";
 import { Outlet } from "react-router";
-import { MobileSidebar } from "~/components/Sidebar/MobileSidebar";
+import { MobileSidebar } from "~/components/shared/Sidebar/MobileSidebar";
 
 export default function FormLayout() {
   return (

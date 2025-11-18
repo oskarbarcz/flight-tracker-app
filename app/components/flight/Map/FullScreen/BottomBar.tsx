@@ -1,0 +1,36 @@
+import { useAppConfig } from "~/state/hooks/useAppConfig";
+import { useAdsbData } from "~/state/contexts/content/adsb.context";
+import VerticalSeparator from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
+import { FormattedLocalTime } from "~/components/shared/Date/FormattedLocalTime";
+
+function getMessage(count: number) {
+  if (count === 0) return "No segments";
+  if (count === 1) return "1 segment";
+  return `${count} segments`;
+}
+
+export default function BottomBar() {
+  const { appVersion } = useAppConfig();
+  const { lastRequestedAt, flightPath } = useAdsbData();
+
+  const lastRefreshedAt = lastRequestedAt ?? new Date();
+
+  return (
+    <div className="flex items-center justify-between mt-2 py-1 px-3 w-full">
+      <span className="text-gray-500 font-mono text-xs">v{appVersion}</span>
+
+      <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
+          <div className="bg-gray-200/50 dark:bg-gray-900 text-sm text-gray-500 dark:text-gray-500 py-2 px-4 rounded-lg">
+            {getMessage(flightPath.length)}
+          </div>
+          <VerticalSeparator />
+        </div>
+        <div className="bg-gray-200/50 dark:bg-gray-900 text-sm text-gray-500 dark:text-gray-500 py-2 px-4 rounded-lg">
+          {"Last update: "}
+          <FormattedLocalTime date={lastRefreshedAt} seconds={true} />
+        </div>
+      </div>
+    </div>
+  );
+}

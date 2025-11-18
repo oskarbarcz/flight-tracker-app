@@ -3,17 +3,17 @@
 import React, { useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button, Label, TextInput } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { useLoaderData, useNavigate } from "react-router";
 import { AirportService } from "~/state/api/airport.service";
 import { CreateAirportFormData } from "~/models";
 import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import Container from "~/components/Layout/Container";
-import AirportGeneralFormSection from "~/components/Forms/Airport/AirportGeneralFormSection";
-import AirportLocationFormSection from "~/components/Forms/Airport/AirportLocationFormSection";
-import FormSubmit from "~/components/Form/FormSubmit";
+import Container from "~/components/shared/Layout/Container";
+import AirportGeneralFormSection from "~/components/airport/Forms/AirportGeneralFormSection";
+import AirportLocationFormSection from "~/components/airport/Forms/AirportLocationFormSection";
+import FormSubmit from "~/components/shared/Form/FormSubmit";
 import { useApi } from "~/state/contexts/content/api.context";
 import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
 import {

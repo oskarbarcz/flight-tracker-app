@@ -2,16 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import UserHeader from "~/components/Box/Summary/UserHeader";
+import UserHeader from "~/components/flight/UserHeader";
 import { Flight, FlightStatus, isFlightTrackable } from "~/models";
 import { UserRole } from "~/models/user.model";
-import AvailableFlightsBox from "~/components/Box/Summary/AvailableFlightsBox";
-import CurrentFlightBox from "~/components/Box/Summary/CurrentFlightBox";
+import AvailableFlightsBox from "~/components/flight/Dashboard/Main/AvailableFlightsBox";
+import CurrentFlightBox from "~/components/flight/Dashboard/Main/CurrentFlightBox";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { useApi } from "~/state/contexts/content/api.context";
-import PilotStatsBox from "~/components/Box/Summary/PilotStatsBox";
-import CurrentRotationBox from "~/components/Box/Summary/CurrentRotationBox";
-import DebugFlightListBox from "~/components/Box/Summary/DebugFlightListBox";
+import PilotStatsBox from "~/components/flight/Dashboard/Main/PilotStatsBox";
+import CurrentRotationBox from "~/components/flight/Dashboard/Main/CurrentRotationBox";
+import DebugFlightListBox from "~/components/flight/Dashboard/Main/DebugFlightListBox";
 import { useAppConfig } from "~/state/hooks/useAppConfig";
 
 export default function PilotDashboardRoute() {

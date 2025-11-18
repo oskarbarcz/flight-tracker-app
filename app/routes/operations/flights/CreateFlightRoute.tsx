@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { redirect, useNavigate } from "react-router";
 import { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 import getFormData from "~/functions/getFormData";
@@ -10,7 +10,7 @@ import { UserRole } from "~/models/user.model";
 import { FlightService } from "~/state/api/flight.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { CreateFlightRequest } from "~/state/api/model/flight.dto";
-import FormSubmit from "~/components/Form/FormSubmit";
+import FormSubmit from "~/components/shared/Form/FormSubmit";
 import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
 import FlightScheduleFormSection from "~/components/flight/FormSection/FlightScheduleFormSection";
 import {

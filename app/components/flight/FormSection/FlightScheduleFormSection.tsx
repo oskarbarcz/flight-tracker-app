@@ -1,10 +1,10 @@
 "use client";
 
-import FormSection from "~/components/Form/FormSection";
+import FormSection from "~/components/shared/Form/FormSection";
 import React, { useEffect, useState } from "react";
-import ManagedDateTimeInputBlock from "~/components/Intrinsic/Form/Managed/ManagedDateTimeInputBlock";
 import { CreateFlightFormData } from "~/models/form/flight.form";
 import { newFlightScheduleSchema } from "~/validator/form/flight.schema";
+import ManagedDateTimeInputBlock from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 
 type ScheduleFormData = CreateFlightFormData["schedule"];
 

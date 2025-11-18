@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { RotationResponse } from "~/models";
-import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
-import Container from "~/components/Layout/Container";
-import RotationListTable from "~/components/Tables/RotationListTable";
+import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
+import RotationListTable from "~/components/rotation/Table/RotationListTable";
 import { useApi } from "~/state/contexts/content/api.context";
+import Container from "~/components/shared/Layout/Container";
 
 export default function RotationListRoute() {
   usePageTitle("Rotation list");

@@ -2,14 +2,14 @@
 
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
 import { Aircraft } from "~/models";
 import { useLoaderData } from "react-router";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import Container from "~/components/Layout/Container";
-import AircraftListTable from "~/components/Tables/AircraftListTable";
+import Container from "~/components/shared/Layout/Container";
+import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
 
 export async function clientLoader(): Promise<Aircraft[]> {
   return new AircraftService().fetchAll();

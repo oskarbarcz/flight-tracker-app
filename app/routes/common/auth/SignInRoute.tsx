@@ -6,8 +6,8 @@ import { useAuth } from "~/state/contexts/session/auth.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { Button, FloatingLabel, Spinner } from "flowbite-react";
 import { FaArrowRight } from "react-icons/fa";
-import Container from "~/components/Layout/Container";
-import Logo from "~/components/Layout/Logo";
+import Container from "~/components/shared/Layout/Container";
+import Logo from "~/components/shared/Layout/Logo";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");

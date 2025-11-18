@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import {
   Form,
   useLoaderData,
@@ -12,7 +12,6 @@ import {
   useNavigate,
 } from "react-router";
 import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/EditRotationRoute";
-import InputBlock from "~/components/Intrinsic/Form/InputBlock";
 import getFormData from "~/functions/getFormData";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
@@ -23,9 +22,10 @@ import {
   handleRequestSuccess,
   ResponseWrapper,
 } from "~/functions/handleRequest";
-import showFormSubmitErrorToast from "~/components/Toasts/ShowFormSubmitErrorToast";
-import PilotLicenseInputBlock from "~/components/Form/PilotLicenseInputBlock";
-import RotationFlightsInputBlock from "~/components/Form/RotationFlightsInputBlock";
+import showFormSubmitErrorToast from "~/components/shared/Toasts/ShowFormSubmitErrorToast";
+import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInputBlock";
+import RotationFlightsInputBlock from "~/components/rotation/Form/RotationFlightsInputBlock";
+import InputBlock from "~/components/shared/Form/InputBlock";
 
 type EditRotationResponse = ResponseWrapper<
   EditRotationRequest,

@@ -2,14 +2,14 @@
 
 import React from "react";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
 import { Operator } from "~/models";
 import { useLoaderData } from "react-router";
 import { OperatorService } from "~/state/api/operator.service";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import OperatorListTable from "~/components/Tables/OperatorListTable";
-import Container from "~/components/Layout/Container";
+import OperatorListTable from "~/components/operator/Table/OperatorListTable";
+import Container from "~/components/shared/Layout/Container";
 
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();

@@ -1,10 +1,10 @@
 "use client";
 
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { UserRole } from "~/models/user.model";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import FlightStatusSelector from "~/components/Tables/Selectors/FlightStatusSelector";
+import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import React from "react";
 
 export default function FlightsListRoute() {
@@ -17,7 +17,7 @@ export default function FlightsListRoute() {
         linkText="Create new"
         linkUrl="/flights/new"
       />
-      <FlightStatusSelector />
+      <FlightStatusTabs />
     </ProtectedRoute>
   );
 }
