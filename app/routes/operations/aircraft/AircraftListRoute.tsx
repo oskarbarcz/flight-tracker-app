@@ -12,7 +12,7 @@ import Container from "~/components/Layout/Container";
 import AircraftListTable from "~/components/Tables/AircraftListTable";
 
 export async function clientLoader(): Promise<Aircraft[]> {
-  return new AircraftService().getAll();
+  return new AircraftService().fetchAll();
 }
 
 export default function AircraftListRoute() {
