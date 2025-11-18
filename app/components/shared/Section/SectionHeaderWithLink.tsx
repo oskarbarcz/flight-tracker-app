@@ -1,7 +1,7 @@
 "use client";
 
-import { Link } from "react-router";
 import { Button } from "flowbite-react";
+import { Link } from "react-router";
 
 type SectionHeaderWithLinkProps = {
   sectionTitle: string;

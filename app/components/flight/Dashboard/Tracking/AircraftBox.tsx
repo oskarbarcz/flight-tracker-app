@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
+import { FaCircleInfo } from "react-icons/fa6";
 import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import { FaCircleInfo } from "react-icons/fa6";
 
 export default function AircraftBox() {
   const { flight } = useTrackedFlight();

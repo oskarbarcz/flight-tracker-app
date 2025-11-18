@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import { Link } from "react-router";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
+import { Link } from "react-router";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 export default function MapLinkOverlay() {
   const { flight } = useTrackedFlight();

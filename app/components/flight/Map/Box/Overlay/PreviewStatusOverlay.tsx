@@ -1,9 +1,9 @@
 "use client";
 
-import { FlightStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { useEffect, useState } from "react";
+import { FlightStatus } from "~/models";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 export default function MapPreviewStatusOverlay() {
   const { flight } = useTrackedFlight();
@@ -15,7 +15,7 @@ export default function MapPreviewStatusOverlay() {
     if (!flight) return;
 
     setIsFlightTracked(flightPath.length > 0);
-  }, [flight, flightPath, setIsFlightTracked]);
+  }, [flight, flightPath]);
 
   if (!flight) return;
 

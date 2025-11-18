@@ -1,14 +1,14 @@
-import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
-import GreatCirclePath from "~/components/flight/Map/Element/GreatCirclePath";
+import { FitBoundsOptions, latLngBounds } from "leaflet";
+import { MapContainer } from "react-leaflet";
 import FlightPath from "~/components/flight/Map/Element/FlightPath";
+import GreatCirclePath from "~/components/flight/Map/Element/GreatCirclePath";
 import MapAircraftMarker from "~/components/flight/Map/Element/MapAircraftMarker";
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
-import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
-import { MapContainer } from "react-leaflet";
-import { Flight, FlightPathElement, Position } from "~/models";
-import FlightDetailsSectionOverlay from "~/components/flight/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 import MapBottomDrawer from "~/components/flight/Map/Element/MapBottomDrawer";
-import { FitBoundsOptions, latLngBounds } from "leaflet";
+import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
+import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
+import FlightDetailsSectionOverlay from "~/components/flight/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
+import { Flight, FlightPathElement, Position } from "~/models";
 
 type Props = {
   flight: Flight;
@@ -51,7 +51,7 @@ export default function FullScreenMap({ flight, path }: Props) {
         />
         <FlightPath path={path} />
 
-        {pathPoints.length && <MapAircraftMarker path={pathPoints} />}
+        {pathPoints.length > 0 && <MapAircraftMarker path={pathPoints} />}
 
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />

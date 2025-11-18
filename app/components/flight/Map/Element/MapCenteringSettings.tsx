@@ -1,7 +1,7 @@
 import { Button, Tooltip } from "flowbite-react";
+import { FaPlane } from "react-icons/fa";
 import { FaChevronRight, FaCrosshairs, FaRoute } from "react-icons/fa6";
 import { useMapSettings } from "~/state/contexts/settings/map-settings.context";
-import { FaPlane } from "react-icons/fa";
 
 type Props = {
   size?: "sm" | "md";

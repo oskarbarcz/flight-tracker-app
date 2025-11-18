@@ -1,18 +1,18 @@
 "use client";
 
-import { MapContainer } from "react-leaflet";
-import { FlightPathElement } from "~/models";
 import L from "leaflet";
-import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
-import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
-import GreatCirclePath from "~/components/flight/Map/Element/GreatCirclePath";
-import FlightPath from "~/components/flight/Map/Element/FlightPath";
-import { Position } from "~/models/common/geo";
-import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
-import MapAircraftMarker from "~/components/flight/Map/Element/MapAircraftMarker";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import { useApi } from "~/state/contexts/content/api.context";
 import { useEffect, useState } from "react";
+import { MapContainer } from "react-leaflet";
+import FlightPath from "~/components/flight/Map/Element/FlightPath";
+import GreatCirclePath from "~/components/flight/Map/Element/GreatCirclePath";
+import MapAircraftMarker from "~/components/flight/Map/Element/MapAircraftMarker";
+import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
+import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
+import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
+import { FlightPathElement } from "~/models";
+import { Position } from "~/models/common/geo";
+import { useApi } from "~/state/contexts/content/api.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 export default function HistoryFlightMap() {
   const { flight } = useTrackedFlight();

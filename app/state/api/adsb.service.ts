@@ -1,6 +1,6 @@
+import { getAdsbApiHost } from "~/functions/getFlightTrackerApiHost";
 import { FlightPathElement } from "~/models";
 import { AbstractApiService } from "~/state/api/api.service";
-import { getAdsbApiHost } from "~/functions/getFlightTrackerApiHost";
 
 export class AdsbService extends AbstractApiService {
   constructor() {

@@ -1,16 +1,16 @@
-import { usePageTitle } from "~/state/hooks/usePageTitle";
 import React, { useEffect } from "react";
-import FlightInfoBox from "~/components/flight/Dashboard/Tracking/FlightInfoBox";
-import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";
-import FlightLogBox from "~/components/flight/Dashboard/Tracking/FlightLogBox";
 import AircraftBox from "~/components/flight/Dashboard/Tracking/AircraftBox";
+import FlightInfoBox from "~/components/flight/Dashboard/Tracking/FlightInfoBox";
+import FlightLogBox from "~/components/flight/Dashboard/Tracking/FlightLogBox";
 import FlightProgressBox from "~/components/flight/Dashboard/Tracking/FlightProgressBox";
-import TimeManagementBox from "~/components/flight/Dashboard/Tracking/TimeManagementBox";
 import FlightScheduleBox from "~/components/flight/Dashboard/Tracking/FlightScheduleBox";
 import FlightWasClosedBox from "~/components/flight/Dashboard/Tracking/FlightWasClosedBox";
+import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";
+import TimeManagementBox from "~/components/flight/Dashboard/Tracking/TimeManagementBox";
 import { FlightStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { AdsbProvider } from "~/state/contexts/content/adsb.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 type FlightTrackingDashboardProps = {
   flightId: string;

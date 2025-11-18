@@ -1,17 +1,17 @@
 "use client";
 
-import React from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import React from "react";
 import { Form, redirect, useLoaderData } from "react-router";
-import { CreateOperatorDto, Operator } from "~/models";
-import { OperatorService } from "~/state/api/operator.service";
-import getFormData from "~/functions/getFormData";
-import { Route } from "../../../../.react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
-import { UserRole } from "~/models/user.model";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
 import InputBlock from "~/components/shared/Form/InputBlock";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import getFormData from "~/functions/getFormData";
+import { CreateOperatorDto, Operator } from "~/models";
+import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { OperatorService } from "~/state/api/operator.service";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { Route } from "../../../../.react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
 
 export async function clientAction({
   request,

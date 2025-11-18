@@ -17,8 +17,8 @@ export function skyLinkToFormData(
       country: input.country,
       timezone: input.timezone,
       continent: Continent.Europe,
-      latitude: parseFloat(input.latitude),
-      longitude: parseFloat(input.longitude),
+      latitude: Number.parseFloat(input.latitude),
+      longitude: Number.parseFloat(input.longitude),
     },
   };
 }

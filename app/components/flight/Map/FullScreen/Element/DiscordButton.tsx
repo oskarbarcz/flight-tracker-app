@@ -1,6 +1,6 @@
 import { Button, Tooltip } from "flowbite-react";
-import { Link } from "react-router";
 import { FaDiscord } from "react-icons/fa6";
+import { Link } from "react-router";
 import { useAppConfig } from "~/state/hooks/useAppConfig";
 
 export default function DiscordButton() {

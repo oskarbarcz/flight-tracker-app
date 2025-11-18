@@ -1,8 +1,8 @@
 "use client";
 
-import { Link } from "react-router";
 import React from "react";
 import { IconType } from "react-icons";
+import { Link } from "react-router";
 
 type SidebarElementProps = {
   isCollapsed: boolean;

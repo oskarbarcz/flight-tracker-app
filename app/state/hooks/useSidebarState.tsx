@@ -1,5 +1,5 @@
-import { useLocalStorage } from "~/state/hooks/useLocalStorage";
 import { useCallback } from "react";
+import { useLocalStorage } from "~/state/hooks/useLocalStorage";
 
 type SidebarCollapseState = boolean;
 type SidebarCollapseStateHook = [SidebarCollapseState, () => void];

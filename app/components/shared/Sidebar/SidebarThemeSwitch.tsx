@@ -1,13 +1,13 @@
 "use client";
 
+import { useThemeMode } from "flowbite-react";
 import React from "react";
+import { IconType } from "react-icons";
 import {
   MdBrightnessAuto,
   MdBrightnessHigh,
   MdBrightnessLow,
 } from "react-icons/md";
-import { useThemeMode } from "flowbite-react";
-import { IconType } from "react-icons";
 
 type SidebarColorModeSwitchProps = {
   isCollapsed: boolean;

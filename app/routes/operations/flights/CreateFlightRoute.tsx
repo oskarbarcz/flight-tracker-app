@@ -1,25 +1,25 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { redirect, useNavigate } from "react-router";
-import { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
-import getFormData from "~/functions/getFormData";
-import { UserRole } from "~/models/user.model";
-import { FlightService } from "~/state/api/flight.service";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { CreateFlightRequest } from "~/state/api/model/flight.dto";
-import FormSubmit from "~/components/shared/Form/FormSubmit";
+import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
 import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
 import FlightScheduleFormSection from "~/components/flight/FormSection/FlightScheduleFormSection";
+import FormSubmit from "~/components/shared/Form/FormSubmit";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import getFormData from "~/functions/getFormData";
 import {
   CreateFlightFormData,
   initCreateFlightData,
 } from "~/models/form/flight.form";
-import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
-import { useApi } from "~/state/contexts/content/api.context";
+import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { FlightService } from "~/state/api/flight.service";
+import { CreateFlightRequest } from "~/state/api/model/flight.dto";
 import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";
+import { useApi } from "~/state/contexts/content/api.context";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 
 export async function clientAction({
   request,

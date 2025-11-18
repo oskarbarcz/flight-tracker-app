@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
-import { CheckedInFlightTimesheet, Flight } from "~/models";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Link } from "react-router";
+import React, { useCallback, useEffect } from "react";
 import { FaArrowDown } from "react-icons/fa";
+import { Link } from "react-router";
+import { CheckedInFlightTimesheet, Flight } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 type SidebarCurrentFlightProps = {
@@ -33,7 +33,7 @@ export default function SidebarCurrentFlight({
 
   useEffect(() => {
     setFlightId(flightId);
-  }, [flightId, setFlightId, handleTimeUpdate]);
+  }, [flightId, setFlightId]);
 
   if (!flight) {
     return <div>Loading...</div>;

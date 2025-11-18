@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
 import { FaCircleInfo } from "react-icons/fa6";
+import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 
 export default function CurrentRotationBox() {

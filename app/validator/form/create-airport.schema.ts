@@ -1,4 +1,4 @@
-import { number, object, ObjectSchema, string } from "yup";
+import { number, ObjectSchema, object, string } from "yup";
 import { AirportGeneralFormData } from "~/components/airport/Forms/AirportGeneralFormSection";
 import { AirportLocationData } from "~/components/airport/Forms/AirportLocationFormSection";
 import { Continent } from "~/models";

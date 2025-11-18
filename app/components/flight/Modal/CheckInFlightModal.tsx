@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-import { FilledSchedule, Flight } from "~/models";
 import {
   Button,
   Modal,
@@ -9,11 +7,13 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import { updateScheduleSchema } from "~/validator/form/flight.schema";
-import Form from "~/components/shared/Form/Form";
+import React from "react";
 import UpdateFlightScheduleForm from "~/components/flight/Forms/UpdateFlightScheduleForm";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import Form from "~/components/shared/Form/Form";
+import { FilledSchedule, Flight } from "~/models";
+import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
 type CheckInFlightModalProps = {
   flight: Flight;

@@ -1,9 +1,9 @@
 "use client";
 
-import { Polyline } from "react-leaflet";
-import { Airport } from "~/models";
 import Arc from "arc";
 import { LatLngTuple } from "leaflet";
+import { Polyline } from "react-leaflet";
+import { Airport } from "~/models";
 
 type GreatCirclePathType = {
   start: Airport;

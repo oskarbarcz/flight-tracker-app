@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { Sidebar } from "~/components/shared/Sidebar/Sidebar";
-import { useSidebarState } from "~/state/hooks/useSidebarState";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router";
+import { ToastContainer } from "react-toastify";
 import { MobileSidebar } from "~/components/shared/Sidebar/MobileSidebar";
+import { Sidebar } from "~/components/shared/Sidebar/Sidebar";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { useSidebarState } from "~/state/hooks/useSidebarState";
 
 export default function AppLayout() {
   const [isCollapsed, toggleCollapse] = useSidebarState();

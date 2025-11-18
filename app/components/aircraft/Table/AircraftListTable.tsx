@@ -1,4 +1,3 @@
-import { Aircraft } from "~/models";
 import {
   Button,
   Table,
@@ -8,9 +7,10 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { Link } from "react-router";
-import { HiPencil } from "react-icons/hi";
 import React from "react";
+import { HiPencil } from "react-icons/hi";
+import { Link } from "react-router";
+import { Aircraft } from "~/models";
 
 type AircraftListTableProps = {
   aircraft: Aircraft[];

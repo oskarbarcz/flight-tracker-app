@@ -1,10 +1,10 @@
 "use client";
 
 import { TabItem, Tabs } from "flowbite-react";
+import React from "react";
+import Container from "~/components/shared/Layout/Container";
 import { FlightPrecedenceStatus } from "~/models";
 import FlightListTable from "../FlightListTable";
-import Container from "~/components/shared/Layout/Container";
-import React from "react";
 
 const precedenceToLabel = (precedence: FlightPrecedenceStatus): string => {
   switch (precedence) {

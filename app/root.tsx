@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
+import React from "react";
 import {
   isRouteErrorResponse,
   Link,
@@ -9,13 +11,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import type { Route } from "./+types/root";
-import stylesheet from "./app.css?url";
-import React from "react";
-import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
+import { ApiProvider } from "~/state/contexts/content/api.context";
 import { AuthProvider } from "~/state/contexts/session/auth.context";
 import getAppTheme from "~/theme/getAppTheme";
-import { ApiProvider } from "~/state/contexts/content/api.context";
+import type { Route } from "./+types/root";
+import stylesheet from "./app.css?url";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

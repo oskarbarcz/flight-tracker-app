@@ -1,13 +1,13 @@
 "use client";
 
 import { FloatingLabel, HelperText } from "flowbite-react";
+import { useField } from "formik";
 import React, {
   HTMLInputAutoCompleteAttribute,
   HTMLInputTypeAttribute,
 } from "react";
-import { useField } from "formik";
-import { twMerge } from "tailwind-merge";
 import { FaInfoCircle } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
 
 type ManagedFloatingInputBlock = {

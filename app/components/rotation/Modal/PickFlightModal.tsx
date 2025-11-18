@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -8,9 +7,10 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import { Flight, RotationResponse } from "~/models";
-import LegPreview from "~/components/rotation/Form/Preview/LegPreview";
+import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
+import LegPreview from "~/components/rotation/Form/Preview/LegPreview";
+import { Flight, RotationResponse } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type PickFlightModalProps = {
@@ -38,7 +38,7 @@ export default function PickFlightModal({
         ),
       )
       .then(setFlights);
-  }, [flightService, rotation.flights, addedFlightsIds]);
+  }, [flightService, rotation.flights]);
 
   const addLegAction = (flightId: string) => {
     setAddedFlightsIds((prev) => [...prev, flightId]);

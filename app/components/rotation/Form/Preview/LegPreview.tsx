@@ -1,11 +1,11 @@
 "use client";
 
-import { Flight } from "~/models";
-import { FaArrowRight } from "react-icons/fa";
-import { formatDate } from "~/functions/time";
-import React from "react";
 import { Tooltip } from "flowbite-react";
+import React from "react";
+import { FaArrowRight } from "react-icons/fa";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { formatDate } from "~/functions/time";
+import { Flight } from "~/models";
 
 type LegPreviewProps = {
   flight: Flight;

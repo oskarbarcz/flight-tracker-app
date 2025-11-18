@@ -1,9 +1,9 @@
 "use client";
 
-import FormSection from "~/components/shared/Form/FormSection";
 import React, { useEffect, useState } from "react";
-import { createAirportGeneralSchema } from "~/validator/form/create-airport.schema";
+import FormSection from "~/components/shared/Form/FormSection";
 import ManagedInputBlock from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { createAirportGeneralSchema } from "~/validator/form/create-airport.schema";
 
 export type AirportGeneralFormData = {
   iataCode: string;

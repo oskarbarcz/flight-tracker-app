@@ -1,11 +1,11 @@
 "use client";
 
-import FormSection from "~/components/shared/Form/FormSection";
 import React, { useState } from "react";
-import { Continent } from "~/models";
-import { createAirportLocationSchema } from "~/validator/form/create-airport.schema";
+import FormSection from "~/components/shared/Form/FormSection";
 import ManagedInputBlock from "~/components/shared/Form/Managed/ManagedInputBlock";
 import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { Continent } from "~/models";
+import { createAirportLocationSchema } from "~/validator/form/create-airport.schema";
 
 export type AirportLocationData = {
   city: string;

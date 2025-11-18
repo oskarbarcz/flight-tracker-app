@@ -1,10 +1,5 @@
 "use client";
 
-import React from "react";
-import Container, {
-  ContainerClassProps,
-} from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 import {
   Timeline,
   TimelineContent,
@@ -13,10 +8,15 @@ import {
   TimelineTime,
   TimelineTitle,
 } from "flowbite-react";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import { translateFlightEventType } from "~/models/translate/flight.translate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import React from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import Container, {
+  ContainerClassProps,
+} from "~/components/shared/Layout/Container";
+import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { translateFlightEventType } from "~/models/translate/flight.translate";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 type FlightLogBoxProps = ContainerClassProps;
 

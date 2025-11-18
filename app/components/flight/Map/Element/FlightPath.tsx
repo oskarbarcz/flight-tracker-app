@@ -1,10 +1,10 @@
 "use client";
 
-import { Polyline } from "react-leaflet";
 import { useMemo } from "react";
+import { Polyline } from "react-leaflet";
 import { smoothPath } from "~/functions/smooth";
-import { Position } from "~/models/common/geo";
 import { FlightPathElement } from "~/models";
+import { Position } from "~/models/common/geo";
 
 type FlightPathProps = {
   path: FlightPathElement[];

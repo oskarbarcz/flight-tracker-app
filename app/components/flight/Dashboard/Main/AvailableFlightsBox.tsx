@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { Flight } from "~/models";
+import { FaCircleInfo } from "react-icons/fa6";
 import { Link } from "react-router";
 import Container from "~/components/shared/Layout/Container";
-import { FaCircleInfo } from "react-icons/fa6";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Flight } from "~/models";
 
 type AvailableFlightsBoxProps = {
   flight: Flight | undefined;

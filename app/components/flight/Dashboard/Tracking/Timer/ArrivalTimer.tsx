@@ -1,10 +1,10 @@
 "use client";
 
-import { FilledSchedule } from "~/models";
-import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
 import { useEffect, useState } from "react";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
+import { FilledSchedule } from "~/models";
 
 type ArrivalTimerProps = {
   schedule: FilledSchedule;

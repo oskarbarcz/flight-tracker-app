@@ -1,11 +1,11 @@
 "use client";
 
-import { Marker } from "react-leaflet";
 import L, { type LatLngExpression } from "leaflet";
 import ReactDOMServer from "react-dom/server";
+import { Marker } from "react-leaflet";
+import AirportExtendedLabel from "~/components/flight/Map/Element/AirportExtendedLabel";
 import AirportShortLabel from "~/components/flight/Map/Element/AirportShortLabel";
 import { Airport } from "~/models";
-import AirportExtendedLabel from "~/components/flight/Map/Element/AirportExtendedLabel";
 
 type MapAirportLabelProps = {
   airport: Airport;

@@ -1,7 +1,7 @@
 "use client";
 
-import { TileLayer } from "react-leaflet";
 import { useThemeMode } from "flowbite-react";
+import { TileLayer } from "react-leaflet";
 
 export default function MapTileLayer() {
   const { mode } = useThemeMode();

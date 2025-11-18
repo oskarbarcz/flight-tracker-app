@@ -1,6 +1,5 @@
 "use client";
 
-import { Flight } from "~/models";
 import {
   Button,
   Modal,
@@ -9,6 +8,7 @@ import {
   ModalHeader,
 } from "flowbite-react";
 import { formatDate } from "~/functions/time";
+import { Flight } from "~/models";
 
 type RemoveFlightModalProps = {
   flight: Flight;
@@ -30,8 +30,7 @@ export default function RemoveFlightModal({
           <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
           <span className="font-bold">
-            {flight.departureAirport.city} ({flight.departureAirport.iataCode}
-            ){" "}
+            {flight.departureAirport.city} ({flight.departureAirport.iataCode}){" "}
           </span>
           to{" "}
           <span className="font-bold">

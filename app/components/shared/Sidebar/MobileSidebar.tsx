@@ -1,15 +1,15 @@
 "use client";
-import { useAuth } from "~/state/contexts/session/auth.context";
-import { User, UserRole } from "~/models/user.model";
-import { useLocation } from "react-router";
-import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
-import { LuTowerControl } from "react-icons/lu";
-import SidebarElement from "~/components/shared/Sidebar/SidebarElement";
 import { GrDocumentTime } from "react-icons/gr";
-import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import SidebarUserPanel from "~/components/shared/Sidebar/SidebarUserPanel";
-import SidebarThemeSwitch from "~/components/shared/Sidebar/SidebarThemeSwitch";
 import { HiHome } from "react-icons/hi";
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
+import { LuTowerControl } from "react-icons/lu";
+import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
+import { useLocation } from "react-router";
+import SidebarElement from "~/components/shared/Sidebar/SidebarElement";
+import SidebarThemeSwitch from "~/components/shared/Sidebar/SidebarThemeSwitch";
+import SidebarUserPanel from "~/components/shared/Sidebar/SidebarUserPanel";
+import { User, UserRole } from "~/models/user.model";
+import { useAuth } from "~/state/contexts/session/auth.context";
 
 export function MobileSidebar() {
   const path = useLocation().pathname;

@@ -1,24 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button, Label, TextInput } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { UserRole } from "~/models/user.model";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
-import Container from "~/components/shared/Layout/Container";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import AirportGeneralFormSection, {
+  AirportGeneralFormData,
+} from "~/components/airport/Forms/AirportGeneralFormSection";
 import AirportLocationFormSection, {
   AirportLocationData,
 } from "~/components/airport/Forms/AirportLocationFormSection";
 import FormSubmit from "~/components/shared/Form/FormSubmit";
-import AirportGeneralFormSection, {
-  AirportGeneralFormData,
-} from "~/components/airport/Forms/AirportGeneralFormSection";
-import { useNavigate } from "react-router";
-import { useApi } from "~/state/contexts/content/api.context";
+import Container from "~/components/shared/Layout/Container";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { CreateAirportFormData, initCreateAirportData } from "~/models";
-import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
+import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
+import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
+import { useApi } from "~/state/contexts/content/api.context";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export default function CreateAirportRoute() {
   const { skyLinkService, airportService } = useApi();

@@ -1,14 +1,6 @@
 "use client";
 
 import {
-  FilledSchedule,
-  Flight,
-  FlightPrecedenceStatus,
-  FlightStatus,
-  Loadsheet,
-  precedenceToStatus,
-} from "~/models";
-import {
   Alert,
   Button,
   Table,
@@ -18,17 +10,25 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { FaCheckCircle } from "react-icons/fa";
 import React, { useEffect } from "react";
-import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
-import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
-import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
+import { FaCheckCircle } from "react-icons/fa";
 import { HiInformationCircle } from "react-icons/hi";
+import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
+import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
-import { useApi } from "~/state/contexts/content/api.context";
-import translateStatus from "~/models/translate/flight.translate";
+import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import {
+  FilledSchedule,
+  Flight,
+  FlightPrecedenceStatus,
+  FlightStatus,
+  Loadsheet,
+  precedenceToStatus,
+} from "~/models";
+import translateStatus from "~/models/translate/flight.translate";
+import { useApi } from "~/state/contexts/content/api.context";
 
 export type FlightListTableProps = {
   precedence: FlightPrecedenceStatus;
@@ -53,7 +53,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
 
   useEffect(() => {
     flightService.fetchAllFlights().then(setFlights);
-  }, [flightService, precedence]);
+  }, [flightService]);
 
   const removeFlight = async (flightId: string) => {
     await flightService.remove(flightId);

@@ -1,11 +1,11 @@
 "use client";
 
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { UserRole } from "~/models/user.model";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
-import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import React from "react";
+import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export default function FlightsListRoute() {
   usePageTitle("Flight plans");

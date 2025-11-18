@@ -1,31 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import React, { useEffect, useState } from "react";
 import {
   Form,
-  useLoaderData,
-  useActionData,
   redirect,
+  useActionData,
+  useLoaderData,
   useNavigate,
 } from "react-router";
-import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/EditRotationRoute";
+import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInputBlock";
+import RotationFlightsInputBlock from "~/components/rotation/Form/RotationFlightsInputBlock";
+import InputBlock from "~/components/shared/Form/InputBlock";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import showFormSubmitErrorToast from "~/components/shared/Toasts/ShowFormSubmitErrorToast";
 import getFormData from "~/functions/getFormData";
-import { UserRole } from "~/models/user.model";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { RotationService } from "~/state/api/rotation.service";
-import { EditRotationRequest, RotationResponse } from "~/models";
 import {
   handleRequestError,
   handleRequestSuccess,
   ResponseWrapper,
 } from "~/functions/handleRequest";
-import showFormSubmitErrorToast from "~/components/shared/Toasts/ShowFormSubmitErrorToast";
-import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInputBlock";
-import RotationFlightsInputBlock from "~/components/rotation/Form/RotationFlightsInputBlock";
-import InputBlock from "~/components/shared/Form/InputBlock";
+import { EditRotationRequest, RotationResponse } from "~/models";
+import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { RotationService } from "~/state/api/rotation.service";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/EditRotationRoute";
 
 type EditRotationResponse = ResponseWrapper<
   EditRotationRequest,
@@ -61,8 +61,9 @@ export async function clientLoader({
 export default function EditRotationRoute() {
   usePageTitle("Edit rotation");
   const navigate = useNavigate();
-  const [rotation, setRotation] =
-    useState<RotationResponse>(useLoaderData<typeof clientLoader>());
+  const [rotation, setRotation] = useState<RotationResponse>(
+    useLoaderData<typeof clientLoader>(),
+  );
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {

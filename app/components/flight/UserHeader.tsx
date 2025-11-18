@@ -1,9 +1,9 @@
 "use client";
 
-import { useAuth } from "~/state/contexts/session/auth.context";
-import { User } from "~/models/user.model";
 import React from "react";
 import Container from "~/components/shared/Layout/Container";
+import { User } from "~/models/user.model";
+import { useAuth } from "~/state/contexts/session/auth.context";
 
 export default function UserHeader() {
   const { user } = useAuth() as { user: User };

@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
-import { Flight, RotationFlight, RotationResponse } from "~/models";
-import LegPreview from "./Preview/LegPreview";
-import PickFlightModal from "~/components/rotation/Modal/PickFlightModal";
 import { Button } from "flowbite-react";
+import React from "react";
+import PickFlightModal from "~/components/rotation/Modal/PickFlightModal";
+import { Flight, RotationFlight, RotationResponse } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
+import LegPreview from "./Preview/LegPreview";
 
 type RotationFlightsInputBlockProps = {
   rotation: RotationResponse;

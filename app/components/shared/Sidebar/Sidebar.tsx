@@ -1,23 +1,23 @@
 "use client";
 
-import { HiHome } from "react-icons/hi";
-import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
-import { LuTowerControl } from "react-icons/lu";
-import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import SidebarElement from "~/components/shared/Sidebar/SidebarElement";
-import SidebarSectionTitle from "~/components/shared/Sidebar/SidebarSectionTitle";
 import { GrDocumentTime } from "react-icons/gr";
-import { useAuth } from "~/state/contexts/session/auth.context";
-import SidebarExpander from "~/components/shared/Sidebar/SidebarExpander";
+import { HiHome } from "react-icons/hi";
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
+import { LuTowerControl } from "react-icons/lu";
+import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
+import { useLocation } from "react-router";
+import Container from "~/components/shared/Layout/Container";
+import SidebarCurrentFlight from "~/components/shared/Sidebar/SidebarCurrentFlight";
 import SidebarDivider from "~/components/shared/Sidebar/SidebarDivider";
+import SidebarElement from "~/components/shared/Sidebar/SidebarElement";
+import SidebarExpander from "~/components/shared/Sidebar/SidebarExpander";
+import SidebarLogo from "~/components/shared/Sidebar/SidebarLogo";
+import SidebarSectionTitle from "~/components/shared/Sidebar/SidebarSectionTitle";
 import SidebarThemeSwitch from "~/components/shared/Sidebar/SidebarThemeSwitch";
 import SidebarUserPanel from "~/components/shared/Sidebar/SidebarUserPanel";
 import { User, UserRole } from "~/models/user.model";
-import SidebarCurrentFlight from "~/components/shared/Sidebar/SidebarCurrentFlight";
 import { TrackedFlightProvider } from "~/state/contexts/global/tracked-flight.context";
-import SidebarLogo from "~/components/shared/Sidebar/SidebarLogo";
-import { useLocation } from "react-router";
-import Container from "~/components/shared/Layout/Container";
+import { useAuth } from "~/state/contexts/session/auth.context";
 
 export function Sidebar({
   isCollapsed,

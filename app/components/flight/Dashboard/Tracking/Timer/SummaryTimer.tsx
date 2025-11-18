@@ -1,8 +1,8 @@
 "use client";
 
-import { FilledSchedule } from "~/models";
 import React from "react";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { FilledSchedule } from "~/models";
 
 type SummaryTimerProps = {
   schedule: FilledSchedule;

@@ -1,12 +1,12 @@
-import logo from "~/assets/logo.svg";
-import GitHubButton from "~/components/flight/Map/FullScreen/Element/GitHubButton";
-import DiscordButton from "~/components/flight/Map/FullScreen/Element/DiscordButton";
-import VerticalSeparator from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
-import ThemeSwitchButton from "~/components/flight/Map/FullScreen/Element/ThemeSwitchButton";
-import { FaBars } from "react-icons/fa6";
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { FaBars } from "react-icons/fa6";
+import logo from "~/assets/logo.svg";
+import DiscordButton from "~/components/flight/Map/FullScreen/Element/DiscordButton";
+import GitHubButton from "~/components/flight/Map/FullScreen/Element/GitHubButton";
+import ThemeSwitchButton from "~/components/flight/Map/FullScreen/Element/ThemeSwitchButton";
+import VerticalSeparator from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
 
 export default function TopBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

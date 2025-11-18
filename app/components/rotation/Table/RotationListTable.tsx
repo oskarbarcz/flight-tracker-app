@@ -1,4 +1,3 @@
-import { RotationResponse } from "~/models";
 import {
   Table,
   TableBody,
@@ -7,9 +6,10 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import { Link } from "react-router";
 import React from "react";
+import { Link } from "react-router";
 import { formatDateToLocal } from "~/functions/time";
+import { RotationResponse } from "~/models";
 
 type RotationListTableProps = {
   rotations: RotationResponse[];

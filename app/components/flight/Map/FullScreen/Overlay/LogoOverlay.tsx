@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "react-router";
 import Container from "~/components/shared/Layout/Container";
 import Logo from "~/components/shared/Layout/Logo";
-import { Link } from "react-router";
 
 export default function LogoOverlay() {
   return (

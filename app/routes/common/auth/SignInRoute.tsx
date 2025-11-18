@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
-import { useAuth } from "~/state/contexts/session/auth.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { Button, FloatingLabel, Spinner } from "flowbite-react";
+import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { Navigate, useNavigate } from "react-router";
 import Container from "~/components/shared/Layout/Container";
 import Logo from "~/components/shared/Layout/Logo";
+import { useAuth } from "~/state/contexts/session/auth.context";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");

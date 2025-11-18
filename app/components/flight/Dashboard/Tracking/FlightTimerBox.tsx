@@ -1,11 +1,11 @@
 "use client";
 
-import { FilledSchedule, FlightStatus } from "~/models";
-import { OffBlockTimer } from "~/components/flight/Dashboard/Tracking/Timer/OffBlockTimer";
-import { TakeoffTimer } from "~/components/flight/Dashboard/Tracking/Timer/TakeoffTimer";
 import { ArrivalTimer } from "~/components/flight/Dashboard/Tracking/Timer/ArrivalTimer";
+import { OffBlockTimer } from "~/components/flight/Dashboard/Tracking/Timer/OffBlockTimer";
 import { OnBlockTimer } from "~/components/flight/Dashboard/Tracking/Timer/OnBlockTimer";
 import { SummaryTimer } from "~/components/flight/Dashboard/Tracking/Timer/SummaryTimer";
+import { TakeoffTimer } from "~/components/flight/Dashboard/Tracking/Timer/TakeoffTimer";
+import { FilledSchedule, FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 export function FlightTimerBox() {

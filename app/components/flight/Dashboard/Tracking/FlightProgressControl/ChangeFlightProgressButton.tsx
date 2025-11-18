@@ -1,21 +1,21 @@
 "use client";
 
-import StartBoardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/StartBoardingButton";
-import { FlightStatus } from "~/models";
-import React, { ReactElement, useEffect } from "react";
-import FinishBoardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/FinishBoardingButton";
-import ReportOffBlockButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportOffBlockButton";
-import ReportTakeoffButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportTakeoffButton";
-import ReportArrivalButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportArrivalButton";
-import ReportOnBlockButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportOnBlockButton";
-import StartOffboardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/StartOffboardingButton";
-import FinishOffboardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/FinishOffboardingButton";
-import CloseFlightButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/CloseFlightButton";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { Button } from "flowbite-react";
+import React, { ReactElement, useEffect } from "react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import CheckInButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/CheckInButton";
+import CloseFlightButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/CloseFlightButton";
+import FinishBoardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/FinishBoardingButton";
+import FinishOffboardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/FinishOffboardingButton";
+import ReportArrivalButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportArrivalButton";
+import ReportOffBlockButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportOffBlockButton";
+import ReportOnBlockButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportOnBlockButton";
+import ReportTakeoffButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/ReportTakeoffButton";
+import StartBoardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/StartBoardingButton";
+import StartOffboardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/StartOffboardingButton";
+import { FlightStatus } from "~/models";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 function mapStatusToButton(
   status: FlightStatus,
@@ -57,7 +57,7 @@ export default function ChangeFlightProgressButton() {
 
   useEffect(() => {
     setDisabled(true);
-  }, [flight]);
+  }, []);
 
   useEffect(() => {
     if (!disabled) {

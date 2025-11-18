@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Flight } from "~/models";
 import { Link } from "react-router";
 import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Flight } from "~/models";
 
 type DebugFlightListBoxProps = {
   flights: Flight[];

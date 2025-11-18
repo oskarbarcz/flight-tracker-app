@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
+import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { FlightStatus } from "~/models";
-import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import translateFlightStatus from "~/models/translate/flight.translate";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 function showNextAction(status: FlightStatus): boolean {
   return [

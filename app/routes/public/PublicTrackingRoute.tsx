@@ -1,14 +1,14 @@
-import { Route } from "../../../.react-router/types/app/routes/public/+types/PublicTrackingRoute";
+import { useCallback, useEffect, useState } from "react";
+import BottomBar from "~/components/flight/Map/FullScreen/BottomBar";
 import FullScreenMap from "~/components/flight/Map/FullScreen/FullScreenMap";
 import TopBar from "~/components/flight/Map/FullScreen/TopBar";
-import BottomBar from "~/components/flight/Map/FullScreen/BottomBar";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import MapSplash from "~/layout/MapSplash";
+import { Flight } from "~/models";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import { usePublicApi } from "~/state/contexts/content/public-api.context";
-import { useCallback, useEffect, useState } from "react";
-import { Flight } from "~/models";
-import MapSplash from "~/layout/MapSplash";
 import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { Route } from "../../../.react-router/types/app/routes/public/+types/PublicTrackingRoute";
 
 export default function PublicTrackingRoute({
   params,
