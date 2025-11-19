@@ -1,11 +1,11 @@
 "use client";
 
-import FormSection from "~/components/Form/FormSection";
 import React, { useEffect, useState } from "react";
-import ManagedSelectBlock from "~/components/Intrinsic/Form/Managed/ManagedSelectBlock";
-import { useApi } from "~/state/contexts/content/api.context";
+import FormSection from "~/components/shared/Form/FormSection";
+import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Airport } from "~/models";
 import { CreateFlightFormData } from "~/models/form/flight.form";
+import { useApi } from "~/state/contexts/content/api.context";
 import { newFlightRouteSchema } from "~/validator/form/flight.schema";
 
 type FlightRouteFormData = CreateFlightFormData["route"];

@@ -1,4 +1,4 @@
-import { date, number, object, ObjectSchema, ref, string } from "yup";
+import { date, number, ObjectSchema, object, ref, string } from "yup";
 import { FilledSchedule } from "~/models";
 import { CreateFlightFormData } from "~/models/form/flight.form";
 

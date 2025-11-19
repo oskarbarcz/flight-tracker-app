@@ -1,4 +1,4 @@
-import { ErrorResponse, BadRequestViolations } from "~/state/api/api.service";
+import { BadRequestViolations, ErrorResponse } from "~/state/api/api.service";
 
 type SuccessResponseWrapper<ResponseDto> = {
   body: ResponseDto;

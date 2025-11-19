@@ -1,18 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Airport, Continent, continentToDisplayName } from "~/models";
 import { useSearchParams } from "react-router";
+import AirportListTable from "~/components/airport/Table/AirportListTable";
+import ContinentFilterTabs from "~/components/airport/Table/Tabs/ContinentFilterTabs";
+import Container from "~/components/shared/Layout/Container";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import { EmptyData } from "~/components/shared/Table/LoadingStates/EmptyData";
+import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
+import { Airport, Continent, continentToDisplayName } from "~/models";
 import { UserRole } from "~/models/user.model";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
-import AirportListTable from "~/components/Tables/AirportListTable";
-import Container from "~/components/Layout/Container";
-import ContinentFilterTabs from "~/components/Tabs/ContinentFilterTabs";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
-import { LoadingData } from "~/components/Tables/LoadingStates/LoadingData";
-import { EmptyData } from "~/components/Tables/LoadingStates/EmptyData";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");

@@ -1,10 +1,10 @@
 "use client";
 
 import React, { ReactNode, useContext } from "react";
-import { AuthContext } from "~/state/contexts/session/auth.context";
 import { Navigate, useNavigate } from "react-router";
-import { UserRole } from "~/models/user.model";
 import Splash from "~/layout/Splash";
+import { UserRole } from "~/models/user.model";
+import { AuthContext } from "~/state/contexts/session/auth.context";
 
 interface ProtectedRouteProps {
   expectedRole?: UserRole;

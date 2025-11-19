@@ -1,5 +1,5 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import { GetUserResponse, ListUsersResponse } from "~/models";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class UserService extends AbstractAuthorizedApiService {
   async getCurrent(): Promise<GetUserResponse> {

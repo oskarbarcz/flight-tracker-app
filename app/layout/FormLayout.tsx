@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { ToastContainer } from "react-toastify";
 import { ThemeConfig } from "flowbite-react";
+import React from "react";
 import { Outlet } from "react-router";
-import { MobileSidebar } from "~/components/Sidebar/MobileSidebar";
+import { ToastContainer } from "react-toastify";
+import { MobileSidebar } from "~/components/shared/Sidebar/MobileSidebar";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 
 export default function FormLayout() {
   return (

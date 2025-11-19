@@ -23,12 +23,10 @@ jobs:
       - name: "Setup Node.js"
         uses: "actions/setup-node@v4"
         with:
-          node-version: "22.x"
+          node-version: "24.x"
       - name: "Install dependencies"
         run: npm ci
-      - name: "Check code formatting"
-        run: npm run format
-      - name: "Check code with linter"
+      - name: "Check code with linter and formatter"
         run: npm run lint
       - name: "Check TypeScript types"
         run: npm run typecheck

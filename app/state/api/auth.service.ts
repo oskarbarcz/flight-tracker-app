@@ -1,5 +1,5 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import { SignInRequest, SignInResponse } from "~/models";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class AuthService extends AbstractAuthorizedApiService {
   async signIn(credentials: SignInRequest): Promise<SignInResponse> {

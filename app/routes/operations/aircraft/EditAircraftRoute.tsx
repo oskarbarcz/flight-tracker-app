@@ -1,19 +1,19 @@
 "use client";
 
-import React from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { Button } from "flowbite-react";
-import SectionHeaderWithBackButton from "~/components/SectionHeaderWithBackButton";
+import React from "react";
 import { Form, redirect, useLoaderData } from "react-router";
-import { Aircraft, CreateAircraftDto, Operator } from "~/models";
-import { Route } from "../../../../.react-router/types/app/routes/operations/aircraft/+types/EditAircraftRoute";
-import { AircraftService } from "~/state/api/aircraft.service";
-import InputBlock from "~/components/Intrinsic/Form/InputBlock";
+import InputBlock from "~/components/shared/Form/InputBlock";
+import SelectBlock from "~/components/shared/Form/SelectBlock";
+import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
+import { Aircraft, CreateAircraftDto, Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { AircraftService } from "~/state/api/aircraft.service";
 import { OperatorService } from "~/state/api/operator.service";
-import SelectBlock from "~/components/Intrinsic/Form/SelectBlock";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { Route } from "../../../../.react-router/types/app/routes/operations/aircraft/+types/EditAircraftRoute";
 
 export async function clientAction({
   request,

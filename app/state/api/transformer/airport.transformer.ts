@@ -1,5 +1,5 @@
-import { CreateAirportFormData } from "~/models/form/airport.form";
 import { Continent } from "~/models";
+import { CreateAirportFormData } from "~/models/form/airport.form";
 import {
   CreateAirportRequest,
   GetAirportResponse,

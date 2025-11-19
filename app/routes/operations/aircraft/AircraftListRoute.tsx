@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { Aircraft } from "~/models";
 import { useLoaderData } from "react-router";
-import { AircraftService } from "~/state/api/aircraft.service";
+import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
+import Container from "~/components/shared/Layout/Container";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import { Aircraft } from "~/models";
 import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { AircraftService } from "~/state/api/aircraft.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import Container from "~/components/Layout/Container";
-import AircraftListTable from "~/components/Tables/AircraftListTable";
 
 export async function clientLoader(): Promise<Aircraft[]> {
   return new AircraftService().fetchAll();

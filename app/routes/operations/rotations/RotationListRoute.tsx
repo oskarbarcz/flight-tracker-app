@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import SectionHeaderWithLink from "~/components/SectionHeaderWithLink";
-import { UserRole } from "~/models/user.model";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
+import RotationListTable from "~/components/rotation/Table/RotationListTable";
+import Container from "~/components/shared/Layout/Container";
+import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
 import { RotationResponse } from "~/models";
-import RemoveRotationModal from "~/components/Modal/RemoveRotationModal";
-import Container from "~/components/Layout/Container";
-import RotationListTable from "~/components/Tables/RotationListTable";
+import { UserRole } from "~/models/user.model";
+import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export default function RotationListRoute() {
   usePageTitle("Rotation list");

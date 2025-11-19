@@ -1,9 +1,9 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import {
   CreateRotationRequest,
   EditRotationRequest,
   RotationResponse,
 } from "~/models";
+import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class RotationService extends AbstractAuthorizedApiService {
   async getAll(): Promise<RotationResponse[]> {

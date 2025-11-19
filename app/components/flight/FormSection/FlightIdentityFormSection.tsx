@@ -1,11 +1,11 @@
 "use client";
 
-import FormSection from "~/components/Form/FormSection";
 import React, { useEffect, useState } from "react";
-import { CreateFlightFormData } from "~/models/form/flight.form";
-import ManagedFloatingInputBlock from "~/components/Intrinsic/Form/Managed/ManagedFloatingInputBlock";
-import ManagedSelectBlock from "~/components/Intrinsic/Form/Managed/ManagedSelectBlock";
+import FormSection from "~/components/shared/Form/FormSection";
+import ManagedFloatingInputBlock from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
+import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Aircraft, Operator } from "~/models";
+import { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/state/contexts/content/api.context";
 import { newFlightIdentitySchema } from "~/validator/form/flight.schema";
 
