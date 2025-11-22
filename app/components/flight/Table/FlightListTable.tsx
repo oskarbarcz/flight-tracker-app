@@ -11,7 +11,8 @@ import {
   TableRow,
 } from "flowbite-react";
 import React, { useEffect } from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
@@ -126,29 +127,16 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                     className="cursor-pointer dark:border-gray-700 dark:bg-gray-800"
                     onClick={() => expandFlight(flight)}
                   >
-                    <TableCell className="text-gray-900 font-bold font-mono dark:text-white">
+                    <TableCell className="text-base text-gray-900 font-bold font-mono dark:text-white">
                       {flight.flightNumberWithoutSpaces}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1 items-center">
                         {flight.departureAirport.iataCode}
-                        <svg
-                          className="size-4 text-gray-800 dark:text-white"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 12H5m14 0-4 4m4-4-4-4"
-                          />
-                        </svg>
+                        <FaArrowRight
+                          size="12"
+                          className="text-gray-800 dark:text-white"
+                        />
                         {flight.destinationAirport.iataCode}
                       </div>
                     </TableCell>
@@ -156,11 +144,11 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       {flight.timesheet.scheduled.offBlockTime && (
                         <>
                           <FormattedIcaoDate
-                            date={flight.timesheet.scheduled.offBlockTime}
+                            date={flight.timesheet.scheduled.takeoffTime}
                           />
                           {" • "}
                           <FormattedIcaoTime
-                            date={flight.timesheet.scheduled.offBlockTime}
+                            date={flight.timesheet.scheduled.takeoffTime}
                           />
                         </>
                       )}
@@ -169,7 +157,9 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
                       </span>
                     </TableCell>
                     <TableCell>
-                      <div className="mb-1">{flight.aircraft.shortName}</div>
+                      <div className="mb-1 text-sm">
+                        {flight.aircraft.fullName}
+                      </div>
                       <div className="flex gap-2">
                         <span className="flex min-w-16 justify-center rounded-md border border-gray-500 px-2 py-0.5 text-xs">
                           {flight.aircraft.registration}

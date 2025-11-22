@@ -24,7 +24,7 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
     },
     table: {
       row: {
-        base: "border-gray-300 dark:border-gray-700 dark:bg-gray-800",
+        base: "whitespace-nowrap border-gray-300 dark:border-gray-700 dark:bg-gray-800",
       },
     },
     tooltip: {
