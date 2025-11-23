@@ -95,6 +95,7 @@ export class Flight {
   timesheet: Timesheet;
   status: FlightStatus;
   loadsheets: Loadsheets;
+  createdAt: Date;
 
   constructor(flight: ApiFlightResponse) {
     this.id = flight.id;
@@ -109,6 +110,7 @@ export class Flight {
       preliminary: flight.loadsheets.preliminary,
       final: flight.loadsheets.final,
     };
+    this.createdAt = new Date(flight.createdAt);
   }
 
   get departureAirport(): AirportOnFlight {
