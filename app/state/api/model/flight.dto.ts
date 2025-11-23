@@ -58,4 +58,5 @@ export type ApiFlightResponse = {
   };
   status: FlightStatus;
   loadsheets: ApiLoadsheetsResponse;
+  createdAt: string;
 };

@@ -18,7 +18,10 @@ export default function FlightListElementDetails({
 }: Props) {
   return (
     <TableRow className="inset-shadow-sm bg-gray-50 dark:bg-gray-900">
-      <TableCell colSpan={7}>
+      <TableCell
+        colSpan={7}
+        className="animate-in fade-in slide-in-from-top-2 duration-200 ease-out overflow-hidden px-4 py-3"
+      >
         <div className="flex gap-4">
           <div className="shrink-0">
             <div className="mb-4 flex items-center justify-between">

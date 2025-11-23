@@ -10,7 +10,7 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
@@ -39,17 +39,13 @@ export type FlightListTableProps = {
 
 export default function FlightListTable({ precedence }: FlightListTableProps) {
   const { flightService } = useApi();
-  const [flights, setFlights] = React.useState<Flight[]>([]);
-  const [flightToRemove, setFlightToRemove] = React.useState<Flight | null>(
-    null,
-  );
+  const [flights, setFlights] = useState<Flight[]>([]);
+  const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
   const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
-    React.useState<Flight | null>(null);
+    useState<Flight | null>(null);
   const [flightToUpdateLoadsheet, setFlightToUpdateLoadsheet] =
-    React.useState<Flight | null>(null);
-  const [flightToRelease, setFlightToRelease] = React.useState<Flight | null>(
-    null,
-  );
+    useState<Flight | null>(null);
+  const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
 
   useEffect(() => {
     flightService.fetchAllFlights().then(setFlights);
@@ -92,7 +88,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
   };
 
   return (
-    <div className="rounded-2xl overflow-x-auto mb-6">
+    <div className="rounded-2xl overflow-x-auto">
       <Table>
         <TableHead className="dark:text-gray-100">
           <TableRow>
@@ -106,23 +102,21 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          {Array.isArray(flights) &&
-            flights
-              .filter((flight) =>
-                precedenceToStatus(precedence).includes(flight.status),
-              )
-              .sort((a, b) => a.flightNumber.localeCompare(b.flightNumber))
-              .map((flight: Flight, i: number) => (
-                <React.Fragment key={i}>
-                  <FlightListElement
-                    flight={flight}
-                    onUpdateTimesheet={setFlightToUpdateTimesheet}
-                    onUpdateLoadsheet={setFlightToUpdateLoadsheet}
-                    onRemoveFlight={setFlightToRemove}
-                    onReleaseFlight={setFlightToRelease}
-                  />
-                </React.Fragment>
-              ))}
+          {flights
+            .filter((flight) =>
+              precedenceToStatus(precedence).includes(flight.status),
+            )
+            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+            .map((flight: Flight, i: number) => (
+              <FlightListElement
+                key={i}
+                flight={flight}
+                onUpdateTimesheet={setFlightToUpdateTimesheet}
+                onUpdateLoadsheet={setFlightToUpdateLoadsheet}
+                onRemoveFlight={setFlightToRemove}
+                onReleaseFlight={setFlightToRelease}
+              />
+            ))}
         </TableBody>
       </Table>
 
