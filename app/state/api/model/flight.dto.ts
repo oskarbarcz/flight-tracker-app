@@ -8,7 +8,7 @@ import {
 
 export type CreateFlightRequest = Omit<
   ApiFlightResponse,
-  "id" | "airports" | "aircraft" | "operator" | "status"
+  "id" | "airports" | "aircraft" | "operator" | "status" | "createdAt"
 >;
 
 export type ApiLoadsheetResponse = {
