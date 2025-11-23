@@ -20,10 +20,10 @@ export default function FlightListElementDetails({
     <TableRow className="inset-shadow-sm bg-gray-50 dark:bg-gray-900">
       <TableCell
         colSpan={7}
-        className="animate-in fade-in slide-in-from-top-2 duration-200 ease-out overflow-hidden px-4 py-3"
+        className="animate-in fade-in slide-in-from-top-2 duration-200 ease-out overflow-hidden"
       >
         <div className="flex gap-4">
-          <div className="shrink-0">
+          <div>
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-lg font-bold dark:text-white">
                 Scheduled timesheet
