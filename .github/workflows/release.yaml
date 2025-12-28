@@ -38,7 +38,7 @@ jobs:
     environment: tag
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: "actions/checkout@v4"
       - name: "Release and push git tag"
         run: git tag $(jq -r '.version' package.json) && git push --tags
       - name: "Create a GitHub release"
