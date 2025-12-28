@@ -29,6 +29,7 @@ export function allContinents(): Continent[] {
     Continent.Europe,
     Continent.NorthAmerica,
     Continent.SouthAmerica,
+    Continent.Africa,
     Continent.Asia,
     Continent.Oceania,
   ];
