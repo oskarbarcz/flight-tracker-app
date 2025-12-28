@@ -29,6 +29,7 @@ export async function clientAction({
     "selcal",
     "registration",
     "livery",
+    "operatorId",
   ]);
 
   await aircraftService.update(params.id, aircraft);
