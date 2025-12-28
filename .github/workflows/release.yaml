@@ -4,25 +4,55 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  tag:
+  build:
     runs-on: "ubuntu-24.04"
     steps:
-      - name: "Clone repository"
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+      - name: "Setup Node"
+        uses: "actions/setup-node@v4"
+        with:
+          node-version: 20
+          cache: npm
+      - name: "Install dependencies"
+        run: npm ci
+      - name: "Build"
+        run: npm run build
+      - name: "Upload artifact"
+        uses: "actions/upload-pages-artifact@v3"
+        with:
+          path: ./dist
+
+  release:
+    runs-on: "ubuntu-24.04"
+    environment: tag
+    steps:
+      - name: "Checkout"
         uses: "actions/checkout@v4"
       - name: "Release and push git tag"
-        run: "git tag $(jq -r '.version' package.json) && git push --tags"
+        run: git tag $(jq -r '.version' package.json) && git push --tags
       - name: "Create a GitHub release"
-        run: "gh release create $(jq -r '.version' package.json) --generate-notes"
+        run: gh release create $(jq -r '.version' package.json) --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
+    environment:
+      name: "production"
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: "build"
     runs-on: "ubuntu-24.04"
-    timeout-minutes: 5
-    environment: production
     steps:
-      - name: "Build and deploy on production"
-        uses: "digitalocean/app_action@v1.1.5"
-        with:
-          app_name: "flight-tracker-app"
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: "Deploy to GitHub Pages"
+        id: "deployment"
+        uses: "actions/deploy-pages@v4"
