@@ -4,6 +4,16 @@ on:
   pull_request:
     paths: ["**", "!**.md"]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+
 jobs:
   version:
     runs-on: "ubuntu-24.04"
