@@ -45,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script type="text/javascript" src="/ghspa.js"></script>
         <ThemeModeScript />
         <meta charSet="utf-8" />
         <meta
