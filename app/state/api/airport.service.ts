@@ -14,6 +14,8 @@ export class AirportService extends AbstractAuthorizedApiService {
   async getAllByContinent(continent: Continent): Promise<GetAirportResponse[]> {
     return this.requestWithAuth<GetAirportResponse[]>(
       `/api/v1/airport?continent=${continent}`,
+    ).then((response) =>
+      response.sort((a, b) => a.country.localeCompare(b.country)),
     );
   }
 
