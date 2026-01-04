@@ -8,6 +8,7 @@ type SummaryTimerProps = {
   schedule: FilledSchedule;
   actual: FilledSchedule;
 };
+
 export function SummaryTimer({ actual }: SummaryTimerProps) {
   return (
     <>

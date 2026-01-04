@@ -1,7 +1,14 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "formatter": { "enabled": true, "indentStyle": "space" },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
   "linter": {
     "rules": {
       "recommended": false,
@@ -83,7 +90,9 @@
     }
   },
   "javascript": {
-    "formatter": { "quoteStyle": "double" },
+    "formatter": {
+      "quoteStyle": "double"
+    },
     "globals": [
       "onanimationend",
       "ongamepadconnected",
@@ -212,5 +221,9 @@
       "onemptied"
     ]
   },
-  "css": { "parser": { "tailwindDirectives": true } }
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
 }

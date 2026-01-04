@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { IconType } from "react-icons";
 import { FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router";
 

@@ -1,36 +1,25 @@
 "use client";
 
 import {
-  Alert,
-  Button,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import React, { useEffect, useMemo, useState } from "react";
-import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
-import { FaChevronRight } from "react-icons/fa6";
-import { HiInformationCircle } from "react-icons/hi";
-import { useSearchParams } from "react-router";
+import React, { useEffect, useState } from "react";
 import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
 import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
 import FlightListElement from "~/components/flight/Table/FlightListElement";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import {
   FilledSchedule,
   Flight,
   FlightPrecedenceStatus,
-  FlightStatus,
   Loadsheet,
   precedenceToStatus,
 } from "~/models";
-import translateStatus from "~/models/translate/flight.translate";
 import { useApi } from "~/state/contexts/content/api.context";
 
 export type FlightListTableProps = {

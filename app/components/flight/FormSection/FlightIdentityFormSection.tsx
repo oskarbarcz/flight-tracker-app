@@ -22,6 +22,7 @@ function optionsFromOperators(operators: Operator[]) {
     value: operator.id,
   }));
 }
+
 function optionsFromAircrafts(aircrafts: Aircraft[]) {
   return aircrafts.map((aircraft) => ({
     label: `${aircraft.registration} - ${aircraft.icaoCode}`,
