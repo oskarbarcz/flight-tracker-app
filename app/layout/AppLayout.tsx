@@ -3,37 +3,20 @@
 import React from "react";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
-import { MobileSidebar } from "~/components/shared/Sidebar/MobileSidebar";
-import { Sidebar } from "~/components/shared/Sidebar/Sidebar";
+import Sidebar from "~/components/shared/Sidebar/Sidebar";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { useSidebarState } from "~/state/hooks/useSidebarState";
 
 export default function AppLayout() {
-  const [isCollapsed, toggleCollapse] = useSidebarState();
-
   return (
     <ProtectedRoute>
-      <div className="min-h-full min-w-full pb-24 md:pb-0 bg-indigo-50 dark:bg-gray-900">
-        <div className="md:container p-4 md:px-0 md:mx-auto">
-          <div className="flex min-h-[200px] ease-in-out transition-all duration-500 w-full gap-4">
-            <div
-              className={`
-              transition-[width] ease-in-out hidden md:flex
-              ${isCollapsed ? " w-[80px] h-full" : " w-[300px]"}
-            `}
-            >
-              <Sidebar
-                isCollapsed={isCollapsed}
-                handleDesktopCollapse={toggleCollapse}
-              />
-            </div>
-            <div className="flex-1 max-w-full min-w-0">
-              <Outlet />
-            </div>
+      <div className="min-h-screen min-w-full flex flex-col md:flex-row pt-20 md:pt-0 dark:bg-gray-950">
+        <Sidebar />
+        <div className="flex-1 flex justify-center p-4 md:p-8 overflow-y-auto">
+          <div className="w-full max-w-7xl">
+            <Outlet />
           </div>
         </div>
       </div>
-      <MobileSidebar />
       <ToastContainer />
     </ProtectedRoute>
   );

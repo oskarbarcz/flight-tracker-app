@@ -50,6 +50,30 @@ export abstract class AbstractApiService {
 }
 
 export abstract class AbstractAuthorizedApiService extends AbstractApiService {
+  protected async requestWithAuth<T>(
+    endpoint: string,
+    options: RequestInit = {},
+  ): Promise<T> {
+    let token = this.getAccessToken();
+    let response = await super.doRequest(endpoint, options, token);
+
+    if (response.status === 401) {
+      token = await this.refreshAccessToken();
+      response = await super.doRequest(endpoint, options, token);
+    }
+
+    if (response.status === 204) {
+      return "" as T;
+    }
+
+    if (response.status >= 400 && response.status < 500) {
+      const errorResponse = (await response.json()) as ErrorResponse<T>;
+      return Promise.reject(errorResponse);
+    }
+
+    return (await response.json()) as T;
+  }
+
   private getAccessToken(): string {
     const token: string | null = localStorage.getItem("at");
 
@@ -92,29 +116,5 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     this.saveTokens(accessToken, refreshToken);
 
     return accessToken;
-  }
-
-  protected async requestWithAuth<T>(
-    endpoint: string,
-    options: RequestInit = {},
-  ): Promise<T> {
-    let token = this.getAccessToken();
-    let response = await super.doRequest(endpoint, options, token);
-
-    if (response.status === 401) {
-      token = await this.refreshAccessToken();
-      response = await super.doRequest(endpoint, options, token);
-    }
-
-    if (response.status === 204) {
-      return "" as T;
-    }
-
-    if (response.status >= 400 && response.status < 500) {
-      const errorResponse = (await response.json()) as ErrorResponse<T>;
-      return Promise.reject(errorResponse);
-    }
-
-    return (await response.json()) as T;
   }
 }

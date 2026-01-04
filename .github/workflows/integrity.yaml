@@ -2,7 +2,7 @@ name: "integrity"
 
 on:
   pull_request:
-    paths: ["**", "!**.md"]
+    paths: [ "**", "!**.md" ]
 
 jobs:
   integrate:

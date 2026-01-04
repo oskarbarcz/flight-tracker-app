@@ -1,124 +1,84 @@
-"use client";
-
-import { GrDocumentTime } from "react-icons/gr";
-import { HiHome } from "react-icons/hi";
-import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import { LuTowerControl } from "react-icons/lu";
-import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
-import { useLocation } from "react-router";
-import Container from "~/components/shared/Layout/Container";
-import SidebarCurrentFlight from "~/components/shared/Sidebar/SidebarCurrentFlight";
-import SidebarDivider from "~/components/shared/Sidebar/SidebarDivider";
-import SidebarElement from "~/components/shared/Sidebar/SidebarElement";
-import SidebarExpander from "~/components/shared/Sidebar/SidebarExpander";
-import SidebarLogo from "~/components/shared/Sidebar/SidebarLogo";
-import SidebarSectionTitle from "~/components/shared/Sidebar/SidebarSectionTitle";
-import SidebarThemeSwitch from "~/components/shared/Sidebar/SidebarThemeSwitch";
-import SidebarUserPanel from "~/components/shared/Sidebar/SidebarUserPanel";
-import { User, UserRole } from "~/models/user.model";
-import { TrackedFlightProvider } from "~/state/contexts/global/tracked-flight.context";
+import { Drawer, DrawerItems } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { HiMenu } from "react-icons/hi";
+import SidebarDivider from "~/components/shared/Sidebar/Elements/SidebarDivider";
+import SidebarLogo from "~/components/shared/Sidebar/Elements/SidebarLogo";
+import SidebarSignOutElement from "~/components/shared/Sidebar/Elements/SidebarSignOutElement";
+import SidebarThemeSwitch from "~/components/shared/Sidebar/Elements/SidebarThemeSwitch";
+import SidebarUserSection from "~/components/shared/Sidebar/Elements/SidebarUserSection";
+import CabinCrewSidebarItems from "~/components/shared/Sidebar/Items/CabinCrewSidebarItems";
+import OperatorSidebarItems from "~/components/shared/Sidebar/Items/OperationsSidebarItems";
+import { UserRole } from "~/models";
 import { useAuth } from "~/state/contexts/session/auth.context";
 
-export function Sidebar({
-  isCollapsed,
-  handleDesktopCollapse,
-}: {
-  isCollapsed: boolean;
-  handleDesktopCollapse: () => void;
-}) {
-  const path = useLocation().pathname;
-  const { user } = useAuth() as { user: User };
+export default function Sidebar() {
+  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   if (user === null) {
     return <div>Loading...</div>;
   }
 
+  const sidebarContent = (closeDrawer?: () => void) => (
+    <>
+      <div className="flex flex-col h-full">
+        <div onClick={closeDrawer}>
+          <SidebarLogo />
+          <SidebarDivider />
+
+          <SidebarUserSection />
+
+          {user.role === UserRole.Operations && <OperatorSidebarItems />}
+          {user.role === UserRole.CabinCrew && <CabinCrewSidebarItems />}
+        </div>
+        <div className="mt-auto" onClick={closeDrawer}>
+          <SidebarDivider />
+          <nav className="flex flex-col gap-y-1 p-6">
+            <SidebarThemeSwitch />
+            <SidebarSignOutElement />
+          </nav>
+        </div>
+      </div>
+    </>
+  );
+
   return (
-    <Container
-      className="flex flex-col min-h-[600px] h-min w-full"
-      padding="condensed"
-    >
-      <SidebarLogo isCollapsed={isCollapsed} />
-
-      <div className="text-white mb-4">
-        {user.currentFlightId && (
-          <>
-            {isCollapsed && <SidebarDivider />}
-            {!isCollapsed && <SidebarSectionTitle label="Current flight" />}
-            <TrackedFlightProvider>
-              <SidebarCurrentFlight
-                flightId={user.currentFlightId}
-                isCollapsed={isCollapsed}
-              />
-            </TrackedFlightProvider>
-          </>
-        )}
-
-        {user.role === UserRole.CabinCrew && (
-          <>
-            {isCollapsed && <SidebarDivider />}
-            {!isCollapsed && <SidebarSectionTitle label="Flight" />}
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Home"
-              href="/"
-              isSelected={path === "/"}
-              icon={HiHome}
-            />
-          </>
-        )}
-
-        {user.role === UserRole.Operations && (
-          <>
-            {isCollapsed && <SidebarDivider />}
-            {!isCollapsed && <SidebarSectionTitle label="Management" />}
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Flight plans"
-              href="/flights"
-              isSelected={path.startsWith("/flights")}
-              icon={GrDocumentTime}
-            />
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Rotations"
-              href="/rotations"
-              isSelected={path.startsWith("/rotations")}
-              icon={MdOutlineScreenRotationAlt}
-            />
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Aircraft"
-              href="/aircraft"
-              isSelected={path.startsWith("/aircraft")}
-              icon={MdLocalAirport}
-            />
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Airports"
-              href="/airports"
-              isSelected={path.startsWith("/airports")}
-              icon={LuTowerControl}
-            />
-            <SidebarElement
-              isCollapsed={isCollapsed}
-              label="Operators"
-              href="/operators"
-              isSelected={path.startsWith("/operators")}
-              icon={HiOutlineBuildingOffice}
-            />
-          </>
-        )}
+    <>
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <SidebarLogo />
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-2 text-gray-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700"
+        >
+          <HiMenu size={24} />
+        </button>
       </div>
 
-      <div className="mt-auto flex flex-col gap-4">
-        <SidebarUserPanel isCollapsed={isCollapsed} />
-        <SidebarThemeSwitch isCollapsed={isCollapsed} />
-        <SidebarExpander
-          handleDesktopCollapse={handleDesktopCollapse}
-          isCollapsed={isCollapsed}
-        />
-      </div>
-    </Container>
+      <Drawer
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="bg-white dark:bg-gray-900 w-80"
+      >
+        <DrawerItems className="flex flex-col h-full overflow-y-auto">
+          {sidebarContent(() => setIsOpen(false))}
+        </DrawerItems>
+      </Drawer>
+
+      <aside className="hidden md:flex w-[300px] flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
+        {sidebarContent()}
+      </aside>
+    </>
   );
 }

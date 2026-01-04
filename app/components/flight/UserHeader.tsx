@@ -11,7 +11,7 @@ export default function UserHeader() {
   const [name] = user.name.split(" ");
   return (
     <Container invisible>
-      <h2 className="text-3xl text-gray-500 font-bold md:text-4xl">
+      <h2 className="mt-4 text-3xl text-gray-500 font-bold md:text-4xl">
         Hi <span className="text-indigo-500">{name}</span>, howdy?
       </h2>
     </Container>

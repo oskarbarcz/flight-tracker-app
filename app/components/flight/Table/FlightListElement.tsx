@@ -1,5 +1,5 @@
 import { Button, TableCell, TableRow } from "flowbite-react";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router";
 import FlightListElementDetails from "~/components/flight/Table/FlightListElementDetails";

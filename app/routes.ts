@@ -23,6 +23,8 @@ export default [
     ]),
     ...prefix("airports", [
       index("routes/operations/airports/AirportsListRoute.tsx"),
+      route("new", "routes/operations/airports/CreateAirportRoute.tsx"),
+      route(":id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
     ]),
     ...prefix("aircraft", [
       index("routes/operations/aircraft/AircraftListRoute.tsx"),
@@ -37,12 +39,6 @@ export default [
     ...prefix("flights", [
       index("routes/operations/flights/FlightsListRoute.tsx"),
       route("new", "routes/operations/flights/CreateFlightRoute.tsx"),
-    ]),
-  ]),
-  layout("layout/FormLayout.tsx", [
-    ...prefix("airports", [
-      route("new", "routes/operations/airports/CreateAirportRoute.tsx"),
-      route(":id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
     ]),
   ]),
   layout("layout/MapLayout.tsx", [

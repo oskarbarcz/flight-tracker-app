@@ -20,6 +20,7 @@ declare module "arc" {
 
   class GreatCircle {
     constructor(from: ArcCoord, to: ArcCoord);
+
     Arc(npoints?: number, options?: ArcOptions): ArcResult;
   }
 
