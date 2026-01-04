@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { User } from "~/models/user.model";
-import { AuthService } from "~/state/api/auth.service";
 import { useApi } from "~/state/contexts/content/api.context";
 
 export interface AuthContextType {
@@ -88,7 +87,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const signOut = async () => {
-    return new AuthService().signOut().then(() => {
+    return authService.signOut().then(() => {
       clearAuthData();
     });
   };

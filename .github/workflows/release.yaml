@@ -27,6 +27,11 @@ jobs:
         run: npm ci
       - name: "Build"
         run: npm run build
+        env:
+          VITE_NODE_ENV: env.VITE_NODE_ENV
+          VITE_FLIGHT_TRACKER_API_HOST: env.VITE_FLIGHT_TRACKER_API_HOST
+          VITE_ADSB_API_HOST: env.VITE_ADSB_API_HOST
+          VITE_DISCORD_INVITATION_HASH: env.VITE_DISCORD_INVITATION_HASH
       - name: "Upload artifact"
         uses: "actions/upload-pages-artifact@v3"
         with:

@@ -23,12 +23,10 @@ export default function AircraftListTable({
     <Table className="shadow">
       <TableHead className="dark:text-gray-100">
         <TableRow>
+          <TableHeadCell>Reg, SELCAL & livery</TableHeadCell>
           <TableHeadCell>ICAO code</TableHeadCell>
-          <TableHeadCell>Registration & livery</TableHeadCell>
-          <TableHeadCell>Short name</TableHeadCell>
-          <TableHeadCell>Long name</TableHeadCell>
+          <TableHeadCell>Name</TableHeadCell>
           <TableHeadCell>Operator</TableHeadCell>
-          <TableHeadCell>SELCAL</TableHeadCell>
           <TableHeadCell>
             <span className="sr-only">Actions</span>
           </TableHeadCell>
@@ -38,19 +36,24 @@ export default function AircraftListTable({
         {aircraft.map((each: Aircraft, i: number) => (
           <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
             <TableCell className="text-gray-900 dark:text-white">
+              <span className="flex gap-x-2 items-center">
+                <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">
+                  {each.registration}
+                </span>
+                <span className="border border-gray-600 px-2 py-0.5 text-xs">
+                  {each.selcal}
+                </span>
+              </span>
+              <span className="block mt-1">{each.livery}</span>
+            </TableCell>
+            <TableCell className="font-mono font-bold">
               {each.icaoCode}
             </TableCell>
             <TableCell>
-              <span>{each.registration}</span>
-              <span className="block">{each.livery}</span>
+              <span className="block font-bold">{each.shortName}</span>
+              <span className="block italic">{each.fullName}</span>
             </TableCell>
-            <TableCell>{each.shortName}</TableCell>
-            <TableCell>{each.fullName}</TableCell>
-            <TableCell>
-              <span>{each.operator.shortName}</span>
-              <span className="block">[{each.operator.icaoCode}]</span>
-            </TableCell>
-            <TableCell>{each.selcal}</TableCell>
+            <TableCell>{each.operator.shortName}</TableCell>
             <TableCell>
               <Link to={`/aircraft/${each.id}/edit`} replace viewTransition>
                 <Button color="gray">
