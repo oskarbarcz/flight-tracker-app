@@ -35,13 +35,6 @@ export default function AircraftListTable({
       <TableBody className="divide-y">
         {aircraft.map((each: Aircraft, i: number) => (
           <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
-            {/*    <span className="inline-block rounded-md border border-gray-600 px-2 py-0.5 text-xs">*/}
-            {/*  {flight.aircraft.registration}*/}
-            {/*</span>*/}
-            {/*    <span>•</span>*/}
-            {/*    <span className="inline-block border border-gray-600 px-2 py-0.5 text-xs">*/}
-            {/*  {flight.aircraft.selcal}*/}
-            {/*</span>*/}
             <TableCell className="text-gray-900 dark:text-white">
               <span className="flex gap-x-2 items-center">
                 <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">
