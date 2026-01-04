@@ -79,11 +79,11 @@ npm run dev
 
 6. open browser and go to [http://localhost:5173](http://localhost:5173) to see the app. Default credentials are:
 
-| Role             | Username                 | Password   |
-|------------------|--------------------------|------------|
-| **Cabin crew**   | `cabin-crew@example.com` | `P@$$w0rd` |
-| githubstatus.com | `operations@example.com` | `P@$$w0rd` |
-| githubstatus.com | `admin@example.com`      | `P@$$w0rd` |
+| Role           | Username                 | Password   |
+|----------------|--------------------------|------------|
+| **Cabin crew** | `cabin-crew@example.com` | `P@$$w0rd` |
+| **Operations** | `operations@example.com` | `P@$$w0rd` |
+| **Admin**      | `admin@example.com`      | `P@$$w0rd` |
 
 7. Enjoy!
 
