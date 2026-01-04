@@ -32,7 +32,7 @@ export default function Container({
   padding = "normal",
 }: ContainerProps) {
   const border =
-    "shadow-lg rounded-2xl bg-white dark:bg-gray-800 border border-indigo-100 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-indigo-200 dark:shadow-gray-900";
+    "rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-300";
   let finalClassList = twMerge(className, spacingToPadding(padding));
 
   if (!invisible) {

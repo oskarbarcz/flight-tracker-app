@@ -37,7 +37,7 @@ export default function FlightTrackingDashboard({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-[auto_1fr_1fr] gap-4">
+      <div className="py-4 grid grid-cols-1 md:grid-cols-3 grid-rows-[auto_1fr_1fr] gap-4">
         {isFlightClosed && (
           <FlightWasClosedBox className="text-white bg-indigo-500 border-indigo-500 md:col-span-3" />
         )}
