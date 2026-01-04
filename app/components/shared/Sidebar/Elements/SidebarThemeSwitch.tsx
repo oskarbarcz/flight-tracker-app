@@ -37,7 +37,8 @@ export default function SidebarThemeSwitch() {
   const { mode: currentMode, setMode } = useThemeMode();
   const Icon = getIconForMode(currentMode);
 
-  function handleThemeSwitch() {
+  function handleThemeSwitch(e: React.MouseEvent) {
+    e.stopPropagation();
     setMode(nextMode(currentMode));
   }
 

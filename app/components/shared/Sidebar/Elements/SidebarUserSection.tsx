@@ -34,7 +34,9 @@ export default function SidebarUserSection() {
         {getInitials(user.name)}
       </span>
       <div>
-        <span className="font-bold">{user.name}</span>
+        <span className="font-bold text-gray-900 dark:text-white">
+          {user.name}
+        </span>
         <span className="block text-sm text-gray-500">
           {roleToDescription(user.role)}
         </span>
