@@ -27,7 +27,7 @@ jobs:
       - name: "Build app"
         run: npm run build
         env:
-          VITE_NODE_ENV: ${{ env.VITE_NODE_ENV }}
-          VITE_FLIGHT_TRACKER_API_HOST: ${{ env.VITE_FLIGHT_TRACKER_API_HOST }}
-          VITE_ADSB_API_HOST: ${{ env.VITE_ADSB_API_HOST }}
-          VITE_DISCORD_INVITATION_HASH: ${{ env.VITE_DISCORD_INVITATION_HASH }}
+          VITE_NODE_ENV: ${{ vars.VITE_NODE_ENV }}
+          VITE_FLIGHT_TRACKER_API_HOST: ${{ vars.VITE_FLIGHT_TRACKER_API_HOST }}
+          VITE_ADSB_API_HOST: ${{ vars.VITE_ADSB_API_HOST }}
+          VITE_DISCORD_INVITATION_HASH: ${{ vars.VITE_DISCORD_INVITATION_HASH }}
