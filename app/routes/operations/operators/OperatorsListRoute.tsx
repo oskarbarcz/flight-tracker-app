@@ -27,7 +27,8 @@ export default function OperatorsListRoute() {
         primaryButton={{
           text: "Create new",
           url: "/operators/new",
-          icon: <HiPlus className="size-4" />,
+          icon: <HiPlus />,
+          color: "indigo",
         }}
       />
       <Container className="overflow-x-auto" padding="none">
