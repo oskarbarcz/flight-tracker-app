@@ -20,8 +20,8 @@ export default function AircraftListTable({
   aircraft,
 }: AircraftListTableProps) {
   return (
-    <Table className="shadow">
-      <TableHead className="dark:text-gray-100">
+    <Table>
+      <TableHead>
         <TableRow>
           <TableHeadCell>Reg, SELCAL & livery</TableHeadCell>
           <TableHeadCell>ICAO code</TableHeadCell>
@@ -34,8 +34,8 @@ export default function AircraftListTable({
       </TableHead>
       <TableBody className="divide-y">
         {aircraft.map((each: Aircraft, i: number) => (
-          <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="text-gray-900 dark:text-white">
+          <TableRow key={i}>
+            <TableCell>
               <span className="flex gap-x-2 items-center">
                 <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">
                   {each.registration}

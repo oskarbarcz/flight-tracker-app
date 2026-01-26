@@ -21,7 +21,7 @@ export default function OperatorListTable({
 }: OperatorListTableProps) {
   return (
     <Table>
-      <TableHead className="dark:text-gray-100">
+      <TableHead>
         <TableRow>
           <TableHeadCell>ICAO code</TableHeadCell>
           <TableHeadCell>Short name</TableHeadCell>
@@ -34,8 +34,8 @@ export default function OperatorListTable({
       </TableHead>
       <TableBody className="divide-y">
         {operators.map((operator: Operator, i: number) => (
-          <TableRow key={i} className="dark:border-gray-700">
-            <TableCell className="text-gray-900 dark:text-white">
+          <TableRow key={i}>
+            <TableCell className="font-bold text-black dark:text-white">
               {operator.icaoCode}
             </TableCell>
             <TableCell>{operator.shortName}</TableCell>
@@ -43,13 +43,12 @@ export default function OperatorListTable({
             <TableCell>{operator.callsign}</TableCell>
             <TableCell>
               <Link
+                className="block text-primary-500 font-bold"
                 to={`/operators/${operator.id}/edit`}
                 replace
                 viewTransition
               >
-                <Button color="gray">
-                  <HiPencil />
-                </Button>
+                Edit
               </Link>
             </TableCell>
           </TableRow>

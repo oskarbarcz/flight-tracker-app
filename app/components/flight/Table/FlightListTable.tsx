@@ -79,7 +79,7 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
   return (
     <div className="rounded-2xl overflow-x-auto">
       <Table>
-        <TableHead className="dark:text-gray-100">
+        <TableHead>
           <TableRow>
             <TableHeadCell>Flight no</TableHeadCell>
             <TableHeadCell>Route</TableHeadCell>

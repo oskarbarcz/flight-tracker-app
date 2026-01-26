@@ -18,7 +18,7 @@ type AirportListTableProps = {
 export default function AirportListTable({ airports }: AirportListTableProps) {
   return (
     <Table>
-      <TableHead className="dark:text-gray-100">
+      <TableHead>
         <TableRow>
           <TableHeadCell>IATA code</TableHeadCell>
           <TableHeadCell>Name and location</TableHeadCell>

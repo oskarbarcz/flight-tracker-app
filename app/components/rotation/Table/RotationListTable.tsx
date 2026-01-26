@@ -22,7 +22,7 @@ export default function RotationListTable({
 }: RotationListTableProps) {
   return (
     <Table className="shadow">
-      <TableHead className="dark:text-gray-100">
+      <TableHead>
         <TableRow>
           <TableHeadCell>Rotation name</TableHeadCell>
           <TableHeadCell>Legs</TableHeadCell>
@@ -33,10 +33,8 @@ export default function RotationListTable({
       </TableHead>
       <TableBody className="divide-y">
         {rotations.map((rotation: RotationResponse, i: number) => (
-          <TableRow key={i} className="dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="text-gray-900 dark:text-white">
-              {rotation.name}
-            </TableCell>
+          <TableRow key={i}>
+            <TableCell>{rotation.name}</TableCell>
             <TableCell>
               {rotation.flights.length > 0 ? (
                 <span className="text-wrap">
@@ -90,7 +88,7 @@ export default function RotationListTable({
                 </Link>
                 <button
                   onClick={() => removeRotation(rotation)}
-                  className="mt-1 cursor-pointer text-red-500"
+                  className="mt-1 cursor-pointer text-red-500 dark:text-red-800"
                 >
                   Remove
                 </button>
