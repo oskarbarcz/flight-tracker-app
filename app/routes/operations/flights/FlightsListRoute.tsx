@@ -26,10 +26,10 @@ function FlightsListContent() {
     try {
       const flight = await flightService.importFlightFromSimbrief();
       await refreshFlights();
-      success(`Flight ${flight.flightNumber} imported from Simbrief`);
+      success(`Flight ${flight.flightNumber} imported from SimBrief`);
     } catch (err) {
-      console.error("Failed to import flight from Simbrief", err);
-      error("Failed to import flight from Simbrief");
+      console.error("Failed to import flight from SimBrief", err);
+      error("Failed to import flight from SimBrief");
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ function FlightsListContent() {
       <SectionHeaderWithLink
         sectionTitle="Flight plans"
         primaryButton={{
-          text: "Import from Simbrief",
+          text: "Import from SimBrief",
           onClick: handleImport,
           disabled: loading,
           color: "indigo",

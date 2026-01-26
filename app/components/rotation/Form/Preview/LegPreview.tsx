@@ -110,7 +110,6 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
               </div>
             </div>
           </div>
-          <div></div>
         </div>
         {actionButton}
       </div>

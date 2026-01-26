@@ -19,12 +19,7 @@ type SectionHeaderWithLinkProps = {
   secondaryButton?: ActionButton;
 };
 
-function ActionButton({
-  button,
-}: {
-  button: ActionButton;
-  isPrimary?: boolean;
-}) {
+function ActionButton({ button }: { button: ActionButton }) {
   const content = (
     <Button
       size="sm"
