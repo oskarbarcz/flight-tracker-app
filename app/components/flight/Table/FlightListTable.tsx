@@ -7,7 +7,7 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
@@ -21,6 +21,7 @@ import {
   precedenceToStatus,
 } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
+import { useFlightList } from "~/state/contexts/content/flight-list.context";
 
 export type FlightListTableProps = {
   precedence: FlightPrecedenceStatus;
@@ -28,7 +29,7 @@ export type FlightListTableProps = {
 
 export default function FlightListTable({ precedence }: FlightListTableProps) {
   const { flightService } = useApi();
-  const [flights, setFlights] = useState<Flight[]>([]);
+  const { flights, refreshFlights } = useFlightList();
   const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
   const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
     useState<Flight | null>(null);
@@ -36,43 +37,27 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
     useState<Flight | null>(null);
   const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
 
-  useEffect(() => {
-    flightService.fetchAllFlights().then(setFlights);
-  }, [flightService]);
-
   const removeFlight = async (flightId: string) => {
     await flightService.remove(flightId);
-    setFlights((state) => state.filter((prev) => !(prev.id === flightId)));
+    await refreshFlights();
     setFlightToRemove(null);
   };
 
   const updateSchedule = async (flightId: string, schedule: FilledSchedule) => {
     await flightService.updateScheduledTimesheet(flightId, schedule);
-    const updated = await flightService.getById(flightId);
-
-    setFlights((state) =>
-      state.map((prev) => (prev.id === updated.id ? updated : prev)),
-    );
+    await refreshFlights();
     setFlightToUpdateTimesheet(null);
   };
 
   const updateLoadsheet = async (flightId: string, loadsheet: Loadsheet) => {
     await flightService.updatePreliminaryLoadsheet(flightId, loadsheet);
-    const updated = await flightService.getById(flightId);
-
-    setFlights((state) =>
-      state.map((prev) => (prev.id === updated.id ? updated : prev)),
-    );
+    await refreshFlights();
     setFlightToUpdateLoadsheet(null);
   };
 
   const releaseFlight = async (flightId: string) => {
     await flightService.markAsReady(flightId);
-    const updated = await flightService.getById(flightId);
-
-    setFlights((state) =>
-      state.map((prev) => (prev.id === updated.id ? updated : prev)),
-    );
+    await refreshFlights();
     setFlightToRelease(null);
   };
 

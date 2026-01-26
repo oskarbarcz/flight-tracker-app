@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { HiPlus } from "react-icons/hi";
 import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
 import RotationListTable from "~/components/rotation/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
@@ -32,8 +33,11 @@ export default function RotationListRoute() {
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <SectionHeaderWithLink
         sectionTitle="Rotations"
-        linkText="Create new"
-        linkUrl="/rotations/new"
+        primaryButton={{
+          text: "Create new",
+          url: "/rotations/new",
+          icon: <HiPlus className="size-4" />,
+        }}
       />
       <Container className="overflow-x-auto" padding="none">
         <RotationListTable

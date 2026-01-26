@@ -177,6 +177,17 @@ export class FlightService extends AbstractAuthorizedApiService {
       method: "DELETE",
     });
   }
+
+  async importFlightFromSimbrief(): Promise<Flight> {
+    const response = await this.requestWithAuth<ApiFlightResponse>(
+      "/api/v1/flight/create-with-simbrief",
+      {
+        method: "POST",
+      },
+    );
+
+    return new Flight(response);
+  }
 }
 
 export class PublicFlightService extends AbstractApiService {

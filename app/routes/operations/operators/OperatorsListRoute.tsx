@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import OperatorListTable from "~/components/operator/Table/OperatorListTable";
 import Container from "~/components/shared/Layout/Container";
@@ -23,8 +24,11 @@ export default function OperatorsListRoute() {
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <SectionHeaderWithLink
         sectionTitle="Operators"
-        linkText="Create new"
-        linkUrl="/operators/new"
+        primaryButton={{
+          text: "Create new",
+          url: "/operators/new",
+          icon: <HiPlus className="size-4" />,
+        }}
       />
       <Container className="overflow-x-auto" padding="none">
         <OperatorListTable operators={operators} />

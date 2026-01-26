@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { HiPlus } from "react-icons/hi";
 import { useSearchParams } from "react-router";
 import AirportListTable from "~/components/airport/Table/AirportListTable";
 import ContinentFilterTabs from "~/components/airport/Table/Tabs/ContinentFilterTabs";
@@ -40,8 +41,11 @@ export default function AirportsListRoute() {
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <SectionHeaderWithLink
         sectionTitle="Airports"
-        linkText="Create new"
-        linkUrl="/airports/new"
+        primaryButton={{
+          text: "Create new",
+          url: "/airports/new",
+          icon: <HiPlus />,
+        }}
       />
 
       <ContinentFilterTabs />

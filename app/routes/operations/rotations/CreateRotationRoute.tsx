@@ -6,7 +6,6 @@ import { Form, useActionData, useNavigate } from "react-router";
 import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInputBlock";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
-import showFormSubmitErrorToast from "~/components/shared/Toasts/ShowFormSubmitErrorToast";
 import getFormData from "~/functions/getFormData";
 import {
   handleRequestError,
@@ -17,6 +16,7 @@ import { CreateRotationRequest, RotationResponse } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { RotationService } from "~/state/api/rotation.service";
+import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/CreateRotationRoute";
 
@@ -45,6 +45,7 @@ export default function CreateRotationRoute() {
   usePageTitle("Create new rotation");
 
   const navigate = useNavigate();
+  const { error } = useToast();
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {
@@ -52,9 +53,9 @@ export default function CreateRotationRoute() {
       navigate(response.redirectUrl, { viewTransition: true });
     }
     if (response?.isError && response.oneGeneralError) {
-      showFormSubmitErrorToast(response.oneGeneralError);
+      error(response.oneGeneralError);
     }
-  }, [response, navigate]);
+  }, [response, navigate, error]);
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>

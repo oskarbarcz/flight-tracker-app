@@ -17,7 +17,15 @@ export default function AppLayout() {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        newestOnTop
+        closeOnClick
+        theme="light"
+        toastClassName="!bg-transparent !shadow-none !p-0"
+        closeButton={false}
+      />
     </ProtectedRoute>
   );
 }

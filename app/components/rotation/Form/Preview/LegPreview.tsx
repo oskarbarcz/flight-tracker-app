@@ -55,7 +55,7 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                 )}
               >
                 <span className="block text-center text-gray-500 dark:text-gray-400">
-                  OFF
+                  OUT
                 </span>
                 <FormattedIcaoTime
                   date={flight.timesheet.scheduled.offBlockTime}
@@ -70,7 +70,7 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                 )}
               >
                 <span className="block text-center text-gray-500 dark:text-gray-400">
-                  OUT
+                  OFF
                 </span>
                 <FormattedIcaoTime
                   date={flight.timesheet.scheduled.takeoffTime}
@@ -86,7 +86,7 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                   )}
                 >
                   <span className="block text-center text-gray-500 dark:text-gray-400">
-                    IN
+                    ON
                   </span>
                   <FormattedIcaoTime
                     date={flight.timesheet.scheduled.arrivalTime}
@@ -101,7 +101,7 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
                   )}
                 >
                   <span className="block text-center text-gray-500 dark:text-gray-400">
-                    ON
+                    IN
                   </span>
                   <FormattedIcaoTime
                     date={flight.timesheet.scheduled.onBlockTime}
@@ -110,7 +110,6 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
               </div>
             </div>
           </div>
-          <div></div>
         </div>
         {actionButton}
       </div>

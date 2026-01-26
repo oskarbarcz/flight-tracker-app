@@ -12,6 +12,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { ApiProvider } from "~/state/contexts/content/api.context";
+import { ToastProvider } from "~/state/contexts/global/toast.context";
 import { AuthProvider } from "~/state/contexts/session/auth.context";
 import getAppTheme from "~/theme/getAppTheme";
 import type { Route } from "./+types/root";
@@ -69,13 +70,15 @@ export default function App() {
   const appTheme = getAppTheme();
 
   return (
-    <ApiProvider>
-      <AuthProvider>
-        <ThemeProvider theme={appTheme}>
-          <Outlet />
-        </ThemeProvider>
-      </AuthProvider>
-    </ApiProvider>
+    <ToastProvider>
+      <ApiProvider>
+        <AuthProvider>
+          <ThemeProvider theme={appTheme}>
+            <Outlet />
+          </ThemeProvider>
+        </AuthProvider>
+      </ApiProvider>
+    </ToastProvider>
   );
 }
 
