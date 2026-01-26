@@ -35,11 +35,11 @@ export default function SignInRoute() {
   }
 
   return (
-    <div className="z-10 flex min-h-full flex-col border border-gray-200 dark:border-gray-800 justify-center md:mt-[-100px] gap-4 sm:gap-6 md:gap-8 p-3 items-center">
+    <div className="z-10 flex min-h-full flex-col justify-center md:-mt-25 gap-4 sm:gap-6 md:gap-8 p-3 items-center">
       <aside className="flex items-center justify-center">
         <Logo />
       </aside>
-      <Container className="w-full max-w-[350px] shadow-none border-0">
+      <Container className="w-full  max-w-87.5 shadow-none">
         <h1 className="text-center mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
           Sign in
         </h1>
