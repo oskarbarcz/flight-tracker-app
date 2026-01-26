@@ -30,6 +30,10 @@ export const links: Route.LinksFunction = () => [
   },
   { rel: "stylesheet", href: stylesheet },
   {
+    rel: "stylesheet",
+    href: "https://cdn.jsdelivr.net/npm/react-toastify@11.0.5/dist/ReactToastify.css",
+  },
+  {
     rel: "icon",
     type: "image/png",
     href: "/favicon-96x96.png",

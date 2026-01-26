@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
 import Container from "~/components/shared/Layout/Container";
@@ -24,8 +25,11 @@ export default function AircraftListRoute() {
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <SectionHeaderWithLink
         sectionTitle="Aircrafts"
-        linkText="Create new"
-        linkUrl="/aircraft/new"
+        primaryButton={{
+          text: "Create new",
+          url: "/aircraft/new",
+          icon: <HiPlus />,
+        }}
       />
       <Container className="overflow-x-auto" padding="none">
         <AircraftListTable aircraft={aircrafts} />
