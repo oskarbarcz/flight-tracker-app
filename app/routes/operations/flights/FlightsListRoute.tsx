@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { FaFileImport } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
-import { toast } from "react-toastify";
 import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
 import { UserRole } from "~/models/user.model";
@@ -13,11 +12,13 @@ import {
   FlightListProvider,
   useFlightList,
 } from "~/state/contexts/content/flight-list.context";
+import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 function FlightsListContent() {
   const { flightService } = useApi();
   const { refreshFlights } = useFlightList();
+  const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
 
   const handleImport = async () => {
@@ -25,10 +26,10 @@ function FlightsListContent() {
     try {
       const flight = await flightService.importFlightFromSimbrief();
       await refreshFlights();
-      toast.success(`Flight ${flight.flightNumber} imported from Simbrief`);
+      success(`Flight ${flight.flightNumber} imported from Simbrief`);
     } catch (err) {
       console.error("Failed to import flight from Simbrief", err);
-      toast.error("Failed to import flight from Simbrief");
+      error("Failed to import flight from Simbrief");
     } finally {
       setLoading(false);
     }

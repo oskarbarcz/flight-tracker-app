@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Outlet } from "react-router";
-import { ToastContainer } from "react-toastify";
 import { AdsbProvider } from "~/state/contexts/content/adsb.context";
 
 export default function MapLayout() {
@@ -13,18 +12,6 @@ export default function MapLayout() {
           <Outlet />
         </AdsbProvider>
       </div>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
     </>
   );
 }

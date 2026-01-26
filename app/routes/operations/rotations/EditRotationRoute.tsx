@@ -13,7 +13,6 @@ import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInput
 import RotationFlightsInputBlock from "~/components/rotation/Form/RotationFlightsInputBlock";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
-import showFormSubmitErrorToast from "~/components/shared/Toasts/ShowFormSubmitErrorToast";
 import getFormData from "~/functions/getFormData";
 import {
   handleRequestError,
@@ -24,6 +23,7 @@ import { EditRotationRequest, RotationResponse } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { RotationService } from "~/state/api/rotation.service";
+import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 import { Route } from "../../../../.react-router/types/app/routes/operations/rotations/+types/EditRotationRoute";
 
@@ -61,6 +61,7 @@ export async function clientLoader({
 export default function EditRotationRoute() {
   usePageTitle("Edit rotation");
   const navigate = useNavigate();
+  const { error } = useToast();
   const [rotation, setRotation] = useState<RotationResponse>(
     useLoaderData<typeof clientLoader>(),
   );
@@ -71,9 +72,9 @@ export default function EditRotationRoute() {
       navigate(response.redirectUrl, { viewTransition: true });
     }
     if (response?.isError && response.oneGeneralError) {
-      showFormSubmitErrorToast(response.oneGeneralError);
+      error(response.oneGeneralError);
     }
-  }, [response, navigate]);
+  }, [response, navigate, error]);
 
   const updateLegs = async () => {
     const rotationService = new RotationService();

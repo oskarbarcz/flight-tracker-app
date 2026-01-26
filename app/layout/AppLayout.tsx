@@ -18,16 +18,13 @@ export default function AppLayout() {
         </div>
       </div>
       <ToastContainer
-        position="bottom-center"
+        position="bottom-right"
         autoClose={5000}
-        hideProgressBar
         newestOnTop
         closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
+        theme="light"
+        toastClassName="!bg-transparent !shadow-none !p-0"
+        closeButton={false}
       />
     </ProtectedRoute>
   );

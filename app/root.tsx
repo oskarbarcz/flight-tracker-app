@@ -12,6 +12,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { ApiProvider } from "~/state/contexts/content/api.context";
+import { ToastProvider } from "~/state/contexts/global/toast.context";
 import { AuthProvider } from "~/state/contexts/session/auth.context";
 import getAppTheme from "~/theme/getAppTheme";
 import type { Route } from "./+types/root";
@@ -29,10 +30,6 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap",
   },
   { rel: "stylesheet", href: stylesheet },
-  {
-    rel: "stylesheet",
-    href: "https://cdn.jsdelivr.net/npm/react-toastify@11.0.5/dist/ReactToastify.css",
-  },
   {
     rel: "icon",
     type: "image/png",
@@ -73,13 +70,15 @@ export default function App() {
   const appTheme = getAppTheme();
 
   return (
-    <ApiProvider>
-      <AuthProvider>
-        <ThemeProvider theme={appTheme}>
-          <Outlet />
-        </ThemeProvider>
-      </AuthProvider>
-    </ApiProvider>
+    <ToastProvider>
+      <ApiProvider>
+        <AuthProvider>
+          <ThemeProvider theme={appTheme}>
+            <Outlet />
+          </ThemeProvider>
+        </AuthProvider>
+      </ApiProvider>
+    </ToastProvider>
   );
 }
 
