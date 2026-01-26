@@ -18,9 +18,11 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+interface ToastProviderProps {
+  children: React.ReactNode;
+}
+
+export function ToastProvider({ children }: ToastProviderProps) {
   const showToast = useCallback(
     (message: string, type: ToastType = "info", options?: ToastOptions) => {
       const toastFn = toast[type] || toast.info;
@@ -65,12 +67,12 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </ToastContext.Provider>
   );
-};
+}
 
-export const useToast = () => {
+export function useToast() {
   const context = useContext(ToastContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useToast must be used within a ToastProvider");
   }
   return context;
-};
+}
