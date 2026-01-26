@@ -47,9 +47,9 @@ export default function EditOperatorRoute() {
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
-          sectionTitle="Edit airport"
-          backText="Back to airports"
-          backUrl="/airports"
+          sectionTitle="Edit operator"
+          backText="Back to operators"
+          backUrl="/operators"
         />
 
         <Form className="flex max-w-md flex-col gap-4" method="post">
@@ -74,7 +74,9 @@ export default function EditOperatorRoute() {
             defaultValue={operator.callsign}
           />
 
-          <Button type="submit">Save changes</Button>
+          <Button color="indigo" type="submit">
+            Save changes
+          </Button>
         </Form>
       </div>
     </ProtectedRoute>
