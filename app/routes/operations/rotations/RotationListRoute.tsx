@@ -36,7 +36,8 @@ export default function RotationListRoute() {
         primaryButton={{
           text: "Create new",
           url: "/rotations/new",
-          icon: <HiPlus className="size-4" />,
+          color: "indigo",
+          icon: <HiPlus />,
         }}
       />
       <Container className="overflow-x-auto" padding="none">

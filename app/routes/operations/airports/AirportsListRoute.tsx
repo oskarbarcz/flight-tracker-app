@@ -44,6 +44,7 @@ export default function AirportsListRoute() {
         primaryButton={{
           text: "Create new",
           url: "/airports/new",
+          color: "indigo",
           icon: <HiPlus />,
         }}
       />

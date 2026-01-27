@@ -19,7 +19,7 @@ export async function clientLoader(): Promise<Aircraft[]> {
 export default function AircraftListRoute() {
   usePageTitle("Aircraft list");
 
-  const aircrafts = useLoaderData<Aircraft[]>();
+  const aircrafts = useLoaderData<typeof clientLoader>();
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
@@ -28,6 +28,7 @@ export default function AircraftListRoute() {
         primaryButton={{
           text: "Create new",
           url: "/aircraft/new",
+          color: "indigo",
           icon: <HiPlus />,
         }}
       />

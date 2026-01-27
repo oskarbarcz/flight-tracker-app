@@ -3,8 +3,12 @@
 import React, { useState } from "react";
 import { FaFileImport } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
+import { useNavigate, useSearchParams } from "react-router";
+import FlightListTable from "~/components/flight/Table/FlightListTable";
 import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
+import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import { FlightPhase } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
@@ -17,15 +21,20 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 function FlightsListContent() {
   const { flightService } = useApi();
-  const { refreshFlights } = useFlightList();
+  const navigate = useNavigate();
+  const { reloadFlights } = useFlightList();
   const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const currentPhase =
+    (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
 
   const handleImport = async () => {
     setLoading(true);
     try {
       const flight = await flightService.importFlightFromSimbrief();
-      await refreshFlights();
+      reloadFlights(FlightPhase.Upcoming);
+      navigate(`/flights?id=${flight.id}&phase=upcoming`);
       success(`Flight ${flight.flightNumber} imported from SimBrief`);
     } catch (err) {
       console.error("Failed to import flight from SimBrief", err);
@@ -54,6 +63,9 @@ function FlightsListContent() {
         }}
       />
       <FlightStatusTabs />
+      <Container padding="none">
+        <FlightListTable phase={currentPhase} />
+      </Container>
     </>
   );
 }

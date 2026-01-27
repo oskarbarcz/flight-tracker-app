@@ -19,6 +19,13 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
       tablist: {
         tabitem: {
           base: "cursor-pointer",
+          variant: {
+            underline: {
+              active: {
+                on: "border-indigo-500 text-indigo-500 dark:border-indigo-600 dark:text-indigo-600",
+              },
+            },
+          },
         },
       },
     },

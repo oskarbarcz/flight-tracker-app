@@ -29,7 +29,7 @@ export enum AirportOnFlightType {
   DestinationAlternate = "destination_alternate",
 }
 
-export enum FlightPrecedenceStatus {
+export enum FlightPhase {
   Upcoming = "upcoming",
   Ongoing = "ongoing",
   Finished = "finished",
@@ -175,11 +175,9 @@ export type FlightPathElement = {
   longitude: number;
 };
 
-export function precedenceToStatus(
-  precedence: FlightPrecedenceStatus,
-): FlightStatus[] {
+export function precedenceToStatus(precedence: FlightPhase): FlightStatus[] {
   switch (precedence) {
-    case FlightPrecedenceStatus.Ongoing:
+    case FlightPhase.Ongoing:
       return [
         FlightStatus.CheckedIn,
         FlightStatus.BoardingStarted,
@@ -191,7 +189,7 @@ export function precedenceToStatus(
         FlightStatus.OffboardingStarted,
         FlightStatus.OffboardingFinished,
       ];
-    case FlightPrecedenceStatus.Finished:
+    case FlightPhase.Finished:
       return [FlightStatus.Closed];
     default:
       return [FlightStatus.Created, FlightStatus.Ready];

@@ -2,47 +2,44 @@
 
 import React, {
   createContext,
+  ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
-import { Flight } from "~/models";
+import { Flight, FlightPhase } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type FlightListContextType = {
   flights: Flight[];
   loading: boolean;
-  refreshFlights: () => Promise<void>;
+  reloadFlights: (phase: FlightPhase) => void;
 };
 
 const FlightListContext = createContext<FlightListContextType | null>(null);
 
-export function FlightListProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+type FlightListProviderProps = {
+  children: ReactNode;
+};
+
+export function FlightListProvider({ children }: FlightListProviderProps) {
   const { flightService } = useApi();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const refreshFlights = useCallback(async () => {
-    setLoading(true);
-    try {
-      const allFlights = await flightService.fetchAllFlights();
-      setFlights(allFlights);
-    } finally {
-      setLoading(false);
-    }
-  }, [flightService]);
-
-  useEffect(() => {
-    refreshFlights();
-  }, [refreshFlights]);
+  const reloadFlights = useCallback(
+    (phase: FlightPhase) => {
+      setLoading(true);
+      flightService
+        .fetchAllFlights({ phase })
+        .then(setFlights)
+        .finally(() => setLoading(false));
+    },
+    [flightService],
+  );
 
   return (
-    <FlightListContext.Provider value={{ flights, loading, refreshFlights }}>
+    <FlightListContext.Provider value={{ flights, loading, reloadFlights }}>
       {children}
     </FlightListContext.Provider>
   );
@@ -53,5 +50,6 @@ export function useFlightList() {
   if (!context) {
     throw new Error("useFlightList must be used within a FlightListProvider");
   }
+
   return context;
 }
