@@ -55,7 +55,7 @@ export default function FlightListTable({ phase }: FlightListTableProps) {
 
   const releaseFlight = async (flightId: string) => {
     await flightService.markAsReady(flightId);
-    await reloadFlights(phase);
+    reloadFlights(phase);
     setFlightToRelease(null);
   };
 
@@ -74,18 +74,16 @@ export default function FlightListTable({ phase }: FlightListTableProps) {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          {flights
-            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-            .map((flight: Flight, i: number) => (
-              <FlightListElement
-                key={i}
-                flight={flight}
-                onUpdateTimesheet={setFlightToUpdateTimesheet}
-                onUpdateLoadsheet={setFlightToUpdateLoadsheet}
-                onRemoveFlight={setFlightToRemove}
-                onReleaseFlight={setFlightToRelease}
-              />
-            ))}
+          {flights.map((flight: Flight, i: number) => (
+            <FlightListElement
+              key={i}
+              flight={flight}
+              onUpdateTimesheet={setFlightToUpdateTimesheet}
+              onUpdateLoadsheet={setFlightToUpdateLoadsheet}
+              onRemoveFlight={setFlightToRemove}
+              onReleaseFlight={setFlightToRelease}
+            />
+          ))}
         </TableBody>
       </Table>
 

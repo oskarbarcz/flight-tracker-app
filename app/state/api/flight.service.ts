@@ -28,7 +28,7 @@ export class FlightService extends AbstractAuthorizedApiService {
     phase = undefined,
     page = 1,
     limit = 10,
-  }: FlightListFilters): Promise<Flight[]> {
+  }: FlightListFilters = {}): Promise<Flight[]> {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
@@ -43,7 +43,7 @@ export class FlightService extends AbstractAuthorizedApiService {
   }
 
   async fetchAllCreatedFlights(): Promise<Flight[]> {
-    const allFlights = await this.fetchAllFlights({});
+    const allFlights = await this.fetchAllFlights();
     return allFlights.filter(
       (flight) => flight.status === FlightStatus.Created,
     );

@@ -1,7 +1,7 @@
 "use client";
 
 import { TabItem, Tabs } from "flowbite-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { FlightPhase } from "~/models";
 
@@ -29,7 +29,7 @@ export default function FlightStatusTabs() {
   function handleChange(index: number) {
     const newPhase = phases[index];
 
-    const newParams = new URLSearchParams();
+    const newParams = new URLSearchParams(searchParams);
     newParams.set("phase", newPhase);
     navigate({ search: newParams.toString() }, { replace: true });
   }

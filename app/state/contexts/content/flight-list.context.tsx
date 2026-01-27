@@ -33,7 +33,7 @@ export function FlightListProvider({ children }: FlightListProviderProps) {
       flightService
         .fetchAllFlights({ phase })
         .then(setFlights)
-        .then(() => setLoading(false));
+        .finally(() => setLoading(false));
     },
     [flightService],
   );
