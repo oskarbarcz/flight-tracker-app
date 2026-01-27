@@ -3,6 +3,7 @@ import {
   Flight,
   FlightEvent,
   FlightPathElement,
+  FlightPhase,
   FlightStatus,
   Loadsheet,
   Schedule,
@@ -16,16 +17,33 @@ import {
   CreateFlightRequest,
 } from "~/state/api/model/flight.dto";
 
+type FlightListFilters = {
+  phase?: FlightPhase;
+  page?: number;
+  limit?: number;
+};
+
 export class FlightService extends AbstractAuthorizedApiService {
-  async fetchAllFlights(): Promise<Flight[]> {
-    const response =
-      await this.requestWithAuth<ApiFlightResponse[]>("/api/v1/flight");
+  async fetchAllFlights({
+    phase = undefined,
+    page = 1,
+    limit = 10,
+  }: FlightListFilters): Promise<Flight[]> {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...(phase !== undefined && { phase }),
+    });
+
+    const url = `/api/v1/flight?${params.toString()}`;
+
+    const response = await this.requestWithAuth<ApiFlightResponse[]>(url);
 
     return response.map((flight) => new Flight(flight));
   }
 
   async fetchAllCreatedFlights(): Promise<Flight[]> {
-    const allFlights = await this.fetchAllFlights();
+    const allFlights = await this.fetchAllFlights({});
     return allFlights.filter(
       (flight) => flight.status === FlightStatus.Created,
     );

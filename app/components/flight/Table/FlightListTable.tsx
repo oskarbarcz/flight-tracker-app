@@ -7,29 +7,23 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
 import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
 import FlightListElement from "~/components/flight/Table/FlightListElement";
-import {
-  FilledSchedule,
-  Flight,
-  FlightPrecedenceStatus,
-  Loadsheet,
-  precedenceToStatus,
-} from "~/models";
+import { FilledSchedule, Flight, FlightPhase, Loadsheet } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 import { useFlightList } from "~/state/contexts/content/flight-list.context";
 
 export type FlightListTableProps = {
-  precedence: FlightPrecedenceStatus;
+  phase: FlightPhase;
 };
 
-export default function FlightListTable({ precedence }: FlightListTableProps) {
+export default function FlightListTable({ phase }: FlightListTableProps) {
   const { flightService } = useApi();
-  const { flights, refreshFlights } = useFlightList();
+  const { flights, reloadFlights } = useFlightList();
   const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
   const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
     useState<Flight | null>(null);
@@ -37,27 +31,31 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
     useState<Flight | null>(null);
   const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
 
+  useEffect(() => {
+    reloadFlights(phase);
+  }, [reloadFlights, phase]);
+
   const removeFlight = async (flightId: string) => {
     await flightService.remove(flightId);
-    await refreshFlights();
+    reloadFlights(phase);
     setFlightToRemove(null);
   };
 
   const updateSchedule = async (flightId: string, schedule: FilledSchedule) => {
     await flightService.updateScheduledTimesheet(flightId, schedule);
-    await refreshFlights();
+    reloadFlights(phase);
     setFlightToUpdateTimesheet(null);
   };
 
   const updateLoadsheet = async (flightId: string, loadsheet: Loadsheet) => {
     await flightService.updatePreliminaryLoadsheet(flightId, loadsheet);
-    await refreshFlights();
+    reloadFlights(phase);
     setFlightToUpdateLoadsheet(null);
   };
 
   const releaseFlight = async (flightId: string) => {
     await flightService.markAsReady(flightId);
-    await refreshFlights();
+    await reloadFlights(phase);
     setFlightToRelease(null);
   };
 
@@ -77,9 +75,6 @@ export default function FlightListTable({ precedence }: FlightListTableProps) {
         </TableHead>
         <TableBody className="divide-y">
           {flights
-            .filter((flight) =>
-              precedenceToStatus(precedence).includes(flight.status),
-            )
             .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
             .map((flight: Flight, i: number) => (
               <FlightListElement
