@@ -21,6 +21,7 @@ export async function clientAction({
   const form = await request.formData();
   const operator = getFormData<CreateOperatorDto>(form, [
     "icaoCode",
+    "iataCode",
     "shortName",
     "fullName",
     "callsign",
@@ -45,6 +46,7 @@ export default function CreateOperatorRoute() {
 
         <Form className="flex max-w-md flex-col gap-4" method="post">
           <InputBlock htmlName="icaoCode" label="ICAO code" />
+          <InputBlock htmlName="iataCode" label="IATA code" />
           <InputBlock htmlName="shortName" label="Short name" />
           <InputBlock htmlName="fullName" label="Full name" />
           <InputBlock htmlName="callsign" label="Callsign" />

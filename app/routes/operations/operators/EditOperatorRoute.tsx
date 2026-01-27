@@ -22,6 +22,7 @@ export async function clientAction({
   const form = await request.formData();
   const operator = getFormData<CreateOperatorDto>(form, [
     "icaoCode",
+    "iataCode",
     "shortName",
     "fullName",
     "callsign",
@@ -57,6 +58,11 @@ export default function EditOperatorRoute() {
             htmlName="icaoCode"
             label="ICAO code"
             defaultValue={operator.icaoCode}
+          />
+          <InputBlock
+            htmlName="iataCode"
+            label="IATA code"
+            defaultValue={operator.iataCode}
           />
           <InputBlock
             htmlName="shortName"

@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "flowbite-react";
 import React from "react";
-import { HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
 import { Operator } from "~/models";
 
@@ -23,7 +22,7 @@ export default function OperatorListTable({
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeadCell>ICAO code</TableHeadCell>
+          <TableHeadCell>ICAO/IATA code</TableHeadCell>
           <TableHeadCell>Short name</TableHeadCell>
           <TableHeadCell>Full name</TableHeadCell>
           <TableHeadCell>Callsign</TableHeadCell>
@@ -35,8 +34,14 @@ export default function OperatorListTable({
       <TableBody className="divide-y">
         {operators.map((operator: Operator, i: number) => (
           <TableRow key={i}>
-            <TableCell className="font-bold text-black dark:text-white">
-              {operator.icaoCode}
+            <TableCell>
+              <span className="font-bold text-black dark:text-white">
+                {operator.icaoCode}
+              </span>
+              <span> / </span>
+              <span className="font-bold text-black dark:text-white">
+                {operator.iataCode}
+              </span>
             </TableCell>
             <TableCell>{operator.shortName}</TableCell>
             <TableCell>{operator.fullName}</TableCell>
