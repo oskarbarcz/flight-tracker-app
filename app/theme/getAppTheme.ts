@@ -63,6 +63,13 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
         gray: "bg-gray-200 text-gray-800 border-gray-200 hover:text-gray-800 hover:bg-gray-300 hover:border-gray-300 focus:ring-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-600 dark:hover:border-gray-600 dark:focus:ring-gray-500",
       },
     },
+    pagination: {
+      pages: {
+        selector: {
+          active: "bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
+        }
+      }
+    },
     floatingLabel: {
       input: {
         default: {

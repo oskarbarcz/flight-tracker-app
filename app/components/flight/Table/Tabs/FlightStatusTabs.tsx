@@ -31,6 +31,7 @@ export default function FlightStatusTabs() {
 
     const newParams = new URLSearchParams(searchParams);
     newParams.set("phase", newPhase);
+    newParams.delete("page");
     navigate({ search: newParams.toString() }, { replace: true });
   }
 

@@ -21,7 +21,7 @@ export default function PilotDashboardRoute() {
   usePageTitle("Dashboard");
 
   useEffect(() => {
-    flightService.fetchAllFlights().then(setFlights);
+    flightService.fetchAllFlights().then((res) => setFlights(res.flights));
   }, [flightService]);
 
   const nextFlight = flights.filter(

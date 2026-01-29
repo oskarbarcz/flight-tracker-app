@@ -22,7 +22,7 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 function FlightsListContent() {
   const { flightService } = useApi();
   const navigate = useNavigate();
-  const { reloadFlights } = useFlightList();
+  const { reloadFlights, setPage } = useFlightList();
   const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
@@ -33,7 +33,8 @@ function FlightsListContent() {
     setLoading(true);
     try {
       const flight = await flightService.importFlightFromSimbrief();
-      reloadFlights(FlightPhase.Upcoming);
+      setPage(1);
+      reloadFlights(FlightPhase.Upcoming, 1);
       navigate(`/flights?id=${flight.id}&phase=upcoming`);
       success(`Flight ${flight.flightNumber} imported from SimBrief`);
     } catch (err) {
