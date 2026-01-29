@@ -9,42 +9,30 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
 import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
 import FlightListElement from "~/components/flight/Table/FlightListElement";
-import { EmptyData } from "~/components/shared/Table/LoadingStates/EmptyData";
 import { FilledSchedule, Flight, FlightPhase, Loadsheet } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 import { useFlightList } from "~/state/contexts/content/flight-list.context";
 
-export type FlightListTableProps = {
+type Props = {
   phase: FlightPhase;
 };
 
-export default function FlightListTable({ phase }: FlightListTableProps) {
+export default function FlightListTable({ phase }: Props) {
   const { flightService } = useApi();
-  const {
-    flights,
-    loading,
-    reloadFlights,
-    page,
-    totalCount,
-    limit,
-    setPage,
-  } = useFlightList();
+  const { flights, loading, reloadFlights, page, totalCount, limit, setPage } =
+    useFlightList();
   const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
   const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
     useState<Flight | null>(null);
   const [flightToUpdateLoadsheet, setFlightToUpdateLoadsheet] =
     useState<Flight | null>(null);
   const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
-
-  useEffect(() => {
-    reloadFlights(phase, page);
-  }, [reloadFlights, phase, page]);
 
   const onPageChange = (newPage: number) => {
     setPage(newPage);
@@ -76,6 +64,10 @@ export default function FlightListTable({ phase }: FlightListTableProps) {
     setFlightToRelease(null);
   };
 
+  if (flights.length === 0 && !loading) {
+    return null;
+  }
+
   return (
     <div className="rounded-2xl overflow-x-auto relative">
       {loading && (
@@ -96,13 +88,6 @@ export default function FlightListTable({ phase }: FlightListTableProps) {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          {flights.length === 0 && !loading && (
-            <TableRow>
-              <td colSpan={7}>
-                <EmptyData message="No flights found." />
-              </td>
-            </TableRow>
-          )}
           {flights.map((flight: Flight, i: number) => (
             <FlightListElement
               key={i}

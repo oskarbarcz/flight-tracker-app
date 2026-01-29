@@ -66,9 +66,10 @@ export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
     pagination: {
       pages: {
         selector: {
-          active: "bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
-        }
-      }
+          active:
+            "bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
+        },
+      },
     },
     floatingLabel: {
       input: {

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FaFileImport } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useSearchParams } from "react-router";
+import FlightListEmptyState from "~/components/flight/Table/FlightListEmptyState";
 import FlightListTable from "~/components/flight/Table/FlightListTable";
 import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import Container from "~/components/shared/Layout/Container";
@@ -22,12 +23,22 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 function FlightsListContent() {
   const { flightService } = useApi();
   const navigate = useNavigate();
-  const { reloadFlights, setPage } = useFlightList();
+  const {
+    flights,
+    loading: listLoading,
+    reloadFlights,
+    setPage,
+    page,
+  } = useFlightList();
   const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const currentPhase =
     (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
+
+  React.useEffect(() => {
+    reloadFlights(currentPhase, page);
+  }, [reloadFlights, currentPhase, page]);
 
   const handleImport = async () => {
     setLoading(true);
@@ -64,9 +75,17 @@ function FlightsListContent() {
         }}
       />
       <FlightStatusTabs />
-      <Container padding="none">
-        <FlightListTable phase={currentPhase} />
-      </Container>
+      {flights.length === 0 && !listLoading ? (
+        <FlightListEmptyState
+          phase={currentPhase}
+          onImport={handleImport}
+          importLoading={loading}
+        />
+      ) : (
+        <Container padding="none">
+          <FlightListTable phase={currentPhase} />
+        </Container>
+      )}
     </>
   );
 }

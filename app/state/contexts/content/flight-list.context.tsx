@@ -29,7 +29,7 @@ type FlightListProviderProps = {
 export function FlightListProvider({ children }: FlightListProviderProps) {
   const { flightService } = useApi();
   const [flights, setFlights] = useState<Flight[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
   const limit = 10;

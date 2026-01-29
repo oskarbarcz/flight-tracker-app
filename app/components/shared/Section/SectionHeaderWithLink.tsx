@@ -54,7 +54,7 @@ export default function SectionHeaderWithLink({
       <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-col md:flex-row">
         {secondaryButton && <ActionButton button={secondaryButton} />}
         {primaryButton && <ActionButton button={primaryButton} />}
       </div>
