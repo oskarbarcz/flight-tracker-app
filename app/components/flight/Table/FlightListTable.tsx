@@ -102,7 +102,7 @@ export default function FlightListTable({ phase }: Props) {
       </Table>
 
       {totalPages > 1 && (
-        <div className="flex overflow-x-auto justify-center pt-2 pb-4 border-t border-t-gray-200 dark:border-t-gray-800 bg-white dark:bg-gray-800">
+        <div className="flex overflow-x-auto justify-center pt-2 pb-4  bg-gray-50 dark:bg-gray-800">
           <Pagination
             currentPage={page}
             totalPages={totalPages}
