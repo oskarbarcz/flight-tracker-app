@@ -54,6 +54,14 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     endpoint: string,
     options: RequestInit = {},
   ): Promise<T> {
+    const { data } = await this.requestWithAuthAndHeaders<T>(endpoint, options);
+    return data;
+  }
+
+  protected async requestWithAuthAndHeaders<T>(
+    endpoint: string,
+    options: RequestInit = {},
+  ): Promise<{ data: T; headers: Headers }> {
     let token = this.getAccessToken();
     let response = await super.doRequest(endpoint, options, token);
 
@@ -63,7 +71,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     }
 
     if (response.status === 204) {
-      return "" as T;
+      return { data: "" as T, headers: response.headers };
     }
 
     if (response.status >= 400 && response.status < 500) {
@@ -71,7 +79,8 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
       return Promise.reject(errorResponse);
     }
 
-    return (await response.json()) as T;
+    const data = (await response.json()) as T;
+    return { data, headers: response.headers };
   }
 
   private getAccessToken(): string {

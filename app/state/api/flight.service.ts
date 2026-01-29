@@ -23,12 +23,17 @@ type FlightListFilters = {
   limit?: number;
 };
 
+export type PaginatedFlights = {
+  flights: Flight[];
+  totalCount: number;
+};
+
 export class FlightService extends AbstractAuthorizedApiService {
   async fetchAllFlights({
     phase = undefined,
     page = 1,
-    limit = 10,
-  }: FlightListFilters = {}): Promise<Flight[]> {
+    limit = 100,
+  }: FlightListFilters = {}): Promise<PaginatedFlights> {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
@@ -37,16 +42,20 @@ export class FlightService extends AbstractAuthorizedApiService {
 
     const url = `/api/v1/flight?${params.toString()}`;
 
-    const response = await this.requestWithAuth<ApiFlightResponse[]>(url);
+    const { data, headers } =
+      await this.requestWithAuthAndHeaders<ApiFlightResponse[]>(url);
 
-    return response.map((flight) => new Flight(flight));
+    const totalCount = Number.parseInt(headers.get("X-Total-Count") ?? "0");
+
+    return {
+      flights: data.map((flight) => new Flight(flight)),
+      totalCount,
+    };
   }
 
   async fetchAllCreatedFlights(): Promise<Flight[]> {
-    const allFlights = await this.fetchAllFlights();
-    return allFlights.filter(
-      (flight) => flight.status === FlightStatus.Created,
-    );
+    const { flights } = await this.fetchAllFlights();
+    return flights.filter((flight) => flight.status === FlightStatus.Created);
   }
 
   async createNew(flight: CreateFlightRequest): Promise<Flight> {
