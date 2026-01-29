@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "flowbite-react";
 import React, { useState } from "react";
+import { useSearchParams } from "react-router";
 import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
@@ -25,8 +26,11 @@ type Props = {
 
 export default function FlightListTable({ phase }: Props) {
   const { flightService } = useApi();
-  const { flights, loading, reloadFlights, page, totalCount, limit, setPage } =
+  const { flights, loading, reloadFlights, totalCount, limit } =
     useFlightList();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number.parseInt(searchParams.get("page") ?? "1");
+
   const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
   const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
     useState<Flight | null>(null);
@@ -35,7 +39,9 @@ export default function FlightListTable({ phase }: Props) {
   const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
 
   const onPageChange = (newPage: number) => {
-    setPage(newPage);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("page", newPage.toString());
+    setSearchParams(newParams);
   };
 
   const totalPages = Math.ceil(totalCount / limit);

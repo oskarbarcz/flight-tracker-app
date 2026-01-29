@@ -5,7 +5,7 @@ import logoWhite from "~/assets/logo.white.svg";
 
 export default function Splash() {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-indigo-50 dark:bg-gray-900">
+    <div className="flex h-screen w-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
       <div className="text-center animate-pulse">
         <img
           src={logo}

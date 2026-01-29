@@ -4,7 +4,6 @@ import { TabItem, Tabs } from "flowbite-react";
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { FlightPhase } from "~/models";
-import { useFlightList } from "~/state/contexts/content/flight-list.context";
 
 const phaseToLabel = (phase: FlightPhase): string => {
   switch (phase) {
@@ -25,13 +24,10 @@ export default function FlightStatusTabs() {
   ];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { setPage } = useFlightList();
   const currentPhase = searchParams.get("phase") || phases[0];
 
   function handleChange(index: number) {
     const newPhase = phases[index];
-
-    setPage(1);
 
     const newParams = new URLSearchParams(searchParams);
     newParams.set("phase", newPhase);
