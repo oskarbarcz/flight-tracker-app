@@ -14,9 +14,7 @@ type FlightListContextType = {
   flights: Flight[];
   loading: boolean;
   totalCount: number;
-  page: number;
   limit: number;
-  setPage: (page: number) => void;
   reloadFlights: (phase: FlightPhase, page: number) => void;
 };
 
@@ -31,7 +29,6 @@ export function FlightListProvider({ children }: FlightListProviderProps) {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(1);
   const limit = 10;
 
   const reloadFlights = useCallback(
@@ -48,19 +45,13 @@ export function FlightListProvider({ children }: FlightListProviderProps) {
     [flightService],
   );
 
-  const handleSetPage = (newPage: number) => {
-    setPage(newPage);
-  };
-
   return (
     <FlightListContext.Provider
       value={{
         flights,
         loading,
         totalCount,
-        page,
         limit,
-        setPage: handleSetPage,
         reloadFlights,
       }}
     >

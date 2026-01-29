@@ -23,30 +23,29 @@ import { usePageTitle } from "~/state/hooks/usePageTitle";
 function FlightsListContent() {
   const { flightService } = useApi();
   const navigate = useNavigate();
-  const {
-    flights,
-    loading: listLoading,
-    reloadFlights,
-    setPage,
-    page,
-  } = useFlightList();
+  const { flights, loading: listLoading, reloadFlights } = useFlightList();
   const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const currentPhase =
     (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
+  const currentPage = Number.parseInt(searchParams.get("page") ?? "1");
 
   React.useEffect(() => {
-    reloadFlights(currentPhase, page);
-  }, [reloadFlights, currentPhase, page]);
+    reloadFlights(currentPhase, currentPage);
+  }, [reloadFlights, currentPhase, currentPage]);
 
   const handleImport = async () => {
     setLoading(true);
     try {
       const flight = await flightService.importFlightFromSimbrief();
-      setPage(1);
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set("page", "1");
+      newParams.set("phase", FlightPhase.Upcoming);
+      newParams.set("id", flight.id);
+      navigate({ search: newParams.toString() });
+
       reloadFlights(FlightPhase.Upcoming, 1);
-      navigate(`/flights?id=${flight.id}&phase=upcoming`);
       success(`Flight ${flight.flightNumber} imported from SimBrief`);
     } catch (err) {
       console.error("Failed to import flight from SimBrief", err);
