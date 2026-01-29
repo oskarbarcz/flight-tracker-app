@@ -41,8 +41,8 @@ export default function FlightListEmptyState({
       {phase === FlightPhase.Upcoming && (
         <div className="flex flex-col justify-center sm:flex-row gap-3 mt-6">
           <Button
-            className="bg-gray-800"
-            color="dark"
+            className="dark:bg-gray-800 dark:hover:bg-gray-700"
+            color="alternative"
             as={Link}
             to="/flights/new"
           >
