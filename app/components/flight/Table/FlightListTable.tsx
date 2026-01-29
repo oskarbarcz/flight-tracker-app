@@ -26,7 +26,8 @@ type Props = {
 
 export default function FlightListTable({ phase }: Props) {
   const { flightService } = useApi();
-  const { flights, loading, reloadFlights, totalCount, limit } = useFlightList();
+  const { flights, loading, reloadFlights, totalCount, limit } =
+    useFlightList();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number.parseInt(searchParams.get("page") ?? "1");
 
