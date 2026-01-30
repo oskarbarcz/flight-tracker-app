@@ -45,7 +45,7 @@ export default function NextScheduledFlightBox({
             {flight.aircraft.fullName}
           </span>
         </div>
-        <div className="w-full text-right ">
+        <div className="w-full text-right">
           <span className="text-right text-xl font-bold ">
             <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
           </span>

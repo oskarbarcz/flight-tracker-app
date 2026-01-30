@@ -17,8 +17,8 @@ export default function useUserStats(): Response {
     userService
       .getUserStats()
       .then(setStats)
-      .catch(err => {
-        console.error('Cannot fetch user stats', err);
+      .catch((err) => {
+        console.error("Cannot fetch user stats", err);
         setStats(null);
       })
       .finally(() => setLoading(false));

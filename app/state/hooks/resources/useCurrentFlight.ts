@@ -19,14 +19,16 @@ export default function useCurrentFlight(): Response {
 
     if (!user.currentFlightId) {
       setCurrentFlight(null);
+      setLoading(false);
+
       return;
     }
 
     flightService
       .getById(user.currentFlightId)
       .then(setCurrentFlight)
-      .catch(err => {
-        console.error('Cannot fetch current flight', err);
+      .catch((err) => {
+        console.error("Cannot fetch current flight", err);
         setCurrentFlight(null);
       })
       .finally(() => setLoading(false));
