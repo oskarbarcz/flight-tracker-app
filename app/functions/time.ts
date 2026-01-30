@@ -50,6 +50,13 @@ export function timeDiff(a: Date, b: Date): number {
   return Math.round(diff / 1000);
 }
 
+export function dateDiffToReadable(a: Date, b: Date): string {
+  const diffMs = Math.abs(b.getTime() - a.getTime());
+  const hours = Math.floor(diffMs / (1000 * 60 * 60));
+  const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+  return `${hours}hr ${minutes}m`;
+}
+
 export function secondsToNow(time: Date): number {
   return timeDiff(new Date(), time);
 }

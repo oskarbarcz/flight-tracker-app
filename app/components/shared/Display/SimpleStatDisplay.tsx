@@ -12,7 +12,9 @@ export default function SimpleStatDisplay({ icon, title, value }: Props) {
       {icon}
       <div className="font-bold">
         <h3 className="text-gray-500 uppercase text-xs">{title}</h3>
-        <span className="text-xl dark:text-gray-200">{value}</span>
+        <span className="text-xl text-gray-700 dark:text-gray-300">
+          {value}
+        </span>
       </div>
     </article>
   );

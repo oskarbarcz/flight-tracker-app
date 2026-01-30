@@ -3,16 +3,17 @@
 import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import Container from "~/components/shared/Layout/Container";
+import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 
 export default function PilotStatsBox() {
   return (
     <Container>
       <ContainerTitle>Last month summary</ContainerTitle>
-      <div className="min-h-[100px] flex items-center justify-center text-gray-500">
+      <ContainerEmptyState>
         <FaCircleInfo className="inline mr-2" />
-        <span>Stats display will be available soon.</span>
-      </div>
+        <span>Summary is not available right now.</span>
+      </ContainerEmptyState>
     </Container>
   );
 }
