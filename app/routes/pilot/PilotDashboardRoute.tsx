@@ -12,6 +12,7 @@ import { Flight, FlightStatus, isFlightTrackable } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
+import useCurrentFlight from "~/state/hooks/resources/useCurrentFlight";
 import useLastFlight from "~/state/hooks/resources/useLastFlight";
 import { useAppConfig } from "~/state/hooks/useAppConfig";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
@@ -21,6 +22,7 @@ export default function PilotDashboardRoute() {
   const { isDevelopmentEnvironment } = useAppConfig();
   const [flights, setFlights] = useState<Flight[]>([]);
   const { lastFlight } = useLastFlight();
+  const { currentFlight } = useCurrentFlight();
   usePageTitle("Dashboard");
 
   useEffect(() => {
@@ -29,9 +31,6 @@ export default function PilotDashboardRoute() {
 
   const nextFlight = flights.filter(
     (flight) => flight.status === FlightStatus.Ready,
-  )[0];
-  const currentFlight = flights.filter((flight) =>
-    isFlightTrackable(flight.status),
   )[0];
 
   return (
