@@ -35,7 +35,7 @@ export default function PilotDashboardRoute() {
     <>
       <ProtectedRoute expectedRole={UserRole.CabinCrew}>
         <UserHeader />
-        <div className="grid grid-cols-1 gap-4 pt-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-2">
           <div className="grid gap-4">
             <AvailableFlightsBox flight={nextFlight} />
             <CurrentFlightBox flight={currentFlight} />
