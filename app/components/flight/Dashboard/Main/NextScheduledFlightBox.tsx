@@ -41,7 +41,7 @@ export default function NextScheduledFlightBox({
           <span className="block text-3xl font-bold">
             {flight.flightNumber}
           </span>
-          <span className=" text-gray-500 mb-2">
+          <span className="text-sm text-gray-500 mb-2">
             {flight.aircraft.fullName}
           </span>
         </div>

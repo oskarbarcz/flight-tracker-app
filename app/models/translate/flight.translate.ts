@@ -45,6 +45,25 @@ export default function translateStatus(status: FlightStatus): string {
   return statuses[status];
 }
 
+export function statusToShortHumanForm(status: FlightStatus): string {
+  const statuses = {
+    [FlightStatus.Created]: "Created",
+    [FlightStatus.Ready]: "Ready",
+    [FlightStatus.CheckedIn]: "Checked in",
+    [FlightStatus.BoardingStarted]: "Boarding",
+    [FlightStatus.BoardingFinished]: "Taxiing out",
+    [FlightStatus.TaxiingOut]: "Taxiing out",
+    [FlightStatus.InCruise]: "In cruise",
+    [FlightStatus.TaxiingIn]: "Taxiing in",
+    [FlightStatus.OnBlock]: "Just arrived",
+    [FlightStatus.OffboardingStarted]: "Offboarding",
+    [FlightStatus.OffboardingFinished]: "Offboarding",
+    [FlightStatus.Closed]: "Closed",
+  };
+
+  return statuses[status];
+}
+
 export function translateNextActionStatus(status: FlightStatus): string | null {
   switch (status) {
     case FlightStatus.Ready:
