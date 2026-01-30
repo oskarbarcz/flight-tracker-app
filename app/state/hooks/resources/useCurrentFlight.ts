@@ -14,7 +14,7 @@ export default function useCurrentFlight(): Response {
   const { flightService } = useApi();
   const { user } = useAuth() as { user: User };
 
-  const fetchLastFlight = useCallback(async () => {
+  const fetchCurrentFlight = useCallback(async () => {
     setLoading(true);
 
     if (!user.currentFlightId) {
@@ -25,12 +25,16 @@ export default function useCurrentFlight(): Response {
     flightService
       .getById(user.currentFlightId)
       .then(setCurrentFlight)
+      .catch(err => {
+        console.error('Cannot fetch current flight', err);
+        setCurrentFlight(null);
+      })
       .finally(() => setLoading(false));
   }, [flightService, user.currentFlightId]);
 
   useEffect(() => {
-    fetchLastFlight();
-  }, [fetchLastFlight]);
+    fetchCurrentFlight();
+  }, [fetchCurrentFlight]);
 
   return { currentFlight, loading };
 }

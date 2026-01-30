@@ -17,6 +17,10 @@ export default function useLastFlight(): Response {
     flightService
       .fetchAllFlights({ phase: FlightPhase.Finished, limit: 1 })
       .then((res) => setLastFlight(res.flights[0] ?? null))
+      .catch(err => {
+        console.error('Cannot fetch last flight', err);
+        setLastFlight(null);
+      })
       .finally(() => setLoading(false));
   }, [flightService]);
 
