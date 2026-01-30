@@ -35,14 +35,16 @@ export default function PilotDashboardRoute() {
     <>
       <ProtectedRoute expectedRole={UserRole.CabinCrew}>
         <UserHeader />
-        <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-2">
-          <div className="grid gap-4">
+        <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-3">
+          <div className="flex flex-col gap-4">
             <NextScheduledFlightBox flight={nextFlight} />
             <CurrentFlightBox flight={currentFlight} />
-            <CurrentRotationBox />
           </div>
-          <div className="grid gap-4">
+          <div className="flex flex-col gap-4">
             <PilotStatsBox />
+          </div>
+          <div className="flex flex-col gap-4">
+            <CurrentRotationBox />
             {isDevelopmentEnvironment && (
               <DebugFlightListBox flights={flights} />
             )}
