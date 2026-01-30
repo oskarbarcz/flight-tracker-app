@@ -1,9 +1,13 @@
-import { GetUserResponse, ListUsersResponse } from "~/models";
+import { GetUserResponse, ListUsersResponse, UserStats } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class UserService extends AbstractAuthorizedApiService {
   async getCurrent(): Promise<GetUserResponse> {
     return this.requestWithAuth<GetUserResponse>("/api/v1/user/me");
+  }
+
+  async getUserStats(): Promise<UserStats> {
+    return this.requestWithAuth<UserStats>("/api/v1/user/me/stats");
   }
 
   async getUserById(id: string): Promise<GetUserResponse> {

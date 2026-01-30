@@ -7,19 +7,17 @@ import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 import { Flight } from "~/models";
 
-type AvailableFlightsBoxProps = {
+type Props = {
   flight: Flight | undefined;
 };
 
-export default function AvailableFlightsBox({
-  flight,
-}: AvailableFlightsBoxProps) {
+export default function NextScheduledFlightBox({ flight }: Props) {
   return (
     <Container padding="condensed">
-      <ContainerTitle>Available flights</ContainerTitle>
+      <ContainerTitle>Next scheduled flight</ContainerTitle>
 
       {!flight && (
-        <div className="min-h-[100px] flex items-center justify-center text-gray-500">
+        <div className="min-h-25 flex items-center justify-center text-gray-500">
           <FaCircleInfo className="inline mr-2" />
           <span>There are no available flights for you.</span>
         </div>

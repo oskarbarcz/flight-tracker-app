@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AvailableFlightsBox from "~/components/flight/Dashboard/Main/AvailableFlightsBox";
 import CurrentFlightBox from "~/components/flight/Dashboard/Main/CurrentFlightBox";
 import CurrentRotationBox from "~/components/flight/Dashboard/Main/CurrentRotationBox";
 import DebugFlightListBox from "~/components/flight/Dashboard/Main/DebugFlightListBox";
+import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/NextScheduledFlightBox";
 import PilotStatsBox from "~/components/flight/Dashboard/Main/PilotStatsBox";
 import UserHeader from "~/components/flight/UserHeader";
 import { Flight, FlightStatus, isFlightTrackable } from "~/models";
@@ -35,9 +35,9 @@ export default function PilotDashboardRoute() {
     <>
       <ProtectedRoute expectedRole={UserRole.CabinCrew}>
         <UserHeader />
-        <div className="grid grid-cols-1 gap-4 pt-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-2">
           <div className="grid gap-4">
-            <AvailableFlightsBox flight={nextFlight} />
+            <NextScheduledFlightBox flight={nextFlight} />
             <CurrentFlightBox flight={currentFlight} />
             <CurrentRotationBox />
           </div>

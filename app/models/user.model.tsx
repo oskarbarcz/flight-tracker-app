@@ -13,5 +13,11 @@ export type User = {
   pilotLicenseId: string;
 };
 
+export type UserStats = {
+  total: {
+    blockTime: number;
+  };
+};
+
 export type GetUserResponse = User;
 export type ListUsersResponse = User[];

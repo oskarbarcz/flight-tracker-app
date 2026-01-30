@@ -2,13 +2,13 @@
 
 import React from "react";
 
-type ContainerTitleProps = {
+type Props = {
   children: React.ReactNode;
 };
 
-export default function ContainerTitle({ children }: ContainerTitleProps) {
+export default function ContainerTitle({ children }: Props) {
   return (
-    <h2 className="text-lg pb-4 font-bold dark:text-gray-300 leading-5">
+    <h2 className="pb-4 font-bold uppercase text-gray-500 leading-5">
       {children}
     </h2>
   );
