@@ -13,9 +13,13 @@ import { Flight } from "~/models";
 
 type Props = {
   flight: Flight | undefined;
+  isCurrentFlight: boolean;
 };
 
-export default function NextScheduledFlightBox({ flight }: Props) {
+export default function NextScheduledFlightBox({
+  flight,
+  isCurrentFlight,
+}: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">
@@ -73,7 +77,8 @@ export default function NextScheduledFlightBox({ flight }: Props) {
 
       <div className="flex justify-end">
         <Button
-          color="indigo"
+          color={isCurrentFlight ? "alternative" : "indigo"}
+          size={isCurrentFlight ? "xs" : undefined}
           as={Link}
           to={`track/${flight.id}`}
           replace
