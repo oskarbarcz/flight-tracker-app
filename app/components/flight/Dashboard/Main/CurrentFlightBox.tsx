@@ -18,11 +18,11 @@ import {
 } from "~/models";
 import { useDateProgress } from "~/state/hooks/static/useDateProgress";
 
-type CurrentFlightBoxProps = {
+type Props = {
   flight: Flight;
 };
 
-export default function CurrentFlightBox({ flight }: CurrentFlightBoxProps) {
+export default function CurrentFlightBox({ flight }: Props) {
   const showDeparture = [
     FlightStatus.CheckedIn,
     FlightStatus.BoardingStarted,
