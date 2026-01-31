@@ -6,9 +6,10 @@ import CurrentRotationBox from "~/components/flight/Dashboard/Main/CurrentRotati
 import DebugFlightListBox from "~/components/flight/Dashboard/Main/DebugFlightListBox";
 import LastFlightBox from "~/components/flight/Dashboard/Main/LastFlightBox";
 import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/NextScheduledFlightBox";
+import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/NoCurrentFlightBox";
 import PilotStatsBox from "~/components/flight/Dashboard/Main/PilotStatsBox";
 import UserHeader from "~/components/flight/UserHeader";
-import { Flight, FlightStatus, isFlightTrackable } from "~/models";
+import { Flight, FlightStatus } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
@@ -41,12 +42,13 @@ export default function PilotDashboardRoute() {
           <div className="flex flex-col gap-4">
             <NextScheduledFlightBox
               flight={nextFlight}
-              isCurrentFlight={currentFlight !== undefined}
+              isCurrentFlight={currentFlight !== null}
             />
             <LastFlightBox flight={lastFlight} />
           </div>
           <div className="flex flex-col gap-4">
-            <CurrentFlightBox flight={currentFlight} />
+            {currentFlight && <CurrentFlightBox flight={currentFlight} />}
+            {!currentFlight && <NoCurrentFlightBox />}
             <CurrentRotationBox />
           </div>
           <div className="flex flex-col gap-4">

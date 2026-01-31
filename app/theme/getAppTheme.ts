@@ -3,6 +3,11 @@ import { DeepPartial, FlowbiteTheme } from "flowbite-react/types";
 
 export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
   return createTheme({
+    progress: {
+      color: {
+        indigo: "bg-indigo-500 dark:bg-indigo-600",
+      },
+    },
     modal: {
       content: {
         inner:

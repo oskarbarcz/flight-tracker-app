@@ -29,7 +29,7 @@ export default function CheckInFlightModal({
   const schedule = flight.timesheet.scheduled;
 
   return (
-    <Modal size="md" show onClose={close}>
+    <Modal size="xl" show onClose={close}>
       <ModalHeader>Check in for flight</ModalHeader>
       <ModalBody>
         <h2 className="mb-3 text-xl font-bold">Schedule</h2>

@@ -51,10 +51,29 @@ export function timeDiff(a: Date, b: Date): number {
 }
 
 export function dateDiffToReadable(a: Date, b: Date): string {
-  const diffMs = Math.abs(b.getTime() - a.getTime());
-  const hours = Math.floor(diffMs / (1000 * 60 * 60));
-  const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-  return `${hours}hr ${minutes}m`;
+  const diffMs = b.getTime() - a.getTime();
+  const sign = diffMs < 0 ? "-" : "";
+  const absMs = Math.abs(diffMs);
+
+  const hours = Math.floor(absMs / (1000 * 60 * 60));
+  const minutes = Math.floor((absMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  return `${sign}${hours}hr ${minutes}m`;
+}
+
+export function dateDiffToProgress(
+  a: Date,
+  b: Date,
+  now: Date = new Date(),
+): number {
+  const totalMs = b.getTime() - a.getTime();
+
+  if (totalMs <= 0) return 5;
+
+  const elapsedMs = now.getTime() - a.getTime();
+  const ratio = elapsedMs / totalMs;
+
+  return Math.max(5, Math.min(95, ratio * 100));
 }
 
 export function secondsToNow(time: Date): number {
