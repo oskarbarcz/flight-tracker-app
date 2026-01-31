@@ -1,33 +1,28 @@
 "use client";
 
-import { Badge, Button } from "flowbite-react";
+import { Badge, Button, Progress } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { FaCircleInfo } from "react-icons/fa6";
+import { FaArrowRight, FaPlane } from "react-icons/fa";
+import { FaCircleInfo, FaClock, FaPlaneDeparture } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import Container from "~/components/shared/Layout/Container";
 import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { Flight, FlightStatus, statusToShortHumanForm } from "~/models";
+import { dateDiffToReadable } from "~/functions/time";
+import {
+  FilledSchedule,
+  Flight,
+  FlightStatus,
+  statusToShortHumanForm,
+} from "~/models";
+import { useDateProgress } from "~/state/hooks/static/useDateProgress";
 
 type CurrentFlightBoxProps = {
-  flight: Flight | null;
+  flight: Flight;
 };
 
 export default function CurrentFlightBox({ flight }: CurrentFlightBoxProps) {
-  if (!flight) {
-    return (
-      <Container padding="condensed">
-        <ContainerTitle>Current flight</ContainerTitle>
-        <ContainerEmptyState>
-          <FaCircleInfo className="inline mr-2" />
-          <span>No ongoing flight now.</span>
-        </ContainerEmptyState>
-      </Container>
-    );
-  }
-
   const showDeparture = [
     FlightStatus.CheckedIn,
     FlightStatus.BoardingStarted,
@@ -42,6 +37,16 @@ export default function CurrentFlightBox({ flight }: CurrentFlightBoxProps) {
     FlightStatus.OffboardingStarted,
     FlightStatus.OffboardingFinished,
   ].includes(flight.status);
+
+  const estimated = flight.timesheet.estimated as FilledSchedule;
+  const timeReference = showArrival
+    ? estimated.arrivalTime
+    : estimated.takeoffTime;
+  const timeRemaining = dateDiffToReadable(new Date(), timeReference);
+  const timeProgress = useDateProgress(
+    estimated.offBlockTime,
+    estimated.onBlockTime,
+  );
 
   return (
     <Container padding="condensed">
@@ -92,7 +97,36 @@ export default function CurrentFlightBox({ flight }: CurrentFlightBoxProps) {
         )}
       </article>
 
-      <div className="flex justify-end">
+      <article className="flex items-center justify-between mb-8 gap-3">
+        <div className="basis-1/3">
+          <span className="font-bold text-3xl">
+            {flight.departureAirport.icaoCode}
+          </span>
+          <span className="block text-sm text-gray-500 leading-4">
+            {flight.departureAirport.city}
+          </span>
+        </div>
+        <div className="basis-1/3 flex gap-3 flex-col">
+          <FaPlane className="text-gray-300 dark:text-gray-700 mx-auto text-xl rotate-270" />
+          <Progress progress={timeProgress} color="indigo" size="sm" />
+        </div>
+        <div className="basis-1/3 text-right">
+          <span className="font-bold text-3xl">
+            {flight.destinationAirport.icaoCode}
+          </span>
+          <span className="block text-sm text-gray-500 leading-4">
+            {flight.destinationAirport.city}
+          </span>
+        </div>
+      </article>
+
+      <div className="flex justify-between">
+        <div className="flex items-center text-xs text-gray-500 py-2">
+          <FaClock className="mr-1 inline"></FaClock>
+          {showDeparture && "Time to departure: "}
+          {showArrival && "Time remaining: "}
+          {timeRemaining}
+        </div>
         <Button
           color="indigo"
           as={Link}

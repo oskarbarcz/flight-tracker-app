@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import Container, {
-  ContainerClassProps,
-} from "~/components/shared/Layout/Container";
+import Container from "~/components/shared/Layout/Container";
 
-export default function FlightWasClosedBox({ className }: ContainerClassProps) {
+export default function FlightWasClosedBox() {
   return (
-    <Container padding="condensed" className={className}>
+    <Container
+      padding="condensed"
+      className="border-indigo-200 dark:border-indigo-900 bg-indigo-100 font-bold dark:bg-indigo-900 text-indigo-500 dark:text-indigo-300 md:col-span-3"
+    >
       <span>This flight was closed.</span>
     </Container>
   );
