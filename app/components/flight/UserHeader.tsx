@@ -3,6 +3,7 @@
 import React from "react";
 import { FaClock } from "react-icons/fa6";
 import SimpleStatDisplay from "~/components/shared/Display/SimpleStatDisplay";
+import SimpleStatDisplayLoader from "~/components/shared/Display/SimpleStatDisplayLoader";
 import Container from "~/components/shared/Layout/Container";
 import { User } from "~/models/user.model";
 import { useAuth } from "~/state/contexts/session/auth.context";
@@ -53,15 +54,16 @@ export default function UserHeader() {
           <span>. Clear skies ahead!</span>
         </div>
       </div>
-      {!loading && stats && (
-        <div>
+      <div className="flex gap-4">
+        {(loading || stats === null) && <SimpleStatDisplayLoader />}
+        {stats !== null && (
           <SimpleStatDisplay
             icon={<FaClock className="text-indigo-500 my-1 text-2xl" />}
             title="Total flight time"
             value={minutesToHoursDisplay(stats.total.blockTime)}
           />
-        </div>
-      )}
+        )}
+      </div>
     </Container>
   );
 }

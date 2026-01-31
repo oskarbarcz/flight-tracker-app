@@ -2,10 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import CurrentFlightBox from "~/components/flight/Dashboard/Main/CurrentFlightBox";
+import CurrentFlightBoxLoader from "~/components/flight/Dashboard/Main/CurrentFlightBoxLoader";
 import CurrentRotationBox from "~/components/flight/Dashboard/Main/CurrentRotationBox";
 import DebugFlightListBox from "~/components/flight/Dashboard/Main/DebugFlightListBox";
 import LastFlightBox from "~/components/flight/Dashboard/Main/LastFlightBox";
+import LastFlightBoxLoader from "~/components/flight/Dashboard/Main/LastFlightBoxLoader";
 import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/NextScheduledFlightBox";
+import NextScheduledFlightBoxLoader from "~/components/flight/Dashboard/Main/NextScheduledFlightBoxLoader";
 import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/NoCurrentFlightBox";
 import PilotStatsBox from "~/components/flight/Dashboard/Main/PilotStatsBox";
 import UserHeader from "~/components/flight/UserHeader";
@@ -22,12 +25,18 @@ export default function PilotDashboardRoute() {
   const { flightService } = useApi();
   const { isDevelopmentEnvironment } = useAppConfig();
   const [flights, setFlights] = useState<Flight[]>([]);
-  const { lastFlight } = useLastFlight();
-  const { currentFlight } = useCurrentFlight();
+  const { lastFlight, loading: loadingLast } = useLastFlight();
+  const { currentFlight, loading: loadingCurrent } = useCurrentFlight();
   usePageTitle("Dashboard");
 
+  const [loadingAll, setLoadingAll] = useState(true);
+
   useEffect(() => {
-    flightService.fetchAllFlights().then((res) => setFlights(res.flights));
+    setLoadingAll(true);
+    flightService
+      .fetchAllFlights()
+      .then((res) => setFlights(res.flights))
+      .finally(() => setLoadingAll(false));
   }, [flightService]);
 
   const nextFlight = flights.filter(
@@ -40,15 +49,28 @@ export default function PilotDashboardRoute() {
         <UserHeader />
         <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-3">
           <div className="flex flex-col gap-4">
-            <NextScheduledFlightBox
-              flight={nextFlight}
-              isCurrentFlight={currentFlight !== null}
-            />
-            <LastFlightBox flight={lastFlight} />
+            {loadingAll ? (
+              <NextScheduledFlightBoxLoader />
+            ) : (
+              <NextScheduledFlightBox
+                flight={nextFlight}
+                isCurrentFlight={currentFlight !== null}
+              />
+            )}
+            {loadingLast ? (
+              <LastFlightBoxLoader />
+            ) : (
+              <LastFlightBox flight={lastFlight} />
+            )}
           </div>
           <div className="flex flex-col gap-4">
-            {currentFlight && <CurrentFlightBox flight={currentFlight} />}
-            {!currentFlight && <NoCurrentFlightBox />}
+            {loadingCurrent ? (
+              <CurrentFlightBoxLoader />
+            ) : currentFlight ? (
+              <CurrentFlightBox flight={currentFlight} />
+            ) : (
+              <NoCurrentFlightBox />
+            )}
             <CurrentRotationBox />
           </div>
           <div className="flex flex-col gap-4">
