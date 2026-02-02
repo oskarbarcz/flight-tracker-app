@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import CurrentFlightBox from "~/components/flight/Dashboard/Main/CurrentFlightBox";
-import CurrentFlightBoxLoader from "~/components/flight/Dashboard/Main/CurrentFlightBoxLoader";
-import CurrentRotationBox from "~/components/flight/Dashboard/Main/CurrentRotationBox";
-import DebugFlightListBox from "~/components/flight/Dashboard/Main/DebugFlightListBox";
-import LastFlightBox from "~/components/flight/Dashboard/Main/LastFlightBox";
-import LastFlightBoxLoader from "~/components/flight/Dashboard/Main/LastFlightBoxLoader";
-import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/NextScheduledFlightBox";
-import NextScheduledFlightBoxLoader from "~/components/flight/Dashboard/Main/NextScheduledFlightBoxLoader";
-import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/NoCurrentFlightBox";
-import PilotStatsBox from "~/components/flight/Dashboard/Main/PilotStatsBox";
+import CurrentFlightBox from "~/components/flight/Dashboard/Main/Box/CurrentFlightBox";
+import CurrentRotationBox from "~/components/flight/Dashboard/Main/Box/CurrentRotationBox";
+import DebugFlightListBox from "~/components/flight/Dashboard/Main/Box/DebugFlightListBox";
+import LastFlightBox from "~/components/flight/Dashboard/Main/Box/LastFlightBox";
+import CurrentFlightBoxLoader from "~/components/flight/Dashboard/Main/Box/Loader/CurrentFlightBoxLoader";
+import LastFlightBoxLoader from "~/components/flight/Dashboard/Main/Box/Loader/LastFlightBoxLoader";
+import NextScheduledFlightBoxLoader from "~/components/flight/Dashboard/Main/Box/Loader/NextScheduledFlightBoxLoader";
+import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/Box/NextScheduledFlightBox";
+import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/Box/NoCurrentFlightBox";
+import PilotStatsBox from "~/components/flight/Dashboard/Main/Box/PilotStatsBox";
 import UserHeader from "~/components/flight/Dashboard/Main/UserHeader";
 import { Flight, FlightStatus } from "~/models";
 import { UserRole } from "~/models/user.model";
