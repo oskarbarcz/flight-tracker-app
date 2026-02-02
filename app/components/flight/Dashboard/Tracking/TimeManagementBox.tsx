@@ -33,7 +33,7 @@ export default function TimeManagementBox() {
     return (
       <Container padding="condensed">
         <ContainerTitle>Time management</ContainerTitle>
-        <div className="min-h-[100px] flex items-center justify-center text-gray-500">
+        <div className="min-h-25 flex items-center justify-center text-gray-500">
           <FaCircleInfo className="inline mr-2" />
           <span>Loading...</span>
         </div>

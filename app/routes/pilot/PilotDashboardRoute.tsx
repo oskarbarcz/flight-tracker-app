@@ -11,7 +11,7 @@ import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/NextSched
 import NextScheduledFlightBoxLoader from "~/components/flight/Dashboard/Main/NextScheduledFlightBoxLoader";
 import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/NoCurrentFlightBox";
 import PilotStatsBox from "~/components/flight/Dashboard/Main/PilotStatsBox";
-import UserHeader from "~/components/flight/UserHeader";
+import UserHeader from "~/components/flight/Dashboard/Main/UserHeader";
 import { Flight, FlightStatus } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";

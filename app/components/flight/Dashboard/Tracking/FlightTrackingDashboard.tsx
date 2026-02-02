@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import AircraftBox from "~/components/flight/Dashboard/Tracking/AircraftBox";
-import FlightInfoBox from "~/components/flight/Dashboard/Tracking/FlightInfoBox";
+import FlightHeader from "~/components/flight/Dashboard/Tracking/FlightHeader";
 import FlightLogBox from "~/components/flight/Dashboard/Tracking/FlightLogBox";
 import FlightProgressBox from "~/components/flight/Dashboard/Tracking/FlightProgressBox";
 import FlightScheduleBox from "~/components/flight/Dashboard/Tracking/FlightScheduleBox";
 import FlightWasClosedBox from "~/components/flight/Dashboard/Tracking/FlightWasClosedBox";
-import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";
 import TimeManagementBox from "~/components/flight/Dashboard/Tracking/TimeManagementBox";
 import { FlightStatus } from "~/models";
-import { AdsbProvider } from "~/state/contexts/content/adsb.context";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
@@ -31,25 +29,18 @@ export default function FlightTrackingDashboard({
   }
 
   const isFlightClosed = flight.status === FlightStatus.Closed;
-  const flightLogPosition = isFlightClosed
-    ? "md:row-start-3"
-    : "md:row-start-2";
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-[auto_1fr_1fr] gap-4">
-        {isFlightClosed && <FlightWasClosedBox />}
-
-        <FlightInfoBox className="col-span-1" />
-        <AdsbProvider>
-          <MapBox className="md:col-span-2" />
-        </AdsbProvider>
+      {isFlightClosed && <FlightWasClosedBox />}
+      <FlightHeader />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <FlightProgressBox />
         <FlightScheduleBox />
         <TimeManagementBox />
         <AircraftBox />
         <FlightLogBox
-          className={`md:row-span-2 ${flightLogPosition} md:col-start-3`}
+          className={`md:row-span-2 md:row-start-1 md:col-start-3`}
         />
       </div>
     </>
