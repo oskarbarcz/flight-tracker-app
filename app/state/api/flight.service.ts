@@ -2,6 +2,7 @@ import {
   FilledSchedule,
   Flight,
   FlightEvent,
+  FlightOfp,
   FlightPathElement,
   FlightPhase,
   FlightStatus,
@@ -76,6 +77,10 @@ export class FlightService extends AbstractAuthorizedApiService {
     );
 
     return new Flight(response);
+  }
+
+  async getOfpByFlightId(id: string): Promise<FlightOfp> {
+    return this.requestWithAuth<FlightOfp>(`/api/v1/flight/${id}/ofp`);
   }
 
   async getEventsByFlightId(id: string): Promise<FlightEvent[]> {

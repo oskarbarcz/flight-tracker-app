@@ -1,23 +1,23 @@
-import React, { useEffect } from "react";
-import AircraftBox from "~/components/flight/Dashboard/Tracking/Box/AircraftBox";
-import FlightLogBox from "~/components/flight/Dashboard/Tracking/Box/FlightLogBox";
-import FlightProgressBox from "~/components/flight/Dashboard/Tracking/Box/FlightProgressBox";
-import FlightScheduleBox from "~/components/flight/Dashboard/Tracking/Box/FlightScheduleBox";
+import React, { useEffect, useState } from "react";
+import FlightDataTabs, {
+  FlightDataTab,
+} from "~/components/flight/Dashboard/Tabs/FlightDataTabs";
+import FlightOfpTab from "~/components/flight/Dashboard/Tabs/Tab/FlightOfpTab";
+import FlightOverviewTab from "~/components/flight/Dashboard/Tabs/Tab/FlightOverviewTab";
+import FlightRunwayAnalysisTab from "~/components/flight/Dashboard/Tabs/Tab/FlightRunwayAnalysisTab";
 import FlightWasClosedBox from "~/components/flight/Dashboard/Tracking/Box/FlightWasClosedBox";
-import TimeManagementBox from "~/components/flight/Dashboard/Tracking/Box/TimeManagementBox";
 import FlightHeader from "~/components/flight/Dashboard/Tracking/FlightHeader";
-import { FlightStatus } from "~/models";
+import { FlightSource, FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
-type FlightTrackingDashboardProps = {
+type Props = {
   flightId: string;
 };
 
-export default function FlightTrackingDashboard({
-  flightId,
-}: FlightTrackingDashboardProps) {
+export default function FlightTrackingDashboard({ flightId }: Props) {
   const { flight, setFlightId } = useTrackedFlight();
+  const [tab, setTab] = useState<FlightDataTab>(FlightDataTab.Overview);
   usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
 
   useEffect(() => {
@@ -29,18 +29,21 @@ export default function FlightTrackingDashboard({
   }
 
   const isFlightClosed = flight.status === FlightStatus.Closed;
+  const isSimbriefAvailable = flight.source === FlightSource.SimBrief;
 
   return (
     <>
       {isFlightClosed && <FlightWasClosedBox />}
       <FlightHeader />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <FlightProgressBox />
-        <FlightScheduleBox />
-        <TimeManagementBox />
-        <AircraftBox />
-        <FlightLogBox className="md:row-span-2 md:row-start-1 md:col-start-3" />
-      </div>
+      <FlightDataTabs
+        tab={tab}
+        setTab={setTab}
+        isSimbriefAvailable={isSimbriefAvailable}
+      />
+
+      {tab === FlightDataTab.Overview && <FlightOverviewTab />}
+      {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
+      {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}
     </>
   );
 }

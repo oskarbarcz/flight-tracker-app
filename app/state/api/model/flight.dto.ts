@@ -36,6 +36,7 @@ export type ApiFlightResponse = {
   aircraft: Aircraft;
   operatorId: string;
   operator: Operator;
+  source: string;
   timesheet: {
     scheduled: {
       offBlockTime: string;
