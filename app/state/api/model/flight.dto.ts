@@ -8,7 +8,13 @@ import {
 
 export type CreateFlightRequest = Omit<
   ApiFlightResponse,
-  "id" | "airports" | "aircraft" | "operator" | "status" | "createdAt"
+  | "id"
+  | "airports"
+  | "aircraft"
+  | "operator"
+  | "status"
+  | "source"
+  | "createdAt"
 >;
 
 export type ApiLoadsheetResponse = {
@@ -36,6 +42,7 @@ export type ApiFlightResponse = {
   aircraft: Aircraft;
   operatorId: string;
   operator: Operator;
+  source: string;
   timesheet: {
     scheduled: {
       offBlockTime: string;

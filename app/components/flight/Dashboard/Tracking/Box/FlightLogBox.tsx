@@ -26,7 +26,7 @@ export default function FlightLogBox({ className }: FlightLogBoxProps) {
   return (
     <Container className={className} padding="condensed">
       <ContainerTitle>Flight log</ContainerTitle>
-      <div className="overflow-y-auto px-1 h-[650px]">
+      <div className="overflow-y-auto px-1 h-162 md:h-auto">
         <Timeline>
           {events.map((event) => (
             <TimelineItem className="mb-4" key={event.id}>

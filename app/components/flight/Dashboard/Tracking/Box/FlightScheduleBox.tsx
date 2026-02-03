@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FlightTimerBox } from "~/components/flight/Dashboard/Tracking/FlightTimerBox";
+import { FlightTimerBox } from "~/components/flight/Dashboard/Tracking/Box/FlightTimerBox";
 import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 

@@ -29,7 +29,7 @@ export default function FlightProgressBox() {
   if (!flight) return null;
 
   return (
-    <Container padding="condensed" className="relative">
+    <Container padding="condensed" className="relative min-h-72">
       <ContainerTitle>Flight progress</ContainerTitle>
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-full mb-2">

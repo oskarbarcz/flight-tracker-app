@@ -85,10 +85,16 @@ export type Loadsheets = {
   final: Loadsheet | null;
 };
 
+export enum FlightSource {
+  Manual = "manual",
+  SimBrief = "simbrief",
+}
+
 export class Flight {
   id: string;
   flightNumber: string;
   callsign: string;
+  source: FlightSource;
   airports: AirportOnFlight[];
   aircraft: Aircraft;
   operator: Operator;
@@ -100,6 +106,7 @@ export class Flight {
   constructor(flight: ApiFlightResponse) {
     this.id = flight.id;
     this.flightNumber = flight.flightNumber;
+    this.source = flight.source as FlightSource;
     this.callsign = flight.callsign;
     this.airports = flight.airports;
     this.aircraft = flight.aircraft;
@@ -129,6 +136,12 @@ export class Flight {
     return this.flightNumber.replace(/\s+/g, "");
   }
 }
+
+export type FlightOfp = {
+  ofpContent: string;
+  ofpDocumentUrl: string;
+  runwayAnalysis: string;
+};
 
 export enum FlightEventScope {
   System = "system",
