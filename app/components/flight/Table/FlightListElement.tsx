@@ -3,6 +3,7 @@ import React, { useCallback } from "react";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router";
 import FlightListElementDetails from "~/components/flight/Table/FlightListElementDetails";
+import TrackingStatus from "~/components/flight/Table/TrackingStatus";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Flight, FlightStatus } from "~/models";
@@ -48,7 +49,7 @@ export default function FlightListElement({
 
   const toggleExpand = useCallback(() => {
     setUrlId(isExpanded ? null : flight.id);
-  }, [isExpanded, flight.id, setUrlId]);
+  }, [flight.id, setUrlId, isExpanded]);
 
   return (
     <>
@@ -97,10 +98,7 @@ export default function FlightListElement({
           {flight.operator.icaoCode}
         </TableCell>
         <TableCell>
-          <div className="font-bold flex items-center gap-1 text-primary-500">
-            <FaCheckCircle className="inline" />
-            Public
-          </div>
+          <TrackingStatus tracking={flight.tracking} />
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-2 text-gray-500">

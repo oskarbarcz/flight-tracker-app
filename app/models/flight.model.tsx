@@ -35,20 +35,10 @@ export enum FlightPhase {
   Finished = "finished",
 }
 
-export function isFlightTrackable(status: FlightStatus): boolean {
-  const trackableStatuses = [
-    FlightStatus.CheckedIn,
-    FlightStatus.BoardingStarted,
-    FlightStatus.BoardingFinished,
-    FlightStatus.TaxiingOut,
-    FlightStatus.InCruise,
-    FlightStatus.TaxiingIn,
-    FlightStatus.OnBlock,
-    FlightStatus.OffboardingStarted,
-    FlightStatus.OffboardingFinished,
-  ];
-
-  return trackableStatuses.includes(status);
+export enum Tracking {
+  Disabled = "disabled",
+  Private = "private",
+  Public = "public",
 }
 
 export function shouldPollForAdsbData(status: FlightStatus): boolean {
@@ -94,6 +84,7 @@ export class Flight {
   id: string;
   flightNumber: string;
   callsign: string;
+  tracking: Tracking;
   source: FlightSource;
   airports: AirportOnFlight[];
   aircraft: Aircraft;
@@ -109,6 +100,7 @@ export class Flight {
     this.source = flight.source as FlightSource;
     this.callsign = flight.callsign;
     this.airports = flight.airports;
+    this.tracking = flight.tracking;
     this.aircraft = flight.aircraft;
     this.operator = flight.operator;
     this.timesheet = parseTimesheet(flight.timesheet);

@@ -4,6 +4,7 @@ import {
   FlightCrew,
   FlightStatus,
   Operator,
+  Tracking,
 } from "~/models";
 
 export type CreateFlightRequest = Omit<
@@ -64,6 +65,7 @@ export type ApiFlightResponse = {
     };
   };
   status: FlightStatus;
+  tracking: Tracking;
   loadsheets: ApiLoadsheetsResponse;
   createdAt: string;
 };
