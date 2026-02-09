@@ -60,26 +60,31 @@ export default function UpdateTrackingModal({
       show
       onClose={cancel}
     >
-      <ModalHeader>Update flight visibility</ModalHeader>
+      <ModalHeader>Change flight visibility</ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
-        <div className="space-y-4">
+        <div className="space-y-3">
           {trackingOptions.map((option) => (
-            <div key={option.value} className="flex items-start gap-3">
+            <div
+              key={option.value}
+              className="flex items-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+              onClick={() => setSelectedTracking(option.value)}
+            >
               <Radio
                 id={`tracking-${flight.id}-${option.value}`}
                 name="tracking"
                 value={option.value}
                 checked={selectedTracking === option.value}
                 onChange={() => setSelectedTracking(option.value)}
+                className="mt-1.5 cursor-pointer"
               />
-              <div>
+              <div className="flex-1">
                 <Label
                   htmlFor={`tracking-${flight.id}-${option.value}`}
-                  className="text-sm font-medium text-gray-900 dark:text-gray-100"
+                  className="cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-100"
                 >
                   {option.label}
                 </Label>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                   {option.description}
                 </p>
               </div>

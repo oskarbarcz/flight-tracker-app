@@ -1,15 +1,17 @@
 "use client";
 
-import {useCallback, useEffect} from "react";
+import { useCallback, useEffect } from "react";
 import HistoryFlightMap from "~/components/flight/Map/Box/HistoryFlightMap";
 import MapLinkOverlay from "~/components/flight/Map/Box/Overlay/MapLinkOverlay";
 import MapPreviewStatusOverlay from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
 import TrackingFlightMap from "~/components/flight/Map/Box/TrackingFlightMap";
 import MapBottomDrawer from "~/components/flight/Map/Element/MapBottomDrawer";
-import Container, {ContainerClassProps,} from "~/components/shared/Layout/Container";
-import {shouldPollForAdsbData, Tracking} from "~/models";
-import {useAdsbData} from "~/state/contexts/content/adsb.context";
-import {useTrackedFlight} from "~/state/contexts/global/tracked-flight.context";
+import Container, {
+  ContainerClassProps,
+} from "~/components/shared/Layout/Container";
+import { shouldPollForAdsbData, Tracking } from "~/models";
+import { useAdsbData } from "~/state/contexts/content/adsb.context";
+import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
 
 type MapBoxProps = ContainerClassProps;
