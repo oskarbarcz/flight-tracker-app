@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaExclamationTriangle } from "react-icons/fa";
 import { FlightStatus } from "~/models";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
@@ -27,8 +28,9 @@ export default function MapPreviewStatusOverlay() {
 
   if (isFlightTrackable && !isFlightTracked) {
     return (
-      <div className="absolute top-3 left-3 bg-amber-600 dark:bg-amber-700 text-white w-fit flex rounded-lg px-3 py-2">
-        <span className="font-bold text-xs">
+      <div className="absolute top-3 left-3 bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-500 w-fit flex rounded-lg px-3 py-2">
+        <span className="text-xs flex items-center gap-2">
+          <FaExclamationTriangle />
           No ADSB data available. Check your transponder.
         </span>
       </div>
