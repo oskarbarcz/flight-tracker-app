@@ -8,6 +8,7 @@ import {
   FlightStatus,
   Loadsheet,
   Schedule,
+  Tracking,
 } from "~/models";
 import {
   AbstractApiService,
@@ -219,6 +220,13 @@ export class FlightService extends AbstractAuthorizedApiService {
     );
 
     return new Flight(response);
+  }
+
+  async updateTracking(id: string, tracking: Tracking): Promise<void> {
+    return this.requestWithAuth<void>(`/api/v1/flight/${id}/tracking`, {
+      body: JSON.stringify({ tracking }),
+      method: "PATCH",
+    });
   }
 }
 

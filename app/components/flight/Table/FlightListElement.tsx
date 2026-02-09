@@ -15,6 +15,7 @@ type Props = {
   onUpdateLoadsheet: (flight: Flight) => void;
   onRemoveFlight: (flight: Flight) => void;
   onReleaseFlight: (flight: Flight) => void;
+  onUpdateTracking: (flight: Flight) => void;
 };
 
 export default function FlightListElement({
@@ -23,6 +24,7 @@ export default function FlightListElement({
   onUpdateLoadsheet,
   onRemoveFlight,
   onReleaseFlight,
+  onUpdateTracking,
 }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -98,7 +100,21 @@ export default function FlightListElement({
           {flight.operator.icaoCode}
         </TableCell>
         <TableCell>
-          <TrackingStatus tracking={flight.tracking} />
+          <div className="flex flex-col gap-2">
+            <TrackingStatus tracking={flight.tracking} />
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onUpdateTracking(flight);
+              }}
+              color="gray"
+              outline
+              size="xs"
+              className="w-fit"
+            >
+              Visibility
+            </Button>
+          </div>
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-2 text-gray-500">
