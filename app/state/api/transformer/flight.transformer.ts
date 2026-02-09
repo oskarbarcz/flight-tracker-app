@@ -1,3 +1,4 @@
+import { Tracking } from "~/models";
 import { CreateFlightFormData } from "~/models/form/flight.form";
 import { CreateFlightRequest } from "~/state/api/model/flight.dto";
 
@@ -19,6 +20,7 @@ export function formDataToApiFormat(
         onBlockTime: input.schedule.onBlockTime.toISOString(),
       },
     },
+    tracking: Tracking.Disabled,
     loadsheets: {
       preliminary: null,
       final: null,
