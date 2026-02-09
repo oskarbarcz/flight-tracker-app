@@ -8,6 +8,7 @@ import FlightScheduleFormSection from "~/components/flight/FormSection/FlightSch
 import FormSubmit from "~/components/shared/Form/FormSubmit";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
+import { Tracking } from "~/models";
 import {
   CreateFlightFormData,
   initCreateFlightData,
@@ -54,6 +55,7 @@ export async function clientAction({
         onBlockTime: rawFormData.onBlockTime,
       },
     },
+    tracking: Tracking.Disabled,
     loadsheets: {
       final: null,
       preliminary: null,

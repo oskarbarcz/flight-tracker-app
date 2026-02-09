@@ -24,7 +24,7 @@ export default function DebugFlightListBox({
               className="block text-teal-500 underline"
               viewTransition
             >
-              {flight.flightNumber} [{flight.status}]
+              {flight.flightNumber} [{flight.status}, {flight.tracking}]
             </Link>
           </div>
         ))}

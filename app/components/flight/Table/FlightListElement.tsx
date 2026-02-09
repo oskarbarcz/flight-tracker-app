@@ -3,6 +3,7 @@ import React, { useCallback } from "react";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router";
 import FlightListElementDetails from "~/components/flight/Table/FlightListElementDetails";
+import TrackingStatus from "~/components/flight/Table/TrackingStatus";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Flight, FlightStatus } from "~/models";
@@ -14,6 +15,7 @@ type Props = {
   onUpdateLoadsheet: (flight: Flight) => void;
   onRemoveFlight: (flight: Flight) => void;
   onReleaseFlight: (flight: Flight) => void;
+  onUpdateTracking: (flight: Flight) => void;
 };
 
 export default function FlightListElement({
@@ -22,6 +24,7 @@ export default function FlightListElement({
   onUpdateLoadsheet,
   onRemoveFlight,
   onReleaseFlight,
+  onUpdateTracking,
 }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -48,7 +51,7 @@ export default function FlightListElement({
 
   const toggleExpand = useCallback(() => {
     setUrlId(isExpanded ? null : flight.id);
-  }, [isExpanded, flight.id, setUrlId]);
+  }, [flight.id, setUrlId, isExpanded]);
 
   return (
     <>
@@ -97,9 +100,20 @@ export default function FlightListElement({
           {flight.operator.icaoCode}
         </TableCell>
         <TableCell>
-          <div className="font-bold flex items-center gap-1 text-primary-500">
-            <FaCheckCircle className="inline" />
-            Public
+          <div className="flex flex-col gap-2">
+            <TrackingStatus tracking={flight.tracking} />
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onUpdateTracking(flight);
+              }}
+              color="gray"
+              outline
+              size="xs"
+              className="w-fit"
+            >
+              Change
+            </Button>
           </div>
         </TableCell>
         <TableCell>

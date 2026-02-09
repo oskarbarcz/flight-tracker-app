@@ -15,8 +15,15 @@ import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
 import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
 import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
 import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
+import UpdateTrackingModal from "~/components/flight/Modal/UpdateTrackingModal";
 import FlightListElement from "~/components/flight/Table/FlightListElement";
-import { FilledSchedule, Flight, FlightPhase, Loadsheet } from "~/models";
+import {
+  FilledSchedule,
+  Flight,
+  FlightPhase,
+  Loadsheet,
+  Tracking,
+} from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 import { useFlightList } from "~/state/contexts/content/flight-list.context";
 
@@ -37,6 +44,8 @@ export default function FlightListTable({ phase }: Props) {
   const [flightToUpdateLoadsheet, setFlightToUpdateLoadsheet] =
     useState<Flight | null>(null);
   const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
+  const [flightToUpdateTracking, setFlightToUpdateTracking] =
+    useState<Flight | null>(null);
 
   const onPageChange = (newPage: number) => {
     const newParams = new URLSearchParams(searchParams);
@@ -68,6 +77,12 @@ export default function FlightListTable({ phase }: Props) {
     await flightService.markAsReady(flightId);
     reloadFlights(phase, page);
     setFlightToRelease(null);
+  };
+
+  const updateTracking = async (flightId: string, tracking: Tracking) => {
+    await flightService.updateTracking(flightId, tracking);
+    reloadFlights(phase, page);
+    setFlightToUpdateTracking(null);
   };
 
   if (flights.length === 0 && !loading) {
@@ -102,6 +117,7 @@ export default function FlightListTable({ phase }: Props) {
               onUpdateLoadsheet={setFlightToUpdateLoadsheet}
               onRemoveFlight={setFlightToRemove}
               onReleaseFlight={setFlightToRelease}
+              onUpdateTracking={setFlightToUpdateTracking}
             />
           ))}
         </TableBody>
@@ -144,6 +160,13 @@ export default function FlightListTable({ phase }: Props) {
           flight={flightToRelease}
           release={releaseFlight}
           cancel={() => setFlightToRelease(null)}
+        />
+      )}
+      {flightToUpdateTracking && (
+        <UpdateTrackingModal
+          flight={flightToUpdateTracking}
+          update={updateTracking}
+          cancel={() => setFlightToUpdateTracking(null)}
         />
       )}
     </div>
