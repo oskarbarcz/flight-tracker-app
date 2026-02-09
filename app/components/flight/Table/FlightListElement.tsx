@@ -112,7 +112,7 @@ export default function FlightListElement({
               size="xs"
               className="w-fit"
             >
-              Visibility
+              Change
             </Button>
           </div>
         </TableCell>
