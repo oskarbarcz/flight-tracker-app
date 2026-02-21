@@ -3,13 +3,10 @@ import Container from "~/components/shared/Layout/Container";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 import useFlightOfp from "~/state/hooks/resources/useFlightOfp";
 
-export function unescapeOFP(html: string): string {
+function unescapeRunwayAnalysis(html: string): string {
   return html
-    .replace(/\\n/g, "<br />") // Newlines
-    .replace(/\\"/g, '"') // Escaped quotes → real quotes
-    .replace(/\\'/g, "'") // Escaped apostrophes
-    .replace(/\\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;") // Tabs
-    .replace(/\\r/g, ""); // Remove carriage returns
+    .replaceAll(" ", "&nbsp;") // Replace spaces with non-breaking spaces
+    .replaceAll("\n", "<br />"); // Replace carriage returns
 }
 
 export default function FlightRunwayAnalysisTab() {
@@ -22,10 +19,7 @@ export default function FlightRunwayAnalysisTab() {
 
   return (
     <Container>
-      <div
-        style={{ lineHeight: "14px", fontSize: "13px" }}
-        className="overflow-auto max-h-186 text-black font-mono"
-      >
+      <div className="overflow-auto leading-tight text-[13px] max-h-186 text-gray-700 dark:text-gray-300 font-mono">
         <b>[ Runway analysis ]</b>
         <br />
         <b>
@@ -33,7 +27,7 @@ export default function FlightRunwayAnalysisTab() {
         </b>
         <div
           dangerouslySetInnerHTML={{
-            __html: unescapeOFP(ofp.runwayAnalysis) || "",
+            __html: unescapeRunwayAnalysis(ofp.runwayAnalysis) || "",
           }}
         />
       </div>
