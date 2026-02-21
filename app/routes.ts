@@ -43,6 +43,7 @@ export default [
   ]),
   layout("layout/MapLayout.tsx", [
     ...prefix("live-tracking", [
+      index("routes/public/PublicFlightsListRoute.tsx"),
       route(":id", "routes/public/PublicTrackingRoute.tsx"),
     ]),
   ]),

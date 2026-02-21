@@ -231,6 +231,14 @@ export class FlightService extends AbstractAuthorizedApiService {
 }
 
 export class PublicFlightService extends AbstractApiService {
+  async fetchAllPublicFlights(): Promise<Flight[]> {
+    const response = await this.request<ApiFlightResponse[]>(
+      "/api/v1/flight?phase=ongoing",
+    );
+
+    return response.map((flight) => new Flight(flight));
+  }
+
   async getById(id: string): Promise<Flight> {
     const response = await this.request<ApiFlightResponse>(
       `/api/v1/flight/${id}`,
