@@ -19,12 +19,21 @@ export default [
     ...prefix("operators", [
       index("routes/operations/operators/OperatorsListRoute.tsx"),
       route("new", "routes/operations/operators/forms/CreateOperatorRoute.tsx"),
-      route(":id/edit", "routes/operations/operators/forms/EditOperatorRoute.tsx"),
+      route(
+        ":id/edit",
+        "routes/operations/operators/forms/EditOperatorRoute.tsx",
+      ),
     ]),
     ...prefix("operators", [
       layout("layout/operations/operators/OperatorLayout.tsx", [
-        route(":id/rotations", "routes/operations/operators/OperatorRotationsRoute.tsx"),
-        route(":id/fleet", "routes/operations/operators/OperatorFleetRoute.tsx"),
+        route(
+          ":id/rotations",
+          "routes/operations/operators/OperatorRotationsRoute.tsx",
+        ),
+        route(
+          ":id/fleet",
+          "routes/operations/operators/OperatorFleetRoute.tsx",
+        ),
       ]),
     ]),
     ...prefix("airports", [

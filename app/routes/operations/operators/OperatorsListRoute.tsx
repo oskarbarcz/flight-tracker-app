@@ -5,7 +5,7 @@ import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import OperatorListTable from "~/components/operator/Table/OperatorListTable";
 import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { Operator } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
@@ -22,7 +22,7 @@ export default function OperatorsListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <SectionHeaderWithLink
+      <SectionHeaderWithButton
         sectionTitle="Operators"
         primaryButton={{
           text: "Create new",

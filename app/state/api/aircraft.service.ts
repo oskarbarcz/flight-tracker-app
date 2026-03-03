@@ -6,6 +6,12 @@ export class AircraftService extends AbstractAuthorizedApiService {
     return this.requestWithAuth<Aircraft[]>("/api/v1/aircraft");
   }
 
+  async fetchAllByOperator(operatorId: string): Promise<Aircraft[]> {
+    return this.requestWithAuth<Aircraft[]>(
+      `/api/v1/operator/${operatorId}/aircraft`,
+    );
+  }
+
   async createNew(aircraft: CreateAircraftDto): Promise<Aircraft> {
     return this.requestWithAuth<Aircraft>("/api/v1/aircraft", {
       body: JSON.stringify(aircraft),

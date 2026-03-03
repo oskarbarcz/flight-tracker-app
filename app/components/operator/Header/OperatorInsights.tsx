@@ -1,7 +1,7 @@
 import React, { JSX } from "react";
-import {continentToDisplayName, Operator} from "~/models";
-import {FaPlane} from "react-icons/fa";
+import { FaPlane } from "react-icons/fa";
 import RichStatDisplay from "~/components/shared/Display/RichStatDisplay";
+import { continentToDisplayName, Operator } from "~/models";
 
 type Props = {
   operator: Operator;

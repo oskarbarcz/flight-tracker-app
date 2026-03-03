@@ -26,7 +26,6 @@ export default function AircraftListTable({
           <TableHeadCell>Reg, SELCAL & livery</TableHeadCell>
           <TableHeadCell>ICAO code</TableHeadCell>
           <TableHeadCell>Name</TableHeadCell>
-          <TableHeadCell>Operator</TableHeadCell>
           <TableHeadCell>
             <span className="sr-only">Actions</span>
           </TableHeadCell>
@@ -53,7 +52,6 @@ export default function AircraftListTable({
               <span className="block font-bold">{each.shortName}</span>
               <span className="block italic">{each.fullName}</span>
             </TableCell>
-            <TableCell>{each.operator.shortName}</TableCell>
             <TableCell>
               <Link to={`/aircraft/${each.id}/edit`} replace viewTransition>
                 <Button color="gray">

@@ -1,49 +1,25 @@
 "use client";
 
-import React, {useState} from "react";
+import { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorFleetRoute";
+import React, { JSX } from "react";
 import { useLoaderData } from "react-router";
-import { RotationService } from "~/state/api/rotation.service";
-import {Route} from ".react-router/types/app/routes/operations/operators/+types/OperatorRotationsRoute";
-import {RotationResponse} from "~/models";
+import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
 import Container from "~/components/shared/Layout/Container";
-import RotationListTable from "~/components/rotation/Table/RotationListTable";
-import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
-import {useApi} from "~/state/contexts/content/api.context";
+import { AircraftService } from "~/state/api/aircraft.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const rotations = await new RotationService().fetchAllByOperator(params.id);
-  return { rotations };
+  const aircrafts = await new AircraftService().fetchAllByOperator(params.id);
+  return { aircrafts };
 }
 
-export default function OperatorFleetRoute() {
-  const { rotationService } = useApi();
-  const { rotations } = useLoaderData<typeof clientLoader>();
-
-  const [rotationToRemove, setRotationToRemove] =
-    useState<RotationResponse | null>(null);
-
-  const removeRotation = async (flightId: string) => {
-    await rotationService.remove(flightId);
-    setRotationToRemove(null);
-  };
+export default function OperatorFleetRoute(): JSX.Element {
+  const { aircrafts } = useLoaderData<typeof clientLoader>();
 
   return (
     <div>
-      FLEET
       <Container className="overflow-x-auto" padding="none">
-        <RotationListTable
-          rotations={rotations}
-          removeRotation={setRotationToRemove}
-        />
+        <AircraftListTable aircraft={aircrafts} />
       </Container>
-
-      {rotationToRemove && (
-        <RemoveRotationModal
-          rotation={rotationToRemove}
-          remove={removeRotation}
-          cancel={() => setRotationToRemove(null)}
-        />
-      )}
     </div>
   );
 }

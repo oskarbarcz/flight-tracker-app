@@ -5,7 +5,7 @@ import { HiPlus } from "react-icons/hi";
 import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
 import RotationListTable from "~/components/rotation/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { RotationResponse } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
@@ -31,7 +31,7 @@ export default function RotationListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <SectionHeaderWithLink
+      <SectionHeaderWithButton
         sectionTitle="Rotations"
         primaryButton={{
           text: "Create new",

@@ -5,7 +5,7 @@ import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
 import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { Aircraft } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
@@ -19,11 +19,11 @@ export async function clientLoader(): Promise<Aircraft[]> {
 export default function AircraftListRoute() {
   usePageTitle("Aircraft list");
 
-  const aircrafts = useLoaderData<typeof clientLoader>();
+  const aircraft = useLoaderData<typeof clientLoader>();
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <SectionHeaderWithLink
+      <SectionHeaderWithButton
         sectionTitle="Aircrafts"
         primaryButton={{
           text: "Create new",
@@ -33,7 +33,7 @@ export default function AircraftListRoute() {
         }}
       />
       <Container className="overflow-x-auto" padding="none">
-        <AircraftListTable aircraft={aircrafts} />
+        <AircraftListTable aircraft={aircraft} />
       </Container>
     </ProtectedRoute>
   );

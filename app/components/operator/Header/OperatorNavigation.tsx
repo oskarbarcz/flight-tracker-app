@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import React, { JSX } from "react";
-import {HiOutlineArrowLeft, HiPencil, HiPlus} from "react-icons/hi";
+import { HiOutlineArrowLeft, HiPencil, HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
 
 type Props = {

@@ -44,14 +44,14 @@ function ActionButton({ button }: { button: ActionButton }) {
   return content;
 }
 
-export default function SectionHeaderWithLink({
+export default function SectionHeaderWithButton({
   sectionTitle,
   primaryButton,
   secondaryButton,
 }: SectionHeaderWithLinkProps) {
   return (
-    <div className="mb-2 md:mb-4 flex items-center justify-between">
-      <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
+    <div className="mb-4 flex items-center justify-between">
+      <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white">
         {sectionTitle}
       </h2>
       <div className="flex gap-2 flex-col md:flex-row">

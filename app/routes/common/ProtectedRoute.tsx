@@ -1,6 +1,6 @@
 "use client";
 
-import React, {JSX, ReactNode, useContext} from "react";
+import React, { JSX, ReactNode, useContext } from "react";
 import { Navigate, useNavigate } from "react-router";
 import Splash from "~/layout/common/Splash";
 import { UserRole } from "~/models/user.model";
@@ -9,11 +9,13 @@ import { AuthContext } from "~/state/contexts/session/auth.context";
 type Props = {
   expectedRole?: UserRole;
   children: ReactNode;
-}
+};
 
-export default function ProtectedRoute({ expectedRole, children, }: Props): JSX.Element {
+export default function ProtectedRoute({
+  expectedRole,
+  children,
+}: Props): JSX.Element {
   const { user, isLoading, accessToken } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   if (isLoading) {
     return <Splash />;
@@ -29,4 +31,4 @@ export default function ProtectedRoute({ expectedRole, children, }: Props): JSX.
   }
 
   return children as JSX.Element;
-};
+}

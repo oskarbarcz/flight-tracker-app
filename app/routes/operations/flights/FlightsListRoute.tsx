@@ -8,7 +8,7 @@ import FlightListEmptyState from "~/components/flight/Table/FlightListEmptyState
 import FlightListTable from "~/components/flight/Table/FlightListTable";
 import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { FlightPhase } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
@@ -57,7 +57,7 @@ function FlightsListContent() {
 
   return (
     <>
-      <SectionHeaderWithLink
+      <SectionHeaderWithButton
         sectionTitle="Flight plans"
         primaryButton={{
           text: "Import from SimBrief",

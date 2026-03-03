@@ -1,16 +1,16 @@
 "use client";
 
+import { Route } from ".react-router/types/app/layout/operations/operators/+types/OperatorLayout";
 import React from "react";
-import {Outlet, useLoaderData} from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 import { OperatorHeader } from "~/components/operator/Header/OperatorHeader";
+import { OperatorInsights } from "~/components/operator/Header/OperatorInsights";
 import { OperatorNavigation } from "~/components/operator/Header/OperatorNavigation";
+import { OperatorTabs } from "~/components/operator/Table/OperatorTabs";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
-import { Route } from ".react-router/types/app/layout/operations/operators/+types/OperatorLayout";
-import {OperatorInsights} from "~/components/operator/Header/OperatorInsights";
-import {usePageTitle} from "~/state/hooks/usePageTitle";
-import OperatorTabs from "~/components/operator/Table/OperatorTabs";
+import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const operator = await new OperatorService().fetchById(params.id);

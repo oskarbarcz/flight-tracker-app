@@ -7,7 +7,7 @@ import AirportListEmptyState from "~/components/airport/Table/AirportListEmptySt
 import AirportListTable from "~/components/airport/Table/AirportListTable";
 import ContinentFilterTabs from "~/components/airport/Table/Tabs/ContinentFilterTabs";
 import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
 import { Airport, Continent } from "~/models";
 import { UserRole } from "~/models/user.model";
@@ -39,7 +39,7 @@ export default function AirportsListRoute() {
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
-      <SectionHeaderWithLink
+      <SectionHeaderWithButton
         sectionTitle="Airports"
         primaryButton={{
           text: "Create new",
