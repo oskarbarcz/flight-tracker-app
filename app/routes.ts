@@ -17,22 +17,38 @@ export default [
       route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
     ...prefix("operators", [
-      index("routes/operations/operators/OperatorsListRoute.tsx"),
-      route("new", "routes/operations/operators/forms/CreateOperatorRoute.tsx"),
+      index("routes/operations/operators/ListOperatorsRoute.tsx"),
+      route("new", "routes/operations/operators/CreateOperatorRoute.tsx"),
       route(
-        ":id/edit",
-        "routes/operations/operators/forms/EditOperatorRoute.tsx",
+        ":operatorId/edit",
+        "routes/operations/operators/EditOperatorRoute.tsx",
+      ),
+      route(
+        ":operatorId/aircraft/add",
+        "routes/operations/operators/aircraft/CreateAircraftRoute.tsx",
+      ),
+      route(
+        ":operatorId/aircraft/:aircraftId/edit",
+        "routes/operations/operators/aircraft/EditAircraftRoute.tsx",
+      ),
+      route(
+        ":operatorId/rotations/new",
+        "routes/operations/operators/rotations/CreateRotationRoute.tsx",
+      ),
+      route(
+        ":operatorId/rotations/:rotationId/edit",
+        "routes/operations/operators/rotations/EditRotationRoute.tsx",
       ),
     ]),
     ...prefix("operators", [
-      layout("layout/operations/operators/OperatorLayout.tsx", [
+      layout("routes/operations/operators/OperatorOverviewRoute.tsx", [
         route(
-          ":id/rotations",
-          "routes/operations/operators/OperatorRotationsRoute.tsx",
+          ":operatorId/rotations",
+          "routes/operations/operators/rotations/OperatorRotationsRoute.tsx",
         ),
         route(
-          ":id/fleet",
-          "routes/operations/operators/OperatorFleetRoute.tsx",
+          ":operatorId/fleet",
+          "routes/operations/operators/aircraft/OperatorFleetRoute.tsx",
         ),
       ]),
     ]),
@@ -40,16 +56,6 @@ export default [
       index("routes/operations/airports/AirportsListRoute.tsx"),
       route("new", "routes/operations/airports/CreateAirportRoute.tsx"),
       route(":id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
-    ]),
-    ...prefix("aircraft", [
-      index("routes/operations/aircraft/AircraftListRoute.tsx"),
-      route("new", "routes/operations/aircraft/CreateAircraftRoute.tsx"),
-      route(":id/edit", "routes/operations/aircraft/EditAircraftRoute.tsx"),
-    ]),
-    ...prefix("rotations", [
-      index("routes/operations/rotations/RotationListRoute.tsx"),
-      route("new", "routes/operations/rotations/CreateRotationRoute.tsx"),
-      route(":id/edit", "routes/operations/rotations/EditRotationRoute.tsx"),
     ]),
     ...prefix("flights", [
       index("routes/operations/flights/FlightsListRoute.tsx"),

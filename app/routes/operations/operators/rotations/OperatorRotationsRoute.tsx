@@ -1,45 +1,41 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { HiPlus } from "react-icons/hi";
+import { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/OperatorRotationsRoute";
+import React, { JSX, useState } from "react";
+import { useLoaderData } from "react-router";
 import RemoveRotationModal from "~/components/operator/Modal/RemoveRotationModal";
+import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
 import RotationListTable from "~/components/operator/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { RotationResponse } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { RotationService } from "~/state/api/rotation.service";
 import { useApi } from "~/state/contexts/content/api.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
 
-export default function RotationListRoute() {
-  usePageTitle("Rotation list");
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const rotations = await new RotationService().fetchAllByOperator(
+    params.operatorId,
+  );
+  return { operatorId: params.operatorId, rotations };
+}
+
+export default function OperatorRotationsRoute(): JSX.Element {
   const { rotationService } = useApi();
-  const [rotations, setRotations] = useState<RotationResponse[]>([]);
+  const { operatorId, rotations } = useLoaderData<typeof clientLoader>();
+
   const [rotationToRemove, setRotationToRemove] =
     useState<RotationResponse | null>(null);
 
-  useEffect(() => {
-    rotationService.getAll().then(setRotations);
-  }, [rotationService]);
-
   const removeRotation = async (flightId: string) => {
     await rotationService.remove(flightId);
-    setRotations((state) => state.filter((prev) => !(prev.id === flightId)));
     setRotationToRemove(null);
   };
 
+  if (rotations.length === 0) {
+    return <RotationListEmptyState operatorId={operatorId} />;
+  }
+
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <SectionHeaderWithButton
-        sectionTitle="Rotations"
-        primaryButton={{
-          text: "Create new",
-          url: "/rotations/new",
-          color: "indigo",
-          icon: <HiPlus />,
-        }}
-      />
+    <div>
       <Container className="overflow-x-auto" padding="none">
         <RotationListTable
           rotations={rotations}
@@ -54,6 +50,6 @@ export default function RotationListRoute() {
           cancel={() => setRotationToRemove(null)}
         />
       )}
-    </ProtectedRoute>
+    </div>
   );
 }

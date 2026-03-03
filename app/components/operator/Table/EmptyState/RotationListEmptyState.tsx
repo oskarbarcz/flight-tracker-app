@@ -24,7 +24,7 @@ export function RotationListEmptyState({ operatorId }: Props): JSX.Element {
           className="dark:bg-gray-800 dark:hover:bg-gray-700"
           color="indigo"
           as={Link}
-          to={`/operator/${operatorId}/rotations/new`}
+          to={`/operators/${operatorId}/rotations/new`}
         >
           <HiPlus className="mr-2 h-5 w-5" />
           Create new

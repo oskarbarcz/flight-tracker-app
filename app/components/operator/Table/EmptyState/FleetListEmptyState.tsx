@@ -23,7 +23,7 @@ export function FleetListEmptyState({ operatorId }: Props): JSX.Element {
           className="dark:bg-gray-800 dark:hover:bg-gray-700"
           color="indigo"
           as={Link}
-          to="/aircraft/new"
+          to={`/operators/${operatorId}/aircraft/add`}
         >
           <HiPlus className="mr-2 h-5 w-5" />
           Add new

@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from ".react-router/types/app/routes/operations/operators/+types/CreateOperatorRoute";
 import { Button } from "flowbite-react";
 import React from "react";
 import { Form, redirect } from "react-router";
@@ -11,7 +12,6 @@ import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../../.react-router/types/app/routes/operations/operators/+types/OperatorsListRoute";
 
 export async function clientAction({
   request,

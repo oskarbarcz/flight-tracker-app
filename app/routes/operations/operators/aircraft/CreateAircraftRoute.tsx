@@ -1,23 +1,17 @@
 "use client";
 
+import { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/CreateAircraftRoute";
 import { Button } from "flowbite-react";
 import React from "react";
 import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
-import SelectBlock from "~/components/shared/Form/SelectBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import { CreateAircraftDto, Operator } from "~/models";
+import { CreateAircraftDto } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { AircraftService } from "~/state/api/aircraft.service";
-import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/CreateAirportRoute";
-
-export async function clientLoader(): Promise<Operator[] | Response> {
-  return new OperatorService().fetchAll();
-}
 
 export async function clientAction({
   request,
@@ -29,7 +23,6 @@ export async function clientAction({
     "icaoCode",
     "shortName",
     "fullName",
-    "operatorId",
     "selcal",
     "registration",
     "livery",
@@ -40,28 +33,21 @@ export async function clientAction({
   return redirect("/aircraft");
 }
 
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  return { operatorId: params.operatorId };
+}
+
 export default function CreateAirportRoute() {
   usePageTitle("Create new aircraft");
-  const operators = useLoaderData<Operator[]>();
-
-  if (!operators) {
-    return <div>Loading...</div>;
-  }
-
-  const options = operators.map((option) => {
-    return {
-      value: option.id,
-      label: `[${option.icaoCode}] ${option.shortName}`,
-    };
-  });
+  const { operatorId } = useLoaderData<typeof clientLoader>();
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Create new aircraft"
-          backText="Back to aircraft"
-          backUrl="/aircraft"
+          backText="Back to operator"
+          backUrl={`/operators/${operatorId}/fleet`}
         />
 
         <Form className="flex max-w-md flex-col gap-4" method="post">
@@ -71,11 +57,6 @@ export default function CreateAirportRoute() {
           <InputBlock htmlName="registration" label="Registration" />
           <InputBlock htmlName="selcal" label="SELCAL" />
           <InputBlock htmlName="livery" label="Livery name" />
-          <SelectBlock
-            htmlName="operatorId"
-            label="Operator"
-            options={options}
-          />
 
           <Button type="submit">Create new aircraft</Button>
         </Form>

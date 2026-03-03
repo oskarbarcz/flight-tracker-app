@@ -17,18 +17,6 @@ export default function OperatorSidebarItems() {
         icon={GrDocumentTime}
       />
       <SidebarElement
-        label="Rotations"
-        href="/rotations"
-        isSelected={path.startsWith("/rotations")}
-        icon={MdOutlineScreenRotationAlt}
-      />
-      <SidebarElement
-        label="Aircraft"
-        href="/aircraft"
-        isSelected={path.startsWith("/aircraft")}
-        icon={MdLocalAirport}
-      />
-      <SidebarElement
         label="Airports"
         href="/airports"
         isSelected={path.startsWith("/airports")}

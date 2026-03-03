@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from ".react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
 import { Button } from "flowbite-react";
 import React from "react";
 import { Form, redirect, useLoaderData } from "react-router";
@@ -11,7 +12,6 @@ import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../../.react-router/types/app/routes/operations/operators/forms/+types/EditOperatorRoute";
 
 export async function clientAction({
   request,
@@ -28,7 +28,7 @@ export async function clientAction({
     "callsign",
   ]);
 
-  await operatorService.update(params.id, operator);
+  await operatorService.update(params.operatorId, operator);
 
   return redirect("/operators");
 }
@@ -36,7 +36,7 @@ export async function clientAction({
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<Operator> {
-  return new OperatorService().fetchById(params.id);
+  return new OperatorService().fetchById(params.operatorId);
 }
 
 export default function EditOperatorRoute() {

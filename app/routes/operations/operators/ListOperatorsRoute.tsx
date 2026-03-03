@@ -16,7 +16,7 @@ export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();
 }
 
-export default function OperatorsListRoute() {
+export default function ListOperatorsRoute() {
   usePageTitle("Operator list");
   const operators = useLoaderData<Operator[]>();
 

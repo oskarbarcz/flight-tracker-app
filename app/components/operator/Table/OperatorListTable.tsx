@@ -1,5 +1,4 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -47,14 +46,6 @@ export default function OperatorListTable({
             <TableCell>{operator.fullName}</TableCell>
             <TableCell>{operator.callsign}</TableCell>
             <TableCell className="space-x-3">
-              <Link
-                className="text-primary-500 font-bold"
-                to={`/operators/${operator.id}/edit`}
-                replace
-                viewTransition
-              >
-                Edit
-              </Link>
               <Link
                 className="text-primary-500 font-bold"
                 to={`/operators/${operator.id}/rotations`}
