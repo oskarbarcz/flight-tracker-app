@@ -50,7 +50,7 @@ export default function EditOperatorRoute() {
         <SectionHeaderWithBackButton
           sectionTitle="Edit operator"
           backText="Back to operators"
-          backUrl="/operators"
+          backUrl={`/operators/${operator.id}/fleet`}
         />
 
         <Form className="flex max-w-md flex-col gap-4" method="post">
