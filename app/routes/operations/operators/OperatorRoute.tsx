@@ -38,7 +38,7 @@ export default function OperatorRoute() {
       <OperatorNavigation id={operator.id} />
       <OperatorHeader operator={operator} />
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
         <RichStatDisplay
           icon={<FaPlane />}
           color="indigo"
