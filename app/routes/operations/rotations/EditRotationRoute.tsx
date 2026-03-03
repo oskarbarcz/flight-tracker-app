@@ -9,8 +9,8 @@ import {
   useLoaderData,
   useNavigate,
 } from "react-router";
-import PilotLicenseInputBlock from "~/components/rotation/Form/PilotLicenseInputBlock";
-import RotationFlightsInputBlock from "~/components/rotation/Form/RotationFlightsInputBlock";
+import PilotLicenseInputBlock from "~/components/operator/Form/PilotLicenseInputBlock";
+import RotationFlightsInputBlock from "~/components/operator/Form/RotationFlightsInputBlock";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";

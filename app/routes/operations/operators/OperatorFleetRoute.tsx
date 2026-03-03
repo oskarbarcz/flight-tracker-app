@@ -3,8 +3,8 @@
 import { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorFleetRoute";
 import React, { JSX } from "react";
 import { useLoaderData } from "react-router";
-import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
-import { FleetListEmptyState } from "~/components/operator/Table/FleetListEmptyState";
+import AircraftListTable from "~/components/operator/Table/AircraftListTable";
+import { FleetListEmptyState } from "~/components/operator/Table/EmptyState/FleetListEmptyState";
 import Container from "~/components/shared/Layout/Container";
 import { AircraftService } from "~/state/api/aircraft.service";
 

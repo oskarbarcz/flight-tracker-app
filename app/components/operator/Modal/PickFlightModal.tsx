@@ -9,7 +9,7 @@ import {
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import LegPreview from "~/components/rotation/Form/Preview/LegPreview";
+import LegPreview from "~/components/operator/Form/Preview/LegPreview";
 import { Flight, RotationResponse } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 

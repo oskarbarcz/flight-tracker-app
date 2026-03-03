@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
-import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
-import RotationListTable from "~/components/rotation/Table/RotationListTable";
+import RemoveRotationModal from "~/components/operator/Modal/RemoveRotationModal";
+import RotationListTable from "~/components/operator/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { RotationResponse } from "~/models";

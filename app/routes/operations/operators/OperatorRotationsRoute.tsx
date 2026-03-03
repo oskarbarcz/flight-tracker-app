@@ -3,9 +3,9 @@
 import { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorRotationsRoute";
 import React, { JSX, useState } from "react";
 import { useLoaderData } from "react-router";
-import { RotationListEmptyState } from "~/components/operator/Table/RotationListEmptyState";
-import RemoveRotationModal from "~/components/rotation/Modal/RemoveRotationModal";
-import RotationListTable from "~/components/rotation/Table/RotationListTable";
+import RemoveRotationModal from "~/components/operator/Modal/RemoveRotationModal";
+import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
+import RotationListTable from "~/components/operator/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
 import { RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";

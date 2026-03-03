@@ -3,7 +3,7 @@
 import React from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
-import AircraftListTable from "~/components/aircraft/Table/AircraftListTable";
+import AircraftListTable from "~/components/operator/Table/AircraftListTable";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { Aircraft } from "~/models";

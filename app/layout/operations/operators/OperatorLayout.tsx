@@ -6,7 +6,7 @@ import { Outlet, useLoaderData } from "react-router";
 import { OperatorHeader } from "~/components/operator/Header/OperatorHeader";
 import { OperatorInsights } from "~/components/operator/Header/OperatorInsights";
 import { OperatorNavigation } from "~/components/operator/Header/OperatorNavigation";
-import { OperatorTabs } from "~/components/operator/Table/OperatorTabs";
+import { OperatorTabs } from "~/components/operator/Table/Tabs/OperatorTabs";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
