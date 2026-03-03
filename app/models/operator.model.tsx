@@ -5,6 +5,7 @@ export type Operator = {
   shortName: string;
   fullName: string;
   callsign: string;
+  logoUrl: string | null;
 };
 
 export type CreateOperatorDto = Omit<Operator, "id">;

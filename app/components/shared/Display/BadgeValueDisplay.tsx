@@ -1,0 +1,15 @@
+import React, { JSX } from "react";
+
+type Props = {
+  name: string;
+  value: string;
+};
+
+export function BadgeValueDisplay({ name, value }: Props): JSX.Element {
+  return (
+    <span className="bg-white inline-block gap-1 border border-gray-200 rounded-full py-1.5 px-3 text-sm">
+      <span className="text-gray-500">{name}:</span>
+      <span> {value}</span>
+    </span>
+  );
+}
