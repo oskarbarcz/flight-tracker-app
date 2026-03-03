@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import BottomBar from "~/components/flight/Map/FullScreen/BottomBar";
 import FullScreenMap from "~/components/flight/Map/FullScreen/FullScreenMap";
 import TopBar from "~/components/flight/Map/FullScreen/TopBar";
-import MapSplash from "~/layout/MapSplash";
+import MapSplash from "~/layout/common/MapSplash";
 import { Flight } from "~/models";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import { usePublicApi } from "~/state/contexts/content/public-api.context";

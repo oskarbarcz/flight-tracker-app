@@ -11,7 +11,7 @@ import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../.react-router/types/app/routes/operations/operators/+types/OperatorsListRoute";
+import { Route } from "../../../../../.react-router/types/app/routes/operations/operators/+types/OperatorsListRoute";
 
 export async function clientAction({
   request,
@@ -33,7 +33,7 @@ export async function clientAction({
 }
 
 export default function CreateOperatorRoute() {
-  usePageTitle("Create new operator");
+  usePageTitle("Create new operators");
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>

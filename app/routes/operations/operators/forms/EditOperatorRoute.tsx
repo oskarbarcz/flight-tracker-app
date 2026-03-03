@@ -11,7 +11,7 @@ import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../.react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
+import { Route } from "../../../../../.react-router/types/app/routes/operations/operators/forms/+types/EditOperatorRoute";
 
 export async function clientAction({
   request,
@@ -40,7 +40,7 @@ export async function clientLoader({
 }
 
 export default function EditOperatorRoute() {
-  usePageTitle("Edit operator");
+  usePageTitle("Edit operators");
 
   const operator = useLoaderData<Operator>();
 

@@ -6,7 +6,7 @@ type Props = {
 
 export function OperatorLogo({ logoUrl }: Props): JSX.Element {
   return (
-    <div className="size-20 lg:size-26 xl:size-32 rounded-xl bg-white border border-gray-200 p-2">
+    <div className="size-20 lg:size-26 xl:size-32 rounded-xl bg-white border border-gray-200 dark:border-gray-700 p-2 dark:brightness-75 dark:contrast-125">
       <img src={logoUrl} alt="Operator logo" />
     </div>
   );

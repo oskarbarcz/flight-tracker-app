@@ -3,7 +3,7 @@ import Container from "~/components/shared/Layout/Container";
 
 type Props = {
   icon: React.ReactNode;
-  color: string;
+  color: "blue" | "green" | "orange" | "indigo";
   title: string;
   value: string;
   valueSmaller?: boolean;
@@ -18,17 +18,23 @@ export default function RichStatDisplay({
   valueSmaller = false,
   valueSuffix,
 }: Props): JSX.Element {
-  const mainColor = `text-${color}-500`;
-  const backgroundColor = `bg-${color}-50`;
-
   const font = valueSmaller ? "text-3xl" : "text-4xl";
+
+  const colorMap = {
+    blue: { text: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-950" },
+    orange: { text: "text-orange-500", bg: "bg-orange-100 dark:bg-orange-950" },
+    indigo: { text: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-950" },
+    green: { text: "text-green-500", bg: "bg-green-100 dark:bg-green-950" },
+  };
+
+  const { text, bg } = colorMap[color];
 
   return (
     <Container>
       <div className="flex gap-6 justify-between mb-6">
-        <span className={`p-3 rounded-xl ${mainColor} ${backgroundColor}`}>
+        <div className={`${text} ${bg} p-3 rounded-xl`}>
           {icon}
-        </span>
+        </div>
         <span className="font-bold text-gray-500 uppercase">{title}</span>
       </div>
 

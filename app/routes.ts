@@ -7,20 +7,25 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  layout("layout/AuthLayout.tsx", [
+  layout("layout/common/AuthLayout.tsx", [
     route("sign-in", "routes/common/auth/SignInRoute.tsx"),
     route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
   ]),
-  layout("layout/AppLayout.tsx", [
+  layout("layout/common/AppLayout.tsx", [
     index("routes/common/DashboardRoute.tsx"),
     ...prefix("track", [
       route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
     ...prefix("operators", [
       index("routes/operations/operators/OperatorsListRoute.tsx"),
-      route("new", "routes/operations/operators/CreateOperatorRoute.tsx"),
-      route(":id", "routes/operations/operators/OperatorRoute.tsx"),
-      route(":id/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
+      route("new", "routes/operations/operators/forms/CreateOperatorRoute.tsx"),
+      route(":id/edit", "routes/operations/operators/forms/EditOperatorRoute.tsx"),
+    ]),
+    ...prefix("operators", [
+      layout("layout/operations/operators/OperatorLayout.tsx", [
+        route(":id/rotations", "routes/operations/operators/OperatorRotationsRoute.tsx"),
+        route(":id/fleet", "routes/operations/operators/OperatorFleetRoute.tsx"),
+      ]),
     ]),
     ...prefix("airports", [
       index("routes/operations/airports/AirportsListRoute.tsx"),
@@ -42,7 +47,7 @@ export default [
       route("new", "routes/operations/flights/CreateFlightRoute.tsx"),
     ]),
   ]),
-  layout("layout/MapLayout.tsx", [
+  layout("layout/common/MapLayout.tsx", [
     ...prefix("live-tracking", [
       route(":id", "routes/public/PublicTrackingRoute.tsx"),
     ]),

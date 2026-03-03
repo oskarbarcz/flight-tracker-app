@@ -10,6 +10,12 @@ export class RotationService extends AbstractAuthorizedApiService {
     return this.requestWithAuth<RotationResponse[]>("/api/v1/rotation");
   }
 
+  async fetchAllByOperator(operatorId: string): Promise<RotationResponse[]> {
+    return this.requestWithAuth<RotationResponse[]>(
+      `/api/v1/operator/${operatorId}/rotation`,
+    );
+  }
+
   async createNew(rotation: CreateRotationRequest): Promise<RotationResponse> {
     return this.requestWithAuth<RotationResponse>("/api/v1/rotation", {
       body: JSON.stringify(rotation),

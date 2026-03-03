@@ -11,7 +11,7 @@ export const newFlightIdentitySchema: ObjectSchema<
     .uuid("Invalid aircraft")
     .required("Aircraft is required"),
   operatorId: string()
-    .uuid("Invalid operator")
+    .uuid("Invalid operators")
     .required("Operator is required"),
 });
 

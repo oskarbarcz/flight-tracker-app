@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import React, { JSX } from "react";
-import { HiOutlineArrowLeft, HiPlus } from "react-icons/hi";
+import {HiOutlineArrowLeft, HiPencil, HiPlus} from "react-icons/hi";
 import { Link } from "react-router";
 
 type Props = {
@@ -22,14 +22,14 @@ export function OperatorNavigation({ id }: Props): JSX.Element {
       <Button
         as={Link}
         color="indigo"
-        to="/operators"
+        to={`/operators/${id}/edit`}
         className="space-x-1.5"
         size="sm"
         replace
         viewTransition
       >
-        <HiPlus />
-        <span>Add new</span>
+        <HiPencil />
+        <span>Edit operator</span>
       </Button>
     </div>
   );
