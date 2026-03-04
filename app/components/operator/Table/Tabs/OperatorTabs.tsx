@@ -22,7 +22,8 @@ export function OperatorTabs({ id }: Props): JSX.Element {
     navigate(`/operators/${id}/${tabs[index].path}`, {
       replace: true,
       viewTransition: true,
-    });
+      preventScrollReset: true,
+    } as any);
   };
 
   return (

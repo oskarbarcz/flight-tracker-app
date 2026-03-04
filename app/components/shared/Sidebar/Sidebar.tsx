@@ -1,5 +1,5 @@
 import { Drawer, DrawerItems } from "flowbite-react";
-import { useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 import { HiMenu } from "react-icons/hi";
 import SidebarDivider from "~/components/shared/Sidebar/Elements/SidebarDivider";
 import SidebarLogo from "~/components/shared/Sidebar/Elements/SidebarLogo";
@@ -11,7 +11,7 @@ import OperatorSidebarItems from "~/components/shared/Sidebar/Items/OperationsSi
 import { UserRole } from "~/models";
 import { useAuth } from "~/state/contexts/session/auth.context";
 
-export function Sidebar() {
+export function Sidebar(): JSX.Element {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
