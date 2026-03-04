@@ -1,4 +1,4 @@
-import { Aircraft, CreateAircraftDto, EditAircraftDto } from "~/models";
+import { Aircraft, CreateAircraftRequest, EditAircraftRequest } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class AircraftService extends AbstractAuthorizedApiService {
@@ -12,9 +12,9 @@ export class AircraftService extends AbstractAuthorizedApiService {
     );
   }
 
-  async createNew(aircraft: CreateAircraftDto): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>("/api/v1/aircraft", {
-      body: JSON.stringify(aircraft),
+  async createNew(operatorId: string, data: CreateAircraftRequest): Promise<Aircraft> {
+    return this.requestWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft`, {
+      body: JSON.stringify(data),
       method: "POST",
     });
   }
@@ -23,9 +23,9 @@ export class AircraftService extends AbstractAuthorizedApiService {
     return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
   }
 
-  async update(id: string, aircraft: EditAircraftDto): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`, {
-      body: JSON.stringify(aircraft),
+  async update(operatorId: string, aircraftId: string, data: EditAircraftRequest): Promise<Aircraft> {
+    return this.requestWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}`, {
+      body: JSON.stringify(data),
       method: "PATCH",
     });
   }

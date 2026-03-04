@@ -7,19 +7,20 @@ import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import { CreateAircraftDto } from "~/models";
+import { CreateAircraftRequest } from "~/models";
 import { UserRole } from "~/models/user.model";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
 export async function clientAction({
+  params,
   request,
 }: Route.ClientActionArgs): Promise<Response> {
   const aircraftService = new AircraftService();
 
   const form = await request.formData();
-  const aircraft: CreateAircraftDto = getFormData<CreateAircraftDto>(form, [
+  const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(form, [
     "icaoCode",
     "shortName",
     "fullName",
@@ -28,9 +29,9 @@ export async function clientAction({
     "livery",
   ]);
 
-  await aircraftService.createNew(aircraft);
+  await aircraftService.createNew(params.operatorId, aircraft);
 
-  return redirect("/aircraft");
+  return redirect(`/operators/${params.operatorId}/fleet`);
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

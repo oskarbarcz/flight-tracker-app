@@ -43,7 +43,7 @@ export default function OperatorFleetRoute(): JSX.Element {
         changeType={setselectedType}
       />
       <Container className="overflow-x-auto" padding="none">
-        <AircraftListTable aircraft={filtered} />
+        <AircraftListTable operatorId={operatorId} aircraft={filtered} />
       </Container>
     </div>
   );

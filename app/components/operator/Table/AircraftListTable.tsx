@@ -8,32 +8,33 @@ import {
   TableRow,
 } from "flowbite-react";
 import React from "react";
-import { HiPencil } from "react-icons/hi";
+import { FaPencil } from "react-icons/fa6";
 import { Link } from "react-router";
 import { Aircraft } from "~/models";
 
-type AircraftListTableProps = {
+type Props = {
+  operatorId: string;
   aircraft: Aircraft[];
 };
 
-export default function AircraftListTable({
-  aircraft,
-}: AircraftListTableProps) {
+export default function AircraftListTable({ operatorId, aircraft }: Props) {
   return (
     <Table>
       <TableHead>
         <TableRow>
+          <TableHeadCell>Name</TableHeadCell>
           <TableHeadCell>Reg, SELCAL & livery</TableHeadCell>
           <TableHeadCell>ICAO code</TableHeadCell>
-          <TableHeadCell>Name</TableHeadCell>
-          <TableHeadCell>
-            <span className="sr-only">Actions</span>
-          </TableHeadCell>
+          <TableHeadCell>Actions</TableHeadCell>
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
         {aircraft.map((each: Aircraft, i: number) => (
           <TableRow key={i}>
+            <TableCell className="text-gray-900 dark:text-gray-100">
+              <span className="block font-bold">{each.shortName}</span>
+              <span className="block italic">{each.fullName}</span>
+            </TableCell>
             <TableCell>
               <span className="flex gap-x-2 items-center">
                 <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">
@@ -49,14 +50,15 @@ export default function AircraftListTable({
               {each.icaoCode}
             </TableCell>
             <TableCell>
-              <span className="block font-bold">{each.shortName}</span>
-              <span className="block italic">{each.fullName}</span>
-            </TableCell>
-            <TableCell>
               <Link to={`/aircraft/${each.id}/edit`} replace viewTransition>
-                <Button color="gray">
-                  <HiPencil />
-                </Button>
+                <Link
+                  className="text-primary-500 font-bold"
+                  to={`/operators/${operatorId}/aircraft/${each.id}/edit`}
+                  replace
+                  viewTransition
+                >
+                  Edit
+                </Link>
               </Link>
             </TableCell>
           </TableRow>

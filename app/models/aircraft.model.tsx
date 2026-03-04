@@ -8,5 +8,5 @@ export type Aircraft = {
   livery: string;
 };
 
-export type CreateAircraftDto = Omit<Aircraft, "id">;
-export type EditAircraftDto = CreateAircraftDto;
+export type CreateAircraftRequest = Omit<Aircraft, "id">;
+export type EditAircraftRequest = CreateAircraftRequest;

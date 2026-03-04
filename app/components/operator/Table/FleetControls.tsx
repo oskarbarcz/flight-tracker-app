@@ -22,7 +22,7 @@ export default function FleetControls({
   const active =
     "rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 hover:border-gray-300 hover:dark:border-gray-800 focus:ring-0";
   const inactive =
-    "rounded-2xl text-gray-500 border border-gray-200 dark:border-gray-800 hover:border-gray-300 hover:dark:border-gray-800 bg-gray-100 dark:bg-gray-950 focus:ring-0";
+    "rounded-2xl text-gray-500 border border-gray-200 dark:border-gray-800 hover:border-gray-300 hover:dark:border-gray-800 bg-gray-50 dark:bg-gray-950 focus:ring-0";
   return (
     <div className="flex items-center justify-between gap-3 mb-6">
       <div className="flex flex-wrap gap-1.5">
