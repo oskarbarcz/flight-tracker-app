@@ -11,7 +11,7 @@ import OperatorSidebarItems from "~/components/shared/Sidebar/Items/OperationsSi
 import { UserRole } from "~/models";
 import { useAuth } from "~/state/contexts/session/auth.context";
 
-export default function Sidebar() {
+export function Sidebar() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -76,8 +76,10 @@ export default function Sidebar() {
         </DrawerItems>
       </Drawer>
 
-      <aside className="hidden md:flex w-[300px] flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
-        {sidebarContent()}
+      <aside className="hidden md:flex w-75 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 sticky top-0 h-screen">
+        <div className="flex flex-col h-full overflow-y-auto">
+          {sidebarContent()}
+        </div>
       </aside>
     </>
   );

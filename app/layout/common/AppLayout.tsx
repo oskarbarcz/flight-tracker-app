@@ -3,7 +3,7 @@
 import React from "react";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
-import Sidebar from "~/components/shared/Sidebar/Sidebar";
+import { Sidebar } from "~/components/shared/Sidebar/Sidebar";
 import ProtectedRoute from "~/routes/common/ProtectedRoute";
 
 export default function AppLayout() {
