@@ -5,7 +5,7 @@ import React from "react";
 import { FaCircleInfo, FaFileImport } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
-import TableEmptyState from "~/components/shared/Table/LoadingStates/TableEmptyState";
+import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
 import { FlightPhase } from "~/models";
 
 type FlightListEmptyStateProps = {

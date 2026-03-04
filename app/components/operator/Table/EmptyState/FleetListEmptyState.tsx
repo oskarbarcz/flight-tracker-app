@@ -5,7 +5,9 @@ import React, { JSX } from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
-import TableEmptyState from "~/components/shared/Table/LoadingStates/TableEmptyState";
+import { EmptyStateIcon } from "~/components/shared/Table/LoadingStates/EmptyStateIcon";
+import { EmptyStateText } from "~/components/shared/Table/LoadingStates/EmptyStateText";
+import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
 
 type Props = {
   operatorId: string;
@@ -14,21 +16,20 @@ type Props = {
 export function FleetListEmptyState({ operatorId }: Props): JSX.Element {
   return (
     <TableEmptyState>
-      <div className="flex items-center justify-center">
-        <FaCircleInfo className="inline mr-3" />
-        There are no aircrafts yet.
-      </div>
-      <div className="flex flex-col justify-center sm:flex-row gap-3 mt-6">
-        <Button
-          className="dark:bg-gray-800 dark:hover:bg-gray-700"
-          color="indigo"
-          as={Link}
-          to={`/operators/${operatorId}/aircraft/add`}
-        >
-          <HiPlus className="mr-2 h-5 w-5" />
-          Add new
-        </Button>
-      </div>
+      <EmptyStateIcon icon={FaCircleInfo} color={"blue"} />
+      <EmptyStateText
+        title="There are no aircrafts yet."
+        paragraph="Add first aircraft to your fleet to unlock flight planning, scheduling, and dispatch tools."
+      />
+      <Button
+        className="space-x-1.5 w-fit mx-auto"
+        color="indigo"
+        as={Link}
+        to={`/operators/${operatorId}/aircraft/new`}
+      >
+        <HiPlus />
+        <span>Add aircraft</span>
+      </Button>
     </TableEmptyState>
   );
 }

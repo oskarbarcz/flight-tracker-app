@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
-import TableEmptyState from "~/components/shared/Table/LoadingStates/TableEmptyState";
+import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
 import { Continent, continentToDisplayName } from "~/models";
 
 type Props = {
