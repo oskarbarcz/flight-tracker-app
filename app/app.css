@@ -7,6 +7,7 @@
 @import "leaflet/dist/leaflet.css";
 
 @import "./styles/base.css";
+@import "./styles/scrollbars.css";
 @import "./styles/animations.css";
 @import "./styles/utilities.css";
 
