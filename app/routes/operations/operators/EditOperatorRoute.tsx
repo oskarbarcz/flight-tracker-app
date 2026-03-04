@@ -2,7 +2,7 @@
 
 import { Route } from ".react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { JSX } from "react";
 import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
@@ -40,7 +40,7 @@ export async function clientLoader({
   return new OperatorService().fetchById(params.operatorId);
 }
 
-export default function EditOperatorRoute() {
+export default function EditOperatorRoute(): JSX.Element {
   usePageTitle("Edit operators");
 
   const operator = useLoaderData<Operator>();

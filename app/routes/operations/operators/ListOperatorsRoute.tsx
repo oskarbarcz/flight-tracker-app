@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { JSX } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import OperatorListTable from "~/components/operator/Table/OperatorListTable";
@@ -16,7 +16,7 @@ export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();
 }
 
-export default function ListOperatorsRoute() {
+export default function ListOperatorsRoute(): JSX.Element {
   usePageTitle("Operator list");
   const operators = useLoaderData<Operator[]>();
 

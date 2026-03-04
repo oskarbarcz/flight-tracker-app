@@ -17,13 +17,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     new OperatorService().fetchById(params.operatorId),
   ]);
 
-  return { operatorId: params.operatorId, aircrafts, operator };
+  return { aircrafts, operator };
 }
 
-export default function OperatorFleetRoute(): JSX.Element {
-  const { operatorId, aircrafts, operator } =
-    useLoaderData<typeof clientLoader>();
-  const [selectedType, setselectedType] = useState<string | null>(null);
+export default function OperatorFleetRoute({
+  params,
+}: Route.ComponentProps): JSX.Element {
+  const { aircrafts, operator } = useLoaderData<typeof clientLoader>();
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     if (!selectedType) return aircrafts;
@@ -31,8 +32,8 @@ export default function OperatorFleetRoute(): JSX.Element {
     return aircrafts.filter((aircraft) => aircraft.icaoCode === selectedType);
   }, [aircrafts, selectedType]);
 
-  if ((aircrafts as Aircraft[]).length === 0) {
-    return <FleetListEmptyState operatorId={operatorId} />;
+  if (aircrafts.length === 0) {
+    return <FleetListEmptyState operatorId={params.operatorId} />;
   }
 
   return (
@@ -40,10 +41,10 @@ export default function OperatorFleetRoute(): JSX.Element {
       <FleetControls
         operator={operator}
         type={selectedType}
-        changeType={setselectedType}
+        changeType={setSelectedType}
       />
       <Container className="overflow-x-auto" padding="none">
-        <AircraftListTable operatorId={operatorId} aircraft={filtered} />
+        <AircraftListTable operatorId={params.operatorId} aircraft={filtered} />
       </Container>
     </div>
   );

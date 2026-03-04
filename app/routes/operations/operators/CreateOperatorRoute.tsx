@@ -2,7 +2,7 @@
 
 import { Route } from ".react-router/types/app/routes/operations/operators/+types/CreateOperatorRoute";
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { JSX } from "react";
 import { Form, redirect } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SelectBlock from "~/components/shared/Form/SelectBlock";
@@ -54,7 +54,7 @@ const typeOptions = [
   { label: "Government / military", value: OperatorType.GovernmentMilitary },
 ];
 
-export default function CreateOperatorRoute() {
+export default function CreateOperatorRoute(): JSX.Element {
   usePageTitle("Create new operators");
 
   return (

@@ -2,7 +2,7 @@
 
 import { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/EditAircraftRoute";
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { JSX } from "react";
 import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
@@ -36,19 +36,22 @@ export async function clientAction({
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const aircraft = await new AircraftService().getById(params.aircraftId);
-  return { operatorId: params.operatorId, aircraft };
+  return { aircraft };
 }
 
-export default function EditAircraftRoute() {
+export default function EditAircraftRoute({
+  params,
+}: Route.ComponentProps): JSX.Element {
   usePageTitle("Edit aircraft");
-  const { operatorId, aircraft } = useLoaderData<typeof clientLoader>();
+  const { aircraft } = useLoaderData<typeof clientLoader>();
+
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Edit aircraft"
           backText="Back to operator"
-          backUrl={`/operators/${operatorId}/fleet`}
+          backUrl={`/operators/${params.operatorId}/fleet`}
         />
 
         <Form className="flex max-w-md flex-col gap-4" method="post">

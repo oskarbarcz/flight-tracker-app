@@ -2,8 +2,8 @@
 
 import { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/CreateAircraftRoute";
 import { Button } from "flowbite-react";
-import React from "react";
-import { Form, redirect, useLoaderData } from "react-router";
+import React, { JSX } from "react";
+import { Form, redirect } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
@@ -31,13 +31,10 @@ export async function clientAction({
   return redirect(`/operators/${params.operatorId}/fleet`);
 }
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  return { operatorId: params.operatorId };
-}
-
-export default function CreateAirportRoute() {
+export default function CreateAirportRoute({
+  params,
+}: Route.ComponentProps): JSX.Element {
   usePageTitle("Create new aircraft");
-  const { operatorId } = useLoaderData<typeof clientLoader>();
 
   return (
     <ProtectedRoute expectedRole={UserRole.Operations}>
@@ -45,7 +42,7 @@ export default function CreateAirportRoute() {
         <SectionHeaderWithBackButton
           sectionTitle="Create new aircraft"
           backText="Back to operator"
-          backUrl={`/operators/${operatorId}/fleet`}
+          backUrl={`/operators/${params.operatorId}/fleet`}
         />
 
         <Form method="post">
