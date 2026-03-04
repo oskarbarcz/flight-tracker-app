@@ -7,12 +7,12 @@ import { Form, useActionData, useLoaderData, useNavigate } from "react-router";
 import PilotLicenseInputBlock from "~/components/operator/Form/PilotLicenseInputBlock";
 import RotationFlightsInputBlock from "~/components/operator/Form/RotationFlightsInputBlock";
 import InputBlock from "~/components/shared/Form/InputBlock";
+import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import {
   handleRequestError,
   handleRequestSuccess,
-  ResponseWrapper,
 } from "~/functions/handleRequest";
 import { EditRotationRequest, RotationResponse } from "~/models";
 import { UserRole } from "~/models/user.model";
@@ -21,15 +21,10 @@ import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
-type EditRotationResponse = ResponseWrapper<
-  EditRotationRequest,
-  RotationResponse
->;
-
 export async function clientAction({
   request,
   params,
-}: Route.ClientActionArgs): Promise<EditRotationResponse> {
+}: Route.ClientActionArgs) {
   const rotationService = new RotationService();
 
   const form = await request.formData();
@@ -37,30 +32,37 @@ export async function clientAction({
 
   return rotationService
     .update(params.rotationId, rotation)
-    .then((response) => handleRequestSuccess(response, "/rotations"))
-    .catch((error) => handleRequestError(error));
+    .then(handleRequestSuccess)
+    .catch(handleRequestError);
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const rotation = await new RotationService().getById(params.rotationId);
-  return { operatorId: params.operatorId, rotation };
+  return { rotation };
 }
 
-export default function EditRotationRoute() {
+export default function EditRotationRoute({ params }: Route.ComponentProps) {
   usePageTitle("Edit rotation");
   const navigate = useNavigate();
   const { error } = useToast();
-  const { operatorId, rotation } = useLoaderData<typeof clientLoader>();
+  const { rotation } = useLoaderData<typeof clientLoader>();
+
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {
-    if (response?.isSuccessful) {
-      navigate(response.redirectUrl, { viewTransition: true });
+    if (!response) return;
+
+    if (response.isSuccessful) {
+      navigate(`/operators/${params.operatorId}/rotations`, {
+        viewTransition: true,
+        replace: true,
+        preventScrollReset: true,
+      });
     }
-    if (response?.isError && response.oneGeneralError) {
+    if (response.isError && response.oneGeneralError) {
       error(response.oneGeneralError);
     }
-  }, [response, navigate, error]);
+  }, [response, navigate, error, params.operatorId]);
 
   const updateLegs = async () => {
     const rotationService = new RotationService();
@@ -73,29 +75,35 @@ export default function EditRotationRoute() {
         <SectionHeaderWithBackButton
           sectionTitle="Edit rotation"
           backText="Back to operator"
-          backUrl={`/operators/${operatorId}/rotations`}
+          backUrl={`/operators/${params.operatorId}/rotations`}
         />
 
-        <Form className="flex max-w-md flex-col gap-4" method="post">
-          <InputBlock
-            htmlName="name"
-            label="Rotation name"
-            defaultValue={rotation.name}
-            errors={response?.isError ? response.errorsForKey("name") : []}
-          />
-          <PilotLicenseInputBlock
-            htmlName="pilotId"
-            label="Captain pilot license ID"
-            defaultValue={rotation.pilot.id}
-            errors={response?.isError ? response.errorsForKey("pilotId") : []}
-          />
-          <RotationFlightsInputBlock
-            rotation={rotation}
-            legs={rotation.flights}
-            updateLegs={updateLegs}
-          />
+        <Form method="post">
+          <Container>
+            <div className="flex flex-col gap-4">
+              <InputBlock
+                htmlName="name"
+                label="Rotation name"
+                defaultValue={rotation.name}
+                errors={response?.isError ? response.errorsForKey("name") : []}
+              />
+              <PilotLicenseInputBlock
+                htmlName="pilotId"
+                label="Captain pilot license ID"
+                defaultValue={rotation.pilot.id}
+                errors={
+                  response?.isError ? response.errorsForKey("pilotId") : []
+                }
+              />
+              <RotationFlightsInputBlock
+                rotation={rotation}
+                legs={rotation.flights}
+                updateLegs={updateLegs}
+              />
+            </div>
+          </Container>
 
-          <Button type="submit" color="indigo">
+          <Button type="submit" color="indigo" className="mt-6 w-fit ms-auto">
             Save changes
           </Button>
         </Form>

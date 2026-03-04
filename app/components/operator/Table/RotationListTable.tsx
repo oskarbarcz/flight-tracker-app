@@ -11,15 +11,17 @@ import { Link } from "react-router";
 import { formatDateToLocal } from "~/functions/time";
 import { RotationResponse } from "~/models";
 
-type RotationListTableProps = {
+type Props = {
+  operatorId: string;
   rotations: RotationResponse[];
   removeRotation: (rotationId: RotationResponse) => void;
 };
 
 export default function RotationListTable({
+  operatorId,
   rotations,
   removeRotation,
-}: RotationListTableProps) {
+}: Props) {
   return (
     <Table className="shadow">
       <TableHead>
@@ -80,7 +82,7 @@ export default function RotationListTable({
               <div className="block text-primary-500 font-bold">
                 <Link
                   className="block"
-                  to={`/rotations/${rotation.id}/edit`}
+                  to={`/operators/${operatorId}/rotations/${rotation.id}/edit`}
                   replace
                   viewTransition
                 >

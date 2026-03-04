@@ -9,7 +9,10 @@ type InputProps = {
   label: string;
   required?: boolean;
   defaultValue?: string;
+  value?: string;
   errors?: string[];
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 export default function InputBlock({
@@ -17,12 +20,15 @@ export default function InputBlock({
   label,
   required,
   defaultValue,
+  value,
   errors = [],
+  onChange,
+  onBlur,
 }: InputProps) {
-  const [isMarkedRed, setisMarkedRed] = useState<boolean>(false);
+  const [isMarkedRed, setIsMarkedRed] = useState<boolean>(false);
 
   useEffect(() => {
-    setisMarkedRed(errors.length > 0);
+    setIsMarkedRed(errors.length > 0);
   }, [errors]);
 
   return (
@@ -36,10 +42,13 @@ export default function InputBlock({
         id={htmlName}
         name={htmlName}
         defaultValue={defaultValue}
+        value={value}
         required={required}
-        onChange={() => {
-          setisMarkedRed(false);
+        onChange={(e) => {
+          setIsMarkedRed(false);
+          onChange?.(e);
         }}
+        onBlur={onBlur}
         color={isMarkedRed ? "failure" : undefined}
       />
       <InputErrorList errorFocus={isMarkedRed} errors={errors} />

@@ -16,10 +16,6 @@ export default function InputErrorList({
 
   return (
     <HelperText color={errorFocus ? "red" : undefined}>
-      {!errorFocus && (
-        <span className="mb-2 block">Previous field errors:</span>
-      )}
-
       {errors.map((error, index) => (
         <span key={index} className="block">
           <Badge

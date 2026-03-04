@@ -6,21 +6,23 @@ import {
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class RotationService extends AbstractAuthorizedApiService {
-  async getAll(): Promise<RotationResponse[]> {
-    return this.requestWithAuth<RotationResponse[]>("/api/v1/rotation");
-  }
-
-  async fetchAllByOperator(operatorId: string): Promise<RotationResponse[]> {
+  async fetchAll(operatorId: string): Promise<RotationResponse[]> {
     return this.requestWithAuth<RotationResponse[]>(
       `/api/v1/operator/${operatorId}/rotation`,
     );
   }
 
-  async createNew(rotation: CreateRotationRequest): Promise<RotationResponse> {
-    return this.requestWithAuth<RotationResponse>("/api/v1/rotation", {
-      body: JSON.stringify(rotation),
-      method: "POST",
-    });
+  async create(
+    operatorId: string,
+    data: CreateRotationRequest,
+  ): Promise<RotationResponse> {
+    return this.requestWithAuth<RotationResponse>(
+      `/api/v1/operator/${operatorId}/rotation`,
+      {
+        body: JSON.stringify(data),
+        method: "POST",
+      },
+    );
   }
 
   async getById(id: string): Promise<RotationResponse> {

@@ -10,7 +10,7 @@ type Props = {
   operatorId: string;
 };
 
-export default function RotationControls({operatorId}: Props): JSX.Element {
+export default function RotationControls({ operatorId }: Props): JSX.Element {
   return (
     <div className="mb-6">
       <Button

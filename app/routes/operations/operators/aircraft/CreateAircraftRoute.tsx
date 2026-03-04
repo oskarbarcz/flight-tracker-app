@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
+import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { CreateAircraftRequest } from "~/models";
@@ -20,14 +21,10 @@ export async function clientAction({
   const aircraftService = new AircraftService();
 
   const form = await request.formData();
-  const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(form, [
-    "icaoCode",
-    "shortName",
-    "fullName",
-    "selcal",
-    "registration",
-    "livery",
-  ]);
+  const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(
+    form,
+    ["icaoCode", "shortName", "fullName", "selcal", "registration", "livery"],
+  );
 
   await aircraftService.createNew(params.operatorId, aircraft);
 
@@ -51,15 +48,23 @@ export default function CreateAirportRoute() {
           backUrl={`/operators/${operatorId}/fleet`}
         />
 
-        <Form className="flex max-w-md flex-col gap-4" method="post">
-          <InputBlock htmlName="icaoCode" label="ICAO code" />
-          <InputBlock htmlName="shortName" label="Short name" />
-          <InputBlock htmlName="fullName" label="Full name" />
-          <InputBlock htmlName="registration" label="Registration" />
-          <InputBlock htmlName="selcal" label="SELCAL" />
-          <InputBlock htmlName="livery" label="Livery name" />
+        <Form method="post">
+          <Container>
+            <div className="flex flex-col gap-4">
+              <InputBlock htmlName="icaoCode" label="ICAO code" />
+              <InputBlock htmlName="shortName" label="Short name" />
+              <InputBlock htmlName="fullName" label="Full name" />
+              <InputBlock htmlName="registration" label="Registration" />
+              <InputBlock htmlName="selcal" label="SELCAL" />
+              <InputBlock htmlName="livery" label="Livery name" />
+            </div>
+          </Container>
 
-          <Button type="submit">Create new aircraft</Button>
+          <div className="flex justify-end pt-4">
+            <Button type="submit" color="indigo">
+              Create new aircraft
+            </Button>
+          </div>
         </Form>
       </div>
     </ProtectedRoute>

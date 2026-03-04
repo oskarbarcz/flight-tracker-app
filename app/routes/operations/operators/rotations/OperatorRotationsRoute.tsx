@@ -5,23 +5,23 @@ import React, { JSX, useState } from "react";
 import { useLoaderData } from "react-router";
 import RemoveRotationModal from "~/components/operator/Modal/RemoveRotationModal";
 import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
+import RotationControls from "~/components/operator/Table/RotationControls";
 import RotationListTable from "~/components/operator/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
 import { RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useApi } from "~/state/contexts/content/api.context";
-import RotationControls from "~/components/operator/Table/RotationControls";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const rotations = await new RotationService().fetchAllByOperator(
-    params.operatorId,
-  );
-  return { operatorId: params.operatorId, rotations };
+  const rotations = await new RotationService().fetchAll(params.operatorId);
+  return { rotations };
 }
 
-export default function OperatorRotationsRoute(): JSX.Element {
+export default function OperatorRotationsRoute({
+  params,
+}: Route.ComponentProps): JSX.Element {
   const { rotationService } = useApi();
-  const { operatorId, rotations } = useLoaderData<typeof clientLoader>();
+  const { rotations } = useLoaderData<typeof clientLoader>();
 
   const [rotationToRemove, setRotationToRemove] =
     useState<RotationResponse | null>(null);
@@ -32,14 +32,15 @@ export default function OperatorRotationsRoute(): JSX.Element {
   };
 
   if (rotations.length === 0) {
-    return <RotationListEmptyState operatorId={operatorId} />;
+    return <RotationListEmptyState operatorId={params.operatorId} />;
   }
 
   return (
     <div>
-      <RotationControls operatorId={operatorId} />
+      <RotationControls operatorId={params.operatorId} />
       <Container className="overflow-x-auto" padding="none">
         <RotationListTable
+          operatorId={params.operatorId}
           rotations={rotations}
           removeRotation={setRotationToRemove}
         />

@@ -1,6 +1,7 @@
 "use client";
 
 import { Label, TextInput } from "flowbite-react";
+import { FormikErrors } from "formik";
 import React, { useEffect, useState } from "react";
 import PilotInputPreview from "~/components/operator/Form/Preview/PilotInputPreview";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
@@ -12,6 +13,11 @@ type PilotLicenseInputBlockProps = {
   label: string;
   defaultValue?: string | undefined;
   errors: string[];
+  setFieldValue?: (
+    field: string,
+    value: string,
+    shouldValidate?: boolean,
+  ) => Promise<void | FormikErrors<unknown>>;
 };
 
 const errorToMessage = (error: unknown): string => {
@@ -34,6 +40,7 @@ export default function PilotLicenseInputBlock({
   label,
   errors: parentErrors,
   defaultValue,
+  setFieldValue,
 }: PilotLicenseInputBlockProps) {
   const { userService } = useApi();
 
@@ -51,18 +58,24 @@ export default function PilotLicenseInputBlock({
       setPilot(user);
       setPilotId(user.id);
       setPilotLicenseId(user.pilotLicenseId);
+      if (setFieldValue) {
+        setFieldValue(htmlName, user.id);
+      }
     });
-  }, [defaultValue, userService]);
+  }, [defaultValue, userService, htmlName, setFieldValue]);
 
   useEffect(() => {
     setErrors(parentErrors);
   }, [parentErrors]);
 
   const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value.toUpperCase();
     setPilotLicenseId(value);
     setPilot(null);
     setPilotId("");
+    if (setFieldValue) {
+      setFieldValue(htmlName, "");
+    }
 
     if (value && value.length !== 8) {
       setErrors([]);
@@ -74,6 +87,9 @@ export default function PilotLicenseInputBlock({
       .then((user) => {
         setPilot(user);
         setPilotId(user.id);
+        if (setFieldValue) {
+          setFieldValue(htmlName, user.id);
+        }
       })
       .catch((newError) =>
         setErrors((currentErrors) => [
@@ -108,6 +124,9 @@ export default function PilotLicenseInputBlock({
             setPilotLicenseId("");
             setPilotId(undefined);
             setPilot(null);
+            if (setFieldValue) {
+              setFieldValue(htmlName, "");
+            }
           }}
         />
       )}

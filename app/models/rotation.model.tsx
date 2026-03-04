@@ -19,6 +19,6 @@ export type Rotation = {
   updatedAt: string | null;
 };
 
-export type CreateRotationRequest = Omit<Rotation, "id" | "pilot">;
+export type CreateRotationRequest = Pick<Rotation, "name" | "pilotId">;
 export type EditRotationRequest = CreateRotationRequest;
 export type RotationResponse = Omit<Rotation, "pilotId">;

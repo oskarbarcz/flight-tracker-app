@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
+import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { CreateOperatorDto, Operator } from "~/models";
@@ -53,36 +54,42 @@ export default function EditOperatorRoute() {
           backUrl={`/operators/${operator.id}/fleet`}
         />
 
-        <Form className="flex max-w-md flex-col gap-4" method="post">
-          <InputBlock
-            htmlName="icaoCode"
-            label="ICAO code"
-            defaultValue={operator.icaoCode}
-          />
-          <InputBlock
-            htmlName="iataCode"
-            label="IATA code"
-            defaultValue={operator.iataCode}
-          />
-          <InputBlock
-            htmlName="shortName"
-            label="Short name"
-            defaultValue={operator.shortName}
-          />
-          <InputBlock
-            htmlName="fullName"
-            label="Full name"
-            defaultValue={operator.fullName}
-          />
-          <InputBlock
-            htmlName="callsign"
-            label="Callsign"
-            defaultValue={operator.callsign}
-          />
+        <Form method="post">
+          <Container>
+            <div className="flex flex-col gap-4">
+              <InputBlock
+                htmlName="icaoCode"
+                label="ICAO code"
+                defaultValue={operator.icaoCode}
+              />
+              <InputBlock
+                htmlName="iataCode"
+                label="IATA code"
+                defaultValue={operator.iataCode}
+              />
+              <InputBlock
+                htmlName="shortName"
+                label="Short name"
+                defaultValue={operator.shortName}
+              />
+              <InputBlock
+                htmlName="fullName"
+                label="Full name"
+                defaultValue={operator.fullName}
+              />
+              <InputBlock
+                htmlName="callsign"
+                label="Callsign"
+                defaultValue={operator.callsign}
+              />
+            </div>
+          </Container>
 
-          <Button color="indigo" type="submit">
-            Save changes
-          </Button>
+          <div className="flex justify-end pt-4">
+            <Button color="indigo" type="submit">
+              Save changes
+            </Button>
+          </div>
         </Form>
       </div>
     </ProtectedRoute>
