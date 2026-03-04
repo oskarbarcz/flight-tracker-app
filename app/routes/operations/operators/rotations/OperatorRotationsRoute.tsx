@@ -10,6 +10,7 @@ import Container from "~/components/shared/Layout/Container";
 import { RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useApi } from "~/state/contexts/content/api.context";
+import RotationControls from "~/components/operator/Table/RotationControls";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const rotations = await new RotationService().fetchAllByOperator(
@@ -36,6 +37,7 @@ export default function OperatorRotationsRoute(): JSX.Element {
 
   return (
     <div>
+      <RotationControls operatorId={operatorId} />
       <Container className="overflow-x-auto" padding="none">
         <RotationListTable
           rotations={rotations}
