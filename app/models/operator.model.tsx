@@ -1,5 +1,12 @@
 import { Continent } from "~/models/airport.model";
 
+export enum OperatorType {
+  Legacy = "legacy",
+  LowCost = "low_cost",
+  Charter = "charter",
+  GovernmentMilitary = "government_military",
+}
+
 export type Operator = {
   id: string;
   icaoCode: string;
@@ -9,10 +16,16 @@ export type Operator = {
   callsign: string;
   hubs: string[];
   fleetSize: number;
+  fleetTypes: string[];
   avgFleetAge: number;
   logoUrl: string | null;
+  backgroundUrl: string | null;
+  type: OperatorType;
   continent: Continent;
 };
 
-export type CreateOperatorDto = Omit<Operator, "id">;
+export type CreateOperatorDto = Omit<
+  Operator,
+  "id" | "fleetTypes" | "fleetSize"
+>;
 export type EditOperatorDto = CreateOperatorDto;
