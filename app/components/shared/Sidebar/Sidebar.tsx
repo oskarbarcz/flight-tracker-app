@@ -1,5 +1,5 @@
 import { Drawer, DrawerItems } from "flowbite-react";
-import {JSX, useEffect, useState} from "react";
+import { JSX, useEffect, useState } from "react";
 import { HiMenu } from "react-icons/hi";
 import SidebarDivider from "~/components/shared/Sidebar/Elements/SidebarDivider";
 import SidebarLogo from "~/components/shared/Sidebar/Elements/SidebarLogo";

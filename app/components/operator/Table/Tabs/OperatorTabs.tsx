@@ -23,7 +23,7 @@ export function OperatorTabs({ id }: Props): JSX.Element {
       replace: true,
       viewTransition: true,
       preventScrollReset: true,
-    } as any);
+    });
   };
 
   return (
