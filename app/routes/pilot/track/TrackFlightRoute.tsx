@@ -13,10 +13,8 @@ export function meta() {
 
 export default function TrackFlightRoute({ params }: Route.ClientLoaderArgs) {
   return (
-    <ProtectedRoute allowedRole={UserRole.CabinCrew}>
-      <TrackedFlightProvider>
-        <FlightTrackingDashboard flightId={params.id} />
-      </TrackedFlightProvider>
-    </ProtectedRoute>
+    <TrackedFlightProvider>
+      <FlightTrackingDashboard flightId={params.id} />
+    </TrackedFlightProvider>
   );
 }

@@ -15,7 +15,9 @@ export default [
   ]),
   layout("layout/common/AppLayout.tsx", [
     index("routes/common/DashboardRoute.tsx"),
-    route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
+    layout("routes/pilot/PilotRoute.tsx", [
+      route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
+    ]),
     layout("routes/operations/OperationsRoute.tsx", [
       // operations - operators
       route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),
