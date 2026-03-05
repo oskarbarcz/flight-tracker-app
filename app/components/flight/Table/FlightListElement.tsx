@@ -33,17 +33,15 @@ export default function FlightListElement({
 
   const setUrlId = useCallback(
     (id: string | null) => {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev);
-          if (id) {
-            next.set("id", id);
-          } else {
-            next.delete("id");
-          }
-          return next;
-        },
-      );
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        if (id) {
+          next.set("id", id);
+        } else {
+          next.delete("id");
+        }
+        return next;
+      });
     },
     [setSearchParams],
   );
