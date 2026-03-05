@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "includes": ["app/**/*", "!**/*.d.ts"]
+  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -11,14 +14,7 @@
   },
   "linter": {
     "rules": {
-      "recommended": false,
-      "complexity": {
-        "noAdjacentSpacesInRegex": "error",
-        "noExtraBooleanCast": "error",
-        "noUselessCatch": "error",
-        "noUselessEscapeInRegex": "error",
-        "noUselessTypeConstraint": "error"
-      },
+      "recommended": true,
       "correctness": {
         "noConstAssign": "error",
         "noConstantCondition": "error",
@@ -37,6 +33,7 @@
         "noUnreachableSuper": "error",
         "noUnsafeFinally": "error",
         "noUnsafeOptionalChaining": "error",
+        "noUnusedImports": "error",
         "noUnusedLabels": "error",
         "noUnusedPrivateClassMembers": "error",
         "noUnusedVariables": "error",
@@ -90,6 +87,7 @@
     }
   },
   "javascript": {
+    "jsxRuntime": "reactClassic",
     "formatter": {
       "quoteStyle": "double"
     },

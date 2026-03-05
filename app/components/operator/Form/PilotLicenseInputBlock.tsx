@@ -28,7 +28,7 @@ const errorToMessage = (error: unknown): string => {
     }
   }
 
-  if (Array.isArray(error) && error.length === 0) {
+  if (Array.isArray(error) && error?.length === 0) {
     return "Pilot with given license ID not found";
   }
 
