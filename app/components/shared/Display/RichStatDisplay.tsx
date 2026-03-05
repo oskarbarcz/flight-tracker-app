@@ -1,8 +1,9 @@
 import React, { JSX } from "react";
+import { IconType } from "react-icons";
 import Container from "~/components/shared/Layout/Container";
 
 type Props = {
-  icon: React.ReactNode;
+  icon: IconType;
   color: "blue" | "green" | "orange" | "indigo";
   title: string;
   value: string;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 export default function RichStatDisplay({
-  icon,
+  icon: Icon,
   color,
   title,
   value,
@@ -32,7 +33,11 @@ export default function RichStatDisplay({
   return (
     <Container>
       <div className="flex gap-6 justify-between mb-6">
-        <div className={`${text} ${bg} p-3 rounded-xl`}>{icon}</div>
+        <div
+          className={`${text} ${bg} size-10 shrink-0 flex items-center justify-center rounded-xl`}
+        >
+          <Icon className="size-4" />
+        </div>
         <span className="font-bold text-gray-500 uppercase">{title}</span>
       </div>
 

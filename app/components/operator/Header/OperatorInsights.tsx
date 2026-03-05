@@ -1,5 +1,6 @@
 import React, { JSX } from "react";
-import { FaPlane } from "react-icons/fa";
+import { FaGlobe, FaPlane, FaRegCalendarAlt } from "react-icons/fa";
+import { MdOutlineHub } from "react-icons/md";
 import RichStatDisplay from "~/components/shared/Display/RichStatDisplay";
 import { continentToDisplayName, Operator } from "~/models";
 
@@ -14,31 +15,31 @@ export function OperatorInsights({ operator }: Props): JSX.Element {
       : operator.hubs.join(", ");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
       <RichStatDisplay
-        icon={<FaPlane />}
-        color="blue"
+        icon={MdOutlineHub}
+        color="indigo"
         title="Operator hubs"
         value={hubs}
         valueSmaller
       />
       <RichStatDisplay
-        icon={<FaPlane />}
+        icon={FaPlane}
         color="green"
         title="Fleet size"
         value={String(operator.fleetSize)}
         valueSuffix="Aircraft"
       />
       <RichStatDisplay
-        icon={<FaPlane />}
+        icon={FaRegCalendarAlt}
         color="orange"
         title="Avg fleet age"
         value={String(operator.avgFleetAge)}
         valueSuffix="Years"
       />
       <RichStatDisplay
-        icon={<FaPlane />}
-        color="indigo"
+        icon={FaGlobe}
+        color="blue"
         title="Region"
         value={continentToDisplayName(operator.continent)}
         valueSmaller

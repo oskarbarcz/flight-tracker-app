@@ -24,8 +24,8 @@ export default function FleetControls({
   const inactive =
     "rounded-2xl text-gray-500 border border-gray-200 dark:border-gray-800 hover:border-gray-300 hover:dark:border-gray-800 bg-gray-50 dark:bg-gray-950 focus:ring-0";
   return (
-    <div className="flex items-center justify-between gap-3 mb-6">
-      <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-6 mb-6">
+      <div className="flex flex-wrap self-start gap-1.5">
         <Button
           size="xs"
           color="alternative"
@@ -47,17 +47,16 @@ export default function FleetControls({
         ))}
       </div>
 
-      <div>
-        <Button
-          color="indigo"
-          as={Link}
-          to={`/operators/${operator.id}/aircraft/add`}
-          size="sm"
-        >
-          <HiPlus />
-          <span className="ml-2">Add aircraft</span>
-        </Button>
-      </div>
+      <Button
+        className="shrink-0 self-end"
+        color="indigo"
+        as={Link}
+        to={`/operators/${operator.id}/aircraft/add`}
+        size="sm"
+      >
+        <HiPlus />
+        <span className="ml-2">Add aircraft</span>
+      </Button>
     </div>
   );
 }
