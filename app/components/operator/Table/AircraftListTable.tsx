@@ -50,15 +50,13 @@ export default function AircraftListTable({ operatorId, aircraft }: Props) {
               {each.icaoCode}
             </TableCell>
             <TableCell>
-              <Link to={`/aircraft/${each.id}/edit`} replace viewTransition>
-                <Link
-                  className="text-primary-500 font-bold"
-                  to={`/operators/${operatorId}/aircraft/${each.id}/edit`}
-                  replace
-                  viewTransition
-                >
-                  Edit
-                </Link>
+              <Link
+                className="text-primary-500 font-bold"
+                to={`/operators/${operatorId}/aircraft/${each.id}/edit`}
+                replace
+                viewTransition
+              >
+                Edit
               </Link>
             </TableCell>
           </TableRow>

@@ -7,7 +7,6 @@ import AircraftListTable from "~/components/operator/Table/AircraftListTable";
 import { FleetListEmptyState } from "~/components/operator/Table/EmptyState/FleetListEmptyState";
 import FleetControls from "~/components/operator/Table/FleetControls";
 import Container from "~/components/shared/Layout/Container";
-import type { Aircraft } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { OperatorService } from "~/state/api/operator.service";
 
@@ -16,6 +15,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     new AircraftService().fetchAllByOperator(params.operatorId),
     new OperatorService().fetchById(params.operatorId),
   ]);
+
+  aircrafts.sort((a, b) => a.icaoCode.localeCompare(b.icaoCode));
 
   return { aircrafts, operator };
 }

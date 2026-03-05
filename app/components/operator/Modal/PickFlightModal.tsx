@@ -10,13 +10,22 @@ import {
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import LegPreview from "~/components/operator/Form/Preview/LegPreview";
-import { Flight, RotationResponse } from "~/models";
+import { Flight, FlightPhase, FlightStatus, RotationResponse } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type PickFlightModalProps = {
   rotation: RotationResponse;
   close: () => void;
 };
+
+function excludeNonCreatedFlights(flights: Flight[]) {
+  return flights.filter((flight) => flight.status === FlightStatus.Created);
+}
+
+function excludeFlightsWithRotations(flights: Flight[]) {
+  console.log(flights);
+  return flights.filter((flight) => !flight.rotationId);
+}
 
 export default function PickFlightModal({
   rotation,
@@ -27,18 +36,13 @@ export default function PickFlightModal({
   const [addedFlightsIds, setAddedFlightsIds] = useState<string[]>([]);
 
   useEffect(() => {
-    const currentRotationFlightsIds = rotation.flights.map(
-      (flight) => flight.id,
-    );
     flightService
-      .fetchAllCreatedFlights()
-      .then((flights) =>
-        flights.filter(
-          (flight) => !currentRotationFlightsIds.includes(flight.id),
-        ),
-      )
+      .fetchAllFlights({ phase: FlightPhase.Upcoming })
+      .then((paginated) => paginated.flights)
+      .then(excludeNonCreatedFlights)
+      .then(excludeFlightsWithRotations)
       .then(setFlights);
-  }, [flightService, rotation.flights]);
+  }, [flightService]);
 
   const addLegAction = (flightId: string) => {
     setAddedFlightsIds((prev) => [...prev, flightId]);

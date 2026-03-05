@@ -92,6 +92,7 @@ export class Flight {
   timesheet: Timesheet;
   status: FlightStatus;
   loadsheets: Loadsheets;
+  rotationId: string | null;
   createdAt: Date;
 
   constructor(flight: ApiFlightResponse) {
@@ -103,6 +104,7 @@ export class Flight {
     this.tracking = flight.tracking;
     this.aircraft = flight.aircraft;
     this.operator = flight.operator;
+    this.rotationId = flight.rotationId;
     this.timesheet = parseTimesheet(flight.timesheet);
     this.status = flight.status;
     this.loadsheets = {

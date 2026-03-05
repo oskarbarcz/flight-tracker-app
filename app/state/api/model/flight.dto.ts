@@ -13,6 +13,7 @@ export type CreateFlightRequest = Omit<
   | "airports"
   | "aircraft"
   | "operator"
+  | "rotationId"
   | "status"
   | "source"
   | "createdAt"
@@ -44,6 +45,7 @@ export type ApiFlightResponse = {
   operatorId: string;
   operator: Operator;
   source: string;
+  rotationId: string | null;
   timesheet: {
     scheduled: {
       offBlockTime: string;

@@ -4,7 +4,7 @@ export type Aircraft = {
   shortName: string;
   fullName: string;
   registration: string;
-  selcal: string;
+  selcal?: string;
   livery: string;
 };
 
