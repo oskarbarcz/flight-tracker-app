@@ -16,8 +16,8 @@ export default function InputErrorList({
 
   return (
     <HelperText color={errorFocus ? "red" : undefined}>
-      {errors.map((error, index) => (
-        <span key={index} className="block">
+      {errors.map((error, _index) => (
+        <span key={error} className="block">
           <Badge
             className="mb-1 me-2 inline-block uppercase"
             color={errorFocus ? "failure" : "gray"}

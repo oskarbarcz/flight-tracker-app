@@ -109,9 +109,9 @@ export default function FlightListTable({ phase }: Props) {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          {flights.map((flight: Flight, i: number) => (
+          {flights.map((flight: Flight) => (
             <FlightListElement
-              key={i}
+              key={flight.id}
               flight={flight}
               onUpdateTimesheet={setFlightToUpdateTimesheet}
               onUpdateLoadsheet={setFlightToUpdateLoadsheet}

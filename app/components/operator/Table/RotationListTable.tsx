@@ -34,8 +34,8 @@ export default function RotationListTable({
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
-        {rotations.map((rotation: RotationResponse, i: number) => (
-          <TableRow key={i}>
+        {rotations.map((rotation: RotationResponse) => (
+          <TableRow key={rotation.id}>
             <TableCell>{rotation.name}</TableCell>
             <TableCell>
               {rotation.flights.length > 0 ? (
@@ -88,6 +88,7 @@ export default function RotationListTable({
                   Edit
                 </Link>
                 <button
+                  type="button"
                   onClick={() => removeRotation(rotation)}
                   className="mt-1 cursor-pointer text-red-500 dark:text-red-800"
                 >

@@ -26,6 +26,7 @@ export default function FlightRunwayAnalysisTab() {
           --------------------------------------------------------------------
         </b>
         <div
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: we trust and verify SimBrief data
           dangerouslySetInnerHTML={{
             __html: unescapeRunwayAnalysis(ofp.runwayAnalysis) || "",
           }}

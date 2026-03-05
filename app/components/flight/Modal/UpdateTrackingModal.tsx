@@ -64,9 +64,10 @@ export default function UpdateTrackingModal({
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <div className="space-y-3">
           {trackingOptions.map((option) => (
-            <div
+            <button
+              type="button"
               key={option.value}
-              className="flex items-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+              className="flex items-start text-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
               onClick={() => setSelectedTracking(option.value)}
             >
               <Radio
@@ -88,7 +89,7 @@ export default function UpdateTrackingModal({
                   {option.description}
                 </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </ModalBody>

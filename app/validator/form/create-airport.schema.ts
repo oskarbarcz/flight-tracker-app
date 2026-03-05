@@ -8,7 +8,7 @@ const timezoneSchema = string().test(
   "Invalid timezone",
   (value) => {
     try {
-      new Intl.DateTimeFormat("en-US", { timeZone: value! });
+      new Intl.DateTimeFormat("en-US", { timeZone: value });
       return true;
     } catch {
       return false;

@@ -22,6 +22,7 @@ export default function FlightOfpTab() {
     <Container>
       <div
         className="overflow-auto max-h-186 text-gray-700 dark:text-gray-300 font-mono"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: we trust and verify SimBrief data
         dangerouslySetInnerHTML={{ __html: unescapeOFP(ofp.ofpContent) || "" }}
       />
     </Container>

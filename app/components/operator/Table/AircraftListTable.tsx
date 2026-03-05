@@ -27,8 +27,8 @@ export default function AircraftListTable({ operatorId, aircraft }: Props) {
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
-        {aircraft.map((each: Aircraft, i: number) => (
-          <TableRow key={i}>
+        {aircraft.map((each: Aircraft) => (
+          <TableRow key={each.id}>
             <TableCell className="text-gray-900 dark:text-gray-100">
               <span className="block font-bold">{each.shortName}</span>
               <span className="block italic">{each.fullName}</span>

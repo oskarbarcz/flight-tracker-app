@@ -29,8 +29,8 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
-        {airports.map((airport: Airport, i: number) => (
-          <TableRow key={i}>
+        {airports.map((airport: Airport) => (
+          <TableRow key={airport.id}>
             <TableCell className="font-bold text-gray-900 dark:text-white">
               {airport.iataCode}
             </TableCell>

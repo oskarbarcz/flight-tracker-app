@@ -31,8 +31,8 @@ export default function OperatorListTable({
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
-        {operators.map((operator: Operator, i: number) => (
-          <TableRow key={i}>
+        {operators.map((operator: Operator) => (
+          <TableRow key={operator.id}>
             <TableCell>
               <span className="font-bold text-black dark:text-white">
                 {operator.icaoCode}
