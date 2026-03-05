@@ -1,7 +1,6 @@
 "use client";
 
 import { Label, TextInput } from "flowbite-react";
-import type { FormikErrors } from "formik";
 import React, { useEffect, useState } from "react";
 import PilotInputPreview from "~/components/operator/Form/Preview/PilotInputPreview";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
@@ -13,11 +12,11 @@ type PilotLicenseInputBlockProps = {
   label: string;
   defaultValue?: string | undefined;
   errors: string[];
-  setFieldValue?: (
+  setFieldValue: (
     field: string,
     value: string,
     shouldValidate?: boolean,
-  ) => Promise<undefined | FormikErrors<unknown>>;
+  ) => void;
 };
 
 const errorToMessage = (error: unknown): string => {
@@ -58,9 +57,7 @@ export default function PilotLicenseInputBlock({
       setPilot(user);
       setPilotId(user.id);
       setPilotLicenseId(user.pilotLicenseId);
-      if (setFieldValue) {
-        setFieldValue(htmlName, user.id);
-      }
+      setFieldValue(htmlName, user.id);
     });
   }, [defaultValue, userService, htmlName, setFieldValue]);
 
@@ -124,9 +121,7 @@ export default function PilotLicenseInputBlock({
             setPilotLicenseId("");
             setPilotId(undefined);
             setPilot(null);
-            if (setFieldValue) {
-              setFieldValue(htmlName, "");
-            }
+            setFieldValue(htmlName, "");
           }}
         />
       )}

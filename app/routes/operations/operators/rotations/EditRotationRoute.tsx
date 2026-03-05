@@ -2,8 +2,19 @@
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/EditRotationRoute";
 import { Button } from "flowbite-react";
+import {
+  Formik,
+  type FormikErrors,
+  Form as FormikForm,
+  type FormikTouched,
+} from "formik";
 import React, { useEffect } from "react";
-import { Form, useActionData, useLoaderData, useNavigate } from "react-router";
+import {
+  useActionData,
+  useLoaderData,
+  useNavigate,
+  useSubmit,
+} from "react-router";
 import PilotLicenseInputBlock from "~/components/operator/Form/PilotLicenseInputBlock";
 import RotationFlightsInputBlock from "~/components/operator/Form/RotationFlightsInputBlock";
 import InputBlock from "~/components/shared/Form/InputBlock";
@@ -18,6 +29,7 @@ import type { EditRotationRequest } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { createRotationSchema } from "~/validator/form/rotation.schema";
 
 export async function clientAction({
   request,
@@ -42,6 +54,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 export default function EditRotationRoute({ params }: Route.ComponentProps) {
   usePageTitle("Edit rotation");
   const navigate = useNavigate();
+  const submit = useSubmit();
   const { error } = useToast();
   const { rotation } = useLoaderData<typeof clientLoader>();
 
@@ -67,6 +80,24 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
     await rotationService.getById(rotation.id);
   };
 
+  const handleSubmit = (values: EditRotationRequest) => {
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("pilotId", values.pilotId);
+    submit(formData, { method: "post" });
+  };
+
+  const getErrors = (
+    name: keyof EditRotationRequest,
+    formikErrors: FormikErrors<EditRotationRequest>,
+    formikTouched: FormikTouched<EditRotationRequest>,
+  ) => {
+    const serverErrors = response?.isError ? response.errorsForKey(name) : [];
+    const clientError =
+      formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
+    return [...new Set([...clientError, ...serverErrors])];
+  };
+
   return (
     <div className="mx-auto max-w-md pb-4">
       <SectionHeaderWithBackButton
@@ -75,33 +106,55 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
         backUrl={`/operators/${params.operatorId}/rotations`}
       />
 
-      <Form method="post">
-        <Container>
-          <div className="flex flex-col gap-4">
-            <InputBlock
-              htmlName="name"
-              label="Rotation name"
-              defaultValue={rotation.name}
-              errors={response?.isError ? response.errorsForKey("name") : []}
-            />
-            <PilotLicenseInputBlock
-              htmlName="pilotId"
-              label="Captain pilot license ID"
-              defaultValue={rotation.pilot.id}
-              errors={response?.isError ? response.errorsForKey("pilotId") : []}
-            />
-            <RotationFlightsInputBlock
-              rotation={rotation}
-              legs={rotation.flights}
-              updateLegs={updateLegs}
-            />
-          </div>
-        </Container>
+      <Formik<EditRotationRequest>
+        initialValues={{
+          name: rotation.name,
+          pilotId: rotation.pilot.id,
+        }}
+        validationSchema={createRotationSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({
+          errors: formikErrors,
+          touched,
+          setFieldValue,
+          handleChange,
+          handleBlur,
+          values,
+        }) => (
+          <FormikForm noValidate>
+            <Container>
+              <div className="flex flex-col gap-4">
+                <InputBlock
+                  htmlName="name"
+                  label="Rotation name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("name", formikErrors, touched)}
+                />
+                <PilotLicenseInputBlock
+                  htmlName="pilotId"
+                  label="Captain pilot license ID"
+                  defaultValue={rotation.pilot.id}
+                  errors={getErrors("pilotId", formikErrors, touched)}
+                  setFieldValue={setFieldValue}
+                />
+                <RotationFlightsInputBlock
+                  rotation={rotation}
+                  legs={rotation.flights}
+                  updateLegs={updateLegs}
+                />
+              </div>
+            </Container>
 
-        <Button type="submit" color="indigo" className="mt-6 w-fit ms-auto">
-          Save changes
-        </Button>
-      </Form>
+            <Button type="submit" color="indigo" className="mt-6 w-fit ms-auto">
+              Save changes
+            </Button>
+          </FormikForm>
+        )}
+      </Formik>
     </div>
   );
 }

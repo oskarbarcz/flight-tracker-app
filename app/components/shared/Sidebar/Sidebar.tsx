@@ -34,22 +34,20 @@ export function Sidebar(): JSX.Element {
   const sidebarContent = (closeDrawer?: () => void) => (
     <>
       <div className="flex flex-col h-full">
-        <button type="button" onClick={closeDrawer}>
+        <div role="presentation" onClickCapture={closeDrawer}>
           <SidebarLogo />
           <SidebarDivider />
-
           <SidebarUserSection />
 
           {user.role === UserRole.Operations && <OperatorSidebarItems />}
           {user.role === UserRole.CabinCrew && <CabinCrewSidebarItems />}
-        </button>
-        <button type="button" className="mt-auto" onClick={closeDrawer}>
-          <SidebarDivider />
-          <nav className="flex flex-col gap-y-1 p-6">
-            <SidebarThemeSwitch />
-            <SidebarSignOutElement />
-          </nav>
-        </button>
+        </div>
+
+        <SidebarDivider />
+        <nav className="flex flex-col gap-y-1 p-6">
+          <SidebarThemeSwitch />
+          <SidebarSignOutElement />
+        </nav>
       </div>
     </>
   );
