@@ -3,8 +3,8 @@
 import { FloatingLabel, HelperText } from "flowbite-react";
 import { useField } from "formik";
 import React, {
-  HTMLInputAutoCompleteAttribute,
-  HTMLInputTypeAttribute,
+  type HTMLInputAutoCompleteAttribute,
+  type HTMLInputTypeAttribute,
 } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import FormSection from "~/components/shared/Form/FormSection";
 import ManagedDateTimeInputBlock from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
-import { CreateFlightFormData } from "~/models/form/flight.form";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { newFlightScheduleSchema } from "~/validator/form/flight.schema";
 
 type ScheduleFormData = CreateFlightFormData["schedule"];

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { IconType } from "react-icons";
+import type { IconType } from "react-icons";
 import { Link } from "react-router";
 
 type SidebarElementProps = {

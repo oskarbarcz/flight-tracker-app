@@ -1,5 +1,4 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -8,9 +7,8 @@ import {
   TableRow,
 } from "flowbite-react";
 import React from "react";
-import { FaPencil } from "react-icons/fa6";
 import { Link } from "react-router";
-import { Aircraft } from "~/models";
+import type { Aircraft } from "~/models";
 
 type Props = {
   operatorId: string;

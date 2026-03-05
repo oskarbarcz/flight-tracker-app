@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/models";
 
 type TakeoffTimerProps = {
   schedule: FilledSchedule;

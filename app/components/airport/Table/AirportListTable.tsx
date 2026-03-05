@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { Link } from "react-router";
 import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
-import { Airport } from "~/models";
+import type { Airport } from "~/models";
 
 type AirportListTableProps = {
   airports: Airport[];

@@ -10,7 +10,7 @@ import {
 import React from "react";
 import UpdateFlightScheduleForm from "~/components/flight/Forms/UpdateFlightScheduleForm";
 import Form from "~/components/shared/Form/Form";
-import { FilledSchedule, Flight } from "~/models";
+import type { FilledSchedule, Flight } from "~/models";
 import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
 type UpdateFlightScheduledTimesheetModalProps = {

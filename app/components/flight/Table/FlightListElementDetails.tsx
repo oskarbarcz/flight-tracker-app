@@ -3,7 +3,7 @@ import React from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Flight, FlightStatus } from "~/models";
+import { type Flight, FlightStatus } from "~/models";
 
 type Props = {
   flight: Flight;

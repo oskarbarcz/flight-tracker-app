@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 import FormSection from "~/components/shared/Form/FormSection";
 import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { Airport } from "~/models";
-import { CreateFlightFormData } from "~/models/form/flight.form";
+import type { Airport } from "~/models";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/state/contexts/content/api.context";
 import { newFlightRouteSchema } from "~/validator/form/flight.schema";
 

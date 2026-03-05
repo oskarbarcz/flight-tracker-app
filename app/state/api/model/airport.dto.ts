@@ -1,4 +1,4 @@
-import { Airport } from "~/models";
+import type { Airport } from "~/models";
 
 export type CreateAirportRequest = Omit<Airport, "id">;
 export type EditAirportRequest = CreateAirportRequest;

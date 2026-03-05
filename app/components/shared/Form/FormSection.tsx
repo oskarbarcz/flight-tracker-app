@@ -2,7 +2,7 @@
 
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { ObjectSchema } from "yup";
+import type { ObjectSchema } from "yup";
 import FormSectionHeader from "~/components/shared/Form/Partial/FormSectionHeader";
 import Container from "~/components/shared/Layout/Container";
 

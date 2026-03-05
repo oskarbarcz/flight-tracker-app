@@ -1,11 +1,11 @@
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useState,
 } from "react";
-import { User } from "~/models/user.model";
+import type { User } from "~/models/user.model";
 import { useApi } from "~/state/contexts/content/api.context";
 
 export interface AuthContextType {

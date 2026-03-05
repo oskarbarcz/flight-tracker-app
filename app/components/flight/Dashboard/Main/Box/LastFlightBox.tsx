@@ -3,14 +3,13 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { FaCircleInfo, FaPlaneDeparture } from "react-icons/fa6";
+import { FaCircleInfo } from "react-icons/fa6";
 import { Link } from "react-router";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import Container from "~/components/shared/Layout/Container";
 import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 import { dateDiffToReadable } from "~/functions/time";
-import { Flight } from "~/models";
+import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight | null;

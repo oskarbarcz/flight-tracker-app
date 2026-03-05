@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/models";
 
 type OffBlockTimerProps = {
   schedule: FilledSchedule;

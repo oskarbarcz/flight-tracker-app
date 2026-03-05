@@ -1,5 +1,5 @@
-import { ObjectSchema, object, string } from "yup";
-import { CreateAircraftRequest } from "~/models";
+import { type ObjectSchema, object, string } from "yup";
+import type { CreateAircraftRequest } from "~/models";
 
 export const aircraftSchema: ObjectSchema<CreateAircraftRequest> =
   object().shape({

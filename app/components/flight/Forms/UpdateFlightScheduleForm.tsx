@@ -6,7 +6,7 @@ import {
   getTimeDifferenceInHours,
   getTimeDifferenceInMinutes,
 } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/models";
 
 export default function UpdateFlightScheduleForm() {
   const { values } = useFormikContext<FilledSchedule>();

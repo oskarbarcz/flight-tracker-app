@@ -1,4 +1,4 @@
-import { FitBoundsOptions, latLngBounds } from "leaflet";
+import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
 import FlightPath from "~/components/flight/Map/Element/FlightPath";
 import GreatCirclePath from "~/components/flight/Map/Element/GreatCirclePath";
@@ -8,7 +8,7 @@ import MapBottomDrawer from "~/components/flight/Map/Element/MapBottomDrawer";
 import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
 import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
 import FlightDetailsSectionOverlay from "~/components/flight/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
-import { Flight, FlightPathElement, Position } from "~/models";
+import type { Flight, FlightPathElement, Position } from "~/models";
 
 type Props = {
   flight: Flight;

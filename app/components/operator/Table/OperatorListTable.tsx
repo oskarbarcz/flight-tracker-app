@@ -8,7 +8,7 @@ import {
 } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
-import { Operator } from "~/models";
+import type { Operator } from "~/models";
 
 type OperatorListTableProps = {
   operators: Operator[];

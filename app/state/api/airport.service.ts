@@ -1,6 +1,6 @@
-import { Continent } from "~/models";
+import type { Continent } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
-import {
+import type {
   CreateAirportRequest,
   EditAirportRequest,
   GetAirportResponse,

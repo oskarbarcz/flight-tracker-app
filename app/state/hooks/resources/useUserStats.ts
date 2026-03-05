@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { UserStats } from "~/models";
+import type { UserStats } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type Response = {

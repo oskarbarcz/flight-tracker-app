@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/models";
 
 type ArrivalTimerProps = {
   schedule: FilledSchedule;

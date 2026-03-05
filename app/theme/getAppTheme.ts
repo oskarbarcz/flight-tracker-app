@@ -1,5 +1,5 @@
 import { createTheme } from "flowbite-react";
-import { DeepPartial, FlowbiteTheme } from "flowbite-react/types";
+import type { DeepPartial, FlowbiteTheme } from "flowbite-react/types";
 
 export default function getAppTheme(): DeepPartial<FlowbiteTheme> {
   return createTheme({

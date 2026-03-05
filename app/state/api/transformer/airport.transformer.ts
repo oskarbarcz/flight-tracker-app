@@ -1,6 +1,6 @@
-import { Continent } from "~/models";
-import { CreateAirportFormData } from "~/models/form/airport.form";
-import {
+import type { Continent } from "~/models";
+import type { CreateAirportFormData } from "~/models/form/airport.form";
+import type {
   CreateAirportRequest,
   GetAirportResponse,
 } from "~/state/api/model/airport.dto";

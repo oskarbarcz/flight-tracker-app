@@ -1,8 +1,8 @@
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { OperatorLogo } from "~/components/operator/Header/OperatorLogo";
 import { VerifiedOperatorBadge } from "~/components/operator/VerifiedOperatorBadge";
 import { BadgeValueDisplay } from "~/components/shared/Display/BadgeValueDisplay";
-import { Operator } from "~/models";
+import type { Operator } from "~/models";
 
 type Props = {
   operator: Operator;

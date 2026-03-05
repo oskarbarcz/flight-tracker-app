@@ -1,8 +1,6 @@
 "use client";
 
 import { TabItem, Tabs } from "flowbite-react";
-import { useNavigate, useSearchParams } from "react-router";
-import { allContinents, continentToDisplayName } from "~/models";
 
 export enum FlightDataTab {
   Overview,

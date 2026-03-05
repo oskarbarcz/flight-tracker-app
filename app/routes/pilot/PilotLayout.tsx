@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import type { JSX } from "react";
 import { Outlet } from "react-router";
 import { UserRole } from "~/models";
 import { AuthGuard } from "~/routes/auth/AuthGuard";

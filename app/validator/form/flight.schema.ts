@@ -1,6 +1,6 @@
-import { date, number, ObjectSchema, object, ref, string } from "yup";
-import { FilledSchedule } from "~/models";
-import { CreateFlightFormData } from "~/models/form/flight.form";
+import { date, number, type ObjectSchema, object, ref, string } from "yup";
+import type { FilledSchedule } from "~/models";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
 
 export const newFlightIdentitySchema: ObjectSchema<
   CreateFlightFormData["identity"]

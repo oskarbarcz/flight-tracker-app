@@ -3,9 +3,9 @@
 import { FaPlane } from "react-icons/fa";
 import { PiUserSoundBold } from "react-icons/pi";
 import Container, {
-  ContainerClassProps,
+  type ContainerClassProps,
 } from "~/components/shared/Layout/Container";
-import { FilledSchedule, FlightStatus } from "~/models";
+import { type FilledSchedule, FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {

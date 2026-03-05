@@ -1,6 +1,6 @@
 "use client";
 
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 
 type Props = {
   title: string;

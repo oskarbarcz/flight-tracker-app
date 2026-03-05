@@ -1,6 +1,6 @@
 "use client";
 
-import { Airport } from "~/models";
+import type { Airport } from "~/models";
 
 type Props = {
   airport: Airport;

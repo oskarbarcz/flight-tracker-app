@@ -1,6 +1,6 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/EditRotationRoute";
+import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/EditRotationRoute";
 import { Button } from "flowbite-react";
 import React, { useEffect } from "react";
 import { Form, useActionData, useLoaderData, useNavigate } from "react-router";
@@ -14,7 +14,7 @@ import {
   handleRequestError,
   handleRequestSuccess,
 } from "~/functions/handleRequest";
-import { EditRotationRequest } from "~/models";
+import type { EditRotationRequest } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

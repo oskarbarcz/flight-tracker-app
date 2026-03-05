@@ -10,7 +10,7 @@ import {
   Radio,
 } from "flowbite-react";
 import React, { useState } from "react";
-import { Flight, Tracking } from "~/models";
+import { type Flight, Tracking } from "~/models";
 
 type UpdateTrackingModalProps = {
   flight: Flight;

@@ -1,4 +1,4 @@
-import { Continent } from "~/models/airport.model";
+import type { Continent } from "~/models/airport.model";
 
 export enum OperatorType {
   Legacy = "legacy",

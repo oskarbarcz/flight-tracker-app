@@ -1,6 +1,6 @@
 "use client";
 
-import { SkyLinkAirportResponse } from "~/models";
+import type { SkyLinkAirportResponse } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class SkyLinkService extends AbstractAuthorizedApiService {

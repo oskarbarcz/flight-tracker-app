@@ -4,15 +4,15 @@ import { Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import AirportGeneralFormSection, {
-  AirportGeneralFormData,
+  type AirportGeneralFormData,
 } from "~/components/airport/Forms/AirportGeneralFormSection";
 import AirportLocationFormSection, {
-  AirportLocationData,
+  type AirportLocationData,
 } from "~/components/airport/Forms/AirportLocationFormSection";
 import FormSubmit from "~/components/shared/Form/FormSubmit";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { CreateAirportFormData, initCreateAirportData } from "~/models";
+import { type CreateAirportFormData, initCreateAirportData } from "~/models";
 import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
 import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
 import { useApi } from "~/state/contexts/content/api.context";

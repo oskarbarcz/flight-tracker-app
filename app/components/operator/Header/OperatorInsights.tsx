@@ -1,8 +1,8 @@
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { FaGlobe, FaPlane, FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineHub } from "react-icons/md";
 import RichStatDisplay from "~/components/shared/Display/RichStatDisplay";
-import { continentToDisplayName, Operator } from "~/models";
+import { continentToDisplayName, type Operator } from "~/models";
 
 type Props = {
   operator: Operator;
@@ -11,7 +11,7 @@ type Props = {
 export function OperatorInsights({ operator }: Props): JSX.Element {
   const hubs =
     operator.hubs.length > 2
-      ? operator.hubs.slice(0, 2).join(", ") + ", ..."
+      ? `${operator.hubs.slice(0, 2).join(", ")}, ...`
       : operator.hubs.join(", ");
 
   return (

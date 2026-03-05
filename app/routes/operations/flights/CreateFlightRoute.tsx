@@ -1,6 +1,6 @@
 "use client";
 
-import React, { JSX, useEffect, useState } from "react";
+import React, { type JSX, useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
 import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
 import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
@@ -10,19 +10,19 @@ import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHead
 import getFormData from "~/functions/getFormData";
 import { Tracking } from "~/models";
 import {
-  CreateFlightFormData,
+  type CreateFlightFormData,
   initCreateFlightData,
 } from "~/models/form/flight.form";
 import { FlightService } from "~/state/api/flight.service";
-import { CreateFlightRequest } from "~/state/api/model/flight.dto";
+import type { CreateFlightRequest } from "~/state/api/model/flight.dto";
 import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";
 import { useApi } from "~/state/contexts/content/api.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
+import type { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 
 export async function clientAction({
   request,
-}: Route.ClientActionArgs): Promise<Response | void> {
+}: Route.ClientActionArgs): Promise<Response | undefined> {
   const flightService = new FlightService();
   const form = await request.formData();
   const rawFormData = getFormData(form, [

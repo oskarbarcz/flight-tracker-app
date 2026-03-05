@@ -1,14 +1,14 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/OperatorRotationsRoute";
-import React, { JSX, useState } from "react";
+import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/OperatorRotationsRoute";
+import React, { type JSX, useState } from "react";
 import { useLoaderData } from "react-router";
 import RemoveRotationModal from "~/components/operator/Modal/RemoveRotationModal";
 import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
 import RotationControls from "~/components/operator/Table/RotationControls";
 import RotationListTable from "~/components/operator/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
-import { RotationResponse } from "~/models";
+import type { RotationResponse } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useApi } from "~/state/contexts/content/api.context";
 

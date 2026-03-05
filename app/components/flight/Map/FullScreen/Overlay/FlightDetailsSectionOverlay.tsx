@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaPlane } from "react-icons/fa";
 import { FaFileInvoice, FaUserGroup } from "react-icons/fa6";
 import BasicFlightInfoOverlay from "~/components/flight/Map/FullScreen/Overlay/BasicFlightInfoOverlay";
-import { Flight } from "~/models";
+import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight;

@@ -1,14 +1,14 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/+types/CreateOperatorRoute";
+import type { Route } from ".react-router/types/app/routes/operations/operators/+types/CreateOperatorRoute";
 import { Button } from "flowbite-react";
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { Form, redirect } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import SelectBlock from "~/components/shared/Form/SelectBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import { Continent, CreateOperatorDto, OperatorType } from "~/models";
+import { Continent, type CreateOperatorDto, OperatorType } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 
@@ -56,37 +56,35 @@ export default function CreateOperatorRoute(): JSX.Element {
   usePageTitle("Create new operators");
 
   return (
-    <>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Create new operator"
-          backText="Back to operators"
-          backUrl="/operators"
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Create new operator"
+        backText="Back to operators"
+        backUrl="/operators"
+      />
+
+      <Form className="flex max-w-md flex-col gap-4" method="post">
+        <InputBlock htmlName="icaoCode" label="ICAO code" />
+        <InputBlock htmlName="iataCode" label="IATA code" />
+        <InputBlock htmlName="shortName" label="Short name" />
+        <InputBlock htmlName="fullName" label="Full name" />
+        <InputBlock htmlName="callsign" label="Callsign" />
+        <InputBlock htmlName="avgFleetAge" label="Average fleet age" />
+        <InputBlock htmlName="logoUrl" label="Logo URL" />
+        <InputBlock htmlName="hubs" label="Hubs" />
+        <SelectBlock
+          htmlName="continent"
+          label="Continent"
+          options={continentOptions}
+        />
+        <SelectBlock
+          htmlName="type"
+          label="Operator type"
+          options={typeOptions}
         />
 
-        <Form className="flex max-w-md flex-col gap-4" method="post">
-          <InputBlock htmlName="icaoCode" label="ICAO code" />
-          <InputBlock htmlName="iataCode" label="IATA code" />
-          <InputBlock htmlName="shortName" label="Short name" />
-          <InputBlock htmlName="fullName" label="Full name" />
-          <InputBlock htmlName="callsign" label="Callsign" />
-          <InputBlock htmlName="avgFleetAge" label="Average fleet age" />
-          <InputBlock htmlName="logoUrl" label="Logo URL" />
-          <InputBlock htmlName="hubs" label="Hubs" />
-          <SelectBlock
-            htmlName="continent"
-            label="Continent"
-            options={continentOptions}
-          />
-          <SelectBlock
-            htmlName="type"
-            label="Operator type"
-            options={typeOptions}
-          />
-
-          <Button type="submit">Create new operator</Button>
-        </Form>
-      </div>
-    </>
+        <Button type="submit">Create new operator</Button>
+      </Form>
+    </div>
   );
 }

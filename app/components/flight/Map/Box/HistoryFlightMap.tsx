@@ -9,8 +9,8 @@ import MapAircraftMarker from "~/components/flight/Map/Element/MapAircraftMarker
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
 import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
-import { FlightPathElement } from "~/models";
-import { Position } from "~/models/common/geo";
+import type { FlightPathElement } from "~/models";
+import type { Position } from "~/models/common/geo";
 import { useApi } from "~/state/contexts/content/api.context";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 

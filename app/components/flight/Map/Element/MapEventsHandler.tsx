@@ -1,9 +1,9 @@
 "use client";
 
-import { FitBoundsOptions, LatLngBounds } from "leaflet";
+import type { FitBoundsOptions, LatLngBounds } from "leaflet";
 import { useCallback, useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
-import { FlightPathElement, Position } from "~/models";
+import type { FlightPathElement, Position } from "~/models";
 import { useMapSettings } from "~/state/contexts/settings/map-settings.context";
 
 type MapEventsHandlerProps = {

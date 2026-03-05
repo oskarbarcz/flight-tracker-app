@@ -17,7 +17,7 @@ import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePre
 import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
 import UpdateTrackingModal from "~/components/flight/Modal/UpdateTrackingModal";
 import FlightListElement from "~/components/flight/Table/FlightListElement";
-import {
+import type {
   FilledSchedule,
   Flight,
   FlightPhase,
@@ -36,7 +36,7 @@ export default function FlightListTable({ phase }: Props) {
   const { flights, loading, reloadFlights, totalCount, limit } =
     useFlightList();
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number.parseInt(searchParams.get("page") ?? "1");
+  const page = Number.parseInt(searchParams.get("page") ?? "1", 10);
 
   const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
   const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =

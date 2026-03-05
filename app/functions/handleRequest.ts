@@ -1,4 +1,7 @@
-import { BadRequestViolations, ErrorResponse } from "~/state/api/api.service";
+import type {
+  BadRequestViolations,
+  ErrorResponse,
+} from "~/state/api/api.service";
 
 type ActionSuccess<ResponseDto> = {
   body: ResponseDto;

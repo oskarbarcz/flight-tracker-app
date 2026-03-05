@@ -10,7 +10,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import LegPreview from "~/components/operator/Form/Preview/LegPreview";
-import { Flight, FlightPhase, FlightStatus, RotationResponse } from "~/models";
+import {
+  type Flight,
+  FlightPhase,
+  FlightStatus,
+  type RotationResponse,
+} from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type PickFlightModalProps = {

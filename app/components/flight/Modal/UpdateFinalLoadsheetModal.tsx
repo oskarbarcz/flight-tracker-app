@@ -10,10 +10,10 @@ import {
 import React from "react";
 import UpdateLoadsheetForm from "~/components/flight/Forms/UpdateLoadsheetForm";
 import Form from "~/components/shared/Form/Form";
-import { Flight, Loadsheet } from "~/models";
+import type { Flight, Loadsheet } from "~/models";
 import { updatePreliminaryLoadsheetSchema } from "~/validator/form/flight.schema";
 import {
-  FlatLoadsheetFormData,
+  type FlatLoadsheetFormData,
   flatLoadsheetToLoadsheet,
   loadsheetToFlatLoadsheet,
 } from "~/validator/form/types/flight.form-types";

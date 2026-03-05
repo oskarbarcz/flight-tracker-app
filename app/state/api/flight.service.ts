@@ -1,20 +1,20 @@
 import {
-  FilledSchedule,
+  type FilledSchedule,
   Flight,
-  FlightEvent,
-  FlightOfp,
-  FlightPathElement,
-  FlightPhase,
+  type FlightEvent,
+  type FlightOfp,
+  type FlightPathElement,
+  type FlightPhase,
   FlightStatus,
-  Loadsheet,
-  Schedule,
-  Tracking,
+  type Loadsheet,
+  type Schedule,
+  type Tracking,
 } from "~/models";
 import {
   AbstractApiService,
   AbstractAuthorizedApiService,
 } from "~/state/api/api.service";
-import {
+import type {
   ApiFlightResponse,
   CreateFlightRequest,
 } from "~/state/api/model/flight.dto";
@@ -47,7 +47,7 @@ export class FlightService extends AbstractAuthorizedApiService {
     const { data, headers } =
       await this.requestWithAuthAndHeaders<ApiFlightResponse[]>(url);
 
-    const totalCount = Number.parseInt(headers.get("X-Total-Count") ?? "0");
+    const totalCount = Number.parseInt(headers.get("X-Total-Count") ?? "0", 10);
 
     return {
       flights: data.map((flight) => new Flight(flight)),

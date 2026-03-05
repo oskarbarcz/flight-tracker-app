@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { User, UserRole } from "~/models/user.model";
+import { type User, UserRole } from "~/models/user.model";
 import { useAuth } from "~/state/contexts/session/auth.context";
 
 function roleToDescription(role: UserRole): string {

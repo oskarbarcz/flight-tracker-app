@@ -1,7 +1,7 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorLayout";
-import React, { JSX } from "react";
+import type { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorLayout";
+import React, { type JSX } from "react";
 import { Outlet, useLoaderData } from "react-router";
 import { OperatorHeader } from "~/components/operator/Header/OperatorHeader";
 import { OperatorInsights } from "~/components/operator/Header/OperatorInsights";

@@ -27,7 +27,7 @@ function FlightsListContent() {
   const [searchParams] = useSearchParams();
   const currentPhase =
     (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
-  const currentPage = Number.parseInt(searchParams.get("page") ?? "1");
+  const currentPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
 
   React.useEffect(() => {
     reloadFlights(currentPhase, currentPage);

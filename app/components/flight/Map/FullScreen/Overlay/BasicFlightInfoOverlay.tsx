@@ -1,5 +1,5 @@
 import { FaPlane } from "react-icons/fa";
-import { FilledSchedule, Flight, FlightStatus } from "~/models";
+import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
 import translateStatus from "~/models/translate/flight.translate";
 
 type BasicFlightInfoOverlayProps = {

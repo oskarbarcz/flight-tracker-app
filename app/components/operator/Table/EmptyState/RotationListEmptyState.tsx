@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";

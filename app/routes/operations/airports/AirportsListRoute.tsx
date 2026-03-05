@@ -9,7 +9,7 @@ import ContinentFilterTabs from "~/components/airport/Table/Tabs/ContinentFilter
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
-import { Airport, Continent } from "~/models";
+import { type Airport, Continent } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

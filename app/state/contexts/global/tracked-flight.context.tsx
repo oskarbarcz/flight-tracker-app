@@ -1,12 +1,12 @@
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useReducer,
 } from "react";
-import { FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
+import type { FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type State = {

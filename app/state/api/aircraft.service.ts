@@ -1,4 +1,8 @@
-import { Aircraft, CreateAircraftRequest, EditAircraftRequest } from "~/models";
+import type {
+  Aircraft,
+  CreateAircraftRequest,
+  EditAircraftRequest,
+} from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class AircraftService extends AbstractAuthorizedApiService {

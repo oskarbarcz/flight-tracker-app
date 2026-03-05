@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import React, { ReactElement, useEffect } from "react";
+import React, { type ReactElement, useEffect } from "react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import CheckInButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/CheckInButton";

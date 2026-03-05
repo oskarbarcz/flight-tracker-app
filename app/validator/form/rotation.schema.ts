@@ -1,5 +1,5 @@
-import { ObjectSchema, object, string } from "yup";
-import { CreateRotationRequest } from "~/models";
+import { type ObjectSchema, object, string } from "yup";
+import type { CreateRotationRequest } from "~/models";
 
 export const createRotationSchema: ObjectSchema<CreateRotationRequest> =
   object().shape({

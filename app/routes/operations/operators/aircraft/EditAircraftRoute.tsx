@@ -1,14 +1,14 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/EditAircraftRoute";
+import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/EditAircraftRoute";
 import { Button } from "flowbite-react";
 import {
   Formik,
-  FormikErrors,
+  type FormikErrors,
   Form as FormikForm,
-  FormikTouched,
+  type FormikTouched,
 } from "formik";
-import React, { JSX, useEffect } from "react";
+import React, { type JSX, useEffect } from "react";
 import {
   useActionData,
   useLoaderData,
@@ -23,7 +23,7 @@ import {
   handleRequestError,
   handleRequestSuccess,
 } from "~/functions/handleRequest";
-import { EditAircraftRequest } from "~/models";
+import type { EditAircraftRequest } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

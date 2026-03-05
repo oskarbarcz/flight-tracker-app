@@ -3,7 +3,7 @@
 import { FloatingLabel } from "flowbite-react";
 import { useField } from "formik";
 import React, {
-  HTMLInputAutoCompleteAttribute,
+  type HTMLInputAutoCompleteAttribute,
   useEffect,
   useState,
 } from "react";

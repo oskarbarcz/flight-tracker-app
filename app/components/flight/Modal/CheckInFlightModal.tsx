@@ -12,7 +12,7 @@ import UpdateFlightScheduleForm from "~/components/flight/Forms/UpdateFlightSche
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import Form from "~/components/shared/Form/Form";
-import { FilledSchedule, Flight } from "~/models";
+import type { FilledSchedule, Flight } from "~/models";
 import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
 type CheckInFlightModalProps = {

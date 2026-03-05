@@ -8,9 +8,9 @@ import AirportLocationFormSection from "~/components/airport/Forms/AirportLocati
 import FormSubmit from "~/components/shared/Form/FormSubmit";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { CreateAirportFormData } from "~/models";
+import type { CreateAirportFormData } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
-import { GetAirportResponse } from "~/state/api/model/airport.dto";
+import type { GetAirportResponse } from "~/state/api/model/airport.dto";
 import {
   airportToFormData,
   formDataToApiFormat,
@@ -18,7 +18,7 @@ import {
 import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
 import { useApi } from "~/state/contexts/content/api.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
+import type { Route } from "../../../../.react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
 
 export async function clientLoader({
   params,

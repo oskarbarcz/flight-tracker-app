@@ -37,7 +37,7 @@ export default function FlightStatusTabs() {
 
   return (
     <Tabs variant="underline" onActiveTabChange={handleChange}>
-      {phases.map((phase, i) => (
+      {phases.map((phase, _i) => (
         <TabItem
           active={currentPhase === phase}
           title={phaseToLabel(phase)}

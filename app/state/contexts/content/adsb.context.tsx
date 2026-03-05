@@ -1,12 +1,12 @@
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useReducer,
 } from "react";
-import { FlightPathElement } from "~/models";
+import type { FlightPathElement } from "~/models";
 import { usePublicApi } from "~/state/contexts/content/public-api.context";
 
 type State = {

@@ -6,7 +6,7 @@ import FlightListElementDetails from "~/components/flight/Table/FlightListElemen
 import TrackingStatus from "~/components/flight/Table/TrackingStatus";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Flight, FlightStatus } from "~/models";
+import { type Flight, FlightStatus } from "~/models";
 import translateStatus from "~/models/translate/flight.translate";
 
 type Props = {

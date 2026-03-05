@@ -1,7 +1,7 @@
 "use client";
 
 import { TabItem, Tabs } from "flowbite-react";
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 const tabs = [

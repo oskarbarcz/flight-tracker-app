@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { FlightOfp } from "~/models";
+import type { FlightOfp } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 interface Return {

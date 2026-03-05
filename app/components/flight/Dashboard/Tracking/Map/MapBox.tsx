@@ -7,7 +7,7 @@ import MapPreviewStatusOverlay from "~/components/flight/Map/Box/Overlay/Preview
 import TrackingFlightMap from "~/components/flight/Map/Box/TrackingFlightMap";
 import MapBottomDrawer from "~/components/flight/Map/Element/MapBottomDrawer";
 import Container, {
-  ContainerClassProps,
+  type ContainerClassProps,
 } from "~/components/shared/Layout/Container";
 import { shouldPollForAdsbData, Tracking } from "~/models";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";

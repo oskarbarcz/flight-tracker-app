@@ -5,8 +5,8 @@
 }
 
 .leaflet-div-icon.custom-airport-marker {
-  background: transparent !important;
-  border: none !important;
+  background: transparent;
+  border: none;
 }
 
 .airport-marker {

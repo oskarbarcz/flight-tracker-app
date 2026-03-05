@@ -8,7 +8,7 @@ import { Link } from "react-router";
 import { EmptyStateIcon } from "~/components/shared/Table/LoadingStates/EmptyStateIcon";
 import { EmptyStateText } from "~/components/shared/Table/LoadingStates/EmptyStateText";
 import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
-import { Continent, continentToDisplayName } from "~/models";
+import { type Continent, continentToDisplayName } from "~/models";
 
 type Props = {
   continent: Continent;

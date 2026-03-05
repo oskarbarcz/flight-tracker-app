@@ -1,4 +1,4 @@
-import { UserRole } from "~/models/user.model";
+import type { UserRole } from "~/models/user.model";
 
 export type JwtTokenPayload = {
   exp: number;

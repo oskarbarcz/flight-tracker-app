@@ -9,7 +9,7 @@ import {
 } from "flowbite-react";
 import React from "react";
 import { formatDate } from "~/functions/time";
-import { Flight } from "~/models";
+import type { Flight } from "~/models";
 
 type ReleaseFlightModalProps = {
   flight: Flight;

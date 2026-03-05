@@ -1,4 +1,4 @@
-import { GetUserResponse, ListUsersResponse, UserStats } from "~/models";
+import type { GetUserResponse, ListUsersResponse, UserStats } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class UserService extends AbstractAuthorizedApiService {

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import OperatorListTable from "~/components/operator/Table/OperatorListTable";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
-import { Operator } from "~/models";
+import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

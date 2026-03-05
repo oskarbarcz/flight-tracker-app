@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { Link } from "react-router";
 import { formatDateToLocal } from "~/functions/time";
-import { RotationResponse } from "~/models";
+import type { RotationResponse } from "~/models";
 
 type Props = {
   operatorId: string;

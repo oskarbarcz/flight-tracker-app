@@ -12,7 +12,7 @@ import NextScheduledFlightBox from "~/components/flight/Dashboard/Main/Box/NextS
 import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/Box/NoCurrentFlightBox";
 import PilotStatsBox from "~/components/flight/Dashboard/Main/Box/PilotStatsBox";
 import UserHeader from "~/components/flight/Dashboard/Main/UserHeader";
-import { Flight, FlightStatus } from "~/models";
+import { type Flight, FlightStatus } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 import useCurrentFlight from "~/state/hooks/resources/useCurrentFlight";
 import useLastFlight from "~/state/hooks/resources/useLastFlight";

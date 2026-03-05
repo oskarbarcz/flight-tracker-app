@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { MdVerified } from "react-icons/md";
 
 export function VerifiedOperatorBadge(): JSX.Element {

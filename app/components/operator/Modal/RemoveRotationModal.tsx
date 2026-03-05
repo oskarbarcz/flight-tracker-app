@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "flowbite-react";
-import { RotationResponse } from "~/models";
+import type { RotationResponse } from "~/models";
 
 type RemoveRotationModalProps = {
   rotation: RotationResponse;

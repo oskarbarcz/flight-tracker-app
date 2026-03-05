@@ -1,18 +1,18 @@
 "use client";
 
-import { Badge, Button, Progress } from "flowbite-react";
+import { Button, Progress } from "flowbite-react";
 import React from "react";
 import { FaArrowRight, FaPlane } from "react-icons/fa";
-import { FaCircleInfo, FaClock, FaPlaneDeparture } from "react-icons/fa6";
+import { FaClock } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import Container from "~/components/shared/Layout/Container";
-import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
+
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 import { dateDiffToReadable } from "~/functions/time";
 import {
-  FilledSchedule,
-  Flight,
+  type FilledSchedule,
+  type Flight,
   FlightStatus,
   statusToShortHumanForm,
 } from "~/models";

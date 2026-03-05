@@ -1,5 +1,5 @@
-import React, { JSX } from "react";
-import { IconType } from "react-icons";
+import React, { type JSX } from "react";
+import type { IconType } from "react-icons";
 import Container from "~/components/shared/Layout/Container";
 
 type Props = {

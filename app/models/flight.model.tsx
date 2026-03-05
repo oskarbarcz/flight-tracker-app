@@ -1,11 +1,11 @@
 import {
-  Aircraft,
-  Airport,
-  Operator,
+  type Aircraft,
+  type Airport,
+  type Operator,
   parseTimesheet,
-  Timesheet,
+  type Timesheet,
 } from "~/models";
-import { ApiFlightResponse } from "~/state/api/model/flight.dto";
+import type { ApiFlightResponse } from "~/state/api/model/flight.dto";
 
 export enum FlightStatus {
   Created = "created",

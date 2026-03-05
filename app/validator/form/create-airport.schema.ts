@@ -1,6 +1,6 @@
-import { number, ObjectSchema, object, string } from "yup";
-import { AirportGeneralFormData } from "~/components/airport/Forms/AirportGeneralFormSection";
-import { AirportLocationData } from "~/components/airport/Forms/AirportLocationFormSection";
+import { number, type ObjectSchema, object, string } from "yup";
+import type { AirportGeneralFormData } from "~/components/airport/Forms/AirportGeneralFormSection";
+import type { AirportLocationData } from "~/components/airport/Forms/AirportLocationFormSection";
 import { Continent } from "~/models";
 
 const timezoneSchema = string().test(

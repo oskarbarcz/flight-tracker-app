@@ -1,7 +1,6 @@
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { LuTowerControl } from "react-icons/lu";
-import { MdLocalAirport, MdOutlineScreenRotationAlt } from "react-icons/md";
 import { useLocation } from "react-router";
 import SidebarElement from "~/components/shared/Sidebar/Elements/SidebarElement";
 

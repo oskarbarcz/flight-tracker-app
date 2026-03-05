@@ -12,7 +12,7 @@ import React from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import Container, {
-  ContainerClassProps,
+  type ContainerClassProps,
 } from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
 import { translateFlightEventType } from "~/models/translate/flight.translate";

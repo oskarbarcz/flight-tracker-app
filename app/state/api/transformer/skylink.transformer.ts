@@ -1,5 +1,5 @@
-import { Continent, SkyLinkAirportResponse } from "~/models";
-import { CreateAirportFormData } from "~/models/form/airport.form";
+import { Continent, type SkyLinkAirportResponse } from "~/models";
+import type { CreateAirportFormData } from "~/models/form/airport.form";
 
 export function skyLinkToFormData(
   input: SkyLinkAirportResponse,

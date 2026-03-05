@@ -8,7 +8,7 @@ import MapAircraftMarker from "~/components/flight/Map/Element/MapAircraftMarker
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
 import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
-import { Position } from "~/models/common/geo";
+import type { Position } from "~/models/common/geo";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
 

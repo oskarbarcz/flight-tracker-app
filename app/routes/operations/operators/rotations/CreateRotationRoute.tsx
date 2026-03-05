@@ -1,12 +1,12 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/CreateRotationRoute";
+import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/CreateRotationRoute";
 import { Button } from "flowbite-react";
 import {
   Formik,
-  FormikErrors,
+  type FormikErrors,
   Form as FormikForm,
-  FormikTouched,
+  type FormikTouched,
 } from "formik";
 import React, { useEffect } from "react";
 import { useActionData, useNavigate, useSubmit } from "react-router";
@@ -19,7 +19,7 @@ import {
   handleRequestError,
   handleRequestSuccess,
 } from "~/functions/handleRequest";
-import { CreateRotationRequest } from "~/models";
+import type { CreateRotationRequest } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

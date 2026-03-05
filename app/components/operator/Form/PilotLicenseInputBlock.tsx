@@ -1,11 +1,11 @@
 "use client";
 
 import { Label, TextInput } from "flowbite-react";
-import { FormikErrors } from "formik";
+import type { FormikErrors } from "formik";
 import React, { useEffect, useState } from "react";
 import PilotInputPreview from "~/components/operator/Form/Preview/PilotInputPreview";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
-import { GetUserResponse } from "~/models";
+import type { GetUserResponse } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 
 type PilotLicenseInputBlockProps = {
@@ -17,7 +17,7 @@ type PilotLicenseInputBlockProps = {
     field: string,
     value: string,
     shouldValidate?: boolean,
-  ) => Promise<void | FormikErrors<unknown>>;
+  ) => Promise<undefined | FormikErrors<unknown>>;
 };
 
 const errorToMessage = (error: unknown): string => {

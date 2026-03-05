@@ -9,7 +9,7 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import Container from "~/components/shared/Layout/Container";
 import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { Flight } from "~/models";
+import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight | undefined;

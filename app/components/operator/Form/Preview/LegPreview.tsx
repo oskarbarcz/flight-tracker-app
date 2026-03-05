@@ -5,7 +5,7 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatDate } from "~/functions/time";
-import { Flight } from "~/models";
+import type { Flight } from "~/models";
 
 type LegPreviewProps = {
   flight: Flight;

@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import React from "react";
-import { GetUserResponse } from "~/models";
+import type { GetUserResponse } from "~/models";
 
 type PilotInputPreviewProps = {
   user: GetUserResponse;

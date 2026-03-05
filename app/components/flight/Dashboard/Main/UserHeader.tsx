@@ -5,7 +5,7 @@ import { FaClock } from "react-icons/fa6";
 import SimpleStatDisplay from "~/components/shared/Display/SimpleStatDisplay";
 import SimpleStatDisplayLoader from "~/components/shared/Display/SimpleStatDisplayLoader";
 import Container from "~/components/shared/Layout/Container";
-import { User } from "~/models/user.model";
+import type { User } from "~/models/user.model";
 import { useAuth } from "~/state/contexts/session/auth.context";
 import useUserStats from "~/state/hooks/resources/useUserStats";
 
@@ -29,7 +29,7 @@ function getStatusBox(status: Status): React.ReactNode {
 
 function minutesToHoursDisplay(minutes: number): string {
   const hours = Math.floor(minutes / 60);
-  return hours.toLocaleString("en-US") + "h";
+  return `${hours.toLocaleString("en-US")}h`;
 }
 
 export default function UserHeader() {

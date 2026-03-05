@@ -8,7 +8,7 @@ import {
   ModalHeader,
 } from "flowbite-react";
 import { formatDate } from "~/functions/time";
-import { Flight } from "~/models";
+import type { Flight } from "~/models";
 
 type RemoveFlightModalProps = {
   flight: Flight;

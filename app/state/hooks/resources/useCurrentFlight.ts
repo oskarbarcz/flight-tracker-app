@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Flight, User } from "~/models";
+import type { Flight, User } from "~/models";
 import { useApi } from "~/state/contexts/content/api.context";
 import { useAuth } from "~/state/contexts/session/auth.context";
 

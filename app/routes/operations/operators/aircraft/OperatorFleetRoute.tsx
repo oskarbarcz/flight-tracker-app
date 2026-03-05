@@ -1,7 +1,7 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/OperatorFleetRoute";
-import React, { JSX, useMemo, useState } from "react";
+import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/OperatorFleetRoute";
+import React, { type JSX, useMemo, useState } from "react";
 import { useLoaderData } from "react-router";
 import AircraftListTable from "~/components/operator/Table/AircraftListTable";
 import { FleetListEmptyState } from "~/components/operator/Table/EmptyState/FleetListEmptyState";

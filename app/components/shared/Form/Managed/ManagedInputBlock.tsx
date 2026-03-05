@@ -2,7 +2,7 @@
 
 import { Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
-import React, { HTMLInputTypeAttribute } from "react";
+import React, { type HTMLInputTypeAttribute } from "react";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
 
 type ManagedInputBlockProps = {

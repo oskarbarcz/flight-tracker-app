@@ -3,8 +3,8 @@
 import { useMemo } from "react";
 import { Polyline } from "react-leaflet";
 import { smoothPath } from "~/functions/smooth";
-import { FlightPathElement } from "~/models";
-import { Position } from "~/models/common/geo";
+import type { FlightPathElement } from "~/models";
+import type { Position } from "~/models/common/geo";
 
 type FlightPathProps = {
   path: FlightPathElement[];

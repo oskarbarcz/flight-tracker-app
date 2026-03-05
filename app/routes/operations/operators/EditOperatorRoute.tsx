@@ -1,14 +1,14 @@
 "use client";
 
-import { Route } from ".react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
+import type { Route } from ".react-router/types/app/routes/operations/operators/+types/EditOperatorRoute";
 import { Button } from "flowbite-react";
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import { Form, redirect, useLoaderData } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import { CreateOperatorDto, Operator } from "~/models";
+import type { CreateOperatorDto, Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

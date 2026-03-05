@@ -1,6 +1,6 @@
 "use client";
 
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import type { IconType } from "react-icons";
 
 type Props = {
