@@ -9,8 +9,6 @@ import SelectBlock from "~/components/shared/Form/SelectBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { Continent, CreateOperatorDto, OperatorType } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

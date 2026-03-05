@@ -1,20 +1,17 @@
 "use client";
 
 import React, { JSX, ReactNode, useContext } from "react";
-import { Navigate, useNavigate } from "react-router";
-import Splash from "~/layout/common/Splash";
+import { Navigate } from "react-router";
 import { UserRole } from "~/models/user.model";
+import Splash from "~/routes/common/Splash";
 import { AuthContext } from "~/state/contexts/session/auth.context";
 
 type Props = {
-  allowedRole?: UserRole;
+  allowOnly?: UserRole;
   children: ReactNode;
 };
 
-export default function ProtectedRoute({
-  allowedRole,
-  children,
-}: Props): JSX.Element {
+export function AuthGuard({ allowOnly, children }: Props): JSX.Element {
   const { user, isLoading, accessToken } = useContext(AuthContext);
 
   if (isLoading) {
@@ -25,7 +22,7 @@ export default function ProtectedRoute({
     return <Navigate to="/sign-in" replace />;
   }
 
-  if (allowedRole && user.role !== allowedRole) {
+  if (allowOnly && user.role !== allowOnly) {
     return <Navigate to="/unauthorized" replace />;
   }
 

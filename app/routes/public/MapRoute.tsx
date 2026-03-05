@@ -2,17 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 import BottomBar from "~/components/flight/Map/FullScreen/BottomBar";
 import FullScreenMap from "~/components/flight/Map/FullScreen/FullScreenMap";
 import TopBar from "~/components/flight/Map/FullScreen/TopBar";
-import MapSplash from "~/layout/common/MapSplash";
 import { Flight } from "~/models";
+import MapSplash from "~/routes/public/MapSplash";
 import { useAdsbData } from "~/state/contexts/content/adsb.context";
 import { usePublicApi } from "~/state/contexts/content/public-api.context";
 import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../.react-router/types/app/routes/public/+types/PublicTrackingRoute";
+import { Route } from "../../../.react-router/types/app/routes/public/+types/MapRoute";
 
-export default function PublicTrackingRoute({
-  params,
-}: Route.ClientLoaderArgs) {
+export default function MapRoute({ params }: Route.ClientLoaderArgs) {
   const { publicFlightService } = usePublicApi();
   const { setCallsign, flightPath, loadFlightPath } = useAdsbData();
 

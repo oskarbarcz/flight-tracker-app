@@ -9,8 +9,6 @@ import FormSubmit from "~/components/shared/Form/FormSubmit";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { CreateAirportFormData } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { AirportService } from "~/state/api/airport.service";
 import { GetAirportResponse } from "~/state/api/model/airport.dto";
 import {

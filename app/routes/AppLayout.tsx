@@ -4,11 +4,11 @@ import React, { JSX } from "react";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import { Sidebar } from "~/components/shared/Sidebar/Sidebar";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { AuthGuard } from "~/routes/auth/AuthGuard";
 
 export default function AppLayout(): JSX.Element {
   return (
-    <ProtectedRoute>
+    <AuthGuard>
       <div className="min-h-screen min-w-full flex flex-col md:flex-row pt-20 md:pt-0 dark:bg-gray-950">
         <Sidebar />
         <div className="flex-1 flex justify-center p-4 md:p-8 overflow-y-auto">
@@ -26,6 +26,6 @@ export default function AppLayout(): JSX.Element {
         toastClassName="!bg-transparent !shadow-none !p-0"
         closeButton={false}
       />
-    </ProtectedRoute>
+    </AuthGuard>
   );
 }

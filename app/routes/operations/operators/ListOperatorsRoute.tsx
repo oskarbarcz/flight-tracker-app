@@ -7,8 +7,6 @@ import OperatorListTable from "~/components/operator/Table/OperatorListTable";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { Operator } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

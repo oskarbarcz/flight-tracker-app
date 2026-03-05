@@ -13,8 +13,6 @@ import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/Box/NoCurrent
 import PilotStatsBox from "~/components/flight/Dashboard/Main/Box/PilotStatsBox";
 import UserHeader from "~/components/flight/Dashboard/Main/UserHeader";
 import { Flight, FlightStatus } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
 import useCurrentFlight from "~/state/hooks/resources/useCurrentFlight";
 import useLastFlight from "~/state/hooks/resources/useLastFlight";
@@ -45,42 +43,38 @@ export default function PilotDashboardRoute() {
 
   return (
     <>
-      <ProtectedRoute allowedRole={UserRole.CabinCrew}>
-        <UserHeader />
-        <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-3">
-          <div className="flex flex-col gap-4">
-            {loadingAll ? (
-              <NextScheduledFlightBoxLoader />
-            ) : (
-              <NextScheduledFlightBox
-                flight={nextFlight}
-                isCurrentFlight={currentFlight !== null}
-              />
-            )}
-            {loadingLast ? (
-              <LastFlightBoxLoader />
-            ) : (
-              <LastFlightBox flight={lastFlight} />
-            )}
-          </div>
-          <div className="flex flex-col gap-4">
-            {loadingCurrent ? (
-              <CurrentFlightBoxLoader />
-            ) : currentFlight ? (
-              <CurrentFlightBox flight={currentFlight} />
-            ) : (
-              <NoCurrentFlightBox />
-            )}
-            <CurrentRotationBox />
-          </div>
-          <div className="flex flex-col gap-4">
-            <PilotStatsBox />
-            {isDevelopmentEnvironment && (
-              <DebugFlightListBox flights={flights} />
-            )}
-          </div>
+      <UserHeader />
+      <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-3">
+        <div className="flex flex-col gap-4">
+          {loadingAll ? (
+            <NextScheduledFlightBoxLoader />
+          ) : (
+            <NextScheduledFlightBox
+              flight={nextFlight}
+              isCurrentFlight={currentFlight !== null}
+            />
+          )}
+          {loadingLast ? (
+            <LastFlightBoxLoader />
+          ) : (
+            <LastFlightBox flight={lastFlight} />
+          )}
         </div>
-      </ProtectedRoute>
+        <div className="flex flex-col gap-4">
+          {loadingCurrent ? (
+            <CurrentFlightBoxLoader />
+          ) : currentFlight ? (
+            <CurrentFlightBox flight={currentFlight} />
+          ) : (
+            <NoCurrentFlightBox />
+          )}
+          <CurrentRotationBox />
+        </div>
+        <div className="flex flex-col gap-4">
+          <PilotStatsBox />
+          {isDevelopmentEnvironment && <DebugFlightListBox flights={flights} />}
+        </div>
+      </div>
     </>
   );
 }

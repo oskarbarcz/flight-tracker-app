@@ -20,8 +20,6 @@ import {
   handleRequestSuccess,
 } from "~/functions/handleRequest";
 import { CreateRotationRequest } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

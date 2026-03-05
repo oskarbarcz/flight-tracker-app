@@ -15,7 +15,7 @@ export default function MapLinkOverlay() {
 
   const handleCopy = () => {
     const baseUrl = window.location.origin;
-    const trackingUrl = `${baseUrl}/live-tracking/${flight.id}`;
+    const trackingUrl = `${baseUrl}/map/${flight.id}`;
     navigator.clipboard.writeText(trackingUrl).then();
   };
 
@@ -23,7 +23,7 @@ export default function MapLinkOverlay() {
     <div className="absolute top-3 right-3 flex gap-3">
       <Button
         as={Link}
-        to={`/live-tracking/${flight.id}`}
+        to={`/map/${flight.id}`}
         title="Open full-screen tracking in new tab"
         target="_blank"
         size="xs"

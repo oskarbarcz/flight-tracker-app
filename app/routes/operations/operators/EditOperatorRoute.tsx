@@ -9,8 +9,6 @@ import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { CreateOperatorDto, Operator } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { OperatorService } from "~/state/api/operator.service";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

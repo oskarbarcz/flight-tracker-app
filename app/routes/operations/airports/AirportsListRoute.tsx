@@ -10,8 +10,6 @@ import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
 import { Airport, Continent } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";
 

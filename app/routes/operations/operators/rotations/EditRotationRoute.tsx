@@ -14,9 +14,7 @@ import {
   handleRequestError,
   handleRequestSuccess,
 } from "~/functions/handleRequest";
-import { EditRotationRequest, RotationResponse } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { EditRotationRequest } from "~/models";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

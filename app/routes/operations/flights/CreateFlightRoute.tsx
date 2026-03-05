@@ -13,8 +13,6 @@ import {
   CreateFlightFormData,
   initCreateFlightData,
 } from "~/models/form/flight.form";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { FlightService } from "~/state/api/flight.service";
 import { CreateFlightRequest } from "~/state/api/model/flight.dto";
 import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";

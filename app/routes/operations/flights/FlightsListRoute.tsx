@@ -10,8 +10,6 @@ import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { FlightPhase } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { useApi } from "~/state/contexts/content/api.context";
 import {
   FlightListProvider,

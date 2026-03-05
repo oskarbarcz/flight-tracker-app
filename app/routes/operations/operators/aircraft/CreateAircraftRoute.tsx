@@ -19,8 +19,6 @@ import {
   handleRequestSuccess,
 } from "~/functions/handleRequest";
 import { CreateAircraftRequest } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { useToast } from "~/state/contexts/global/toast.context";
 import { usePageTitle } from "~/state/hooks/usePageTitle";

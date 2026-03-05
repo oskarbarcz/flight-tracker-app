@@ -6,19 +6,19 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  layout("layout/common/AuthLayout.tsx", [
-    route("sign-in", "routes/common/auth/SignInRoute.tsx"),
-    route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
+  layout("routes/auth/AuthLayout.tsx", [
+    route("sign-in", "routes/auth/SignInRoute.tsx"),
+    route("sign-out", "routes/auth/SignOutRoute.tsx"),
   ]),
-  layout("layout/common/MapLayout.tsx", [
-    route("live-tracking/:id", "routes/public/PublicTrackingRoute.tsx"),
+  layout("routes/public/MapLayout.tsx", [
+    route("map/:id", "routes/public/MapRoute.tsx"),
   ]),
-  layout("layout/common/AppLayout.tsx", [
+  layout("routes/AppLayout.tsx", [
     index("routes/common/DashboardRoute.tsx"),
-    layout("routes/pilot/PilotRoute.tsx", [
+    layout("routes/pilot/PilotLayout.tsx", [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
     ]),
-    layout("routes/operations/OperationsRoute.tsx", [
+    layout("routes/operations/OperationsLayout.tsx", [
       // operations - operators
       route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),
       route(
@@ -29,7 +29,7 @@ export default [
         "operators/:operatorId/edit",
         "routes/operations/operators/EditOperatorRoute.tsx",
       ),
-      layout("routes/operations/operators/OperatorOverviewRoute.tsx", [
+      layout("routes/operations/operators/OperatorLayout.tsx", [
         route(
           "operators/:operatorId/fleet",
           "routes/operations/operators/aircraft/OperatorFleetRoute.tsx",
