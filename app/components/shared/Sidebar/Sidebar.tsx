@@ -43,11 +43,14 @@ export function Sidebar(): JSX.Element {
           {user.role === UserRole.CabinCrew && <CabinCrewSidebarItems />}
         </div>
 
-        <SidebarDivider />
-        <nav className="flex flex-col gap-y-1 p-6">
-          <SidebarThemeSwitch />
-          <SidebarSignOutElement />
-        </nav>
+        <div className="mt-auto">
+          <SidebarDivider />
+          <nav className="flex flex-col gap-y-1 p-6">
+            <SidebarThemeSwitch />
+            <SidebarSignOutElement />
+          </nav>
+        </div>
+
       </div>
     </>
   );
