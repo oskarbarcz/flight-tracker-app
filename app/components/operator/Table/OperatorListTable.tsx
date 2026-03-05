@@ -49,7 +49,6 @@ export default function OperatorListTable({
               <Link
                 className="text-primary-500 font-bold"
                 to={`/operators/${operator.id}/rotations`}
-                replace
                 viewTransition
               >
                 Details

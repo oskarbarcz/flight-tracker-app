@@ -22,7 +22,7 @@ export default function SidebarElement({
       <Link
         to={href}
         className="text-indigo-500 bg-indigo-100 dark:bg-indigo-900/30 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 items-center cursor-pointer flex gap-3 py-2 px-3 rounded-xl ease-in-out transition-colors"
-        replace={true}
+        replace
         viewTransition
       >
         <Icon size={20} />
@@ -35,7 +35,7 @@ export default function SidebarElement({
     <Link
       to={href}
       className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 items-center cursor-pointer flex gap-3 py-2 px-3 rounded-xl ease-in-out transition-colors"
-      replace={true}
+      replace
       viewTransition
     >
       <Icon size={20} />

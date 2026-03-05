@@ -131,7 +131,6 @@ export default function CurrentFlightBox({ flight }: Props) {
           color="indigo"
           as={Link}
           to={`track/${flight.id}`}
-          replace
           viewTransition
         >
           Manage

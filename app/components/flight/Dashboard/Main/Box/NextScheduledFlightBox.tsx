@@ -81,7 +81,6 @@ export default function NextScheduledFlightBox({
           size={isCurrentFlight ? "xs" : undefined}
           as={Link}
           to={`track/${flight.id}`}
-          replace
           viewTransition
         >
           See details

@@ -83,7 +83,6 @@ export default function RotationListTable({
                 <Link
                   className="block"
                   to={`/operators/${operatorId}/rotations/${rotation.id}/edit`}
-                  replace
                   viewTransition
                 >
                   Edit

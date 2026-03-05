@@ -8,7 +8,7 @@ export default function SidebarLogo() {
   return (
     <Link
       to="/"
-      replace={true}
+      replace
       className="flex justify-center items-center py-2 md:py-6"
     >
       <img src={logo} className="h-7" alt="Flight Tracker app logo" />

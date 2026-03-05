@@ -43,7 +43,6 @@ export default function FlightListElement({
           }
           return next;
         },
-        { replace: true },
       );
     },
     [setSearchParams],

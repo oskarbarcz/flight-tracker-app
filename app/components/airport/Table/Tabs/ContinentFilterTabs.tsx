@@ -15,7 +15,7 @@ export default function ContinentFilterTabs() {
 
     const newParams = new URLSearchParams(searchParams);
     newParams.set("continent", newContinent);
-    navigate({ search: newParams.toString() }, { replace: true });
+    navigate({ search: newParams.toString() });
   }
 
   return (

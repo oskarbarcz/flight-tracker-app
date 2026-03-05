@@ -17,7 +17,7 @@ export default function SectionHeaderWithBackButton({
 }: SectionHeaderWithBackButtonProps) {
   return (
     <div className="mx-auto my-6">
-      <Link className="block" to={backUrl} replace viewTransition>
+      <Link className="block" to={backUrl} viewTransition>
         <Button color="gray" size="xs">
           <HiOutlineArrowLeft className="mr-2 size-4" />
           {backText}

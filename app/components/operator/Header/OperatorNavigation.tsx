@@ -13,7 +13,6 @@ export function OperatorNavigation({ id }: Props): JSX.Element {
       <Link
         className="flex items-center text-gray-500 hover:text-indigo-500 text-sm gap-3"
         to="/operators"
-        replace
         viewTransition
       >
         <HiOutlineArrowLeft />
@@ -25,7 +24,6 @@ export function OperatorNavigation({ id }: Props): JSX.Element {
         to={`/operators/${id}/edit`}
         className="space-x-1.5"
         size="sm"
-        replace
         viewTransition
       >
         <HiPencil />

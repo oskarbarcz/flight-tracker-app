@@ -79,7 +79,6 @@ export default function LastFlightBox({ flight }: Props) {
           size="xs"
           as={Link}
           to={`track/${flight.id}`}
-          replace
           viewTransition
         >
           See details

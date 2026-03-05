@@ -53,7 +53,6 @@ export default function AircraftListTable({ operatorId, aircraft }: Props) {
               <Link
                 className="text-primary-500 font-bold"
                 to={`/operators/${operatorId}/aircraft/${each.id}/edit`}
-                replace
                 viewTransition
               >
                 Edit

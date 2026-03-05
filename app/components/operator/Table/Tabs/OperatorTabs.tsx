@@ -20,7 +20,6 @@ export function OperatorTabs({ id }: Props): JSX.Element {
   const activeIndex = tabs.findIndex((t) => pathname.includes(t.path));
   const onClick = (index: number) => {
     navigate(`/operators/${id}/${tabs[index].path}`, {
-      replace: true,
       viewTransition: true,
       preventScrollReset: true,
     });

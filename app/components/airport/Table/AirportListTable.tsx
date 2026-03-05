@@ -50,7 +50,6 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
               <Link
                 className="block text-primary-500 font-bold"
                 to={`/airports/${airport.id}/edit`}
-                replace
                 viewTransition
               >
                 Edit

@@ -35,7 +35,7 @@ function ActionButton({ button }: { button: ActionButton }) {
 
   if (button.url) {
     return (
-      <Link to={button.url} replace viewTransition>
+      <Link to={button.url} viewTransition>
         {content}
       </Link>
     );
