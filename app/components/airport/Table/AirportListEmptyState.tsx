@@ -25,7 +25,7 @@ export default function AirportListEmptyState({ continent }: Props) {
         className="space-x-1.5 w-fit mx-auto"
         color="indigo"
         as={Link}
-        to={`/airports/new`}
+        to="/airports/new"
       >
         <HiPlus />
         <span>Add airport</span>
