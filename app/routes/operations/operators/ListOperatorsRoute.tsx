@@ -21,7 +21,7 @@ export default function ListOperatorsRoute(): JSX.Element {
   const operators = useLoaderData<Operator[]>();
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
+    <>
       <SectionHeaderWithButton
         sectionTitle="Operators"
         primaryButton={{
@@ -34,6 +34,6 @@ export default function ListOperatorsRoute(): JSX.Element {
       <Container className="overflow-x-auto" padding="none">
         <OperatorListTable operators={operators} />
       </Container>
-    </ProtectedRoute>
+    </>
   );
 }

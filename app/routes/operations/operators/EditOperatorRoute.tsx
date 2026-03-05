@@ -46,52 +46,50 @@ export default function EditOperatorRoute(): JSX.Element {
   const operator = useLoaderData<Operator>();
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Edit operator"
-          backText="Back to operators"
-          backUrl={`/operators/${operator.id}/fleet`}
-        />
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Edit operator"
+        backText="Back to operators"
+        backUrl={`/operators/${operator.id}/fleet`}
+      />
 
-        <Form method="post">
-          <Container>
-            <div className="flex flex-col gap-4">
-              <InputBlock
-                htmlName="icaoCode"
-                label="ICAO code"
-                defaultValue={operator.icaoCode}
-              />
-              <InputBlock
-                htmlName="iataCode"
-                label="IATA code"
-                defaultValue={operator.iataCode}
-              />
-              <InputBlock
-                htmlName="shortName"
-                label="Short name"
-                defaultValue={operator.shortName}
-              />
-              <InputBlock
-                htmlName="fullName"
-                label="Full name"
-                defaultValue={operator.fullName}
-              />
-              <InputBlock
-                htmlName="callsign"
-                label="Callsign"
-                defaultValue={operator.callsign}
-              />
-            </div>
-          </Container>
-
-          <div className="flex justify-end pt-4">
-            <Button color="indigo" type="submit">
-              Save changes
-            </Button>
+      <Form method="post">
+        <Container>
+          <div className="flex flex-col gap-4">
+            <InputBlock
+              htmlName="icaoCode"
+              label="ICAO code"
+              defaultValue={operator.icaoCode}
+            />
+            <InputBlock
+              htmlName="iataCode"
+              label="IATA code"
+              defaultValue={operator.iataCode}
+            />
+            <InputBlock
+              htmlName="shortName"
+              label="Short name"
+              defaultValue={operator.shortName}
+            />
+            <InputBlock
+              htmlName="fullName"
+              label="Full name"
+              defaultValue={operator.fullName}
+            />
+            <InputBlock
+              htmlName="callsign"
+              label="Callsign"
+              defaultValue={operator.callsign}
+            />
           </div>
-        </Form>
-      </div>
-    </ProtectedRoute>
+        </Container>
+
+        <div className="flex justify-end pt-4">
+          <Button color="indigo" type="submit">
+            Save changes
+          </Button>
+        </div>
+      </Form>
+    </div>
   );
 }

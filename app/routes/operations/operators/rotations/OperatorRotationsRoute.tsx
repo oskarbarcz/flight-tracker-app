@@ -36,7 +36,7 @@ export default function OperatorRotationsRoute({
   }
 
   return (
-    <div>
+    <>
       <RotationControls operatorId={params.operatorId} />
       <Container className="overflow-x-auto" padding="none">
         <RotationListTable
@@ -53,6 +53,6 @@ export default function OperatorRotationsRoute({
           cancel={() => setRotationToRemove(null)}
         />
       )}
-    </div>
+    </>
   );
 }

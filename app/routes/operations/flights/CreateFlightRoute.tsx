@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
 import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
 import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
@@ -71,7 +71,7 @@ export async function clientAction({
   console.error("Failed to create flight");
 }
 
-export default function CreateAirportRoute() {
+export default function CreateAirportRoute(): JSX.Element {
   usePageTitle("Create new flight");
   const [formData, setFormData] = useState<CreateFlightFormData>(
     initCreateFlightData(),
@@ -139,35 +139,33 @@ export default function CreateAirportRoute() {
   }
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Create new flight"
-          backText="Back to flights"
-          backUrl="/flights"
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Create new flight"
+        backText="Back to flights"
+        backUrl="/flights"
+      />
+      <div className="space-y-4">
+        <FlightIdentityFormSection
+          data={formData.identity}
+          onSubmit={onIdentitySubmit}
         />
-        <div className="space-y-4">
-          <FlightIdentityFormSection
-            data={formData.identity}
-            onSubmit={onIdentitySubmit}
-          />
-          <FlightRouteFormSection
-            data={formData.route}
-            onSubmit={onRouteSubmit}
-          />
-          <FlightScheduleFormSection
-            data={formData.schedule}
-            onSubmit={onScheduleSubmit}
-          />
+        <FlightRouteFormSection
+          data={formData.route}
+          onSubmit={onRouteSubmit}
+        />
+        <FlightScheduleFormSection
+          data={formData.schedule}
+          onSubmit={onScheduleSubmit}
+        />
 
-          <FormSubmit
-            message={formMessage}
-            error={formError}
-            onSubmit={handleSubmit}
-            button="Create flight"
-          />
-        </div>
+        <FormSubmit
+          message={formMessage}
+          error={formError}
+          onSubmit={handleSubmit}
+          button="Create flight"
+        />
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }

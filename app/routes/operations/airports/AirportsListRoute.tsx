@@ -38,7 +38,7 @@ export default function AirportsListRoute() {
   }, [airportService, currentContinent]);
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
+    <>
       <SectionHeaderWithButton
         sectionTitle="Airports"
         primaryButton={{
@@ -59,6 +59,6 @@ export default function AirportsListRoute() {
           <AirportListTable airports={airports} />
         </Container>
       )}
-    </ProtectedRoute>
+    </>
   );
 }

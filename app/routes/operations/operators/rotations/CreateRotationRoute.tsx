@@ -87,58 +87,52 @@ export default function CreateRotationRoute({ params }: Route.ComponentProps) {
   };
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Create new rotation"
-          backText="Back to operator"
-          backUrl={`/operators/${params.operatorId}/rotations`}
-        />
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Create new rotation"
+        backText="Back to operator"
+        backUrl={`/operators/${params.operatorId}/rotations`}
+      />
 
-        <Formik<CreateRotationRequest>
-          initialValues={{ name: "", pilotId: "" }}
-          validationSchema={createRotationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({
-            errors: formikErrors,
-            touched,
-            setFieldValue,
-            handleChange,
-            handleBlur,
-            values,
-          }) => (
-            <FormikForm noValidate>
-              <Container>
-                <div className="flex flex-col gap-4">
-                  <InputBlock
-                    htmlName="name"
-                    label="Rotation name"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("name", formikErrors, touched)}
-                  />
-                  <PilotLicenseInputBlock
-                    htmlName="pilotId"
-                    label="Captain pilot license ID"
-                    errors={getErrors("pilotId", formikErrors, touched)}
-                    setFieldValue={setFieldValue}
-                  />
-                </div>
-              </Container>
+      <Formik<CreateRotationRequest>
+        initialValues={{ name: "", pilotId: "" }}
+        validationSchema={createRotationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({
+          errors: formikErrors,
+          touched,
+          setFieldValue,
+          handleChange,
+          handleBlur,
+          values,
+        }) => (
+          <FormikForm noValidate>
+            <Container>
+              <div className="flex flex-col gap-4">
+                <InputBlock
+                  htmlName="name"
+                  label="Rotation name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("name", formikErrors, touched)}
+                />
+                <PilotLicenseInputBlock
+                  htmlName="pilotId"
+                  label="Captain pilot license ID"
+                  errors={getErrors("pilotId", formikErrors, touched)}
+                  setFieldValue={setFieldValue}
+                />
+              </div>
+            </Container>
 
-              <Button
-                type="submit"
-                color="indigo"
-                className="mt-6 w-fit ms-auto"
-              >
-                Create
-              </Button>
-            </FormikForm>
-          )}
-        </Formik>
-      </div>
-    </ProtectedRoute>
+            <Button type="submit" color="indigo" className="mt-6 w-fit ms-auto">
+              Create
+            </Button>
+          </FormikForm>
+        )}
+      </Formik>
+    </div>
   );
 }

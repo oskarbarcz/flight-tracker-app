@@ -22,7 +22,7 @@ export default function OperatorOverviewRoute(): JSX.Element {
   usePageTitle(`${operator.shortName} | Operator`);
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
+    <>
       <OperatorNavigation id={operator.id} />
       <OperatorHeader operator={operator} />
       <OperatorInsights operator={operator} />
@@ -30,6 +30,6 @@ export default function OperatorOverviewRoute(): JSX.Element {
       <OperatorTabs id={operator.id} />
 
       <Outlet />
-    </ProtectedRoute>
+    </>
   );
 }

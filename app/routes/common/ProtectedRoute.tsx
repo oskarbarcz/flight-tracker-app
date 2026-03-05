@@ -7,12 +7,12 @@ import { UserRole } from "~/models/user.model";
 import { AuthContext } from "~/state/contexts/session/auth.context";
 
 type Props = {
-  expectedRole?: UserRole;
+  allowedRole?: UserRole;
   children: ReactNode;
 };
 
 export default function ProtectedRoute({
-  expectedRole,
+  allowedRole,
   children,
 }: Props): JSX.Element {
   const { user, isLoading, accessToken } = useContext(AuthContext);
@@ -22,11 +22,10 @@ export default function ProtectedRoute({
   }
 
   if (!user || !accessToken) {
-    // navigate("/sign-in", { replace: true, viewTransition: true });
     return <Navigate to="/sign-in" replace />;
   }
 
-  if (expectedRole && user.role !== expectedRole) {
+  if (allowedRole && user.role !== allowedRole) {
     return <Navigate to="/unauthorized" replace />;
   }
 

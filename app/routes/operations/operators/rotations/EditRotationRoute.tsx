@@ -70,44 +70,40 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
   };
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Edit rotation"
-          backText="Back to operator"
-          backUrl={`/operators/${params.operatorId}/rotations`}
-        />
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Edit rotation"
+        backText="Back to operator"
+        backUrl={`/operators/${params.operatorId}/rotations`}
+      />
 
-        <Form method="post">
-          <Container>
-            <div className="flex flex-col gap-4">
-              <InputBlock
-                htmlName="name"
-                label="Rotation name"
-                defaultValue={rotation.name}
-                errors={response?.isError ? response.errorsForKey("name") : []}
-              />
-              <PilotLicenseInputBlock
-                htmlName="pilotId"
-                label="Captain pilot license ID"
-                defaultValue={rotation.pilot.id}
-                errors={
-                  response?.isError ? response.errorsForKey("pilotId") : []
-                }
-              />
-              <RotationFlightsInputBlock
-                rotation={rotation}
-                legs={rotation.flights}
-                updateLegs={updateLegs}
-              />
-            </div>
-          </Container>
+      <Form method="post">
+        <Container>
+          <div className="flex flex-col gap-4">
+            <InputBlock
+              htmlName="name"
+              label="Rotation name"
+              defaultValue={rotation.name}
+              errors={response?.isError ? response.errorsForKey("name") : []}
+            />
+            <PilotLicenseInputBlock
+              htmlName="pilotId"
+              label="Captain pilot license ID"
+              defaultValue={rotation.pilot.id}
+              errors={response?.isError ? response.errorsForKey("pilotId") : []}
+            />
+            <RotationFlightsInputBlock
+              rotation={rotation}
+              legs={rotation.flights}
+              updateLegs={updateLegs}
+            />
+          </div>
+        </Container>
 
-          <Button type="submit" color="indigo" className="mt-6 w-fit ms-auto">
-            Save changes
-          </Button>
-        </Form>
-      </div>
-    </ProtectedRoute>
+        <Button type="submit" color="indigo" className="mt-6 w-fit ms-auto">
+          Save changes
+        </Button>
+      </Form>
+    </div>
   );
 }

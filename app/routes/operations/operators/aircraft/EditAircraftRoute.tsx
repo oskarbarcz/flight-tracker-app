@@ -104,97 +104,95 @@ export default function EditAircraftRoute({
   };
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Edit aircraft"
-          backText="Back to operator"
-          backUrl={`/operators/${params.operatorId}/fleet`}
-        />
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Edit aircraft"
+        backText="Back to operator"
+        backUrl={`/operators/${params.operatorId}/fleet`}
+      />
 
-        <Formik<EditAircraftRequest>
-          initialValues={{
-            icaoCode: aircraft.icaoCode,
-            shortName: aircraft.shortName,
-            fullName: aircraft.fullName,
-            registration: aircraft.registration,
-            selcal: aircraft.selcal,
-            livery: aircraft.livery,
-          }}
-          validationSchema={aircraftSchema}
-          onSubmit={handleSubmit}
-          enableReinitialize
-        >
-          {({
-            errors: formikErrors,
-            touched,
-            handleChange,
-            handleBlur,
-            values,
-          }) => (
-            <FormikForm noValidate>
-              <Container>
-                <div className="flex flex-col gap-4">
-                  <InputBlock
-                    htmlName="icaoCode"
-                    label="ICAO code"
-                    value={values.icaoCode}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("icaoCode", formikErrors, touched)}
-                  />
-                  <InputBlock
-                    htmlName="shortName"
-                    label="Short name"
-                    value={values.shortName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("shortName", formikErrors, touched)}
-                  />
-                  <InputBlock
-                    htmlName="fullName"
-                    label="Full name"
-                    value={values.fullName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("fullName", formikErrors, touched)}
-                  />
-                  <InputBlock
-                    htmlName="registration"
-                    label="Registration"
-                    value={values.registration}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("registration", formikErrors, touched)}
-                  />
-                  <InputBlock
-                    htmlName="selcal"
-                    label="SELCAL"
-                    value={values.selcal}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("selcal", formikErrors, touched)}
-                  />
-                  <InputBlock
-                    htmlName="livery"
-                    label="Livery name"
-                    value={values.livery}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    errors={getErrors("livery", formikErrors, touched)}
-                  />
-                </div>
-              </Container>
-
-              <div className="flex justify-end pt-4">
-                <Button type="submit" color="indigo">
-                  Save changes
-                </Button>
+      <Formik<EditAircraftRequest>
+        initialValues={{
+          icaoCode: aircraft.icaoCode,
+          shortName: aircraft.shortName,
+          fullName: aircraft.fullName,
+          registration: aircraft.registration,
+          selcal: aircraft.selcal,
+          livery: aircraft.livery,
+        }}
+        validationSchema={aircraftSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({
+          errors: formikErrors,
+          touched,
+          handleChange,
+          handleBlur,
+          values,
+        }) => (
+          <FormikForm noValidate>
+            <Container>
+              <div className="flex flex-col gap-4">
+                <InputBlock
+                  htmlName="icaoCode"
+                  label="ICAO code"
+                  value={values.icaoCode}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("icaoCode", formikErrors, touched)}
+                />
+                <InputBlock
+                  htmlName="shortName"
+                  label="Short name"
+                  value={values.shortName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("shortName", formikErrors, touched)}
+                />
+                <InputBlock
+                  htmlName="fullName"
+                  label="Full name"
+                  value={values.fullName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("fullName", formikErrors, touched)}
+                />
+                <InputBlock
+                  htmlName="registration"
+                  label="Registration"
+                  value={values.registration}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("registration", formikErrors, touched)}
+                />
+                <InputBlock
+                  htmlName="selcal"
+                  label="SELCAL"
+                  value={values.selcal}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("selcal", formikErrors, touched)}
+                />
+                <InputBlock
+                  htmlName="livery"
+                  label="Livery name"
+                  value={values.livery}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={getErrors("livery", formikErrors, touched)}
+                />
               </div>
-            </FormikForm>
-          )}
-        </Formik>
-      </div>
-    </ProtectedRoute>
+            </Container>
+
+            <div className="flex justify-end pt-4">
+              <Button type="submit" color="indigo">
+                Save changes
+              </Button>
+            </div>
+          </FormikForm>
+        )}
+      </Formik>
+    </div>
   );
 }

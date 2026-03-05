@@ -93,10 +93,8 @@ export default function FlightsListRoute() {
   usePageTitle("Flight plans");
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <FlightListProvider>
-        <FlightsListContent />
-      </FlightListProvider>
-    </ProtectedRoute>
+    <FlightListProvider>
+      <FlightsListContent />
+    </FlightListProvider>
   );
 }

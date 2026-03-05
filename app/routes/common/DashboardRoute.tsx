@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
+import { Navigate } from "react-router";
 import { UserRole } from "~/models";
-import OperationsDashboardRoute from "~/routes/operations/OperationsDashboardRoute";
 import PilotDashboardRoute from "~/routes/pilot/PilotDashboardRoute";
 import { useAuth } from "~/state/contexts/session/auth.context";
 
@@ -18,6 +18,6 @@ export default function DashboardRoute() {
   }
 
   if (user.role === UserRole.Operations) {
-    return <OperationsDashboardRoute />;
+    return <Navigate to="/flights" replace />;
   }
 }

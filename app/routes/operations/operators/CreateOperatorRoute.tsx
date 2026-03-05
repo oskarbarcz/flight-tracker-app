@@ -58,7 +58,7 @@ export default function CreateOperatorRoute(): JSX.Element {
   usePageTitle("Create new operators");
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
+    <>
       <div className="mx-auto max-w-md pb-4">
         <SectionHeaderWithBackButton
           sectionTitle="Create new operator"
@@ -89,6 +89,6 @@ export default function CreateOperatorRoute(): JSX.Element {
           <Button type="submit">Create new operator</Button>
         </Form>
       </div>
-    </ProtectedRoute>
+    </>
   );
 }

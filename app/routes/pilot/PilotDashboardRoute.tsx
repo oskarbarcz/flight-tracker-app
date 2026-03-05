@@ -45,7 +45,7 @@ export default function PilotDashboardRoute() {
 
   return (
     <>
-      <ProtectedRoute expectedRole={UserRole.CabinCrew}>
+      <ProtectedRoute allowedRole={UserRole.CabinCrew}>
         <UserHeader />
         <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-3">
           <div className="flex flex-col gap-4">
