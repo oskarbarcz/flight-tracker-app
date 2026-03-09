@@ -4,14 +4,14 @@ import { Label, Select } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 
 type SelectOption = {
   value: string;
   label: string;
 };
 
-type SelectBlockProps = {
+type Props = {
   className?: string;
   field: string;
   label: string;
@@ -20,14 +20,14 @@ type SelectBlockProps = {
   disabled?: boolean;
 };
 
-export default function ManagedSelectBlock({
+export function ManagedSelectBlock({
   className,
   field,
   label,
   required = true,
   options = [],
   disabled = false,
-}: SelectBlockProps) {
+}: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const isError = meta.touched && meta.error;
 
@@ -55,10 +55,7 @@ export default function ManagedSelectBlock({
           </option>
         ))}
       </Select>
-      <InputErrorList
-        errorFocus={Boolean(isError)}
-        errors={isError ? [meta.error as string] : []}
-      />
+      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

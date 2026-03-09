@@ -1,63 +1,36 @@
-import { date, number, ObjectSchema, object, ref, string } from "yup";
-import { FilledSchedule } from "~/models";
-import { CreateFlightFormData } from "~/models/form/flight.form";
+import { date, number, type ObjectSchema, object, ref, string } from "yup";
+import type { FilledSchedule } from "~/models";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
 
-export const newFlightIdentitySchema: ObjectSchema<
-  CreateFlightFormData["identity"]
-> = object({
+export const newFlightIdentitySchema: ObjectSchema<CreateFlightFormData["identity"]> = object({
   flightNumber: string().required("Flight number is required"),
   callsign: string().required("Callsign is required"),
-  aircraftId: string()
-    .uuid("Invalid aircraft")
-    .required("Aircraft is required"),
-  operatorId: string()
-    .uuid("Invalid operator")
-    .required("Operator is required"),
+  aircraftId: string().uuid("Invalid aircraft").required("Aircraft is required"),
+  operatorId: string().uuid("Invalid operators").required("Operator is required"),
 });
 
-export const newFlightRouteSchema: ObjectSchema<CreateFlightFormData["route"]> =
-  object({
-    departureAirportId: string()
-      .uuid("Invalid departure airport")
-      .required("Departure airport is required"),
+export const newFlightRouteSchema: ObjectSchema<CreateFlightFormData["route"]> = object({
+  departureAirportId: string().uuid("Invalid departure airport").required("Departure airport is required"),
 
-    destinationAirportId: string()
-      .uuid("Invalid destination airport")
-      .required("Destination airport is required")
-      .notOneOf(
-        [ref("departureAirportId")],
-        "Departure and destination must be different",
-      ),
-  });
+  destinationAirportId: string()
+    .uuid("Invalid destination airport")
+    .required("Destination airport is required")
+    .notOneOf([ref("departureAirportId")], "Departure and destination must be different"),
+});
 
-export const newFlightScheduleSchema: ObjectSchema<
-  CreateFlightFormData["schedule"]
-> = object({
+export const newFlightScheduleSchema: ObjectSchema<CreateFlightFormData["schedule"]> = object({
   offBlockTime: date().required("Off-block time is required"),
-  takeoffTime: date()
-    .required("Takeoff time is required")
-    .min(ref("offBlockTime"), "Takeoff must be after off-block"),
-  arrivalTime: date()
-    .required("Landing time is required")
-    .min(ref("takeoffTime"), "Landing must be after takeoff"),
-  onBlockTime: date()
-    .required("On-block time is required")
-    .min(ref("arrivalTime"), "On-block must be after landing"),
+  takeoffTime: date().required("Takeoff time is required").min(ref("offBlockTime"), "Takeoff must be after off-block"),
+  arrivalTime: date().required("Landing time is required").min(ref("takeoffTime"), "Landing must be after takeoff"),
+  onBlockTime: date().required("On-block time is required").min(ref("arrivalTime"), "On-block must be after landing"),
 });
 
-export const updateScheduleSchema: ObjectSchema<FilledSchedule> =
-  object().shape({
-    offBlockTime: date().required("Off-block time is required"),
-    takeoffTime: date()
-      .required("Takeoff time is required")
-      .min(ref("offBlockTime"), "Takeoff must be after off-block"),
-    arrivalTime: date()
-      .required("Landing time is required")
-      .min(ref("takeoffTime"), "Landing must be after takeoff"),
-    onBlockTime: date()
-      .required("On-block time is required")
-      .min(ref("arrivalTime"), "On-block must be after landing"),
-  });
+export const updateScheduleSchema: ObjectSchema<FilledSchedule> = object().shape({
+  offBlockTime: date().required("Off-block time is required"),
+  takeoffTime: date().required("Takeoff time is required").min(ref("offBlockTime"), "Takeoff must be after off-block"),
+  arrivalTime: date().required("Landing time is required").min(ref("takeoffTime"), "Landing must be after takeoff"),
+  onBlockTime: date().required("On-block time is required").min(ref("arrivalTime"), "On-block must be after landing"),
+});
 
 export const updatePreliminaryLoadsheetSchema = object().shape({
   pilots: number()
@@ -90,9 +63,7 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
     .test(
       "max-decimals",
       "Maximum 3 decimal places allowed",
-      (value) =>
-        value === undefined ||
-        Math.round(Number(value) * 1000) / 1000 === Number(value),
+      (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 
   payload: number()
@@ -101,9 +72,7 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
     .test(
       "max-decimals",
       "Maximum 3 decimal places allowed",
-      (value) =>
-        value === undefined ||
-        Math.round(Number(value) * 1000) / 1000 === Number(value),
+      (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 
   zeroFuelWeight: number()
@@ -112,9 +81,7 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
     .test(
       "max-decimals",
       "Maximum 3 decimal places allowed",
-      (value) =>
-        value === undefined ||
-        Math.round(Number(value) * 1000) / 1000 === Number(value),
+      (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 
   blockFuel: number()
@@ -123,8 +90,6 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
     .test(
       "max-decimals",
       "Maximum 3 decimal places allowed",
-      (value) =>
-        value === undefined ||
-        Math.round(Number(value) * 1000) / 1000 === Number(value),
+      (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 });

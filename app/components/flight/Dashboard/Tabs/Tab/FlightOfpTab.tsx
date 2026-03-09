@@ -1,16 +1,16 @@
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import useFlightOfp from "~/state/hooks/resources/useFlightOfp";
+import { Container } from "~/components/shared/Layout/Container";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import useFlightOfp from "~/state/api/hooks/useFlightOfp";
 
 function unescapeOFP(html: string): string {
   return html
     .replace(/\\n/g, "<br />") // Newlines
-    .replace(/\\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;") // Tabs
+    .replace(/\\toHuman/g, "&nbsp;&nbsp;&nbsp;&nbsp;") // Tabs
     .replace(/\\r/g, ""); // Remove carriage returns
 }
 
-export default function FlightOfpTab() {
+export function FlightOfpTab() {
   const { flight } = useTrackedFlight();
   const { ofp } = useFlightOfp(flight?.id ?? null);
 
@@ -22,6 +22,7 @@ export default function FlightOfpTab() {
     <Container>
       <div
         className="overflow-auto max-h-186 text-gray-700 dark:text-gray-300 font-mono"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: we trust and verify SimBrief data
         dangerouslySetInnerHTML={{ __html: unescapeOFP(ofp.ofpContent) || "" }}
       />
     </Container>

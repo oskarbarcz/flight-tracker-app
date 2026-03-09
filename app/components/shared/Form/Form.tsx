@@ -2,9 +2,9 @@
 
 import { Formik, Form as FormikForm } from "formik";
 import React from "react";
-import { ObjectSchema } from "yup";
+import type { ObjectSchema } from "yup";
 
-type FormProps<T extends object> = {
+type Props<T extends object> = {
   id?: string;
   initialValues: T;
   validationSchema?: ObjectSchema<T>;
@@ -12,13 +12,7 @@ type FormProps<T extends object> = {
   children: React.ReactNode;
 };
 
-export default function Form<T extends object>({
-  id,
-  initialValues,
-  validationSchema,
-  onSubmit,
-  children,
-}: FormProps<T>) {
+export function Form<T extends object>({ id, initialValues, validationSchema, onSubmit, children }: Props<T>) {
   return (
     <Formik
       initialValues={initialValues}

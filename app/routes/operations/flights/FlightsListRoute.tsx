@@ -4,21 +4,16 @@ import React, { useState } from "react";
 import { FaFileImport } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useSearchParams } from "react-router";
-import FlightListEmptyState from "~/components/flight/Table/FlightListEmptyState";
-import FlightListTable from "~/components/flight/Table/FlightListTable";
-import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
-import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithLink from "~/components/shared/Section/SectionHeaderWithLink";
+import { FlightListEmptyState } from "~/components/flight/Table/FlightListEmptyState";
+import { FlightListTable } from "~/components/flight/Table/FlightListTable";
+import { FlightStatusTabs } from "~/components/flight/Table/Tabs/FlightStatusTabs";
+import { Container } from "~/components/shared/Layout/Container";
+import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import { FlightPhase } from "~/models";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
-import { useApi } from "~/state/contexts/content/api.context";
-import {
-  FlightListProvider,
-  useFlightList,
-} from "~/state/contexts/content/flight-list.context";
-import { useToast } from "~/state/contexts/global/toast.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useApi } from "~/state/api/context/useApi";
+import { FlightListProvider, useFlightList } from "~/state/api/context/useFlightList";
+import { useToast } from "~/state/app/context/useToast";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 function FlightsListContent() {
   const { flightService } = useApi();
@@ -27,9 +22,8 @@ function FlightsListContent() {
   const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const currentPhase =
-    (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
-  const currentPage = Number.parseInt(searchParams.get("page") ?? "1");
+  const currentPhase = (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
+  const currentPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
 
   React.useEffect(() => {
     reloadFlights(currentPhase, currentPage);
@@ -57,7 +51,7 @@ function FlightsListContent() {
 
   return (
     <>
-      <SectionHeaderWithLink
+      <SectionHeaderWithButton
         sectionTitle="Flight plans"
         primaryButton={{
           text: "Import from SimBrief",
@@ -75,11 +69,7 @@ function FlightsListContent() {
       />
       <FlightStatusTabs />
       {flights.length === 0 && !listLoading ? (
-        <FlightListEmptyState
-          phase={currentPhase}
-          onImport={handleImport}
-          importLoading={loading}
-        />
+        <FlightListEmptyState phase={currentPhase} onImport={handleImport} importLoading={loading} />
       ) : (
         <Container padding="none">
           <FlightListTable phase={currentPhase} />
@@ -93,10 +83,8 @@ export default function FlightsListRoute() {
   usePageTitle("Flight plans");
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <FlightListProvider>
-        <FlightsListContent />
-      </FlightListProvider>
-    </ProtectedRoute>
+    <FlightListProvider>
+      <FlightsListContent />
+    </FlightListProvider>
   );
 }

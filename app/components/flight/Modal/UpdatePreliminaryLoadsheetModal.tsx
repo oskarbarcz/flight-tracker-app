@@ -1,34 +1,24 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "flowbite-react";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
-import UpdateLoadsheetForm from "~/components/flight/Forms/UpdateLoadsheetForm";
-import Form from "~/components/shared/Form/Form";
-import { Flight, Loadsheet } from "~/models";
+import { UpdateLoadsheetForm } from "~/components/flight/Forms/UpdateLoadsheetForm";
+import { Form } from "~/components/shared/Form/Form";
+import type { Flight, Loadsheet } from "~/models";
 import { updatePreliminaryLoadsheetSchema } from "~/validator/form/flight.schema";
 import {
-  FlatLoadsheetFormData,
+  type FlatLoadsheetFormData,
   flatLoadsheetToLoadsheet,
   loadsheetToFlatLoadsheet,
 } from "~/validator/form/types/flight.form-types";
 
-type UpdatePreliminaryLoadsheetModalProps = {
+type Props = {
   flight: Flight;
   update: (flightId: string, loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
-export default function UpdatePreliminaryLoadsheetModal({
-  flight,
-  update,
-  cancel,
-}: UpdatePreliminaryLoadsheetModalProps) {
+export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Props) {
   const oldLoadsheet = flight.loadsheets.preliminary ?? {
     flightCrew: { pilots: 0, reliefPilots: 0, cabinCrew: 0 },
     passengers: 0,
@@ -43,12 +33,7 @@ export default function UpdatePreliminaryLoadsheetModal({
   };
 
   return (
-    <Modal
-      size="md"
-      className="text-gray-800 dark:text-white"
-      show
-      onClose={cancel}
-    >
+    <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>Update preliminary loadsheet</ModalHeader>
       <ModalBody>
         <Form<FlatLoadsheetFormData>
@@ -65,16 +50,9 @@ export default function UpdatePreliminaryLoadsheetModal({
           <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button
-            type="submit"
-            form="updatePreliminaryLoadsheetForm"
-            color="indigo"
-            outline
-          >
+          <Button type="submit" form="updatePreliminaryLoadsheetForm" color="indigo" outline>
             Update loadsheet for flight
-            <span className="font-mono font-bold ms-1">
-              {flight.flightNumberWithoutSpaces}
-            </span>
+            <span className="font-mono font-bold ms-1">{flight.flightNumberWithoutSpaces}</span>
           </Button>
         </div>
       </ModalFooter>

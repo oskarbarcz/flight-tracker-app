@@ -2,11 +2,11 @@
 
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { ObjectSchema } from "yup";
-import FormSectionHeader from "~/components/shared/Form/Partial/FormSectionHeader";
-import Container from "~/components/shared/Layout/Container";
+import type { ObjectSchema } from "yup";
+import { FormSectionHeader } from "~/components/shared/Form/Partial/FormSectionHeader";
+import { Container } from "~/components/shared/Layout/Container";
 
-type FormSectionProps<T extends object> = {
+type Props<T extends object> = {
   initialValues: T;
   validationSchema?: ObjectSchema<T>;
   isEditable: boolean;
@@ -16,7 +16,7 @@ type FormSectionProps<T extends object> = {
   children: React.ReactNode;
 };
 
-export default function FormSection<T extends object>({
+export function FormSection<T extends object>({
   initialValues,
   validationSchema,
   isEditable,
@@ -24,7 +24,7 @@ export default function FormSection<T extends object>({
   title,
   onSubmit,
   children,
-}: FormSectionProps<T>) {
+}: Props<T>) {
   const [showSavedInfo, setShowSavedInfo] = useState<boolean>(false);
 
   const handleSubmit = (values: T) => {

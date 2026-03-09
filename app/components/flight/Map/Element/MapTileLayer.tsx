@@ -3,7 +3,7 @@
 import { useThemeMode } from "flowbite-react";
 import { TileLayer } from "react-leaflet";
 
-export default function MapTileLayer() {
+export function MapTileLayer() {
   const { mode } = useThemeMode();
 
   const tileUrls = {

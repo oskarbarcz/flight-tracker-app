@@ -4,28 +4,22 @@ import { Button } from "flowbite-react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { Link } from "react-router";
 
-type SectionHeaderWithBackButtonProps = {
+type Props = {
   sectionTitle: string;
   backUrl: string;
   backText: string;
 };
 
-export default function SectionHeaderWithBackButton({
-  sectionTitle,
-  backUrl,
-  backText,
-}: SectionHeaderWithBackButtonProps) {
+export function SectionHeaderWithBackButton({ sectionTitle, backUrl, backText }: Props) {
   return (
     <div className="mx-auto my-6">
-      <Link className="block" to={backUrl} replace viewTransition>
+      <Link className="block" to={backUrl} viewTransition>
         <Button color="gray" size="xs">
           <HiOutlineArrowLeft className="mr-2 size-4" />
           {backText}
         </Button>
       </Link>
-      <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">
-        {sectionTitle}
-      </h2>
+      <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
     </div>
   );
 }

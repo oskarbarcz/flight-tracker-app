@@ -1,21 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  FaCircleInfo,
-  FaClock,
-  FaPlaneArrival,
-  FaPlaneDeparture,
-} from "react-icons/fa6";
+import { FaCircleInfo, FaClock, FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { FormattedLocalTime } from "~/components/shared/Date/FormattedLocalTime";
 import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function TimeManagementBox() {
+export function TimeManagementBox() {
   const { flight } = useTrackedFlight();
 
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
@@ -70,41 +65,25 @@ export default function TimeManagementBox() {
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">
-            Departure ({flight.departureAirport.iataCode})
-          </span>
+          <span className="text-gray-500 text-sm">Departure ({flight.departureAirport.iataCode})</span>
           <p className="font-bold text-lg">
-            <FormattedTimezoneTime
-              date={currentTime}
-              timezone={flight.departureAirport.timezone}
-            />
+            <FormattedTimezoneTime date={currentTime} timezone={flight.departureAirport.timezone} />
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
           <p className="font-bold">
-            <FaPlaneDeparture
-              size="32"
-              className="text-indigo-500 mr-4 inline-block"
-            />
+            <FaPlaneDeparture size="32" className="text-indigo-500 mr-4 inline-block" />
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">
-            Arrival ({flight.destinationAirport.iataCode})
-          </span>
+          <span className="text-gray-500 text-sm">Arrival ({flight.destinationAirport.iataCode})</span>
           <p className="font-bold text-lg">
-            <FormattedTimezoneTime
-              date={currentTime}
-              timezone={flight.destinationAirport.timezone}
-            />
+            <FormattedTimezoneTime date={currentTime} timezone={flight.destinationAirport.timezone} />
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
           <p className="font-bold">
-            <FaPlaneArrival
-              size="32"
-              className="text-indigo-500 mr-4 inline-block"
-            />
+            <FaPlaneArrival size="32" className="text-indigo-500 mr-4 inline-block" />
           </p>
         </div>
       </div>

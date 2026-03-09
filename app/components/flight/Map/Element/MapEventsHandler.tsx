@@ -1,10 +1,10 @@
 "use client";
 
-import { FitBoundsOptions, LatLngBounds } from "leaflet";
+import type { FitBoundsOptions, LatLngBounds } from "leaflet";
 import { useCallback, useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
-import { FlightPathElement, Position } from "~/models";
-import { useMapSettings } from "~/state/contexts/settings/map-settings.context";
+import type { FlightPathElement, Position } from "~/models";
+import { useMapSettings } from "~/state/app/context/useMapSettings";
 
 type MapEventsHandlerProps = {
   bounds: LatLngBounds;
@@ -12,11 +12,7 @@ type MapEventsHandlerProps = {
   options?: FitBoundsOptions;
 };
 
-export default function MapEventsHandler({
-  bounds,
-  aircraftPosition,
-  options,
-}: MapEventsHandlerProps) {
+export function MapEventsHandler({ bounds, aircraftPosition, options }: MapEventsHandlerProps) {
   const map = useMap();
   const { mapSettings } = useMapSettings();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -25,10 +21,7 @@ export default function MapEventsHandler({
     if (!mapSettings.autoCenter) return;
 
     if (mapSettings.centerOn === "aircraft" && aircraftPosition) {
-      const lastPosition: Position = [
-        aircraftPosition.latitude,
-        aircraftPosition.longitude,
-      ];
+      const lastPosition: Position = [aircraftPosition.latitude, aircraftPosition.longitude];
       map.flyTo(lastPosition, map.getZoom(), options);
     } else if (mapSettings.centerOn === "route") {
       map.flyToBounds(bounds, options);

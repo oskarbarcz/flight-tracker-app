@@ -2,16 +2,13 @@
 
 import React from "react";
 
-type FormSectionEditProps = {
+type Props = {
   title: string;
 };
 
-export default function FormSectionSave({ title }: FormSectionEditProps) {
+export function FormSectionSave({ title }: Props) {
   return (
-    <button
-      className="cursor-pointer font-bold text-indigo-500 px-4"
-      type="submit"
-    >
+    <button className="cursor-pointer font-bold text-indigo-500 px-4" type="submit">
       {title}
     </button>
   );

@@ -2,15 +2,11 @@
 
 import { FloatingLabel } from "flowbite-react";
 import { useField } from "formik";
-import React, {
-  HTMLInputAutoCompleteAttribute,
-  useEffect,
-  useState,
-} from "react";
+import React, { type HTMLInputAutoCompleteAttribute, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 
-type ManagedDateTimeInputBlockProps = {
+type Props = {
   className?: string;
   field: string;
   label: string;
@@ -42,13 +38,7 @@ const parseDateTime = (dateTimeString: string): Date | null => {
     const [day, month, year] = datePart.split("-").map(Number);
     const [hours, minutes] = timePart.split(":").map(Number);
 
-    if (
-      !day ||
-      !month ||
-      !year ||
-      hours === undefined ||
-      minutes === undefined
-    ) {
+    if (!day || !month || !year || hours === undefined || minutes === undefined) {
       return null;
     }
 
@@ -59,7 +49,7 @@ const parseDateTime = (dateTimeString: string): Date | null => {
   }
 };
 
-export default function ManagedDateTimeInputBlock({
+export function ManagedDateTimeInputBlock({
   className,
   field,
   label,
@@ -67,12 +57,10 @@ export default function ManagedDateTimeInputBlock({
   defaultValue,
   required = true,
   disabled = false,
-}: ManagedDateTimeInputBlockProps) {
+}: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const [inputValue, setInputValue] = useState<string>(
-    fieldProps.value instanceof Date
-      ? formatDateTimeLocal(fieldProps.value)
-      : "",
+    fieldProps.value instanceof Date ? formatDateTimeLocal(fieldProps.value) : "",
   );
   const isError = meta.touched && meta.error;
 
@@ -117,10 +105,7 @@ export default function ManagedDateTimeInputBlock({
         placeholder="DD-MM-YYYY HH:mm"
         className="dark:bg-gray-800"
       />
-      <InputErrorList
-        errorFocus={Boolean(isError)}
-        errors={isError ? [meta.error as string] : []}
-      />
+      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

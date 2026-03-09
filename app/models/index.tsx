@@ -6,7 +6,4 @@ export * from "./flight.model";
 export * from "./form/airport.form";
 export * from "./operator.model";
 export * from "./rotation.model";
-export * from "./skylink.model";
-export * from "./timesheet.model";
-export * from "./translate/flight.translate";
 export * from "./user.model";

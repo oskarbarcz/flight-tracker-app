@@ -1,27 +1,22 @@
 "use client";
 
 import Arc from "arc";
-import { LatLngTuple } from "leaflet";
+import type { LatLngTuple } from "leaflet";
 import { Polyline } from "react-leaflet";
-import { Airport } from "~/models";
+import type { Airport } from "~/models";
 
 type GreatCirclePathType = {
   start: Airport;
   end: Airport;
 };
 
-function generateGreatCirclePath(
-  from: { x: number; y: number },
-  to: { x: number; y: number },
-) {
+function generateGreatCirclePath(from: { x: number; y: number }, to: { x: number; y: number }) {
   const gc = new Arc.GreatCircle(from, to);
   const line = gc.Arc(100, { offset: 10 });
-  return line.geometries[0].coords.map(
-    ([lon, lat]) => [lat, lon] as LatLngTuple,
-  );
+  return line.geometries[0].coords.map(([lon, lat]) => [lat, lon] as LatLngTuple);
 }
 
-export default function GreatCirclePath({ start, end }: GreatCirclePathType) {
+export function GreatCirclePath({ start, end }: GreatCirclePathType) {
   const startPos = { x: start.location.longitude, y: start.location.latitude };
   const endPos = { x: end.location.longitude, y: end.location.latitude };
   const path = generateGreatCirclePath(startPos, endPos);

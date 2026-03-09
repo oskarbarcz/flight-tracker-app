@@ -1,25 +1,31 @@
-import { Aircraft, CreateAircraftDto, EditAircraftDto } from "~/models";
+import type { Aircraft } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import type { CreateAircraftRequest, EditAircraftRequest } from "~/state/api/request/operator.request";
 
 export class AircraftService extends AbstractAuthorizedApiService {
+  /** @deprecated Use `fetchAllByOperator` instead */
   async fetchAll(): Promise<Aircraft[]> {
-    return this.requestWithAuth<Aircraft[]>("/api/v1/aircraft");
+    return this.fetchWithAuth<Aircraft[]>("/api/v1/aircraft");
   }
 
-  async createNew(aircraft: CreateAircraftDto): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>("/api/v1/aircraft", {
-      body: JSON.stringify(aircraft),
+  async fetchAllByOperator(operatorId: string) {
+    return this.fetchWithAuth<Aircraft[]>(`/api/v1/operator/${operatorId}/aircraft`);
+  }
+
+  async fetchById(id: string) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
+  }
+
+  async createNew(operatorId: string, data: CreateAircraftRequest) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft`, {
+      body: JSON.stringify(data),
       method: "POST",
     });
   }
 
-  async getById(id: string): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
-  }
-
-  async update(id: string, aircraft: EditAircraftDto): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`, {
-      body: JSON.stringify(aircraft),
+  async update(operatorId: string, aircraftId: string, data: EditAircraftRequest) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}`, {
+      body: JSON.stringify(data),
       method: "PATCH",
     });
   }

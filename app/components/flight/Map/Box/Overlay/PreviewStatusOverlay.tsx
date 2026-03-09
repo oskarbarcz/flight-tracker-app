@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FlightStatus } from "~/models";
-import { useAdsbData } from "~/state/contexts/content/adsb.context";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useAdsbData } from "~/state/api/context/useAdsbData";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function MapPreviewStatusOverlay() {
+export function MapPreviewStatusOverlay() {
   const { flight } = useTrackedFlight();
   const { flightPath } = useAdsbData();
 
@@ -20,11 +20,9 @@ export default function MapPreviewStatusOverlay() {
 
   if (!flight) return;
 
-  const isFlightTrackable = [
-    FlightStatus.TaxiingOut,
-    FlightStatus.InCruise,
-    FlightStatus.TaxiingIn,
-  ].includes(flight.status);
+  const isFlightTrackable = [FlightStatus.TaxiingOut, FlightStatus.InCruise, FlightStatus.TaxiingIn].includes(
+    flight.status,
+  );
 
   if (isFlightTrackable && !isFlightTracked) {
     return (

@@ -1,0 +1,82 @@
+"use client";
+
+import { Button } from "flowbite-react";
+import React from "react";
+import { PickFlightModal } from "~/components/operator/Modal/PickFlightModal";
+import type { Flight, RotationFlight } from "~/models";
+import { useApi } from "~/state/api/context/useApi";
+import type { GetRotationResponse } from "~/state/api/request/operator.request";
+import { LegPreview } from "./Preview/LegPreview";
+
+type Props = {
+  rotation: GetRotationResponse;
+  legs: RotationFlight[];
+  updateLegs: () => void;
+};
+
+export function RotationFlightsInputBlock({ rotation, legs, updateLegs }: Props) {
+  const { flightService, rotationService } = useApi();
+  const [flights, setFlights] = React.useState<Flight[]>([]);
+  const [showFlightPicker, setShowFlightPicker] = React.useState(false);
+
+  React.useEffect(() => {
+    if (legs.length === 0) {
+      setFlights([]);
+      return;
+    }
+
+    Promise.all(legs.map((leg) => flightService.fetchById(leg.id))).then(setFlights);
+  }, [legs, flightService]);
+
+  const onPickerClose = () => {
+    setShowFlightPicker(false);
+    updateLegs();
+  };
+
+  const removeLegAction = (flight: Flight) => {
+    rotationService.removeFlight(rotation.id, flight.id).then(() => {
+      setFlights(flights.filter((eachFlight) => eachFlight.id !== flight.id));
+    });
+  };
+
+  return (
+    <div>
+      <div className="mb-2 block text-sm">Legs</div>
+      {flights.length > 0 ? (
+        <div>
+          {flights.map((flight) => (
+            <LegPreview
+              key={flight.id}
+              flight={flight}
+              actionButton={
+                <Button color="light" onClick={() => removeLegAction(flight)}>
+                  Remove
+                </Button>
+              }
+            />
+          ))}
+          <button
+            type="button"
+            onClick={() => setShowFlightPicker(true)}
+            className="mx-auto my-4 block font-bold text-indigo-500 hover:text-indigo-600"
+          >
+            Add next leg
+          </button>
+        </div>
+      ) : (
+        <div>
+          <p className="mt-4 block text-center">Currently there are no legs in this rotation.</p>
+          <button
+            type="button"
+            onClick={() => setShowFlightPicker(true)}
+            className="mx-auto mb-4 mt-1 block font-bold text-indigo-500 hover:text-indigo-600 dark:text-indigo-600 dark:hover:text-indigo-400"
+          >
+            Add first leg
+          </button>
+        </div>
+      )}
+
+      {showFlightPicker && <PickFlightModal rotation={rotation} close={onPickerClose} />}
+    </div>
+  );
+}

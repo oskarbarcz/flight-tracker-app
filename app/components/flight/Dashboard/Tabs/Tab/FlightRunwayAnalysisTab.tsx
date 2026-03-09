@@ -1,7 +1,7 @@
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import useFlightOfp from "~/state/hooks/resources/useFlightOfp";
+import { Container } from "~/components/shared/Layout/Container";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import useFlightOfp from "~/state/api/hooks/useFlightOfp";
 
 function unescapeRunwayAnalysis(html: string): string {
   return html
@@ -9,7 +9,7 @@ function unescapeRunwayAnalysis(html: string): string {
     .replaceAll("\n", "<br />"); // Replace carriage returns
 }
 
-export default function FlightRunwayAnalysisTab() {
+export function FlightRunwayAnalysisTab() {
   const { flight } = useTrackedFlight();
   const { ofp } = useFlightOfp(flight?.id ?? null);
 
@@ -22,10 +22,9 @@ export default function FlightRunwayAnalysisTab() {
       <div className="overflow-auto leading-tight text-[13px] max-h-186 text-gray-700 dark:text-gray-300 font-mono">
         <b>[ Runway analysis ]</b>
         <br />
-        <b>
-          --------------------------------------------------------------------
-        </b>
+        <b>--------------------------------------------------------------------</b>
         <div
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: we trust and verify SimBrief data
           dangerouslySetInnerHTML={{
             __html: unescapeRunwayAnalysis(ofp.runwayAnalysis) || "",
           }}

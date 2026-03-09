@@ -1,18 +1,10 @@
 "use client";
 
-import {
-  Button,
-  Label,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Radio,
-} from "flowbite-react";
+import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Radio } from "flowbite-react";
 import React, { useState } from "react";
-import { Flight, Tracking } from "~/models";
+import { type Flight, Tracking } from "~/models";
 
-type UpdateTrackingModalProps = {
+type Props = {
   flight: Flight;
   update: (flightId: string, tracking: Tracking) => void;
   cancel: () => void;
@@ -28,14 +20,12 @@ const trackingOptions: TrackingOption[] = [
   {
     value: Tracking.Disabled,
     label: "Disabled",
-    description:
-      "Flight is visible only to you and cannot be tracked by third parties.",
+    description: "Flight is visible only to you and cannot be tracked by third parties.",
   },
   {
     value: Tracking.Private,
     label: "Private",
-    description:
-      "Flight is visible only to you and people you share tracking link with.",
+    description: "Flight is visible only to you and people you share tracking link with.",
   },
   {
     value: Tracking.Public,
@@ -44,29 +34,19 @@ const trackingOptions: TrackingOption[] = [
   },
 ];
 
-export default function UpdateTrackingModal({
-  flight,
-  update,
-  cancel,
-}: UpdateTrackingModalProps) {
-  const [selectedTracking, setSelectedTracking] = useState<Tracking>(
-    flight.tracking,
-  );
+export function UpdateTrackingModal({ flight, update, cancel }: Props) {
+  const [selectedTracking, setSelectedTracking] = useState<Tracking>(flight.tracking);
 
   return (
-    <Modal
-      size="sm"
-      className="text-gray-800 dark:text-white"
-      show
-      onClose={cancel}
-    >
+    <Modal size="sm" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>Change flight visibility</ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <div className="space-y-3">
           {trackingOptions.map((option) => (
-            <div
+            <button
+              type="button"
               key={option.value}
-              className="flex items-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+              className="flex items-start text-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
               onClick={() => setSelectedTracking(option.value)}
             >
               <Radio
@@ -84,11 +64,9 @@ export default function UpdateTrackingModal({
                 >
                   {option.label}
                 </Label>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  {option.description}
-                </p>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{option.description}</p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </ModalBody>
@@ -97,11 +75,7 @@ export default function UpdateTrackingModal({
           <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button
-            color="indigo"
-            outline
-            onClick={() => update(flight.id, selectedTracking)}
-          >
+          <Button color="indigo" outline onClick={() => update(flight.id, selectedTracking)}>
             Save changes
           </Button>
         </div>

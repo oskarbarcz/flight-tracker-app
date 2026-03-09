@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedDateTimeInputBlock from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
-import { CreateFlightFormData } from "~/models/form/flight.form";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { newFlightScheduleSchema } from "~/validator/form/flight.schema";
 
 type ScheduleFormData = CreateFlightFormData["schedule"];
@@ -13,7 +13,7 @@ type Props = {
   onSubmit: (data: ScheduleFormData) => void;
 };
 
-export default function FlightScheduleFormSection({ data, onSubmit }: Props) {
+export function FlightScheduleFormSection({ data, onSubmit }: Props) {
   const [initialValues, setInitialValues] = useState<ScheduleFormData>(data);
   const [isEditable, setIsEditable] = useState<boolean>(true);
 

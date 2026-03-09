@@ -2,8 +2,8 @@ import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaPlane } from "react-icons/fa";
 import { FaFileInvoice, FaUserGroup } from "react-icons/fa6";
-import BasicFlightInfoOverlay from "~/components/flight/Map/FullScreen/Overlay/BasicFlightInfoOverlay";
-import { Flight } from "~/models";
+import { BasicFlightInfoOverlay } from "~/components/flight/Map/FullScreen/Overlay/BasicFlightInfoOverlay";
+import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight;
@@ -13,7 +13,7 @@ function activityToColor(isShown: boolean): string {
   return isShown ? "indigo" : "alternative";
 }
 
-export default function FlightDetailsSectionOverlay({ flight }: Props) {
+export function FlightDetailsSectionOverlay({ flight }: Props) {
   const [showFlightDetails, setShowFlightDetails] = useState<boolean>(true);
 
   return (
@@ -33,9 +33,7 @@ export default function FlightDetailsSectionOverlay({ flight }: Props) {
           <FaUserGroup size={18} />
         </Button>
       </div>
-      <div>
-        {showFlightDetails && <BasicFlightInfoOverlay flight={flight} />}
-      </div>
+      <div>{showFlightDetails && <BasicFlightInfoOverlay flight={flight} />}</div>
     </div>
   );
 }

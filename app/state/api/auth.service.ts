@@ -1,16 +1,16 @@
-import { SignInRequest, SignInResponse } from "~/models";
+import type { SignInRequest, SignInResponse } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 
 export class AuthService extends AbstractAuthorizedApiService {
-  async signIn(credentials: SignInRequest): Promise<SignInResponse> {
+  async signIn(credentials: SignInRequest) {
     return this.request<SignInResponse>("/api/v1/auth/sign-in", {
       method: "POST",
       body: JSON.stringify(credentials),
     });
   }
 
-  async signOut(): Promise<void> {
-    await this.requestWithAuth<void>("/api/v1/auth/sign-out", {
+  async signOut() {
+    await this.fetchWithAuth<void>("/api/v1/auth/sign-out", {
       method: "POST",
     });
   }

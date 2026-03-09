@@ -6,20 +6,17 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo, FaPlaneDeparture } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import Container from "~/components/shared/Layout/Container";
-import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { Flight } from "~/models";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight | undefined;
   isCurrentFlight: boolean;
 };
 
-export default function NextScheduledFlightBox({
-  flight,
-  isCurrentFlight,
-}: Props) {
+export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">
@@ -38,40 +35,26 @@ export default function NextScheduledFlightBox({
 
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div className="w-full">
-          <span className="block text-3xl font-bold">
-            {flight.flightNumber}
-          </span>
-          <span className="text-sm text-gray-500 mb-2">
-            {flight.aircraft.fullName}
-          </span>
+          <span className="block text-3xl font-bold">{flight.flightNumber}</span>
+          <span className="text-sm text-gray-500 mb-2">{flight.aircraft.fullName}</span>
         </div>
         <div className="w-full text-right">
           <span className="text-right text-xl font-bold ">
             <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
           </span>
-          <span className="block text-sm text-gray-500 mb-2 leading-5">
-            Departure
-          </span>
+          <span className="block text-sm text-gray-500 mb-2 leading-5">Departure</span>
         </div>
       </article>
 
       <article className="flex items-center bg-gray-50 dark:bg-gray-950 justify-evenly border border-dashed border-gray-200 dark:border-gray-800 mb-6 rounded-xl p-3">
         <div className="basis-64 text-center p-3">
-          <span className="font-bold text-2xl">
-            {flight.departureAirport.icaoCode}
-          </span>
-          <span className="block text-sm text-gray-500 leading-4">
-            {flight.departureAirport.city}
-          </span>
+          <span className="font-bold text-2xl">{flight.departureAirport.icaoCode}</span>
+          <span className="block text-sm text-gray-500 leading-4">{flight.departureAirport.city}</span>
         </div>
         <FaPlaneDeparture className="text-gray-300 text-3xl" />
         <div className="basis-64 text-center p-3">
-          <span className="font-bold text-2xl">
-            {flight.destinationAirport.icaoCode}
-          </span>
-          <span className="block text-sm text-gray-500 leading-4">
-            {flight.destinationAirport.city}
-          </span>
+          <span className="font-bold text-2xl">{flight.destinationAirport.icaoCode}</span>
+          <span className="block text-sm text-gray-500 leading-4">{flight.destinationAirport.city}</span>
         </div>
       </article>
 
@@ -81,7 +64,6 @@ export default function NextScheduledFlightBox({
           size={isCurrentFlight ? "xs" : undefined}
           as={Link}
           to={`track/${flight.id}`}
-          replace
           viewTransition
         >
           See details

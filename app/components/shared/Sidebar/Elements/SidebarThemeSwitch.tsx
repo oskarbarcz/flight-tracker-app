@@ -2,12 +2,8 @@
 
 import { useThemeMode } from "flowbite-react";
 import React from "react";
-import { IconType } from "react-icons";
-import {
-  MdBrightnessAuto,
-  MdBrightnessHigh,
-  MdBrightnessLow,
-} from "react-icons/md";
+import type { IconType } from "react-icons";
+import { MdBrightnessAuto, MdBrightnessHigh, MdBrightnessLow } from "react-icons/md";
 
 type ThemeMode = "light" | "dark" | "auto";
 
@@ -33,7 +29,7 @@ function getIconForMode(mode: ThemeMode): IconType {
   }
 }
 
-export default function SidebarThemeSwitch() {
+export function SidebarThemeSwitch() {
   const { mode: currentMode, setMode } = useThemeMode();
   const Icon = getIconForMode(currentMode);
 
@@ -44,6 +40,7 @@ export default function SidebarThemeSwitch() {
 
   return (
     <button
+      type="button"
       onClick={handleThemeSwitch}
       className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 items-center cursor-pointer flex gap-3 py-2 px-3 rounded-xl ease-in-out transition-colors w-full text-left"
     >

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedInputBlock from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { createAirportGeneralSchema } from "~/validator/form/create-airport.schema";
 
 export type AirportGeneralFormData = {
@@ -11,17 +11,13 @@ export type AirportGeneralFormData = {
   name: string;
 };
 
-type AirportGeneralFormSectionProps = {
+type Props = {
   data: AirportGeneralFormData;
   onSubmit: (data: AirportGeneralFormData) => void;
 };
 
-export default function AirportGeneralFormSection({
-  data,
-  onSubmit,
-}: AirportGeneralFormSectionProps) {
-  const [initialValues, setInitialValues] =
-    useState<AirportGeneralFormData>(data);
+export function AirportGeneralFormSection({ data, onSubmit }: Props) {
+  const [initialValues, setInitialValues] = useState<AirportGeneralFormData>(data);
   const [isEditable, setIsEditable] = useState<boolean>(true);
 
   useEffect(() => {
@@ -39,25 +35,13 @@ export default function AirportGeneralFormSection({
     >
       <div className="flex gap-4">
         <div className="basis-1/4">
-          <ManagedInputBlock
-            field="iataCode"
-            label="IATA code"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="iataCode" label="IATA code" disabled={!isEditable} />
         </div>
         <div className="basis-1/4">
-          <ManagedInputBlock
-            field="icaoCode"
-            label="ICAO code"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="icaoCode" label="ICAO code" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="name"
-            label="Airport name"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="name" label="Airport name" disabled={!isEditable} />
         </div>
       </div>
     </FormSection>

@@ -35,21 +35,17 @@ function getTimezoneOffset(date: Date, timezone: string): string {
   return offsetPart?.value || "";
 }
 
-type FormattedTimezoneTimeProps = {
+type Props = {
   date: Date;
   timezone: string;
 };
 
-export function FormattedTimezoneTime({
-  date,
-  timezone,
-}: FormattedTimezoneTimeProps) {
+export function FormattedTimezoneTime({ date, timezone }: Props) {
   return (
     <span className="font-mono">
       {dateToTimezoneTime(date, timezone)}
       <span className="text-xs">
-        {getTimezoneOffset(date, timezone)}|
-        {getTimezoneAbbreviation(date, timezone)}
+        {getTimezoneOffset(date, timezone)}|{getTimezoneAbbreviation(date, timezone)}
       </span>
     </span>
   );

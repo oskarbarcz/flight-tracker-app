@@ -1,4 +1,4 @@
-export default function getFormData<T>(form: FormData, keys: (keyof T)[]): T {
+export default function getFormData<T>(form: FormData, keys: (keyof T)[]) {
   const data: Partial<Record<keyof T, string | number>> = {};
 
   for (const key of keys) {

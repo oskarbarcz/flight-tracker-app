@@ -18,6 +18,3 @@ export type UserStats = {
     blockTime: number;
   };
 };
-
-export type GetUserResponse = User;
-export type ListUsersResponse = User[];

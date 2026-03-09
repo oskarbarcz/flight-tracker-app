@@ -1,13 +1,8 @@
-import { Continent } from "~/models";
-import { CreateAirportFormData } from "~/models/form/airport.form";
-import {
-  CreateAirportRequest,
-  GetAirportResponse,
-} from "~/state/api/model/airport.dto";
+import type { Continent } from "~/models";
+import type { CreateAirportFormData } from "~/models/form/airport.form";
+import type { CreateAirportRequest, GetAirportResponse } from "~/state/api/request/airport.request";
 
-export function formDataToApiFormat(
-  input: CreateAirportFormData,
-): CreateAirportRequest {
+export function formDataToApiFormat(input: CreateAirportFormData): CreateAirportRequest {
   return {
     ...input.general,
     city: input.location.city,
@@ -21,9 +16,7 @@ export function formDataToApiFormat(
   };
 }
 
-export function airportToFormData(
-  input: GetAirportResponse,
-): CreateAirportFormData {
+export function airportToFormData(input: GetAirportResponse): CreateAirportFormData {
   return {
     isGeneralSubmitted: false,
     isLocationSubmitted: false,

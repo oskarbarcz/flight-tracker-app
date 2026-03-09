@@ -2,21 +2,14 @@
 
 import React from "react";
 
-type FormSectionEditProps = {
+type Props = {
   title: string;
   onClick: () => void;
 };
 
-export default function FormSectionEdit({
-  title,
-  onClick,
-}: FormSectionEditProps) {
+export function FormSectionEdit({ title, onClick }: Props) {
   return (
-    <button
-      className="cursor-pointer font-bold text-indigo-500 px-4"
-      type="button"
-      onClick={onClick}
-    >
+    <button className="cursor-pointer font-bold text-indigo-500 px-4" type="button" onClick={onClick}>
       {title}
     </button>
   );

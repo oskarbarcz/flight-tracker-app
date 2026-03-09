@@ -2,11 +2,11 @@
 
 import React from "react";
 import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { toHuman } from "~/i18n/translate";
 import { FlightStatus } from "~/models";
-import translateFlightStatus from "~/models/translate/flight.translate";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 function showNextAction(status: FlightStatus): boolean {
   return [
@@ -23,7 +23,7 @@ function showNextAction(status: FlightStatus): boolean {
   ].includes(status);
 }
 
-export default function FlightProgressBox() {
+export function FlightProgressBox() {
   const { flight } = useTrackedFlight();
 
   if (!flight) return null;
@@ -34,9 +34,7 @@ export default function FlightProgressBox() {
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-full mb-2">
           <span className="text-gray-500 text-sm">Flight status</span>
-          <p className="font-bold text-indigo-500">
-            {translateFlightStatus(flight.status)}
-          </p>
+          <p className="font-bold text-indigo-500">{toHuman.flight.status.standard(flight.status)}</p>
         </div>
       </div>
       <hr className="mt-1 mb-3 border-gray-300 dark:border-gray-700" />

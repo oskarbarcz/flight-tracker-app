@@ -1,49 +1,40 @@
-import {
-  index,
-  layout,
-  prefix,
-  type RouteConfig,
-  route,
-} from "@react-router/dev/routes";
+import { index, layout, type RouteConfig, route } from "@react-router/dev/routes";
 
 export default [
-  layout("layout/AuthLayout.tsx", [
-    route("sign-in", "routes/common/auth/SignInRoute.tsx"),
-    route("sign-out", "routes/common/auth/SignOutRoute.tsx"),
+  layout("routes/auth/AuthLayout.tsx", [
+    route("sign-in", "routes/auth/SignInRoute.tsx"),
+    route("sign-out", "routes/auth/SignOutRoute.tsx"),
   ]),
-  layout("layout/AppLayout.tsx", [
+  layout("routes/public/MapLayout.tsx", [route("map/:id", "routes/public/MapRoute.tsx")]),
+  layout("routes/AppLayout.tsx", [
     index("routes/common/DashboardRoute.tsx"),
-    ...prefix("track", [
-      route(":id", "routes/pilot/track/TrackFlightRoute.tsx"),
-    ]),
-    ...prefix("operators", [
-      index("routes/operations/operators/OperatorsListRoute.tsx"),
-      route("new", "routes/operations/operators/CreateOperatorRoute.tsx"),
-      route(":id/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
-    ]),
-    ...prefix("airports", [
-      index("routes/operations/airports/AirportsListRoute.tsx"),
-      route("new", "routes/operations/airports/CreateAirportRoute.tsx"),
-      route(":id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
-    ]),
-    ...prefix("aircraft", [
-      index("routes/operations/aircraft/AircraftListRoute.tsx"),
-      route("new", "routes/operations/aircraft/CreateAircraftRoute.tsx"),
-      route(":id/edit", "routes/operations/aircraft/EditAircraftRoute.tsx"),
-    ]),
-    ...prefix("rotations", [
-      index("routes/operations/rotations/RotationListRoute.tsx"),
-      route("new", "routes/operations/rotations/CreateRotationRoute.tsx"),
-      route(":id/edit", "routes/operations/rotations/EditRotationRoute.tsx"),
-    ]),
-    ...prefix("flights", [
-      index("routes/operations/flights/FlightsListRoute.tsx"),
-      route("new", "routes/operations/flights/CreateFlightRoute.tsx"),
-    ]),
-  ]),
-  layout("layout/MapLayout.tsx", [
-    ...prefix("live-tracking", [
-      route(":id", "routes/public/PublicTrackingRoute.tsx"),
+    layout("routes/pilot/PilotLayout.tsx", [route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx")]),
+    layout("routes/operations/OperationsLayout.tsx", [
+      // operations - operators
+      route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),
+      route("operators/new", "routes/operations/operators/CreateOperatorRoute.tsx"),
+      route("operators/:operatorId/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
+      layout("routes/operations/operators/OperatorLayout.tsx", [
+        route("operators/:operatorId/fleet", "routes/operations/operators/aircraft/OperatorFleetRoute.tsx"),
+        route("operators/:operatorId/rotations", "routes/operations/operators/rotations/OperatorRotationsRoute.tsx"),
+      ]),
+      route("operators/:operatorId/aircraft/add", "routes/operations/operators/aircraft/CreateAircraftRoute.tsx"),
+      route(
+        "operators/:operatorId/aircraft/:aircraftId/edit",
+        "routes/operations/operators/aircraft/EditAircraftRoute.tsx",
+      ),
+      route("operators/:operatorId/rotations/new", "routes/operations/operators/rotations/CreateRotationRoute.tsx"),
+      route(
+        "operators/:operatorId/rotations/:rotationId/edit",
+        "routes/operations/operators/rotations/EditRotationRoute.tsx",
+      ),
+      // operations - flights
+      route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
+      route("flights/new", "routes/operations/flights/CreateFlightRoute.tsx"),
+      // operations - airports
+      route("airports", "routes/operations/airports/AirportsListRoute.tsx"),
+      route("airports/new", "routes/operations/airports/CreateAirportRoute.tsx"),
+      route("airports/:id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

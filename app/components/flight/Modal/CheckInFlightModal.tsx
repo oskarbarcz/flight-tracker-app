@@ -1,31 +1,21 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "flowbite-react";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
-import UpdateFlightScheduleForm from "~/components/flight/Forms/UpdateFlightScheduleForm";
+import { UpdateFlightScheduleForm } from "~/components/flight/Forms/UpdateFlightScheduleForm";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import Form from "~/components/shared/Form/Form";
-import { FilledSchedule, Flight } from "~/models";
+import { Form } from "~/components/shared/Form/Form";
+import type { FilledSchedule, Flight } from "~/models";
 import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
-type CheckInFlightModalProps = {
+type Props = {
   flight: Flight;
   checkIn: (estimation: FilledSchedule) => void;
   close: () => void;
 };
 
-export default function CheckInFlightModal({
-  flight,
-  checkIn,
-  close,
-}: CheckInFlightModalProps) {
+export function CheckInFlightModal({ flight, checkIn, close }: Props) {
   const schedule = flight.timesheet.scheduled;
 
   return (
@@ -82,9 +72,7 @@ export default function CheckInFlightModal({
           </Button>
           <Button type="submit" color="indigo" outline form="checkInFlightForm">
             Check in for flight
-            <span className="font-mono font-bold ms-2">
-              {flight.flightNumberWithoutSpaces}
-            </span>
+            <span className="font-mono font-bold ms-2">{flight.flightNumberWithoutSpaces}</span>
           </Button>
         </div>
       </ModalFooter>

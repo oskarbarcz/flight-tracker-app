@@ -1,26 +1,17 @@
 "use client";
 
-import {
-  Timeline,
-  TimelineContent,
-  TimelineItem,
-  TimelinePoint,
-  TimelineTime,
-  TimelineTitle,
-} from "flowbite-react";
+import { Timeline, TimelineContent, TimelineItem, TimelinePoint, TimelineTime, TimelineTitle } from "flowbite-react";
 import React from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import Container, {
-  ContainerClassProps,
-} from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { translateFlightEventType } from "~/models/translate/flight.translate";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { toHuman } from "~/i18n/translate";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-type FlightLogBoxProps = ContainerClassProps;
+type Props = ContainerClassProps;
 
-export default function FlightLogBox({ className }: FlightLogBoxProps) {
+export function FlightLogBox({ className }: Props) {
   const { events } = useTrackedFlight();
 
   return (
@@ -37,9 +28,7 @@ export default function FlightLogBox({ className }: FlightLogBoxProps) {
                   {" • "}
                   <FormattedIcaoTime date={event.createdAt} />
                 </TimelineTime>
-                <TimelineTitle>
-                  {translateFlightEventType(event.type)}
-                </TimelineTitle>
+                <TimelineTitle>{toHuman.flight.eventType(event.type)}</TimelineTitle>
               </TimelineContent>
             </TimelineItem>
           ))}

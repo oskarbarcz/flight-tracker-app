@@ -1,10 +1,8 @@
 import { Tracking } from "~/models";
-import { CreateFlightFormData } from "~/models/form/flight.form";
-import { CreateFlightRequest } from "~/state/api/model/flight.dto";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
+import type { CreateFlightRequest } from "~/state/api/request/flight.request";
 
-export function formDataToApiFormat(
-  input: CreateFlightFormData,
-): CreateFlightRequest {
+export function formDataToApiFormat(input: CreateFlightFormData): CreateFlightRequest {
   return {
     flightNumber: input.identity.flightNumber,
     callsign: input.identity.callsign,

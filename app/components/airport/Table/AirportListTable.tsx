@@ -1,21 +1,14 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from "flowbite-react";
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
 import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
-import { Airport } from "~/models";
+import type { Airport } from "~/models";
 
-type AirportListTableProps = {
+type Props = {
   airports: Airport[];
 };
 
-export default function AirportListTable({ airports }: AirportListTableProps) {
+export function AirportListTable({ airports }: Props) {
   return (
     <Table>
       <TableHead>
@@ -29,11 +22,9 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
-        {airports.map((airport: Airport, i: number) => (
-          <TableRow key={i}>
-            <TableCell className="font-bold text-gray-900 dark:text-white">
-              {airport.iataCode}
-            </TableCell>
+        {airports.map((airport: Airport) => (
+          <TableRow key={airport.id}>
+            <TableCell className="font-bold text-gray-900 dark:text-white">{airport.iataCode}</TableCell>
             <TableCell>
               <span className="font-bold">{airport.name}</span>
               <span className="block">
@@ -41,18 +32,10 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
               </span>
             </TableCell>
             <TableCell>
-              <FormattedTimezoneTime
-                date={new Date()}
-                timezone={airport.timezone}
-              />
+              <FormattedTimezoneTime date={new Date()} timezone={airport.timezone} />
             </TableCell>
             <TableCell>
-              <Link
-                className="block text-primary-500 font-bold"
-                to={`/airports/${airport.id}/edit`}
-                replace
-                viewTransition
-              >
+              <Link className="block text-primary-500 font-bold" to={`/airports/${airport.id}/edit`} viewTransition>
                 Edit
               </Link>
             </TableCell>

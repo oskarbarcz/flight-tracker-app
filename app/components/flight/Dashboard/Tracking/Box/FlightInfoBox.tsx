@@ -2,11 +2,9 @@
 
 import { FaPlane } from "react-icons/fa";
 import { PiUserSoundBold } from "react-icons/pi";
-import Container, {
-  ContainerClassProps,
-} from "~/components/shared/Layout/Container";
-import { FilledSchedule, FlightStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
+import { type FilledSchedule, FlightStatus } from "~/models";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
   const diff = Math.abs(onBlockTime.getTime() - offBlockTime.getTime());
@@ -22,7 +20,7 @@ function formatTime(date: Date) {
 
 type FlightInfoBoxProps = ContainerClassProps;
 
-export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
+export function FlightInfoBox({ className }: FlightInfoBoxProps) {
   const { flight } = useTrackedFlight();
   if (!flight) {
     return <div>Loading...</div>;
@@ -30,30 +28,19 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
   const timesheet = flight.timesheet;
 
-  const scheduledBlockTime = calculateBlockTime(
-    timesheet.scheduled.offBlockTime,
-    timesheet.scheduled.onBlockTime,
-  );
+  const scheduledBlockTime = calculateBlockTime(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
 
   let estimatedBlockTime = null;
 
-  if (
-    flight.status !== FlightStatus.Created &&
-    flight.status !== FlightStatus.Ready
-  ) {
+  if (flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready) {
     const schedule = timesheet.estimated as FilledSchedule;
-    estimatedBlockTime = calculateBlockTime(
-      schedule.offBlockTime,
-      schedule.onBlockTime,
-    );
+    estimatedBlockTime = calculateBlockTime(schedule.offBlockTime, schedule.onBlockTime);
   }
 
   return (
     <Container className={className} padding="condensed">
       <div className="mb-3">
-        <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">
-          {flight.flightNumber}
-        </h2>
+        <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">{flight.flightNumber}</h2>
         <div className="flex items-center">
           <span>{flight.callsign}</span>
           <span className="mx-2">•</span>
@@ -70,9 +57,7 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
           {flight.aircraft.registration}
         </span>
         <span>•</span>
-        <span className="inline-block border border-gray-600 px-2 py-0.5 text-xs">
-          {flight.aircraft.selcal}
-        </span>
+        <span className="inline-block border border-gray-600 px-2 py-0.5 text-xs">{flight.aircraft.selcal}</span>
       </div>
       <div className="my-2">
         {"Operated by "}
@@ -81,26 +66,16 @@ export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
       <div className="flex items-center justify-between mt-4">
         <div className="text-start font-bold">
-          <span className="block text-4xl">
-            {flight.departureAirport.iataCode}
-          </span>
+          <span className="block text-4xl">{flight.departureAirport.iataCode}</span>
           <span className="block">{flight.departureAirport.city}</span>
         </div>
         <div>
           <FaPlane className="mx-auto mb-2 block" />
-          {estimatedBlockTime && (
-            <span className="block text-center text-green-500">
-              {estimatedBlockTime}
-            </span>
-          )}
-          <span className="block text-center text-xs">
-            {scheduledBlockTime}
-          </span>
+          {estimatedBlockTime && <span className="block text-center text-green-500">{estimatedBlockTime}</span>}
+          <span className="block text-center text-xs">{scheduledBlockTime}</span>
         </div>
         <div className="text-end font-bold">
-          <span className="block text-4xl">
-            {flight.destinationAirport.iataCode}
-          </span>
+          <span className="block text-4xl">{flight.destinationAirport.iataCode}</span>
           <span className="block">{flight.destinationAirport.city}</span>
         </div>
       </div>

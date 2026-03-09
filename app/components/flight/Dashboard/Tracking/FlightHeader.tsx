@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import FlightInfoBox from "~/components/flight/Dashboard/Tracking/Box/FlightInfoBox";
+import { FlightInfoBox } from "~/components/flight/Dashboard/Tracking/Box/FlightInfoBox";
 import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";
-import { AdsbProvider } from "~/state/contexts/content/adsb.context";
+import { AdsbProvider } from "~/state/api/context/useAdsbData";
 
-export default function FlightHeader() {
+export function FlightHeader() {
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
       <FlightInfoBox className="col-span-1" />

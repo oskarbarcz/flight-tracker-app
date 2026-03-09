@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
+import { Container } from "~/components/shared/Layout/Container";
 
-export default function FlightWasClosedBox() {
+export function FlightWasClosedBox() {
   return (
     <Container
       padding="condensed"

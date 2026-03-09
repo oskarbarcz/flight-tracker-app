@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { Airport } from "~/models";
-import { CreateFlightFormData } from "~/models/form/flight.form";
-import { useApi } from "~/state/contexts/content/api.context";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import type { Airport } from "~/models";
+import type { CreateFlightFormData } from "~/models/form/flight.form";
+import { useApi } from "~/state/api/context/useApi";
 import { newFlightRouteSchema } from "~/validator/form/flight.schema";
 
 type FlightRouteFormData = CreateFlightFormData["route"];
@@ -22,7 +22,7 @@ function optionsFromAirports(airports: Airport[]) {
   }));
 }
 
-export default function FlightRouteFormSection({ data, onSubmit }: Props) {
+export function FlightRouteFormSection({ data, onSubmit }: Props) {
   const [initialValues, setInitialValues] = useState<FlightRouteFormData>(data);
   const [isEditable, setIsEditable] = useState<boolean>(true);
   const [airports, setAirports] = useState<Airport[]>([]);
@@ -33,7 +33,7 @@ export default function FlightRouteFormSection({ data, onSubmit }: Props) {
   }, [data]);
 
   useEffect(() => {
-    airportService.getAll().then(setAirports);
+    airportService.fetchAll().then(setAirports);
   }, [airportService]);
 
   return (

@@ -16,12 +16,8 @@ const phaseToLabel = (phase: FlightPhase): string => {
   }
 };
 
-export default function FlightStatusTabs() {
-  const phases = [
-    FlightPhase.Upcoming,
-    FlightPhase.Ongoing,
-    FlightPhase.Finished,
-  ];
+export function FlightStatusTabs() {
+  const phases = [FlightPhase.Upcoming, FlightPhase.Ongoing, FlightPhase.Finished];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentPhase = searchParams.get("phase") || phases[0];
@@ -32,17 +28,13 @@ export default function FlightStatusTabs() {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("phase", newPhase);
     newParams.delete("page");
-    navigate({ search: newParams.toString() }, { replace: true });
+    navigate({ search: newParams.toString() });
   }
 
   return (
     <Tabs variant="underline" onActiveTabChange={handleChange}>
-      {phases.map((phase, i) => (
-        <TabItem
-          active={currentPhase === phase}
-          title={phaseToLabel(phase)}
-          key={phase}
-        />
+      {phases.map((phase) => (
+        <TabItem active={currentPhase === phase} title={phaseToLabel(phase)} key={phase} />
       ))}
     </Tabs>
   );

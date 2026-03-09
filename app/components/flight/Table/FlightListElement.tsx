@@ -2,12 +2,12 @@ import { Button, TableCell, TableRow } from "flowbite-react";
 import React, { useCallback } from "react";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router";
-import FlightListElementDetails from "~/components/flight/Table/FlightListElementDetails";
-import TrackingStatus from "~/components/flight/Table/TrackingStatus";
+import { FlightListElementDetails } from "~/components/flight/Table/FlightListElementDetails";
+import { TrackingStatus } from "~/components/flight/Table/TrackingStatus";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Flight, FlightStatus } from "~/models";
-import translateStatus from "~/models/translate/flight.translate";
+import { toHuman } from "~/i18n/translate";
+import { type Flight, FlightStatus } from "~/models";
 
 type Props = {
   flight: Flight;
@@ -18,7 +18,7 @@ type Props = {
   onUpdateTracking: (flight: Flight) => void;
 };
 
-export default function FlightListElement({
+export function FlightListElement({
   flight,
   onUpdateTimesheet,
   onUpdateLoadsheet,
@@ -33,18 +33,15 @@ export default function FlightListElement({
 
   const setUrlId = useCallback(
     (id: string | null) => {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev);
-          if (id) {
-            next.set("id", id);
-          } else {
-            next.delete("id");
-          }
-          return next;
-        },
-        { replace: true },
-      );
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        if (id) {
+          next.set("id", id);
+        } else {
+          next.delete("id");
+        }
+        return next;
+      });
     },
     [setSearchParams],
   );
@@ -73,13 +70,9 @@ export default function FlightListElement({
         <TableCell>
           {flight.timesheet.scheduled.offBlockTime && (
             <>
-              <FormattedIcaoDate
-                date={flight.timesheet.scheduled.takeoffTime}
-              />
+              <FormattedIcaoDate date={flight.timesheet.scheduled.takeoffTime} />
               {" • "}
-              <FormattedIcaoTime
-                date={flight.timesheet.scheduled.takeoffTime}
-              />
+              <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
             </>
           )}
           <span className="block text-xs text-gray-500">Click for details</span>
@@ -166,12 +159,9 @@ export default function FlightListElement({
               </div>
             )}
 
-            {flight.status !== FlightStatus.Created &&
-              flight.status !== FlightStatus.Ready && (
-                <span className="font-bold text-indigo-500">
-                  {translateStatus(flight.status)}
-                </span>
-              )}
+            {flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready && (
+              <span className="font-bold text-indigo-500">{toHuman.flight.status.standard(flight.status)}</span>
+            )}
           </div>
         </TableCell>
       </TableRow>

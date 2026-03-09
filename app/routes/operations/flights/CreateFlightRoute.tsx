@@ -2,29 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
-import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
-import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
-import FlightScheduleFormSection from "~/components/flight/FormSection/FlightScheduleFormSection";
-import FormSubmit from "~/components/shared/Form/FormSubmit";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { FlightIdentityFormSection } from "~/components/flight/FormSection/FlightIdentityFormSection";
+import { FlightRouteFormSection } from "~/components/flight/FormSection/FlightRouteFormSection";
+import { FlightScheduleFormSection } from "~/components/flight/FormSection/FlightScheduleFormSection";
+import { FormSubmit } from "~/components/shared/Form/FormSubmit";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { Tracking } from "~/models";
-import {
-  CreateFlightFormData,
-  initCreateFlightData,
-} from "~/models/form/flight.form";
-import { UserRole } from "~/models/user.model";
-import ProtectedRoute from "~/routes/common/ProtectedRoute";
+import { type CreateFlightFormData, initCreateFlightData } from "~/models/form/flight.form";
+import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
-import { CreateFlightRequest } from "~/state/api/model/flight.dto";
+import type { CreateFlightRequest } from "~/state/api/request/flight.request";
 import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";
-import { useApi } from "~/state/contexts/content/api.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
-import { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import type { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 
-export async function clientAction({
-  request,
-}: Route.ClientActionArgs): Promise<Response | void> {
+export async function clientAction({ request }: Route.ClientActionArgs) {
   const flightService = new FlightService();
   const form = await request.formData();
   const rawFormData = getFormData(form, [
@@ -73,9 +66,7 @@ export async function clientAction({
 
 export default function CreateAirportRoute() {
   usePageTitle("Create new flight");
-  const [formData, setFormData] = useState<CreateFlightFormData>(
-    initCreateFlightData(),
-  );
+  const [formData, setFormData] = useState<CreateFlightFormData>(initCreateFlightData());
   const [formMessage, setFormMessage] = useState<string | undefined>();
   const [formError, setFormError] = useState<string | undefined>();
   const { flightService } = useApi();
@@ -90,11 +81,7 @@ export default function CreateAirportRoute() {
 
     const formMessage = isAllSubmitted ? undefined : "Save all sections first.";
     setFormMessage(formMessage);
-  }, [
-    formData.isIdentitySubmitted,
-    formData.isRouteSubmitted,
-    formData.isScheduleSubmitted,
-  ]);
+  }, [formData.isIdentitySubmitted, formData.isRouteSubmitted, formData.isScheduleSubmitted]);
 
   const handleSubmit = () => {
     const flight = formDataToApiFormat(formData);
@@ -139,35 +126,15 @@ export default function CreateAirportRoute() {
   }
 
   return (
-    <ProtectedRoute expectedRole={UserRole.Operations}>
-      <div className="mx-auto max-w-md pb-4">
-        <SectionHeaderWithBackButton
-          sectionTitle="Create new flight"
-          backText="Back to flights"
-          backUrl="/flights"
-        />
-        <div className="space-y-4">
-          <FlightIdentityFormSection
-            data={formData.identity}
-            onSubmit={onIdentitySubmit}
-          />
-          <FlightRouteFormSection
-            data={formData.route}
-            onSubmit={onRouteSubmit}
-          />
-          <FlightScheduleFormSection
-            data={formData.schedule}
-            onSubmit={onScheduleSubmit}
-          />
+    <div className="mx-auto max-w-md pb-4">
+      <SectionHeaderWithBackButton sectionTitle="Create new flight" backText="Back to flights" backUrl="/flights" />
+      <div className="space-y-4">
+        <FlightIdentityFormSection data={formData.identity} onSubmit={onIdentitySubmit} />
+        <FlightRouteFormSection data={formData.route} onSubmit={onRouteSubmit} />
+        <FlightScheduleFormSection data={formData.schedule} onSubmit={onScheduleSubmit} />
 
-          <FormSubmit
-            message={formMessage}
-            error={formError}
-            onSubmit={handleSubmit}
-            button="Create flight"
-          />
-        </div>
+        <FormSubmit message={formMessage} error={formError} onSubmit={handleSubmit} button="Create flight" />
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }

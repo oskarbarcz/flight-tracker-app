@@ -1,85 +1,48 @@
 "use client";
 
 import { useFormikContext } from "formik";
-import ManagedDateTimeInputBlock from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
-import {
-  getTimeDifferenceInHours,
-  getTimeDifferenceInMinutes,
-} from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
+import { getTimeDifferenceInHours, getTimeDifferenceInMinutes } from "~/functions/time";
+import type { FilledSchedule } from "~/models";
 
-export default function UpdateFlightScheduleForm() {
+export function UpdateFlightScheduleForm() {
   const { values } = useFormikContext<FilledSchedule>();
 
-  const taxiOutTime = getTimeDifferenceInMinutes(
-    values.offBlockTime,
-    values.takeoffTime,
-  );
+  const taxiOutTime = getTimeDifferenceInMinutes(values.offBlockTime, values.takeoffTime);
   const taxiOutColor = taxiOutTime < 0 ? "text-red-500" : "";
 
-  const airTime = getTimeDifferenceInHours(
-    values.takeoffTime,
-    values.arrivalTime,
-  );
+  const airTime = getTimeDifferenceInHours(values.takeoffTime, values.arrivalTime);
   const airTimeColor = airTime.startsWith("-") ? "text-red-500" : "";
 
-  const taxiInTime = getTimeDifferenceInMinutes(
-    values.arrivalTime,
-    values.onBlockTime,
-  );
+  const taxiInTime = getTimeDifferenceInMinutes(values.arrivalTime, values.onBlockTime);
   const taxiInColor = taxiInTime < 0 ? "text-red-500" : "";
 
-  const blockTime = getTimeDifferenceInHours(
-    values.offBlockTime,
-    values.onBlockTime,
-  );
+  const blockTime = getTimeDifferenceInHours(values.offBlockTime, values.onBlockTime);
 
   return (
     <div className="space-y-4">
-      <ManagedDateTimeInputBlock
-        field="offBlockTime"
-        label="Off-block time [zulu]"
-        autoComplete="off"
-        required
-      />
+      <ManagedDateTimeInputBlock field="offBlockTime" label="Off-block time [zulu]" autoComplete="off" required />
 
       <p className=" text-sm">
         <span>Taxi out: </span>
-        <span className={`font-bold ${taxiOutColor}`}>
-          {taxiOutTime} minutes
-        </span>
+        <span className={`font-bold ${taxiOutColor}`}>{taxiOutTime} minutes</span>
       </p>
 
-      <ManagedDateTimeInputBlock
-        field="takeoffTime"
-        label="Takeoff time [zulu]"
-        autoComplete="off"
-        required
-      />
+      <ManagedDateTimeInputBlock field="takeoffTime" label="Takeoff time [zulu]" autoComplete="off" required />
 
       <p className="text-sm">
         <span>Air time: </span>
         <span className={`font-bold ${airTimeColor}`}>{airTime} hours</span>
       </p>
 
-      <ManagedDateTimeInputBlock
-        field="arrivalTime"
-        label="Landing time [zulu]"
-        autoComplete="off"
-        required
-      />
+      <ManagedDateTimeInputBlock field="arrivalTime" label="Landing time [zulu]" autoComplete="off" required />
 
       <p className="text-sm">
         <span>Taxi in: </span>
         <span className={`font-bold ${taxiInColor}`}>{taxiInTime} minutes</span>
       </p>
 
-      <ManagedDateTimeInputBlock
-        field="onBlockTime"
-        label="On-block time [zulu]"
-        autoComplete="off"
-        required
-      />
+      <ManagedDateTimeInputBlock field="onBlockTime" label="On-block time [zulu]" autoComplete="off" required />
 
       <p className="text-sm">
         <span>Block time: </span>

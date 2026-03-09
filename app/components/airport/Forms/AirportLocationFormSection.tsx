@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedInputBlock from "~/components/shared/Form/Managed/ManagedInputBlock";
-import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Continent } from "~/models";
 import { createAirportLocationSchema } from "~/validator/form/create-airport.schema";
 
@@ -16,7 +16,7 @@ export type AirportLocationData = {
   longitude: number;
 };
 
-type AirportLocationFormSectionProps = {
+type Props = {
   data: AirportLocationData;
   onSubmit: (data: AirportLocationData) => void;
 };
@@ -30,10 +30,7 @@ const continentOptions = [
   { label: "Africa", value: Continent.Africa },
 ];
 
-export default function AirportLocationFormSection({
-  data,
-  onSubmit,
-}: AirportLocationFormSectionProps) {
+export function AirportLocationFormSection({ data, onSubmit }: Props) {
   const [isEditable, setIsEditable] = useState<boolean>(true);
 
   return (
@@ -50,44 +47,23 @@ export default function AirportLocationFormSection({
           <ManagedInputBlock field="city" label="City" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="country"
-            label="Country"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="country" label="Country" disabled={!isEditable} />
         </div>
       </div>
       <div className="flex gap-4">
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="timezone"
-            label="Timezone"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="timezone" label="Timezone" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedSelectBlock
-            field="continent"
-            label="Continent"
-            options={continentOptions}
-            disabled={!isEditable}
-          />
+          <ManagedSelectBlock field="continent" label="Continent" options={continentOptions} disabled={!isEditable} />
         </div>
       </div>
       <div className="flex gap-4">
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="longitude"
-            label="Longitude"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="longitude" label="Longitude" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="latitude"
-            label="Latitude"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="latitude" label="Latitude" disabled={!isEditable} />
         </div>
       </div>
     </FormSection>

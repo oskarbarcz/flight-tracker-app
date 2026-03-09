@@ -1,33 +1,25 @@
-import { BadRequestViolations, ErrorResponse } from "~/state/api/api.service";
+import type { BadRequestViolations, ErrorResponse } from "~/state/api/api.service";
 
-type SuccessResponseWrapper<ResponseDto> = {
+type ActionSuccess<ResponseDto> = {
   body: ResponseDto;
-  redirectUrl: string;
   isSuccessful: true;
   isError: false;
 };
 
-type ErrorResponseWrapper<RequestDto> = {
+type ActionError<RequestDto = unknown> = {
   body: ErrorResponse<RequestDto>;
   isSuccessful: false;
   isError: true;
   oneGeneralError?: string;
   violations?: BadRequestViolations<RequestDto>;
-  errorsForKey: (fieldName: keyof RequestDto) => string[];
+  errorsForKey: (fieldName: string) => string[];
 };
-
-export type ResponseWrapper<RequestDto, ResponseDto> =
-  | SuccessResponseWrapper<ResponseDto>
-  | ErrorResponseWrapper<RequestDto>;
 
 function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function errorForKey<T>(
-  response: ErrorResponse<T>,
-  fieldName: keyof T,
-): string[] {
+function errorForKey<T>(response: ErrorResponse<T>, fieldName: keyof T): string[] {
   if (!response.violations) {
     return [];
   }
@@ -38,28 +30,22 @@ function errorForKey<T>(
   return response.violations[fieldName].map(capitalizeFirstLetter);
 }
 
-export function handleRequestSuccess<ResponseDto>(
-  response: ResponseDto,
-  redirectUrl: string,
-): SuccessResponseWrapper<ResponseDto> {
+export function handleRequestSuccess<T>(response: T): ActionSuccess<T> {
   return {
     body: response,
-    redirectUrl: redirectUrl,
     isSuccessful: true,
     isError: false,
   };
 }
 
-export function handleRequestError<RequestDto>(
-  response: ErrorResponse<RequestDto>,
-): ErrorResponseWrapper<RequestDto> {
-  const hasViolations =
-    response.violations && Object.keys(response.violations).length > 0;
+export function handleRequestError<T = unknown>(response: ErrorResponse<T> | unknown): ActionError<T> {
+  const errorResponse = response as ErrorResponse<T>;
+  const hasViolations = errorResponse.violations && Object.keys(errorResponse.violations).length > 0;
   return {
-    body: response,
-    oneGeneralError: hasViolations ? undefined : response.error,
-    violations: response.violations,
-    errorsForKey: (key) => errorForKey<RequestDto>(response, key),
+    body: errorResponse,
+    oneGeneralError: hasViolations ? undefined : errorResponse.error,
+    violations: errorResponse.violations,
+    errorsForKey: (key: string) => errorForKey<T>(errorResponse, key as keyof T),
     isSuccessful: false,
     isError: true,
   };

@@ -1,51 +1,33 @@
 "use client";
 
-import {
-  Pagination,
-  Spinner,
-  Table,
-  TableBody,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from "flowbite-react";
+import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React, { useState } from "react";
 import { useSearchParams } from "react-router";
-import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
-import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
-import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
-import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
-import UpdateTrackingModal from "~/components/flight/Modal/UpdateTrackingModal";
-import FlightListElement from "~/components/flight/Table/FlightListElement";
-import {
-  FilledSchedule,
-  Flight,
-  FlightPhase,
-  Loadsheet,
-  Tracking,
-} from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
-import { useFlightList } from "~/state/contexts/content/flight-list.context";
+import { ReleaseFlightModal } from "~/components/flight/Modal/ReleaseFlightModal";
+import { RemoveFlightModal } from "~/components/flight/Modal/RemoveFlightModal";
+import { UpdatePreliminaryLoadsheetModal } from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
+import { UpdateScheduledTimesheetModal } from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
+import { UpdateTrackingModal } from "~/components/flight/Modal/UpdateTrackingModal";
+import { FlightListElement } from "~/components/flight/Table/FlightListElement";
+import type { FilledSchedule, Flight, FlightPhase, Loadsheet, Tracking } from "~/models";
+import { useApi } from "~/state/api/context/useApi";
+import { useFlightList } from "~/state/api/context/useFlightList";
 
 type Props = {
   phase: FlightPhase;
 };
 
-export default function FlightListTable({ phase }: Props) {
+export function FlightListTable({ phase }: Props) {
   const { flightService } = useApi();
-  const { flights, loading, reloadFlights, totalCount, limit } =
-    useFlightList();
+  const { flights, loading, reloadFlights, totalCount, limit } = useFlightList();
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number.parseInt(searchParams.get("page") ?? "1");
+  const page = Number.parseInt(searchParams.get("page") ?? "1", 10);
 
   const [flightToRemove, setFlightToRemove] = useState<Flight | null>(null);
-  const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] =
-    useState<Flight | null>(null);
-  const [flightToUpdateLoadsheet, setFlightToUpdateLoadsheet] =
-    useState<Flight | null>(null);
+  const [flightToUpdateTimesheet, setFlightToUpdateTimesheet] = useState<Flight | null>(null);
+  const [flightToUpdateLoadsheet, setFlightToUpdateLoadsheet] = useState<Flight | null>(null);
   const [flightToRelease, setFlightToRelease] = useState<Flight | null>(null);
-  const [flightToUpdateTracking, setFlightToUpdateTracking] =
-    useState<Flight | null>(null);
+  const [flightToUpdateTracking, setFlightToUpdateTracking] = useState<Flight | null>(null);
 
   const onPageChange = (newPage: number) => {
     const newParams = new URLSearchParams(searchParams);
@@ -109,9 +91,9 @@ export default function FlightListTable({ phase }: Props) {
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          {flights.map((flight: Flight, i: number) => (
+          {flights.map((flight: Flight) => (
             <FlightListElement
-              key={i}
+              key={flight.id}
               flight={flight}
               onUpdateTimesheet={setFlightToUpdateTimesheet}
               onUpdateLoadsheet={setFlightToUpdateLoadsheet}
@@ -125,21 +107,12 @@ export default function FlightListTable({ phase }: Props) {
 
       {totalPages > 1 && (
         <div className="flex overflow-x-auto justify-center pt-2 pb-4  bg-gray-50 dark:bg-gray-800">
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={onPageChange}
-            showIcons
-          />
+          <Pagination currentPage={page} totalPages={totalPages} onPageChange={onPageChange} showIcons />
         </div>
       )}
 
       {flightToRemove && (
-        <RemoveFlightModal
-          flight={flightToRemove}
-          remove={removeFlight}
-          cancel={() => setFlightToRemove(null)}
-        />
+        <RemoveFlightModal flight={flightToRemove} remove={removeFlight} cancel={() => setFlightToRemove(null)} />
       )}
       {flightToUpdateTimesheet && (
         <UpdateScheduledTimesheetModal
@@ -156,11 +129,7 @@ export default function FlightListTable({ phase }: Props) {
         />
       )}
       {flightToRelease && (
-        <ReleaseFlightModal
-          flight={flightToRelease}
-          release={releaseFlight}
-          cancel={() => setFlightToRelease(null)}
-        />
+        <ReleaseFlightModal flight={flightToRelease} release={releaseFlight} cancel={() => setFlightToRelease(null)} />
       )}
       {flightToUpdateTracking && (
         <UpdateTrackingModal

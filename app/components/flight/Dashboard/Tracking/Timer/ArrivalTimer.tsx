@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
-import { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/models";
 
-type ArrivalTimerProps = {
+type Props = {
   schedule: FilledSchedule;
   actual: FilledSchedule;
 };
@@ -23,17 +23,12 @@ function timeToColor(time: number): string {
   return "text-green-500";
 }
 
-export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
+export function ArrivalTimer({ schedule, actual }: Props) {
   const timeToArrival = secondsToNow(schedule.arrivalTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToArrival);
 
-  const estimatedBlockTime = timeDiff(
-    schedule.takeoffTime,
-    schedule.arrivalTime,
-  );
-  const calculatedArrivalTime = new Date(
-    actual.takeoffTime.getTime() + estimatedBlockTime * 1000,
-  );
+  const estimatedBlockTime = timeDiff(schedule.takeoffTime, schedule.arrivalTime);
+  const calculatedArrivalTime = new Date(actual.takeoffTime.getTime() + estimatedBlockTime * 1000);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,22 +41,18 @@ export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
   return (
     <>
       <div className="mb-4 text-center">
-        <span className={`block text-4xl font-bold ${timeToColor(timeLeft)}`}>
-          {formatTimeInterval(timeLeft)}
-        </span>
+        <span className={`block text-4xl font-bold ${timeToColor(timeLeft)}`}>{formatTimeInterval(timeLeft)}</span>
         <span className="block text-sm">time to arrival</span>
       </div>
       <div className="mb-3 text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          <FormattedIcaoDate date={calculatedArrivalTime} /> &bull;{" "}
-          <FormattedIcaoTime date={calculatedArrivalTime} />
+          <FormattedIcaoDate date={calculatedArrivalTime} /> &bull; <FormattedIcaoTime date={calculatedArrivalTime} />
         </span>
         <span className="block text-sm">calculated arrival time</span>
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          <FormattedIcaoDate date={schedule.onBlockTime} /> &bull;{" "}
-          <FormattedIcaoTime date={schedule.onBlockTime} />
+          <FormattedIcaoDate date={schedule.onBlockTime} /> &bull; <FormattedIcaoTime date={schedule.onBlockTime} />
         </span>
         <span className="block text-sm">scheduled arrival time</span>
       </div>
