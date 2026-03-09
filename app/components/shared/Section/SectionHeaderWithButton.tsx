@@ -13,7 +13,7 @@ type ActionButton = {
   icon?: React.ReactNode;
 };
 
-type SectionHeaderWithLinkProps = {
+type Props = {
   sectionTitle: string;
   primaryButton?: ActionButton;
   secondaryButton?: ActionButton;
@@ -44,11 +44,7 @@ function ActionButton({ button }: { button: ActionButton }) {
   return content;
 }
 
-export default function SectionHeaderWithButton({
-  sectionTitle,
-  primaryButton,
-  secondaryButton,
-}: SectionHeaderWithLinkProps) {
+export function SectionHeaderWithButton({ sectionTitle, primaryButton, secondaryButton }: Props) {
   return (
     <div className="mb-4 flex items-center justify-between">
       <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>

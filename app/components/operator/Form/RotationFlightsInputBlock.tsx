@@ -2,19 +2,19 @@
 
 import { Button } from "flowbite-react";
 import React from "react";
-import PickFlightModal from "~/components/operator/Modal/PickFlightModal";
+import { PickFlightModal } from "~/components/operator/Modal/PickFlightModal";
 import type { Flight, RotationFlight } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
-import type { RotationResponse } from "~/state/api/request/operator.request";
-import LegPreview from "./Preview/LegPreview";
+import type { GetRotationResponse } from "~/state/api/request/operator.request";
+import { LegPreview } from "./Preview/LegPreview";
 
-type RotationFlightsInputBlockProps = {
-  rotation: RotationResponse;
+type Props = {
+  rotation: GetRotationResponse;
   legs: RotationFlight[];
   updateLegs: () => void;
 };
 
-export default function RotationFlightsInputBlock({ rotation, legs, updateLegs }: RotationFlightsInputBlockProps) {
+export function RotationFlightsInputBlock({ rotation, legs, updateLegs }: Props) {
   const { flightService, rotationService } = useApi();
   const [flights, setFlights] = React.useState<Flight[]>([]);
   const [showFlightPicker, setShowFlightPicker] = React.useState(false);

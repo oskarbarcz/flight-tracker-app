@@ -5,9 +5,9 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
 import { Link } from "react-router";
-import Container from "~/components/shared/Layout/Container";
-import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { dateDiffToReadable } from "~/functions/time";
 import type { Flight } from "~/models";
 
@@ -15,7 +15,7 @@ type Props = {
   flight: Flight | null;
 };
 
-export default function LastFlightBox({ flight }: Props) {
+export function LastFlightBox({ flight }: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">

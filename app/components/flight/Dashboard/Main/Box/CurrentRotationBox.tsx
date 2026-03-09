@@ -2,11 +2,11 @@
 
 import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
-import Container from "~/components/shared/Layout/Container";
-import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 
-export default function CurrentRotationBox() {
+export function CurrentRotationBox() {
   return (
     <Container padding="condensed">
       <ContainerTitle>Current rotation</ContainerTitle>

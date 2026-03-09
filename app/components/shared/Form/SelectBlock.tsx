@@ -8,7 +8,7 @@ type SelectOption = {
   label: string;
 };
 
-type SelectBlockProps = {
+type Props = {
   htmlName: string;
   label: string;
   required?: boolean;
@@ -16,7 +16,7 @@ type SelectBlockProps = {
   defaultValue?: string;
 };
 
-export default function SelectBlock({ htmlName, label, required, options, defaultValue }: SelectBlockProps) {
+export function SelectBlock({ htmlName, label, required, options, defaultValue }: Props) {
   return (
     <div>
       <div className="mb-2 block">

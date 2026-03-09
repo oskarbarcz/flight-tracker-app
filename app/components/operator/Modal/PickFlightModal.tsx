@@ -3,13 +3,13 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import LegPreview from "~/components/operator/Form/Preview/LegPreview";
+import { LegPreview } from "~/components/operator/Form/Preview/LegPreview";
 import { type Flight, FlightPhase, FlightStatus } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
-import type { RotationResponse } from "~/state/api/request/operator.request";
+import type { GetRotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {
-  rotation: RotationResponse;
+  rotation: GetRotationResponse;
   close: () => void;
 };
 
@@ -22,7 +22,7 @@ function excludeFlightsWithRotations(flights: Flight[]) {
   return flights.filter((flight) => !flight.rotationId);
 }
 
-export default function PickFlightModal({ rotation, close }: Props) {
+export function PickFlightModal({ rotation, close }: Props) {
   const { flightService, rotationService } = useApi();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [addedFlightsIds, setAddedFlightsIds] = useState<string[]>([]);

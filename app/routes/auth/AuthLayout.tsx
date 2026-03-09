@@ -3,7 +3,7 @@
 import React from "react";
 import { Outlet } from "react-router";
 import { AnimatedBlobs } from "~/components/shared/Blob/AnimatedBlobs";
-import Footer from "~/components/shared/Layout/Footer";
+import { Footer } from "~/components/shared/Layout/Footer";
 
 export default function AuthLayout() {
   return (

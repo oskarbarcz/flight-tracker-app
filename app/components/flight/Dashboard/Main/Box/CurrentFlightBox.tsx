@@ -6,9 +6,9 @@ import { FaArrowRight, FaPlane } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import Container from "~/components/shared/Layout/Container";
+import { Container } from "~/components/shared/Layout/Container";
 
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { dateDiffToReadable } from "~/functions/time";
 import { toHuman } from "~/i18n/translate";
 import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
@@ -18,7 +18,7 @@ type Props = {
   flight: Flight;
 };
 
-export default function CurrentFlightBox({ flight }: Props) {
+export function CurrentFlightBox({ flight }: Props) {
   const showDeparture = [
     FlightStatus.CheckedIn,
     FlightStatus.BoardingStarted,

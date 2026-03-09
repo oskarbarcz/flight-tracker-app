@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router";
 import logo from "~/assets/logo.svg";
 
-export default function SidebarLogo() {
+export function SidebarLogo() {
   return (
     <Link to="/" replace className="flex justify-center items-center py-2 md:py-6">
       <img src={logo} className="h-7" alt="Flight Tracker app logo" />

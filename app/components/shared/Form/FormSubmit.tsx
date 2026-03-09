@@ -4,14 +4,14 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { MdError } from "react-icons/md";
 
-type FormSubmitProps = {
+type Props = {
   message?: string;
   error?: string;
   button: string;
   onSubmit: () => void;
 };
 
-export default function FormSubmit({ message, error, button, onSubmit }: FormSubmitProps) {
+export function FormSubmit({ message, error, button, onSubmit }: Props) {
   if (!error && !message) {
     return (
       <div className="flex items-center justify-end py-3 px-6">

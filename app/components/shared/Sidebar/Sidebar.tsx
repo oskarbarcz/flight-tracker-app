@@ -1,17 +1,17 @@
 import { Drawer, DrawerItems } from "flowbite-react";
-import { type JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HiMenu } from "react-icons/hi";
-import SidebarDivider from "~/components/shared/Sidebar/Elements/SidebarDivider";
-import SidebarLogo from "~/components/shared/Sidebar/Elements/SidebarLogo";
-import SidebarSignOutElement from "~/components/shared/Sidebar/Elements/SidebarSignOutElement";
-import SidebarThemeSwitch from "~/components/shared/Sidebar/Elements/SidebarThemeSwitch";
-import SidebarUserSection from "~/components/shared/Sidebar/Elements/SidebarUserSection";
-import CabinCrewSidebarItems from "~/components/shared/Sidebar/Items/CabinCrewSidebarItems";
-import OperatorSidebarItems from "~/components/shared/Sidebar/Items/OperationsSidebarItems";
+import { SidebarDivider } from "~/components/shared/Sidebar/Elements/SidebarDivider";
+import { SidebarLogo } from "~/components/shared/Sidebar/Elements/SidebarLogo";
+import { SidebarSignOutElement } from "~/components/shared/Sidebar/Elements/SidebarSignOutElement";
+import { SidebarThemeSwitch } from "~/components/shared/Sidebar/Elements/SidebarThemeSwitch";
+import { SidebarUserSection } from "~/components/shared/Sidebar/Elements/SidebarUserSection";
+import { CabinCrewSidebarItems } from "~/components/shared/Sidebar/Items/CabinCrewSidebarItems";
+import { OperatorSidebarItems } from "~/components/shared/Sidebar/Items/OperationsSidebarItems";
 import { UserRole } from "~/models";
 import { useAuth } from "~/state/api/context/useAuth";
 
-export function Sidebar(): JSX.Element {
+export function Sidebar() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 

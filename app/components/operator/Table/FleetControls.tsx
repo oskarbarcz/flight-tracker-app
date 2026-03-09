@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import React, { type JSX } from "react";
+import React from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
 import type { Operator } from "~/models";
@@ -12,7 +12,7 @@ type Props = {
   changeType: (type: string | null) => void;
 };
 
-export default function FleetControls({ operator, type, changeType }: Props): JSX.Element {
+export function FleetControls({ operator, type, changeType }: Props) {
   const availableTypes = operator.fleetTypes.sort((a, b) => a.localeCompare(b));
 
   const active =

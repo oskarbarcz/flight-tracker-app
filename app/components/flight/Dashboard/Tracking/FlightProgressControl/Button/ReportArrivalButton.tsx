@@ -5,7 +5,7 @@ import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tr
 import { toHuman } from "~/i18n/translate";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function ReportArrivalButton({ disabled }: FlightProgressButtonProps) {
+export function ReportArrivalButton({ disabled }: FlightProgressButtonProps) {
   const { flight, reportArrival } = useTrackedFlight();
 
   if (!flight) {

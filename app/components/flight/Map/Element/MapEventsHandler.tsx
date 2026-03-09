@@ -12,7 +12,7 @@ type MapEventsHandlerProps = {
   options?: FitBoundsOptions;
 };
 
-export default function MapEventsHandler({ bounds, aircraftPosition, options }: MapEventsHandlerProps) {
+export function MapEventsHandler({ bounds, aircraftPosition, options }: MapEventsHandlerProps) {
   const map = useMap();
   const { mapSettings } = useMapSettings();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);

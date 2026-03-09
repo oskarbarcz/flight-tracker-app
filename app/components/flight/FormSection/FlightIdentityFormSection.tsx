@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedFloatingInputBlock from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
-import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import type { Aircraft, Operator } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/state/api/context/useApi";
@@ -30,7 +30,7 @@ function optionsFromAircrafts(aircrafts: Aircraft[]) {
   }));
 }
 
-export default function FlightIdentityFormSection({ data, onSubmit }: Props) {
+export function FlightIdentityFormSection({ data, onSubmit }: Props) {
   const [initialValues, setInitialValues] = useState<FormData>(data);
   const [isEditable, setIsEditable] = useState<boolean>(true);
   const [operators, setOperators] = useState<Operator[]>([]);

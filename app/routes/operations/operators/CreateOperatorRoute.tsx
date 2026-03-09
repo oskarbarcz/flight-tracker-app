@@ -2,22 +2,22 @@
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/+types/CreateOperatorRoute";
 import { Button } from "flowbite-react";
-import React, { type JSX } from "react";
+import React from "react";
 import { Form, redirect } from "react-router";
-import InputBlock from "~/components/shared/Form/InputBlock";
-import SelectBlock from "~/components/shared/Form/SelectBlock";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { InputBlock } from "~/components/shared/Form/InputBlock";
+import { SelectBlock } from "~/components/shared/Form/SelectBlock";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { Continent, OperatorType } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
-import type { CreateOperatorDto } from "~/state/api/request/operator.request";
+import type { CreateOperatorRequest } from "~/state/api/request/operator.request";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientAction({ request }: Route.ClientActionArgs): Promise<Response> {
   const operatorService = new OperatorService();
 
   const form = await request.formData();
-  const operator = getFormData<CreateOperatorDto>(form, [
+  const operator = getFormData<CreateOperatorRequest>(form, [
     "icaoCode",
     "iataCode",
     "shortName",
@@ -51,7 +51,7 @@ const typeOptions = [
   { label: "Government / military", value: OperatorType.GovernmentMilitary },
 ];
 
-export default function CreateOperatorRoute(): JSX.Element {
+export default function CreateOperatorRoute() {
   usePageTitle("Create new operators");
 
   return (

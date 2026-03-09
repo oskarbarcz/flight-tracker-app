@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedInputBlock from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { createAirportGeneralSchema } from "~/validator/form/create-airport.schema";
 
 export type AirportGeneralFormData = {
@@ -11,12 +11,12 @@ export type AirportGeneralFormData = {
   name: string;
 };
 
-type AirportGeneralFormSectionProps = {
+type Props = {
   data: AirportGeneralFormData;
   onSubmit: (data: AirportGeneralFormData) => void;
 };
 
-export default function AirportGeneralFormSection({ data, onSubmit }: AirportGeneralFormSectionProps) {
+export function AirportGeneralFormSection({ data, onSubmit }: Props) {
   const [initialValues, setInitialValues] = useState<AirportGeneralFormData>(data);
   const [isEditable, setIsEditable] = useState<boolean>(true);
 

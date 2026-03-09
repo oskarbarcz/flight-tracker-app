@@ -2,8 +2,8 @@
 
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
-import UpdateLoadsheetForm from "~/components/flight/Forms/UpdateLoadsheetForm";
-import Form from "~/components/shared/Form/Form";
+import { UpdateLoadsheetForm } from "~/components/flight/Forms/UpdateLoadsheetForm";
+import { Form } from "~/components/shared/Form/Form";
 import type { Flight, Loadsheet } from "~/models";
 import { updatePreliminaryLoadsheetSchema } from "~/validator/form/flight.schema";
 import {
@@ -18,7 +18,7 @@ type UpdateFinalLoadsheetModalProps = {
   cancel: () => void;
 };
 
-export default function UpdateFinalLoadsheetModal({ flight, update, cancel }: UpdateFinalLoadsheetModalProps) {
+export function UpdateFinalLoadsheetModal({ flight, update, cancel }: UpdateFinalLoadsheetModalProps) {
   const loadsheet = flight.loadsheets.preliminary as Loadsheet;
 
   const handleSubmit = (loadsheet: FlatLoadsheetFormData) => {

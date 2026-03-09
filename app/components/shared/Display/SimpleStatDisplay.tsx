@@ -6,7 +6,7 @@ type Props = {
   value: string;
 };
 
-export default function SimpleStatDisplay({ icon, title, value }: Props) {
+export function SimpleStatDisplay({ icon, title, value }: Props) {
   return (
     <article className="flex items-center gap-4 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-3 px-4 rounded-xl">
       {icon}

@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { toHuman } from "~/i18n/translate";
 import { allContinents } from "~/models";
 
-export default function ContinentFilterTabs() {
+export function ContinentFilterTabs() {
   const continents = allContinents();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

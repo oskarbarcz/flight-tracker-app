@@ -2,9 +2,9 @@
 
 import React from "react";
 import { FaClock } from "react-icons/fa6";
-import SimpleStatDisplay from "~/components/shared/Display/SimpleStatDisplay";
-import SimpleStatDisplayLoader from "~/components/shared/Display/SimpleStatDisplayLoader";
-import Container from "~/components/shared/Layout/Container";
+import { SimpleStatDisplay } from "~/components/shared/Display/SimpleStatDisplay";
+import { SimpleStatDisplayLoader } from "~/components/shared/Display/SimpleStatDisplayLoader";
+import { Container } from "~/components/shared/Layout/Container";
 import type { User } from "~/models/user.model";
 import { useAuth } from "~/state/api/context/useAuth";
 import useUserStats from "~/state/api/hooks/useUserStats";
@@ -32,7 +32,7 @@ function minutesToHoursDisplay(minutes: number): string {
   return `${hours.toLocaleString("en-US")}h`;
 }
 
-export default function UserHeader() {
+export function UserHeader() {
   const { user } = useAuth() as { user: User };
   const { stats, loading } = useUserStats();
 

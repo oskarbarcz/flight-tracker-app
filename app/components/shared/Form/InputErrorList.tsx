@@ -1,12 +1,12 @@
 import { Badge, HelperText } from "flowbite-react";
 import React from "react";
 
-type InputErrorListProps = {
+type Props = {
   errorFocus: boolean;
   errors: string[];
 };
 
-export default function InputErrorList({ errorFocus, errors }: InputErrorListProps) {
+export function InputErrorList({ errorFocus, errors }: Props) {
   if (errors.length === 0) {
     return;
   }

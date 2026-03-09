@@ -6,9 +6,9 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo, FaPlaneDeparture } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import Container from "~/components/shared/Layout/Container";
-import ContainerEmptyState from "~/components/shared/Layout/ContainerEmptyState";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Flight } from "~/models";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
   isCurrentFlight: boolean;
 };
 
-export default function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
+export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">

@@ -4,11 +4,11 @@ import { Link } from "react-router";
 import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
 import type { Airport } from "~/models";
 
-type AirportListTableProps = {
+type Props = {
   airports: Airport[];
 };
 
-export default function AirportListTable({ airports }: AirportListTableProps) {
+export function AirportListTable({ airports }: Props) {
   return (
     <Table>
       <TableHead>

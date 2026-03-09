@@ -1,6 +1,6 @@
-import React, { type JSX } from "react";
+import React from "react";
 import type { IconType } from "react-icons";
-import Container from "~/components/shared/Layout/Container";
+import { Container } from "~/components/shared/Layout/Container";
 
 type Props = {
   icon: IconType;
@@ -11,14 +11,7 @@ type Props = {
   valueSuffix?: string;
 };
 
-export default function RichStatDisplay({
-  icon: Icon,
-  color,
-  title,
-  value,
-  valueSmaller = false,
-  valueSuffix,
-}: Props): JSX.Element {
+export function RichStatDisplay({ icon: Icon, color, title, value, valueSmaller = false, valueSuffix }: Props) {
   const font = valueSmaller ? "text-3xl" : "text-4xl";
 
   const colorMap = {

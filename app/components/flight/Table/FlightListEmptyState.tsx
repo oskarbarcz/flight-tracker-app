@@ -22,7 +22,7 @@ const messages = {
   [FlightPhase.Finished]: "No finished flights found.",
 };
 
-export default function FlightListEmptyState({ phase, onImport, importLoading }: FlightListEmptyStateProps) {
+export function FlightListEmptyState({ phase, onImport, importLoading }: FlightListEmptyStateProps) {
   return (
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color={"blue"} />

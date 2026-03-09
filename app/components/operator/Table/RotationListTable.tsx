@@ -2,15 +2,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 
 import React from "react";
 import { Link } from "react-router";
 import { formatDateToLocal } from "~/functions/time";
-import type { RotationResponse } from "~/state/api/request/operator.request";
+import type { GetRotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {
   operatorId: string;
-  rotations: RotationResponse[];
-  removeRotation: (rotationId: RotationResponse) => void;
+  rotations: GetRotationResponse[];
+  removeRotation: (rotationId: GetRotationResponse) => void;
 };
 
-export default function RotationListTable({ operatorId, rotations, removeRotation }: Props) {
+export function RotationListTable({ operatorId, rotations, removeRotation }: Props) {
   return (
     <Table className="shadow">
       <TableHead>
@@ -23,7 +23,7 @@ export default function RotationListTable({ operatorId, rotations, removeRotatio
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
-        {rotations.map((rotation: RotationResponse) => (
+        {rotations.map((rotation: GetRotationResponse) => (
           <TableRow key={rotation.id}>
             <TableCell>{rotation.name}</TableCell>
             <TableCell>

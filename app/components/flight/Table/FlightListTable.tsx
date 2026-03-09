@@ -3,12 +3,12 @@
 import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React, { useState } from "react";
 import { useSearchParams } from "react-router";
-import ReleaseFlightModal from "~/components/flight/Modal/ReleaseFlightModal";
-import RemoveFlightModal from "~/components/flight/Modal/RemoveFlightModal";
-import UpdatePreliminaryLoadsheetModal from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
-import UpdateScheduledTimesheetModal from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
-import UpdateTrackingModal from "~/components/flight/Modal/UpdateTrackingModal";
-import FlightListElement from "~/components/flight/Table/FlightListElement";
+import { ReleaseFlightModal } from "~/components/flight/Modal/ReleaseFlightModal";
+import { RemoveFlightModal } from "~/components/flight/Modal/RemoveFlightModal";
+import { UpdatePreliminaryLoadsheetModal } from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
+import { UpdateScheduledTimesheetModal } from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
+import { UpdateTrackingModal } from "~/components/flight/Modal/UpdateTrackingModal";
+import { FlightListElement } from "~/components/flight/Table/FlightListElement";
 import type { FilledSchedule, Flight, FlightPhase, Loadsheet, Tracking } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { useFlightList } from "~/state/api/context/useFlightList";
@@ -17,7 +17,7 @@ type Props = {
   phase: FlightPhase;
 };
 
-export default function FlightListTable({ phase }: Props) {
+export function FlightListTable({ phase }: Props) {
   const { flightService } = useApi();
   const { flights, loading, reloadFlights, totalCount, limit } = useFlightList();
   const [searchParams, setSearchParams] = useSearchParams();

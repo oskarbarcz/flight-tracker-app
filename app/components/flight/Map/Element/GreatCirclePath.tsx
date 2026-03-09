@@ -16,7 +16,7 @@ function generateGreatCirclePath(from: { x: number; y: number }, to: { x: number
   return line.geometries[0].coords.map(([lon, lat]) => [lat, lon] as LatLngTuple);
 }
 
-export default function GreatCirclePath({ start, end }: GreatCirclePathType) {
+export function GreatCirclePath({ start, end }: GreatCirclePathType) {
   const startPos = { x: start.location.longitude, y: start.location.latitude };
   const endPos = { x: end.location.longitude, y: end.location.latitude };
   const path = generateGreatCirclePath(startPos, endPos);

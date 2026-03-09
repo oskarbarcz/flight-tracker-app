@@ -6,7 +6,7 @@ import { LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function MapLinkOverlay() {
+export function MapLinkOverlay() {
   const { flight } = useTrackedFlight();
 
   if (!flight) {

@@ -3,9 +3,9 @@
 import { Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputTypeAttribute } from "react";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 
-type ManagedInputBlockProps = {
+type Props = {
   field: string;
   label: string;
   required?: boolean;
@@ -13,13 +13,7 @@ type ManagedInputBlockProps = {
   disabled?: boolean;
 };
 
-export default function ManagedInputBlock({
-  field,
-  label,
-  required = true,
-  type = "text",
-  disabled = false,
-}: ManagedInputBlockProps) {
+export function ManagedInputBlock({ field, label, required = true, type = "text", disabled = false }: Props) {
   const [fieldProps, meta] = useField(field);
   const isError = meta.touched && meta.error;
 

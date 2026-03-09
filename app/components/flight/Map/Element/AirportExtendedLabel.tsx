@@ -6,7 +6,7 @@ type Props = {
   airport: Airport;
 };
 
-export default function AirportExtendedLabel({ airport }: Props) {
+export function AirportExtendedLabel({ airport }: Props) {
   return (
     <div className="airport-marker">
       <span className="airport-marker__code">{airport.iataCode}</span>

@@ -2,18 +2,18 @@
 
 import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function AircraftBox() {
+export function AircraftBox() {
   const { flight } = useTrackedFlight();
 
   if (!flight) {
     return (
       <Container padding="condensed">
         <ContainerTitle>Aircraft</ContainerTitle>
-        <div className="min-h-[100px] flex items-center justify-center text-gray-500">
+        <div className="min-h-25 flex items-center justify-center text-gray-500">
           <FaCircleInfo className="inline mr-2" />
           <span>Aircraft details will be available soon.</span>
         </div>

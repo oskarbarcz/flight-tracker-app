@@ -8,7 +8,7 @@ type Props = {
   aircraft: Aircraft[];
 };
 
-export default function AircraftListTable({ operatorId, aircraft }: Props) {
+export function AircraftListTable({ operatorId, aircraft }: Props) {
   return (
     <Table>
       <TableHead>

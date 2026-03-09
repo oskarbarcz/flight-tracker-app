@@ -1,7 +1,7 @@
 "use client";
 
 import { TabItem, Tabs } from "flowbite-react";
-import React, { type JSX } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router";
 
 const tabs = [
@@ -13,7 +13,7 @@ type Props = {
   id: string;
 };
 
-export function OperatorTabs({ id }: Props): JSX.Element {
+export function OperatorTabs({ id }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

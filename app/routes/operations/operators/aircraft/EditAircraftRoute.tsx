@@ -3,11 +3,11 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/EditAircraftRoute";
 import { Button } from "flowbite-react";
 import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
-import React, { type JSX, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
-import InputBlock from "~/components/shared/Form/InputBlock";
-import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { InputBlock } from "~/components/shared/Form/InputBlock";
+import { Container } from "~/components/shared/Layout/Container";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import { AircraftService } from "~/state/api/aircraft.service";
@@ -40,7 +40,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return { aircraft };
 }
 
-export default function EditAircraftRoute({ params }: Route.ComponentProps): JSX.Element {
+export default function EditAircraftRoute({ params }: Route.ComponentProps) {
   usePageTitle("Edit aircraft");
 
   const navigate = useNavigate();

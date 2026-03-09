@@ -2,12 +2,12 @@ import { Button } from "flowbite-react";
 import React from "react";
 import type { GetUserResponse } from "~/state/api/request/user.request";
 
-type PilotInputPreviewProps = {
+type Props = {
   user: GetUserResponse;
   onClose: () => void;
 };
 
-export default function PilotInputPreview({ onClose, user }: PilotInputPreviewProps) {
+export function PilotInputPreview({ onClose, user }: Props) {
   return (
     <div className="mt-2 flex items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-3 dark:border-gray-600 dark:bg-gray-700">
       <div>

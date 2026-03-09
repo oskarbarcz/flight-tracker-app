@@ -2,7 +2,7 @@ import { Button, Tooltip, useThemeMode } from "flowbite-react";
 import { useEffect } from "react";
 import { FaMoon, FaSun } from "react-icons/fa6";
 
-export default function ThemeSwitchButton() {
+export function ThemeSwitchButton() {
   const { mode, computedMode, setMode } = useThemeMode();
 
   useEffect(() => {

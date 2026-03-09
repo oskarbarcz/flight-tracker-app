@@ -7,7 +7,7 @@ type OperatorListTableProps = {
   operators: Operator[];
 };
 
-export default function OperatorListTable({ operators }: OperatorListTableProps) {
+export function OperatorListTable({ operators }: OperatorListTableProps) {
   return (
     <Table>
       <TableHead>

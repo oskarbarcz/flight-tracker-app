@@ -2,7 +2,7 @@
 
 import { FaPlane } from "react-icons/fa";
 import { PiUserSoundBold } from "react-icons/pi";
-import Container, { type ContainerClassProps } from "~/components/shared/Layout/Container";
+import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
 import { type FilledSchedule, FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
@@ -20,7 +20,7 @@ function formatTime(date: Date) {
 
 type FlightInfoBoxProps = ContainerClassProps;
 
-export default function FlightInfoBox({ className }: FlightInfoBoxProps) {
+export function FlightInfoBox({ className }: FlightInfoBoxProps) {
   const { flight } = useTrackedFlight();
   if (!flight) {
     return <div>Loading...</div>;

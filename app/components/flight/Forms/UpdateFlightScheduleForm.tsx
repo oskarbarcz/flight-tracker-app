@@ -1,11 +1,11 @@
 "use client";
 
 import { useFormikContext } from "formik";
-import ManagedDateTimeInputBlock from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
+import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 import { getTimeDifferenceInHours, getTimeDifferenceInMinutes } from "~/functions/time";
 import type { FilledSchedule } from "~/models";
 
-export default function UpdateFlightScheduleForm() {
+export function UpdateFlightScheduleForm() {
   const { values } = useFormikContext<FilledSchedule>();
 
   const taxiOutTime = getTimeDifferenceInMinutes(values.offBlockTime, values.takeoffTime);

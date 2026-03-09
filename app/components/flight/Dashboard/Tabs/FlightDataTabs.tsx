@@ -14,7 +14,7 @@ type Props = {
   isSimbriefAvailable: boolean;
 };
 
-export default function FlightDataTabs({ tab, setTab, isSimbriefAvailable }: Props) {
+export function FlightDataTabs({ tab, setTab, isSimbriefAvailable }: Props) {
   return (
     <Tabs variant="underline" onActiveTabChange={setTab}>
       <TabItem active={tab === FlightDataTab.Overview} title="Overview" />

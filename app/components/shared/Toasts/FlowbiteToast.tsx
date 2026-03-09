@@ -6,12 +6,12 @@ import { HiCheck, HiExclamation, HiInformationCircle, HiX } from "react-icons/hi
 
 type ToastType = "success" | "error" | "warning" | "info";
 
-interface FlowbiteToastProps {
+interface Props {
   message: string;
   type?: ToastType;
 }
 
-export const FlowbiteToast = ({ message, type = "success" }: FlowbiteToastProps) => {
+export function FlowbiteToast({ message, type = "success" }: Props) {
   const getIcon = () => {
     switch (type) {
       case "success":
@@ -48,4 +48,4 @@ export const FlowbiteToast = ({ message, type = "success" }: FlowbiteToastProps)
       <ToastToggle />
     </Toast>
   );
-};
+}

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { type JSX } from "react";
+import React from "react";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import { Sidebar } from "~/components/shared/Sidebar/Sidebar";
 import { AuthGuard } from "~/routes/auth/AuthGuard";
 
-export default function AppLayout(): JSX.Element {
+export default function AppLayout() {
   return (
     <AuthGuard>
       <div className="min-h-screen min-w-full flex flex-col md:flex-row pt-20 md:pt-0 dark:bg-gray-950">

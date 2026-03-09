@@ -15,7 +15,7 @@ type Props = {
   continent: Continent;
 };
 
-export default function AirportListEmptyState({ continent }: Props) {
+export function AirportListEmptyState({ continent }: Props) {
   return (
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color={"blue"} />

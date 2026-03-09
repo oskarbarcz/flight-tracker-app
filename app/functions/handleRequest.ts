@@ -30,7 +30,7 @@ function errorForKey<T>(response: ErrorResponse<T>, fieldName: keyof T): string[
   return response.violations[fieldName].map(capitalizeFirstLetter);
 }
 
-export function handleRequestSuccess<ResponseDto>(response: ResponseDto): ActionSuccess<ResponseDto> {
+export function handleRequestSuccess<T>(response: T): ActionSuccess<T> {
   return {
     body: response,
     isSuccessful: true,
@@ -38,16 +38,14 @@ export function handleRequestSuccess<ResponseDto>(response: ResponseDto): Action
   };
 }
 
-export function handleRequestError<RequestDto = unknown>(
-  response: ErrorResponse<RequestDto> | unknown,
-): ActionError<RequestDto> {
-  const errorResponse = response as ErrorResponse<RequestDto>;
+export function handleRequestError<T = unknown>(response: ErrorResponse<T> | unknown): ActionError<T> {
+  const errorResponse = response as ErrorResponse<T>;
   const hasViolations = errorResponse.violations && Object.keys(errorResponse.violations).length > 0;
   return {
     body: errorResponse,
     oneGeneralError: hasViolations ? undefined : errorResponse.error,
     violations: errorResponse.violations,
-    errorsForKey: (key: string) => errorForKey<RequestDto>(errorResponse, key as keyof RequestDto),
+    errorsForKey: (key: string) => errorForKey<T>(errorResponse, key as keyof T),
     isSuccessful: false,
     isError: true,
   };

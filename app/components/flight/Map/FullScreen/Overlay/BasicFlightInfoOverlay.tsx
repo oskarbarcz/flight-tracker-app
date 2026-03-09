@@ -2,7 +2,7 @@ import { FaPlane } from "react-icons/fa";
 import { toHuman } from "~/i18n/translate";
 import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
 
-type BasicFlightInfoOverlayProps = {
+type Props = {
   flight: Flight;
 };
 
@@ -22,7 +22,7 @@ function formatTime(date: Date) {
   });
 }
 
-export default function BasicFlightInfoOverlay({ flight }: BasicFlightInfoOverlayProps) {
+export function BasicFlightInfoOverlay({ flight }: Props) {
   const timesheet = flight.timesheet;
 
   const scheduledBlockTime = calculateBlockTime(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);

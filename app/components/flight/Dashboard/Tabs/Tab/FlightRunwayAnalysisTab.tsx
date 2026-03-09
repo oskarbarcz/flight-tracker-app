@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
+import { Container } from "~/components/shared/Layout/Container";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import useFlightOfp from "~/state/api/hooks/useFlightOfp";
 
@@ -9,7 +9,7 @@ function unescapeRunwayAnalysis(html: string): string {
     .replaceAll("\n", "<br />"); // Replace carriage returns
 }
 
-export default function FlightRunwayAnalysisTab() {
+export function FlightRunwayAnalysisTab() {
   const { flight } = useTrackedFlight();
   const { ofp } = useFlightOfp(flight?.id ?? null);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import React, { type JSX } from "react";
+import React from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
 
@@ -9,7 +9,7 @@ type Props = {
   operatorId: string;
 };
 
-export default function RotationControls({ operatorId }: Props): JSX.Element {
+export function RotationControls({ operatorId }: Props) {
   return (
     <div className="mb-6">
       <Button

@@ -3,11 +3,11 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/CreateAircraftRoute";
 import { Button } from "flowbite-react";
 import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
-import React, { type JSX, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useActionData, useNavigate, useSubmit } from "react-router";
-import InputBlock from "~/components/shared/Form/InputBlock";
-import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { InputBlock } from "~/components/shared/Form/InputBlock";
+import { Container } from "~/components/shared/Layout/Container";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import { AircraftService } from "~/state/api/aircraft.service";
@@ -32,7 +32,7 @@ export async function clientAction({ params, request }: Route.ClientActionArgs) 
   return aircraftService.createNew(params.operatorId, aircraft).then(handleRequestSuccess).catch(handleRequestError);
 }
 
-export default function CreateAircraftRoute({ params }: Route.ComponentProps): JSX.Element {
+export default function CreateAircraftRoute({ params }: Route.ComponentProps) {
   usePageTitle("Create new aircraft");
 
   const navigate = useNavigate();

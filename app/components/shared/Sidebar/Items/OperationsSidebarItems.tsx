@@ -2,9 +2,9 @@ import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { LuTowerControl } from "react-icons/lu";
 import { useLocation } from "react-router";
-import SidebarElement from "~/components/shared/Sidebar/Elements/SidebarElement";
+import { SidebarElement } from "~/components/shared/Sidebar/Elements/SidebarElement";
 
-export default function OperatorSidebarItems() {
+export function OperatorSidebarItems() {
   const path = useLocation().pathname;
 
   return (

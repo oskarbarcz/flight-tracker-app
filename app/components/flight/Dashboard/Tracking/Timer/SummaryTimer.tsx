@@ -4,12 +4,12 @@ import React from "react";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import type { FilledSchedule } from "~/models";
 
-type SummaryTimerProps = {
+type Props = {
   schedule: FilledSchedule;
   actual: FilledSchedule;
 };
 
-export function SummaryTimer({ actual }: SummaryTimerProps) {
+export function SummaryTimer({ actual }: Props) {
   return (
     <div className="flex flex-row flex-wrap">
       <div className="my-2 w-1/2 text-center">

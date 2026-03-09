@@ -16,7 +16,7 @@ const phaseToLabel = (phase: FlightPhase): string => {
   }
 };
 
-export default function FlightStatusTabs() {
+export function FlightStatusTabs() {
   const phases = [FlightPhase.Upcoming, FlightPhase.Ongoing, FlightPhase.Finished];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

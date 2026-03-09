@@ -5,7 +5,7 @@ import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tr
 import { toHuman } from "~/i18n/translate";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function FinishOffboardingButton({ disabled }: FlightProgressButtonProps) {
+export function FinishOffboardingButton({ disabled }: FlightProgressButtonProps) {
   const { flight, finishOffboarding } = useTrackedFlight();
 
   if (!flight) {

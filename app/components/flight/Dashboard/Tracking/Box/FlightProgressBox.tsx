@@ -2,8 +2,8 @@
 
 import React from "react";
 import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { toHuman } from "~/i18n/translate";
 import { FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
@@ -23,7 +23,7 @@ function showNextAction(status: FlightStatus): boolean {
   ].includes(status);
 }
 
-export default function FlightProgressBox() {
+export function FlightProgressBox() {
   const { flight } = useTrackedFlight();
 
   if (!flight) return null;

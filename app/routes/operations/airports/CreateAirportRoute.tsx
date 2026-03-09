@@ -3,15 +3,17 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import AirportGeneralFormSection, {
+import {
   type AirportGeneralFormData,
+  AirportGeneralFormSection,
 } from "~/components/airport/Forms/AirportGeneralFormSection";
-import AirportLocationFormSection, {
+import {
   type AirportLocationData,
+  AirportLocationFormSection,
 } from "~/components/airport/Forms/AirportLocationFormSection";
-import FormSubmit from "~/components/shared/Form/FormSubmit";
-import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { FormSubmit } from "~/components/shared/Form/FormSubmit";
+import { Container } from "~/components/shared/Layout/Container";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { type CreateAirportFormData, initCreateAirportData } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";

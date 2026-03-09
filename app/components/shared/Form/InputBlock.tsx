@@ -2,9 +2,9 @@
 
 import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 
-type InputProps = {
+type Props = {
   htmlName: string;
   label: string;
   required?: boolean;
@@ -15,16 +15,7 @@ type InputProps = {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
 
-export default function InputBlock({
-  htmlName,
-  label,
-  required,
-  defaultValue,
-  value,
-  errors = [],
-  onChange,
-  onBlur,
-}: InputProps) {
+export function InputBlock({ htmlName, label, required, defaultValue, value, errors = [], onChange, onBlur }: Props) {
   const [isMarkedRed, setIsMarkedRed] = useState<boolean>(false);
 
   useEffect(() => {

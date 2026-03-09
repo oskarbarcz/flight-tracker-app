@@ -2,15 +2,15 @@
 
 import React from "react";
 import { Link } from "react-router";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Flight } from "~/models";
 
 type DebugFlightListBoxProps = {
   flights: Flight[];
 };
 
-export default function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
+export function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
   return (
     <Container padding="condensed">
       <ContainerTitle>Flight list [debug]</ContainerTitle>

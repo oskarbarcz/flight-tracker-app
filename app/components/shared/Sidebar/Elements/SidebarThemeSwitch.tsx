@@ -29,7 +29,7 @@ function getIconForMode(mode: ThemeMode): IconType {
   }
 }
 
-export default function SidebarThemeSwitch() {
+export function SidebarThemeSwitch() {
   const { mode: currentMode, setMode } = useThemeMode();
   const Icon = getIconForMode(currentMode);
 

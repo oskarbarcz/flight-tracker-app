@@ -4,9 +4,9 @@ import { FloatingLabel } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 
-type ManagedDateTimeInputBlockProps = {
+type Props = {
   className?: string;
   field: string;
   label: string;
@@ -49,7 +49,7 @@ const parseDateTime = (dateTimeString: string): Date | null => {
   }
 };
 
-export default function ManagedDateTimeInputBlock({
+export function ManagedDateTimeInputBlock({
   className,
   field,
   label,
@@ -57,7 +57,7 @@ export default function ManagedDateTimeInputBlock({
   defaultValue,
   required = true,
   disabled = false,
-}: ManagedDateTimeInputBlockProps) {
+}: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const [inputValue, setInputValue] = useState<string>(
     fieldProps.value instanceof Date ? formatDateTimeLocal(fieldProps.value) : "",

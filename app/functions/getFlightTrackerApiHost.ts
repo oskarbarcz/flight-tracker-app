@@ -1,6 +1,6 @@
 "use client";
 
-export function getFlightTrackerApiHost(): string {
+export function getFlightTrackerApiHost() {
   const baseUrl = import.meta.env.VITE_FLIGHT_TRACKER_API_HOST;
 
   if (!baseUrl) {
@@ -10,12 +10,12 @@ export function getFlightTrackerApiHost(): string {
   return baseUrl;
 }
 
-export function getAdsbApiHost(): string {
+export function getAdsbApiHost() {
   const baseUrl = import.meta.env.VITE_ADSB_API_HOST;
 
   if (!baseUrl) {
     throw new Error("ADSB host is not defined");
   }
 
-  return baseUrl;
+  return baseUrl as string;
 }

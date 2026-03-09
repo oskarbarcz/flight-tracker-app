@@ -10,7 +10,7 @@ type MapAircraftMarkerProps = {
   path: Position[];
 };
 
-export default function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
+export function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
   const bearing = useMemo(() => calculateLastBearing(path), [path]);
   const planeIcon = useMemo(
     () =>

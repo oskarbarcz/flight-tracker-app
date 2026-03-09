@@ -1,8 +1,8 @@
 import { HiHome } from "react-icons/hi";
 import { useLocation } from "react-router";
-import SidebarElement from "~/components/shared/Sidebar/Elements/SidebarElement";
+import { SidebarElement } from "~/components/shared/Sidebar/Elements/SidebarElement";
 
-export default function CabinCrewSidebarItems() {
+export function CabinCrewSidebarItems() {
   const path = useLocation().pathname;
 
   return (

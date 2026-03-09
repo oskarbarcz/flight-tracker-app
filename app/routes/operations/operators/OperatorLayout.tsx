@@ -1,7 +1,7 @@
 "use client";
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorLayout";
-import React, { type JSX } from "react";
+import React from "react";
 import { Outlet, useLoaderData } from "react-router";
 import { OperatorHeader } from "~/components/operator/Header/OperatorHeader";
 import { OperatorInsights } from "~/components/operator/Header/OperatorInsights";
@@ -15,7 +15,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return { operator };
 }
 
-export default function OperatorLayout(): JSX.Element {
+export default function OperatorLayout() {
   const { operator } = useLoaderData<typeof clientLoader>();
   usePageTitle(`${operator.shortName} | Operator`);
 

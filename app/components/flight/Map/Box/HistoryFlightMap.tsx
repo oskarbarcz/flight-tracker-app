@@ -3,18 +3,18 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer } from "react-leaflet";
-import FlightPath from "~/components/flight/Map/Element/FlightPath";
-import GreatCirclePath from "~/components/flight/Map/Element/GreatCirclePath";
-import MapAircraftMarker from "~/components/flight/Map/Element/MapAircraftMarker";
+import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
+import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
+import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMarker";
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
-import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
-import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
+import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
+import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import type { FlightPathElement } from "~/models";
 import type { Position } from "~/models/common/geo";
 import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function HistoryFlightMap() {
+export function HistoryFlightMap() {
   const { flight } = useTrackedFlight();
   const { flightService } = useApi();
   const leafletMapOptions = {

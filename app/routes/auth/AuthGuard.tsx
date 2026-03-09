@@ -11,7 +11,7 @@ type Props = {
   children: ReactNode;
 };
 
-export function AuthGuard({ allowOnly, children }: Props): JSX.Element {
+export function AuthGuard({ allowOnly, children }: Props) {
   const { user, isLoading, accessToken } = useContext(UseAuth);
 
   if (isLoading) {

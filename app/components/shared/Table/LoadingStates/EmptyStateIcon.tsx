@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type JSX } from "react";
+import React from "react";
 import type { IconType } from "react-icons";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   color: "blue";
 };
 
-export function EmptyStateIcon({ icon: Icon, color }: Props): JSX.Element {
+export function EmptyStateIcon({ icon: Icon, color }: Props) {
   const colors = {
     blue: "text-blue-500 bg-blue-50 dark:bg-blue-950",
   }[color];

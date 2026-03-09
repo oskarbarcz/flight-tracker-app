@@ -2,12 +2,12 @@
 
 import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import PilotInputPreview from "~/components/operator/Form/Preview/PilotInputPreview";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { PilotInputPreview } from "~/components/operator/Form/Preview/PilotInputPreview";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { useApi } from "~/state/api/context/useApi";
 import type { GetUserResponse } from "~/state/api/request/user.request";
 
-type PilotLicenseInputBlockProps = {
+type Props = {
   htmlName: string;
   label: string;
   defaultValue?: string | undefined;
@@ -30,13 +30,7 @@ const errorToMessage = (error: unknown): string => {
   return "An unexpected error occurred while fetching pilot data";
 };
 
-export default function PilotLicenseInputBlock({
-  htmlName,
-  label,
-  errors: parentErrors,
-  defaultValue,
-  setFieldValue,
-}: PilotLicenseInputBlockProps) {
+export function PilotLicenseInputBlock({ htmlName, label, errors: parentErrors, defaultValue, setFieldValue }: Props) {
   const { userService } = useApi();
 
   const [pilot, setPilot] = useState<GetUserResponse | null>(null);

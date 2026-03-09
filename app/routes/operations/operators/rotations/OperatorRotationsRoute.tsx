@@ -1,15 +1,15 @@
 "use client";
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/OperatorRotationsRoute";
-import React, { type JSX, useState } from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router";
-import RemoveRotationModal from "~/components/operator/Modal/RemoveRotationModal";
+import { RemoveRotationModal } from "~/components/operator/Modal/RemoveRotationModal";
 import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
-import RotationControls from "~/components/operator/Table/RotationControls";
-import RotationListTable from "~/components/operator/Table/RotationListTable";
-import Container from "~/components/shared/Layout/Container";
+import { RotationControls } from "~/components/operator/Table/RotationControls";
+import { RotationListTable } from "~/components/operator/Table/RotationListTable";
+import { Container } from "~/components/shared/Layout/Container";
 import { useApi } from "~/state/api/context/useApi";
-import type { RotationResponse } from "~/state/api/request/operator.request";
+import type { GetRotationResponse } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -17,11 +17,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return { rotations };
 }
 
-export default function OperatorRotationsRoute({ params }: Route.ComponentProps): JSX.Element {
+export default function OperatorRotationsRoute({ params }: Route.ComponentProps) {
   const { rotationService } = useApi();
   const { rotations } = useLoaderData<typeof clientLoader>();
 
-  const [rotationToRemove, setRotationToRemove] = useState<RotationResponse | null>(null);
+  const [rotationToRemove, setRotationToRemove] = useState<GetRotationResponse | null>(null);
 
   const removeRotation = async (flightId: string) => {
     await rotationService.remove(flightId);

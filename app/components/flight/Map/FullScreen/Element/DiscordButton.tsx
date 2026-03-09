@@ -3,7 +3,7 @@ import { FaDiscord } from "react-icons/fa6";
 import { Link } from "react-router";
 import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
 
-export default function DiscordButton() {
+export function DiscordButton() {
   const { discordInvitationHash } = useAppEnvironment();
 
   const button = (

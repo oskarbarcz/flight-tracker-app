@@ -4,13 +4,13 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-rea
 import { formatDate } from "~/functions/time";
 import type { Flight } from "~/models";
 
-type RemoveFlightModalProps = {
+type Props = {
   flight: Flight;
   remove: (flightId: string) => void;
   cancel: () => void;
 };
 
-export default function RemoveFlightModal({ flight, remove, cancel }: RemoveFlightModalProps) {
+export function RemoveFlightModal({ flight, remove, cancel }: Props) {
   return (
     <Modal show onClose={cancel}>
       <ModalHeader>Remove flight</ModalHeader>

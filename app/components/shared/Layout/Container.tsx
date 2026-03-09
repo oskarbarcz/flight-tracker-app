@@ -25,7 +25,7 @@ type ContainerProps = ContainerClassProps & {
   padding?: Padding;
 };
 
-export default function Container({ children, className, invisible = false, padding = "normal" }: ContainerProps) {
+export function Container({ children, className, invisible = false, padding = "normal" }: ContainerProps) {
   const border =
     "rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-300";
   let finalClassList = twMerge(className, spacingToPadding(padding));

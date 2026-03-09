@@ -2,7 +2,7 @@
 
 import { FaHeart } from "react-icons/fa";
 
-export default function Footer() {
+export function Footer() {
   return (
     <div className="fixed bottom-4 right-6 pt-4 text-end text-xs md:text-sm text-gray-500">
       {"Created with "}

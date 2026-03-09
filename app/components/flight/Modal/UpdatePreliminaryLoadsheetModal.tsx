@@ -2,8 +2,8 @@
 
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
-import UpdateLoadsheetForm from "~/components/flight/Forms/UpdateLoadsheetForm";
-import Form from "~/components/shared/Form/Form";
+import { UpdateLoadsheetForm } from "~/components/flight/Forms/UpdateLoadsheetForm";
+import { Form } from "~/components/shared/Form/Form";
 import type { Flight, Loadsheet } from "~/models";
 import { updatePreliminaryLoadsheetSchema } from "~/validator/form/flight.schema";
 import {
@@ -12,17 +12,13 @@ import {
   loadsheetToFlatLoadsheet,
 } from "~/validator/form/types/flight.form-types";
 
-type UpdatePreliminaryLoadsheetModalProps = {
+type Props = {
   flight: Flight;
   update: (flightId: string, loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
-export default function UpdatePreliminaryLoadsheetModal({
-  flight,
-  update,
-  cancel,
-}: UpdatePreliminaryLoadsheetModalProps) {
+export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Props) {
   const oldLoadsheet = flight.loadsheets.preliminary ?? {
     flightCrew: { pilots: 0, reliefPilots: 0, cabinCrew: 0 },
     passengers: 0,

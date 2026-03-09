@@ -5,13 +5,13 @@ import React from "react";
 import { formatDate } from "~/functions/time";
 import type { Flight } from "~/models";
 
-type ReleaseFlightModalProps = {
+type Props = {
   flight: Flight;
   release: (flightId: string) => void;
   cancel: () => void;
 };
 
-export default function ReleaseFlightModal({ flight, release, cancel }: ReleaseFlightModalProps) {
+export function ReleaseFlightModal({ flight, release, cancel }: Props) {
   return (
     <Modal show onClose={cancel}>
       <ModalHeader>Release flight</ModalHeader>

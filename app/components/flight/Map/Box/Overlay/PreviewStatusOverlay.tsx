@@ -6,7 +6,7 @@ import { FlightStatus } from "~/models";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function MapPreviewStatusOverlay() {
+export function MapPreviewStatusOverlay() {
   const { flight } = useTrackedFlight();
   const { flightPath } = useAdsbData();
 

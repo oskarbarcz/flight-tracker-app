@@ -2,20 +2,20 @@
 
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
-import UpdateFlightScheduleForm from "~/components/flight/Forms/UpdateFlightScheduleForm";
+import { UpdateFlightScheduleForm } from "~/components/flight/Forms/UpdateFlightScheduleForm";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import Form from "~/components/shared/Form/Form";
+import { Form } from "~/components/shared/Form/Form";
 import type { FilledSchedule, Flight } from "~/models";
 import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
-type CheckInFlightModalProps = {
+type Props = {
   flight: Flight;
   checkIn: (estimation: FilledSchedule) => void;
   close: () => void;
 };
 
-export default function CheckInFlightModal({ flight, checkIn, close }: CheckInFlightModalProps) {
+export function CheckInFlightModal({ flight, checkIn, close }: Props) {
   const schedule = flight.timesheet.scheduled;
 
   return (

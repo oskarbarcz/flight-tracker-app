@@ -6,11 +6,11 @@ import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { FormattedLocalTime } from "~/components/shared/Date/FormattedLocalTime";
 import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function TimeManagementBox() {
+export function TimeManagementBox() {
   const { flight } = useTrackedFlight();
 
   const [currentTime, setCurrentTime] = useState<Date>(new Date());

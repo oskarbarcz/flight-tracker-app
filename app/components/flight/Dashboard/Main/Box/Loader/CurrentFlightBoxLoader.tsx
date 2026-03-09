@@ -1,8 +1,8 @@
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
-import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 
-export default function CurrentFlightBoxLoader() {
+export function CurrentFlightBoxLoader() {
   return (
     <Container padding="condensed" className="animate-pulse">
       <ContainerTitle>

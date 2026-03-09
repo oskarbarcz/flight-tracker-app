@@ -4,7 +4,7 @@ import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Radio } from
 import React, { useState } from "react";
 import { type Flight, Tracking } from "~/models";
 
-type UpdateTrackingModalProps = {
+type Props = {
   flight: Flight;
   update: (flightId: string, tracking: Tracking) => void;
   cancel: () => void;
@@ -34,7 +34,7 @@ const trackingOptions: TrackingOption[] = [
   },
 ];
 
-export default function UpdateTrackingModal({ flight, update, cancel }: UpdateTrackingModalProps) {
+export function UpdateTrackingModal({ flight, update, cancel }: Props) {
   const [selectedTracking, setSelectedTracking] = useState<Tracking>(flight.tracking);
 
   return (

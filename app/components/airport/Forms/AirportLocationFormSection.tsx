@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import FormSection from "~/components/shared/Form/FormSection";
-import ManagedInputBlock from "~/components/shared/Form/Managed/ManagedInputBlock";
-import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { FormSection } from "~/components/shared/Form/FormSection";
+import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Continent } from "~/models";
 import { createAirportLocationSchema } from "~/validator/form/create-airport.schema";
 
@@ -16,7 +16,7 @@ export type AirportLocationData = {
   longitude: number;
 };
 
-type AirportLocationFormSectionProps = {
+type Props = {
   data: AirportLocationData;
   onSubmit: (data: AirportLocationData) => void;
 };
@@ -30,7 +30,7 @@ const continentOptions = [
   { label: "Africa", value: Continent.Africa },
 ];
 
-export default function AirportLocationFormSection({ data, onSubmit }: AirportLocationFormSectionProps) {
+export function AirportLocationFormSection({ data, onSubmit }: Props) {
   const [isEditable, setIsEditable] = useState<boolean>(true);
 
   return (

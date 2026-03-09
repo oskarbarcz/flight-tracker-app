@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-import React, { type JSX } from "react";
+import React from "react";
 import { HiOutlineArrowLeft, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
 
@@ -7,7 +7,7 @@ type Props = {
   id: string;
 };
 
-export function OperatorNavigation({ id }: Props): JSX.Element {
+export function OperatorNavigation({ id }: Props) {
   return (
     <div className="flex items-center justify-between mb-6">
       <Link

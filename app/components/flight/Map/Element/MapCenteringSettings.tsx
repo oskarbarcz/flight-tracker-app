@@ -16,7 +16,7 @@ function sizeToButtonSize(size: "sm" | "md") {
   }
 }
 
-export default function MapCenteringSettings({ size = "md" }: Props) {
+export function MapCenteringSettings({ size = "md" }: Props) {
   const { mapSettings, updateMapSettings } = useMapSettings();
 
   const toggleAutoCenter = () => {

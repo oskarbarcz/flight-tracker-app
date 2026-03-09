@@ -7,7 +7,7 @@ type Props = {
   tracking: Tracking;
 };
 
-export default function TrackingStatus({ tracking }: Props) {
+export function TrackingStatus({ tracking }: Props) {
   if (tracking === Tracking.Disabled)
     return (
       <Tooltip content="Flight is visible only to you and cannot be tracked by third parties.">

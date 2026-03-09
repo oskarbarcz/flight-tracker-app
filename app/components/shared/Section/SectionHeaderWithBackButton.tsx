@@ -4,17 +4,13 @@ import { Button } from "flowbite-react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { Link } from "react-router";
 
-type SectionHeaderWithBackButtonProps = {
+type Props = {
   sectionTitle: string;
   backUrl: string;
   backText: string;
 };
 
-export default function SectionHeaderWithBackButton({
-  sectionTitle,
-  backUrl,
-  backText,
-}: SectionHeaderWithBackButtonProps) {
+export function SectionHeaderWithBackButton({ sectionTitle, backUrl, backText }: Props) {
   return (
     <div className="mx-auto my-6">
       <Link className="block" to={backUrl} viewTransition>

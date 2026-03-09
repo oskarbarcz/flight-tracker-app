@@ -23,7 +23,7 @@ function getInitials(name: string) {
     .join("");
 }
 
-export default function SidebarUserSection() {
+export function SidebarUserSection() {
   const { user } = useAuth() as { user: User };
 
   return (

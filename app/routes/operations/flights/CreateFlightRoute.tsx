@@ -1,12 +1,12 @@
 "use client";
 
-import React, { type JSX, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
-import FlightIdentityFormSection from "~/components/flight/FormSection/FlightIdentityFormSection";
-import FlightRouteFormSection from "~/components/flight/FormSection/FlightRouteFormSection";
-import FlightScheduleFormSection from "~/components/flight/FormSection/FlightScheduleFormSection";
-import FormSubmit from "~/components/shared/Form/FormSubmit";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { FlightIdentityFormSection } from "~/components/flight/FormSection/FlightIdentityFormSection";
+import { FlightRouteFormSection } from "~/components/flight/FormSection/FlightRouteFormSection";
+import { FlightScheduleFormSection } from "~/components/flight/FormSection/FlightScheduleFormSection";
+import { FormSubmit } from "~/components/shared/Form/FormSubmit";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { Tracking } from "~/models";
 import { type CreateFlightFormData, initCreateFlightData } from "~/models/form/flight.form";
@@ -17,7 +17,7 @@ import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer"
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import type { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 
-export async function clientAction({ request }: Route.ClientActionArgs): Promise<Response | undefined> {
+export async function clientAction({ request }: Route.ClientActionArgs) {
   const flightService = new FlightService();
   const form = await request.formData();
   const rawFormData = getFormData(form, [
@@ -64,7 +64,7 @@ export async function clientAction({ request }: Route.ClientActionArgs): Promise
   console.error("Failed to create flight");
 }
 
-export default function CreateAirportRoute(): JSX.Element {
+export default function CreateAirportRoute() {
   usePageTitle("Create new flight");
   const [formData, setFormData] = useState<CreateFlightFormData>(initCreateFlightData());
   const [formMessage, setFormMessage] = useState<string | undefined>();

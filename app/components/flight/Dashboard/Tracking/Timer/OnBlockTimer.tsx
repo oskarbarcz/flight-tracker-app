@@ -6,7 +6,7 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow } from "~/functions/time";
 import type { FilledSchedule } from "~/models";
 
-type OnBlockTimerProps = {
+type Props = {
   schedule: FilledSchedule;
 };
 
@@ -22,7 +22,7 @@ function timeToColor(time: number): string {
   return "text-red-500";
 }
 
-export function OnBlockTimer({ schedule }: OnBlockTimerProps) {
+export function OnBlockTimer({ schedule }: Props) {
   const timeToOnBlock = secondsToNow(schedule.onBlockTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToOnBlock);
 

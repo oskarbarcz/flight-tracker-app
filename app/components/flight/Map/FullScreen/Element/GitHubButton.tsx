@@ -2,7 +2,7 @@ import { Button, Tooltip } from "flowbite-react";
 import { FaGithub } from "react-icons/fa6";
 import { Link } from "react-router";
 
-export default function GitHubButton() {
+export function GitHubButton() {
   const button = (
     <Button
       color="alternative"

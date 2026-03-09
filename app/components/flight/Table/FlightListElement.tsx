@@ -2,8 +2,8 @@ import { Button, TableCell, TableRow } from "flowbite-react";
 import React, { useCallback } from "react";
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router";
-import FlightListElementDetails from "~/components/flight/Table/FlightListElementDetails";
-import TrackingStatus from "~/components/flight/Table/TrackingStatus";
+import { FlightListElementDetails } from "~/components/flight/Table/FlightListElementDetails";
+import { TrackingStatus } from "~/components/flight/Table/TrackingStatus";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { toHuman } from "~/i18n/translate";
@@ -18,7 +18,7 @@ type Props = {
   onUpdateTracking: (flight: Flight) => void;
 };
 
-export default function FlightListElement({
+export function FlightListElement({
   flight,
   onUpdateTimesheet,
   onUpdateLoadsheet,

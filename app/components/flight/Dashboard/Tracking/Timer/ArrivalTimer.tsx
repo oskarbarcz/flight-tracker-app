@@ -6,7 +6,7 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
 import type { FilledSchedule } from "~/models";
 
-type ArrivalTimerProps = {
+type Props = {
   schedule: FilledSchedule;
   actual: FilledSchedule;
 };
@@ -23,7 +23,7 @@ function timeToColor(time: number): string {
   return "text-green-500";
 }
 
-export function ArrivalTimer({ schedule, actual }: ArrivalTimerProps) {
+export function ArrivalTimer({ schedule, actual }: Props) {
   const timeToArrival = secondsToNow(schedule.arrivalTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToArrival);
 

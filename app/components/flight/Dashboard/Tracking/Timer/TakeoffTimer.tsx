@@ -5,7 +5,7 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatTimeInterval, secondsToNow } from "~/functions/time";
 import type { FilledSchedule } from "~/models";
 
-type TakeoffTimerProps = {
+type Props = {
   schedule: FilledSchedule;
 };
 
@@ -21,7 +21,7 @@ function timeToColor(time: number): string {
   return "text-red-500";
 }
 
-export function TakeoffTimer({ schedule }: TakeoffTimerProps) {
+export function TakeoffTimer({ schedule }: Props) {
   const timeToTakeoff = secondsToNow(schedule.takeoffTime);
   const [timeLeft, setTimeLeft] = useState<number>(timeToTakeoff);
 

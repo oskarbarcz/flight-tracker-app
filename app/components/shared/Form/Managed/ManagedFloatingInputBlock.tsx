@@ -5,7 +5,7 @@ import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import InputErrorList from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 
 type ManagedFloatingInputBlock = {
   field: string;
@@ -18,7 +18,7 @@ type ManagedFloatingInputBlock = {
   className?: string;
 };
 
-export default function ManagedFloatingInputBlock({
+export function ManagedFloatingInputBlock({
   field,
   label,
   required = true,

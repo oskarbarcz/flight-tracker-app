@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import React from "react";
 import { OperatorLogo } from "~/components/operator/Header/OperatorLogo";
 import { VerifiedOperatorBadge } from "~/components/operator/VerifiedOperatorBadge";
 import { BadgeValueDisplay } from "~/components/shared/Display/BadgeValueDisplay";
@@ -8,7 +8,7 @@ type Props = {
   operator: Operator;
 };
 
-export function OperatorHeader({ operator }: Props): JSX.Element {
+export function OperatorHeader({ operator }: Props) {
   return (
     <header className="flex flex-col md:flex-row md:items-end gap-3 mb-3">
       {operator.logoUrl && <OperatorLogo logoUrl={operator.logoUrl} />}

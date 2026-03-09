@@ -11,7 +11,7 @@ type Props = {
   onUpdateLoadsheet: (flight: Flight) => void;
 };
 
-export default function FlightListElementDetails({ flight, onUpdateTimesheet, onUpdateLoadsheet }: Props) {
+export function FlightListElementDetails({ flight, onUpdateTimesheet, onUpdateLoadsheet }: Props) {
   return (
     <TableRow className="inset-shadow-sm bg-gray-50 dark:bg-gray-950">
       <TableCell colSpan={7} className="animate-in fade-in slide-in-from-top-2 duration-200 ease-out overflow-hidden">

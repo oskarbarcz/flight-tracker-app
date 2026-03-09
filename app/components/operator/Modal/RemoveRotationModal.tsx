@@ -1,15 +1,15 @@
 "use client";
 
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
-import type { RotationResponse } from "~/state/api/request/operator.request";
+import type { GetRotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {
-  rotation: RotationResponse;
+  rotation: GetRotationResponse;
   remove: (rotationId: string) => void;
   cancel: () => void;
 };
 
-export default function RemoveRotationModal({ rotation, remove, cancel }: Props) {
+export function RemoveRotationModal({ rotation, remove, cancel }: Props) {
   return (
     <Modal size="md" show onClose={cancel}>
       <ModalHeader>Remove rotation</ModalHeader>

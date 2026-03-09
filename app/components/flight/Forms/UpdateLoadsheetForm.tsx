@@ -1,7 +1,7 @@
 import React from "react";
-import ManagedFloatingInputBlock from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
+import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
 
-export default function UpdateLoadsheetForm() {
+export function UpdateLoadsheetForm() {
   return (
     <div className="space-y-6">
       <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300">Souls on board</h3>

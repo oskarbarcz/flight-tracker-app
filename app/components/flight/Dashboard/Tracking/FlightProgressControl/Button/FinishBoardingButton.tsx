@@ -3,12 +3,12 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
-import UpdateFinalLoadsheetModal from "~/components/flight/Modal/UpdateFinalLoadsheetModal";
+import { UpdateFinalLoadsheetModal } from "~/components/flight/Modal/UpdateFinalLoadsheetModal";
 import { toHuman } from "~/i18n/translate";
 import type { Loadsheet } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
+export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   const { flight, finishBoarding } = useTrackedFlight();
   const [showModal, setShowModal] = useState(false);
 

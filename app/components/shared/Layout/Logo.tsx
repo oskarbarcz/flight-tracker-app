@@ -1,6 +1,6 @@
 import logo from "~/assets/logo.svg";
 
-export default function Logo() {
+export function Logo() {
   return (
     <>
       <img src={logo} className="h-6 mr-1 sm:h-9 sm:mr-2" alt="Flight Tracker app logo" />

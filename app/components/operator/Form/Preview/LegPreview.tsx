@@ -7,12 +7,12 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { formatDate } from "~/functions/time";
 import type { Flight } from "~/models";
 
-type LegPreviewProps = {
+type Props = {
   flight: Flight;
   actionButton?: React.ReactNode;
 };
 
-export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
+export function LegPreview({ flight, actionButton }: Props) {
   return (
     <div className="mb-2 rounded-xl border border-gray-300 bg-gray-50 p-3 dark:border-gray-600 dark:bg-gray-700">
       <div className="flex items-center justify-between">

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "flowbite-react";
-import React, { type JSX } from "react";
+import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
@@ -13,7 +13,7 @@ type Props = {
   operatorId: string;
 };
 
-export function RotationListEmptyState({ operatorId }: Props): JSX.Element {
+export function RotationListEmptyState({ operatorId }: Props) {
   return (
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color={"blue"} />

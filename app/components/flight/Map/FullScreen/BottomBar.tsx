@@ -1,4 +1,4 @@
-import VerticalSeparator from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
+import { VerticalSeparator } from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
 import { FormattedLocalTime } from "~/components/shared/Date/FormattedLocalTime";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";

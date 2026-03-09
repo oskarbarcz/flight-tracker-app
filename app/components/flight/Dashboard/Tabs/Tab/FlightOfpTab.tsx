@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "~/components/shared/Layout/Container";
+import { Container } from "~/components/shared/Layout/Container";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import useFlightOfp from "~/state/api/hooks/useFlightOfp";
 
@@ -10,7 +10,7 @@ function unescapeOFP(html: string): string {
     .replace(/\\r/g, ""); // Remove carriage returns
 }
 
-export default function FlightOfpTab() {
+export function FlightOfpTab() {
   const { flight } = useTrackedFlight();
   const { ofp } = useFlightOfp(flight?.id ?? null);
 

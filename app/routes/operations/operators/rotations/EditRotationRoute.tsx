@@ -5,11 +5,11 @@ import { Button } from "flowbite-react";
 import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
 import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
-import PilotLicenseInputBlock from "~/components/operator/Form/PilotLicenseInputBlock";
-import RotationFlightsInputBlock from "~/components/operator/Form/RotationFlightsInputBlock";
-import InputBlock from "~/components/shared/Form/InputBlock";
-import Container from "~/components/shared/Layout/Container";
-import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseInputBlock";
+import { RotationFlightsInputBlock } from "~/components/operator/Form/RotationFlightsInputBlock";
+import { InputBlock } from "~/components/shared/Form/InputBlock";
+import { Container } from "~/components/shared/Layout/Container";
+import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import type { EditRotationRequest } from "~/state/api/request/operator.request";
@@ -95,7 +95,7 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ errors: formikErrors, touched, setFieldValue, handleChange, handleBlur, values }) => (
+        {({ errors, touched, setFieldValue, handleChange, handleBlur, values }) => (
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col gap-4">
@@ -105,13 +105,13 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
                   value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  errors={getErrors("name", formikErrors, touched)}
+                  errors={getErrors("name", errors, touched)}
                 />
                 <PilotLicenseInputBlock
                   htmlName="pilotId"
                   label="Captain pilot license ID"
                   defaultValue={rotation.pilot.id}
-                  errors={getErrors("pilotId", formikErrors, touched)}
+                  errors={getErrors("pilotId", errors, touched)}
                   setFieldValue={setFieldValue}
                 />
                 <RotationFlightsInputBlock rotation={rotation} legs={rotation.flights} updateLegs={updateLegs} />

@@ -4,14 +4,14 @@ import React from "react";
 import type { IconType } from "react-icons";
 import { Link } from "react-router";
 
-type SidebarElementProps = {
+type Props = {
   isSelected: boolean;
   label: string;
   href: string;
   icon: IconType;
 };
 
-export default function SidebarElement({ isSelected, label, href, icon: Icon }: SidebarElementProps) {
+export function SidebarElement({ isSelected, label, href, icon: Icon }: Props) {
   if (isSelected) {
     return (
       <Link
