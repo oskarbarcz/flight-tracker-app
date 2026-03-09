@@ -8,33 +8,23 @@ import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import type { CreateOperatorDto, Operator } from "~/models";
+import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import type { CreateOperatorDto } from "~/state/api/request/operator.request";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
-export async function clientAction({
-  request,
-  params,
-}: Route.ClientActionArgs): Promise<Response> {
+export async function clientAction({ request, params }: Route.ClientActionArgs): Promise<Response> {
   const operatorService = new OperatorService();
 
   const form = await request.formData();
-  const operator = getFormData<CreateOperatorDto>(form, [
-    "icaoCode",
-    "iataCode",
-    "shortName",
-    "fullName",
-    "callsign",
-  ]);
+  const operator = getFormData<CreateOperatorDto>(form, ["icaoCode", "iataCode", "shortName", "fullName", "callsign"]);
 
   await operatorService.update(params.operatorId, operator);
 
   return redirect("/operators");
 }
 
-export async function clientLoader({
-  params,
-}: Route.ClientLoaderArgs): Promise<Operator> {
+export async function clientLoader({ params }: Route.ClientLoaderArgs): Promise<Operator> {
   return new OperatorService().fetchById(params.operatorId);
 }
 
@@ -54,31 +44,11 @@ export default function EditOperatorRoute(): JSX.Element {
       <Form method="post">
         <Container>
           <div className="flex flex-col gap-4">
-            <InputBlock
-              htmlName="icaoCode"
-              label="ICAO code"
-              defaultValue={operator.icaoCode}
-            />
-            <InputBlock
-              htmlName="iataCode"
-              label="IATA code"
-              defaultValue={operator.iataCode}
-            />
-            <InputBlock
-              htmlName="shortName"
-              label="Short name"
-              defaultValue={operator.shortName}
-            />
-            <InputBlock
-              htmlName="fullName"
-              label="Full name"
-              defaultValue={operator.fullName}
-            />
-            <InputBlock
-              htmlName="callsign"
-              label="Callsign"
-              defaultValue={operator.callsign}
-            />
+            <InputBlock htmlName="icaoCode" label="ICAO code" defaultValue={operator.icaoCode} />
+            <InputBlock htmlName="iataCode" label="IATA code" defaultValue={operator.iataCode} />
+            <InputBlock htmlName="shortName" label="Short name" defaultValue={operator.shortName} />
+            <InputBlock htmlName="fullName" label="Full name" defaultValue={operator.fullName} />
+            <InputBlock htmlName="callsign" label="Callsign" defaultValue={operator.callsign} />
           </div>
         </Container>
 

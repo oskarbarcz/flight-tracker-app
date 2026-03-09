@@ -2,27 +2,19 @@ import React, { type JSX } from "react";
 import { FaGlobe, FaPlane, FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineHub } from "react-icons/md";
 import RichStatDisplay from "~/components/shared/Display/RichStatDisplay";
-import { continentToDisplayName, type Operator } from "~/models";
+import { toHuman } from "~/i18n/translate";
+import type { Operator } from "~/models";
 
 type Props = {
   operator: Operator;
 };
 
 export function OperatorInsights({ operator }: Props): JSX.Element {
-  const hubs =
-    operator.hubs.length > 2
-      ? `${operator.hubs.slice(0, 2).join(", ")}, ...`
-      : operator.hubs.join(", ");
+  const hubs = operator.hubs.length > 2 ? `${operator.hubs.slice(0, 2).join(", ")}, ...` : operator.hubs.join(", ");
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-      <RichStatDisplay
-        icon={MdOutlineHub}
-        color="indigo"
-        title="Operator hubs"
-        value={hubs}
-        valueSmaller
-      />
+      <RichStatDisplay icon={MdOutlineHub} color="indigo" title="Operator hubs" value={hubs} valueSmaller />
       <RichStatDisplay
         icon={FaPlane}
         color="green"
@@ -41,7 +33,7 @@ export function OperatorInsights({ operator }: Props): JSX.Element {
         icon={FaGlobe}
         color="blue"
         title="Region"
-        value={continentToDisplayName(operator.continent)}
+        value={toHuman.airport.continent(operator.continent)}
         valueSmaller
       />
     </div>

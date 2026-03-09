@@ -33,9 +33,7 @@ export default function FlightDetailsSectionOverlay({ flight }: Props) {
           <FaUserGroup size={18} />
         </Button>
       </div>
-      <div>
-        {showFlightDetails && <BasicFlightInfoOverlay flight={flight} />}
-      </div>
+      <div>{showFlightDetails && <BasicFlightInfoOverlay flight={flight} />}</div>
     </div>
   );
 }

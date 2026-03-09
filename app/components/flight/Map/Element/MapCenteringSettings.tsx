@@ -1,7 +1,7 @@
 import { Button, Tooltip } from "flowbite-react";
 import { FaPlane } from "react-icons/fa";
 import { FaChevronRight, FaCrosshairs, FaRoute } from "react-icons/fa6";
-import { useMapSettings } from "~/state/contexts/settings/map-settings.context";
+import { useMapSettings } from "~/state/app/context/useMapSettings";
 
 type Props = {
   size?: "sm" | "md";
@@ -80,21 +80,13 @@ export default function MapCenteringSettings({ size = "md" }: Props) {
         <div className="flex gap-3 items-center animate-in fade-in slide-in-from-left-4 duration-300">
           <FaChevronRight className="text-gray-500 w-2 h-4" />
           <div className="hidden md:block">
-            <Tooltip
-              content="Center automatically on route"
-              style="auto"
-              placement="top"
-            >
+            <Tooltip content="Center automatically on route" style="auto" placement="top">
               {routeButton}
             </Tooltip>
           </div>
           <div className="md:hidden">{routeButton}</div>
           <div className="hidden md:block">
-            <Tooltip
-              content="Center automatically on aircraft"
-              style="auto"
-              placement="top"
-            >
+            <Tooltip content="Center automatically on aircraft" style="auto" placement="top">
               {aircraftButton}
             </Tooltip>
           </div>

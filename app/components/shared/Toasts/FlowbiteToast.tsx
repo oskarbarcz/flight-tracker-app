@@ -2,12 +2,7 @@
 
 import { Toast, ToastToggle } from "flowbite-react";
 import React from "react";
-import {
-  HiCheck,
-  HiExclamation,
-  HiInformationCircle,
-  HiX,
-} from "react-icons/hi";
+import { HiCheck, HiExclamation, HiInformationCircle, HiX } from "react-icons/hi";
 
 type ToastType = "success" | "error" | "warning" | "info";
 
@@ -16,10 +11,7 @@ interface FlowbiteToastProps {
   type?: ToastType;
 }
 
-export const FlowbiteToast = ({
-  message,
-  type = "success",
-}: FlowbiteToastProps) => {
+export const FlowbiteToast = ({ message, type = "success" }: FlowbiteToastProps) => {
   const getIcon = () => {
     switch (type) {
       case "success":

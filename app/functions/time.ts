@@ -61,11 +61,7 @@ export function dateDiffToReadable(a: Date, b: Date): string {
   return `${sign}${hours}hr ${minutes}m`;
 }
 
-export function dateDiffToProgress(
-  a: Date,
-  b: Date,
-  now: Date = new Date(),
-): number {
+export function dateDiffToProgress(a: Date, b: Date, now: Date = new Date()): number {
   const totalMs = b.getTime() - a.getTime();
 
   if (totalMs <= 0) return 5;

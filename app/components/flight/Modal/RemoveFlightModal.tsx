@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "flowbite-react";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { formatDate } from "~/functions/time";
 import type { Flight } from "~/models";
 
@@ -16,36 +10,25 @@ type RemoveFlightModalProps = {
   cancel: () => void;
 };
 
-export default function RemoveFlightModal({
-  flight,
-  remove,
-  cancel,
-}: RemoveFlightModalProps) {
+export default function RemoveFlightModal({ flight, remove, cancel }: RemoveFlightModalProps) {
   return (
     <Modal show onClose={cancel}>
       <ModalHeader>Remove flight</ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <p>
-          You are going to remove flight{" "}
-          <span className="font-bold">{flight.flightNumber} </span>
+          You are going to remove flight <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
           <span className="font-bold">
             {flight.departureAirport.city} ({flight.departureAirport.iataCode}){" "}
           </span>
           to{" "}
           <span className="font-bold">
-            {flight.destinationAirport.city} (
-            {flight.destinationAirport.iataCode})
+            {flight.destinationAirport.city} ({flight.destinationAirport.iataCode})
           </span>
-          , departing at{" "}
-          <span className="font-bold">
-            {formatDate(flight.timesheet.scheduled.takeoffTime)}
-          </span>
-          .
+          , departing at <span className="font-bold">{formatDate(flight.timesheet.scheduled.takeoffTime)}</span>.
         </p>
         <p>
-          <span className="font-bold">This action is unrecoverable.</span> Are
-          you sure to proceed?
+          <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
         </p>
       </ModalBody>
       <ModalFooter>

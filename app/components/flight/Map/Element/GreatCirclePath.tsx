@@ -10,15 +10,10 @@ type GreatCirclePathType = {
   end: Airport;
 };
 
-function generateGreatCirclePath(
-  from: { x: number; y: number },
-  to: { x: number; y: number },
-) {
+function generateGreatCirclePath(from: { x: number; y: number }, to: { x: number; y: number }) {
   const gc = new Arc.GreatCircle(from, to);
   const line = gc.Arc(100, { offset: 10 });
-  return line.geometries[0].coords.map(
-    ([lon, lat]) => [lat, lon] as LatLngTuple,
-  );
+  return line.geometries[0].coords.map(([lon, lat]) => [lat, lon] as LatLngTuple);
 }
 
 export default function GreatCirclePath({ start, end }: GreatCirclePathType) {

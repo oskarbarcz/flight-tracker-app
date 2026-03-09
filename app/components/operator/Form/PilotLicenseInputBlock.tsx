@@ -4,19 +4,15 @@ import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import PilotInputPreview from "~/components/operator/Form/Preview/PilotInputPreview";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
-import type { GetUserResponse } from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
+import { useApi } from "~/state/api/context/useApi";
+import type { GetUserResponse } from "~/state/api/request/user.request";
 
 type PilotLicenseInputBlockProps = {
   htmlName: string;
   label: string;
   defaultValue?: string | undefined;
   errors: string[];
-  setFieldValue: (
-    field: string,
-    value: string,
-    shouldValidate?: boolean,
-  ) => void;
+  setFieldValue: (field: string, value: string, shouldValidate?: boolean) => void;
 };
 
 const errorToMessage = (error: unknown): string => {
@@ -53,7 +49,7 @@ export default function PilotLicenseInputBlock({
       return;
     }
 
-    userService.getUserById(defaultValue).then((user) => {
+    userService.fetchUserById(defaultValue).then((user) => {
       setPilot(user);
       setPilotId(user.id);
       setPilotLicenseId(user.pilotLicenseId);
@@ -80,7 +76,7 @@ export default function PilotLicenseInputBlock({
     }
 
     userService
-      .getUserByLicenseId(value)
+      .fetchUserByLicenseId(value)
       .then((user) => {
         setPilot(user);
         setPilotId(user.id);
@@ -88,12 +84,7 @@ export default function PilotLicenseInputBlock({
           setFieldValue(htmlName, user.id);
         }
       })
-      .catch((newError) =>
-        setErrors((currentErrors) => [
-          ...currentErrors,
-          errorToMessage(newError),
-        ]),
-      );
+      .catch((newError) => setErrors((currentErrors) => [...currentErrors, errorToMessage(newError)]));
   };
 
   return (
@@ -101,18 +92,8 @@ export default function PilotLicenseInputBlock({
       <div className="mb-2 block">
         <Label htmlFor={htmlName}>{label}</Label>
       </div>
-      <TextInput
-        id={htmlName}
-        name={htmlName}
-        defaultValue={pilotId}
-        className="hidden"
-      />
-      <TextInput
-        name="pilotLicenseId"
-        maxLength={8}
-        value={pilotLicenseId}
-        onChange={onInputChange}
-      />
+      <TextInput id={htmlName} name={htmlName} defaultValue={pilotId} className="hidden" />
+      <TextInput name="pilotLicenseId" maxLength={8} value={pilotLicenseId} onChange={onInputChange} />
       <InputErrorList errors={errors} errorFocus={true} />
       {pilot && (
         <PilotInputPreview

@@ -6,8 +6,8 @@ import FlightListElementDetails from "~/components/flight/Table/FlightListElemen
 import TrackingStatus from "~/components/flight/Table/TrackingStatus";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { toHuman } from "~/i18n/translate";
 import { type Flight, FlightStatus } from "~/models";
-import translateStatus from "~/models/translate/flight.translate";
 
 type Props = {
   flight: Flight;
@@ -70,13 +70,9 @@ export default function FlightListElement({
         <TableCell>
           {flight.timesheet.scheduled.offBlockTime && (
             <>
-              <FormattedIcaoDate
-                date={flight.timesheet.scheduled.takeoffTime}
-              />
+              <FormattedIcaoDate date={flight.timesheet.scheduled.takeoffTime} />
               {" • "}
-              <FormattedIcaoTime
-                date={flight.timesheet.scheduled.takeoffTime}
-              />
+              <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
             </>
           )}
           <span className="block text-xs text-gray-500">Click for details</span>
@@ -163,12 +159,9 @@ export default function FlightListElement({
               </div>
             )}
 
-            {flight.status !== FlightStatus.Created &&
-              flight.status !== FlightStatus.Ready && (
-                <span className="font-bold text-indigo-500">
-                  {translateStatus(flight.status)}
-                </span>
-              )}
+            {flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready && (
+              <span className="font-bold text-indigo-500">{toHuman.flight.status.standard(flight.status)}</span>
+            )}
           </div>
         </TableCell>
       </TableRow>

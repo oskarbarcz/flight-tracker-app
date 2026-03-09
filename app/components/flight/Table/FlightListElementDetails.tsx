@@ -11,23 +11,14 @@ type Props = {
   onUpdateLoadsheet: (flight: Flight) => void;
 };
 
-export default function FlightListElementDetails({
-  flight,
-  onUpdateTimesheet,
-  onUpdateLoadsheet,
-}: Props) {
+export default function FlightListElementDetails({ flight, onUpdateTimesheet, onUpdateLoadsheet }: Props) {
   return (
     <TableRow className="inset-shadow-sm bg-gray-50 dark:bg-gray-950">
-      <TableCell
-        colSpan={7}
-        className="animate-in fade-in slide-in-from-top-2 duration-200 ease-out overflow-hidden"
-      >
+      <TableCell colSpan={7} className="animate-in fade-in slide-in-from-top-2 duration-200 ease-out overflow-hidden">
         <div className="flex gap-4">
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-bold dark:text-white">
-                Scheduled timesheet
-              </h3>
+              <h3 className="text-lg font-bold dark:text-white">Scheduled timesheet</h3>
               {flight.status === FlightStatus.Created && (
                 <Button
                   onClick={() => onUpdateTimesheet(flight)}
@@ -44,41 +35,31 @@ export default function FlightListElementDetails({
               <div className="shrink-0 text-center">
                 <span className="mb-1 block text-xs">DEP DATE</span>
                 <span className="block font-bold text-gray-900 dark:text-white">
-                  <FormattedIcaoDate
-                    date={flight.timesheet.scheduled.offBlockTime}
-                  />
+                  <FormattedIcaoDate date={flight.timesheet.scheduled.offBlockTime} />
                 </span>
               </div>
               <div className="shrink-0 text-center">
                 <span className="mb-1 block text-xs">OFF</span>
                 <span className="block font-bold text-gray-900 dark:text-white">
-                  <FormattedIcaoTime
-                    date={flight.timesheet.scheduled.offBlockTime}
-                  />
+                  <FormattedIcaoTime date={flight.timesheet.scheduled.offBlockTime} />
                 </span>
               </div>
               <div className="shrink-0 text-center">
                 <span className="mb-1 block text-xs">OUT</span>
                 <span className="block font-bold text-gray-900 dark:text-white">
-                  <FormattedIcaoTime
-                    date={flight.timesheet.scheduled.takeoffTime}
-                  />
+                  <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
                 </span>
               </div>
               <div className="shrink-0 text-center">
                 <span className="mb-1 block text-xs">IN</span>
                 <span className="block font-bold text-gray-900 dark:text-white">
-                  <FormattedIcaoTime
-                    date={flight.timesheet.scheduled.arrivalTime}
-                  />
+                  <FormattedIcaoTime date={flight.timesheet.scheduled.arrivalTime} />
                 </span>
               </div>
               <div className="shrink-0 text-center">
                 <span className="mb-1 block text-xs">ON</span>
                 <span className="block font-bold text-gray-900 dark:text-white">
-                  <FormattedIcaoTime
-                    date={flight.timesheet.scheduled.onBlockTime}
-                  />
+                  <FormattedIcaoTime date={flight.timesheet.scheduled.onBlockTime} />
                 </span>
               </div>
             </div>
@@ -86,9 +67,7 @@ export default function FlightListElementDetails({
           <span className="border-e mx-3 border-gray-300 dark:border-gray-600"></span>
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-bold dark:text-white">
-                Preliminary loadsheet
-              </h3>
+              <h3 className="text-lg font-bold dark:text-white">Preliminary loadsheet</h3>
               {flight.status === FlightStatus.Created && (
                 <Button
                   onClick={() => onUpdateLoadsheet(flight)}

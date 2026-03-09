@@ -6,8 +6,8 @@ import { FaArrowRight } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router";
 import Container from "~/components/shared/Layout/Container";
 import Logo from "~/components/shared/Layout/Logo";
-import { useAuth } from "~/state/contexts/session/auth.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useAuth } from "~/state/api/context/useAuth";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");
@@ -66,11 +66,7 @@ export default function SignInRoute() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && (
-            <p className="pb-2 pt-1 text-center text-sm text-red-500">
-              {error}
-            </p>
-          )}
+          {error && <p className="pb-2 pt-1 text-center text-sm text-red-500">{error}</p>}
 
           <div className="flex items-center justify-end pt-2">
             {loading ? (

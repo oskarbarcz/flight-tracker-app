@@ -1,10 +1,7 @@
 import type { LatLngTuple } from "leaflet";
 import type { Position } from "~/models/common/geo";
 
-export function smoothPath(
-  points: Position[],
-  granularity: number = 16,
-): LatLngTuple[] {
+export function smoothPath(points: Position[], granularity: number = 16): LatLngTuple[] {
   if (points.length < 2) {
     return points.map((p) => (Array.isArray(p) ? p : [p.lat, p.lng]));
   }
@@ -61,9 +58,7 @@ export function calculateBearing(p1: LatLngTuple, p2: LatLngTuple): number {
   const lonDiffRad = toRadians(lon2 - lon1);
 
   const y = Math.sin(lonDiffRad) * Math.cos(lat2Rad);
-  const x =
-    Math.cos(lat1Rad) * Math.sin(lat2Rad) -
-    Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(lonDiffRad);
+  const x = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(lonDiffRad);
 
   const bearing = toDegrees(Math.atan2(y, x));
   return (bearing + 360) % 360;

@@ -12,11 +12,7 @@ type Props = {
   changeType: (type: string | null) => void;
 };
 
-export default function FleetControls({
-  operator,
-  type,
-  changeType,
-}: Props): JSX.Element {
+export default function FleetControls({ operator, type, changeType }: Props): JSX.Element {
   const availableTypes = operator.fleetTypes.sort((a, b) => a.localeCompare(b));
 
   const active =

@@ -18,14 +18,7 @@ export function OperatorNavigation({ id }: Props): JSX.Element {
         <HiOutlineArrowLeft />
         Back to operators
       </Link>
-      <Button
-        as={Link}
-        color="indigo"
-        to={`/operators/${id}/edit`}
-        className="space-x-1.5"
-        size="sm"
-        viewTransition
-      >
+      <Button as={Link} color="indigo" to={`/operators/${id}/edit`} className="space-x-1.5" size="sm" viewTransition>
         <HiPencil />
         <span>Edit operator</span>
       </Button>

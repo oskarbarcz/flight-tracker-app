@@ -15,11 +15,7 @@ export abstract class AbstractApiService {
     this.host = getFlightTrackerApiHost();
   }
 
-  protected async doRequest(
-    endpoint: string,
-    options: RequestInit,
-    token: string | undefined = undefined,
-  ): Promise<Response> {
+  protected async doRequest(endpoint: string, options: RequestInit, token: string | undefined = undefined) {
     return fetch(`${this.host}${endpoint}`, {
       ...options,
       headers: {
@@ -31,10 +27,7 @@ export abstract class AbstractApiService {
     });
   }
 
-  protected async request<T>(
-    endpoint: string,
-    options: RequestInit = {},
-  ): Promise<T> {
+  protected async request<T>(endpoint: string, options: RequestInit = {}) {
     const response = await this.doRequest(endpoint, options);
 
     if (response.status === 204) {
@@ -50,18 +43,12 @@ export abstract class AbstractApiService {
 }
 
 export abstract class AbstractAuthorizedApiService extends AbstractApiService {
-  protected async requestWithAuth<T>(
-    endpoint: string,
-    options: RequestInit = {},
-  ): Promise<T> {
+  protected async fetchWithAuth<T>(endpoint: string, options: RequestInit = {}) {
     const { data } = await this.requestWithAuthAndHeaders<T>(endpoint, options);
     return data;
   }
 
-  protected async requestWithAuthAndHeaders<T>(
-    endpoint: string,
-    options: RequestInit = {},
-  ): Promise<{ data: T; headers: Headers }> {
+  protected async requestWithAuthAndHeaders<T>(endpoint: string, options: RequestInit = {}) {
     let token = this.getAccessToken();
     let response = await super.doRequest(endpoint, options, token);
 
@@ -83,7 +70,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     return { data, headers: response.headers };
   }
 
-  private getAccessToken(): string {
+  private getAccessToken() {
     const token: string | null = localStorage.getItem("at");
 
     if (token === null) {
@@ -93,7 +80,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     return token;
   }
 
-  private getRefreshToken(): string {
+  private getRefreshToken() {
     const refreshToken = localStorage.getItem("rt");
 
     if (!refreshToken) {
@@ -103,12 +90,12 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     return refreshToken;
   }
 
-  private saveTokens(accessToken: string, refreshToken: string): void {
+  private saveTokens(accessToken: string, refreshToken: string) {
     localStorage.setItem("at", accessToken);
     localStorage.setItem("rt", refreshToken);
   }
 
-  private async refreshAccessToken(): Promise<string> {
+  private async refreshAccessToken() {
     const response = await fetch(`${this.host}/api/v1/auth/refresh`, {
       method: "POST",
       headers: {
@@ -124,6 +111,6 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     const { accessToken, refreshToken } = await response.json();
     this.saveTokens(accessToken, refreshToken);
 
-    return accessToken;
+    return accessToken as string;
   }
 }

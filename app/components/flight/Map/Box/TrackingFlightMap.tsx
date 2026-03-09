@@ -9,8 +9,8 @@ import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
 import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
 import type { Position } from "~/models/common/geo";
-import { useAdsbData } from "~/state/contexts/content/adsb.context";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useAdsbData } from "~/state/api/context/useAdsbData";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export default function TrackingFlightMap() {
   const { flight } = useTrackedFlight();
@@ -24,22 +24,12 @@ export default function TrackingFlightMap() {
     return null;
   }
 
-  const lastPathPoint =
-    flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
-  const pathPoints: Position[] = flightPath.map((p) => [
-    p.latitude,
-    p.longitude,
-  ]);
+  const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
+  const pathPoints: Position[] = flightPath.map((p) => [p.latitude, p.longitude]);
 
   const mapBounds = L.latLngBounds([
-    [
-      flight.departureAirport.location.latitude,
-      flight.departureAirport.location.longitude,
-    ],
-    [
-      flight.destinationAirport.location.latitude,
-      flight.destinationAirport.location.longitude,
-    ],
+    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
+    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
   ]);
 
   return (
@@ -53,10 +43,7 @@ export default function TrackingFlightMap() {
     >
       <MapTileLayer />
 
-      <GreatCirclePath
-        start={flight.departureAirport}
-        end={flight.destinationAirport}
-      />
+      <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
       <FlightPath path={flightPath} />
 
       <MapAirportLabel airport={flight.departureAirport} />
@@ -64,11 +51,7 @@ export default function TrackingFlightMap() {
 
       {flightPath.length > 0 && <MapAircraftMarker path={pathPoints} />}
 
-      <MapEventsHandler
-        bounds={mapBounds}
-        options={leafletMapOptions}
-        aircraftPosition={lastPathPoint}
-      />
+      <MapEventsHandler bounds={mapBounds} options={leafletMapOptions} aircraftPosition={lastPathPoint} />
     </MapContainer>
   );
 }

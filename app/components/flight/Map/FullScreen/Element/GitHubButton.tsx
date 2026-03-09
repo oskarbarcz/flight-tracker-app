@@ -18,11 +18,7 @@ export default function GitHubButton() {
   return (
     <>
       <div className="hidden md:block">
-        <Tooltip
-          content="See project repository"
-          style="auto"
-          placement="bottom"
-        >
+        <Tooltip content="See project repository" style="auto" placement="bottom">
           {button}
         </Tooltip>
       </div>

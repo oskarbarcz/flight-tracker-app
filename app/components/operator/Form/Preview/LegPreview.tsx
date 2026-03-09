@@ -22,8 +22,7 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
             <Tooltip
               content={
                 <span>
-                  {flight.departureAirport.name}{" "}
-                  <FaArrowRight className="inline-block text-gray-500" />{" "}
+                  {flight.departureAirport.name} <FaArrowRight className="inline-block text-gray-500" />{" "}
                   {flight.destinationAirport.name}
                 </span>
               }
@@ -48,64 +47,28 @@ export default function LegPreview({ flight, actionButton }: LegPreviewProps) {
           </div>
           <div className="mt-3 flex gap-4">
             <div className="inline-block text-sm text-gray-800 dark:text-gray-300">
-              <Tooltip
-                placement="bottom"
-                content={formatDate(
-                  new Date(flight.timesheet.scheduled.offBlockTime),
-                )}
-              >
-                <span className="block text-center text-gray-500 dark:text-gray-400">
-                  OUT
-                </span>
-                <FormattedIcaoTime
-                  date={flight.timesheet.scheduled.offBlockTime}
-                />
+              <Tooltip placement="bottom" content={formatDate(new Date(flight.timesheet.scheduled.offBlockTime))}>
+                <span className="block text-center text-gray-500 dark:text-gray-400">OUT</span>
+                <FormattedIcaoTime date={flight.timesheet.scheduled.offBlockTime} />
               </Tooltip>
             </div>
             <div className="inline-block text-sm text-gray-800 dark:text-gray-300">
-              <Tooltip
-                placement="bottom"
-                content={formatDate(
-                  new Date(flight.timesheet.scheduled.takeoffTime),
-                )}
-              >
-                <span className="block text-center text-gray-500 dark:text-gray-400">
-                  OFF
-                </span>
-                <FormattedIcaoTime
-                  date={flight.timesheet.scheduled.takeoffTime}
-                />
+              <Tooltip placement="bottom" content={formatDate(new Date(flight.timesheet.scheduled.takeoffTime))}>
+                <span className="block text-center text-gray-500 dark:text-gray-400">OFF</span>
+                <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
               </Tooltip>
             </div>
             <div className="flex gap-4">
               <div className="inline-block text-sm text-gray-800 dark:text-gray-300">
-                <Tooltip
-                  placement="bottom"
-                  content={formatDate(
-                    new Date(flight.timesheet.scheduled.arrivalTime),
-                  )}
-                >
-                  <span className="block text-center text-gray-500 dark:text-gray-400">
-                    ON
-                  </span>
-                  <FormattedIcaoTime
-                    date={flight.timesheet.scheduled.arrivalTime}
-                  />
+                <Tooltip placement="bottom" content={formatDate(new Date(flight.timesheet.scheduled.arrivalTime))}>
+                  <span className="block text-center text-gray-500 dark:text-gray-400">ON</span>
+                  <FormattedIcaoTime date={flight.timesheet.scheduled.arrivalTime} />
                 </Tooltip>
               </div>
               <div className="inline-block text-sm text-gray-800 dark:text-gray-300">
-                <Tooltip
-                  placement="bottom"
-                  content={formatDate(
-                    new Date(flight.timesheet.scheduled.onBlockTime),
-                  )}
-                >
-                  <span className="block text-center text-gray-500 dark:text-gray-400">
-                    IN
-                  </span>
-                  <FormattedIcaoTime
-                    date={flight.timesheet.scheduled.onBlockTime}
-                  />
+                <Tooltip placement="bottom" content={formatDate(new Date(flight.timesheet.scheduled.onBlockTime))}>
+                  <span className="block text-center text-gray-500 dark:text-gray-400">IN</span>
+                  <FormattedIcaoTime date={flight.timesheet.scheduled.onBlockTime} />
                 </Tooltip>
               </div>
             </div>

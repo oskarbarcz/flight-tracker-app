@@ -11,8 +11,8 @@ import MapEventsHandler from "~/components/flight/Map/Element/MapEventsHandler";
 import MapTileLayer from "~/components/flight/Map/Element/MapTileLayer";
 import type { FlightPathElement } from "~/models";
 import type { Position } from "~/models/common/geo";
-import { useApi } from "~/state/contexts/content/api.context";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useApi } from "~/state/api/context/useApi";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export default function HistoryFlightMap() {
   const { flight } = useTrackedFlight();
@@ -27,29 +27,19 @@ export default function HistoryFlightMap() {
   useEffect(() => {
     if (!flight) return;
 
-    flightService.getFlightPath(flight.id).then(setFlightPath);
+    flightService.fetchFlightPath(flight.id).then(setFlightPath);
   }, [flight, flightService]);
 
   if (!flight) {
     return null;
   }
 
-  const lastPathPoint =
-    flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
-  const pathPoints: Position[] = flightPath.map((p) => [
-    p.latitude,
-    p.longitude,
-  ]);
+  const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
+  const pathPoints: Position[] = flightPath.map((p) => [p.latitude, p.longitude]);
 
   const mapBounds = L.latLngBounds([
-    [
-      flight.departureAirport.location.latitude,
-      flight.departureAirport.location.longitude,
-    ],
-    [
-      flight.destinationAirport.location.latitude,
-      flight.destinationAirport.location.longitude,
-    ],
+    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
+    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
   ]);
 
   return (
@@ -63,10 +53,7 @@ export default function HistoryFlightMap() {
     >
       <MapTileLayer />
 
-      <GreatCirclePath
-        start={flight.departureAirport}
-        end={flight.destinationAirport}
-      />
+      <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
       <FlightPath path={flightPath} />
 
       <MapAirportLabel airport={flight.departureAirport} />
@@ -74,11 +61,7 @@ export default function HistoryFlightMap() {
 
       {flightPath.length > 0 && <MapAircraftMarker path={pathPoints} />}
 
-      <MapEventsHandler
-        bounds={mapBounds}
-        options={leafletMapOptions}
-        aircraftPosition={lastPathPoint}
-      />
+      <MapEventsHandler bounds={mapBounds} options={leafletMapOptions} aircraftPosition={lastPathPoint} />
     </MapContainer>
   );
 }

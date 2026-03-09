@@ -1,40 +1,34 @@
 import type { Continent } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
-import type {
-  CreateAirportRequest,
-  EditAirportRequest,
-  GetAirportResponse,
-} from "~/state/api/model/airport.dto";
+import type { CreateAirportRequest, EditAirportRequest, GetAirportResponse } from "~/state/api/request/airport.request";
+
+type AirportListFilters = {
+  continent?: Continent;
+};
 
 export class AirportService extends AbstractAuthorizedApiService {
-  async getAll(): Promise<GetAirportResponse[]> {
-    return this.requestWithAuth<GetAirportResponse[]>("/api/v1/airport");
+  async fetchAll(filters: AirportListFilters = {}) {
+    const params = new URLSearchParams({
+      ...filters,
+    });
+
+    const url = `/api/v1/airport?${params.toString()}`;
+    return this.fetchWithAuth<GetAirportResponse[]>(url);
   }
 
-  async getAllByContinent(continent: Continent): Promise<GetAirportResponse[]> {
-    return this.requestWithAuth<GetAirportResponse[]>(
-      `/api/v1/airport?continent=${continent}`,
-    ).then((response) =>
-      response.sort((a, b) => a.country.localeCompare(b.country)),
-    );
+  async fetchById(id: string) {
+    return this.fetchWithAuth<GetAirportResponse>(`/api/v1/airport/${id}`);
   }
 
-  async createNew(airport: CreateAirportRequest): Promise<GetAirportResponse> {
-    return this.requestWithAuth<GetAirportResponse>("/api/v1/airport", {
+  async createNew(airport: CreateAirportRequest) {
+    return this.fetchWithAuth<GetAirportResponse>("/api/v1/airport", {
       body: JSON.stringify(airport),
       method: "POST",
     });
   }
 
-  async getById(id: string): Promise<GetAirportResponse> {
-    return this.requestWithAuth<GetAirportResponse>(`/api/v1/airport/${id}`);
-  }
-
-  async update(
-    id: string,
-    airport: EditAirportRequest,
-  ): Promise<GetAirportResponse> {
-    return this.requestWithAuth<GetAirportResponse>(`/api/v1/airport/${id}`, {
+  async update(id: string, airport: EditAirportRequest) {
+    return this.fetchWithAuth<GetAirportResponse>(`/api/v1/airport/${id}`, {
       body: JSON.stringify(airport),
       method: "PATCH",
     });

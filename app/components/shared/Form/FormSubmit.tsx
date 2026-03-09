@@ -11,12 +11,7 @@ type FormSubmitProps = {
   onSubmit: () => void;
 };
 
-export default function FormSubmit({
-  message,
-  error,
-  button,
-  onSubmit,
-}: FormSubmitProps) {
+export default function FormSubmit({ message, error, button, onSubmit }: FormSubmitProps) {
   if (!error && !message) {
     return (
       <div className="flex items-center justify-end py-3 px-6">
@@ -43,12 +38,7 @@ export default function FormSubmit({
         </div>
       )}
 
-      <Button
-        disabled
-        color="indigo"
-        className="cursor-not-allowed"
-        type="submit"
-      >
+      <Button disabled color="indigo" className="cursor-not-allowed" type="submit">
         {button}
       </Button>
     </div>

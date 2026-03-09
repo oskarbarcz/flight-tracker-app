@@ -2,49 +2,37 @@
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/CreateAircraftRoute";
 import { Button } from "flowbite-react";
-import {
-  Formik,
-  type FormikErrors,
-  Form as FormikForm,
-  type FormikTouched,
-} from "formik";
+import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
 import React, { type JSX, useEffect } from "react";
 import { useActionData, useNavigate, useSubmit } from "react-router";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import {
-  handleRequestError,
-  handleRequestSuccess,
-} from "~/functions/handleRequest";
-import type { CreateAircraftRequest } from "~/models";
+import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import { AircraftService } from "~/state/api/aircraft.service";
-import { useToast } from "~/state/contexts/global/toast.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import type { CreateAircraftRequest } from "~/state/api/request/operator.request";
+import { useToast } from "~/state/app/context/useToast";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { aircraftSchema } from "~/validator/form/aircraft.schema";
 
-export async function clientAction({
-  params,
-  request,
-}: Route.ClientActionArgs) {
+export async function clientAction({ params, request }: Route.ClientActionArgs) {
   const aircraftService = new AircraftService();
 
   const form = await request.formData();
-  const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(
-    form,
-    ["icaoCode", "shortName", "fullName", "selcal", "registration", "livery"],
-  );
+  const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(form, [
+    "icaoCode",
+    "shortName",
+    "fullName",
+    "selcal",
+    "registration",
+    "livery",
+  ]);
 
-  return aircraftService
-    .createNew(params.operatorId, aircraft)
-    .then(handleRequestSuccess)
-    .catch(handleRequestError);
+  return aircraftService.createNew(params.operatorId, aircraft).then(handleRequestSuccess).catch(handleRequestError);
 }
 
-export default function CreateAircraftRoute({
-  params,
-}: Route.ComponentProps): JSX.Element {
+export default function CreateAircraftRoute({ params }: Route.ComponentProps): JSX.Element {
   usePageTitle("Create new aircraft");
 
   const navigate = useNavigate();
@@ -81,8 +69,7 @@ export default function CreateAircraftRoute({
     formikTouched: FormikTouched<CreateAircraftRequest>,
   ) => {
     const serverErrors = response?.isError ? response.errorsForKey(name) : [];
-    const clientError =
-      formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
+    const clientError = formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
     return [...new Set([...clientError, ...serverErrors])];
   };
 
@@ -106,13 +93,7 @@ export default function CreateAircraftRoute({
         validationSchema={aircraftSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          errors: formikErrors,
-          touched,
-          handleChange,
-          handleBlur,
-          values,
-        }) => (
+        {({ errors: formikErrors, touched, handleChange, handleBlur, values }) => (
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col gap-4">

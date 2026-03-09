@@ -2,12 +2,10 @@
 
 import { Button } from "flowbite-react";
 import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
-import { translateNextActionStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { toHuman } from "~/i18n/translate";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function ReportTakeoffButton({
-  disabled,
-}: FlightProgressButtonProps) {
+export default function ReportTakeoffButton({ disabled }: FlightProgressButtonProps) {
   const { flight, reportTakeoff } = useTrackedFlight();
 
   if (!flight) {
@@ -20,7 +18,7 @@ export default function ReportTakeoffButton({
 
   return (
     <Button color="indigo" outline onClick={onClick} disabled={disabled}>
-      {translateNextActionStatus(flight.status)}
+      {toHuman.flight.status.next(flight.status)}
     </Button>
   );
 }

@@ -4,7 +4,7 @@ import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import Container from "~/components/shared/Layout/Container";
 import ContainerTitle from "~/components/shared/Layout/ContainerTitle";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export default function AircraftBox() {
   const { flight } = useTrackedFlight();

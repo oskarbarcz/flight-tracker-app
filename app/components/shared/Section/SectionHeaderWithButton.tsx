@@ -51,9 +51,7 @@ export default function SectionHeaderWithButton({
 }: SectionHeaderWithLinkProps) {
   return (
     <div className="mb-4 flex items-center justify-between">
-      <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white">
-        {sectionTitle}
-      </h2>
+      <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
       <div className="flex gap-2 flex-col md:flex-row">
         {secondaryButton && <ActionButton button={secondaryButton} />}
         {primaryButton && <ActionButton button={primaryButton} />}

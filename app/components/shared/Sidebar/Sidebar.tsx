@@ -9,7 +9,7 @@ import SidebarUserSection from "~/components/shared/Sidebar/Elements/SidebarUser
 import CabinCrewSidebarItems from "~/components/shared/Sidebar/Items/CabinCrewSidebarItems";
 import OperatorSidebarItems from "~/components/shared/Sidebar/Items/OperationsSidebarItems";
 import { UserRole } from "~/models";
-import { useAuth } from "~/state/contexts/session/auth.context";
+import { useAuth } from "~/state/api/context/useAuth";
 
 export function Sidebar(): JSX.Element {
   const { user } = useAuth();
@@ -50,7 +50,6 @@ export function Sidebar(): JSX.Element {
             <SidebarSignOutElement />
           </nav>
         </div>
-
       </div>
     </>
   );
@@ -68,20 +67,14 @@ export function Sidebar(): JSX.Element {
         </button>
       </div>
 
-      <Drawer
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="bg-white dark:bg-gray-900 w-80"
-      >
+      <Drawer open={isOpen} onClose={() => setIsOpen(false)} className="bg-white dark:bg-gray-900 w-80">
         <DrawerItems className="flex flex-col h-full overflow-y-auto">
           {sidebarContent(() => setIsOpen(false))}
         </DrawerItems>
       </Drawer>
 
       <aside className="hidden md:flex w-75 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 sticky top-0 h-screen">
-        <div className="flex flex-col h-full overflow-y-auto">
-          {sidebarContent()}
-        </div>
+        <div className="flex flex-col h-full overflow-y-auto">{sidebarContent()}</div>
       </aside>
     </>
   );

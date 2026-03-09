@@ -3,7 +3,7 @@
 import React from "react";
 import FlightInfoBox from "~/components/flight/Dashboard/Tracking/Box/FlightInfoBox";
 import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";
-import { AdsbProvider } from "~/state/contexts/content/adsb.context";
+import { AdsbProvider } from "~/state/api/context/useAdsbData";
 
 export default function FlightHeader() {
   return (

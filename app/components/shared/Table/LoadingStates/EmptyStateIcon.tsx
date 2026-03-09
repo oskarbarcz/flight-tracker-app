@@ -14,9 +14,7 @@ export function EmptyStateIcon({ icon: Icon, color }: Props): JSX.Element {
   }[color];
 
   return (
-    <div
-      className={`${colors} flex mb-6 items-center justify-center size-12 md:size-14 lg:size-16 mx-auto rounded-xl`}
-    >
+    <div className={`${colors} flex mb-6 items-center justify-center size-12 md:size-14 lg:size-16 mx-auto rounded-xl`}>
       <Icon className="size-6 md:size-7 lg:size-8" />
     </div>
   );

@@ -8,13 +8,12 @@ import InputBlock from "~/components/shared/Form/InputBlock";
 import SelectBlock from "~/components/shared/Form/SelectBlock";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import { Continent, type CreateOperatorDto, OperatorType } from "~/models";
+import { Continent, OperatorType } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import type { CreateOperatorDto } from "~/state/api/request/operator.request";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
-export async function clientAction({
-  request,
-}: Route.ClientActionArgs): Promise<Response> {
+export async function clientAction({ request }: Route.ClientActionArgs): Promise<Response> {
   const operatorService = new OperatorService();
 
   const form = await request.formData();
@@ -72,16 +71,8 @@ export default function CreateOperatorRoute(): JSX.Element {
         <InputBlock htmlName="avgFleetAge" label="Average fleet age" />
         <InputBlock htmlName="logoUrl" label="Logo URL" />
         <InputBlock htmlName="hubs" label="Hubs" />
-        <SelectBlock
-          htmlName="continent"
-          label="Continent"
-          options={continentOptions}
-        />
-        <SelectBlock
-          htmlName="type"
-          label="Operator type"
-          options={typeOptions}
-        />
+        <SelectBlock htmlName="continent" label="Continent" options={continentOptions} />
+        <SelectBlock htmlName="type" label="Operator type" options={typeOptions} />
 
         <Button type="submit">Create new operator</Button>
       </Form>

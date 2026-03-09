@@ -2,7 +2,7 @@
 
 import React from "react";
 import { type User, UserRole } from "~/models/user.model";
-import { useAuth } from "~/state/contexts/session/auth.context";
+import { useAuth } from "~/state/api/context/useAuth";
 
 function roleToDescription(role: UserRole): string {
   switch (role) {
@@ -32,12 +32,8 @@ export default function SidebarUserSection() {
         {getInitials(user.name)}
       </span>
       <div>
-        <span className="font-bold text-gray-900 dark:text-white">
-          {user.name}
-        </span>
-        <span className="block text-sm text-gray-500">
-          {roleToDescription(user.role)}
-        </span>
+        <span className="font-bold text-gray-900 dark:text-white">{user.name}</span>
+        <span className="block text-sm text-gray-500">{roleToDescription(user.role)}</span>
       </div>
     </section>
   );

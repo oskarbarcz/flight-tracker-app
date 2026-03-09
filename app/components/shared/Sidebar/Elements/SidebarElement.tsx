@@ -11,12 +11,7 @@ type SidebarElementProps = {
   icon: IconType;
 };
 
-export default function SidebarElement({
-  isSelected,
-  label,
-  href,
-  icon: Icon,
-}: SidebarElementProps) {
+export default function SidebarElement({ isSelected, label, href, icon: Icon }: SidebarElementProps) {
   if (isSelected) {
     return (
       <Link

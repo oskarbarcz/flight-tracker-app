@@ -33,9 +33,7 @@ export default function RichStatDisplay({
   return (
     <Container>
       <div className="flex gap-6 justify-between mb-6">
-        <div
-          className={`${text} ${bg} size-10 shrink-0 flex items-center justify-center rounded-xl`}
-        >
+        <div className={`${text} ${bg} size-10 shrink-0 flex items-center justify-center rounded-xl`}>
           <Icon className="size-4" />
         </div>
         <span className="font-bold text-gray-500 uppercase">{title}</span>

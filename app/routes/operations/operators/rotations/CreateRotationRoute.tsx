@@ -2,12 +2,7 @@
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/CreateRotationRoute";
 import { Button } from "flowbite-react";
-import {
-  Formik,
-  type FormikErrors,
-  Form as FormikForm,
-  type FormikTouched,
-} from "formik";
+import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
 import React, { useEffect } from "react";
 import { useActionData, useNavigate, useSubmit } from "react-router";
 import PilotLicenseInputBlock from "~/components/operator/Form/PilotLicenseInputBlock";
@@ -15,32 +10,20 @@ import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import {
-  handleRequestError,
-  handleRequestSuccess,
-} from "~/functions/handleRequest";
-import type { CreateRotationRequest } from "~/models";
+import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import type { CreateRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
-import { useToast } from "~/state/contexts/global/toast.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useToast } from "~/state/app/context/useToast";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createRotationSchema } from "~/validator/form/rotation.schema";
 
-export async function clientAction({
-  request,
-  params,
-}: Route.ClientActionArgs) {
+export async function clientAction({ request, params }: Route.ClientActionArgs) {
   const rotationService = new RotationService();
 
   const form = await request.formData();
-  const rotation = getFormData<CreateRotationRequest>(form, [
-    "name",
-    "pilotId",
-  ]);
+  const rotation = getFormData<CreateRotationRequest>(form, ["name", "pilotId"]);
 
-  return rotationService
-    .create(params.operatorId, rotation)
-    .then(handleRequestSuccess)
-    .catch(handleRequestError);
+  return rotationService.create(params.operatorId, rotation).then(handleRequestSuccess).catch(handleRequestError);
 }
 
 export default function CreateRotationRoute({ params }: Route.ComponentProps) {
@@ -79,8 +62,7 @@ export default function CreateRotationRoute({ params }: Route.ComponentProps) {
     formikTouched: FormikTouched<CreateRotationRequest>,
   ) => {
     const serverErrors = response?.isError ? response.errorsForKey(name) : [];
-    const clientError =
-      formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
+    const clientError = formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
     return [...new Set([...clientError, ...serverErrors])];
   };
 
@@ -97,14 +79,7 @@ export default function CreateRotationRoute({ params }: Route.ComponentProps) {
         validationSchema={createRotationSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          errors: formikErrors,
-          touched,
-          setFieldValue,
-          handleChange,
-          handleBlur,
-          values,
-        }) => (
+        {({ errors: formikErrors, touched, setFieldValue, handleChange, handleBlur, values }) => (
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col gap-4">

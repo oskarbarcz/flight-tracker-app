@@ -34,9 +34,7 @@ export default function LastFlightBox({ flight }: Props) {
 
       <article className=" mt-2 mb-6 rounded-xl">
         <div className="w-1/2 mb-2 inline-block">
-          <span className="font-bold text-sm uppercase text-gray-500">
-            Route
-          </span>
+          <span className="font-bold text-sm uppercase text-gray-500">Route</span>
           <span className="flex text-lg font-bold items-center gap-1">
             {flight.departureAirport.icaoCode}
             <FaArrowRight className="text-gray-500 text-xs" />
@@ -44,17 +42,13 @@ export default function LastFlightBox({ flight }: Props) {
           </span>
         </div>
         <div className="w-1/2 inline-block">
-          <span className="font-bold text-sm uppercase text-gray-500">
-            Airframe
-          </span>
+          <span className="font-bold text-sm uppercase text-gray-500">Airframe</span>
           <span className="flex text-lg font-bold items-center gap-1">
             {flight.aircraft.registration} ({flight.aircraft.icaoCode})
           </span>
         </div>
         <div className="w-1/2 inline-block">
-          <span className="font-bold text-sm uppercase text-gray-500">
-            Block time
-          </span>
+          <span className="font-bold text-sm uppercase text-gray-500">Block time</span>
           <span className="flex text-lg font-bold items-center gap-1">
             {dateDiffToReadable(
               flight.timesheet.actual?.offBlockTime as Date,
@@ -63,23 +57,13 @@ export default function LastFlightBox({ flight }: Props) {
           </span>
         </div>
         <div className="w-1/2 inline-block">
-          <span className="font-bold text-sm uppercase text-gray-500">
-            Arrival status
-          </span>
-          <span className="flex text-lg text-green-500 font-bold items-center gap-1">
-            On time
-          </span>
+          <span className="font-bold text-sm uppercase text-gray-500">Arrival status</span>
+          <span className="flex text-lg text-green-500 font-bold items-center gap-1">On time</span>
         </div>
       </article>
 
       <div className="flex justify-end">
-        <Button
-          color="alternative"
-          size="xs"
-          as={Link}
-          to={`track/${flight.id}`}
-          viewTransition
-        >
+        <Button color="alternative" size="xs" as={Link} to={`track/${flight.id}`} viewTransition>
           See details
           <FaArrowRight className="inline ml-2" aria-hidden="true" />
         </Button>

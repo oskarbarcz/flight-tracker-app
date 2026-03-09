@@ -6,7 +6,7 @@ import { OnBlockTimer } from "~/components/flight/Dashboard/Tracking/Timer/OnBlo
 import { SummaryTimer } from "~/components/flight/Dashboard/Tracking/Timer/SummaryTimer";
 import { TakeoffTimer } from "~/components/flight/Dashboard/Tracking/Timer/TakeoffTimer";
 import { type FilledSchedule, FlightStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export function FlightTimerBox() {
   const { flight } = useTrackedFlight();

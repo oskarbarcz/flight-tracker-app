@@ -4,7 +4,7 @@ import React, { type JSX, type ReactNode, useContext } from "react";
 import { Navigate } from "react-router";
 import type { UserRole } from "~/models/user.model";
 import Splash from "~/routes/common/Splash";
-import { AuthContext } from "~/state/contexts/session/auth.context";
+import { UseAuth } from "~/state/api/context/useAuth";
 
 type Props = {
   allowOnly?: UserRole;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export function AuthGuard({ allowOnly, children }: Props): JSX.Element {
-  const { user, isLoading, accessToken } = useContext(AuthContext);
+  const { user, isLoading, accessToken } = useContext(UseAuth);
 
   if (isLoading) {
     return <Splash />;

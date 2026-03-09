@@ -4,7 +4,7 @@ import { Button } from "flowbite-react";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export default function MapLinkOverlay() {
   const { flight } = useTrackedFlight();
@@ -31,12 +31,7 @@ export default function MapLinkOverlay() {
       >
         <LuExternalLink />
       </Button>
-      <Button
-        size="xs"
-        title="Copy tracking link to clipboard"
-        color="light"
-        onClick={handleCopy}
-      >
+      <Button size="xs" title="Copy tracking link to clipboard" color="light" onClick={handleCopy}>
         <IoIosLink />
       </Button>
     </div>

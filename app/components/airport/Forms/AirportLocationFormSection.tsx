@@ -30,10 +30,7 @@ const continentOptions = [
   { label: "Africa", value: Continent.Africa },
 ];
 
-export default function AirportLocationFormSection({
-  data,
-  onSubmit,
-}: AirportLocationFormSectionProps) {
+export default function AirportLocationFormSection({ data, onSubmit }: AirportLocationFormSectionProps) {
   const [isEditable, setIsEditable] = useState<boolean>(true);
 
   return (
@@ -50,44 +47,23 @@ export default function AirportLocationFormSection({
           <ManagedInputBlock field="city" label="City" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="country"
-            label="Country"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="country" label="Country" disabled={!isEditable} />
         </div>
       </div>
       <div className="flex gap-4">
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="timezone"
-            label="Timezone"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="timezone" label="Timezone" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedSelectBlock
-            field="continent"
-            label="Continent"
-            options={continentOptions}
-            disabled={!isEditable}
-          />
+          <ManagedSelectBlock field="continent" label="Continent" options={continentOptions} disabled={!isEditable} />
         </div>
       </div>
       <div className="flex gap-4">
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="longitude"
-            label="Longitude"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="longitude" label="Longitude" disabled={!isEditable} />
         </div>
         <div className="basis-1/2">
-          <ManagedInputBlock
-            field="latitude"
-            label="Latitude"
-            disabled={!isEditable}
-          />
+          <ManagedInputBlock field="latitude" label="Latitude" disabled={!isEditable} />
         </div>
       </div>
     </FormSection>

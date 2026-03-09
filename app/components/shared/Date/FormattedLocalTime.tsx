@@ -17,10 +17,7 @@ type FormattedLocalTimeProps = {
   seconds?: boolean;
 };
 
-export function FormattedLocalTime({
-  date,
-  seconds = false,
-}: FormattedLocalTimeProps) {
+export function FormattedLocalTime({ date, seconds = false }: FormattedLocalTimeProps) {
   return (
     <span className="font-mono">
       {dateToLocalTime(date, seconds)}

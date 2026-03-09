@@ -3,8 +3,9 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import PickFlightModal from "~/components/operator/Modal/PickFlightModal";
-import type { Flight, RotationFlight, RotationResponse } from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
+import type { Flight, RotationFlight } from "~/models";
+import { useApi } from "~/state/api/context/useApi";
+import type { RotationResponse } from "~/state/api/request/operator.request";
 import LegPreview from "./Preview/LegPreview";
 
 type RotationFlightsInputBlockProps = {
@@ -13,11 +14,7 @@ type RotationFlightsInputBlockProps = {
   updateLegs: () => void;
 };
 
-export default function RotationFlightsInputBlock({
-  rotation,
-  legs,
-  updateLegs,
-}: RotationFlightsInputBlockProps) {
+export default function RotationFlightsInputBlock({ rotation, legs, updateLegs }: RotationFlightsInputBlockProps) {
   const { flightService, rotationService } = useApi();
   const [flights, setFlights] = React.useState<Flight[]>([]);
   const [showFlightPicker, setShowFlightPicker] = React.useState(false);
@@ -28,9 +25,7 @@ export default function RotationFlightsInputBlock({
       return;
     }
 
-    Promise.all(legs.map((leg) => flightService.getById(leg.id))).then(
-      setFlights,
-    );
+    Promise.all(legs.map((leg) => flightService.fetchById(leg.id))).then(setFlights);
   }, [legs, flightService]);
 
   const onPickerClose = () => {
@@ -70,9 +65,7 @@ export default function RotationFlightsInputBlock({
         </div>
       ) : (
         <div>
-          <p className="mt-4 block text-center">
-            Currently there are no legs in this rotation.
-          </p>
+          <p className="mt-4 block text-center">Currently there are no legs in this rotation.</p>
           <button
             type="button"
             onClick={() => setShowFlightPicker(true)}
@@ -83,9 +76,7 @@ export default function RotationFlightsInputBlock({
         </div>
       )}
 
-      {showFlightPicker && (
-        <PickFlightModal rotation={rotation} close={onPickerClose} />
-      )}
+      {showFlightPicker && <PickFlightModal rotation={rotation} close={onPickerClose} />}
     </div>
   );
 }

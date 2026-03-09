@@ -1,49 +1,32 @@
-import type {
-  Aircraft,
-  CreateAircraftRequest,
-  EditAircraftRequest,
-} from "~/models";
+import type { Aircraft } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import type { CreateAircraftRequest, EditAircraftRequest } from "~/state/api/request/operator.request";
 
 export class AircraftService extends AbstractAuthorizedApiService {
+  /** @deprecated Use `fetchAllByOperator` instead */
   async fetchAll(): Promise<Aircraft[]> {
-    return this.requestWithAuth<Aircraft[]>("/api/v1/aircraft");
+    return this.fetchWithAuth<Aircraft[]>("/api/v1/aircraft");
   }
 
-  async fetchAllByOperator(operatorId: string): Promise<Aircraft[]> {
-    return this.requestWithAuth<Aircraft[]>(
-      `/api/v1/operator/${operatorId}/aircraft`,
-    );
+  async fetchAllByOperator(operatorId: string) {
+    return this.fetchWithAuth<Aircraft[]>(`/api/v1/operator/${operatorId}/aircraft`);
   }
 
-  async createNew(
-    operatorId: string,
-    data: CreateAircraftRequest,
-  ): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>(
-      `/api/v1/operator/${operatorId}/aircraft`,
-      {
-        body: JSON.stringify(data),
-        method: "POST",
-      },
-    );
+  async fetchById(id: string) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
   }
 
-  async getById(id: string): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
+  async createNew(operatorId: string, data: CreateAircraftRequest) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft`, {
+      body: JSON.stringify(data),
+      method: "POST",
+    });
   }
 
-  async update(
-    operatorId: string,
-    aircraftId: string,
-    data: EditAircraftRequest,
-  ): Promise<Aircraft> {
-    return this.requestWithAuth<Aircraft>(
-      `/api/v1/operator/${operatorId}/aircraft/${aircraftId}`,
-      {
-        body: JSON.stringify(data),
-        method: "PATCH",
-      },
-    );
+  async update(operatorId: string, aircraftId: string, data: EditAircraftRequest) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}`, {
+      body: JSON.stringify(data),
+      method: "PATCH",
+    });
   }
 }

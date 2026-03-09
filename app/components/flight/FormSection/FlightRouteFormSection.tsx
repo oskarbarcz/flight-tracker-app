@@ -5,7 +5,7 @@ import FormSection from "~/components/shared/Form/FormSection";
 import ManagedSelectBlock from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import type { Airport } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
-import { useApi } from "~/state/contexts/content/api.context";
+import { useApi } from "~/state/api/context/useApi";
 import { newFlightRouteSchema } from "~/validator/form/flight.schema";
 
 type FlightRouteFormData = CreateFlightFormData["route"];
@@ -33,7 +33,7 @@ export default function FlightRouteFormSection({ data, onSubmit }: Props) {
   }, [data]);
 
   useEffect(() => {
-    airportService.getAll().then(setAirports);
+    airportService.fetchAll().then(setAirports);
   }, [airportService]);
 
   return (

@@ -20,9 +20,7 @@ export default function TopBar() {
       <div className="flex justify-between items-center">
         <a href="/public" className="flex items-center">
           <img src={logo} className="h-6 mr-2" alt="Flight Tracker app logo" />
-          <span className="text-xl font-bold text-indigo-500">
-            Flight Tracker
-          </span>
+          <span className="text-xl font-bold text-indigo-500">Flight Tracker</span>
         </a>
 
         <div className="md:hidden">
@@ -41,9 +39,7 @@ export default function TopBar() {
 
       <div
         className={`${
-          isMenuOpen
-            ? "max-h-96 opacity-100 translate-y-0"
-            : "max-h-0 opacity-0 -translate-y-4"
+          isMenuOpen ? "max-h-96 opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-4"
         } md:hidden overflow-hidden transition-all duration-300 ease-in-out`}
       >
         <div className="flex items-center gap-3 mt-4">

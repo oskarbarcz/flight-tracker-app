@@ -1,6 +1,6 @@
 import { FaPlane } from "react-icons/fa";
+import { toHuman } from "~/i18n/translate";
 import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
-import translateStatus from "~/models/translate/flight.translate";
 
 type BasicFlightInfoOverlayProps = {
   flight: Flight;
@@ -22,59 +22,36 @@ function formatTime(date: Date) {
   });
 }
 
-export default function BasicFlightInfoOverlay({
-  flight,
-}: BasicFlightInfoOverlayProps) {
+export default function BasicFlightInfoOverlay({ flight }: BasicFlightInfoOverlayProps) {
   const timesheet = flight.timesheet;
 
-  const scheduledBlockTime = calculateBlockTime(
-    timesheet.scheduled.offBlockTime,
-    timesheet.scheduled.onBlockTime,
-  );
+  const scheduledBlockTime = calculateBlockTime(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
 
   let estimatedBlockTime = null;
 
-  if (
-    flight.status !== FlightStatus.Created &&
-    flight.status !== FlightStatus.Ready
-  ) {
+  if (flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready) {
     const schedule = timesheet.estimated as FilledSchedule;
-    estimatedBlockTime = calculateBlockTime(
-      schedule.offBlockTime,
-      schedule.onBlockTime,
-    );
+    estimatedBlockTime = calculateBlockTime(schedule.offBlockTime, schedule.onBlockTime);
   }
 
   return (
     <section className="bg-gray-100 pointer-events-auto dark:bg-gray-950 text-gray-800 dark:text-gray-300 p-6 w-full sm:w-sm rounded-xl">
       <div className="mb-4">
-        <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">
-          {flight.flightNumber}
-        </h2>
+        <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">{flight.flightNumber}</h2>
       </div>
 
       <div className="flex items-center justify-between my-4">
         <div className="text-start font-bold">
-          <span className="block text-4xl">
-            {flight.departureAirport.iataCode}
-          </span>
+          <span className="block text-4xl">{flight.departureAirport.iataCode}</span>
           <span className="block">{flight.departureAirport.city}</span>
         </div>
         <div>
           <FaPlane className="mx-auto mb-2 block" size={20} />
-          {estimatedBlockTime && (
-            <span className="block text-center text-green-500">
-              {estimatedBlockTime}
-            </span>
-          )}
-          <span className="block text-center text-xs">
-            {scheduledBlockTime}
-          </span>
+          {estimatedBlockTime && <span className="block text-center text-green-500">{estimatedBlockTime}</span>}
+          <span className="block text-center text-xs">{scheduledBlockTime}</span>
         </div>
         <div className="text-end font-bold">
-          <span className="block text-4xl">
-            {flight.destinationAirport.iataCode}
-          </span>
+          <span className="block text-4xl">{flight.destinationAirport.iataCode}</span>
           <span className="block">{flight.destinationAirport.city}</span>
         </div>
       </div>
@@ -112,7 +89,7 @@ export default function BasicFlightInfoOverlay({
       </div>
 
       <div className="mt-8 text-indigo-500 text-center text-lg p-1 uppercase font-bold">
-        {translateStatus(flight.status)}
+        {toHuman.flight.status.standard(flight.status)}
       </div>
     </section>
   );

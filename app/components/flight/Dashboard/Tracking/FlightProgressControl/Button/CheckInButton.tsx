@@ -4,8 +4,9 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import CheckInFlightModal from "~/components/flight/Modal/CheckInFlightModal";
-import { type FilledSchedule, translateNextActionStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { toHuman } from "~/i18n/translate";
+import type { FilledSchedule } from "~/models";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export default function CheckInButton({ disabled }: FlightProgressButtonProps) {
   const { flight, checkIn } = useTrackedFlight();
@@ -23,21 +24,10 @@ export default function CheckInButton({ disabled }: FlightProgressButtonProps) {
 
   return (
     <>
-      <Button
-        color="indigo"
-        outline
-        onClick={() => setShowModal(true)}
-        disabled={disabled}
-      >
-        {translateNextActionStatus(flight.status)}
+      <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
+        {toHuman.flight.status.next(flight.status)}
       </Button>
-      {showModal && (
-        <CheckInFlightModal
-          flight={flight}
-          checkIn={handleCheckIn}
-          close={() => setShowModal(false)}
-        />
-      )}
+      {showModal && <CheckInFlightModal flight={flight} checkIn={handleCheckIn} close={() => setShowModal(false)} />}
     </>
   );
 }

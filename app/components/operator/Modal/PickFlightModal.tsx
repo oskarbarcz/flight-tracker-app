@@ -1,24 +1,14 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "flowbite-react";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import LegPreview from "~/components/operator/Form/Preview/LegPreview";
-import {
-  type Flight,
-  FlightPhase,
-  FlightStatus,
-  type RotationResponse,
-} from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
+import { type Flight, FlightPhase, FlightStatus } from "~/models";
+import { useApi } from "~/state/api/context/useApi";
+import type { RotationResponse } from "~/state/api/request/operator.request";
 
-type PickFlightModalProps = {
+type Props = {
   rotation: RotationResponse;
   close: () => void;
 };
@@ -32,10 +22,7 @@ function excludeFlightsWithRotations(flights: Flight[]) {
   return flights.filter((flight) => !flight.rotationId);
 }
 
-export default function PickFlightModal({
-  rotation,
-  close,
-}: PickFlightModalProps) {
+export default function PickFlightModal({ rotation, close }: Props) {
   const { flightService, rotationService } = useApi();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [addedFlightsIds, setAddedFlightsIds] = useState<string[]>([]);

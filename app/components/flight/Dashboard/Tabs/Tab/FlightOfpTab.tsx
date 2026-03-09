@@ -1,12 +1,12 @@
 import React from "react";
 import Container from "~/components/shared/Layout/Container";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import useFlightOfp from "~/state/hooks/resources/useFlightOfp";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import useFlightOfp from "~/state/api/hooks/useFlightOfp";
 
 function unescapeOFP(html: string): string {
   return html
     .replace(/\\n/g, "<br />") // Newlines
-    .replace(/\\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;") // Tabs
+    .replace(/\\toHuman/g, "&nbsp;&nbsp;&nbsp;&nbsp;") // Tabs
     .replace(/\\r/g, ""); // Remove carriage returns
 }
 

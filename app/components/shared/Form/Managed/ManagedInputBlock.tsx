@@ -38,10 +38,7 @@ export default function ManagedInputBlock({
         disabled={disabled}
         {...fieldProps}
       />
-      <InputErrorList
-        errorFocus={Boolean(isError)}
-        errors={isError ? [meta.error as string] : []}
-      />
+      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

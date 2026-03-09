@@ -1,15 +1,8 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from "flowbite-react";
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
 import { formatDateToLocal } from "~/functions/time";
-import type { RotationResponse } from "~/models";
+import type { RotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {
   operatorId: string;
@@ -17,11 +10,7 @@ type Props = {
   removeRotation: (rotationId: RotationResponse) => void;
 };
 
-export default function RotationListTable({
-  operatorId,
-  rotations,
-  removeRotation,
-}: Props) {
+export default function RotationListTable({ operatorId, rotations, removeRotation }: Props) {
   return (
     <Table className="shadow">
       <TableHead>
@@ -41,9 +30,7 @@ export default function RotationListTable({
               {rotation.flights.length > 0 ? (
                 <span className="text-wrap">
                   {rotation.flights.map(
-                    (flight, idx) =>
-                      flight.flightNumber +
-                      (idx < rotation.flights.length - 1 ? ", " : ""),
+                    (flight, idx) => flight.flightNumber + (idx < rotation.flights.length - 1 ? ", " : ""),
                   )}
                 </span>
               ) : (
@@ -52,12 +39,8 @@ export default function RotationListTable({
             </TableCell>
             <TableCell>
               <div>
-                <span className="block text-gray-900 dark:text-white">
-                  {rotation.pilot.name}
-                </span>
-                <span className="text-xs text-gray-500">
-                  License: {rotation.pilot.pilotLicenseId}
-                </span>
+                <span className="block text-gray-900 dark:text-white">{rotation.pilot.name}</span>
+                <span className="text-xs text-gray-500">License: {rotation.pilot.pilotLicenseId}</span>
               </div>
             </TableCell>
             <TableCell>
@@ -72,19 +55,13 @@ export default function RotationListTable({
                     {formatDateToLocal(new Date(rotation.updatedAt))}
                   </span>
                 ) : (
-                  <span className="text-gray-500">
-                    Not changed since created.
-                  </span>
+                  <span className="text-gray-500">Not changed since created.</span>
                 )}
               </div>
             </TableCell>
             <TableCell>
               <div className="block text-primary-500 font-bold">
-                <Link
-                  className="block"
-                  to={`/operators/${operatorId}/rotations/${rotation.id}/edit`}
-                  viewTransition
-                >
+                <Link className="block" to={`/operators/${operatorId}/rotations/${rotation.id}/edit`} viewTransition>
                   Edit
                 </Link>
                 <button

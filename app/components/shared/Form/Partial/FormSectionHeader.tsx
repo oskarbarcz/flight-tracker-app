@@ -12,12 +12,7 @@ type FormSectionHeaderProps = {
   showSaveConfirmation: boolean;
 };
 
-export default function FormSectionHeader({
-  title,
-  edit,
-  setEdit,
-  showSaveConfirmation,
-}: FormSectionHeaderProps) {
+export default function FormSectionHeader({ title, edit, setEdit, showSaveConfirmation }: FormSectionHeaderProps) {
   let component: React.JSX.Element;
   if (edit) {
     component = <FormSectionSave title="Save" />;

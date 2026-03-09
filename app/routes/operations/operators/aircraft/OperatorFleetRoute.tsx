@@ -21,9 +21,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return { aircrafts, operator };
 }
 
-export default function OperatorFleetRoute({
-  params,
-}: Route.ComponentProps): JSX.Element {
+export default function OperatorFleetRoute({ params }: Route.ComponentProps): JSX.Element {
   const { aircrafts, operator } = useLoaderData<typeof clientLoader>();
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
@@ -39,11 +37,7 @@ export default function OperatorFleetRoute({
 
   return (
     <div>
-      <FleetControls
-        operator={operator}
-        type={selectedType}
-        changeType={setSelectedType}
-      />
+      <FleetControls operator={operator} type={selectedType} changeType={setSelectedType} />
       <Container className="overflow-x-auto" padding="none">
         <AircraftListTable operatorId={params.operatorId} aircraft={filtered} />
       </Container>

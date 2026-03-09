@@ -6,13 +6,11 @@ import MapLinkOverlay from "~/components/flight/Map/Box/Overlay/MapLinkOverlay";
 import MapPreviewStatusOverlay from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
 import TrackingFlightMap from "~/components/flight/Map/Box/TrackingFlightMap";
 import MapBottomDrawer from "~/components/flight/Map/Element/MapBottomDrawer";
-import Container, {
-  type ContainerClassProps,
-} from "~/components/shared/Layout/Container";
+import Container, { type ContainerClassProps } from "~/components/shared/Layout/Container";
 import { shouldPollForAdsbData, Tracking } from "~/models";
-import { useAdsbData } from "~/state/contexts/content/adsb.context";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
-import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
+import { useAdsbData } from "~/state/api/context/useAdsbData";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
 
 type MapBoxProps = ContainerClassProps;
 

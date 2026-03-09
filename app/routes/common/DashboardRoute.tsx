@@ -4,7 +4,7 @@ import React from "react";
 import { Navigate } from "react-router";
 import { UserRole } from "~/models";
 import PilotDashboardRoute from "~/routes/pilot/PilotDashboardRoute";
-import { useAuth } from "~/state/contexts/session/auth.context";
+import { useAuth } from "~/state/api/context/useAuth";
 
 export default function DashboardRoute() {
   const { user } = useAuth();

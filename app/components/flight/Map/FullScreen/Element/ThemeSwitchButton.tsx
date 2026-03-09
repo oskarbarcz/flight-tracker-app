@@ -26,11 +26,7 @@ export default function ThemeSwitchButton() {
   return (
     <>
       <div className="hidden md:block">
-        <Tooltip
-          content={`Change theme to ${mode === "dark" ? "light" : "dark"}`}
-          style="auto"
-          placement="bottom"
-        >
+        <Tooltip content={`Change theme to ${mode === "dark" ? "light" : "dark"}`} style="auto" placement="bottom">
           {mode === "dark" && darkButton}
           {mode === "light" && lightButton}
         </Tooltip>

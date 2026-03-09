@@ -13,15 +13,15 @@ import NoCurrentFlightBox from "~/components/flight/Dashboard/Main/Box/NoCurrent
 import PilotStatsBox from "~/components/flight/Dashboard/Main/Box/PilotStatsBox";
 import UserHeader from "~/components/flight/Dashboard/Main/UserHeader";
 import { type Flight, FlightStatus } from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
-import useCurrentFlight from "~/state/hooks/resources/useCurrentFlight";
-import useLastFlight from "~/state/hooks/resources/useLastFlight";
-import { useAppConfig } from "~/state/hooks/useAppConfig";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useApi } from "~/state/api/context/useApi";
+import useCurrentFlight from "~/state/api/hooks/useCurrentFlight";
+import useLastFlight from "~/state/api/hooks/useLastFlight";
+import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export default function PilotDashboardRoute() {
   const { flightService } = useApi();
-  const { isDevelopmentEnvironment } = useAppConfig();
+  const { isDebug } = useAppEnvironment();
   const [flights, setFlights] = useState<Flight[]>([]);
   const { lastFlight, loading: loadingLast } = useLastFlight();
   const { currentFlight, loading: loadingCurrent } = useCurrentFlight();
@@ -37,9 +37,7 @@ export default function PilotDashboardRoute() {
       .finally(() => setLoadingAll(false));
   }, [flightService]);
 
-  const nextFlight = flights.filter(
-    (flight) => flight.status === FlightStatus.Ready,
-  )[0];
+  const nextFlight = flights.filter((flight) => flight.status === FlightStatus.Ready)[0];
 
   return (
     <>
@@ -49,16 +47,9 @@ export default function PilotDashboardRoute() {
           {loadingAll ? (
             <NextScheduledFlightBoxLoader />
           ) : (
-            <NextScheduledFlightBox
-              flight={nextFlight}
-              isCurrentFlight={currentFlight !== null}
-            />
+            <NextScheduledFlightBox flight={nextFlight} isCurrentFlight={currentFlight !== null} />
           )}
-          {loadingLast ? (
-            <LastFlightBoxLoader />
-          ) : (
-            <LastFlightBox flight={lastFlight} />
-          )}
+          {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
         </div>
         <div className="flex flex-col gap-4">
           {loadingCurrent ? (
@@ -72,7 +63,7 @@ export default function PilotDashboardRoute() {
         </div>
         <div className="flex flex-col gap-4">
           <PilotStatsBox />
-          {isDevelopmentEnvironment && <DebugFlightListBox flights={flights} />}
+          {isDebug && <DebugFlightListBox flights={flights} />}
         </div>
       </div>
     </>

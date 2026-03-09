@@ -1,14 +1,10 @@
 "use client";
 
-import type { SkyLinkAirportResponse } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import type { SkyLinkAirportResponse } from "~/state/api/request/skylink.request";
 
 export class SkyLinkService extends AbstractAuthorizedApiService {
-  async getAirportByIataCode(
-    iataCode: string,
-  ): Promise<SkyLinkAirportResponse> {
-    return this.requestWithAuth<SkyLinkAirportResponse>(
-      `/api/v1/skylink/airport/${iataCode}`,
-    );
+  async fetchAirportByIataCode(iataCode: string) {
+    return this.fetchWithAuth<SkyLinkAirportResponse>(`/api/v1/skylink/airport/${iataCode}`);
   }
 }

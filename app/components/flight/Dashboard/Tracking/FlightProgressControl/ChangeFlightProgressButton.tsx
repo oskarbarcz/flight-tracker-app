@@ -15,12 +15,9 @@ import ReportTakeoffButton from "~/components/flight/Dashboard/Tracking/FlightPr
 import StartBoardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/StartBoardingButton";
 import StartOffboardingButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/Button/StartOffboardingButton";
 import { FlightStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-function mapStatusToButton(
-  status: FlightStatus,
-  disabled: boolean,
-): ReactElement<typeof StartBoardingButton> | null {
+function mapStatusToButton(status: FlightStatus, disabled: boolean): ReactElement<typeof StartBoardingButton> | null {
   switch (status) {
     case FlightStatus.Ready:
       return <CheckInButton disabled={disabled} />;

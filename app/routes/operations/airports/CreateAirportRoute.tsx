@@ -13,22 +13,18 @@ import FormSubmit from "~/components/shared/Form/FormSubmit";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { type CreateAirportFormData, initCreateAirportData } from "~/models";
+import { useApi } from "~/state/api/context/useApi";
 import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
 import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
-import { useApi } from "~/state/contexts/content/api.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export default function CreateAirportRoute() {
   const { skyLinkService, airportService } = useApi();
   const navigate = useNavigate();
   const [iataCodeInput, setIataCodeInput] = useState<string>("");
-  const [formData, setFormData] = useState<CreateAirportFormData>(
-    initCreateAirportData(),
-  );
+  const [formData, setFormData] = useState<CreateAirportFormData>(initCreateAirportData());
 
-  const [formMessage, setFormMessage] = useState<string | undefined>(
-    "Save all sections first.",
-  );
+  const [formMessage, setFormMessage] = useState<string | undefined>("Save all sections first.");
   const [formError, setFormError] = useState<string | undefined>();
 
   usePageTitle("Create new airport");
@@ -41,7 +37,7 @@ export default function CreateAirportRoute() {
       return;
     }
 
-    skyLinkService.getAirportByIataCode(iataCodeInput).then((response) => {
+    skyLinkService.fetchAirportByIataCode(iataCodeInput).then((response) => {
       setFormData((form) => ({
         ...form,
         ...skyLinkToFormData(response),
@@ -94,11 +90,7 @@ export default function CreateAirportRoute() {
 
   return (
     <div className="mx-auto max-w-lg pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Create new airport"
-        backText="Back to airports"
-        backUrl="/airports"
-      />
+      <SectionHeaderWithBackButton sectionTitle="Create new airport" backText="Back to airports" backUrl="/airports" />
 
       <div className="flex flex-col gap-4">
         <Container>
@@ -114,36 +106,19 @@ export default function CreateAirportRoute() {
               value={iataCodeInput}
               onChange={(e) => setIataCodeInput(e.target.value)}
             />
-            <Button
-              className="min-w-fit cursor-pointer"
-              onClick={handleCreateWithSkyLink}
-              outline
-            >
+            <Button className="min-w-fit cursor-pointer" onClick={handleCreateWithSkyLink} outline>
               <span className="pe-1">Fill with</span>
               <span className="font-mono font-bold">SkyLink</span>
             </Button>
           </div>
-          <div className="text-center pt-4 italic text-sm text-gray-500">
-            or fill manually below
-          </div>
+          <div className="text-center pt-4 italic text-sm text-gray-500">or fill manually below</div>
         </Container>
 
-        <AirportGeneralFormSection
-          data={formData.general}
-          onSubmit={onGeneralSectionSubmit}
-        />
+        <AirportGeneralFormSection data={formData.general} onSubmit={onGeneralSectionSubmit} />
 
-        <AirportLocationFormSection
-          data={formData.location}
-          onSubmit={onLocationSectionSubmit}
-        />
+        <AirportLocationFormSection data={formData.location} onSubmit={onLocationSectionSubmit} />
 
-        <FormSubmit
-          message={formMessage}
-          error={formError}
-          onSubmit={handleSubmit}
-          button="Create airport"
-        />
+        <FormSubmit message={formMessage} error={formError} onSubmit={handleSubmit} button="Create airport" />
       </div>
     </div>
   );

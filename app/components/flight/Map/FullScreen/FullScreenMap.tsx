@@ -24,14 +24,8 @@ export default function FullScreenMap({ flight, path }: Props) {
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const lastPosition = path[path.length - 1];
   const mapBounds = latLngBounds([
-    [
-      flight.departureAirport.location.latitude,
-      flight.departureAirport.location.longitude,
-    ],
-    [
-      flight.destinationAirport.location.latitude,
-      flight.destinationAirport.location.longitude,
-    ],
+    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
+    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
   ]);
 
   return (
@@ -45,10 +39,7 @@ export default function FullScreenMap({ flight, path }: Props) {
         attributionControl={false}
       >
         <MapTileLayer />
-        <GreatCirclePath
-          start={flight.departureAirport}
-          end={flight.destinationAirport}
-        />
+        <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <FlightPath path={path} />
 
         {pathPoints.length > 0 && <MapAircraftMarker path={pathPoints} />}
@@ -56,11 +47,7 @@ export default function FullScreenMap({ flight, path }: Props) {
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />
 
-        <MapEventsHandler
-          bounds={mapBounds}
-          options={mapOptions}
-          aircraftPosition={lastPosition}
-        />
+        <MapEventsHandler bounds={mapBounds} options={mapOptions} aircraftPosition={lastPosition} />
       </MapContainer>
       <FlightDetailsSectionOverlay flight={flight} />
       <MapBottomDrawer />

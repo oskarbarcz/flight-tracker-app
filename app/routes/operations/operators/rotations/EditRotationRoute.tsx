@@ -2,52 +2,33 @@
 
 import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/EditRotationRoute";
 import { Button } from "flowbite-react";
-import {
-  Formik,
-  type FormikErrors,
-  Form as FormikForm,
-  type FormikTouched,
-} from "formik";
+import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
 import React, { useEffect } from "react";
-import {
-  useActionData,
-  useLoaderData,
-  useNavigate,
-  useSubmit,
-} from "react-router";
+import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
 import PilotLicenseInputBlock from "~/components/operator/Form/PilotLicenseInputBlock";
 import RotationFlightsInputBlock from "~/components/operator/Form/RotationFlightsInputBlock";
 import InputBlock from "~/components/shared/Form/InputBlock";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
-import {
-  handleRequestError,
-  handleRequestSuccess,
-} from "~/functions/handleRequest";
-import type { EditRotationRequest } from "~/models";
+import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import type { EditRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
-import { useToast } from "~/state/contexts/global/toast.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useToast } from "~/state/app/context/useToast";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createRotationSchema } from "~/validator/form/rotation.schema";
 
-export async function clientAction({
-  request,
-  params,
-}: Route.ClientActionArgs) {
+export async function clientAction({ request, params }: Route.ClientActionArgs) {
   const rotationService = new RotationService();
 
   const form = await request.formData();
   const rotation = getFormData<EditRotationRequest>(form, ["name", "pilotId"]);
 
-  return rotationService
-    .update(params.rotationId, rotation)
-    .then(handleRequestSuccess)
-    .catch(handleRequestError);
+  return rotationService.update(params.rotationId, rotation).then(handleRequestSuccess).catch(handleRequestError);
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const rotation = await new RotationService().getById(params.rotationId);
+  const rotation = await new RotationService().fetchById(params.rotationId);
   return { rotation };
 }
 
@@ -77,7 +58,7 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
 
   const updateLegs = async () => {
     const rotationService = new RotationService();
-    await rotationService.getById(rotation.id);
+    await rotationService.fetchById(rotation.id);
   };
 
   const handleSubmit = (values: EditRotationRequest) => {
@@ -93,8 +74,7 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
     formikTouched: FormikTouched<EditRotationRequest>,
   ) => {
     const serverErrors = response?.isError ? response.errorsForKey(name) : [];
-    const clientError =
-      formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
+    const clientError = formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
     return [...new Set([...clientError, ...serverErrors])];
   };
 
@@ -115,14 +95,7 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({
-          errors: formikErrors,
-          touched,
-          setFieldValue,
-          handleChange,
-          handleBlur,
-          values,
-        }) => (
+        {({ errors: formikErrors, touched, setFieldValue, handleChange, handleBlur, values }) => (
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col gap-4">
@@ -141,11 +114,7 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
                   errors={getErrors("pilotId", formikErrors, touched)}
                   setFieldValue={setFieldValue}
                 />
-                <RotationFlightsInputBlock
-                  rotation={rotation}
-                  legs={rotation.flights}
-                  updateLegs={updateLegs}
-                />
+                <RotationFlightsInputBlock rotation={rotation} legs={rotation.flights} updateLegs={updateLegs} />
               </div>
             </Container>
 

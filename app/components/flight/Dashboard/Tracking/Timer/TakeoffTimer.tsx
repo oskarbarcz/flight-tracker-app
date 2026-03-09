@@ -36,9 +36,7 @@ export function TakeoffTimer({ schedule }: TakeoffTimerProps) {
   return (
     <>
       <div className="mb-4 text-center">
-        <span className={`block text-4xl font-bold ${timeToColor(timeLeft)}`}>
-          {formatTimeInterval(timeLeft)}
-        </span>
+        <span className={`block text-4xl font-bold ${timeToColor(timeLeft)}`}>{formatTimeInterval(timeLeft)}</span>
         <span className="block text-sm">time to takeoff</span>
       </div>
       <div className="text-center">

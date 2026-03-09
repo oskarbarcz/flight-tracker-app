@@ -17,11 +17,7 @@ const phaseToLabel = (phase: FlightPhase): string => {
 };
 
 export default function FlightStatusTabs() {
-  const phases = [
-    FlightPhase.Upcoming,
-    FlightPhase.Ongoing,
-    FlightPhase.Finished,
-  ];
+  const phases = [FlightPhase.Upcoming, FlightPhase.Ongoing, FlightPhase.Finished];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentPhase = searchParams.get("phase") || phases[0];
@@ -38,11 +34,7 @@ export default function FlightStatusTabs() {
   return (
     <Tabs variant="underline" onActiveTabChange={handleChange}>
       {phases.map((phase) => (
-        <TabItem
-          active={currentPhase === phase}
-          title={phaseToLabel(phase)}
-          key={phase}
-        />
+        <TabItem active={currentPhase === phase} title={phaseToLabel(phase)} key={phase} />
       ))}
     </Tabs>
   );

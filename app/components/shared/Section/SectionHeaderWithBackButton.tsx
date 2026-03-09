@@ -23,9 +23,7 @@ export default function SectionHeaderWithBackButton({
           {backText}
         </Button>
       </Link>
-      <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">
-        {sectionTitle}
-      </h2>
+      <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
     </div>
   );
 }

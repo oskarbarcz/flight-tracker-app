@@ -28,7 +28,7 @@ project uses **Flowbite** component library.
 
 ### Environment
 
-App requires server to run, otherwise you won't be able to see anything more than sign in screen.
+App requires server to run, otherwise you won'toHuman be able to see anything more than sign in screen.
 
 ### Installation using locally-set-up API (recommended)
 

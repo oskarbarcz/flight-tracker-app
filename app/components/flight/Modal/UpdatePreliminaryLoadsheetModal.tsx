@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "flowbite-react";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import UpdateLoadsheetForm from "~/components/flight/Forms/UpdateLoadsheetForm";
 import Form from "~/components/shared/Form/Form";
@@ -43,12 +37,7 @@ export default function UpdatePreliminaryLoadsheetModal({
   };
 
   return (
-    <Modal
-      size="md"
-      className="text-gray-800 dark:text-white"
-      show
-      onClose={cancel}
-    >
+    <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>Update preliminary loadsheet</ModalHeader>
       <ModalBody>
         <Form<FlatLoadsheetFormData>
@@ -65,16 +54,9 @@ export default function UpdatePreliminaryLoadsheetModal({
           <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button
-            type="submit"
-            form="updatePreliminaryLoadsheetForm"
-            color="indigo"
-            outline
-          >
+          <Button type="submit" form="updatePreliminaryLoadsheetForm" color="indigo" outline>
             Update loadsheet for flight
-            <span className="font-mono font-bold ms-1">
-              {flight.flightNumberWithoutSpaces}
-            </span>
+            <span className="font-mono font-bold ms-1">{flight.flightNumberWithoutSpaces}</span>
           </Button>
         </div>
       </ModalFooter>

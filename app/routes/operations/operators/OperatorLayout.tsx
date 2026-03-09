@@ -8,7 +8,7 @@ import { OperatorInsights } from "~/components/operator/Header/OperatorInsights"
 import { OperatorNavigation } from "~/components/operator/Header/OperatorNavigation";
 import { OperatorTabs } from "~/components/operator/Table/Tabs/OperatorTabs";
 import { OperatorService } from "~/state/api/operator.service";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const operator = await new OperatorService().fetchById(params.operatorId);

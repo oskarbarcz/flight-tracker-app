@@ -10,8 +10,8 @@ import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
 import { type Airport, Continent } from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useApi } from "~/state/api/context/useApi";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");
@@ -22,18 +22,17 @@ export default function AirportsListRoute() {
 
   const { airportService } = useApi();
   const [searchParams] = useSearchParams();
-  const currentContinent =
-    (searchParams.get("continent") as Continent) ?? Continent.Europe;
+  const continent = (searchParams.get("continent") as Continent) ?? Continent.Europe;
 
   useEffect(() => {
     setIsLoading(true);
     setIsEmptyResult(false);
-    airportService.getAllByContinent(currentContinent).then((airports) => {
+    airportService.fetchAll({ continent }).then((airports) => {
       setIsLoading(false);
       setAirports(airports);
       setIsEmptyResult(airports.length === 0);
     });
-  }, [airportService, currentContinent]);
+  }, [airportService, continent]);
 
   return (
     <>
@@ -50,7 +49,7 @@ export default function AirportsListRoute() {
       <ContinentFilterTabs />
 
       {isLoading && <LoadingData />}
-      {isEmptyResult && <AirportListEmptyState continent={currentContinent} />}
+      {isEmptyResult && <AirportListEmptyState continent={continent} />}
 
       {!isLoading && !isEmptyResult && (
         <Container className="overflow-x-auto" padding="none">

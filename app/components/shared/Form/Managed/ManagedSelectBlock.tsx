@@ -55,10 +55,7 @@ export default function ManagedSelectBlock({
           </option>
         ))}
       </Select>
-      <InputErrorList
-        errorFocus={Boolean(isError)}
-        errors={isError ? [meta.error as string] : []}
-      />
+      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

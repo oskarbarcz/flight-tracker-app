@@ -1,11 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from "flowbite-react";
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
 import type { Aircraft } from "~/models";
@@ -35,18 +28,12 @@ export default function AircraftListTable({ operatorId, aircraft }: Props) {
             </TableCell>
             <TableCell>
               <span className="flex gap-x-2 items-center">
-                <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">
-                  {each.registration}
-                </span>
-                <span className="border border-gray-600 px-2 py-0.5 text-xs">
-                  {each.selcal}
-                </span>
+                <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">{each.registration}</span>
+                <span className="border border-gray-600 px-2 py-0.5 text-xs">{each.selcal}</span>
               </span>
               <span className="block mt-1">{each.livery}</span>
             </TableCell>
-            <TableCell className="font-mono font-bold">
-              {each.icaoCode}
-            </TableCell>
+            <TableCell className="font-mono font-bold">{each.icaoCode}</TableCell>
             <TableCell>
               <Link
                 className="text-primary-500 font-bold"

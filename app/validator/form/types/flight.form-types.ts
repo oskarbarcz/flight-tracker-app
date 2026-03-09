@@ -11,9 +11,7 @@ export type FlatLoadsheetFormData = {
   blockFuel: number;
 };
 
-export function flatLoadsheetToLoadsheet(
-  data: FlatLoadsheetFormData,
-): Loadsheet {
+export function flatLoadsheetToLoadsheet(data: FlatLoadsheetFormData): Loadsheet {
   return {
     flightCrew: {
       pilots: data.pilots,
@@ -28,9 +26,7 @@ export function flatLoadsheetToLoadsheet(
   };
 }
 
-export function loadsheetToFlatLoadsheet(
-  loadsheet: Loadsheet,
-): FlatLoadsheetFormData {
+export function loadsheetToFlatLoadsheet(loadsheet: Loadsheet): FlatLoadsheetFormData {
   return {
     pilots: loadsheet.flightCrew.pilots,
     reliefPilots: loadsheet.flightCrew.reliefPilots,

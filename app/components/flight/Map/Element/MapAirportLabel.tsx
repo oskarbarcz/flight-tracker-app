@@ -13,9 +13,7 @@ type MapAirportLabelProps = {
 };
 
 const shortLabel = (airport: Airport) => {
-  const content = ReactDOMServer.renderToString(
-    <AirportShortLabel airport={airport} />,
-  );
+  const content = ReactDOMServer.renderToString(<AirportShortLabel airport={airport} />);
 
   return new L.DivIcon({
     html: content,
@@ -25,9 +23,7 @@ const shortLabel = (airport: Airport) => {
 };
 
 const extendedLabel = (airport: Airport) => {
-  const content = ReactDOMServer.renderToString(
-    <AirportExtendedLabel airport={airport} />,
-  );
+  const content = ReactDOMServer.renderToString(<AirportExtendedLabel airport={airport} />);
 
   return new L.DivIcon({
     html: content,
@@ -37,14 +33,8 @@ const extendedLabel = (airport: Airport) => {
   });
 };
 
-export default function MapAirportLabel({
-  airport,
-  extended = false,
-}: MapAirportLabelProps) {
-  const position: LatLngExpression = [
-    airport.location.latitude,
-    airport.location.longitude,
-  ];
+export default function MapAirportLabel({ airport, extended = false }: MapAirportLabelProps) {
+  const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
 
   const label = extended ? extendedLabel(airport) : shortLabel(airport);
 

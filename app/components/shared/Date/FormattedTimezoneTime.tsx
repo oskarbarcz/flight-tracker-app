@@ -40,16 +40,12 @@ type FormattedTimezoneTimeProps = {
   timezone: string;
 };
 
-export function FormattedTimezoneTime({
-  date,
-  timezone,
-}: FormattedTimezoneTimeProps) {
+export function FormattedTimezoneTime({ date, timezone }: FormattedTimezoneTimeProps) {
   return (
     <span className="font-mono">
       {dateToTimezoneTime(date, timezone)}
       <span className="text-xs">
-        {getTimezoneOffset(date, timezone)}|
-        {getTimezoneAbbreviation(date, timezone)}
+        {getTimezoneOffset(date, timezone)}|{getTimezoneAbbreviation(date, timezone)}
       </span>
     </span>
   );

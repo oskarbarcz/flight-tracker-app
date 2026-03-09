@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "flowbite-react";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import UpdateFlightScheduleForm from "~/components/flight/Forms/UpdateFlightScheduleForm";
 import Form from "~/components/shared/Form/Form";
@@ -25,12 +19,7 @@ export default function UpdateScheduledTimesheetModal({
   cancel,
 }: UpdateFlightScheduledTimesheetModalProps) {
   return (
-    <Modal
-      size="sm"
-      className="text-gray-800 dark:text-white"
-      show
-      onClose={cancel}
-    >
+    <Modal size="sm" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>Update scheduled timesheet</ModalHeader>
       <ModalBody>
         <Form<FilledSchedule>
@@ -47,12 +36,7 @@ export default function UpdateScheduledTimesheetModal({
           <Button color="gray" outline onClick={cancel}>
             Back
           </Button>
-          <Button
-            color="indigo"
-            type="submit"
-            form="updateScheduleForm"
-            outline
-          >
+          <Button color="indigo" type="submit" form="updateScheduleForm" outline>
             Save changes
           </Button>
         </div>

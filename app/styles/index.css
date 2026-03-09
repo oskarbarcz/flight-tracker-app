@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:wght@100..700&display=swap");
+
+@import "tailwindcss";
+@import "tailwindcss-safe-area";
+@import "tw-animate-css";
+@import "leaflet/dist/leaflet.css";
+@import "flowbite-react/plugin/tailwindcss";
+@import "./base.css";
+@import "./animations.css";
+@import "./utilities.css";
+@import "./scrollbars.css";
+
+@source "../../.flowbite-react/class-list.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Inter", sans-serif;
+}

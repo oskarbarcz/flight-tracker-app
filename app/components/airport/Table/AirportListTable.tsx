@@ -1,11 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
-} from "flowbite-react";
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
 import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
@@ -31,9 +24,7 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
       <TableBody className="divide-y">
         {airports.map((airport: Airport) => (
           <TableRow key={airport.id}>
-            <TableCell className="font-bold text-gray-900 dark:text-white">
-              {airport.iataCode}
-            </TableCell>
+            <TableCell className="font-bold text-gray-900 dark:text-white">{airport.iataCode}</TableCell>
             <TableCell>
               <span className="font-bold">{airport.name}</span>
               <span className="block">
@@ -41,17 +32,10 @@ export default function AirportListTable({ airports }: AirportListTableProps) {
               </span>
             </TableCell>
             <TableCell>
-              <FormattedTimezoneTime
-                date={new Date()}
-                timezone={airport.timezone}
-              />
+              <FormattedTimezoneTime date={new Date()} timezone={airport.timezone} />
             </TableCell>
             <TableCell>
-              <Link
-                className="block text-primary-500 font-bold"
-                to={`/airports/${airport.id}/edit`}
-                viewTransition
-              >
+              <Link className="block text-primary-500 font-bold" to={`/airports/${airport.id}/edit`} viewTransition>
                 Edit
               </Link>
             </TableCell>

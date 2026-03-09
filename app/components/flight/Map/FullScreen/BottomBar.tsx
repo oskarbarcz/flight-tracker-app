@@ -1,7 +1,7 @@
 import VerticalSeparator from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
 import { FormattedLocalTime } from "~/components/shared/Date/FormattedLocalTime";
-import { useAdsbData } from "~/state/contexts/content/adsb.context";
-import { useAppConfig } from "~/state/hooks/useAppConfig";
+import { useAdsbData } from "~/state/api/context/useAdsbData";
+import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
 
 function getMessage(count: number) {
   if (count === 0) return "No segments";
@@ -10,7 +10,7 @@ function getMessage(count: number) {
 }
 
 export default function BottomBar() {
-  const { appVersion } = useAppConfig();
+  const { appVersion } = useAppEnvironment();
   const { lastRequestedAt, flightPath } = useAdsbData();
 
   const lastRefreshedAt = lastRequestedAt ?? new Date();

@@ -2,10 +2,7 @@
 
 import { FloatingLabel, HelperText } from "flowbite-react";
 import { useField } from "formik";
-import React, {
-  type HTMLInputAutoCompleteAttribute,
-  type HTMLInputTypeAttribute,
-} from "react";
+import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import InputErrorList from "~/components/shared/Form/InputErrorList";
@@ -48,10 +45,7 @@ export default function ManagedFloatingInputBlock({
         disabled={disabled}
         {...fieldProps}
       />
-      <InputErrorList
-        errorFocus={Boolean(isError)}
-        errors={isError ? [meta.error as string] : []}
-      />
+      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">
           <FaInfoCircle />

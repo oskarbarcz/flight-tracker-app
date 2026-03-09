@@ -9,20 +9,15 @@ import FormSubmit from "~/components/shared/Form/FormSubmit";
 import SectionHeaderWithBackButton from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { Tracking } from "~/models";
-import {
-  type CreateFlightFormData,
-  initCreateFlightData,
-} from "~/models/form/flight.form";
+import { type CreateFlightFormData, initCreateFlightData } from "~/models/form/flight.form";
+import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
-import type { CreateFlightRequest } from "~/state/api/model/flight.dto";
+import type { CreateFlightRequest } from "~/state/api/request/flight.request";
 import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";
-import { useApi } from "~/state/contexts/content/api.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import type { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 
-export async function clientAction({
-  request,
-}: Route.ClientActionArgs): Promise<Response | undefined> {
+export async function clientAction({ request }: Route.ClientActionArgs): Promise<Response | undefined> {
   const flightService = new FlightService();
   const form = await request.formData();
   const rawFormData = getFormData(form, [
@@ -71,9 +66,7 @@ export async function clientAction({
 
 export default function CreateAirportRoute(): JSX.Element {
   usePageTitle("Create new flight");
-  const [formData, setFormData] = useState<CreateFlightFormData>(
-    initCreateFlightData(),
-  );
+  const [formData, setFormData] = useState<CreateFlightFormData>(initCreateFlightData());
   const [formMessage, setFormMessage] = useState<string | undefined>();
   const [formError, setFormError] = useState<string | undefined>();
   const { flightService } = useApi();
@@ -88,11 +81,7 @@ export default function CreateAirportRoute(): JSX.Element {
 
     const formMessage = isAllSubmitted ? undefined : "Save all sections first.";
     setFormMessage(formMessage);
-  }, [
-    formData.isIdentitySubmitted,
-    formData.isRouteSubmitted,
-    formData.isScheduleSubmitted,
-  ]);
+  }, [formData.isIdentitySubmitted, formData.isRouteSubmitted, formData.isScheduleSubmitted]);
 
   const handleSubmit = () => {
     const flight = formDataToApiFormat(formData);
@@ -138,31 +127,13 @@ export default function CreateAirportRoute(): JSX.Element {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Create new flight"
-        backText="Back to flights"
-        backUrl="/flights"
-      />
+      <SectionHeaderWithBackButton sectionTitle="Create new flight" backText="Back to flights" backUrl="/flights" />
       <div className="space-y-4">
-        <FlightIdentityFormSection
-          data={formData.identity}
-          onSubmit={onIdentitySubmit}
-        />
-        <FlightRouteFormSection
-          data={formData.route}
-          onSubmit={onRouteSubmit}
-        />
-        <FlightScheduleFormSection
-          data={formData.schedule}
-          onSubmit={onScheduleSubmit}
-        />
+        <FlightIdentityFormSection data={formData.identity} onSubmit={onIdentitySubmit} />
+        <FlightRouteFormSection data={formData.route} onSubmit={onRouteSubmit} />
+        <FlightScheduleFormSection data={formData.schedule} onSubmit={onScheduleSubmit} />
 
-        <FormSubmit
-          message={formMessage}
-          error={formError}
-          onSubmit={handleSubmit}
-          button="Create flight"
-        />
+        <FormSubmit message={formMessage} error={formError} onSubmit={handleSubmit} button="Create flight" />
       </div>
     </div>
   );

@@ -1,23 +1,22 @@
-import type { GetUserResponse, ListUsersResponse, UserStats } from "~/models";
+import type { UserStats } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import type { GetUserResponse, ListUsersResponse } from "~/state/api/request/user.request";
 
 export class UserService extends AbstractAuthorizedApiService {
-  async getCurrent(): Promise<GetUserResponse> {
-    return this.requestWithAuth<GetUserResponse>("/api/v1/user/me");
+  async fetchCurrent() {
+    return this.fetchWithAuth<GetUserResponse>("/api/v1/user/me");
   }
 
-  async getUserStats(): Promise<UserStats> {
-    return this.requestWithAuth<UserStats>("/api/v1/user/me/stats");
+  async fetchUserStats() {
+    return this.fetchWithAuth<UserStats>("/api/v1/user/me/stats");
   }
 
-  async getUserById(id: string): Promise<GetUserResponse> {
-    return this.requestWithAuth<GetUserResponse>(`/api/v1/user/${id}`);
+  async fetchUserById(id: string) {
+    return this.fetchWithAuth<GetUserResponse>(`/api/v1/user/${id}`);
   }
 
-  async getUserByLicenseId(pilotLicenseId: string): Promise<GetUserResponse> {
-    const users = await this.requestWithAuth<ListUsersResponse>(
-      `/api/v1/user?pilotLicenseId=${pilotLicenseId}`,
-    );
+  async fetchUserByLicenseId(pilotLicenseId: string) {
+    const users = await this.fetchWithAuth<ListUsersResponse>(`/api/v1/user?pilotLicenseId=${pilotLicenseId}`);
 
     if (users.length !== 1) {
       return Promise.reject(users);

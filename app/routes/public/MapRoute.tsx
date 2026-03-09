@@ -4,10 +4,10 @@ import FullScreenMap from "~/components/flight/Map/FullScreen/FullScreenMap";
 import TopBar from "~/components/flight/Map/FullScreen/TopBar";
 import type { Flight } from "~/models";
 import MapSplash from "~/routes/public/MapSplash";
-import { useAdsbData } from "~/state/contexts/content/adsb.context";
-import { usePublicApi } from "~/state/contexts/content/public-api.context";
-import MapSettingsProvider from "~/state/contexts/settings/map-settings.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useAdsbData } from "~/state/api/context/useAdsbData";
+import { usePublicApi } from "~/state/api/context/usePublicApi";
+import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import type { Route } from "../../../.react-router/types/app/routes/public/+types/MapRoute";
 
 export default function MapRoute({ params }: Route.ClientLoaderArgs) {
@@ -19,7 +19,7 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
 
   const fetchFlight = useCallback(async () => {
     try {
-      const flightData = await publicFlightService.getById(params.id);
+      const flightData = await publicFlightService.fetchById(params.id);
       setFlight(flightData);
       if (flightData) {
         setCallsign(flightData.callsign);
@@ -52,11 +52,7 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
     return () => clearTimeout(timer);
   }, []);
 
-  usePageTitle(
-    flight
-      ? `Tracking flight ${flight.flightNumber}`
-      : "Loading flight tracking...",
-  );
+  usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Loading flight tracking...");
 
   if (!flight || showSplash) {
     return <MapSplash />;

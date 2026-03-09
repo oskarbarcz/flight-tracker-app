@@ -8,7 +8,7 @@ import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();

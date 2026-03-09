@@ -4,21 +4,18 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import UpdateFinalLoadsheetModal from "~/components/flight/Modal/UpdateFinalLoadsheetModal";
-import { type Loadsheet, translateNextActionStatus } from "~/models";
-import { useTrackedFlight } from "~/state/contexts/global/tracked-flight.context";
+import { toHuman } from "~/i18n/translate";
+import type { Loadsheet } from "~/models";
+import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export default function FinishBoardingButton({
-  disabled,
-}: FlightProgressButtonProps) {
+export default function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   const { flight, finishBoarding } = useTrackedFlight();
   const [showModal, setShowModal] = useState(false);
 
   const handleFinishBoarding = async (loadsheet: Loadsheet): Promise<void> => {
     await finishBoarding(loadsheet)
       .then(() => setShowModal(false))
-      .catch((error: unknown) =>
-        console.error("Failed to finish boarding", error),
-      );
+      .catch((error: unknown) => console.error("Failed to finish boarding", error));
   };
 
   if (!flight) {
@@ -27,20 +24,11 @@ export default function FinishBoardingButton({
 
   return (
     <>
-      <Button
-        color="indigo"
-        outline
-        onClick={() => setShowModal(true)}
-        disabled={disabled}
-      >
-        {translateNextActionStatus(flight.status)}
+      <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
+        {toHuman.flight.status.next(flight.status)}
       </Button>
       {showModal && (
-        <UpdateFinalLoadsheetModal
-          flight={flight}
-          update={handleFinishBoarding}
-          cancel={() => setShowModal(false)}
-        />
+        <UpdateFinalLoadsheetModal flight={flight} update={handleFinishBoarding} cancel={() => setShowModal(false)} />
       )}
     </>
   );

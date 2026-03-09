@@ -2,7 +2,8 @@
 
 import { TabItem, Tabs } from "flowbite-react";
 import { useNavigate, useSearchParams } from "react-router";
-import { allContinents, continentToDisplayName } from "~/models";
+import { toHuman } from "~/i18n/translate";
+import { allContinents } from "~/models";
 
 export default function ContinentFilterTabs() {
   const continents = allContinents();
@@ -19,17 +20,9 @@ export default function ContinentFilterTabs() {
   }
 
   return (
-    <Tabs
-      aria-label="Tabs with icons"
-      variant="underline"
-      onActiveTabChange={handleChange}
-    >
+    <Tabs aria-label="Tabs with icons" variant="underline" onActiveTabChange={handleChange}>
       {continents.map((continent) => (
-        <TabItem
-          active={currentContinent === continent}
-          title={continentToDisplayName(continent)}
-          key={continent}
-        />
+        <TabItem active={currentContinent === continent} title={toHuman.airport.continent(continent)} key={continent} />
       ))}
     </Tabs>
   );

@@ -7,12 +7,7 @@ export default function CabinCrewSidebarItems() {
 
   return (
     <nav className="flex flex-col gap-y-1 p-6">
-      <SidebarElement
-        label="Home"
-        href="/"
-        isSelected={path === "/"}
-        icon={HiHome}
-      />
+      <SidebarElement label="Home" href="/" isSelected={path === "/"} icon={HiHome} />
     </nav>
   );
 }

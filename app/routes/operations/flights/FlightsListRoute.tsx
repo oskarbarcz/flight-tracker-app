@@ -10,13 +10,10 @@ import FlightStatusTabs from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import Container from "~/components/shared/Layout/Container";
 import SectionHeaderWithButton from "~/components/shared/Section/SectionHeaderWithButton";
 import { FlightPhase } from "~/models";
-import { useApi } from "~/state/contexts/content/api.context";
-import {
-  FlightListProvider,
-  useFlightList,
-} from "~/state/contexts/content/flight-list.context";
-import { useToast } from "~/state/contexts/global/toast.context";
-import { usePageTitle } from "~/state/hooks/usePageTitle";
+import { useApi } from "~/state/api/context/useApi";
+import { FlightListProvider, useFlightList } from "~/state/api/context/useFlightList";
+import { useToast } from "~/state/app/context/useToast";
+import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 function FlightsListContent() {
   const { flightService } = useApi();
@@ -25,8 +22,7 @@ function FlightsListContent() {
   const { success, error } = useToast();
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const currentPhase =
-    (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
+  const currentPhase = (searchParams.get("phase") as FlightPhase) ?? FlightPhase.Upcoming;
   const currentPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
 
   React.useEffect(() => {
@@ -73,11 +69,7 @@ function FlightsListContent() {
       />
       <FlightStatusTabs />
       {flights.length === 0 && !listLoading ? (
-        <FlightListEmptyState
-          phase={currentPhase}
-          onImport={handleImport}
-          importLoading={loading}
-        />
+        <FlightListEmptyState phase={currentPhase} onImport={handleImport} importLoading={loading} />
       ) : (
         <Container padding="none">
           <FlightListTable phase={currentPhase} />

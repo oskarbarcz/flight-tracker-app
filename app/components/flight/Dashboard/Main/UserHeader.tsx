@@ -6,8 +6,8 @@ import SimpleStatDisplay from "~/components/shared/Display/SimpleStatDisplay";
 import SimpleStatDisplayLoader from "~/components/shared/Display/SimpleStatDisplayLoader";
 import Container from "~/components/shared/Layout/Container";
 import type { User } from "~/models/user.model";
-import { useAuth } from "~/state/contexts/session/auth.context";
-import useUserStats from "~/state/hooks/resources/useUserStats";
+import { useAuth } from "~/state/api/context/useAuth";
+import useUserStats from "~/state/api/hooks/useUserStats";
 
 enum Status {
   ReadyForDuty,
@@ -45,9 +45,7 @@ export default function UserHeader() {
       className="flex items-start lg:items-center flex-col justify-between lg:flex-row gap-4"
     >
       <div>
-        <h2 className="md:mt-4 text-4xl text-gray-700 dark:text-gray-300 font-bold">
-          Welcome back, Captain {name}
-        </h2>
+        <h2 className="md:mt-4 text-4xl text-gray-700 dark:text-gray-300 font-bold">Welcome back, Captain {name}</h2>
         <div className="text-lg text-gray-500 pt-2">
           <span>Operational status: </span>
           {getStatusBox(getStatus(user))}

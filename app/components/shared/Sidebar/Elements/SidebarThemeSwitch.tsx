@@ -3,11 +3,7 @@
 import { useThemeMode } from "flowbite-react";
 import React from "react";
 import type { IconType } from "react-icons";
-import {
-  MdBrightnessAuto,
-  MdBrightnessHigh,
-  MdBrightnessLow,
-} from "react-icons/md";
+import { MdBrightnessAuto, MdBrightnessHigh, MdBrightnessLow } from "react-icons/md";
 
 type ThemeMode = "light" | "dark" | "auto";
 

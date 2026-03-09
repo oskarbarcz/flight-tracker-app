@@ -8,23 +8,20 @@ import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/R
 import RotationControls from "~/components/operator/Table/RotationControls";
 import RotationListTable from "~/components/operator/Table/RotationListTable";
 import Container from "~/components/shared/Layout/Container";
-import type { RotationResponse } from "~/models";
+import { useApi } from "~/state/api/context/useApi";
+import type { RotationResponse } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
-import { useApi } from "~/state/contexts/content/api.context";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const rotations = await new RotationService().fetchAll(params.operatorId);
   return { rotations };
 }
 
-export default function OperatorRotationsRoute({
-  params,
-}: Route.ComponentProps): JSX.Element {
+export default function OperatorRotationsRoute({ params }: Route.ComponentProps): JSX.Element {
   const { rotationService } = useApi();
   const { rotations } = useLoaderData<typeof clientLoader>();
 
-  const [rotationToRemove, setRotationToRemove] =
-    useState<RotationResponse | null>(null);
+  const [rotationToRemove, setRotationToRemove] = useState<RotationResponse | null>(null);
 
   const removeRotation = async (flightId: string) => {
     await rotationService.remove(flightId);
@@ -39,11 +36,7 @@ export default function OperatorRotationsRoute({
     <>
       <RotationControls operatorId={params.operatorId} />
       <Container className="overflow-x-auto" padding="none">
-        <RotationListTable
-          operatorId={params.operatorId}
-          rotations={rotations}
-          removeRotation={setRotationToRemove}
-        />
+        <RotationListTable operatorId={params.operatorId} rotations={rotations} removeRotation={setRotationToRemove} />
       </Container>
 
       {rotationToRemove && (
