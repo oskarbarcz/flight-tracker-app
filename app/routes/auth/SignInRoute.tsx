@@ -25,13 +25,13 @@ export default function SignInRoute() {
 
     signIn(email, password)
       .then(() => new Promise((resolve) => setTimeout(resolve, 1000)))
-      .then(() => navigate("/", { replace: true, viewTransition: true }))
+      .then(() => navigate("/dashboard", { replace: true, viewTransition: true }))
       .catch(() => setError("Incorrect credentials"))
       .finally(() => setLoading(false));
   }
 
   if (!loading && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return (

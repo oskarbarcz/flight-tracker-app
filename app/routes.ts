@@ -6,8 +6,9 @@ export default [
     route("sign-out", "routes/auth/SignOutRoute.tsx"),
   ]),
   layout("routes/public/MapLayout.tsx", [route("map/:id", "routes/public/MapRoute.tsx")]),
+  index("routes/public/LandingRoute.tsx"),
   layout("routes/AppLayout.tsx", [
-    index("routes/common/DashboardRoute.tsx"),
+    route("dashboard", "routes/common/DashboardRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx")]),
     layout("routes/operations/OperationsLayout.tsx", [
       // operations - operators
