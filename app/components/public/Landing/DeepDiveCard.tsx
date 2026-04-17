@@ -12,9 +12,9 @@ interface DeepDiveCardProps {
 export function DeepDiveCard({
   title,
   description,
-  imageUrl,
-  imageAlt = "Feature Screenshot",
-  aspectRatioClass = "pt-[60%] md:pt-[50%]",
+  imageUrl: _imageUrl,
+  imageAlt: _imageAlt = "Feature Screenshot",
+  aspectRatioClass: _aspectRatioClass = "pt-[60%] md:pt-[50%]",
   className = "",
 }: DeepDiveCardProps) {
   return (
