@@ -26,7 +26,7 @@ export function DeepDiveCard({
         {description}
       </p>
 
-      <div
+      {/* <div
         className={`w-full relative rounded-4xl overflow-hidden backdrop-blur-2xl bg-white/70 dark:bg-black/40 border border-gray-200 dark:border-white/10 shadow-xl dark:shadow-2xl cursor-default
         transition-all duration-500 ease-out hover:scale-[1.02] hover:rotate-y-2 hover:-rotate-x-1 hover:shadow-indigo-500/10`}
       >
@@ -38,9 +38,8 @@ export function DeepDiveCard({
           loading="lazy"
         />
 
-        {/* Subtle glass overlay on hover */}
         <div className="absolute inset-0 bg-white/5 dark:bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-      </div>
+      </div> */}
     </div>
   );
 }
