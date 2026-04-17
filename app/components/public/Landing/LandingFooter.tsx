@@ -24,7 +24,8 @@ export function LandingFooter() {
               </span>
             </Link>
             <p className="text-gray-500 dark:text-gray-400 font-medium max-w-sm leading-relaxed">
-              The ultimate toolkit built exclusively for your flight simulation ecosystem. Master the skies with complete operational and cockpit immersion.
+              The ultimate toolkit built exclusively for your flight simulation ecosystem. Master the skies with
+              complete operational and cockpit immersion.
             </p>
           </div>
 
@@ -62,7 +63,11 @@ export function LandingFooter() {
         <hr className="my-8 border-gray-200 dark:border-gray-800" />
         <div className="w-full text-center">
           <p className="text-gray-500 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} <a href="https://github.com/oskarbarcz" className="hover:underline">Oskar Barcz.</a> All rights reserved.
+            &copy; {new Date().getFullYear()}{" "}
+            <a href="https://github.com/oskarbarcz" className="hover:underline">
+              Oskar Barcz.
+            </a>{" "}
+            All rights reserved.
           </p>
         </div>
       </div>

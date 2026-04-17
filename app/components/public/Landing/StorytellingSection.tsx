@@ -6,7 +6,6 @@ export function StorytellingSection() {
   return (
     <section className="py-20 bg-white dark:bg-gray-950 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        
         {/* The Operator Block */}
         <StoryBlock
           icon={FaHeadset}
@@ -26,7 +25,6 @@ export function StorytellingSection() {
           imageAlt="Pilot EFB Tracking Placeholder"
           isReversed={true}
         />
-
       </div>
     </section>
   );

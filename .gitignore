@@ -12,3 +12,5 @@ build
 node_modules
 *.tsbuildinfo
 .flowbite-react
+
+CLAUDE.md

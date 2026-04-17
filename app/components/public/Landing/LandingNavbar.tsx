@@ -1,5 +1,4 @@
-import { Button, Navbar } from "flowbite-react";
-import { useThemeMode } from "flowbite-react";
+import { Button, Navbar, useThemeMode } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { MdBrightnessAuto, MdBrightnessHigh, MdBrightnessLow } from "react-icons/md";
 import { Link } from "react-router";
@@ -9,18 +8,18 @@ type ThemeMode = "light" | "dark" | "auto";
 
 function nextMode(mode: ThemeMode): ThemeMode {
   switch (mode) {
-    case "light": return "dark";
-    case "dark":  return "auto";
-    case "auto":  return "light";
+    case "light":
+      return "dark";
+    case "dark":
+      return "auto";
+    case "auto":
+      return "light";
   }
 }
 
 function ThemeToggle() {
   const { mode, setMode } = useThemeMode();
-  const Icon =
-    mode === "light" ? MdBrightnessHigh :
-    mode === "dark"  ? MdBrightnessLow  :
-                       MdBrightnessAuto;
+  const Icon = mode === "light" ? MdBrightnessHigh : mode === "dark" ? MdBrightnessLow : MdBrightnessAuto;
 
   return (
     <button
@@ -47,9 +46,7 @@ export function LandingNavbar() {
     <Navbar
       fluid
       className={`bg-white/80 dark:bg-gray-950/80 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? "border-b border-gray-200 dark:border-gray-800"
-          : "border-b border-transparent"
+        scrolled ? "border-b border-gray-200 dark:border-gray-800" : "border-b border-transparent"
       }`}
     >
       <Link to="/" className="flex items-center">
