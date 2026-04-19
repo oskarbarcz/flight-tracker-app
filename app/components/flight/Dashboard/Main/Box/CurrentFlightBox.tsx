@@ -99,7 +99,7 @@ export function CurrentFlightBox({ flight }: Props) {
           {showArrival && "Time remaining: "}
           {timeRemaining}
         </div>
-        <Button color="indigo" as={Link} to={`track/${flight.id}`} viewTransition>
+        <Button color="indigo" as={Link} to={`/track/${flight.id}`} viewTransition>
           Manage
           <FaArrowRight className="inline ml-2" aria-hidden="true" />
         </Button>
