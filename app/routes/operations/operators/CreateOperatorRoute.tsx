@@ -58,7 +58,7 @@ export default function CreateOperatorRoute() {
         {({ isSubmitting }) => (
           <FormikForm noValidate>
             <Container>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
                 <div className="flex gap-4">
                   <div className="basis-1/2">
                     <ManagedInputBlock field="icaoCode" label="ICAO code" />
@@ -73,12 +73,18 @@ export default function CreateOperatorRoute() {
                 <ManagedInputBlock field="callsign" label="Callsign" />
 
                 <div className="flex gap-4">
-                  <div className="basis-1/2">
-                    <ManagedSelectBlock field="type" label="Operator type" options={operatorTypeOptions} />
-                  </div>
-                  <div className="basis-1/2">
-                    <ManagedSelectBlock field="continent" label="Continent" options={continentOptions} />
-                  </div>
+                  <ManagedSelectBlock
+                    className="basis-1/2"
+                    field="type"
+                    label="Operator type"
+                    options={operatorTypeOptions}
+                  />
+                  <ManagedSelectBlock
+                    className="basis-1/2"
+                    field="continent"
+                    label="Continent"
+                    options={continentOptions}
+                  />
                 </div>
 
                 <ManagedInputBlock field="avgFleetAge" label="Average fleet age" type="number" />
