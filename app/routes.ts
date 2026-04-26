@@ -44,6 +44,8 @@ export default [
       ]),
       route("airports/:id/runways/new", "routes/operations/airports/runways/CreateRunwayRoute.tsx"),
       route("airports/:id/runways/:runwayId/edit", "routes/operations/airports/runways/EditRunwayRoute.tsx"),
+      route("airports/:id/terminals/new", "routes/operations/airports/terminals/CreateTerminalRoute.tsx"),
+      route("airports/:id/terminals/:terminalId/edit", "routes/operations/airports/terminals/EditTerminalRoute.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;
