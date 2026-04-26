@@ -1,4 +1,5 @@
 import { getFlightTrackerApiHost } from "~/functions/getFlightTrackerApiHost";
+import { isAccessTokenExpired, readAccessToken, readRefreshToken, saveTokens } from "~/functions/tokenStorage";
 
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 
@@ -50,6 +51,9 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
 
   protected async requestWithAuthAndHeaders<T>(endpoint: string, options: RequestInit = {}) {
     let token = this.getAccessToken();
+    if (isAccessTokenExpired()) {
+      token = await this.refreshAccessToken();
+    }
     let response = await super.doRequest(endpoint, options, token);
 
     if (response.status === 401) {
@@ -71,28 +75,19 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
   }
 
   private getAccessToken() {
-    const token: string | null = localStorage.getItem("at");
-
+    const token = readAccessToken();
     if (token === null) {
       throw new Error("Unauthorized");
     }
-
     return token;
   }
 
   private getRefreshToken() {
-    const refreshToken = localStorage.getItem("rt");
-
+    const refreshToken = readRefreshToken();
     if (!refreshToken) {
       throw new Error("Refresh token not found");
     }
-
     return refreshToken;
-  }
-
-  private saveTokens(accessToken: string, refreshToken: string) {
-    localStorage.setItem("at", accessToken);
-    localStorage.setItem("rt", refreshToken);
   }
 
   private async refreshAccessToken() {
@@ -109,7 +104,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     }
 
     const { accessToken, refreshToken } = await response.json();
-    this.saveTokens(accessToken, refreshToken);
+    saveTokens(accessToken, refreshToken);
 
     return accessToken as string;
   }

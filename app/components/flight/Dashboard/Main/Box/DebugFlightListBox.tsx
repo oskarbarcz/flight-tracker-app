@@ -17,7 +17,7 @@ export function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
       <div>
         {flights.map((flight) => (
           <div key={flight.id}>
-            <Link to={`track/${flight.id}`} className="block text-teal-500 underline" viewTransition>
+            <Link to={`/track/${flight.id}`} className="block text-teal-500 underline" viewTransition>
               {flight.flightNumber} [{flight.status}, {flight.tracking}]
             </Link>
           </div>

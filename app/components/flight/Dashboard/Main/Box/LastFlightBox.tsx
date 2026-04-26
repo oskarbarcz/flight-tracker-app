@@ -63,7 +63,7 @@ export function LastFlightBox({ flight }: Props) {
       </article>
 
       <div className="flex justify-end">
-        <Button color="alternative" size="xs" as={Link} to={`track/${flight.id}`} viewTransition>
+        <Button color="alternative" size="xs" as={Link} to={`/track/${flight.id}`} viewTransition>
           See details
           <FaArrowRight className="inline ml-2" aria-hidden="true" />
         </Button>

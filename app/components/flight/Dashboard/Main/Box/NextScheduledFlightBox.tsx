@@ -63,7 +63,7 @@ export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
           color={isCurrentFlight ? "alternative" : "indigo"}
           size={isCurrentFlight ? "xs" : undefined}
           as={Link}
-          to={`track/${flight.id}`}
+          to={`/track/${flight.id}`}
           viewTransition
         >
           See details
