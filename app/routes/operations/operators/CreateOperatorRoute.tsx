@@ -7,7 +7,8 @@ import { useNavigate } from "react-router";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type CreateOperatorFormData,
@@ -20,6 +21,10 @@ import { useApi } from "~/state/api/context/useApi";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createOperatorSchema } from "~/validator/form/operator.schema";
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: () => [{ label: "Operators", to: "/operators" }, { label: "New operator" }],
+};
 
 export default function CreateOperatorRoute() {
   usePageTitle("Create new operator");
@@ -44,11 +49,7 @@ export default function CreateOperatorRoute() {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Create new operator"
-        backText="Back to operators"
-        backUrl="/operators"
-      />
+      <SectionHeader title="Create new operator" />
 
       <Formik<CreateOperatorFormData>
         initialValues={initCreateOperatorData()}

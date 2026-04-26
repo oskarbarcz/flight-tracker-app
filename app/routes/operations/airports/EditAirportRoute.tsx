@@ -9,7 +9,7 @@ import { SkyLinkAutofillPanel } from "~/components/airport/Forms/SkyLinkAutofill
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type Airport, type CreateAirportFormData, continentOptions } from "~/models";
@@ -67,11 +67,7 @@ export default function EditAirportRoute() {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Edit airport"
-        backText="Back to airport"
-        backUrl={`/airports/${airport.id}/overview`}
-      />
+      <SectionHeader title="Edit airport" />
 
       <Formik<CreateAirportFormData>
         initialValues={airportToFormData(airport)}

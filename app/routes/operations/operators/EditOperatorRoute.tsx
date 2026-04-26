@@ -8,7 +8,8 @@ import { useLoaderData, useNavigate } from "react-router";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type CreateOperatorFormData,
@@ -27,6 +28,24 @@ import { createOperatorSchema } from "~/validator/form/operator.schema";
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return new OperatorService().fetchById(params.operatorId);
 }
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: (data) => {
+    const operator = data as Operator;
+    return [
+      { label: "Operators", to: "/operators" },
+      {
+        label: (
+          <>
+            <span className="font-mono">{operator.iataCode}</span> · {operator.shortName}
+          </>
+        ),
+        to: `/operators/${operator.id}/fleet`,
+      },
+      { label: "Edit" },
+    ];
+  },
+};
 
 export default function EditOperatorRoute() {
   usePageTitle("Edit operator");
@@ -52,11 +71,7 @@ export default function EditOperatorRoute() {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Edit operator"
-        backText="Back to operators"
-        backUrl={`/operators/${operator.id}/fleet`}
-      />
+      <SectionHeader title="Edit operator" />
 
       <Formik<CreateOperatorFormData>
         initialValues={operatorToFormData(operator)}

@@ -8,7 +8,7 @@ import { SkyLinkAutofillPanel } from "~/components/airport/Forms/SkyLinkAutofill
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type CreateAirportFormData, continentOptions, initCreateAirportData } from "~/models";
@@ -46,7 +46,7 @@ export default function CreateAirportRoute() {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton sectionTitle="Create new airport" backText="Back to airports" backUrl="/airports" />
+      <SectionHeader title="Create new airport" />
 
       <Formik<CreateAirportFormData>
         initialValues={initCreateAirportData()}

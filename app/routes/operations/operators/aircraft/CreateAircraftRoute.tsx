@@ -7,14 +7,40 @@ import React, { useEffect } from "react";
 import { useActionData, useNavigate, useSubmit } from "react-router";
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import type { Operator } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
+import { OperatorService } from "~/state/api/operator.service";
 import type { CreateAircraftRequest } from "~/state/api/request/operator.request";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { aircraftSchema } from "~/validator/form/aircraft.schema";
+
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const operator = await new OperatorService().fetchById(params.operatorId);
+  return { operator };
+}
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: (data) => {
+    const { operator } = data as { operator: Operator };
+    return [
+      { label: "Operators", to: "/operators" },
+      {
+        label: (
+          <>
+            <span className="font-mono">{operator.iataCode}</span> · {operator.shortName}
+          </>
+        ),
+        to: `/operators/${operator.id}/fleet`,
+      },
+      { label: "New aircraft" },
+    ];
+  },
+};
 
 export async function clientAction({ params, request }: Route.ClientActionArgs) {
   const aircraftService = new AircraftService();
@@ -75,11 +101,7 @@ export default function CreateAircraftRoute({ params }: Route.ComponentProps) {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Create new aircraft"
-        backText="Back to operator"
-        backUrl={`/operators/${params.operatorId}/fleet`}
-      />
+      <SectionHeader title="Create new aircraft" />
 
       <Formik<CreateAircraftRequest>
         initialValues={{
