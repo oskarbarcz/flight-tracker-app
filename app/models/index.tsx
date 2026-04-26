@@ -4,6 +4,7 @@ export * from "./auth.model";
 export * from "./common/geo";
 export * from "./flight.model";
 export * from "./form/airport.form";
+export * from "./form/operator.form";
 export * from "./operator.model";
 export * from "./rotation.model";
 export * from "./user.model";

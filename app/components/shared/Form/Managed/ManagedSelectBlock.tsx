@@ -38,7 +38,7 @@ export function ManagedSelectBlock({
   }, [options, fieldProps.value, helpers]);
 
   return (
-    <div className={twMerge("w-full", className)}>
+    <div className={twMerge("w-full mb-4", className)}>
       <div className="mb-2 block">
         <Label htmlFor={field}>{label}</Label>
       </div>
