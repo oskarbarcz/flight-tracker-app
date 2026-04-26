@@ -4,9 +4,9 @@ import type { Route } from ".react-router/types/app/routes/operations/airports/+
 import React from "react";
 import { Outlet, useLoaderData } from "react-router";
 import { AirportHeader } from "~/components/airport/Header/AirportHeader";
-import { AirportInsights } from "~/components/airport/Header/AirportInsights";
 import { AirportNavigation } from "~/components/airport/Header/AirportNavigation";
 import { AirportTabs } from "~/components/airport/Table/Tabs/AirportTabs";
+import { Container } from "~/components/shared/Layout/Container";
 import { AirportService } from "~/state/api/airport.service";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
@@ -21,12 +21,11 @@ export default function AirportLayout() {
 
   return (
     <>
-      <AirportNavigation id={airport.id} />
-      <AirportHeader airport={airport} />
-      <AirportInsights airport={airport} />
-
+      <Container className="mb-3">
+        <AirportNavigation />
+        <AirportHeader airport={airport} />
+      </Container>
       <AirportTabs id={airport.id} />
-
       <Outlet />
     </>
   );
