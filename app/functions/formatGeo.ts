@@ -25,7 +25,3 @@ export function getUtcOffset(timezone: string, date: Date = new Date()): string 
     return "";
   }
 }
-
-export function buildOpenStreetMapUrl(lat: number, lon: number): string {
-  return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=12/${lat}/${lon}`;
-}

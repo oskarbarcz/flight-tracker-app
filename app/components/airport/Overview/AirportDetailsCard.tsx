@@ -1,6 +1,10 @@
-import React from "react";
+import { Button } from "flowbite-react";
+import React, { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
+import { HiPencil } from "react-icons/hi";
 import { LuClock, LuMapPin, LuTag } from "react-icons/lu";
+import { Link } from "react-router";
+import { dateToTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
 import { formatLatitude, formatLongitude, getUtcOffset } from "~/functions/formatGeo";
 import type { Airport } from "~/models";
 
@@ -12,9 +16,29 @@ export function AirportDetailsCard({ airport }: Props) {
   const utcOffset = getUtcOffset(airport.timezone);
   const timeZoneLabel = utcOffset ? `${airport.timezone} (${utcOffset})` : airport.timezone;
 
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+  const currentTime = dateToTimezoneTime(now, airport.timezone);
+
   return (
     <div>
-      <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-5">Geography & Identity</h2>
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">Geography & Identity</h2>
+        <Button
+          as={Link}
+          to={`/airports/${airport.id}/edit`}
+          viewTransition
+          size="sm"
+          color="indigo"
+          className="space-x-1.5"
+        >
+          <HiPencil />
+          <span>Edit</span>
+        </Button>
+      </div>
 
       <div className="space-y-5">
         <DataSection icon={LuTag} color="indigo" title="Identity">
@@ -37,7 +61,10 @@ export function AirportDetailsCard({ airport }: Props) {
         </DataSection>
 
         <DataSection icon={LuClock} color="orange" title="Time">
-          <DataField label="Time Zone" value={timeZoneLabel} mono />
+          <div className="grid grid-cols-2 gap-2">
+            <DataField label="Time Zone" value={timeZoneLabel} mono />
+            <DataField label="Current Time" value={currentTime} mono />
+          </div>
         </DataSection>
       </div>
     </div>
