@@ -1,37 +1,32 @@
-import type { Continent } from "~/models";
 import type { CreateAirportFormData } from "~/models/form/airport.form";
 import type { CreateAirportRequest, GetAirportResponse } from "~/state/api/request/airport.request";
 
 export function formDataToApiFormat(input: CreateAirportFormData): CreateAirportRequest {
   return {
-    ...input.general,
-    city: input.location.city,
-    country: input.location.country,
-    continent: input.location.continent as Continent,
-    timezone: input.location.timezone,
+    icaoCode: input.icaoCode.trim().toUpperCase(),
+    iataCode: input.iataCode.trim().toUpperCase(),
+    name: input.name.trim(),
+    city: input.city.trim(),
+    country: input.country.trim(),
+    timezone: input.timezone.trim(),
+    continent: input.continent,
     location: {
-      latitude: input.location.latitude,
-      longitude: input.location.longitude,
+      latitude: Number(input.latitude),
+      longitude: Number(input.longitude),
     },
   };
 }
 
 export function airportToFormData(input: GetAirportResponse): CreateAirportFormData {
   return {
-    isGeneralSubmitted: false,
-    isLocationSubmitted: false,
-    general: {
-      icaoCode: input.icaoCode,
-      iataCode: input.iataCode,
-      name: input.name,
-    },
-    location: {
-      city: input.city,
-      country: input.country,
-      timezone: input.timezone,
-      continent: input.continent,
-      latitude: input.location.latitude,
-      longitude: input.location.longitude,
-    },
+    icaoCode: input.icaoCode,
+    iataCode: input.iataCode,
+    name: input.name,
+    city: input.city,
+    country: input.country,
+    timezone: input.timezone,
+    continent: input.continent,
+    latitude: input.location.latitude,
+    longitude: input.location.longitude,
   };
 }

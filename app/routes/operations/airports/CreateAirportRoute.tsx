@@ -1,127 +1,112 @@
 "use client";
 
-import { Button, Label, TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import { Button } from "flowbite-react";
+import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
+import React from "react";
 import { useNavigate } from "react-router";
-import {
-  type AirportGeneralFormData,
-  AirportGeneralFormSection,
-} from "~/components/airport/Forms/AirportGeneralFormSection";
-import {
-  type AirportLocationData,
-  AirportLocationFormSection,
-} from "~/components/airport/Forms/AirportLocationFormSection";
-import { FormSubmit } from "~/components/shared/Form/FormSubmit";
+import { SkyLinkAutofillPanel } from "~/components/airport/Forms/SkyLinkAutofillPanel";
+import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { type CreateAirportFormData, initCreateAirportData } from "~/models";
+import { handleFormikApiError } from "~/functions/handleFormikApiError";
+import { type CreateAirportFormData, continentOptions, initCreateAirportData } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
-import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
+import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { createAirportSchema } from "~/validator/form/create-airport.schema";
 
 export default function CreateAirportRoute() {
-  const { skyLinkService, airportService } = useApi();
-  const navigate = useNavigate();
-  const [iataCodeInput, setIataCodeInput] = useState<string>("");
-  const [formData, setFormData] = useState<CreateAirportFormData>(initCreateAirportData());
-
-  const [formMessage, setFormMessage] = useState<string | undefined>("Save all sections first.");
-  const [formError, setFormError] = useState<string | undefined>();
-
   usePageTitle("Create new airport");
 
-  async function handleCreateWithSkyLink() {
-    const iataCode = iataCodeInput.trim().toUpperCase();
+  const { airportService } = useApi();
+  const navigate = useNavigate();
+  const { error } = useToast();
 
-    if (!iataCode || iataCode.length !== 3) {
-      alert("Please enter a valid IATA code.");
-      return;
+  const handleSubmit = async (
+    values: CreateAirportFormData,
+    { setErrors, setSubmitting }: FormikHelpers<CreateAirportFormData>,
+  ) => {
+    try {
+      const newAirport = formDataToApiFormat(values);
+      await airportService.createNew(newAirport);
+      navigate(`/airports?continent=${newAirport.continent}`, { viewTransition: true });
+    } catch (err) {
+      handleFormikApiError<CreateAirportFormData>(err, setErrors, error, "Failed to create airport.");
+    } finally {
+      setSubmitting(false);
     }
-
-    skyLinkService.fetchAirportByIataCode(iataCodeInput).then((response) => {
-      setFormData((form) => ({
-        ...form,
-        ...skyLinkToFormData(response),
-        isLocationSubmitted: true,
-        isGeneralSubmitted: true,
-      }));
-    });
-  }
-
-  function onGeneralSectionSubmit(general: AirportGeneralFormData) {
-    setFormData((prev) => ({
-      ...prev,
-      general,
-      isGeneralSubmitted: true,
-    }));
-    setFormError(undefined);
-
-    if (formData.isLocationSubmitted) {
-      setFormMessage(undefined);
-    }
-  }
-
-  const onLocationSectionSubmit = (location: AirportLocationData) => {
-    setFormData((prev) => ({
-      ...prev,
-      location,
-      isLocationSubmitted: true,
-    }));
-    setFormError(undefined);
-
-    if (formData.isGeneralSubmitted) {
-      setFormMessage(undefined);
-    }
-  };
-
-  const handleSubmit = () => {
-    const newAirport = formDataToApiFormat(formData);
-    airportService
-      .createNew(newAirport)
-      .then(() => {
-        navigate(`/airports?continent=${newAirport.continent}`, {
-          viewTransition: true,
-        });
-      })
-      .catch((err: { message: never }) => {
-        setFormError(err.message);
-        setFormMessage(undefined);
-      });
   };
 
   return (
-    <div className="mx-auto max-w-lg pb-4">
+    <div className="mx-auto max-w-md pb-4">
       <SectionHeaderWithBackButton sectionTitle="Create new airport" backText="Back to airports" backUrl="/airports" />
 
-      <div className="flex flex-col gap-4">
-        <Container>
-          <h2 className="sr-only">Enter IATA code first</h2>
-          <div className="mb-2 block">
-            <Label htmlFor="iataCode">IATA code</Label>
-          </div>
-          <div className="flex gap-2">
-            <TextInput
-              id="iataCode"
-              name="iataCode"
-              className="grow"
-              value={iataCodeInput}
-              onChange={(e) => setIataCodeInput(e.target.value)}
-            />
-            <Button className="min-w-fit cursor-pointer" onClick={handleCreateWithSkyLink} outline>
-              <span className="pe-1">Fill with</span>
-              <span className="font-mono font-bold">SkyLink</span>
-            </Button>
-          </div>
-          <div className="text-center pt-4 italic text-sm text-gray-500">or fill manually below</div>
-        </Container>
+      <Formik<CreateAirportFormData>
+        initialValues={initCreateAirportData()}
+        validationSchema={createAirportSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <FormikForm noValidate>
+            <div className="flex flex-col gap-4">
+              <SkyLinkAutofillPanel />
 
-        <AirportGeneralFormSection data={formData.general} onSubmit={onGeneralSectionSubmit} />
+              <Container>
+                <div className="flex flex-col">
+                  <div className="flex gap-4">
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="iataCode" label="IATA code" />
+                    </div>
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="icaoCode" label="ICAO code" />
+                    </div>
+                  </div>
 
-        <AirportLocationFormSection data={formData.location} onSubmit={onLocationSectionSubmit} />
+                  <ManagedInputBlock field="name" label="Airport name" />
 
-        <FormSubmit message={formMessage} error={formError} onSubmit={handleSubmit} button="Create airport" />
-      </div>
+                  <div className="flex gap-4">
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="city" label="City" />
+                    </div>
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="country" label="Country" />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="timezone" label="Timezone" />
+                    </div>
+                    <ManagedSelectBlock
+                      className="basis-1/2"
+                      field="continent"
+                      label="Continent"
+                      options={continentOptions}
+                    />
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="latitude" label="Latitude" type="number" />
+                    </div>
+                    <div className="basis-1/2">
+                      <ManagedInputBlock field="longitude" label="Longitude" type="number" />
+                    </div>
+                  </div>
+                </div>
+              </Container>
+
+              <div className="flex justify-end">
+                <Button type="submit" color="indigo" disabled={isSubmitting}>
+                  Create airport
+                </Button>
+              </div>
+            </div>
+          </FormikForm>
+        )}
+      </Formik>
     </div>
   );
 }

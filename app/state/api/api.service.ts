@@ -1,5 +1,11 @@
 import { getFlightTrackerApiHost } from "~/functions/getFlightTrackerApiHost";
-import { isAccessTokenExpired, readAccessToken, readRefreshToken, saveTokens } from "~/functions/tokenStorage";
+import {
+  clearTokens,
+  isAccessTokenExpired,
+  readAccessToken,
+  readRefreshToken,
+  saveTokens,
+} from "~/functions/tokenStorage";
 
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 
@@ -100,6 +106,8 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     });
 
     if (!response.ok) {
+      clearTokens();
+      window.location.replace("/sign-in");
       throw new Error("Failed to refresh access token");
     }
 

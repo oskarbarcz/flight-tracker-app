@@ -1,7 +1,6 @@
 import { number, type ObjectSchema, object, string } from "yup";
-import type { AirportGeneralFormData } from "~/components/airport/Forms/AirportGeneralFormSection";
-import type { AirportLocationData } from "~/components/airport/Forms/AirportLocationFormSection";
 import { Continent } from "~/models";
+import type { CreateAirportFormData } from "~/models/form/airport.form";
 
 const timezoneSchema = string().test("is-valid-timezone", "Invalid timezone", (value) => {
   try {
@@ -12,7 +11,7 @@ const timezoneSchema = string().test("is-valid-timezone", "Invalid timezone", (v
   }
 });
 
-export const createAirportGeneralSchema: ObjectSchema<AirportGeneralFormData> = object().shape({
+export const createAirportSchema: ObjectSchema<CreateAirportFormData> = object().shape({
   iataCode: string()
     .required("IATA code is required")
     .matches(/^[A-Z]{3}$/, "IATA code must be exactly 3 uppercase letters"),
@@ -23,9 +22,6 @@ export const createAirportGeneralSchema: ObjectSchema<AirportGeneralFormData> = 
     .required("Airport name is required")
     .min(2, "Name must be at least 2 characters")
     .max(100, "Name must be under 100 characters"),
-});
-
-export const createAirportLocationSchema: ObjectSchema<AirportLocationData> = object().shape({
   city: string()
     .required("City is required")
     .min(2, "City must be at least 2 characters")
