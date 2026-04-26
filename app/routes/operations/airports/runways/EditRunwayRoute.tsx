@@ -90,7 +90,7 @@ export default function EditRunwayRoute({ params, loaderData }: Route.ComponentP
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col">
-                <ManagedInputBlock field="designator" label="Designator (e.g. 07L)" />
+                <ManagedInputBlock field="designator" label="Designator" />
 
                 <div className="flex gap-4">
                   <div className="basis-1/2">
