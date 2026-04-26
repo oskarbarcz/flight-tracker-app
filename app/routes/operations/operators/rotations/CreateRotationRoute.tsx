@@ -8,14 +8,40 @@ import { useActionData, useNavigate, useSubmit } from "react-router";
 import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseInputBlock";
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import type { Operator } from "~/models";
+import { OperatorService } from "~/state/api/operator.service";
 import type { CreateRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createRotationSchema } from "~/validator/form/rotation.schema";
+
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const operator = await new OperatorService().fetchById(params.operatorId);
+  return { operator };
+}
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: (data) => {
+    const { operator } = data as { operator: Operator };
+    return [
+      { label: "Operators", to: "/operators" },
+      {
+        label: (
+          <>
+            <span className="font-mono">{operator.iataCode}</span> · {operator.shortName}
+          </>
+        ),
+        to: `/operators/${operator.id}/rotations`,
+      },
+      { label: "New rotation" },
+    ];
+  },
+};
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
   const rotationService = new RotationService();
@@ -68,11 +94,7 @@ export default function CreateRotationRoute({ params }: Route.ComponentProps) {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton
-        sectionTitle="Create new rotation"
-        backText="Back to operator"
-        backUrl={`/operators/${params.operatorId}/rotations`}
-      />
+      <SectionHeader title="Create new rotation" />
 
       <Formik<CreateRotationRequest>
         initialValues={{ name: "", pilotId: "" }}

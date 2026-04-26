@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { getInitials } from "~/functions/getInitials";
 import { type User, UserRole } from "~/models/user.model";
 import { useAuth } from "~/state/api/context/useAuth";
 
@@ -13,14 +14,6 @@ function roleToDescription(role: UserRole): string {
     case UserRole.CabinCrew:
       return "Cabin crew";
   }
-}
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((word) => word.charAt(0).toUpperCase())
-    .join("");
 }
 
 export function SidebarUserSection() {

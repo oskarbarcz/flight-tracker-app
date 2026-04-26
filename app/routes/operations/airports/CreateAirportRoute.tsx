@@ -8,7 +8,8 @@ import { SkyLinkAutofillPanel } from "~/components/airport/Forms/SkyLinkAutofill
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type CreateAirportFormData, continentOptions, initCreateAirportData } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
@@ -16,6 +17,10 @@ import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createAirportSchema } from "~/validator/form/create-airport.schema";
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: () => [{ label: "Airports", to: "/airports" }, { label: "New airport" }],
+};
 
 export default function CreateAirportRoute() {
   usePageTitle("Create new airport");
@@ -41,7 +46,7 @@ export default function CreateAirportRoute() {
 
   return (
     <div className="mx-auto max-w-md pb-4">
-      <SectionHeaderWithBackButton sectionTitle="Create new airport" backText="Back to airports" backUrl="/airports" />
+      <SectionHeader title="Create new airport" />
 
       <Formik<CreateAirportFormData>
         initialValues={initCreateAirportData()}
