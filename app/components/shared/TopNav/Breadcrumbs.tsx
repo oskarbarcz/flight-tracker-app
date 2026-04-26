@@ -16,6 +16,7 @@ export function Breadcrumbs({ items }: Props) {
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: breadcrumbs are positional and never reordered
           <Fragment key={index}>
             <li className="truncate">
               {item.to && !isLast ? (
