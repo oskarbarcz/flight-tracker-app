@@ -4,20 +4,14 @@ import type { SkyLinkAirportResponse } from "~/state/api/request/skylink.request
 
 export function skyLinkToFormData(input: SkyLinkAirportResponse): CreateAirportFormData {
   return {
-    isLocationSubmitted: false,
-    isGeneralSubmitted: false,
-    general: {
-      icaoCode: input.icao,
-      iataCode: input.iata,
-      name: input.name,
-    },
-    location: {
-      city: input.city,
-      country: input.country,
-      timezone: input.timezone,
-      continent: Continent.Europe,
-      latitude: Number.parseFloat(input.latitude),
-      longitude: Number.parseFloat(input.longitude),
-    },
+    icaoCode: input.icao,
+    iataCode: input.iata,
+    name: input.name,
+    city: input.city,
+    country: input.country,
+    timezone: input.timezone,
+    continent: Continent.Europe,
+    latitude: Number.parseFloat(input.latitude),
+    longitude: Number.parseFloat(input.longitude),
   };
 }

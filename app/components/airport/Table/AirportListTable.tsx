@@ -35,8 +35,8 @@ export function AirportListTable({ airports }: Props) {
               <FormattedTimezoneTime date={new Date()} timezone={airport.timezone} />
             </TableCell>
             <TableCell>
-              <Link className="block text-primary-500 font-bold" to={`/airports/${airport.id}/edit`} viewTransition>
-                Edit
+              <Link className="block text-primary-500 font-bold" to={`/airports/${airport.id}/overview`} viewTransition>
+                View
               </Link>
             </TableCell>
           </TableRow>
