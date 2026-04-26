@@ -1,4 +1,5 @@
 import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { clearTokens, readAccessToken, readRefreshToken, saveTokens } from "~/functions/tokenStorage";
 import type { User } from "~/models/user.model";
 import { useApi } from "~/state/api/context/useApi";
 
@@ -32,8 +33,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("at");
-    const storedRefreshToken = localStorage.getItem("rt");
+    const storedAccessToken = readAccessToken();
+    const storedRefreshToken = readRefreshToken();
 
     if (!storedAccessToken || !storedRefreshToken) {
       setIsLoading(false);
@@ -58,8 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   function saveAuthData(accessToken: string, refreshToken: string) {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
-    localStorage.setItem("at", accessToken);
-    localStorage.setItem("rt", refreshToken);
+    saveTokens(accessToken, refreshToken);
 
     userService.fetchCurrent().then(setUser);
   }
@@ -68,8 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
-    localStorage.removeItem("at");
-    localStorage.removeItem("rt");
+    clearTokens();
   }
 
   const signIn = async (email: string, password: string): Promise<void> => {
