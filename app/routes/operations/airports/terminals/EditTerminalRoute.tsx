@@ -86,7 +86,7 @@ export default function EditTerminalRoute({ params, loaderData }: Route.Componen
               <div className="flex flex-col">
                 <div className="flex gap-4">
                   <div className="basis-1/3">
-                    <ManagedInputBlock field="shortName" label="Short name (e.g. T1)" />
+                    <ManagedInputBlock field="shortName" label="Short name" />
                   </div>
                   <div className="basis-2/3">
                     <ManagedInputBlock field="fullName" label="Full name" />

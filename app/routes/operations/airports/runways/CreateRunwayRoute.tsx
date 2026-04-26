@@ -83,7 +83,7 @@ export default function CreateRunwayRoute({ params }: Route.ComponentProps) {
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col">
-                <ManagedInputBlock field="designator" label="Designator (e.g. 07L)" />
+                <ManagedInputBlock field="designator" label="Designator" />
 
                 <div className="flex gap-4">
                   <div className="basis-1/2">
