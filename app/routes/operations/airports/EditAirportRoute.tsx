@@ -10,6 +10,7 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type Airport, type CreateAirportFormData, continentOptions } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
@@ -22,6 +23,24 @@ import { createAirportSchema } from "~/validator/form/create-airport.schema";
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return new AirportService().fetchById(params.id);
 }
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: (data) => {
+    const airport = data as Airport;
+    return [
+      { label: "Airports", to: "/airports" },
+      {
+        label: (
+          <>
+            <span className="font-mono">{airport.iataCode}</span> · {airport.name}
+          </>
+        ),
+        to: `/airports/${airport.id}/overview`,
+      },
+      { label: "Edit" },
+    ];
+  },
+};
 
 export default function EditAirportRoute() {
   const airport = useLoaderData<Airport>();
