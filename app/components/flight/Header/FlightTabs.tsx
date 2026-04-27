@@ -27,7 +27,7 @@ export function FlightTabs({ id }: Props) {
   };
 
   return (
-    <Tabs variant="underline" className="mt-1.5" onActiveTabChange={onClick}>
+    <Tabs key={activeIndex} variant="underline" className="mt-1.5" onActiveTabChange={onClick}>
       {tabs.map((tab, i) => (
         <TabItem key={tab.path} title={tab.title} active={activeIndex === i} />
       ))}

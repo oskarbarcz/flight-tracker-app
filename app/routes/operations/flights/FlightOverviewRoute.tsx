@@ -3,19 +3,19 @@
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightOverviewRoute";
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
+import { FaArrowRight } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
-import { useLoaderData, useRevalidator } from "react-router";
+import { Link, useLoaderData, useRevalidator } from "react-router";
 import { SelectGateModal } from "~/components/flight/Modal/SelectGateModal";
 import { SelectRunwayModal } from "~/components/flight/Modal/SelectRunwayModal";
 import { AirportEndpointCard } from "~/components/flight/Overview/AirportEndpointCard";
 import { AssignedGatePanel } from "~/components/flight/Overview/AssignedGatePanel";
 import { AssignedRunwayPanel } from "~/components/flight/Overview/AssignedRunwayPanel";
 import { GateEmptyPanel } from "~/components/flight/Overview/GateEmptyPanel";
-import { PreliminaryLoadsheetCard } from "~/components/flight/Overview/PreliminaryLoadsheetCard";
+import { LoadsheetCard } from "~/components/flight/Overview/LoadsheetCard";
 import { RouteMap } from "~/components/flight/Overview/RouteMap";
 import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
-import { TimesheetCard } from "~/components/flight/Overview/TimesheetCard";
 import { FlightStatus, type Gate, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
@@ -186,10 +186,23 @@ export default function FlightOverviewRoute() {
           )
         }
       />
-      <div className="flex flex-col gap-3">
-        <TimesheetCard title="Scheduled timesheet" schedule={flight.timesheet.scheduled} />
-        <PreliminaryLoadsheetCard flight={flight} />
-      </div>
+      <LoadsheetCard
+        title="Loadsheet"
+        loadsheet={flight.loadsheets.final ?? flight.loadsheets.preliminary}
+        badge={flight.loadsheets.final ? "FINAL" : flight.loadsheets.preliminary ? "PRELIMINARY" : undefined}
+        emptyMessage="No loadsheet has been filled for this flight."
+        emptySeverity="warning"
+        footer={
+          <Link
+            to={`/flights/${flight.id}/loadsheet`}
+            viewTransition
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+          >
+            View details
+            <FaArrowRight size={12} />
+          </Link>
+        }
+      />
       <RouteMap flight={flight} />
 
       {openModal === "departureRunway" && canChangeDepartureRunway && (
