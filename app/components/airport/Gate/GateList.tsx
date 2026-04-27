@@ -2,7 +2,7 @@
 
 import { Badge } from "flowbite-react";
 import React from "react";
-import { HiOutlineTrash, HiPencil } from "react-icons/hi";
+import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
 import {
   bridgeOptions,
@@ -80,6 +80,14 @@ export function GateList({ airportId, gates, terminals, onDelete }: Props) {
                     </Badge>
                   </div>
                   <div className="flex items-center gap-1">
+                    <Link
+                      to={`/airports/${airportId}/gates/new?duplicateFrom=${gate.id}`}
+                      viewTransition
+                      aria-label={`Duplicate gate ${gate.name}`}
+                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <HiOutlineDuplicate className="size-4" />
+                    </Link>
                     <Link
                       to={`/airports/${airportId}/gates/${gate.id}/edit`}
                       viewTransition
