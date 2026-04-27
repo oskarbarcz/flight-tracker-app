@@ -174,6 +174,34 @@ export class FlightService extends AbstractAuthorizedApiService {
       method: "PATCH",
     });
   }
+
+  async assignDepartureGate(id: string, departureGateId: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/departure-gate`, {
+      body: JSON.stringify({ departureGateId }),
+      method: "PATCH",
+    });
+  }
+
+  async assignDepartureRunway(id: string, departureRunwayId: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/departure-runway`, {
+      body: JSON.stringify({ departureRunwayId }),
+      method: "PATCH",
+    });
+  }
+
+  async assignArrivalGate(id: string, arrivalGateId: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/arrival-gate`, {
+      body: JSON.stringify({ arrivalGateId }),
+      method: "PATCH",
+    });
+  }
+
+  async assignArrivalRunway(id: string, arrivalRunwayId: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/arrival-runway`, {
+      body: JSON.stringify({ arrivalRunwayId }),
+      method: "PATCH",
+    });
+  }
 }
 
 export class PublicFlightService extends AbstractApiService {

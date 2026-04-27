@@ -33,14 +33,8 @@ function FlightsListContent() {
     setLoading(true);
     try {
       const flight = await flightService.importFlightFromSimbrief();
-      const newParams = new URLSearchParams(searchParams);
-      newParams.set("page", "1");
-      newParams.set("phase", FlightPhase.Upcoming);
-      newParams.set("id", flight.id);
-      navigate({ search: newParams.toString() });
-
-      reloadFlights(FlightPhase.Upcoming, 1);
       success(`Flight ${flight.flightNumber} imported from SimBrief`);
+      navigate(`/flights/${flight.id}/overview`);
     } catch (err) {
       console.error("Failed to import flight from SimBrief", err);
       error("Failed to import flight from SimBrief");

@@ -4,6 +4,7 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
+import { groupGatesByTerminal } from "~/functions/gateGroups";
 import {
   bridgeOptions,
   deicingOptions,
@@ -31,30 +32,8 @@ function labelOf(options: { value: string; label: string }[], value: string): st
   return options.find((o) => o.value === value)?.label ?? value;
 }
 
-function groupByTerminal(gates: Gate[], terminals: Terminal[]) {
-  const byId = new Map(terminals.map((t) => [t.id, t]));
-  const groups = new Map<string, { terminal: Terminal | null; gates: Gate[] }>();
-  for (const gate of gates) {
-    const existing = groups.get(gate.terminalId);
-    if (existing) {
-      existing.gates.push(gate);
-    } else {
-      groups.set(gate.terminalId, { terminal: byId.get(gate.terminalId) ?? null, gates: [gate] });
-    }
-  }
-  const sortedGroups = Array.from(groups.values()).sort((a, b) => {
-    const aName = a.terminal?.shortName ?? "";
-    const bName = b.terminal?.shortName ?? "";
-    return aName.localeCompare(bName, undefined, { numeric: true });
-  });
-  for (const group of sortedGroups) {
-    group.gates.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
-  }
-  return sortedGroups;
-}
-
 export function GateList({ airportId, gates, terminals, onDelete }: Props) {
-  const groups = groupByTerminal(gates, terminals);
+  const groups = groupGatesByTerminal(gates, terminals);
 
   return (
     <div className="space-y-4">
