@@ -32,18 +32,21 @@ import {
 } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
+import { GateService } from "~/state/api/gate.service";
 import { TerminalService } from "~/state/api/terminal.service";
-import { gateFormDataToRequest } from "~/state/api/transformer/gate.transformer";
+import { gateFormDataToRequest, gateToFormData } from "~/state/api/transformer/gate.transformer";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createGateSchema } from "~/validator/form/gate.schema";
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, terminals] = await Promise.all([
+export async function clientLoader({ params, request }: Route.ClientLoaderArgs) {
+  const duplicateFrom = new URL(request.url).searchParams.get("duplicateFrom");
+  const [airport, terminals, source] = await Promise.all([
     new AirportService().fetchById(params.id),
     new TerminalService().fetchAll(params.id),
+    duplicateFrom ? new GateService().fetchById(params.id, duplicateFrom) : Promise.resolve(null),
   ]);
-  return { airport, terminals };
+  return { airport, terminals, source };
 }
 
 export const handle: TopNavRouteHandle = {
@@ -67,7 +70,7 @@ export const handle: TopNavRouteHandle = {
 
 export default function CreateGateRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new gate");
-  const { terminals } = loaderData;
+  const { terminals, source } = loaderData;
 
   const { gateService } = useApi();
   const navigate = useNavigate();
@@ -88,13 +91,14 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
   };
 
   const initialTerminalId = terminals[0]?.id ?? "";
+  const initialValues = source ? { ...gateToFormData(source), name: "" } : initCreateGateData(initialTerminalId);
 
   return (
     <div className="mx-auto max-w-2xl pb-4">
       <SectionHeader title="Create new gate" />
 
       <Formik<CreateGateFormData>
-        initialValues={initCreateGateData(initialTerminalId)}
+        initialValues={initialValues}
         validationSchema={createGateSchema}
         onSubmit={handleSubmit}
       >
