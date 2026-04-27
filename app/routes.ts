@@ -32,6 +32,12 @@ export default [
       // operations - flights
       route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
       route("flights/new", "routes/operations/flights/CreateFlightRoute.tsx"),
+      layout("routes/operations/flights/FlightLayout.tsx", [
+        route("flights/:id/overview", "routes/operations/flights/FlightOverviewRoute.tsx"),
+        route("flights/:id/timesheet", "routes/operations/flights/FlightTimesheetRoute.tsx"),
+        route("flights/:id/loadsheet", "routes/operations/flights/FlightLoadsheetRoute.tsx"),
+        route("flights/:id/ofp", "routes/operations/flights/FlightOfpRoute.tsx"),
+      ]),
       // operations - airports
       route("airports", "routes/operations/airports/AirportsListRoute.tsx"),
       route("airports/new", "routes/operations/airports/CreateAirportRoute.tsx"),

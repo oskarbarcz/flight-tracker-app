@@ -1,10 +1,14 @@
 import { FlightEventType, FlightStatus } from "~/models";
 
 export function translateEventType(eventType: FlightEventType): string {
-  const eventNames = {
+  const eventNames: Record<FlightEventType, string> = {
     [FlightEventType.FlightWasCreated]: "Flight plan registered",
     [FlightEventType.PreliminaryLoadsheetWasUpdated]: "Preliminary loadsheet updated",
     [FlightEventType.ScheduledTimesheetWasUpdated]: "Scheduled timesheet updated",
+    [FlightEventType.DepartureGateWasChanged]: "Departure gate changed",
+    [FlightEventType.DepartureRunwayWasChanged]: "Departure runway changed",
+    [FlightEventType.ArrivalGateWasChanged]: "Arrival gate changed",
+    [FlightEventType.ArrivalRunwayWasChanged]: "Arrival runway changed",
     [FlightEventType.FlightWasAddedToRotation]: "Added to rotation",
     [FlightEventType.FlightWasRemovedFromRotation]: "Removed from rotation",
     [FlightEventType.FlightWasReleased]: "Flight released",
@@ -21,7 +25,7 @@ export function translateEventType(eventType: FlightEventType): string {
     [FlightEventType.FlightTrackWasSaved]: "Flight track saved",
   };
 
-  return eventNames[eventType];
+  return eventNames[eventType] ?? eventType;
 }
 
 export function translateStatus(status: FlightStatus): string {

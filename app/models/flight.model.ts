@@ -83,6 +83,10 @@ export class Flight {
   status: FlightStatus;
   loadsheets: Loadsheets;
   rotationId: string | null;
+  departureGateId: string | null;
+  departureRunwayId: string | null;
+  arrivalGateId: string | null;
+  arrivalRunwayId: string | null;
   createdAt: Date;
 
   constructor(flight: ApiFlightResponse) {
@@ -101,6 +105,10 @@ export class Flight {
       preliminary: flight.loadsheets.preliminary,
       final: flight.loadsheets.final,
     };
+    this.departureGateId = flight.departureGateId;
+    this.departureRunwayId = flight.departureRunwayId;
+    this.arrivalGateId = flight.arrivalGateId;
+    this.arrivalRunwayId = flight.arrivalRunwayId;
     this.createdAt = new Date(flight.createdAt);
   }
 
@@ -133,6 +141,10 @@ export enum FlightEventType {
   FlightWasCreated = "flight.created",
   PreliminaryLoadsheetWasUpdated = "flight.preliminary-loadsheet-updated",
   ScheduledTimesheetWasUpdated = "flight.scheduled-timesheet-updated",
+  DepartureGateWasChanged = "flight.departure-gate-changed",
+  DepartureRunwayWasChanged = "flight.departure-runway-changed",
+  ArrivalGateWasChanged = "flight.arrival-gate-changed",
+  ArrivalRunwayWasChanged = "flight.arrival-runway-changed",
   FlightWasAddedToRotation = "flight.added-to-rotation",
   FlightWasRemovedFromRotation = "flight.removed-from-rotation",
   FlightWasReleased = "flight.released",

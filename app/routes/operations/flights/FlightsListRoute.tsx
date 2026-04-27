@@ -9,11 +9,16 @@ import { FlightListTable } from "~/components/flight/Table/FlightListTable";
 import { FlightStatusTabs } from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { FlightPhase } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightListProvider, useFlightList } from "~/state/api/context/useFlightList";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: () => [{ label: "Flight plans" }],
+};
 
 function FlightsListContent() {
   const { flightService } = useApi();
@@ -33,14 +38,8 @@ function FlightsListContent() {
     setLoading(true);
     try {
       const flight = await flightService.importFlightFromSimbrief();
-      const newParams = new URLSearchParams(searchParams);
-      newParams.set("page", "1");
-      newParams.set("phase", FlightPhase.Upcoming);
-      newParams.set("id", flight.id);
-      navigate({ search: newParams.toString() });
-
-      reloadFlights(FlightPhase.Upcoming, 1);
       success(`Flight ${flight.flightNumber} imported from SimBrief`);
+      navigate(`/flights/${flight.id}/overview`);
     } catch (err) {
       console.error("Failed to import flight from SimBrief", err);
       error("Failed to import flight from SimBrief");

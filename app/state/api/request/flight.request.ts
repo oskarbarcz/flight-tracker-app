@@ -2,7 +2,18 @@ import type { Aircraft, AirportOnFlight, FlightCrew, FlightStatus, Operator, Tra
 
 export type CreateFlightRequest = Omit<
   ApiFlightResponse,
-  "id" | "airports" | "aircraft" | "operator" | "rotationId" | "status" | "source" | "createdAt"
+  | "id"
+  | "airports"
+  | "aircraft"
+  | "operator"
+  | "rotationId"
+  | "status"
+  | "source"
+  | "createdAt"
+  | "departureGateId"
+  | "departureRunwayId"
+  | "arrivalGateId"
+  | "arrivalRunwayId"
 >;
 
 export type ApiLoadsheetResponse = {
@@ -55,5 +66,9 @@ export type ApiFlightResponse = {
   status: FlightStatus;
   tracking: Tracking;
   loadsheets: ApiLoadsheetsResponse;
+  departureGateId: string | null;
+  departureRunwayId: string | null;
+  arrivalGateId: string | null;
+  arrivalRunwayId: string | null;
   createdAt: string;
 };

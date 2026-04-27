@@ -20,7 +20,11 @@ export function Breadcrumbs({ items }: Props) {
           <Fragment key={index}>
             <li className="truncate">
               {item.to && !isLast ? (
-                <Link to={item.to} viewTransition className="text-gray-500 hover:text-indigo-500 transition-colors">
+                <Link
+                  to={item.to}
+                  viewTransition
+                  className="cursor-pointer text-gray-500 hover:text-indigo-500 transition-colors"
+                >
                   {item.label}
                 </Link>
               ) : (
