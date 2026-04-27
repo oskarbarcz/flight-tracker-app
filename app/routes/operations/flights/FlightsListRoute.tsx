@@ -9,11 +9,16 @@ import { FlightListTable } from "~/components/flight/Table/FlightListTable";
 import { FlightStatusTabs } from "~/components/flight/Table/Tabs/FlightStatusTabs";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
+import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { FlightPhase } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightListProvider, useFlightList } from "~/state/api/context/useFlightList";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+
+export const handle: TopNavRouteHandle = {
+  breadcrumbs: () => [{ label: "Flight plans" }],
+};
 
 function FlightsListContent() {
   const { flightService } = useApi();

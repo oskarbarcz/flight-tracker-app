@@ -139,22 +139,28 @@ export default function FlightOverviewRoute() {
           </>
         }
         actions={
-          (canChangeDepartureRunway || canChangeDepartureGate) && (
-            <>
-              {canChangeDepartureGate && (
-                <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureGate")}>
-                  <HiOutlineLocationMarker className="me-1.5" />
-                  {departureGate ? "Change gate" : "Set gate"}
-                </Button>
-              )}
-              {canChangeDepartureRunway && (
-                <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureRunway")}>
-                  <LuArrowDownToLine className="me-1.5 rotate-180" />
-                  {departureRunway ? "Change runway" : "Set runway"}
-                </Button>
-              )}
-            </>
-          )
+          <>
+            {canChangeDepartureGate && (
+              <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureGate")}>
+                <HiOutlineLocationMarker className="me-1.5" />
+                {departureGate ? "Change gate" : "Set gate"}
+              </Button>
+            )}
+            {canChangeDepartureRunway && (
+              <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureRunway")}>
+                <LuArrowDownToLine className="me-1.5 rotate-180" />
+                {departureRunway ? "Change runway" : "Set runway"}
+              </Button>
+            )}
+            <Link
+              to={`/airports/${flight.departureAirport.id}/overview`}
+              viewTransition
+              className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+            >
+              View airport
+              <FaArrowRight size={12} />
+            </Link>
+          </>
         }
       />
       <AirportEndpointCard
@@ -168,22 +174,28 @@ export default function FlightOverviewRoute() {
           </>
         }
         actions={
-          (canChangeArrivalRunway || canChangeArrivalGate) && (
-            <>
-              {canChangeArrivalGate && (
-                <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalGate")}>
-                  <HiOutlineLocationMarker className="me-1.5" />
-                  {arrivalGate ? "Change gate" : "Set gate"}
-                </Button>
-              )}
-              {canChangeArrivalRunway && (
-                <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalRunway")}>
-                  <LuArrowDownToLine className="me-1.5" />
-                  {arrivalRunway ? "Change runway" : "Set runway"}
-                </Button>
-              )}
-            </>
-          )
+          <>
+            {canChangeArrivalGate && (
+              <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalGate")}>
+                <HiOutlineLocationMarker className="me-1.5" />
+                {arrivalGate ? "Change gate" : "Set gate"}
+              </Button>
+            )}
+            {canChangeArrivalRunway && (
+              <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalRunway")}>
+                <LuArrowDownToLine className="me-1.5" />
+                {arrivalRunway ? "Change runway" : "Set runway"}
+              </Button>
+            )}
+            <Link
+              to={`/airports/${flight.destinationAirport.id}/overview`}
+              viewTransition
+              className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+            >
+              View airport
+              <FaArrowRight size={12} />
+            </Link>
+          </>
         }
       />
       <LoadsheetCard

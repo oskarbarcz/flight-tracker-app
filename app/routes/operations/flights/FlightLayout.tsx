@@ -8,9 +8,8 @@ import { FlightTabs } from "~/components/flight/Header/FlightTabs";
 import { ReleaseFlightModal } from "~/components/flight/Modal/ReleaseFlightModal";
 import { RemoveFlightModal } from "~/components/flight/Modal/RemoveFlightModal";
 import { UpdateTrackingModal } from "~/components/flight/Modal/UpdateTrackingModal";
-import { Container } from "~/components/shared/Layout/Container";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
-import type { Flight, Tracking } from "~/models";
+import { type Flight, FlightSource, type Tracking } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
 import { useToast } from "~/state/app/context/useToast";
@@ -95,15 +94,15 @@ export default function FlightLayout() {
 
   return (
     <>
-      <Container className="mb-3">
+      <div className="mb-3">
         <FlightHeader
           flight={flight}
           onRelease={() => setReleasePending(true)}
           onRemove={() => setRemovePending(true)}
           onUpdateTracking={() => setTrackingPending(true)}
         />
-      </Container>
-      <FlightTabs id={flight.id} />
+      </div>
+      <FlightTabs id={flight.id} showOfp={flight.source === FlightSource.SimBrief} />
       <Outlet />
 
       {releasePending && (
