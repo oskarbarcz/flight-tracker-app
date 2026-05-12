@@ -9,13 +9,15 @@ import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMa
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import type { FlightPathElement } from "~/models";
+import type { Flight, FlightPathElement } from "~/models";
 import type { Position } from "~/models/common/geo";
 import { useApi } from "~/state/api/context/useApi";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-export function HistoryFlightMap() {
-  const { flight } = useTrackedFlight();
+type Props = {
+  flight: Flight;
+};
+
+export function HistoryFlightMap({ flight }: Props) {
   const { flightService } = useApi();
   const leafletMapOptions = {
     padding: [80, 80],
@@ -25,14 +27,8 @@ export function HistoryFlightMap() {
   const [flightPath, setFlightPath] = useState<FlightPathElement[]>([]);
 
   useEffect(() => {
-    if (!flight) return;
-
     flightService.fetchFlightPath(flight.id).then(setFlightPath);
-  }, [flight, flightService]);
-
-  if (!flight) {
-    return null;
-  }
+  }, [flight.id, flightService]);
 
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
   const pathPoints: Position[] = flightPath.map((p) => [p.latitude, p.longitude]);

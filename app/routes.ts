@@ -9,7 +9,11 @@ export default [
   index("routes/public/LandingRoute.tsx"),
   layout("routes/AppLayout.tsx", [
     route("dashboard", "routes/common/DashboardRoute.tsx"),
-    layout("routes/pilot/PilotLayout.tsx", [route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx")]),
+    layout("routes/pilot/PilotLayout.tsx", [
+      route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
+      route("flight-history", "routes/pilot/history/FlightHistoryListRoute.tsx"),
+      route("flight-history/:id", "routes/pilot/history/FlightHistoryRoute.tsx"),
+    ]),
     layout("routes/operations/OperationsLayout.tsx", [
       // operations - operators
       route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),

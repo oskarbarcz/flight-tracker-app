@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { HistoryFlightMap } from "~/components/flight/Map/Box/HistoryFlightMap";
 import { MapLinkOverlay } from "~/components/flight/Map/Box/Overlay/MapLinkOverlay";
 import { MapPreviewStatusOverlay } from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
 import { TrackingFlightMap } from "~/components/flight/Map/Box/TrackingFlightMap";
@@ -49,15 +48,13 @@ export function MapBox({ className }: MapBoxProps) {
     return null;
   }
 
-  const poll = shouldPollForAdsbData(flight.status);
   const isVisibleForOthers = flight.tracking !== Tracking.Disabled;
 
   return (
     <Container className={className} padding="none">
       <div className="relative w-full h-full">
         <MapSettingsProvider>
-          {poll && <TrackingFlightMap />}
-          {!poll && <HistoryFlightMap />}
+          <TrackingFlightMap />
           <MapPreviewStatusOverlay />
           {isVisibleForOthers && <MapLinkOverlay />}
           <MapBottomDrawer size="sm" />
