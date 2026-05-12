@@ -30,7 +30,6 @@ export function FlightTimerBox() {
     FlightStatus.OnBlock,
     FlightStatus.OffboardingStarted,
     FlightStatus.OffboardingFinished,
-    FlightStatus.Closed,
   ].includes(flight.status);
 
   return (
