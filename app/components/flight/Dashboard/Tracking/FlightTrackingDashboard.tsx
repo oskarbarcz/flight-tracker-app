@@ -16,7 +16,13 @@ type Props = {
 export function FlightTrackingDashboard({ flightId }: Props) {
   const { flight, setFlightId } = useTrackedFlight();
   const [tab, setTab] = useState<FlightDataTab>(FlightDataTab.Overview);
-  usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
+  usePageTitle(
+    flight
+      ? flight.status === FlightStatus.Closed
+        ? `Flight history · ${flight.flightNumber}`
+        : `Tracking flight ${flight.flightNumber}`
+      : "Tracking",
+  );
 
   useEffect(() => {
     setFlightId(flightId);

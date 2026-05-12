@@ -2,6 +2,8 @@ import React, { createContext, type ReactNode, useCallback, useContext, useEffec
 import type { FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 
+const TRACKED_FLIGHT_REFRESH_INTERVAL_MS = 10_000;
+
 type State = {
   flightId: string | null;
   events: FlightEvent[];
@@ -83,20 +85,26 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     dispatch({ type: "SET_FLIGHT_ID", payload: flightId });
   }, []);
 
-  const loadFlight = useCallback(async () => {
-    if (!state.flightId) return;
-    dispatch({ type: "SET_LOADING", payload: true });
-    const updatedFlight = await flightService.fetchById(state.flightId);
-    const events = await flightService.fetchEventsByFlightId(state.flightId);
-    dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
-    dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: events });
-    dispatch({ type: "SET_LOADING", payload: false });
-  }, [flightService, state.flightId]);
+  const loadFlight = useCallback(
+    async ({ silent = false }: { silent?: boolean } = {}) => {
+      if (!state.flightId) return;
+      if (!silent) dispatch({ type: "SET_LOADING", payload: true });
+      const updatedFlight = await flightService.fetchById(state.flightId);
+      const events = await flightService.fetchEventsByFlightId(state.flightId);
+      dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
+      dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: events });
+      if (!silent) dispatch({ type: "SET_LOADING", payload: false });
+    },
+    [flightService, state.flightId],
+  );
 
   useEffect(() => {
-    if (state.flightId) {
-      loadFlight();
-    }
+    if (!state.flightId) return;
+    loadFlight();
+    const interval = setInterval(() => {
+      loadFlight({ silent: true });
+    }, TRACKED_FLIGHT_REFRESH_INTERVAL_MS);
+    return () => clearInterval(interval);
   }, [loadFlight, state.flightId]);
 
   // All domain actions now in context
