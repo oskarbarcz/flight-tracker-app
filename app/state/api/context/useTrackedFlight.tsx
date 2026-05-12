@@ -1,8 +1,14 @@
-import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer } from "react";
+import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer, useRef } from "react";
 import type { FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 
 const TRACKED_FLIGHT_REFRESH_INTERVAL_MS = 10_000;
+
+function eventsListChanged(a: FlightEvent[], b: FlightEvent[]): boolean {
+  if (a.length !== b.length) return true;
+  if (a.length === 0) return false;
+  return a[0].id !== b[0].id;
+}
 
 type State = {
   flightId: string | null;
@@ -98,14 +104,35 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     [flightService, state.flightId],
   );
 
+  // Keep a stable reference to the latest events so pollEvents doesn't need
+  // them in its dependency list (which would restart the interval on every
+  // events update).
+  const eventsRef = useRef<FlightEvent[]>(state.events);
+  useEffect(() => {
+    eventsRef.current = state.events;
+  }, [state.events]);
+
+  /**
+   * Cheap poll: fetch only events. If the list hasn't changed, do nothing —
+   * the flight hasn't changed either. If it has, update events and pull the
+   * fresh flight.
+   */
+  const pollEvents = useCallback(async () => {
+    if (!state.flightId) return;
+    const fresh = await flightService.fetchEventsByFlightId(state.flightId);
+    if (!eventsListChanged(fresh, eventsRef.current)) return;
+
+    dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: fresh });
+    const updatedFlight = await flightService.fetchById(state.flightId);
+    dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
+  }, [flightService, state.flightId]);
+
   useEffect(() => {
     if (!state.flightId) return;
     loadFlight();
-    const interval = setInterval(() => {
-      loadFlight({ silent: true });
-    }, TRACKED_FLIGHT_REFRESH_INTERVAL_MS);
+    const interval = setInterval(pollEvents, TRACKED_FLIGHT_REFRESH_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [loadFlight, state.flightId]);
+  }, [loadFlight, pollEvents, state.flightId]);
 
   // All domain actions now in context
   const checkIn = useCallback(
