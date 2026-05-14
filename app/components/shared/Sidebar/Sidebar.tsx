@@ -1,18 +1,21 @@
 import { Drawer, DrawerItems } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { HiMenu } from "react-icons/hi";
-import { SidebarDivider } from "~/components/shared/Sidebar/Elements/SidebarDivider";
-import { SidebarLogo } from "~/components/shared/Sidebar/Elements/SidebarLogo";
-import { SidebarSignOutElement } from "~/components/shared/Sidebar/Elements/SidebarSignOutElement";
-import { SidebarThemeSwitch } from "~/components/shared/Sidebar/Elements/SidebarThemeSwitch";
-import { SidebarUserSection } from "~/components/shared/Sidebar/Elements/SidebarUserSection";
+import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
 import { CabinCrewSidebarItems } from "~/components/shared/Sidebar/Items/CabinCrewSidebarItems";
 import { OperatorSidebarItems } from "~/components/shared/Sidebar/Items/OperationsSidebarItems";
+import { TopBarLogo } from "~/components/shared/TopBar/TopBarLogo";
 import { UserRole } from "~/models";
 import { useAuth } from "~/state/api/context/useAuth";
 
-export function Sidebar() {
-  const { user } = useAuth();
+type SidebarDrawerContextValue = {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+};
+
+const SidebarDrawerContext = createContext<SidebarDrawerContextValue | null>(null);
+
+export function SidebarDrawerProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -27,54 +30,79 @@ export function Sidebar() {
     };
   }, [isOpen]);
 
+  const value = useMemo(
+    () => ({
+      isOpen,
+      open: () => setIsOpen(true),
+      close: () => setIsOpen(false),
+    }),
+    [isOpen],
+  );
+
+  return <SidebarDrawerContext.Provider value={value}>{children}</SidebarDrawerContext.Provider>;
+}
+
+function useSidebarDrawer(): SidebarDrawerContextValue {
+  const ctx = useContext(SidebarDrawerContext);
+  if (!ctx) {
+    throw new Error("useSidebarDrawer must be used within a SidebarDrawerProvider");
+  }
+  return ctx;
+}
+
+export function SidebarMobileTrigger() {
+  const { open } = useSidebarDrawer();
+
+  return (
+    <button
+      type="button"
+      onClick={open}
+      aria-label="Open menu"
+      className="p-2 text-gray-500 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700"
+    >
+      <HiMenu size={24} />
+    </button>
+  );
+}
+
+export function Sidebar() {
+  const { user } = useAuth();
+  const { isOpen, close } = useSidebarDrawer();
+
   if (user === null) {
     return <div>Loading...</div>;
   }
 
-  const sidebarContent = (closeDrawer?: () => void) => (
+  const navItems = (
     <>
-      <div className="flex flex-col h-full">
-        <div role="presentation" onClickCapture={closeDrawer}>
-          <SidebarLogo />
-          <SidebarDivider />
-          <SidebarUserSection />
-
-          {user.role === UserRole.Operations && <OperatorSidebarItems />}
-          {user.role === UserRole.CabinCrew && <CabinCrewSidebarItems />}
-        </div>
-
-        <div className="mt-auto">
-          <SidebarDivider />
-          <nav className="flex flex-col gap-y-1 p-6">
-            <SidebarThemeSwitch />
-            <SidebarSignOutElement />
-          </nav>
-        </div>
-      </div>
+      {user.role === UserRole.Operations && <OperatorSidebarItems />}
+      {user.role === UserRole.CabinCrew && <CabinCrewSidebarItems />}
     </>
   );
 
   return (
     <>
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <SidebarLogo />
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 text-gray-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700"
-        >
-          <HiMenu size={24} />
-        </button>
-      </div>
-
-      <Drawer open={isOpen} onClose={() => setIsOpen(false)} className="bg-white dark:bg-gray-900 w-80">
+      <Drawer open={isOpen} onClose={close} className="bg-gray-100 dark:bg-gray-900 w-80">
         <DrawerItems className="flex flex-col h-full overflow-y-auto">
-          {sidebarContent(() => setIsOpen(false))}
+          <div className="flex items-center justify-between px-3 py-3 mb-2">
+            <TopBarLogo />
+            <button
+              type="button"
+              onClick={close}
+              aria-label="Close menu"
+              className="p-2 text-gray-500 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700"
+            >
+              <HiX size={20} />
+            </button>
+          </div>
+          <div role="presentation" onClickCapture={close} className="px-3">
+            {navItems}
+          </div>
         </DrawerItems>
       </Drawer>
 
-      <aside className="hidden md:flex w-75 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 sticky top-0 h-screen">
-        <div className="flex flex-col h-full overflow-y-auto">{sidebarContent()}</div>
+      <aside className="hidden md:flex w-60 flex-col text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-900 pl-3 pb-3 md:pl-5 md:pb-5 overflow-y-auto">
+        {navItems}
       </aside>
     </>
   );

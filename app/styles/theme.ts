@@ -22,8 +22,14 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     tabs: {
       tablist: {
+        base: "flex flex-nowrap overflow-x-auto text-center",
+        variant: {
+          default: "flex-nowrap overflow-x-auto border-b border-gray-200 dark:border-gray-700",
+          underline: "flex-nowrap overflow-x-auto -mb-px border-b border-gray-200 dark:border-gray-700",
+          pills: "flex-nowrap overflow-x-auto space-x-2 text-sm font-medium text-gray-500 dark:text-gray-400",
+        },
         tabitem: {
-          base: "cursor-pointer",
+          base: "cursor-pointer shrink-0 whitespace-nowrap",
           variant: {
             underline: {
               active: {
@@ -36,13 +42,13 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     table: {
       head: {
-        base: "border-gray-200 dark:bg-gray-800 dark:text-gray-200",
+        base: "border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200",
         cell: {
-          base: "dark:bg-gray-800",
+          base: "bg-gray-100 dark:bg-gray-800",
         },
       },
       row: {
-        base: "whitespace-nowrap border-gray-200 dark:bg-gray-900 dark:border-gray-800",
+        base: "whitespace-nowrap border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-800",
       },
     },
     tooltip: {

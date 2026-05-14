@@ -7,7 +7,7 @@ export function CabinCrewSidebarItems() {
   const path = useLocation().pathname;
 
   return (
-    <nav className="flex flex-col gap-y-1 p-6">
+    <nav className="flex flex-col gap-y-1">
       <SidebarElement label="Home" href="/" isSelected={path === "/"} icon={HiHome} />
       <SidebarElement
         label="Flight history"
