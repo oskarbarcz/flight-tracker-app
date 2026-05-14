@@ -10,8 +10,8 @@ export class RotationService extends AbstractAuthorizedApiService {
     return this.fetchWithAuth<GetRotationResponse[]>(`/api/v1/operator/${operatorId}/rotation`);
   }
 
-  async fetchById(id: string) {
-    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/rotation/${id}`);
+  async fetchById(operatorId: string, rotationId: string) {
+    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation/${rotationId}`);
   }
 
   async create(operatorId: string, data: CreateRotationRequest) {
@@ -21,15 +21,15 @@ export class RotationService extends AbstractAuthorizedApiService {
     });
   }
 
-  async update(id: string, data: EditRotationRequest) {
-    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/rotation/${id}`, {
+  async update(operatorId: string, rotationId: string, data: EditRotationRequest) {
+    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation/${rotationId}`, {
       body: JSON.stringify(data),
       method: "PATCH",
     });
   }
 
-  async remove(id: string) {
-    await this.fetchWithAuth<GetRotationResponse>(`/api/v1/rotation/${id}`, {
+  async remove(operatorId: string, rotationId: string) {
+    await this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation/${rotationId}`, {
       method: "DELETE",
     });
   }

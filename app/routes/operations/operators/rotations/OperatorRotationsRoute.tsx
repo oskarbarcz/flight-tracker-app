@@ -23,8 +23,8 @@ export default function OperatorRotationsRoute({ params }: Route.ComponentProps)
 
   const [rotationToRemove, setRotationToRemove] = useState<GetRotationResponse | null>(null);
 
-  const removeRotation = async (flightId: string) => {
-    await rotationService.remove(flightId);
+  const removeRotation = async (rotationId: string) => {
+    await rotationService.remove(params.operatorId, rotationId);
     setRotationToRemove(null);
   };
 
