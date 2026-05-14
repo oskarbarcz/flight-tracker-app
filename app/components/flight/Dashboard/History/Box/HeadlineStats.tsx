@@ -52,17 +52,23 @@ const TONE: Record<Tone, { ring: string; iconBg: string; iconFg: string; value: 
 };
 
 export function HeadlineStats({ flight }: Props) {
-  const { scheduled, actual } = flight.timesheet;
+  const { scheduled, estimated, actual } = flight.timesheet;
   const actualFilled = isFilled(actual) ? actual : null;
 
-  const scheduledBlock = durationMinutes(scheduled.offBlockTime, scheduled.onBlockTime);
-  const scheduledAir = durationMinutes(scheduled.takeoffTime, scheduled.arrivalTime);
+  // Compare against the revised flight plan (estimated) when it exists; fall
+  // back to the originally scheduled plan if no estimate was filed.
+  const baseline = estimated ?? scheduled;
+  const baselineLabel = estimated ? "Estimated" : "Scheduled";
+  const baselineLowercase = estimated ? "estimated" : "scheduled";
+
+  const baselineBlock = durationMinutes(baseline.offBlockTime, baseline.onBlockTime);
+  const baselineAir = durationMinutes(baseline.takeoffTime, baseline.arrivalTime);
 
   const actualBlock = actualFilled ? durationMinutes(actualFilled.offBlockTime, actualFilled.onBlockTime) : null;
   const actualAir = actualFilled ? durationMinutes(actualFilled.takeoffTime, actualFilled.arrivalTime) : null;
 
   const arrivalDeltaMin = actualFilled
-    ? Math.round((actualFilled.onBlockTime.getTime() - scheduled.onBlockTime.getTime()) / 60_000)
+    ? Math.round((actualFilled.onBlockTime.getTime() - baseline.onBlockTime.getTime()) / 60_000)
     : null;
 
   return (
@@ -72,16 +78,16 @@ export function HeadlineStats({ flight }: Props) {
         tone="indigo"
         label="Block time"
         value={actualBlock !== null ? formatHm(actualBlock) : "—"}
-        sub={actualBlock !== null ? `Scheduled ${formatHm(scheduledBlock)}` : `Scheduled ${formatHm(scheduledBlock)}`}
+        sub={`${baselineLabel} ${formatHm(baselineBlock)}`}
       />
       <Tile
         icon={FaPlane}
         tone="indigo"
         label="Air time"
         value={actualAir !== null ? formatHm(actualAir) : "—"}
-        sub={actualAir !== null ? `Scheduled ${formatHm(scheduledAir)}` : `Scheduled ${formatHm(scheduledAir)}`}
+        sub={`${baselineLabel} ${formatHm(baselineAir)}`}
       />
-      <ArrivalTile deltaMin={arrivalDeltaMin} />
+      <ArrivalTile deltaMin={arrivalDeltaMin} baselineLabel={baselineLowercase} />
     </div>
   );
 }
@@ -114,7 +120,7 @@ function Tile({
   );
 }
 
-function ArrivalTile({ deltaMin }: { deltaMin: number | null }) {
+function ArrivalTile({ deltaMin, baselineLabel }: { deltaMin: number | null; baselineLabel: string }) {
   if (deltaMin === null) {
     return <Tile icon={FaQuestionCircle} tone="gray" label="Arrival" value="—" sub="No actual times recorded" />;
   }
@@ -124,7 +130,15 @@ function ArrivalTile({ deltaMin }: { deltaMin: number | null }) {
   const late = deltaMin > 5;
 
   if (onTime) {
-    return <Tile icon={FaCheckCircle} tone="emerald" label="Arrival" value="On time" sub={deltaLabel(deltaMin)} />;
+    return (
+      <Tile
+        icon={FaCheckCircle}
+        tone="emerald"
+        label="Arrival"
+        value="On time"
+        sub={deltaLabel(deltaMin, baselineLabel)}
+      />
+    );
   }
   if (late) {
     return (
@@ -133,7 +147,7 @@ function ArrivalTile({ deltaMin }: { deltaMin: number | null }) {
         tone="amber"
         label="Arrival"
         value={`${deltaMin}m late`}
-        sub="vs. scheduled on-block"
+        sub={`vs. ${baselineLabel} on-block`}
       />
     );
   }
@@ -143,12 +157,12 @@ function ArrivalTile({ deltaMin }: { deltaMin: number | null }) {
       tone="emerald"
       label="Arrival"
       value={`${Math.abs(deltaMin)}m early`}
-      sub="vs. scheduled on-block"
+      sub={`vs. ${baselineLabel} on-block`}
     />
   );
 }
 
-function deltaLabel(deltaMin: number): string {
-  if (deltaMin === 0) return "exactly on schedule";
-  return `${deltaMin > 0 ? "+" : ""}${deltaMin}m vs. scheduled`;
+function deltaLabel(deltaMin: number, baselineLabel: string): string {
+  if (deltaMin === 0) return `exactly on ${baselineLabel}`;
+  return `${deltaMin > 0 ? "+" : ""}${deltaMin}m vs. ${baselineLabel}`;
 }

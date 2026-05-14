@@ -3,17 +3,12 @@ import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import type { CreateAircraftRequest, EditAircraftRequest } from "~/state/api/request/operator.request";
 
 export class AircraftService extends AbstractAuthorizedApiService {
-  /** @deprecated Use `fetchAllByOperator` instead */
-  async fetchAll(): Promise<Aircraft[]> {
-    return this.fetchWithAuth<Aircraft[]>("/api/v1/aircraft");
-  }
-
-  async fetchAllByOperator(operatorId: string) {
+  async fetchAll(operatorId: string): Promise<Aircraft[]> {
     return this.fetchWithAuth<Aircraft[]>(`/api/v1/operator/${operatorId}/aircraft`);
   }
 
-  async fetchById(id: string) {
-    return this.fetchWithAuth<Aircraft>(`/api/v1/aircraft/${id}`);
+  async fetchById(operatorId: string, aircraftId: string): Promise<Aircraft> {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}`);
   }
 
   async createNew(operatorId: string, data: CreateAircraftRequest) {

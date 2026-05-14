@@ -36,7 +36,7 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const aircraft = await new AircraftService().fetchById(params.aircraftId);
+  const aircraft = await new AircraftService().fetchById(params.operatorId, params.aircraftId);
   return { aircraft };
 }
 

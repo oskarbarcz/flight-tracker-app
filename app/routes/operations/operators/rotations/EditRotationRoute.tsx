@@ -24,11 +24,14 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
   const form = await request.formData();
   const rotation = getFormData<EditRotationRequest>(form, ["name", "pilotId"]);
 
-  return rotationService.update(params.rotationId, rotation).then(handleRequestSuccess).catch(handleRequestError);
+  return rotationService
+    .update(params.operatorId, params.rotationId, rotation)
+    .then(handleRequestSuccess)
+    .catch(handleRequestError);
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const rotation = await new RotationService().fetchById(params.rotationId);
+  const rotation = await new RotationService().fetchById(params.operatorId, params.rotationId);
   return { rotation };
 }
 
@@ -58,7 +61,7 @@ export default function EditRotationRoute({ params }: Route.ComponentProps) {
 
   const updateLegs = async () => {
     const rotationService = new RotationService();
-    await rotationService.fetchById(rotation.id);
+    await rotationService.fetchById(params.operatorId, rotation.id);
   };
 
   const handleSubmit = (values: EditRotationRequest) => {

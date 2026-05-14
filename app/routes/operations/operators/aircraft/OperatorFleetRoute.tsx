@@ -12,7 +12,7 @@ import { OperatorService } from "~/state/api/operator.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [aircrafts, operator] = await Promise.all([
-    new AircraftService().fetchAllByOperator(params.operatorId),
+    new AircraftService().fetchAll(params.operatorId),
     new OperatorService().fetchById(params.operatorId),
   ]);
 

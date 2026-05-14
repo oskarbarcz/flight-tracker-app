@@ -1,5 +1,6 @@
 "use client";
 
+import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { FormSection } from "~/components/shared/Form/FormSection";
 import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
@@ -30,12 +31,37 @@ function optionsFromAircrafts(aircrafts: Aircraft[]) {
   }));
 }
 
+function AircraftSelectBlock({ disabled }: { disabled: boolean }) {
+  const { aircraftService } = useApi();
+  const { values, setFieldValue } = useFormikContext<FormData>();
+  const [aircrafts, setAircrafts] = useState<Aircraft[]>([]);
+  const operatorId = values.operatorId;
+
+  useEffect(() => {
+    if (!operatorId) {
+      setAircrafts([]);
+      return;
+    }
+    aircraftService.fetchAll(operatorId).then(setAircrafts);
+    setFieldValue("aircraftId", "");
+  }, [operatorId, aircraftService, setFieldValue]);
+
+  return (
+    <ManagedSelectBlock
+      className="basis-[calc(50%-0.5rem)]"
+      field="aircraftId"
+      label="Aircraft"
+      disabled={disabled || !operatorId}
+      options={optionsFromAircrafts(aircrafts)}
+    />
+  );
+}
+
 export function FlightIdentityFormSection({ data, onSubmit }: Props) {
   const [initialValues, setInitialValues] = useState<FormData>(data);
   const [isEditable, setIsEditable] = useState<boolean>(true);
   const [operators, setOperators] = useState<Operator[]>([]);
-  const [aircrafts, setAircrafts] = useState<Aircraft[]>([]);
-  const { operatorService, aircraftService } = useApi();
+  const { operatorService } = useApi();
 
   useEffect(() => {
     setInitialValues(data);
@@ -43,8 +69,7 @@ export function FlightIdentityFormSection({ data, onSubmit }: Props) {
 
   useEffect(() => {
     operatorService.fetchAll().then(setOperators);
-    aircraftService.fetchAll().then(setAircrafts);
-  }, [operatorService, aircraftService]);
+  }, [operatorService]);
 
   return (
     <FormSection<FormData>
@@ -78,13 +103,7 @@ export function FlightIdentityFormSection({ data, onSubmit }: Props) {
           disabled={!isEditable}
           options={optionsFromOperators(operators)}
         />
-        <ManagedSelectBlock
-          className="basis-[calc(50%-0.5rem)]"
-          field="aircraftId"
-          label="Aircraft"
-          disabled={!isEditable}
-          options={optionsFromAircrafts(aircrafts)}
-        />
+        <AircraftSelectBlock disabled={!isEditable} />
       </div>
     </FormSection>
   );
