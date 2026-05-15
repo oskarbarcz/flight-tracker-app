@@ -1,6 +1,7 @@
 import { TableCell, TableRow } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
@@ -39,7 +40,15 @@ export function FlightListElement({ flight }: Props) {
         </span>
       </TableCell>
       <TableCell>
-        <span className="font-bold text-indigo-500">{toHuman.flight.status.standard(flight.status)}</span>
+        <div className="flex flex-col items-start gap-1">
+          <span className="font-bold text-indigo-500">{toHuman.flight.status.standard(flight.status)}</span>
+          {flight.hasActiveEmergency && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-red-600 px-2 py-0.5 text-xs font-bold uppercase tracking-widest text-white">
+              <FaTriangleExclamation />
+              Emergency
+            </span>
+          )}
+        </div>
       </TableCell>
       <TableCell>
         <Link className="block text-primary-500 font-bold" to={`/flights/${flight.id}/overview`} viewTransition>

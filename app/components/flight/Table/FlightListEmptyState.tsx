@@ -17,6 +17,7 @@ type FlightListEmptyStateProps = {
 };
 
 const messages = {
+  [FlightPhase.Emergency]: "No flights with active emergencies.",
   [FlightPhase.Upcoming]: "No upcoming flights found.",
   [FlightPhase.Ongoing]: "No ongoing flights found.",
   [FlightPhase.Finished]: "No finished flights found.",

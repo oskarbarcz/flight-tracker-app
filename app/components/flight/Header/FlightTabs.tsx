@@ -9,14 +9,16 @@ const ALL_TABS = [
   { title: "Timesheet", path: "timesheet" },
   { title: "Loadsheet", path: "loadsheet" },
   { title: "OFP", path: "ofp" },
+  { title: "Emergencies", path: "emergencies" },
 ];
 
 type Props = {
   id: string;
   showOfp: boolean;
+  hasActiveEmergency: boolean;
 };
 
-export function FlightTabs({ id, showOfp }: Props) {
+export function FlightTabs({ id, showOfp, hasActiveEmergency }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -30,10 +32,19 @@ export function FlightTabs({ id, showOfp }: Props) {
     });
   };
 
+  const renderTitle = (tab: { title: string; path: string }): React.ReactNode => {
+    if (tab.path !== "emergencies") return tab.title;
+    return hasActiveEmergency ? (
+      <span className="text-red-600 dark:text-red-500 font-semibold">{tab.title}</span>
+    ) : (
+      tab.title
+    );
+  };
+
   return (
     <Tabs key={activeIndex} variant="underline" className="mt-1.5" onActiveTabChange={onClick}>
       {tabs.map((tab, i) => (
-        <TabItem key={tab.path} title={tab.title} active={activeIndex === i} />
+        <TabItem key={tab.path} title={renderTitle(tab)} active={activeIndex === i} />
       ))}
     </Tabs>
   );

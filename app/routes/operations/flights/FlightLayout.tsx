@@ -3,6 +3,7 @@
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightLayout";
 import React, { useEffect, useState } from "react";
 import { Outlet, useLoaderData, useNavigate, useRevalidator } from "react-router";
+import { EmergencyInProgressAlert } from "~/components/flight/Header/EmergencyInProgressAlert";
 import { FlightHeader } from "~/components/flight/Header/FlightHeader";
 import { FlightTabs } from "~/components/flight/Header/FlightTabs";
 import { ReleaseFlightModal } from "~/components/flight/Modal/ReleaseFlightModal";
@@ -11,6 +12,7 @@ import { UpdateTrackingModal } from "~/components/flight/Modal/UpdateTrackingMod
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { type Flight, FlightSource, type Tracking } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import { TrackedFlightProvider, useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { FlightService } from "~/state/api/flight.service";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { useToast } from "~/state/app/context/useToast";
@@ -48,11 +50,12 @@ export const handle: TopNavRouteHandle = {
   },
 };
 
-export default function FlightLayout() {
+function FlightLayoutContent() {
   const { flight } = useLoaderData<typeof clientLoader>();
   const { flightService } = useApi();
   const { success, error } = useToast();
   const { markRefreshed } = useDataRefresh();
+  const { activeEmergency, setFlightId } = useTrackedFlight();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
 
@@ -61,6 +64,10 @@ export default function FlightLayout() {
   const [trackingPending, setTrackingPending] = useState(false);
 
   usePageTitle(`${flight.flightNumberWithoutSpaces} | Flight`);
+
+  useEffect(() => {
+    setFlightId(flight.id);
+  }, [flight.id, setFlightId]);
 
   useEffect(() => {
     markRefreshed();
@@ -100,6 +107,11 @@ export default function FlightLayout() {
 
   return (
     <>
+      {activeEmergency && (
+        <div className="mb-3">
+          <EmergencyInProgressAlert flightId={flight.id} />
+        </div>
+      )}
       <div className="mb-3">
         <FlightHeader
           flight={flight}
@@ -108,7 +120,11 @@ export default function FlightLayout() {
           onUpdateTracking={() => setTrackingPending(true)}
         />
       </div>
-      <FlightTabs id={flight.id} showOfp={flight.source === FlightSource.SimBrief} />
+      <FlightTabs
+        id={flight.id}
+        showOfp={flight.source === FlightSource.SimBrief}
+        hasActiveEmergency={activeEmergency !== null}
+      />
       <Outlet />
 
       {releasePending && (
@@ -121,5 +137,13 @@ export default function FlightLayout() {
         <UpdateTrackingModal flight={flight} update={handleUpdateTracking} cancel={() => setTrackingPending(false)} />
       )}
     </>
+  );
+}
+
+export default function FlightLayout() {
+  return (
+    <TrackedFlightProvider>
+      <FlightLayoutContent />
+    </TrackedFlightProvider>
   );
 }
