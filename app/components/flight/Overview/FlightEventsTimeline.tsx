@@ -5,9 +5,9 @@ import { FaListCheck } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { UserName } from "~/components/shared/User/UserName";
 import { toHuman } from "~/i18n/translate";
-import { type FlightEvent, FlightEventScope } from "~/models";
-import { useAuth } from "~/state/api/context/useAuth";
+import { type FlightEvent, FlightEventScope, isEmergencyEvent } from "~/models";
 
 type Props = {
   events: FlightEvent[];
@@ -26,7 +26,6 @@ const SCOPE_DOT: Record<FlightEventScope, string> = {
 };
 
 export function FlightEventsTimeline({ events }: Props) {
-  const { user } = useAuth();
   const [activeScopes, setActiveScopes] = useState<Set<FlightEventScope>>(
     new Set([FlightEventScope.User, FlightEventScope.Operations, FlightEventScope.System]),
   );
@@ -98,7 +97,13 @@ export function FlightEventsTimeline({ events }: Props) {
                 {i < filtered.length - 1 && (
                   <span className="absolute left-[5px] top-4 bottom-[-1.25rem] w-px bg-gray-200 dark:bg-gray-700" />
                 )}
-                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                <div
+                  className={
+                    isEmergencyEvent(event.type)
+                      ? "text-sm font-medium text-red-600 dark:text-red-500"
+                      : "text-sm font-medium text-gray-900 dark:text-white"
+                  }
+                >
                   {toHuman.flight.eventType(event.type)}
                 </div>
                 <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-xs text-gray-500 dark:text-gray-400">
@@ -108,10 +113,7 @@ export function FlightEventsTimeline({ events }: Props) {
                   {event.actor?.name && (
                     <>
                       <span aria-hidden>·</span>
-                      <span>
-                        {event.actor.name}
-                        {user?.id && event.actor.id === user.id && <span className="ms-1 text-indigo-500">(you)</span>}
-                      </span>
+                      <UserName user={event.actor} />
                     </>
                   )}
                 </div>

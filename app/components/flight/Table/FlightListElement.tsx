@@ -27,8 +27,7 @@ export function FlightListElement({ flight }: Props) {
       <TableCell>
         {flight.timesheet.scheduled.offBlockTime && (
           <>
-            <FormattedIcaoDate date={flight.timesheet.scheduled.takeoffTime} />
-            {" • "}
+            <FormattedIcaoDate date={flight.timesheet.scheduled.takeoffTime} />{" "}
             <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
           </>
         )}

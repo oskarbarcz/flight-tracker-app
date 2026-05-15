@@ -159,6 +159,17 @@ export enum FlightEventType {
   OffboardingWasFinished = "flight.offboarding-finished",
   FlightWasClosed = "flight.closed",
   FlightTrackWasSaved = "flight.track-saved",
+  EmergencyWasDeclared = "flight.emergency-declared",
+  EmergencyWasUpdated = "flight.emergency-updated",
+  EmergencyWasResolved = "flight.emergency-resolved",
+}
+
+export function isEmergencyEvent(type: FlightEventType): boolean {
+  return (
+    type === FlightEventType.EmergencyWasDeclared ||
+    type === FlightEventType.EmergencyWasUpdated ||
+    type === FlightEventType.EmergencyWasResolved
+  );
 }
 
 export type FlightEvent = {
