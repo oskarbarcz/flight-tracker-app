@@ -1,13 +1,12 @@
 import React from "react";
+import { FaPlaneDeparture } from "react-icons/fa6";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 
 export function NextScheduledFlightBoxLoader() {
   return (
     <Container padding="condensed" className="animate-pulse">
-      <ContainerTitle>
-        <div className="h-5 w-40 bg-gray-200 dark:bg-gray-700 rounded" />
-      </ContainerTitle>
+      <ContainerTitle icon={FaPlaneDeparture} title="Next scheduled flight" />
 
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div className="w-full">

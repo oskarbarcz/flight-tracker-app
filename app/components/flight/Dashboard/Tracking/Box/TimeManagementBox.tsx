@@ -27,7 +27,7 @@ export function TimeManagementBox() {
   if (!flight) {
     return (
       <Container padding="condensed">
-        <ContainerTitle>Time management</ContainerTitle>
+        <ContainerTitle icon={FaClock} title="Time management" />
         <div className="min-h-25 flex items-center justify-center text-gray-500">
           <FaCircleInfo className="inline mr-2" />
           <span>Loading...</span>
@@ -38,7 +38,7 @@ export function TimeManagementBox() {
 
   return (
     <Container>
-      <ContainerTitle>Time management</ContainerTitle>
+      <ContainerTitle icon={FaClock} title="Time management" />
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Zulu time</span>

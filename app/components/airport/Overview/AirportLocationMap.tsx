@@ -4,7 +4,7 @@ import type { LatLngExpression } from "leaflet";
 import React from "react";
 import { CircleMarker, MapContainer } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { formatCoordinates } from "~/functions/formatGeo";
 import type { Airport } from "~/models";
 
@@ -17,7 +17,7 @@ export function AirportLocationMap({ airport }: Props) {
   const coordinates = formatCoordinates(airport.location.latitude, airport.location.longitude);
 
   return (
-    <Container padding="none" className="overflow-hidden h-full">
+    <TransparentContainer className="h-full">
       <div className="relative h-full min-h-72 w-full">
         <MapContainer
           center={position}
@@ -55,6 +55,6 @@ export function AirportLocationMap({ airport }: Props) {
           </a>
         </div>
       </div>
-    </Container>
+    </TransparentContainer>
   );
 }

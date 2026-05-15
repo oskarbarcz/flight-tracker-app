@@ -2,6 +2,7 @@
 
 import { Timeline, TimelineContent, TimelineItem, TimelinePoint, TimelineTime, TimelineTitle } from "flowbite-react";
 import React from "react";
+import { FaListCheck } from "react-icons/fa6";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
@@ -16,7 +17,7 @@ export function FlightLogBox({ className }: Props) {
 
   return (
     <Container className={className} padding="condensed">
-      <ContainerTitle>Flight log</ContainerTitle>
+      <ContainerTitle icon={FaListCheck} title="Flight log" />
       <div className="overflow-y-auto px-1 h-162 md:h-auto">
         <Timeline>
           {events.map((event) => (

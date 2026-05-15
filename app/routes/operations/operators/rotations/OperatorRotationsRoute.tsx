@@ -7,7 +7,7 @@ import { RemoveRotationModal } from "~/components/operator/Modal/RemoveRotationM
 import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
 import { RotationControls } from "~/components/operator/Table/RotationControls";
 import { RotationListTable } from "~/components/operator/Table/RotationListTable";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { useApi } from "~/state/api/context/useApi";
 import type { GetRotationResponse } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
@@ -35,9 +35,9 @@ export default function OperatorRotationsRoute({ params }: Route.ComponentProps)
   return (
     <>
       <RotationControls operatorId={params.operatorId} />
-      <Container className="overflow-x-auto" padding="none">
+      <TransparentContainer className="overflow-x-auto">
         <RotationListTable operatorId={params.operatorId} rotations={rotations} removeRotation={setRotationToRemove} />
-      </Container>
+      </TransparentContainer>
 
       {rotationToRemove && (
         <RemoveRotationModal

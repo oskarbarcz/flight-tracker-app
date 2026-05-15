@@ -44,11 +44,11 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       head: {
         base: "border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200",
         cell: {
-          base: "bg-gray-100 dark:bg-gray-800",
+          base: "bg-gray-50 dark:bg-gray-800",
         },
       },
       row: {
-        base: "whitespace-nowrap border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-800",
+        base: "whitespace-nowrap border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800",
       },
     },
     tooltip: {

@@ -1,13 +1,12 @@
 import React from "react";
+import { FaPlaneCircleCheck } from "react-icons/fa6";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 
 export function LastFlightBoxLoader() {
   return (
     <Container padding="condensed" className="animate-pulse">
-      <ContainerTitle>
-        <div className="h-5 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
-      </ContainerTitle>
+      <ContainerTitle icon={FaPlaneCircleCheck} title="Last flight" />
 
       <article className="mt-2 mb-6 rounded-xl">
         {[1, 2, 3, 4].map((i) => (

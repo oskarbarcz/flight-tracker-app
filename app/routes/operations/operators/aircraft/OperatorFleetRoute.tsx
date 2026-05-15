@@ -6,7 +6,7 @@ import { useLoaderData } from "react-router";
 import { AircraftListTable } from "~/components/operator/Table/AircraftListTable";
 import { FleetListEmptyState } from "~/components/operator/Table/EmptyState/FleetListEmptyState";
 import { FleetControls } from "~/components/operator/Table/FleetControls";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { OperatorService } from "~/state/api/operator.service";
 
@@ -38,9 +38,9 @@ export default function OperatorFleetRoute({ params }: Route.ComponentProps) {
   return (
     <div>
       <FleetControls operator={operator} type={selectedType} changeType={setSelectedType} />
-      <Container className="overflow-x-auto" padding="none">
+      <TransparentContainer className="overflow-x-auto">
         <AircraftListTable operatorId={params.operatorId} aircraft={filtered} />
-      </Container>
+      </TransparentContainer>
     </div>
   );
 }

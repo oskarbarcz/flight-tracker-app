@@ -107,7 +107,7 @@ type DataFieldProps = {
 
 function DataField({ label, value, mono = false }: DataFieldProps) {
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2">
+    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2">
       <div className="text-[10px] uppercase text-gray-500 tracking-wider font-medium">{label}</div>
       <div className={`text-sm font-bold text-gray-900 dark:text-gray-100 ${mono ? "font-mono" : ""}`}>{value}</div>
     </div>

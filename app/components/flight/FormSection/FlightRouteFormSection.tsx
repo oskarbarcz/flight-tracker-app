@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { FaRoute } from "react-icons/fa6";
 import { FormSection } from "~/components/shared/Form/FormSection";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import type { Airport } from "~/models";
@@ -42,6 +43,7 @@ export function FlightRouteFormSection({ data, onSubmit }: Props) {
       validationSchema={newFlightRouteSchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
+      icon={FaRoute}
       title="Route"
       onSubmit={onSubmit}
     >

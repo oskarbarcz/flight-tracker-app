@@ -55,18 +55,18 @@ export function TopBarUserTile() {
       <button
         type="button"
         aria-haspopup="menu"
-        className={`relative z-10 w-full flex items-center gap-2.5 shrink-0 rounded-2xl border ${BORDER} bg-white dark:bg-gray-950 pl-3 pr-6 py-2.5 select-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 group-hover:shadow-md group-focus-within:shadow-md group-hover:rounded-b-none group-focus-within:rounded-b-none group-hover:border-b-transparent group-focus-within:border-b-transparent transition-[border-radius,border-color,box-shadow] duration-200 ease-out`}
+        className={`relative z-10 w-full flex items-center gap-2.5 shrink-0 rounded-2xl border ${BORDER} bg-white dark:bg-gray-950 pl-3 pr-6 py-1.5 select-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 group-hover:shadow-md group-focus-within:shadow-md group-hover:rounded-b-none group-focus-within:rounded-b-none group-hover:border-b-transparent group-focus-within:border-b-transparent transition-[border-radius,border-color,box-shadow] duration-200 ease-out`}
       >
         <span className="flex items-center justify-center rounded-full size-7 font-bold text-[10px] text-white bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-sm">
           {getInitials(user.name)}
         </span>
-        <span className="flex flex-col text-left leading-tight">
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">{user.name}</span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">{roleToLabel(user.role)}</span>
-        </span>
+        <span className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">{user.name}</span>
       </button>
       <div className="absolute right-0 left-0 top-full z-20 opacity-0 invisible -translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-[opacity,transform] duration-200 ease-out">
-        <div className={`rounded-b-2xl border border-t-0 ${BORDER} bg-white dark:bg-gray-950 shadow-md overflow-hidden py-1`}>
+        <div className={`rounded-b-2xl border border-t-0 ${BORDER} bg-white dark:bg-gray-950 shadow-md overflow-hidden pb-1`}>
+          <div className={`px-4 py-2 border-b ${BORDER} text-sm text-gray-600 dark:text-gray-300 whitespace-nowrap`}>
+            {roleToLabel(user.role)}
+          </div>
           <button
             type="button"
             onClick={(e) => {

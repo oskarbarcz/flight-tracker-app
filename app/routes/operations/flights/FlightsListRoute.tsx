@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { FlightListEmptyState } from "~/components/flight/Table/FlightListEmptyState";
 import { FlightListTable } from "~/components/flight/Table/FlightListTable";
 import { FlightStatusTabs } from "~/components/flight/Table/Tabs/FlightStatusTabs";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { FlightPhase } from "~/models";
@@ -70,9 +70,9 @@ function FlightsListContent() {
       {flights.length === 0 && !listLoading ? (
         <FlightListEmptyState phase={currentPhase} onImport={handleImport} importLoading={loading} />
       ) : (
-        <Container padding="none">
+        <TransparentContainer>
           <FlightListTable phase={currentPhase} />
-        </Container>
+        </TransparentContainer>
       )}
     </>
   );

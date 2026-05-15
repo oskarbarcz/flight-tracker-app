@@ -6,7 +6,7 @@ import { MapContainer } from "react-leaflet";
 import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import type { Flight } from "~/models";
 
 type Props = {
@@ -20,7 +20,7 @@ export function RouteMap({ flight }: Props) {
   ]);
 
   return (
-    <Container padding="none" className="overflow-hidden h-full">
+    <TransparentContainer className="h-full">
       <div className="relative h-full min-h-72 w-full">
         <MapContainer
           bounds={bounds}
@@ -48,6 +48,6 @@ export function RouteMap({ flight }: Props) {
           </a>
         </div>
       </div>
-    </Container>
+    </TransparentContainer>
   );
 }

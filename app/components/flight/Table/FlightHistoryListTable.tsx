@@ -6,11 +6,13 @@ import { useSearchParams } from "react-router";
 import { FlightHistoryListElement } from "~/components/flight/Table/FlightHistoryListElement";
 import { type Flight, FlightPhase } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
 const PAGE_SIZE = 10;
 
 export function FlightHistoryListTable() {
   const { flightService } = useApi();
+  const { markRefreshed } = useDataRefresh();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -26,6 +28,7 @@ export function FlightHistoryListTable() {
         if (cancelled) return;
         setFlights(res.flights);
         setTotalCount(res.totalCount);
+        markRefreshed();
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -33,7 +36,7 @@ export function FlightHistoryListTable() {
     return () => {
       cancelled = true;
     };
-  }, [flightService, page]);
+  }, [flightService, page, markRefreshed]);
 
   const onPageChange = (newPage: number) => {
     const newParams = new URLSearchParams(searchParams);

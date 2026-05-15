@@ -20,7 +20,7 @@ export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">
-        <ContainerTitle>Next scheduled flight</ContainerTitle>
+        <ContainerTitle icon={FaPlaneDeparture} title="Next scheduled flight" />
         <ContainerEmptyState>
           <FaCircleInfo className="inline mr-2" />
           <span>No upcoming flights.</span>
@@ -31,7 +31,7 @@ export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
 
   return (
     <Container padding="condensed">
-      <ContainerTitle>Next scheduled flight</ContainerTitle>
+      <ContainerTitle icon={FaPlaneDeparture} title="Next scheduled flight" />
 
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div className="w-full">
