@@ -63,7 +63,9 @@ export function TopBarUserTile() {
         <span className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">{user.name}</span>
       </button>
       <div className="absolute right-0 left-0 top-full z-20 opacity-0 invisible -translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-[opacity,transform] duration-200 ease-out">
-        <div className={`rounded-b-2xl border border-t-0 ${BORDER} bg-white dark:bg-gray-950 shadow-md overflow-hidden pb-1`}>
+        <div
+          className={`rounded-b-2xl border border-t-0 ${BORDER} bg-white dark:bg-gray-950 shadow-md overflow-hidden pb-1`}
+        >
           <div className={`px-4 py-2 border-b ${BORDER} text-sm text-gray-600 dark:text-gray-300 whitespace-nowrap`}>
             {roleToLabel(user.role)}
           </div>

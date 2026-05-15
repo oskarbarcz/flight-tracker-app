@@ -12,8 +12,8 @@ import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { type Flight, FlightSource, type Tracking } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
-import { useToast } from "~/state/app/context/useToast";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
+import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -64,7 +64,7 @@ export default function FlightLayout() {
 
   useEffect(() => {
     markRefreshed();
-  }, [markRefreshed, flight]);
+  }, [markRefreshed]);
 
   const handleRelease = async (flightId: string) => {
     try {

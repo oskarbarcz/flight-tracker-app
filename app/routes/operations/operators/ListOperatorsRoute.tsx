@@ -27,7 +27,7 @@ export default function ListOperatorsRoute() {
 
   useEffect(() => {
     markRefreshed();
-  }, [markRefreshed, operators]);
+  }, [markRefreshed]);
 
   return (
     <>
