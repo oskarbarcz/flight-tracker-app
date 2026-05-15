@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { FlightDataTab, FlightDataTabs } from "~/components/flight/Dashboard/Tabs/FlightDataTabs";
+import { FlightEmergenciesDiversionsTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightEmergenciesDiversionsTab";
 import { FlightOfpTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightOfpTab";
 import { FlightOverviewTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightOverviewTab";
 import { FlightProgressTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightProgressTab";
@@ -15,7 +16,7 @@ type Props = {
 };
 
 export function FlightTrackingDashboard({ flightId }: Props) {
-  const { flight, setFlightId } = useTrackedFlight();
+  const { flight, activeEmergency, setFlightId } = useTrackedFlight();
   const navigate = useNavigate();
   const [tab, setTab] = useState<FlightDataTab>(FlightDataTab.Overview);
   usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
@@ -37,16 +38,23 @@ export function FlightTrackingDashboard({ flightId }: Props) {
   }
 
   const isSimbriefAvailable = flight.source === FlightSource.SimBrief;
+  const hasActiveEmergency = activeEmergency !== null;
 
   return (
     <>
       <FlightHeader />
-      <FlightDataTabs tab={tab} setTab={setTab} isSimbriefAvailable={isSimbriefAvailable} />
+      <FlightDataTabs
+        tab={tab}
+        setTab={setTab}
+        isSimbriefAvailable={isSimbriefAvailable}
+        hasActiveEmergency={hasActiveEmergency}
+      />
 
       {tab === FlightDataTab.Overview && <FlightOverviewTab />}
       {tab === FlightDataTab.FlightProgress && <FlightProgressTab />}
       {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
       {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}
+      {tab === FlightDataTab.EmergenciesDiversions && <FlightEmergenciesDiversionsTab />}
     </>
   );
 }

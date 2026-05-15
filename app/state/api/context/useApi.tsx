@@ -2,6 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { AirportService } from "~/state/api/airport.service";
 import { AuthService } from "~/state/api/auth.service";
+import { EmergencyService } from "~/state/api/emergency.service";
 import { FlightService } from "~/state/api/flight.service";
 import { GateService } from "~/state/api/gate.service";
 import { OperatorService } from "~/state/api/operator.service";
@@ -20,6 +21,7 @@ type ApiServices = {
   terminalService: TerminalService;
   gateService: GateService;
   flightService: FlightService;
+  emergencyService: EmergencyService;
   userService: UserService;
   skyLinkService: SkyLinkService;
   authService: AuthService;
@@ -42,6 +44,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       terminalService: new TerminalService(),
       gateService: new GateService(),
       flightService: new FlightService(),
+      emergencyService: new EmergencyService(),
       userService: new UserService(),
       skyLinkService: new SkyLinkService(),
       authService: new AuthService(),

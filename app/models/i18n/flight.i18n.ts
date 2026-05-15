@@ -23,6 +23,9 @@ export function translateEventType(eventType: FlightEventType): string {
     [FlightEventType.OffboardingWasFinished]: "Offboarding finished",
     [FlightEventType.FlightWasClosed]: "Flight closed",
     [FlightEventType.FlightTrackWasSaved]: "Flight track saved",
+    [FlightEventType.EmergencyWasDeclared]: "Emergency declared",
+    [FlightEventType.EmergencyWasUpdated]: "Emergency updated",
+    [FlightEventType.EmergencyWasResolved]: "Emergency resolved",
   };
 
   return eventNames[eventType] ?? eventType;
