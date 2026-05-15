@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { FaGaugeHigh } from "react-icons/fa6";
 import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
@@ -30,7 +31,7 @@ export function FlightProgressBox() {
 
   return (
     <Container padding="condensed" className="relative min-h-72">
-      <ContainerTitle>Flight progress</ContainerTitle>
+      <ContainerTitle icon={FaGaugeHigh} title="Flight progress" />
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-full mb-2">
           <span className="text-gray-500 text-sm">Flight status</span>

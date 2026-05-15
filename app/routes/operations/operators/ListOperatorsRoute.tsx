@@ -1,14 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import { OperatorListTable } from "~/components/operator/Table/OperatorListTable";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
+import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Operator[]> {
@@ -22,6 +23,11 @@ export const handle: TopNavRouteHandle = {
 export default function ListOperatorsRoute() {
   usePageTitle("Operator list");
   const operators = useLoaderData<Operator[]>();
+  const { markRefreshed } = useDataRefresh();
+
+  useEffect(() => {
+    markRefreshed();
+  }, [markRefreshed]);
 
   return (
     <>
@@ -34,9 +40,9 @@ export default function ListOperatorsRoute() {
           color: "indigo",
         }}
       />
-      <Container className="overflow-x-auto" padding="none">
+      <TransparentContainer className="overflow-x-auto">
         <OperatorListTable operators={operators} />
-      </Container>
+      </TransparentContainer>
     </>
   );
 }

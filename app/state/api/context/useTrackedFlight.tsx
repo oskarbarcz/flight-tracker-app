@@ -1,6 +1,7 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer, useRef } from "react";
 import type { FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
 const TRACKED_FLIGHT_REFRESH_INTERVAL_MS = 10_000;
 
@@ -86,6 +87,7 @@ type FlightStateProviderProps = {
 export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { flightService } = useApi();
+  const { markRefreshed } = useDataRefresh();
 
   const setFlightId = useCallback((flightId: string) => {
     dispatch({ type: "SET_FLIGHT_ID", payload: flightId });
@@ -99,9 +101,10 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       const events = await flightService.fetchEventsByFlightId(state.flightId);
       dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
       dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: events });
+      markRefreshed();
       if (!silent) dispatch({ type: "SET_LOADING", payload: false });
     },
-    [flightService, state.flightId],
+    [flightService, state.flightId, markRefreshed],
   );
 
   // Keep a stable reference to the latest events so pollEvents doesn't need
@@ -120,12 +123,13 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
   const pollEvents = useCallback(async () => {
     if (!state.flightId) return;
     const fresh = await flightService.fetchEventsByFlightId(state.flightId);
+    markRefreshed();
     if (!eventsListChanged(fresh, eventsRef.current)) return;
 
     dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: fresh });
     const updatedFlight = await flightService.fetchById(state.flightId);
     dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
-  }, [flightService, state.flightId]);
+  }, [flightService, state.flightId, markRefreshed]);
 
   useEffect(() => {
     if (!state.flightId) return;

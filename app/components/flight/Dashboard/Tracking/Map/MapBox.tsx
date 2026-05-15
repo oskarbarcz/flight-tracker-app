@@ -5,7 +5,8 @@ import { MapLinkOverlay } from "~/components/flight/Map/Box/Overlay/MapLinkOverl
 import { MapPreviewStatusOverlay } from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
 import { TrackingFlightMap } from "~/components/flight/Map/Box/TrackingFlightMap";
 import { MapBottomDrawer } from "~/components/flight/Map/Element/MapBottomDrawer";
-import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
+import type { ContainerClassProps } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { shouldPollForAdsbData, Tracking } from "~/models";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
@@ -51,7 +52,7 @@ export function MapBox({ className }: MapBoxProps) {
   const isVisibleForOthers = flight.tracking !== Tracking.Disabled;
 
   return (
-    <Container className={className} padding="none">
+    <TransparentContainer className={className}>
       <div className="relative w-full h-full">
         <MapSettingsProvider>
           <TrackingFlightMap />
@@ -60,6 +61,6 @@ export function MapBox({ className }: MapBoxProps) {
           <MapBottomDrawer size="sm" />
         </MapSettingsProvider>
       </div>
-    </Container>
+    </TransparentContainer>
   );
 }

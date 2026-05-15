@@ -4,7 +4,7 @@ import React from "react";
 import { FaClock } from "react-icons/fa6";
 import { SimpleStatDisplay } from "~/components/shared/Display/SimpleStatDisplay";
 import { SimpleStatDisplayLoader } from "~/components/shared/Display/SimpleStatDisplayLoader";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import type { User } from "~/models/user.model";
 import { useAuth } from "~/state/api/context/useAuth";
 import useUserStats from "~/state/api/hooks/useUserStats";
@@ -39,9 +39,8 @@ export function UserHeader() {
   const [name] = user.name.split(" ");
 
   return (
-    <Container
-      invisible
-      padding="none"
+    <TransparentContainer
+      chromeless
       className="flex items-start lg:items-center flex-col justify-between lg:flex-row gap-4"
     >
       <div>
@@ -62,6 +61,6 @@ export function UserHeader() {
           />
         )}
       </div>
-    </Container>
+    </TransparentContainer>
   );
 }

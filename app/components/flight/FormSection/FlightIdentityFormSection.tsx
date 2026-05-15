@@ -2,6 +2,7 @@
 
 import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
+import { FaIdCard } from "react-icons/fa6";
 import { FormSection } from "~/components/shared/Form/FormSection";
 import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
@@ -77,6 +78,7 @@ export function FlightIdentityFormSection({ data, onSubmit }: Props) {
       validationSchema={newFlightIdentitySchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
+      icon={FaIdCard}
       title="Identity"
       onSubmit={onSubmit}
     >

@@ -21,10 +21,8 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
   const canRemove = flight.status === FlightStatus.Created;
 
   return (
-    <section className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
-
-      <div className="p-5">
+    <section>
+      <div>
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-3">

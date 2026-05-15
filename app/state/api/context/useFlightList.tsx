@@ -3,6 +3,7 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useState } from "react";
 import type { Flight, FlightPhase } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
 type FlightListContextType = {
   flights: Flight[];
@@ -20,6 +21,7 @@ type FlightListProviderProps = {
 
 export function FlightListProvider({ children }: FlightListProviderProps) {
   const { flightService } = useApi();
+  const { markRefreshed } = useDataRefresh();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
@@ -33,10 +35,11 @@ export function FlightListProvider({ children }: FlightListProviderProps) {
         .then((response) => {
           setFlights(response.flights);
           setTotalCount(response.totalCount);
+          markRefreshed();
         })
         .finally(() => setLoading(false));
     },
-    [flightService],
+    [flightService, markRefreshed],
   );
 
   return (

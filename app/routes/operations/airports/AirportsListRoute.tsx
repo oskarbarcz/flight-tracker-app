@@ -6,12 +6,13 @@ import { useSearchParams } from "react-router";
 import { AirportListEmptyState } from "~/components/airport/Table/AirportListEmptyState";
 import { AirportListTable } from "~/components/airport/Table/AirportListTable";
 import { ContinentFilterTabs } from "~/components/airport/Table/Tabs/ContinentFilterTabs";
-import { Container } from "~/components/shared/Layout/Container";
+import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { type Airport, Continent } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export const handle: TopNavRouteHandle = {
@@ -26,6 +27,7 @@ export default function AirportsListRoute() {
   const [airports, setAirports] = useState<Airport[]>([]);
 
   const { airportService } = useApi();
+  const { markRefreshed } = useDataRefresh();
   const [searchParams] = useSearchParams();
   const continent = (searchParams.get("continent") as Continent) ?? Continent.Europe;
 
@@ -36,8 +38,9 @@ export default function AirportsListRoute() {
       setIsLoading(false);
       setAirports(airports);
       setIsEmptyResult(airports.length === 0);
+      markRefreshed();
     });
-  }, [airportService, continent]);
+  }, [airportService, continent, markRefreshed]);
 
   return (
     <>
@@ -57,9 +60,9 @@ export default function AirportsListRoute() {
       {isEmptyResult && <AirportListEmptyState continent={continent} />}
 
       {!isLoading && !isEmptyResult && (
-        <Container className="overflow-x-auto" padding="none">
+        <TransparentContainer className="overflow-x-auto">
           <AirportListTable airports={airports} />
-        </Container>
+        </TransparentContainer>
       )}
     </>
   );

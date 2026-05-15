@@ -3,6 +3,8 @@
 import React from "react";
 import { FaFileInvoice } from "react-icons/fa6";
 import { HiExclamationTriangle, HiInformationCircle } from "react-icons/hi2";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Loadsheet } from "~/models";
 
 type Props = {
@@ -16,47 +18,43 @@ type Props = {
 
 export function LoadsheetCard({ title, loadsheet, emptyMessage, emptySeverity = "info", badge, footer }: Props) {
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
-
-      <div className="flex flex-1 flex-col gap-5 p-5">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-indigo-500">
-            <FaFileInvoice size={14} />
-            <span className="text-xs font-bold uppercase tracking-widest">{title}</span>
-          </div>
-          {badge && (
+    <Container>
+      <ContainerTitle
+        icon={FaFileInvoice}
+        title={title}
+        actions={
+          badge && (
             <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
               {badge}
             </span>
-          )}
-        </div>
+          )
+        }
+      />
 
-        {loadsheet ? (
-          <>
-            <Section title="Souls on board">
-              <StatBlock label="Pilots" value={loadsheet.flightCrew.pilots.toString()} />
-              <StatBlock label="Relief Pilots" value={loadsheet.flightCrew.reliefPilots.toString()} />
-              <StatBlock label="Cabin Crew" value={loadsheet.flightCrew.cabinCrew.toString()} />
-              <StatBlock label="Passengers" value={loadsheet.passengers.toString()} />
-            </Section>
+      {loadsheet ? (
+        <>
+          <Section title="Souls on board">
+            <StatBlock label="Pilots" value={loadsheet.flightCrew.pilots.toString()} />
+            <StatBlock label="Relief Pilots" value={loadsheet.flightCrew.reliefPilots.toString()} />
+            <StatBlock label="Cabin Crew" value={loadsheet.flightCrew.cabinCrew.toString()} />
+            <StatBlock label="Passengers" value={loadsheet.passengers.toString()} />
+          </Section>
 
-            <Section title="Goods on board">
-              <StatBlock label="Zero-fuel" value={loadsheet.zeroFuelWeight.toString()} unit="t" />
-              <StatBlock label="Cargo" value={loadsheet.cargo.toString()} unit="t" />
-              <StatBlock label="Payload" value={loadsheet.payload.toString()} unit="t" />
-              <StatBlock label="Block Fuel" value={loadsheet.blockFuel.toString()} unit="t" />
-            </Section>
-          </>
-        ) : (
-          <EmptyState message={emptyMessage} severity={emptySeverity} />
-        )}
+          <Section title="Goods on board">
+            <StatBlock label="Zero-fuel" value={loadsheet.zeroFuelWeight.toString()} unit="t" />
+            <StatBlock label="Cargo" value={loadsheet.cargo.toString()} unit="t" />
+            <StatBlock label="Payload" value={loadsheet.payload.toString()} unit="t" />
+            <StatBlock label="Block Fuel" value={loadsheet.blockFuel.toString()} unit="t" />
+          </Section>
+        </>
+      ) : (
+        <EmptyState message={emptyMessage} severity={emptySeverity} />
+      )}
 
-        {footer && (
-          <div className="mt-auto flex justify-end border-t border-gray-200 pt-3 dark:border-gray-800">{footer}</div>
-        )}
-      </div>
-    </section>
+      {footer && (
+        <div className="mt-auto flex justify-end border-t border-gray-200 pt-3 dark:border-gray-800">{footer}</div>
+      )}
+    </Container>
   );
 }
 

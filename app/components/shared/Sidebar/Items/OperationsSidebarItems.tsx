@@ -8,7 +8,7 @@ export function OperatorSidebarItems() {
   const path = useLocation().pathname;
 
   return (
-    <nav className="flex flex-col gap-y-1 p-6">
+    <nav className="flex flex-col gap-y-1">
       <SidebarElement
         label="Flight plans"
         href="/flights"

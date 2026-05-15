@@ -7,32 +7,33 @@ export type ContainerClassProps = {
   className?: string;
 };
 
-type Padding = "none" | "condensed" | "normal" | "spacious";
+type Padding = "condensed" | "normal" | "spacious";
 
-function spacingToPadding(spacing: Padding): string {
+function paddingClass(padding: Padding): string {
   const options = {
-    none: "p-0",
-    condensed: "p-5",
-    normal: "p-6",
-    spacious: "p-7",
+    condensed: "pt-2 px-4 pb-4",
+    normal: "pt-3 px-5 pb-5",
+    spacious: "pt-4 px-6 pb-6",
   };
-  return options[spacing];
+  return options[padding];
 }
 
-type ContainerProps = ContainerClassProps & {
+type ContainerProps = {
   children?: React.ReactNode;
-  invisible?: boolean;
+  className?: string;
   padding?: Padding;
 };
 
-export function Container({ children, className, invisible = false, padding = "normal" }: ContainerProps) {
-  const border =
-    "rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-300";
-  let finalClassList = twMerge(className, spacingToPadding(padding));
-
-  if (!invisible) {
-    finalClassList = twMerge(border, finalClassList);
-  }
-
-  return <section className={finalClassList}>{children}</section>;
+export function Container({ children, className, padding = "normal" }: ContainerProps) {
+  return (
+    <section
+      className={twMerge(
+        "flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900",
+        className,
+      )}
+    >
+      <div className="h-1 bg-linear-to-r from-indigo-500 to-indigo-400 dark:from-indigo-600 dark:to-indigo-500" />
+      <div className={twMerge("flex flex-1 flex-col gap-4", paddingClass(padding))}>{children}</div>
+    </section>
+  );
 }

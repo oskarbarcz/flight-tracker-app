@@ -41,14 +41,15 @@ export function CurrentFlightBox({ flight }: Props) {
 
   return (
     <Container padding="condensed">
-      <ContainerTitle>
-        <div className="flex items-center justify-between gap-2">
-          <span>Current flight</span>
+      <ContainerTitle
+        icon={FaPlane}
+        title="Current flight"
+        actions={
           <span className="text-xs bg-indigo-100 dark:bg-indigo-900 uppercase text-indigo-500 dark:text-indigo-300 rounded-full py-1 px-2">
             {toHuman.flight.status.short(flight.status)}
           </span>
-        </div>
-      </ContainerTitle>
+        }
+      />
 
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div>

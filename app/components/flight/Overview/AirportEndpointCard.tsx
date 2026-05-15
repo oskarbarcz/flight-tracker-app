@@ -6,6 +6,7 @@ import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Airport, FilledSchedule } from "~/models";
 
 type Props = {
@@ -40,46 +41,43 @@ export function AirportEndpointCard({ airport, kind, schedule, details, actions 
       ];
 
   return (
-    <Container padding="none" className="overflow-hidden">
-      <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
-      <div className="p-5">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-indigo-500">
-            <Icon size={14} />
-            <span className="text-xs font-bold uppercase tracking-widest">{label}</span>
-          </div>
+    <Container>
+      <ContainerTitle
+        icon={Icon}
+        title={label}
+        actions={
           <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
             <FormattedIcaoDate date={date} />
           </span>
-        </div>
+        }
+      />
 
-        <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-          <div className="min-w-0 sm:flex-1">
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-4xl font-black tracking-tight text-gray-900 dark:text-white">
-                {airport.iataCode}
-              </span>
-              <span className="font-mono text-xs text-gray-400 dark:text-gray-500">{airport.icaoCode}</span>
-            </div>
-            <div className="mt-1 truncate text-sm font-medium text-gray-800 dark:text-gray-100">{airport.name}</div>
-            <div className="truncate text-xs text-gray-500 dark:text-gray-400">
-              {airport.city}, {airport.country}
-            </div>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+        <div className="min-w-0 sm:flex-1">
+          <div className="flex items-baseline gap-2">
+            <span className="font-mono text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+              {airport.iataCode}
+            </span>
+            <span className="font-mono text-xs text-gray-400 dark:text-gray-500">{airport.icaoCode}</span>
           </div>
-
-          <div className="grid grid-cols-[auto_1fr_auto] items-stretch gap-3 sm:shrink-0">
-            <TimeBlock label={leftBlock.label} time={leftBlock.time} primary={leftBlock.primary} />
-            <TaxiSeparator minutes={taxiMinutes} />
-            <TimeBlock label={rightBlock.label} time={rightBlock.time} primary={rightBlock.primary} />
+          <div className="mt-1 truncate text-sm font-medium text-gray-800 dark:text-gray-100">{airport.name}</div>
+          <div className="truncate text-xs text-gray-500 dark:text-gray-400">
+            {airport.city}, {airport.country}
           </div>
         </div>
 
-        {details && <div className="mt-4 space-y-3">{details}</div>}
-
-        {actions && (
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-gray-200 dark:border-gray-800 pt-3">{actions}</div>
-        )}
+        <div className="grid grid-cols-[auto_1fr_auto] items-stretch gap-3 sm:shrink-0">
+          <TimeBlock label={leftBlock.label} time={leftBlock.time} primary={leftBlock.primary} />
+          <TaxiSeparator minutes={taxiMinutes} />
+          <TimeBlock label={rightBlock.label} time={rightBlock.time} primary={rightBlock.primary} />
+        </div>
       </div>
+
+      {details && <div className="space-y-3">{details}</div>}
+
+      {actions && (
+        <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-gray-800 pt-3">{actions}</div>
+      )}
     </Container>
   );
 }

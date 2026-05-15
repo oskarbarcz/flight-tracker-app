@@ -1,7 +1,7 @@
 "use client";
 
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightLayout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLoaderData, useNavigate, useRevalidator } from "react-router";
 import { FlightHeader } from "~/components/flight/Header/FlightHeader";
 import { FlightTabs } from "~/components/flight/Header/FlightTabs";
@@ -12,6 +12,7 @@ import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { type Flight, FlightSource, type Tracking } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
+import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
@@ -51,6 +52,7 @@ export default function FlightLayout() {
   const { flight } = useLoaderData<typeof clientLoader>();
   const { flightService } = useApi();
   const { success, error } = useToast();
+  const { markRefreshed } = useDataRefresh();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
 
@@ -59,6 +61,10 @@ export default function FlightLayout() {
   const [trackingPending, setTrackingPending] = useState(false);
 
   usePageTitle(`${flight.flightNumberWithoutSpaces} | Flight`);
+
+  useEffect(() => {
+    markRefreshed();
+  }, [markRefreshed]);
 
   const handleRelease = async (flightId: string) => {
     try {

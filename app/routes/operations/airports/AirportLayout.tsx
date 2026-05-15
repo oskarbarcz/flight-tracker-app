@@ -5,7 +5,6 @@ import React from "react";
 import { Outlet, useLoaderData } from "react-router";
 import { AirportHeader } from "~/components/airport/Header/AirportHeader";
 import { AirportTabs } from "~/components/airport/Table/Tabs/AirportTabs";
-import { Container } from "~/components/shared/Layout/Container";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import type { Airport } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
@@ -38,9 +37,9 @@ export default function AirportLayout() {
 
   return (
     <>
-      <Container className="mb-3">
+      <div className="mb-3">
         <AirportHeader airport={airport} />
-      </Container>
+      </div>
       <AirportTabs id={airport.id} />
       <Outlet />
     </>

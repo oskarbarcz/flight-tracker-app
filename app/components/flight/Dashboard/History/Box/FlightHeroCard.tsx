@@ -3,7 +3,6 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import type { Flight } from "~/models";
 
 type Props = {

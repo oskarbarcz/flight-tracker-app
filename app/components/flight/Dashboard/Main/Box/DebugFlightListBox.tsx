@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { FaBug } from "react-icons/fa6";
 import { Link } from "react-router";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
@@ -13,7 +14,7 @@ type DebugFlightListBoxProps = {
 export function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
   return (
     <Container padding="condensed">
-      <ContainerTitle>Flight list [debug]</ContainerTitle>
+      <ContainerTitle icon={FaBug} title="Flight list [debug]" />
       <div>
         {flights.map((flight) => (
           <div key={flight.id}>

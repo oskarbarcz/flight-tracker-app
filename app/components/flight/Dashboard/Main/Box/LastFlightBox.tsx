@@ -3,7 +3,7 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { FaCircleInfo } from "react-icons/fa6";
+import { FaCircleInfo, FaPlaneCircleCheck } from "react-icons/fa6";
 import { Link } from "react-router";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
@@ -19,7 +19,7 @@ export function LastFlightBox({ flight }: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">
-        <ContainerTitle>Last flight</ContainerTitle>
+        <ContainerTitle icon={FaPlaneCircleCheck} title="Last flight" />
         <ContainerEmptyState>
           <FaCircleInfo className="inline mr-2" />
           <span>No last flight found.</span>
@@ -30,7 +30,7 @@ export function LastFlightBox({ flight }: Props) {
 
   return (
     <Container padding="condensed">
-      <ContainerTitle>Last flight</ContainerTitle>
+      <ContainerTitle icon={FaPlaneCircleCheck} title="Last flight" />
 
       <article className=" mt-2 mb-6 rounded-xl">
         <div className="w-1/2 mb-2 inline-block">
