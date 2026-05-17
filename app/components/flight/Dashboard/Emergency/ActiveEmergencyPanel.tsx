@@ -21,6 +21,7 @@ import { EmergencyThreatLevel } from "~/models";
 
 type Props = {
   emergency: Emergency;
+  readOnly?: boolean;
 };
 
 function threatBadgeColor(level: EmergencyThreatLevel): string {
@@ -61,7 +62,7 @@ function FuelEnduranceValue({ minutes, declaredAt }: { minutes: number; declared
   );
 }
 
-export function ActiveEmergencyPanel({ emergency }: Props) {
+export function ActiveEmergencyPanel({ emergency, readOnly = false }: Props) {
   const [editing, setEditing] = useState(false);
   const [resolving, setResolving] = useState(false);
 
@@ -72,15 +73,17 @@ export function ActiveEmergencyPanel({ emergency }: Props) {
           <FaTriangleExclamation />
           <span className="text-sm font-bold uppercase tracking-widest">Active emergency</span>
         </div>
-        <div className="flex gap-2">
-          <Button size="xs" color="light" onClick={() => setEditing(true)}>
-            <FaPencil className="me-1.5" />
-            Edit
-          </Button>
-          <Button size="xs" color="light" onClick={() => setResolving(true)}>
-            Mark resolved
-          </Button>
-        </div>
+        {!readOnly && (
+          <div className="flex gap-2">
+            <Button size="xs" color="light" onClick={() => setEditing(true)}>
+              <FaPencil className="me-1.5" />
+              Edit
+            </Button>
+            <Button size="xs" color="light" onClick={() => setResolving(true)}>
+              Mark resolved
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4 px-5 py-4 md:grid-cols-3">

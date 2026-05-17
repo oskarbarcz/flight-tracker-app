@@ -24,6 +24,7 @@ export enum AirportOnFlightType {
 }
 
 export enum FlightPhase {
+  Emergency = "emergency",
   Upcoming = "upcoming",
   Ongoing = "ongoing",
   Finished = "finished",
@@ -87,6 +88,7 @@ export class Flight {
   departureRunwayId: string | null;
   arrivalGateId: string | null;
   arrivalRunwayId: string | null;
+  hasActiveEmergency: boolean;
   createdAt: Date;
 
   constructor(flight: ApiFlightResponse) {
@@ -109,6 +111,7 @@ export class Flight {
     this.departureRunwayId = flight.departureRunwayId;
     this.arrivalGateId = flight.arrivalGateId;
     this.arrivalRunwayId = flight.arrivalRunwayId;
+    this.hasActiveEmergency = flight.hasActiveEmergency ?? false;
     this.createdAt = new Date(flight.createdAt);
   }
 

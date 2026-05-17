@@ -41,6 +41,7 @@ export default [
         route("flights/:id/timesheet", "routes/operations/flights/FlightTimesheetRoute.tsx"),
         route("flights/:id/loadsheet", "routes/operations/flights/FlightLoadsheetRoute.tsx"),
         route("flights/:id/ofp", "routes/operations/flights/FlightOfpRoute.tsx"),
+        route("flights/:id/emergencies", "routes/operations/flights/FlightEmergenciesRoute.tsx"),
       ]),
       // operations - airports
       route("airports", "routes/operations/airports/AirportsListRoute.tsx"),

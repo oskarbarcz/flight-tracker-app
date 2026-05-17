@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, type ReactNode, useCallback, useContext, useState } from "react";
-import type { Flight, FlightPhase } from "~/models";
+import { type Flight, FlightPhase } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
@@ -9,6 +9,7 @@ type FlightListContextType = {
   flights: Flight[];
   loading: boolean;
   totalCount: number;
+  emergencyCount: number;
   limit: number;
   reloadFlights: (phase: FlightPhase, page: number) => void;
 };
@@ -25,16 +26,20 @@ export function FlightListProvider({ children }: FlightListProviderProps) {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
+  const [emergencyCount, setEmergencyCount] = useState(0);
   const limit = 10;
 
   const reloadFlights = useCallback(
     (phase: FlightPhase, pageToLoad: number) => {
       setLoading(true);
-      flightService
-        .fetchAllFlights({ phase, page: pageToLoad, limit })
-        .then((response) => {
-          setFlights(response.flights);
-          setTotalCount(response.totalCount);
+      Promise.all([
+        flightService.fetchAllFlights({ phase, page: pageToLoad, limit }),
+        flightService.fetchAllFlights({ phase: FlightPhase.Emergency, page: 1, limit: 1 }),
+      ])
+        .then(([listResponse, emergencyResponse]) => {
+          setFlights(listResponse.flights);
+          setTotalCount(listResponse.totalCount);
+          setEmergencyCount(emergencyResponse.totalCount);
           markRefreshed();
         })
         .finally(() => setLoading(false));
@@ -48,6 +53,7 @@ export function FlightListProvider({ children }: FlightListProviderProps) {
         flights,
         loading,
         totalCount,
+        emergencyCount,
         limit,
         reloadFlights,
       }}

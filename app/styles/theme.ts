@@ -3,6 +3,9 @@ import type { DeepPartial, FlowbiteTheme } from "flowbite-react/types";
 
 export default function theme(): DeepPartial<FlowbiteTheme> {
   return createTheme({
+    alert: {
+      wrapper: "flex items-center w-full [&>div]:flex-1",
+    },
     progress: {
       color: {
         indigo: "bg-indigo-500 dark:bg-indigo-600",
