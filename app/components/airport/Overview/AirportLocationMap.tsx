@@ -1,38 +1,47 @@
 "use client";
 
-import type { LatLngExpression } from "leaflet";
-import React from "react";
-import { CircleMarker, MapContainer } from "react-leaflet";
+import L from "leaflet";
+import React, { useMemo } from "react";
+import { MapContainer } from "react-leaflet";
+import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { formatCoordinates } from "~/functions/formatGeo";
-import type { Airport } from "~/models";
+import { computeRunwayLines } from "~/functions/runwayPairs";
+import type { Airport, Runway } from "~/models";
 
 type Props = {
   airport: Airport;
+  runways: Runway[];
 };
 
-export function AirportLocationMap({ airport }: Props) {
-  const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
+export function AirportLocationMap({ airport, runways }: Props) {
   const coordinates = formatCoordinates(airport.location.latitude, airport.location.longitude);
+
+  const bounds = useMemo(() => {
+    const lines = computeRunwayLines(runways);
+    if (lines.length === 0) {
+      return L.latLng(airport.location.latitude, airport.location.longitude).toBounds(4000);
+    }
+    const points = lines.flatMap((line) => line.positions);
+    return L.latLngBounds(points);
+  }, [runways, airport.location.latitude, airport.location.longitude]);
 
   return (
     <TransparentContainer className="h-full">
       <div className="relative h-full min-h-72 w-full">
         <MapContainer
-          center={position}
-          zoom={11}
+          bounds={bounds}
+          boundsOptions={{ padding: [40, 40] }}
           scrollWheelZoom={false}
           className="h-full w-full z-0"
           zoomControl={false}
           attributionControl={false}
         >
           <MapTileLayer />
-          <CircleMarker
-            center={position}
-            radius={8}
-            pathOptions={{ color: "#6366f1", fillColor: "#6366f1", fillOpacity: 0.8, weight: 2 }}
-          />
+          <RunwayLines runways={runways} />
+          <MapAirportLabel airport={airport} />
         </MapContainer>
 
         <div className="absolute top-3 left-3 z-10 bg-white/95 dark:bg-gray-900/95 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 text-sm font-mono font-bold text-gray-900 dark:text-gray-100 shadow-sm pointer-events-none">

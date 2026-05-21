@@ -2,7 +2,7 @@ import React, { createContext, type ReactNode, useContext } from "react";
 import { useLocalStorage } from "~/state/app/hooks/useLocalStorage";
 
 export type MapSettings = {
-  centerOn: "aircraft" | "route";
+  centerOn: "aircraft" | "route" | "departure" | "destination";
   autoCenter: boolean;
 };
 

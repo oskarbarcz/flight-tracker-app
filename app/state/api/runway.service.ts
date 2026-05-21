@@ -1,5 +1,11 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
 import type { CreateRunwayRequest, EditRunwayRequest, GetRunwayResponse } from "~/state/api/request/runway.request";
+
+export class PublicRunwayService extends AbstractApiService {
+  async fetchAll(airportId: string) {
+    return this.request<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`);
+  }
+}
 
 export class RunwayService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {

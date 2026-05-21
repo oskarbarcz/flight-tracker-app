@@ -6,19 +6,23 @@ import { useLoaderData } from "react-router";
 import { AirportDetailsCard } from "~/components/airport/Overview/AirportDetailsCard";
 import { AirportLocationMap } from "~/components/airport/Overview/AirportLocationMap";
 import { AirportService } from "~/state/api/airport.service";
+import { RunwayService } from "~/state/api/runway.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const airport = await new AirportService().fetchById(params.id);
-  return { airport };
+  const [airport, runways] = await Promise.all([
+    new AirportService().fetchById(params.id),
+    new RunwayService().fetchAll(params.id),
+  ]);
+  return { airport, runways };
 }
 
 export default function AirportOverviewRoute() {
-  const { airport } = useLoaderData<typeof clientLoader>();
+  const { airport, runways } = useLoaderData<typeof clientLoader>();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
       <AirportDetailsCard airport={airport} />
-      <AirportLocationMap airport={airport} />
+      <AirportLocationMap airport={airport} runways={runways} />
     </div>
   );
 }

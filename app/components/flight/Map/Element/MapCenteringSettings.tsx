@@ -1,7 +1,7 @@
 import { Button, Tooltip } from "flowbite-react";
 import { FaPlane } from "react-icons/fa";
-import { FaChevronRight, FaCrosshairs, FaRoute } from "react-icons/fa6";
-import { useMapSettings } from "~/state/app/context/useMapSettings";
+import { FaChevronRight, FaCrosshairs, FaPlaneArrival, FaPlaneDeparture, FaRoute } from "react-icons/fa6";
+import { type MapSettings, useMapSettings } from "~/state/app/context/useMapSettings";
 
 type Props = {
   size?: "sm" | "md";
@@ -26,13 +26,15 @@ export function MapCenteringSettings({ size = "md" }: Props) {
     });
   };
 
-  const setCenterOn = (centerOn: "route" | "aircraft") => {
+  const setCenterOn = (centerOn: MapSettings["centerOn"]) => {
     updateMapSettings({ ...mapSettings, centerOn });
   };
 
   const isCenteringActive = mapSettings.autoCenter;
   const isRouteActive = mapSettings.centerOn === "route";
   const isAircraftActive = mapSettings.centerOn === "aircraft";
+  const isDepartureActive = mapSettings.centerOn === "departure";
+  const isDestinationActive = mapSettings.centerOn === "destination";
 
   const autoCenterButton = (
     <Button
@@ -67,6 +69,30 @@ export function MapCenteringSettings({ size = "md" }: Props) {
     </Button>
   );
 
+  const departureButton = (
+    <Button
+      color={isDepartureActive ? "indigo" : "alternative"}
+      onClick={() => setCenterOn("departure")}
+      size={sizeToButtonSize(size)}
+      className="space-x-2 font-bold"
+    >
+      <FaPlaneDeparture />
+      <span>Departure</span>
+    </Button>
+  );
+
+  const destinationButton = (
+    <Button
+      color={isDestinationActive ? "indigo" : "alternative"}
+      onClick={() => setCenterOn("destination")}
+      size={sizeToButtonSize(size)}
+      className="space-x-2 font-bold"
+    >
+      <FaPlaneArrival />
+      <span>Destination</span>
+    </Button>
+  );
+
   return (
     <div className="flex gap-3 items-center pointer-events-auto">
       <div className="hidden md:block">
@@ -91,6 +117,18 @@ export function MapCenteringSettings({ size = "md" }: Props) {
             </Tooltip>
           </div>
           <div className="md:hidden">{aircraftButton}</div>
+          <div className="hidden md:block">
+            <Tooltip content="Center automatically on departure airport" style="auto" placement="top">
+              {departureButton}
+            </Tooltip>
+          </div>
+          <div className="md:hidden">{departureButton}</div>
+          <div className="hidden md:block">
+            <Tooltip content="Center automatically on destination airport" style="auto" placement="top">
+              {destinationButton}
+            </Tooltip>
+          </div>
+          <div className="md:hidden">{destinationButton}</div>
         </div>
       )}
     </div>

@@ -38,5 +38,5 @@ export default function MapAirportLabel({ airport, extended = false }: MapAirpor
 
   const label = extended ? extendedLabel(airport) : shortLabel(airport);
 
-  return <Marker position={position} icon={label} />;
+  return <Marker position={position} icon={label} zIndexOffset={1000} />;
 }
