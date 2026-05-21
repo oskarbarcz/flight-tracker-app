@@ -46,13 +46,13 @@ export function ArrivalTimer({ schedule, actual }: Props) {
       </div>
       <div className="mb-3 text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          <FormattedIcaoDate date={calculatedArrivalTime} /> &bull; <FormattedIcaoTime date={calculatedArrivalTime} />
+          <FormattedIcaoDate date={calculatedArrivalTime} /> <FormattedIcaoTime date={calculatedArrivalTime} />
         </span>
         <span className="block text-sm">calculated arrival time</span>
       </div>
       <div className="text-center">
         <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
-          <FormattedIcaoDate date={schedule.onBlockTime} /> &bull; <FormattedIcaoTime date={schedule.onBlockTime} />
+          <FormattedIcaoDate date={schedule.onBlockTime} /> <FormattedIcaoTime date={schedule.onBlockTime} />
         </span>
         <span className="block text-sm">scheduled arrival time</span>
       </div>

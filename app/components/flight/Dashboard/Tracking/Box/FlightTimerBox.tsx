@@ -32,8 +32,11 @@ export function FlightTimerBox() {
     FlightStatus.OffboardingFinished,
   ].includes(flight.status);
 
+  const showAny = showOffBlockTimer || showTakeoffTimer || showArrivalTimer || showOnBlockTimer || showSummary;
+  if (!showAny) return null;
+
   return (
-    <section className="flex flex-col justify-center rounded-2xl p-6">
+    <section className="flex flex-col justify-center py-2">
       {showOffBlockTimer && <OffBlockTimer schedule={schedule} />}
       {showTakeoffTimer && <TakeoffTimer schedule={schedule} />}
       {showArrivalTimer && <ArrivalTimer schedule={schedule} actual={actual} />}

@@ -32,7 +32,7 @@ export function AssignedRunwayPanel({ runway }: Props) {
         <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-500">Runway</span>
         <span className="ms-auto font-mono text-xl font-bold text-gray-900 dark:text-white">{runway.designator}</span>
       </div>
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-1 px-3 py-2.5 text-xs">
+      <dl className="grid grid-cols-1 gap-x-4 gap-y-1 px-3 py-2.5 text-xs lg:grid-cols-2">
         <Row label="Length" value={`${runway.length.toLocaleString()} m`} mono />
         <Row label="Width" value={`${runway.width} m`} mono />
         <Row label="Surface" value={labelOf(surfaceTypeOptions, runway.surfaceType)} />

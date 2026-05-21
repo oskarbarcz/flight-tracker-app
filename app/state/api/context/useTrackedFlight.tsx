@@ -59,6 +59,7 @@ type TrackedFlightContextType = {
   activeEmergency: Emergency | null;
   loading: boolean;
   setFlightId: (flightId: string) => void;
+  reload: () => Promise<void>;
   checkIn: (schedule: FilledSchedule) => Promise<void>;
   startBoarding: () => Promise<void>;
   finishBoarding: (loadsheet: Loadsheet) => Promise<void>;
@@ -81,6 +82,7 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   activeEmergency: null,
   loading: false,
   setFlightId: () => {},
+  reload: async () => {},
   checkIn: async () => {},
   startBoarding: async () => {},
   finishBoarding: async () => {},
@@ -135,23 +137,22 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
 
   /**
    * Cheap poll: fetch only events. If the list hasn't changed, do nothing —
-   * the flight hasn't changed either. If it has, update events and pull the
-   * fresh flight. Emergencies are pulled on every tick — they're cheap and
-   * the red-tab signal must stay accurate without depending on an event.
+   * neither the flight nor the emergencies have changed either, since every
+   * emergency state change produces a flight event.
    */
   const pollEvents = useCallback(async () => {
     if (!state.flightId) return;
-    const [fresh, emergencies] = await Promise.all([
-      flightService.fetchEventsByFlightId(state.flightId),
-      emergencyService.listByFlight(state.flightId),
-    ]);
-    dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies });
+    const fresh = await flightService.fetchEventsByFlightId(state.flightId);
     markRefreshed();
     if (!eventsListChanged(fresh, eventsRef.current)) return;
 
     dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: fresh });
-    const updatedFlight = await flightService.fetchById(state.flightId);
+    const [updatedFlight, emergencies] = await Promise.all([
+      flightService.fetchById(state.flightId),
+      emergencyService.listByFlight(state.flightId),
+    ]);
     dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
+    dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies });
   }, [flightService, emergencyService, state.flightId, markRefreshed]);
 
   useEffect(() => {
@@ -266,6 +267,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         activeEmergency,
         loading: state.loading,
         setFlightId,
+        reload: () => loadFlight({ silent: true }),
         checkIn,
         startBoarding,
         finishBoarding,
