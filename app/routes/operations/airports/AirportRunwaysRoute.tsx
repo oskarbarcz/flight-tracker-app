@@ -5,21 +5,26 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
+import { AirportRunwaysMap } from "~/components/airport/Runway/AirportRunwaysMap";
 import { RemoveRunwayModal } from "~/components/airport/Runway/RemoveRunwayModal";
 import { RunwayList } from "~/components/airport/Runway/RunwayList";
 import { RunwayListEmptyState } from "~/components/airport/Runway/RunwayListEmptyState";
 import type { Runway } from "~/models";
+import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { RunwayService } from "~/state/api/runway.service";
 import { useToast } from "~/state/app/context/useToast";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const runways = await new RunwayService().fetchAll(params.id);
-  return { runways };
+  const [airport, runways] = await Promise.all([
+    new AirportService().fetchById(params.id),
+    new RunwayService().fetchAll(params.id),
+  ]);
+  return { airport, runways };
 }
 
 export default function AirportRunwaysRoute({ params, loaderData }: Route.ComponentProps) {
-  const { runways: initialRunways } = loaderData;
+  const { airport, runways: initialRunways } = loaderData;
   const [runways, setRunways] = useState<Runway[]>(initialRunways);
   const [pendingRemove, setPendingRemove] = useState<Runway | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -50,20 +55,25 @@ export default function AirportRunwaysRoute({ params, loaderData }: Route.Compon
       {runways.length === 0 ? (
         <RunwayListEmptyState airportId={params.id} />
       ) : (
-        <div>
-          <div className="flex justify-end mb-3">
-            <Button
-              as={Link}
-              color="indigo"
-              size="sm"
-              className="space-x-1.5"
-              to={`/airports/${params.id}/runways/new`}
-            >
-              <HiPlus />
-              <span>Add runway</span>
-            </Button>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
+          <div className="h-[400px] lg:h-full lg:min-h-[400px]">
+            <AirportRunwaysMap runways={runways} fallbackCenter={airport.location} />
           </div>
-          <RunwayList airportId={params.id} runways={runways} onDelete={setPendingRemove} />
+          <div>
+            <div className="flex justify-end mb-3">
+              <Button
+                as={Link}
+                color="indigo"
+                size="sm"
+                className="space-x-1.5"
+                to={`/airports/${params.id}/runways/new`}
+              >
+                <HiPlus />
+                <span>Add runway</span>
+              </Button>
+            </div>
+            <RunwayList airportId={params.id} runways={runways} onDelete={setPendingRemove} />
+          </div>
         </div>
       )}
       {pendingRemove && (
