@@ -2,6 +2,7 @@
 
 import React from "react";
 import { FaGaugeHigh } from "react-icons/fa6";
+import { FlightTimerBox } from "~/components/flight/Dashboard/Tracking/Box/FlightTimerBox";
 import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
@@ -30,7 +31,7 @@ export function FlightProgressBox() {
   if (!flight) return null;
 
   return (
-    <Container padding="condensed" className="relative min-h-72">
+    <Container padding="condensed">
       <ContainerTitle icon={FaGaugeHigh} title="Flight progress" />
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-full mb-2">
@@ -39,7 +40,8 @@ export function FlightProgressBox() {
         </div>
       </div>
       <hr className="mt-1 mb-3 border-gray-300 dark:border-gray-700" />
-      <div className="absolute bottom-0 right-0 left-0 p-4">
+      <FlightTimerBox />
+      <div className="mt-auto">
         <hr className="w-full mt-1 mb-3 border-gray-300 dark:border-gray-700" />
         {showNextAction(flight.status) && <ChangeFlightProgressButton />}
       </div>

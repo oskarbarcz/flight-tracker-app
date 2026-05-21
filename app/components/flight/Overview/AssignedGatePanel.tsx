@@ -35,7 +35,7 @@ export function AssignedGatePanel({ gate, terminal }: Props) {
         </span>
         <span className="ms-auto font-mono text-xl font-bold text-gray-900 dark:text-white">{gate.name}</span>
       </div>
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-1 px-3 py-2.5 text-xs">
+      <dl className="grid grid-cols-1 gap-x-4 gap-y-1 px-3 py-2.5 text-xs lg:grid-cols-2">
         <Row label="Terminal" value={terminal?.shortName ?? "—"} mono />
         <Row label="Location" value={labelOf(gateLocationOptions, gate.location)} />
         <Row label="Bridge" value={labelOf(bridgeOptions, gate.bridge)} />
