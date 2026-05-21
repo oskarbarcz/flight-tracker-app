@@ -108,6 +108,15 @@ export default function CreateRunwayRoute({ params }: Route.ComponentProps) {
                 <ManagedInputBlock field="elevation" label="Elevation (m)" type="number" required={false} />
 
                 <div className="flex gap-4">
+                  <div className="basis-1/2">
+                    <ManagedInputBlock field="latitude" label="Latitude" type="number" />
+                  </div>
+                  <div className="basis-1/2">
+                    <ManagedInputBlock field="longitude" label="Longitude" type="number" />
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
                   <ManagedSelectBlock
                     className="basis-1/2"
                     field="surfaceType"

@@ -33,4 +33,12 @@ export const createRunwaySchema: ObjectSchema<CreateRunwayFormData> = object().s
   elevation: optionalIntegerString(),
   surfaceType: string<SurfaceType>().required("Surface type is required").oneOf(Object.values(SurfaceType)),
   lightingType: string<LightingType>().required("Lighting type is required").oneOf(Object.values(LightingType)),
+  latitude: number()
+    .required("Latitude is required")
+    .min(-90, "Latitude must be between -90 and 90")
+    .max(90, "Latitude must be between -90 and 90"),
+  longitude: number()
+    .required("Longitude is required")
+    .min(-180, "Longitude must be between -180 and 180")
+    .max(180, "Longitude must be between -180 and 180"),
 });
