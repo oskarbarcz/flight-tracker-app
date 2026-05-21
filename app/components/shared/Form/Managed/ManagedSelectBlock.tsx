@@ -5,6 +5,7 @@ import { useField } from "formik";
 import React, { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 
 type SelectOption = {
   value: string;
@@ -40,7 +41,10 @@ export function ManagedSelectBlock({
   return (
     <div className={twMerge("w-full mb-4", className)}>
       <div className="mb-2 block">
-        <Label htmlFor={field}>{label}</Label>
+        <Label htmlFor={field} color={isError ? "failure" : undefined}>
+          {label}
+          {required && <RequiredMark />}
+        </Label>
       </div>
       <Select
         id={field}

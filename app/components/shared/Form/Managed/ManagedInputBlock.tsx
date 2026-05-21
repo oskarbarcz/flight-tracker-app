@@ -4,6 +4,7 @@ import { Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputTypeAttribute } from "react";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 
 type Props = {
   field: string;
@@ -22,6 +23,7 @@ export function ManagedInputBlock({ field, label, required = true, type = "text"
       <div className="mb-2 block">
         <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}
+          {required && <RequiredMark />}
         </Label>
       </div>
       <TextInput

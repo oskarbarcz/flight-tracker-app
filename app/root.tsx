@@ -7,6 +7,7 @@ import { ApiProvider } from "~/state/api/context/useApi";
 import { AuthProvider } from "~/state/api/context/useAuth";
 import { ToastProvider } from "~/state/app/context/useToast";
 import theme from "~/styles/theme";
+import "~/validator/yup-locale";
 import type { Route } from "./+types/root";
 import stylesheet from "./styles/index.css?url";
 

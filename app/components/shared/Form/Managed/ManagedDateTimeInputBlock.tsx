@@ -5,6 +5,7 @@ import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 
 type Props = {
   className?: string;
@@ -90,21 +91,26 @@ export function ManagedDateTimeInputBlock({
 
   return (
     <div className={twMerge("w-full", className)}>
-      <FloatingLabel
-        variant="outlined"
-        label={label}
-        id={field}
-        type="text"
-        autoComplete={autoComplete}
-        required={required}
-        disabled={disabled}
-        color={isError ? "error" : undefined}
-        value={inputValue}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="DD-MM-YYYY HH:mm"
-        className="dark:bg-gray-800"
-      />
+      <div className="relative">
+        <FloatingLabel
+          variant="outlined"
+          label={label}
+          id={field}
+          type="text"
+          autoComplete={autoComplete}
+          required={required}
+          disabled={disabled}
+          color={isError ? "error" : undefined}
+          value={inputValue}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="DD-MM-YYYY HH:mm"
+          className="dark:bg-gray-800"
+        />
+        {required && (
+          <RequiredMark className="text-red-500 absolute top-2.5 right-3 pointer-events-none z-10 text-sm" />
+        )}
+      </div>
       <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );

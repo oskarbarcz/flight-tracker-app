@@ -17,6 +17,10 @@ export function runwayFormDataToRequest(input: CreateRunwayFormData): CreateRunw
     elevation: toNullableInt(input.elevation),
     surfaceType: input.surfaceType,
     lightingType: input.lightingType,
+    coordinates: {
+      latitude: Number(input.latitude),
+      longitude: Number(input.longitude),
+    },
   };
 }
 
@@ -31,5 +35,7 @@ export function runwayToFormData(input: GetRunwayResponse): CreateRunwayFormData
     elevation: input.elevation === null || input.elevation === undefined ? "" : String(input.elevation),
     surfaceType: input.surfaceType,
     lightingType: input.lightingType,
+    latitude: input.coordinates.latitude,
+    longitude: input.coordinates.longitude,
   };
 }

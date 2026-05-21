@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
+import { RunwayLocationPicker } from "~/components/airport/Runway/RunwayLocationPicker";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
@@ -55,7 +56,7 @@ export const handle: TopNavRouteHandle = {
 };
 
 export default function EditRunwayRoute({ params, loaderData }: Route.ComponentProps) {
-  const { runway } = loaderData;
+  const { airport, runway } = loaderData;
   usePageTitle(`Edit runway ${runway.designator}`);
 
   const { runwayService } = useApi();
@@ -113,6 +114,17 @@ export default function EditRunwayRoute({ params, loaderData }: Route.ComponentP
                 </div>
 
                 <ManagedInputBlock field="elevation" label="Elevation (m)" type="number" required={false} />
+
+                <div className="flex gap-4">
+                  <div className="basis-1/2">
+                    <ManagedInputBlock field="latitude" label="Latitude" type="number" />
+                  </div>
+                  <div className="basis-1/2">
+                    <ManagedInputBlock field="longitude" label="Longitude" type="number" />
+                  </div>
+                </div>
+
+                <RunwayLocationPicker airportLocation={airport.location} />
 
                 <div className="flex gap-4">
                   <ManagedSelectBlock

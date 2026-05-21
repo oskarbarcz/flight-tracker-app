@@ -14,6 +14,11 @@ export enum LightingType {
   Unknown = "unknown",
 }
 
+export type Coordinates = {
+  longitude: number;
+  latitude: number;
+};
+
 export type Runway = {
   id: string;
   airportId: string;
@@ -26,6 +31,7 @@ export type Runway = {
   elevation: number | null;
   surfaceType: SurfaceType;
   lightingType: LightingType;
+  coordinates: Coordinates;
 };
 
 export const surfaceTypeOptions = [

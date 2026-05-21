@@ -10,6 +10,8 @@ export type CreateRunwayFormData = {
   elevation: string;
   surfaceType: SurfaceType;
   lightingType: LightingType;
+  latitude: number;
+  longitude: number;
 };
 
 export function initCreateRunwayData(): CreateRunwayFormData {
@@ -23,5 +25,7 @@ export function initCreateRunwayData(): CreateRunwayFormData {
     elevation: "",
     surfaceType: SurfaceType.Asphalt,
     lightingType: LightingType.Unknown,
+    latitude: 0,
+    longitude: 0,
   };
 }
