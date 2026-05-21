@@ -33,10 +33,16 @@ export function HistoryFlightMap({ flight }: Props) {
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
   const pathPoints: Position[] = flightPath.map((p) => [p.latitude, p.longitude]);
 
-  const mapBounds = L.latLngBounds([
-    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
-    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
-  ]);
+  const departurePosition: Position = [
+    flight.departureAirport.location.latitude,
+    flight.departureAirport.location.longitude,
+  ];
+  const destinationPosition: Position = [
+    flight.destinationAirport.location.latitude,
+    flight.destinationAirport.location.longitude,
+  ];
+
+  const mapBounds = L.latLngBounds([departurePosition, destinationPosition]);
 
   return (
     <MapContainer
@@ -57,7 +63,13 @@ export function HistoryFlightMap({ flight }: Props) {
 
       {flightPath.length > 0 && <MapAircraftMarker path={pathPoints} />}
 
-      <MapEventsHandler bounds={mapBounds} options={leafletMapOptions} aircraftPosition={lastPathPoint} />
+      <MapEventsHandler
+        bounds={mapBounds}
+        options={leafletMapOptions}
+        aircraftPosition={lastPathPoint}
+        departurePosition={departurePosition}
+        destinationPosition={destinationPosition}
+      />
     </MapContainer>
   );
 }

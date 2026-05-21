@@ -7,8 +7,10 @@ import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapBottomDrawer } from "~/components/flight/Map/Element/MapBottomDrawer";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { TrackingRunwaysLayer } from "~/components/flight/Map/Element/TrackingRunwaysLayer";
 import { FlightDetailsSectionOverlay } from "~/components/flight/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 import type { Flight, FlightPathElement, Position } from "~/models";
+import { usePublicApi } from "~/state/api/context/usePublicApi";
 
 type Props = {
   flight: Flight;
@@ -16,6 +18,7 @@ type Props = {
 };
 
 export default function FullScreenMap({ flight, path }: Props) {
+  const { publicRunwayService } = usePublicApi();
   const mapOptions = {
     padding: [100, 100],
     duration: 1,
@@ -23,10 +26,17 @@ export default function FullScreenMap({ flight, path }: Props) {
 
   const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const lastPosition = path[path.length - 1];
-  const mapBounds = latLngBounds([
-    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
-    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
-  ]);
+
+  const departurePosition: Position = [
+    flight.departureAirport.location.latitude,
+    flight.departureAirport.location.longitude,
+  ];
+  const destinationPosition: Position = [
+    flight.destinationAirport.location.latitude,
+    flight.destinationAirport.location.longitude,
+  ];
+
+  const mapBounds = latLngBounds([departurePosition, destinationPosition]);
 
   return (
     <div className="grow relative rounded-2xl">
@@ -47,7 +57,21 @@ export default function FullScreenMap({ flight, path }: Props) {
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />
 
-        <MapEventsHandler bounds={mapBounds} options={mapOptions} aircraftPosition={lastPosition} />
+        <TrackingRunwaysLayer
+          runwayService={publicRunwayService}
+          departureAirportId={flight.departureAirport.id}
+          destinationAirportId={flight.destinationAirport.id}
+          departureRunwayId={flight.departureRunwayId}
+          arrivalRunwayId={flight.arrivalRunwayId}
+        />
+
+        <MapEventsHandler
+          bounds={mapBounds}
+          options={mapOptions}
+          aircraftPosition={lastPosition}
+          departurePosition={departurePosition}
+          destinationPosition={destinationPosition}
+        />
       </MapContainer>
       <FlightDetailsSectionOverlay flight={flight} />
       <MapBottomDrawer />

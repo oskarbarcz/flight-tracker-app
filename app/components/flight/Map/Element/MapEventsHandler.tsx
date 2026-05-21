@@ -9,10 +9,20 @@ import { useMapSettings } from "~/state/app/context/useMapSettings";
 type MapEventsHandlerProps = {
   bounds: LatLngBounds;
   aircraftPosition?: FlightPathElement;
+  departurePosition: Position;
+  destinationPosition: Position;
   options?: FitBoundsOptions;
 };
 
-export function MapEventsHandler({ bounds, aircraftPosition, options }: MapEventsHandlerProps) {
+const AIRPORT_ZOOM = 13;
+
+export function MapEventsHandler({
+  bounds,
+  aircraftPosition,
+  departurePosition,
+  destinationPosition,
+  options,
+}: MapEventsHandlerProps) {
   const map = useMap();
   const { mapSettings } = useMapSettings();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -25,8 +35,12 @@ export function MapEventsHandler({ bounds, aircraftPosition, options }: MapEvent
       map.flyTo(lastPosition, map.getZoom(), options);
     } else if (mapSettings.centerOn === "route") {
       map.flyToBounds(bounds, options);
+    } else if (mapSettings.centerOn === "departure") {
+      map.flyTo(departurePosition, AIRPORT_ZOOM, options);
+    } else if (mapSettings.centerOn === "destination") {
+      map.flyTo(destinationPosition, AIRPORT_ZOOM, options);
     }
-  }, [aircraftPosition, mapSettings, bounds, map, options]);
+  }, [aircraftPosition, mapSettings, bounds, departurePosition, destinationPosition, map, options]);
 
   const startTimeout = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
