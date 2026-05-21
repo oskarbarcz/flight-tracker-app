@@ -6,6 +6,7 @@ import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 
 type ManagedFloatingInputBlock = {
   field: string;
@@ -33,18 +34,23 @@ export function ManagedFloatingInputBlock({
 
   return (
     <div className={twMerge("w-full", className)}>
-      <FloatingLabel
-        variant="outlined"
-        label={label}
-        id={field}
-        autoComplete={autoComplete}
-        type={type}
-        required={required}
-        className="dark:bg-gray-800"
-        color={isError ? "error" : undefined}
-        disabled={disabled}
-        {...fieldProps}
-      />
+      <div className="relative">
+        <FloatingLabel
+          variant="outlined"
+          label={label}
+          id={field}
+          autoComplete={autoComplete}
+          type={type}
+          required={required}
+          className="dark:bg-gray-800"
+          color={isError ? "error" : undefined}
+          disabled={disabled}
+          {...fieldProps}
+        />
+        {required && (
+          <RequiredMark className="text-red-500 absolute top-2.5 right-3 pointer-events-none z-10 text-sm" />
+        )}
+      </div>
       <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">
