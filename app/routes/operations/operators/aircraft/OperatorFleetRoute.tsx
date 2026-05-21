@@ -16,7 +16,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     new OperatorService().fetchById(params.operatorId),
   ]);
 
-  aircrafts.sort((a, b) => a.icaoCode.localeCompare(b.icaoCode));
+  aircrafts.sort((a, b) => a.airframe.type.localeCompare(b.airframe.type));
 
   return { aircrafts, operator };
 }
@@ -28,7 +28,7 @@ export default function OperatorFleetRoute({ params }: Route.ComponentProps) {
   const filtered = useMemo(() => {
     if (!selectedType) return aircrafts;
 
-    return aircrafts.filter((aircraft) => aircraft.icaoCode === selectedType);
+    return aircrafts.filter((aircraft) => aircraft.airframe.type === selectedType);
   }, [aircrafts, selectedType]);
 
   if (aircrafts.length === 0) {

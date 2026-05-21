@@ -79,7 +79,7 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
         </div>
 
         <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-gray-200 pt-4 sm:grid-cols-5 dark:border-gray-800">
-          <Stat label="Aircraft" value={flight.aircraft.fullName} />
+          <Stat label="Aircraft" value={flight.aircraft.airframe.name} />
           <Stat label="Registration" value={flight.aircraft.registration} mono />
           <Stat
             label="Scheduled departure"

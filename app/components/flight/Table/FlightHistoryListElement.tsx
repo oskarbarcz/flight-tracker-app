@@ -41,7 +41,7 @@ export function FlightHistoryListElement({ flight }: Props) {
         </div>
       </TableCell>
       <TableCell>
-        <div className="mb-1 text-sm">{flight.aircraft.fullName}</div>
+        <div className="mb-1 text-sm">{flight.aircraft.airframe.name}</div>
         <span className="inline-flex min-w-16 justify-center rounded-md border border-gray-500 px-2 py-0.5 text-xs">
           {flight.aircraft.registration}
         </span>

@@ -35,8 +35,8 @@ export function LegPreview({ flight, actionButton }: Props) {
             </Tooltip>
           </div>
           <div className="mt-3 flex gap-4">
-            <Tooltip content={flight.aircraft.fullName}>
-              <span>{flight.aircraft.icaoCode}</span>
+            <Tooltip content={flight.aircraft.airframe.name}>
+              <span>{flight.aircraft.airframe.type}</span>
             </Tooltip>
             <span className="flex min-w-16 items-center justify-center rounded-md border border-gray-600 px-2 text-xs dark:border-gray-400">
               {flight.aircraft.registration}

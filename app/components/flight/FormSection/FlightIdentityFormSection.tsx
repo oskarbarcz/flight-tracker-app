@@ -27,7 +27,7 @@ function optionsFromOperators(operators: Operator[]) {
 
 function optionsFromAircrafts(aircrafts: Aircraft[]) {
   return aircrafts.map((aircraft) => ({
-    label: `${aircraft.registration} - ${aircraft.icaoCode}`,
+    label: `${aircraft.registration} - ${aircraft.airframe.type}`,
     value: aircraft.id,
   }));
 }

@@ -23,8 +23,7 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
         {aircraft.map((each: Aircraft) => (
           <TableRow key={each.id}>
             <TableCell className="text-gray-900 dark:text-gray-100">
-              <span className="block font-bold">{each.shortName}</span>
-              <span className="block italic">{each.fullName}</span>
+              <span className="block font-bold">{each.airframe.name}</span>
             </TableCell>
             <TableCell>
               <span className="flex gap-x-2 items-center">
@@ -33,7 +32,7 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
               </span>
               <span className="block mt-1">{each.livery}</span>
             </TableCell>
-            <TableCell className="font-mono font-bold">{each.icaoCode}</TableCell>
+            <TableCell className="font-mono font-bold">{each.airframe.type}</TableCell>
             <TableCell>
               <Link
                 className="text-primary-500 font-bold"

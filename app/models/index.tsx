@@ -1,4 +1,5 @@
 export * from "./aircraft.model";
+export * from "./airframe.model";
 export * from "./airport.model";
 export * from "./auth.model";
 export * from "./common/geo";
