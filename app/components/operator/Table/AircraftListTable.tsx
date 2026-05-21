@@ -1,6 +1,13 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
+import { HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
+import {
+  formatCruiseSpeed,
+  formatPerformanceCode,
+  formatServiceCeiling,
+  formatWeightCategory,
+} from "~/functions/formatAirframe";
 import type { Aircraft } from "~/models";
 
 type Props = {
@@ -13,9 +20,13 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeadCell>Name</TableHeadCell>
-          <TableHeadCell>Reg, SELCAL & livery</TableHeadCell>
-          <TableHeadCell>ICAO code</TableHeadCell>
+          <TableHeadCell>Registration</TableHeadCell>
+          <TableHeadCell>Type</TableHeadCell>
+          <TableHeadCell>SELCAL</TableHeadCell>
+          <TableHeadCell>Cruise speed</TableHeadCell>
+          <TableHeadCell>Service ceiling</TableHeadCell>
+          <TableHeadCell>Performance class & code</TableHeadCell>
+          <TableHeadCell>Livery</TableHeadCell>
           <TableHeadCell>Actions</TableHeadCell>
         </TableRow>
       </TableHead>
@@ -23,23 +34,28 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
         {aircraft.map((each: Aircraft) => (
           <TableRow key={each.id}>
             <TableCell className="text-gray-900 dark:text-gray-100">
-              <span className="block font-bold">{each.airframe.name}</span>
-            </TableCell>
-            <TableCell>
-              <span className="flex gap-x-2 items-center">
-                <span className="rounded-md border border-gray-600 px-2 py-0.5 text-xs">{each.registration}</span>
-                <span className="border border-gray-600 px-2 py-0.5 text-xs">{each.selcal}</span>
-              </span>
-              <span className="block mt-1">{each.livery}</span>
+              <span className="block font-mono text-lg font-bold">{each.registration}</span>
+              <span className="block text-xs text-gray-500 dark:text-gray-400">{each.airframe.name}</span>
             </TableCell>
             <TableCell className="font-mono font-bold">{each.airframe.type}</TableCell>
+            <TableCell className="font-mono text-gray-500 dark:text-gray-400">{each.selcal}</TableCell>
+            <TableCell>{formatCruiseSpeed(each.airframe.cruiseSpeed)}</TableCell>
+            <TableCell>{formatServiceCeiling(each.airframe.serviceCeiling)}</TableCell>
+            <TableCell>
+              <span className="block font-bold">{formatWeightCategory(each.airframe.weightCategory)}</span>
+              <span className="block text-xs text-gray-500 dark:text-gray-400">
+                {formatPerformanceCode(each.airframe.performanceCode)}
+              </span>
+            </TableCell>
+            <TableCell>{each.livery}</TableCell>
             <TableCell>
               <Link
-                className="text-primary-500 font-bold"
+                className="inline-flex items-center gap-1.5 text-primary-500 font-bold"
                 to={`/operators/${operatorId}/aircraft/${each.id}/edit`}
                 viewTransition
               >
-                Edit
+                <HiPencil className="size-4" />
+                <span>Update details</span>
               </Link>
             </TableCell>
           </TableRow>

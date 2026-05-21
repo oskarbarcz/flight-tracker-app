@@ -5,7 +5,12 @@ import { FaPlane } from "react-icons/fa6";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { formatCruiseSpeed, formatServiceCeiling, formatWeightCategory } from "~/functions/formatAirframe";
+import {
+  formatCruiseSpeed,
+  formatPerformanceCode,
+  formatServiceCeiling,
+  formatWeightCategory,
+} from "~/functions/formatAirframe";
 import type { Flight } from "~/models";
 
 type Props = {
@@ -37,7 +42,7 @@ export function AircraftSummaryCard({ flight }: Props) {
         <Stamp label="Livery" value={flight.aircraft.livery} />
         <Stamp
           label="Performance class & code"
-          value={`${formatWeightCategory(airframe.weightCategory)} · ${airframe.performanceCode}`}
+          value={`${formatWeightCategory(airframe.weightCategory)} · ${formatPerformanceCode(airframe.performanceCode)}`}
         />
       </div>
     </Container>

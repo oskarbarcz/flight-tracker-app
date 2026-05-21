@@ -83,7 +83,7 @@ export default function EditAircraftRoute({ params }: Route.ComponentProps) {
 
   const airframeOptions = airframes
     .slice()
-    .sort((a: Airframe, b: Airframe) => a.type.localeCompare(b.type))
+    .sort((a: Airframe, b: Airframe) => a.name.localeCompare(b.name))
     .map((a: Airframe) => ({ value: a.type, label: `${a.type} — ${a.name}` }));
 
   return (
