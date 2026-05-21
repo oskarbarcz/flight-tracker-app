@@ -1,9 +1,9 @@
+import type { Airframe } from "~/models/airframe.model";
+
 export type Aircraft = {
   id: string;
-  icaoCode: string;
-  shortName: string;
-  fullName: string;
+  airframe: Airframe;
   registration: string;
-  selcal?: string;
+  selcal: string;
   livery: string;
 };

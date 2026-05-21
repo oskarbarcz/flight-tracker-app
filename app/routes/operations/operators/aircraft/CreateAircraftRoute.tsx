@@ -4,15 +4,17 @@ import type { Route } from ".react-router/types/app/routes/operations/operators/
 import { Button } from "flowbite-react";
 import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
 import React, { useEffect } from "react";
-import { useActionData, useNavigate, useSubmit } from "react-router";
+import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
 import { InputBlock } from "~/components/shared/Form/InputBlock";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
-import type { Operator } from "~/models";
+import type { Airframe, Operator } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
+import { AirframeService } from "~/state/api/airframe.service";
 import { OperatorService } from "~/state/api/operator.service";
 import type { CreateAircraftRequest } from "~/state/api/request/operator.request";
 import { useToast } from "~/state/app/context/useToast";
@@ -20,8 +22,11 @@ import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { aircraftSchema } from "~/validator/form/aircraft.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const operator = await new OperatorService().fetchById(params.operatorId);
-  return { operator };
+  const [operator, airframes] = await Promise.all([
+    new OperatorService().fetchById(params.operatorId),
+    new AirframeService().fetchAll(),
+  ]);
+  return { operator, airframes };
 }
 
 export const handle: TopNavRouteHandle = {
@@ -47,9 +52,7 @@ export async function clientAction({ params, request }: Route.ClientActionArgs) 
 
   const form = await request.formData();
   const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(form, [
-    "icaoCode",
-    "shortName",
-    "fullName",
+    "type",
     "selcal",
     "registration",
     "livery",
@@ -64,6 +67,7 @@ export default function CreateAircraftRoute({ params }: Route.ComponentProps) {
   const navigate = useNavigate();
   const submit = useSubmit();
   const { error } = useToast();
+  const { airframes } = useLoaderData<typeof clientLoader>();
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {
@@ -99,15 +103,18 @@ export default function CreateAircraftRoute({ params }: Route.ComponentProps) {
     return [...new Set([...clientError, ...serverErrors])];
   };
 
+  const airframeOptions = airframes
+    .slice()
+    .sort((a: Airframe, b: Airframe) => a.name.localeCompare(b.name))
+    .map((a: Airframe) => ({ value: a.type, label: `${a.type} — ${a.name}` }));
+
   return (
     <div className="mx-auto max-w-md pb-4">
       <SectionHeader title="Create new aircraft" />
 
       <Formik<CreateAircraftRequest>
         initialValues={{
-          icaoCode: "",
-          shortName: "",
-          fullName: "",
+          type: "",
           registration: "",
           selcal: "",
           livery: "",
@@ -119,30 +126,7 @@ export default function CreateAircraftRoute({ params }: Route.ComponentProps) {
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col gap-4">
-                <InputBlock
-                  htmlName="icaoCode"
-                  label="ICAO code"
-                  value={values.icaoCode}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("icaoCode", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="shortName"
-                  label="Short name"
-                  value={values.shortName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("shortName", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="fullName"
-                  label="Full name"
-                  value={values.fullName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("fullName", formikErrors, touched)}
-                />
+                <ManagedSelectBlock field="type" label="Airframe" options={airframeOptions} />
                 <InputBlock
                   htmlName="registration"
                   label="Registration"

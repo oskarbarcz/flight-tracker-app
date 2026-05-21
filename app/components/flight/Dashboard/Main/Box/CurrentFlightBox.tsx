@@ -55,7 +55,7 @@ export function CurrentFlightBox({ flight }: Props) {
         <div>
           <span className="block text-indigo-500 text-4xl font-bold">{flight.flightNumber}</span>
           <span className="text-sm text-gray-500 mb-2">
-            {flight.aircraft.fullName}&nbsp;&bull; {flight.aircraft.registration}
+            {flight.aircraft.airframe.name}&nbsp;&bull; {flight.aircraft.registration}
           </span>
         </div>
 

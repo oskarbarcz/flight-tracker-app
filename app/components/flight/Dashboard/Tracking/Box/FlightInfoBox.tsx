@@ -51,7 +51,7 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
         </div>
       </div>
       <div className="my-2 flex items-center gap-2">
-        {flight.aircraft.shortName}
+        {flight.aircraft.airframe.name}
         <span>•</span>
         <span className="inline-block rounded-md border border-gray-600 px-2 py-0.5 text-xs">
           {flight.aircraft.registration}

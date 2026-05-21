@@ -6,11 +6,14 @@ import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } fro
 import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
 import { InputBlock } from "~/components/shared/Form/InputBlock";
+import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import type { Airframe } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
+import { AirframeService } from "~/state/api/airframe.service";
 import type { EditAircraftRequest } from "~/state/api/request/operator.request";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
@@ -20,14 +23,7 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
   const aircraftService = new AircraftService();
 
   const form = await request.formData();
-  const aircraft = getFormData<EditAircraftRequest>(form, [
-    "icaoCode",
-    "shortName",
-    "fullName",
-    "selcal",
-    "registration",
-    "livery",
-  ]);
+  const aircraft = getFormData<EditAircraftRequest>(form, ["type", "selcal", "registration", "livery"]);
 
   return aircraftService
     .update(params.operatorId, params.aircraftId, aircraft)
@@ -36,8 +32,11 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const aircraft = await new AircraftService().fetchById(params.operatorId, params.aircraftId);
-  return { aircraft };
+  const [aircraft, airframes] = await Promise.all([
+    new AircraftService().fetchById(params.operatorId, params.aircraftId),
+    new AirframeService().fetchAll(),
+  ]);
+  return { aircraft, airframes };
 }
 
 export default function EditAircraftRoute({ params }: Route.ComponentProps) {
@@ -46,7 +45,7 @@ export default function EditAircraftRoute({ params }: Route.ComponentProps) {
   const navigate = useNavigate();
   const submit = useSubmit();
   const { error } = useToast();
-  const { aircraft } = useLoaderData<typeof clientLoader>();
+  const { aircraft, airframes } = useLoaderData<typeof clientLoader>();
   const response = useActionData<typeof clientAction>();
 
   useEffect(() => {
@@ -82,6 +81,11 @@ export default function EditAircraftRoute({ params }: Route.ComponentProps) {
     return [...new Set([...clientError, ...serverErrors])];
   };
 
+  const airframeOptions = airframes
+    .slice()
+    .sort((a: Airframe, b: Airframe) => a.name.localeCompare(b.name))
+    .map((a: Airframe) => ({ value: a.type, label: `${a.type} — ${a.name}` }));
+
   return (
     <div className="mx-auto max-w-md pb-4">
       <SectionHeaderWithBackButton
@@ -92,9 +96,7 @@ export default function EditAircraftRoute({ params }: Route.ComponentProps) {
 
       <Formik<EditAircraftRequest>
         initialValues={{
-          icaoCode: aircraft.icaoCode,
-          shortName: aircraft.shortName,
-          fullName: aircraft.fullName,
+          type: aircraft.airframe.type,
           registration: aircraft.registration,
           selcal: aircraft.selcal,
           livery: aircraft.livery,
@@ -107,30 +109,7 @@ export default function EditAircraftRoute({ params }: Route.ComponentProps) {
           <FormikForm noValidate>
             <Container>
               <div className="flex flex-col gap-4">
-                <InputBlock
-                  htmlName="icaoCode"
-                  label="ICAO code"
-                  value={values.icaoCode}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("icaoCode", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="shortName"
-                  label="Short name"
-                  value={values.shortName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("shortName", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="fullName"
-                  label="Full name"
-                  value={values.fullName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("fullName", formikErrors, touched)}
-                />
+                <ManagedSelectBlock field="type" label="Airframe" options={airframeOptions} />
                 <InputBlock
                   htmlName="registration"
                   label="Registration"

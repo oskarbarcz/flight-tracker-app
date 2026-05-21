@@ -36,7 +36,7 @@ export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div className="w-full">
           <span className="block text-3xl font-bold">{flight.flightNumber}</span>
-          <span className="text-sm text-gray-500 mb-2">{flight.aircraft.fullName}</span>
+          <span className="text-sm text-gray-500 mb-2">{flight.aircraft.airframe.name}</span>
         </div>
         <div className="w-full text-right">
           <span className="text-right text-xl font-bold ">

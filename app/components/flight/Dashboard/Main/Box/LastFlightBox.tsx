@@ -44,7 +44,7 @@ export function LastFlightBox({ flight }: Props) {
         <div className="w-1/2 inline-block">
           <span className="font-bold text-sm uppercase text-gray-500">Airframe</span>
           <span className="flex text-lg font-bold items-center gap-1">
-            {flight.aircraft.registration} ({flight.aircraft.icaoCode})
+            {flight.aircraft.registration} ({flight.aircraft.airframe.type})
           </span>
         </div>
         <div className="w-1/2 inline-block">

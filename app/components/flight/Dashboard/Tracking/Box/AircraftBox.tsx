@@ -2,6 +2,7 @@
 
 import React from "react";
 import { FaCircleInfo, FaPlane } from "react-icons/fa6";
+import { AircraftSummaryCard } from "~/components/flight/Dashboard/History/Box/AircraftSummaryCard";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
@@ -21,35 +22,5 @@ export function AircraftBox() {
     );
   }
 
-  return (
-    <Container padding="condensed">
-      <ContainerTitle icon={FaPlane} title="Aircraft" />
-      <div className="mb-2 text-lg">
-        <span className="text-gray-500 text-sm">Owner</span>
-        <p className="font-bold">{flight.operator.shortName}</p>
-      </div>
-      <div className="flex flex-wrap text-lg">
-        <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">Model</span>
-          <p className="font-bold">{flight.aircraft.fullName}</p>
-        </div>
-        <div className="w-1/2 shrink-0">
-          <span className="text-gray-500 text-sm">Type</span>
-          <p className="font-bold">{flight.aircraft.icaoCode}</p>
-        </div>
-        <div className="w-1/2">
-          <span className="text-gray-500 text-sm block">Airframe</span>
-          <p className="mt-1 inline-block font-bold border rounded-lg border-gray-600 dark:border-gray-400 px-2 py-0.5 text-sm">
-            {flight.aircraft.registration}
-          </p>
-        </div>
-        <div className="w-1/2">
-          <span className="text-gray-500 text-sm block">SELCAL</span>
-          <p className="mt-1 inline-block font-bold border border-gray-600 dark:border-gray-400 px-2 py-0.5 text-sm">
-            {flight.aircraft.selcal}
-          </p>
-        </div>
-      </div>
-    </Container>
-  );
+  return <AircraftSummaryCard flight={flight} />;
 }
