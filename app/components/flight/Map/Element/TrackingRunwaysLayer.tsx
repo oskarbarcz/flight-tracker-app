@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
+import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/components/flight/Map/Element/zoomThresholds";
 import type { Runway } from "~/models";
-
-const RUNWAY_ZOOM_THRESHOLD = 11;
 
 type RunwaySource = {
   fetchAll: (airportId: string) => Promise<Runway[]>;
@@ -43,7 +42,7 @@ export function TrackingRunwaysLayer({
     runwayService.fetchAll(destinationAirportId).then(setDestinationRunways);
   }, [runwayService, destinationAirportId]);
 
-  if (zoom < RUNWAY_ZOOM_THRESHOLD) return null;
+  if (zoom < AIRPORT_DETAIL_ZOOM_THRESHOLD) return null;
 
   return (
     <>

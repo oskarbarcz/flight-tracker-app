@@ -12,6 +12,7 @@ import {
   StairsBoarding,
 } from "~/models";
 import type { CreateGateFormData } from "~/models/form/gate.form";
+import { coordinatesSchema } from "~/validator/form/coordinates.schema";
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 
@@ -37,4 +38,5 @@ export const createGateSchema: ObjectSchema<CreateGateFormData> = object().shape
     .default("")
     .test("hh-mm", "Use 24h HH:mm format", (value) => !value || TIME_PATTERN.test(value)),
   fuelingOptions: string<FuelingOption>().required().oneOf(Object.values(FuelingOption)),
+  coordinates: coordinatesSchema,
 });

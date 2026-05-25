@@ -1,9 +1,15 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
 import type {
   CreateTerminalRequest,
   EditTerminalRequest,
   GetTerminalResponse,
 } from "~/state/api/request/terminal.request";
+
+export class PublicTerminalService extends AbstractApiService {
+  async fetchAll(airportId: string) {
+    return this.request<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`);
+  }
+}
 
 export class TerminalService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {

@@ -1,5 +1,6 @@
 import { number, type ObjectSchema, object, string } from "yup";
 import type { CreateTerminalFormData } from "~/models/form/terminal.form";
+import { polygonSchema } from "~/validator/form/coordinates.schema";
 
 export const createTerminalSchema: ObjectSchema<CreateTerminalFormData> = object().shape({
   shortName: string().required("Short name is required").max(8, "Short name must be at most 8 characters"),
@@ -19,4 +20,5 @@ export const createTerminalSchema: ObjectSchema<CreateTerminalFormData> = object
       return codes.every((c) => /^[A-Za-z0-9]{2,4}$/.test(c));
     }),
   text: string().default(""),
+  shape: polygonSchema,
 });

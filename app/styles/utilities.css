@@ -24,3 +24,29 @@
 .airport-marker__location {
   @apply text-gray-500 block;
 }
+
+.leaflet-tooltip.terminal-label {
+  @apply bg-yellow-50 text-yellow-700 border border-yellow-300 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded shadow-none;
+  background-color: rgba(254, 252, 232, 0.92);
+}
+.leaflet-tooltip.terminal-label::before {
+  display: none;
+}
+
+.terminal-polygon {
+  transition:
+    stroke-width 200ms ease,
+    fill-opacity 200ms ease;
+}
+.terminal-polygon:hover {
+  stroke-width: 3 !important;
+  fill-opacity: 0.4 !important;
+}
+
+.leaflet-tooltip.gate-label {
+  @apply bg-emerald-50 text-emerald-700 border border-emerald-300 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded shadow-none;
+  background-color: rgba(236, 253, 245, 0.95);
+}
+.leaflet-tooltip.gate-label::before {
+  display: none;
+}

@@ -13,5 +13,6 @@ export function skyLinkToFormData(input: SkyLinkAirportResponse): CreateAirportF
     continent: Continent.Europe,
     latitude: Number.parseFloat(input.latitude),
     longitude: Number.parseFloat(input.longitude),
+    shape: null,
   };
 }

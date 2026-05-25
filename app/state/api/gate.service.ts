@@ -1,5 +1,11 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
 import type { CreateGateRequest, EditGateRequest, GetGateResponse } from "~/state/api/request/gate.request";
+
+export class PublicGateService extends AbstractApiService {
+  async fetchAll(airportId: string) {
+    return this.request<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`);
+  }
+}
 
 export class GateService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {

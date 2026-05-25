@@ -20,6 +20,7 @@ export function terminalFormDataToRequest(input: CreateTerminalFormData): Create
     averageTaxiTime: Number(input.averageTaxiTime),
     operatorCodes: parseOperatorCodes(input.operatorCodes),
     text: text === "" ? null : text,
+    shape: input.shape && input.shape.length > 0 ? input.shape : null,
   };
 }
 
@@ -30,5 +31,6 @@ export function terminalToFormData(input: GetTerminalResponse): CreateTerminalFo
     averageTaxiTime: input.averageTaxiTime,
     operatorCodes: input.operatorCodes.join(", "),
     text: input.text ?? "",
+    shape: input.shape ?? null,
   };
 }

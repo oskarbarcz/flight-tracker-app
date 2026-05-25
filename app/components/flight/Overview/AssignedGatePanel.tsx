@@ -3,6 +3,7 @@
 import { Badge } from "flowbite-react";
 import React from "react";
 import { HiLocationMarker } from "react-icons/hi";
+import { formatCoordinates } from "~/functions/formatGeo";
 import {
   bridgeOptions,
   deicingOptions,
@@ -47,6 +48,15 @@ export function AssignedGatePanel({ gate, terminal }: Props) {
         <div className="col-span-2">
           <Row label="Deicing" value={labelOf(deicingOptions, gate.deicing)} />
         </div>
+        {gate.coordinates && (
+          <div className="col-span-2">
+            <Row
+              label="Coordinates"
+              value={formatCoordinates(gate.coordinates.latitude, gate.coordinates.longitude)}
+              mono
+            />
+          </div>
+        )}
       </dl>
       {gate.noiseSensitivity === NoiseSensitivity.Yes && (
         <div className="space-y-1 border-t border-emerald-200/70 px-3 py-2 text-xs dark:border-emerald-900/70">

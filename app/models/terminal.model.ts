@@ -1,3 +1,5 @@
+import type { Coordinates } from "~/models/runway.model";
+
 export type Terminal = {
   id: string;
   airportId: string;
@@ -6,4 +8,5 @@ export type Terminal = {
   averageTaxiTime: number;
   operatorCodes: string[];
   text: string | null;
+  shape: Coordinates[] | null;
 };

@@ -8,6 +8,7 @@ import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapBottomDrawer } from "~/components/flight/Map/Element/MapBottomDrawer";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { TrackingAirportLayoutLayer } from "~/components/flight/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/components/flight/Map/Element/TrackingRunwaysLayer";
 import { FlightDetailsSectionOverlay } from "~/components/flight/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 import type { Flight, FlightPathElement, Position } from "~/models";
@@ -19,7 +20,7 @@ type Props = {
 };
 
 export default function FullScreenMap({ flight, path }: Props) {
-  const { publicRunwayService } = usePublicApi();
+  const { publicRunwayService, publicTerminalService, publicGateService } = usePublicApi();
   const mapOptions = {
     padding: [100, 100],
     duration: 1,
@@ -63,6 +64,15 @@ export default function FullScreenMap({ flight, path }: Props) {
           destinationAirportId={flight.destinationAirport.id}
           departureRunwayId={flight.departureRunwayId}
           arrivalRunwayId={flight.arrivalRunwayId}
+        />
+
+        <TrackingAirportLayoutLayer
+          terminalService={publicTerminalService}
+          gateService={publicGateService}
+          departureAirport={flight.departureAirport}
+          destinationAirport={flight.destinationAirport}
+          departureGateId={flight.departureGateId}
+          arrivalGateId={flight.arrivalGateId}
         />
 
         <MapEventsHandler

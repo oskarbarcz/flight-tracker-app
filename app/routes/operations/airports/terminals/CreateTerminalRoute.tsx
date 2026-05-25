@@ -7,6 +7,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
+import { PolygonShapePicker } from "~/components/shared/Form/MapPicker/PolygonShapePicker";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
@@ -43,8 +44,9 @@ export const handle: TopNavRouteHandle = {
   },
 };
 
-export default function CreateTerminalRoute({ params }: Route.ComponentProps) {
+export default function CreateTerminalRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new terminal");
+  const { airport } = loaderData;
 
   const { terminalService } = useApi();
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ export default function CreateTerminalRoute({ params }: Route.ComponentProps) {
   };
 
   return (
-    <div className="mx-auto max-w-md pb-4">
+    <div className="mx-auto max-w-2xl pb-4">
       <SectionHeader title="Create new terminal" />
 
       <Formik<CreateTerminalFormData>
@@ -104,6 +106,13 @@ export default function CreateTerminalRoute({ params }: Route.ComponentProps) {
                     errors={touched.text && errors.text ? [errors.text] : []}
                   />
                 </div>
+
+                <PolygonShapePicker
+                  field="shape"
+                  airportLocation={airport.location}
+                  label="Footprint — outline the terminal building"
+                  tone="terminal"
+                />
               </div>
             </Container>
 
