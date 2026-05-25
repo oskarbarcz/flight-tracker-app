@@ -4,14 +4,23 @@ import L from "leaflet";
 import { useMemo } from "react";
 import { Marker } from "react-leaflet";
 import { calculateLastBearing } from "~/functions/smooth";
+import type { FlightPathElement } from "~/models";
 import type { Position } from "~/models/common/geo";
 
 type MapAircraftMarkerProps = {
-  path: Position[];
+  path: FlightPathElement[];
 };
 
 export function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
-  const bearing = useMemo(() => calculateLastBearing(path), [path]);
+  const lastPoint = path[path.length - 1];
+  const bearing = useMemo(() => {
+    if (lastPoint?.track !== undefined) {
+      return lastPoint.track;
+    }
+    const positions: Position[] = path.map((p) => [p.latitude, p.longitude]);
+    return calculateLastBearing(positions);
+  }, [lastPoint, path]);
+
   const planeIcon = useMemo(
     () =>
       new L.DivIcon({
@@ -26,7 +35,10 @@ export function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
       }),
     [bearing],
   );
-  const lastPosition = path[path.length - 1];
 
-  return <Marker position={lastPosition} icon={planeIcon} />;
+  if (!lastPoint) {
+    return null;
+  }
+
+  return <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={planeIcon} />;
 }

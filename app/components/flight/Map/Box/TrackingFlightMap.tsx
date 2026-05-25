@@ -28,7 +28,6 @@ export function TrackingFlightMap() {
   }
 
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
-  const pathPoints: Position[] = flightPath.map((p) => [p.latitude, p.longitude]);
 
   const departurePosition: Position = [
     flight.departureAirport.location.latitude,
@@ -66,7 +65,7 @@ export function TrackingFlightMap() {
         arrivalRunwayId={flight.arrivalRunwayId}
       />
 
-      {flightPath.length > 0 && <MapAircraftMarker path={pathPoints} />}
+      {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
 
       <MapEventsHandler
         bounds={mapBounds}

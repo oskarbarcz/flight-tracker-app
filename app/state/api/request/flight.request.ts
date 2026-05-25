@@ -14,6 +14,7 @@ export type CreateFlightRequest = Omit<
   | "departureRunwayId"
   | "arrivalGateId"
   | "arrivalRunwayId"
+  | "hasFlightPath"
 >;
 
 export type ApiLoadsheetResponse = {
@@ -71,5 +72,6 @@ export type ApiFlightResponse = {
   arrivalGateId: string | null;
   arrivalRunwayId: string | null;
   hasActiveEmergency?: boolean;
+  hasFlightPath: boolean;
   createdAt: string;
 };

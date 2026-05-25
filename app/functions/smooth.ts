@@ -1,5 +1,59 @@
 import type { LatLngTuple } from "leaflet";
+import type { FlightPathElement } from "~/models";
 import type { Position } from "~/models/common/geo";
+
+export type SmoothedFlightPoint = {
+  position: LatLngTuple;
+  altitude: number | undefined;
+};
+
+export function smoothFlightPath(elements: FlightPathElement[], granularity: number = 16): SmoothedFlightPoint[] {
+  if (elements.length < 2) {
+    return elements.map((e) => ({ position: [e.latitude, e.longitude], altitude: e.altitude }));
+  }
+
+  const result: SmoothedFlightPoint[] = [
+    { position: [elements[0].latitude, elements[0].longitude], altitude: elements[0].altitude },
+  ];
+
+  for (let i = 0; i < elements.length - 1; i++) {
+    const p0 = elements[i === 0 ? i : i - 1];
+    const p1 = elements[i];
+    const p2 = elements[i + 1];
+    const p3 = elements[i === elements.length - 2 ? i + 1 : i + 2];
+
+    for (let t = 1; t <= granularity; t++) {
+      const tStep = t / granularity;
+      const t2 = tStep * tStep;
+      const t3 = t2 * tStep;
+
+      const newLat =
+        0.5 *
+        (2 * p1.latitude +
+          (-p0.latitude + p2.latitude) * tStep +
+          (2 * p0.latitude - 5 * p1.latitude + 4 * p2.latitude - p3.latitude) * t2 +
+          (-p0.latitude + 3 * p1.latitude - 3 * p2.latitude + p3.latitude) * t3);
+
+      const newLng =
+        0.5 *
+        (2 * p1.longitude +
+          (-p0.longitude + p2.longitude) * tStep +
+          (2 * p0.longitude - 5 * p1.longitude + 4 * p2.longitude - p3.longitude) * t2 +
+          (-p0.longitude + 3 * p1.longitude - 3 * p2.longitude + p3.longitude) * t3);
+
+      let altitude: number | undefined;
+      if (p1.altitude !== undefined && p2.altitude !== undefined) {
+        altitude = p1.altitude + (p2.altitude - p1.altitude) * tStep;
+      } else {
+        altitude = p1.altitude ?? p2.altitude;
+      }
+
+      result.push({ position: [newLat, newLng], altitude });
+    }
+  }
+
+  return result;
+}
 
 export function smoothPath(points: Position[], granularity: number = 16): LatLngTuple[] {
   if (points.length < 2) {

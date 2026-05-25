@@ -210,4 +210,8 @@ export class PublicFlightService extends AbstractApiService {
 
     return new Flight(response);
   }
+
+  async fetchOfpByFlightId(id: string): Promise<FlightOfp> {
+    return this.request<FlightOfp>(`/api/v1/flight/${id}/ofp`);
+  }
 }
