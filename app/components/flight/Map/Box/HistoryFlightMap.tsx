@@ -3,6 +3,7 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer } from "react-leaflet";
+import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
 import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMarker";
@@ -31,7 +32,6 @@ export function HistoryFlightMap({ flight }: Props) {
   }, [flight.id, flightService]);
 
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
-  const pathPoints: Position[] = flightPath.map((p) => [p.latitude, p.longitude]);
 
   const departurePosition: Position = [
     flight.departureAirport.location.latitude,
@@ -45,31 +45,34 @@ export function HistoryFlightMap({ flight }: Props) {
   const mapBounds = L.latLngBounds([departurePosition, destinationPosition]);
 
   return (
-    <MapContainer
-      bounds={mapBounds}
-      boundsOptions={{ padding: [80, 80] }}
-      scrollWheelZoom={true}
-      className="rounded-xl h-full w-full z-0"
-      zoomControl={false}
-      attributionControl={false}
-    >
-      <MapTileLayer />
-
-      <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
-      <FlightPath path={flightPath} />
-
-      <MapAirportLabel airport={flight.departureAirport} />
-      <MapAirportLabel airport={flight.destinationAirport} />
-
-      {flightPath.length > 0 && <MapAircraftMarker path={pathPoints} />}
-
-      <MapEventsHandler
+    <div className="relative h-full w-full">
+      <MapContainer
         bounds={mapBounds}
-        options={leafletMapOptions}
-        aircraftPosition={lastPathPoint}
-        departurePosition={departurePosition}
-        destinationPosition={destinationPosition}
-      />
-    </MapContainer>
+        boundsOptions={{ padding: [80, 80] }}
+        scrollWheelZoom={true}
+        className="rounded-xl h-full w-full z-0"
+        zoomControl={false}
+        attributionControl={false}
+      >
+        <MapTileLayer />
+
+        <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
+        <FlightPath path={flightPath} />
+
+        <MapAirportLabel airport={flight.departureAirport} />
+        <MapAirportLabel airport={flight.destinationAirport} />
+
+        {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
+
+        <MapEventsHandler
+          bounds={mapBounds}
+          options={leafletMapOptions}
+          aircraftPosition={lastPathPoint}
+          departurePosition={departurePosition}
+          destinationPosition={destinationPosition}
+        />
+      </MapContainer>
+      <LiveTelemetryOverlay point={lastPathPoint} />
+    </div>
   );
 }

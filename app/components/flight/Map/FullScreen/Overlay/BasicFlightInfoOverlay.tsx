@@ -1,9 +1,11 @@
-import { FaPlane } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import { HiX } from "react-icons/hi";
 import { toHuman } from "~/i18n/translate";
 import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
 
 type Props = {
   flight: Flight;
+  onClose: () => void;
 };
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
@@ -14,21 +16,11 @@ function calculateBlockTime(offBlockTime: Date, onBlockTime: Date) {
   return `${hours}h ${minutes % 60}m`;
 }
 
-function formatTime(date: Date) {
-  return date.toLocaleTimeString(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
-
-export function BasicFlightInfoOverlay({ flight }: Props) {
+export function BasicFlightInfoOverlay({ flight, onClose }: Props) {
   const timesheet = flight.timesheet;
-
   const scheduledBlockTime = calculateBlockTime(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
 
-  let estimatedBlockTime = null;
-
+  let estimatedBlockTime: string | null = null;
   if (flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready) {
     const schedule = timesheet.estimated as FilledSchedule;
     estimatedBlockTime = calculateBlockTime(schedule.offBlockTime, schedule.onBlockTime);
@@ -36,60 +28,46 @@ export function BasicFlightInfoOverlay({ flight }: Props) {
 
   return (
     <section className="bg-gray-100 pointer-events-auto dark:bg-gray-950 text-gray-800 dark:text-gray-300 p-6 w-full sm:w-sm rounded-xl">
-      <div className="mb-4">
-        <h2 className="block pb-2 text-3xl font-bold text-indigo-500 md:text-4xl">{flight.flightNumber}</h2>
-      </div>
-
-      <div className="flex items-center justify-between my-4">
-        <div className="text-start font-bold">
-          <span className="block text-4xl">{flight.departureAirport.iataCode}</span>
-          <span className="block">{flight.departureAirport.city}</span>
-        </div>
+      <header className="mb-4 flex items-start justify-between">
         <div>
-          <FaPlane className="mx-auto mb-2 block" size={20} />
-          {estimatedBlockTime && <span className="block text-center text-green-500">{estimatedBlockTime}</span>}
-          <span className="block text-center text-xs">{scheduledBlockTime}</span>
-        </div>
-        <div className="text-end font-bold">
-          <span className="block text-4xl">{flight.destinationAirport.iataCode}</span>
-          <span className="block">{flight.destinationAirport.city}</span>
-        </div>
-      </div>
-
-      <div className="my-4 flex items-center justify-between">
-        <div className="text-start">
-          {timesheet.estimated && (
-            <>
-              <span className="block text-xs text-green-500">{"On time"}</span>
-              <span className="block text-2xl font-bold text-green-500">
-                {formatTime(timesheet.estimated.offBlockTime)}
-              </span>
-            </>
-          )}
-          <span className="block text-sm">
-            {"Sched. "}
-            {formatTime(timesheet.scheduled.offBlockTime)}
+          <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500">Flight</h2>
+          <span className="mt-1 block font-mono text-lg font-bold text-gray-900 dark:text-white">
+            {flight.flightNumber}
+          </span>
+          <span className="mt-1 inline-block rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
+            {toHuman.flight.status.standard(flight.status)}
           </span>
         </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close flight info"
+          className="cursor-pointer p-1 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+        >
+          <HiX size={20} />
+        </button>
+      </header>
 
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+        <div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">From</div>
+          <div className="mt-1 font-mono text-2xl font-bold text-gray-900 dark:text-white">
+            {flight.departureAirport.iataCode}
+          </div>
+          <div className="text-xs text-gray-500">{flight.departureAirport.city}</div>
+        </div>
+        <div className="flex flex-col items-center text-gray-400">
+          <FaArrowRight size={14} />
+          <span className="mt-1 font-mono text-[11px] text-gray-500">{scheduledBlockTime}</span>
+          {estimatedBlockTime && <span className="font-mono text-[11px] text-emerald-600">{estimatedBlockTime}</span>}
+        </div>
         <div className="text-end">
-          {timesheet.estimated && (
-            <>
-              <span className="block text-xs text-green-500">{"On time"}</span>
-              <span className="block text-2xl font-bold text-green-500">
-                {formatTime(timesheet.estimated.onBlockTime)}
-              </span>
-            </>
-          )}
-          <span className="block text-sm">
-            {"Sched. "}
-            {formatTime(timesheet.scheduled.onBlockTime)}
-          </span>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">To</div>
+          <div className="mt-1 font-mono text-2xl font-bold text-gray-900 dark:text-white">
+            {flight.destinationAirport.iataCode}
+          </div>
+          <div className="text-xs text-gray-500">{flight.destinationAirport.city}</div>
         </div>
-      </div>
-
-      <div className="mt-8 text-indigo-500 text-center text-lg p-1 uppercase font-bold">
-        {toHuman.flight.status.standard(flight.status)}
       </div>
     </section>
   );

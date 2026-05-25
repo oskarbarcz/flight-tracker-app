@@ -1,5 +1,6 @@
 import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
+import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
 import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMarker";
@@ -24,7 +25,6 @@ export default function FullScreenMap({ flight, path }: Props) {
     duration: 1,
   } as FitBoundsOptions;
 
-  const pathPoints: Position[] = path.map((p) => [p.latitude, p.longitude]);
   const lastPosition = path[path.length - 1];
 
   const departurePosition: Position = [
@@ -52,7 +52,7 @@ export default function FullScreenMap({ flight, path }: Props) {
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <FlightPath path={path} />
 
-        {pathPoints.length > 0 && <MapAircraftMarker path={pathPoints} />}
+        {path.length > 0 && <MapAircraftMarker path={path} />}
 
         <MapAirportLabel airport={flight.departureAirport} extended />
         <MapAirportLabel airport={flight.destinationAirport} extended />
@@ -73,6 +73,7 @@ export default function FullScreenMap({ flight, path }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
+      <LiveTelemetryOverlay point={lastPosition} />
       <FlightDetailsSectionOverlay flight={flight} />
       <MapBottomDrawer />
     </div>

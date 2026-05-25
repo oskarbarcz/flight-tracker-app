@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
+import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
 import { MapLinkOverlay } from "~/components/flight/Map/Box/Overlay/MapLinkOverlay";
 import { MapPreviewStatusOverlay } from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
 import { TrackingFlightMap } from "~/components/flight/Map/Box/TrackingFlightMap";
@@ -16,7 +17,7 @@ type MapBoxProps = ContainerClassProps;
 
 export function MapBox({ className }: MapBoxProps) {
   const { flight } = useTrackedFlight();
-  const { setCallsign, loadFlightPath } = useAdsbData();
+  const { setCallsign, loadFlightPath, flightPath } = useAdsbData();
 
   const fetchFlight = useCallback(async () => {
     if (!flight) return;
@@ -56,6 +57,7 @@ export function MapBox({ className }: MapBoxProps) {
       <div className="relative w-full h-full">
         <MapSettingsProvider>
           <TrackingFlightMap />
+          <LiveTelemetryOverlay point={flightPath[flightPath.length - 1]} />
           <MapPreviewStatusOverlay />
           {isVisibleForOthers && <MapLinkOverlay />}
           <MapBottomDrawer size="sm" />

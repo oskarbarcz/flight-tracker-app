@@ -4,10 +4,13 @@ import { Button, Tooltip } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { HiEye, HiOutlineTrash } from "react-icons/hi";
+import { IoIosLink } from "react-icons/io";
+import { LuExternalLink } from "react-icons/lu";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { toHuman } from "~/i18n/translate";
-import { type Flight, FlightSource, FlightStatus } from "~/models";
+import { type Flight, FlightSource, FlightStatus, Tracking } from "~/models";
+import { useToast } from "~/state/app/context/useToast";
 
 type Props = {
   flight: Flight;
@@ -17,8 +20,21 @@ type Props = {
 };
 
 export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: Props) {
+  const { success } = useToast();
   const canRelease = flight.status === FlightStatus.Created && flight.loadsheets.preliminary !== null;
   const canRemove = flight.status === FlightStatus.Created;
+  const isTrackingDisabled = flight.tracking === Tracking.Disabled;
+
+  const handleCopyTrackingLink = () => {
+    const trackingUrl = `${window.location.origin}/map/${flight.id}`;
+    navigator.clipboard.writeText(trackingUrl).then(() => {
+      success("Tracking link copied to clipboard.");
+    });
+  };
+
+  const handleOpenTrackingMap = () => {
+    window.open(`/map/${flight.id}`, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <section>
@@ -60,6 +76,30 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
                 className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
               >
                 <HiEye className="size-4" />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Copy tracking link">
+              <Button
+                color="light"
+                size="sm"
+                onClick={handleCopyTrackingLink}
+                disabled={isTrackingDisabled}
+                aria-label="Copy tracking link"
+                className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+              >
+                <IoIosLink className="size-4" />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Open tracking map">
+              <Button
+                color="light"
+                size="sm"
+                onClick={handleOpenTrackingMap}
+                disabled={isTrackingDisabled}
+                aria-label="Open tracking map"
+                className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+              >
+                <LuExternalLink className="size-4" />
               </Button>
             </Tooltip>
             {canRemove && (

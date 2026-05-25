@@ -89,6 +89,7 @@ export class Flight {
   arrivalGateId: string | null;
   arrivalRunwayId: string | null;
   hasActiveEmergency: boolean;
+  hasFlightPath: boolean;
   createdAt: Date;
 
   constructor(flight: ApiFlightResponse) {
@@ -112,6 +113,7 @@ export class Flight {
     this.arrivalGateId = flight.arrivalGateId;
     this.arrivalRunwayId = flight.arrivalRunwayId;
     this.hasActiveEmergency = flight.hasActiveEmergency ?? false;
+    this.hasFlightPath = flight.hasFlightPath;
     this.createdAt = new Date(flight.createdAt);
   }
 
@@ -192,6 +194,15 @@ export type FlightPathElement = {
   date: string;
   latitude: number;
   longitude: number;
+  altitude?: number;
+  groundSpeed?: number;
+  track?: number;
+  verticalRate?: number;
+  squawk?: string;
+  isOnGround?: boolean;
+  alert?: boolean;
+  emergency?: boolean;
+  spi?: boolean;
 };
 
 export interface Schedule {
