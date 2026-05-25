@@ -45,7 +45,7 @@ export function LiveTelemetryOverlay({ point }: Props) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-[4.5rem]">
+    <div className="min-w-[4.5rem] text-center">
       <dt className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</dt>
       <dd className="mt-0.5 font-mono text-sm font-semibold tabular-nums text-gray-800 dark:text-gray-100">{value}</dd>
     </div>

@@ -2,6 +2,7 @@
 
 import L from "leaflet";
 import { useEffect, useState } from "react";
+import { FaClockRotateLeft } from "react-icons/fa6";
 import { MapContainer } from "react-leaflet";
 import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
 import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
@@ -72,6 +73,10 @@ export function HistoryFlightMap({ flight }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
+      <div className="absolute top-3 left-3 bg-white w-fit flex items-center gap-2 rounded-lg px-3 py-1.5 z-10 dark:bg-gray-900">
+        <FaClockRotateLeft className="text-gray-500" />
+        <span className="uppercase font-bold text-xs">Historic data</span>
+      </div>
       <LiveTelemetryOverlay point={lastPathPoint} />
     </div>
   );
