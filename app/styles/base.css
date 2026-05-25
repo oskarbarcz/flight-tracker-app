@@ -1,10 +1,12 @@
 html,
 body {
   @apply bg-gray-100 h-dvh-safe dark:bg-gray-900;
+  color-scheme: light;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+html.dark,
+html.dark body {
+  color-scheme: dark;
 }
 
 body {
