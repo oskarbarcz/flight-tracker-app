@@ -1,16 +1,21 @@
-import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer, useRef } from "react";
-import type { Diversion, Emergency, FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
+import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer } from "react";
+import {
+  type Diversion,
+  type Emergency,
+  type FilledSchedule,
+  type Flight,
+  type FlightEvent,
+  isEmergencyEvent,
+  type Loadsheet,
+} from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import { subscribeToFlightEvents } from "~/state/api/flightEvents.socket";
 import type { ReportDiversionRequest, UpdateDiversionRequest } from "~/state/api/request/diversion.request";
 import type { DeclareEmergencyRequest, UpdateEmergencyRequest } from "~/state/api/request/emergency.request";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
-const TRACKED_FLIGHT_REFRESH_INTERVAL_MS = 10_000;
-
-function eventsListChanged(a: FlightEvent[], b: FlightEvent[]): boolean {
-  if (a.length !== b.length) return true;
-  if (a.length === 0) return false;
-  return a[0].id !== b[0].id;
+function sortNewestFirst(events: FlightEvent[]): FlightEvent[] {
+  return [...events].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 }
 
 type State = {
@@ -34,6 +39,7 @@ const initialState: State = {
 type Action =
   | { type: "SET_TRACKED_FLIGHT"; payload: Flight }
   | { type: "SET_TRACKED_FLIGHT_EVENTS"; payload: FlightEvent[] }
+  | { type: "PREPEND_TRACKED_FLIGHT_EVENT"; payload: FlightEvent }
   | { type: "SET_TRACKED_FLIGHT_EMERGENCIES"; payload: Emergency[] }
   | { type: "SET_TRACKED_FLIGHT_DIVERSION"; payload: Diversion | null }
   | { type: "SET_LOADING"; payload: boolean }
@@ -45,6 +51,9 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, flight: action.payload };
     case "SET_TRACKED_FLIGHT_EVENTS":
       return { ...state, events: action.payload };
+    case "PREPEND_TRACKED_FLIGHT_EVENT":
+      if (state.events.some((event) => event.id === action.payload.id)) return state;
+      return { ...state, events: [action.payload, ...state.events] };
     case "SET_TRACKED_FLIGHT_EMERGENCIES":
       return { ...state, emergencies: action.payload };
     case "SET_TRACKED_FLIGHT_DIVERSION":
@@ -128,55 +137,49 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       if (!state.flightId) return;
       if (!silent) dispatch({ type: "SET_LOADING", payload: true });
       const updatedFlight = await flightService.fetchById(state.flightId);
-      const events = await flightService.fetchEventsByFlightId(state.flightId);
-      const emergencies = await emergencyService.listByFlight(state.flightId);
       const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
       dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
-      dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: events });
-      dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies });
       dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
       markRefreshed();
       if (!silent) dispatch({ type: "SET_LOADING", payload: false });
     },
-    [flightService, emergencyService, diversionService, state.flightId, markRefreshed],
+    [flightService, diversionService, state.flightId, markRefreshed],
   );
-
-  // Keep a stable reference to the latest events so pollEvents doesn't need
-  // them in its dependency list (which would restart the interval on every
-  // events update).
-  const eventsRef = useRef<FlightEvent[]>(state.events);
-  useEffect(() => {
-    eventsRef.current = state.events;
-  }, [state.events]);
-
-  /**
-   * Cheap poll: fetch only events. If the list hasn't changed, do nothing —
-   * neither the flight nor the emergencies have changed either, since every
-   * emergency state change produces a flight event.
-   */
-  const pollEvents = useCallback(async () => {
-    if (!state.flightId) return;
-    const fresh = await flightService.fetchEventsByFlightId(state.flightId);
-    markRefreshed();
-    if (!eventsListChanged(fresh, eventsRef.current)) return;
-
-    dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: fresh });
-    const [updatedFlight, emergencies] = await Promise.all([
-      flightService.fetchById(state.flightId),
-      emergencyService.listByFlight(state.flightId),
-    ]);
-    const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
-    dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
-    dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies });
-    dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
-  }, [flightService, emergencyService, diversionService, state.flightId, markRefreshed]);
 
   useEffect(() => {
     if (!state.flightId) return;
     loadFlight();
-    const interval = setInterval(pollEvents, TRACKED_FLIGHT_REFRESH_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, [loadFlight, pollEvents, state.flightId]);
+    return subscribeToFlightEvents(state.flightId, {
+      onHistory: (events) => {
+        dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: sortNewestFirst(events) });
+        markRefreshed();
+      },
+      onEvent: (event) => {
+        dispatch({ type: "PREPEND_TRACKED_FLIGHT_EVENT", payload: event });
+        markRefreshed();
+        loadFlight({ silent: true });
+      },
+      onError: (error) => console.error("Flight events subscription failed", error),
+    });
+  }, [loadFlight, state.flightId, markRefreshed]);
+
+  const emergencyEventIds = state.events
+    .filter((event) => isEmergencyEvent(event.type))
+    .map((event) => event.id)
+    .join(",");
+  const hasActiveEmergency = state.flight?.hasActiveEmergency ?? false;
+
+  useEffect(() => {
+    if (!state.flightId) return;
+    if (!hasActiveEmergency && emergencyEventIds.length === 0) {
+      dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: [] });
+      return;
+    }
+    emergencyService
+      .listByFlight(state.flightId)
+      .then((emergencies) => dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies }))
+      .catch((error) => console.error("Failed to load flight emergencies", error));
+  }, [state.flightId, hasActiveEmergency, emergencyEventIds, emergencyService]);
 
   // All domain actions now in context
   const checkIn = useCallback(

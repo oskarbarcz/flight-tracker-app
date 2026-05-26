@@ -1,6 +1,7 @@
 "use client";
 
 import L from "leaflet";
+import { useMemo } from "react";
 import { MapContainer } from "react-leaflet";
 import { DiversionRoute } from "~/components/flight/Map/Element/DiversionRoute";
 import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
@@ -20,6 +21,10 @@ export function TrackingFlightMap() {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
   const { runwayService, terminalService, gateService } = useApi();
+  const cachedGateService = useMemo(
+    () => ({ fetchAll: (airportId: string) => gateService.fetchAllCached(airportId) }),
+    [gateService],
+  );
   const leafletMapOptions = {
     padding: [80, 80],
     duration: 1,
@@ -62,7 +67,7 @@ export function TrackingFlightMap() {
 
       <TrackingAirportLayoutLayer
         terminalService={terminalService}
-        gateService={gateService}
+        gateService={cachedGateService}
         departureAirport={flight.departureAirport}
         destinationAirport={flight.destinationAirport}
         departureGateId={flight.departureGateId}
