@@ -17,6 +17,12 @@ export class GateService extends AbstractAuthorizedApiService {
     return this.fetchWithAuth<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`);
   }
 
+  async fetchAllCached(airportId: string) {
+    return gateListCache.getOrFetch(airportId, () =>
+      this.fetchWithAuth<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`),
+    );
+  }
+
   async fetchById(airportId: string, gateId: string) {
     return this.fetchWithAuth<GetGateResponse>(`/api/v1/airport/${airportId}/gate/${gateId}`);
   }
