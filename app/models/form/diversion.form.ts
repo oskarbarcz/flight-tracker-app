@@ -1,5 +1,5 @@
 import { type Diversion, DiversionReason, DiversionSeverity } from "~/models/diversion.model";
-import type { ReportDiversionRequest, UpdateDiversionRequest } from "~/state/api/request/diversion.request";
+import type { ReportDiversionRequest } from "~/state/api/request/diversion.request";
 import type { ApiCoordinates } from "~/state/api/request/emergency.request";
 
 export type ReportDiversionFormData = {
@@ -63,13 +63,6 @@ export function reportFormDataToRequest(
     notifyFirefightersOnGround: values.notifyFirefightersOnGround,
     estimatedTimeAtDestination: values.estimatedTimeAtDestination.toISOString(),
   };
-}
-
-export function updateDiversionFormDataToRequest(
-  values: ReportDiversionFormData,
-  position: ApiCoordinates,
-): UpdateDiversionRequest {
-  return reportFormDataToRequest(values, position);
 }
 
 export function diversionToFormData(diversion: Diversion): ReportDiversionFormData {

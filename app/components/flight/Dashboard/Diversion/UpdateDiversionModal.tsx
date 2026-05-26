@@ -5,12 +5,7 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { DiversionFormFields } from "~/components/flight/Dashboard/Diversion/DiversionFormFields";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import {
-  type Diversion,
-  diversionToFormData,
-  type ReportDiversionFormData,
-  updateDiversionFormDataToRequest,
-} from "~/models";
+import { type Diversion, diversionToFormData, type ReportDiversionFormData, reportFormDataToRequest } from "~/models";
 import { usePublicApi } from "~/state/api/context/usePublicApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";
@@ -35,7 +30,7 @@ export function UpdateDiversionModal({ diversion, close }: Props) {
       const path = await adsbService.getRecordsByCallsign(flight.callsign).catch(() => []);
       const last = path[path.length - 1];
       const position = last ? { latitude: last.latitude, longitude: last.longitude } : diversion.position;
-      await updateDiversion(updateDiversionFormDataToRequest(values, position));
+      await updateDiversion(reportFormDataToRequest(values, position));
       success("Diversion updated.");
       close();
     } catch (err) {

@@ -1,12 +1,10 @@
 "use client";
 
-import { Label, Textarea } from "flowbite-react";
-import { useField } from "formik";
 import React from "react";
 import { DangerousGoodsCheckboxes } from "~/components/flight/Dashboard/Emergency/DangerousGoodsCheckboxes";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { ManagedTextareaBlock } from "~/components/shared/Form/Managed/ManagedTextareaBlock";
 import {
   emergencyCategoryOptions,
   emergencyIntentionOptions,
@@ -14,29 +12,6 @@ import {
   emergencyThreatLevelOptions,
   emergencyUrgencyOptions,
 } from "~/models";
-
-function FreeTextField() {
-  const [fieldProps, meta] = useField<string>("freeText");
-  const isError = meta.touched && meta.error;
-
-  return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 block">
-        <Label htmlFor="freeText" color={isError ? "failure" : undefined}>
-          Description
-        </Label>
-      </div>
-      <Textarea
-        id="freeText"
-        rows={3}
-        color={isError ? "failure" : undefined}
-        placeholder="Engine #2 fire warning, ECAM actions completed, returning to FRA."
-        {...fieldProps}
-      />
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
-    </div>
-  );
-}
 
 export function EmergencyFormFields() {
   return (
@@ -73,7 +48,11 @@ export function EmergencyFormFields() {
 
       <DangerousGoodsCheckboxes field="dangerousGoodsOnBoard" />
 
-      <FreeTextField />
+      <ManagedTextareaBlock
+        field="freeText"
+        label="Description"
+        placeholder="Engine #2 fire warning, ECAM actions completed, returning to FRA."
+      />
     </div>
   );
 }

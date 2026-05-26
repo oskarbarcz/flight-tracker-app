@@ -1,11 +1,12 @@
 "use client";
 
-import { Checkbox, Label, Select, Textarea } from "flowbite-react";
+import { Checkbox, Label, Select } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { ManagedTextareaBlock } from "~/components/shared/Form/Managed/ManagedTextareaBlock";
 import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 import {
   type Airport,
@@ -16,29 +17,6 @@ import {
 } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
-
-function FreeTextField() {
-  const [fieldProps, meta] = useField<string>("freeText");
-  const isError = meta.touched && meta.error;
-
-  return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 block">
-        <Label htmlFor="freeText" color={isError ? "failure" : undefined}>
-          Description
-        </Label>
-      </div>
-      <Textarea
-        id="freeText"
-        rows={3}
-        color={isError ? "failure" : undefined}
-        placeholder="Severe weather at destination, diverting to nearest suitable airport."
-        {...fieldProps}
-      />
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
-    </div>
-  );
-}
 
 function NotificationCheckbox({ field, label }: { field: string; label: string }) {
   const [fieldProps, , helpers] = useField<boolean>(field);
@@ -172,7 +150,11 @@ export function DiversionFormFields() {
 
       <NotificationCheckboxes />
 
-      <FreeTextField />
+      <ManagedTextareaBlock
+        field="freeText"
+        label="Description"
+        placeholder="Severe weather at destination, diverting to nearest suitable airport."
+      />
     </div>
   );
 }

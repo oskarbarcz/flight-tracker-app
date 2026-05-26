@@ -5,14 +5,15 @@ import { useEffect, useState } from "react";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { MapContainer } from "react-leaflet";
 import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
+import { DiversionRoute } from "~/components/flight/Map/Element/DiversionRoute";
 import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMarker";
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { flightMapPositions } from "~/functions/flightMapBounds";
 import type { Diversion, Flight, FlightPathElement } from "~/models";
-import type { Position } from "~/models/common/geo";
 import { useApi } from "~/state/api/context/useApi";
 
 type Props = {
@@ -35,24 +36,8 @@ export function HistoryFlightMap({ flight, diversion = null }: Props) {
 
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
 
-  const departurePosition: Position = [
-    flight.departureAirport.location.latitude,
-    flight.departureAirport.location.longitude,
-  ];
-  const destinationPosition: Position = [
-    flight.destinationAirport.location.latitude,
-    flight.destinationAirport.location.longitude,
-  ];
-
-  const diversionPosition: Position | null = diversion
-    ? [diversion.airport.location.latitude, diversion.airport.location.longitude]
-    : null;
-
-  const mapBounds = L.latLngBounds(
-    diversionPosition
-      ? [departurePosition, destinationPosition, diversionPosition]
-      : [departurePosition, destinationPosition],
-  );
+  const { departurePosition, destinationPosition, boundsPoints } = flightMapPositions(flight, diversion);
+  const mapBounds = L.latLngBounds(boundsPoints);
 
   return (
     <div className="relative h-full w-full">
@@ -67,12 +52,11 @@ export function HistoryFlightMap({ flight, diversion = null }: Props) {
         <MapTileLayer />
 
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
-        {diversion && <GreatCirclePath start={flight.departureAirport} end={diversion.airport} variant="diversion" />}
+        <DiversionRoute origin={flight.departureAirport} diversion={diversion} />
         <FlightPath path={flightPath} />
 
         <MapAirportLabel airport={flight.departureAirport} />
         <MapAirportLabel airport={flight.destinationAirport} />
-        {diversion && <MapAirportLabel airport={diversion.airport} variant="diversion" />}
 
         {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
 
