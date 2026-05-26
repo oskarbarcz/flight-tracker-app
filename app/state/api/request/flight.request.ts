@@ -72,6 +72,7 @@ export type ApiFlightResponse = {
   arrivalGateId: string | null;
   arrivalRunwayId: string | null;
   hasActiveEmergency?: boolean;
+  isFlightDiverted?: boolean;
   hasFlightPath: boolean;
   createdAt: string;
 };

@@ -10,10 +10,11 @@ import type { Airport } from "~/models";
 type MapAirportLabelProps = {
   airport: Airport;
   extended?: boolean;
+  variant?: "primary" | "diversion";
 };
 
-const shortLabel = (airport: Airport) => {
-  const content = ReactDOMServer.renderToString(<AirportShortLabel airport={airport} />);
+const shortLabel = (airport: Airport, variant: "primary" | "diversion") => {
+  const content = ReactDOMServer.renderToString(<AirportShortLabel airport={airport} variant={variant} />);
 
   return new L.DivIcon({
     html: content,
@@ -22,8 +23,8 @@ const shortLabel = (airport: Airport) => {
   });
 };
 
-const extendedLabel = (airport: Airport) => {
-  const content = ReactDOMServer.renderToString(<AirportExtendedLabel airport={airport} />);
+const extendedLabel = (airport: Airport, variant: "primary" | "diversion") => {
+  const content = ReactDOMServer.renderToString(<AirportExtendedLabel airport={airport} variant={variant} />);
 
   return new L.DivIcon({
     html: content,
@@ -33,10 +34,10 @@ const extendedLabel = (airport: Airport) => {
   });
 };
 
-export default function MapAirportLabel({ airport, extended = false }: MapAirportLabelProps) {
+export default function MapAirportLabel({ airport, extended = false, variant = "primary" }: MapAirportLabelProps) {
   const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
 
-  const label = extended ? extendedLabel(airport) : shortLabel(airport);
+  const label = extended ? extendedLabel(airport, variant) : shortLabel(airport, variant);
 
-  return <Marker position={position} icon={label} zIndexOffset={1000} />;
+  return <Marker position={position} icon={label} zIndexOffset={variant === "diversion" ? 1100 : 1000} />;
 }

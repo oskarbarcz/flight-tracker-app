@@ -14,9 +14,7 @@ export class PublicGateService extends AbstractApiService {
 
 export class GateService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {
-    return gateListCache.getOrFetch(airportId, () =>
-      this.fetchWithAuth<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`),
-    );
+    return this.fetchWithAuth<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`);
   }
 
   async fetchById(airportId: string, gateId: string) {

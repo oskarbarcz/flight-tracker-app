@@ -3,6 +3,8 @@
 import { Button, Tooltip } from "flowbite-react";
 import React, { useState } from "react";
 import { FaPlaneCircleExclamation, FaTriangleExclamation } from "react-icons/fa6";
+import { ActiveDiversionPanel } from "~/components/flight/Dashboard/Diversion/ActiveDiversionPanel";
+import { ReportDiversionModal } from "~/components/flight/Dashboard/Diversion/ReportDiversionModal";
 import { ActiveEmergencyPanel } from "~/components/flight/Dashboard/Emergency/ActiveEmergencyPanel";
 import { DeclareEmergencyModal } from "~/components/flight/Dashboard/Emergency/DeclareEmergencyModal";
 import { EmergencyEmptyState } from "~/components/flight/Dashboard/Emergency/EmergencyEmptyState";
@@ -12,33 +14,56 @@ import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { FlightStatus } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
-const STATUSES_VALID_FOR_DECLARATION: ReadonlySet<FlightStatus> = new Set([
+const STATUSES_VALID_FOR_EMERGENCY: ReadonlySet<FlightStatus> = new Set([
   FlightStatus.TaxiingOut,
   FlightStatus.InCruise,
   FlightStatus.TaxiingIn,
 ]);
 
+const STATUSES_VALID_FOR_DIVERSION: ReadonlySet<FlightStatus> = new Set([
+  FlightStatus.TaxiingOut,
+  FlightStatus.InCruise,
+]);
+
 export function FlightEmergenciesDiversionsTab() {
-  const { flight, emergencies, activeEmergency } = useTrackedFlight();
+  const { flight, emergencies, activeEmergency, diversion } = useTrackedFlight();
   const [declaring, setDeclaring] = useState(false);
+  const [reportingDiversion, setReportingDiversion] = useState(false);
 
   if (!flight) return null;
 
-  const canDeclare = STATUSES_VALID_FOR_DECLARATION.has(flight.status);
+  const canDeclareEmergency = STATUSES_VALID_FOR_EMERGENCY.has(flight.status);
   const resolved = emergencies.filter((e) => !e.isActive);
 
   const declareButton = (
-    <Button color="red" onClick={() => setDeclaring(true)} disabled={!canDeclare || Boolean(activeEmergency)}>
+    <Button color="red" onClick={() => setDeclaring(true)} disabled={!canDeclareEmergency || Boolean(activeEmergency)}>
       <FaTriangleExclamation className="me-1.5" />
       Declare emergency
     </Button>
   );
 
-  const emergencyActions = activeEmergency ? null : canDeclare ? (
+  const emergencyActions = activeEmergency ? null : canDeclareEmergency ? (
     declareButton
   ) : (
     <Tooltip content="Available only between off-block and on-block.">
       <span>{declareButton}</span>
+    </Tooltip>
+  );
+
+  const canReportDiversion = STATUSES_VALID_FOR_DIVERSION.has(flight.status) && !diversion;
+
+  const reportDiversionButton = (
+    <Button color="red" onClick={() => setReportingDiversion(true)} disabled={!canReportDiversion}>
+      <FaPlaneCircleExclamation className="me-1.5" />
+      Report diversion
+    </Button>
+  );
+
+  const diversionActions = diversion ? null : canReportDiversion ? (
+    reportDiversionButton
+  ) : (
+    <Tooltip content="Available only between off-block and on-block.">
+      <span>{reportDiversionButton}</span>
     </Tooltip>
   );
 
@@ -57,7 +82,7 @@ export function FlightEmergenciesDiversionsTab() {
         ) : (
           <EmergencyEmptyState>
             No active emergency on this flight.
-            {canDeclare
+            {canDeclareEmergency
               ? " Use the Declare button if a new situation arises."
               : " Emergencies can be declared once the flight is off-block and before on-block."}
           </EmergencyEmptyState>
@@ -80,11 +105,23 @@ export function FlightEmergenciesDiversionsTab() {
           icon={FaPlaneCircleExclamation}
           title="Diversions"
           description="Report and review flight diversion decisions."
+          actions={diversionActions}
         />
-        <EmergencyEmptyState>Diversion reporting is coming soon.</EmergencyEmptyState>
+
+        {diversion ? (
+          <ActiveDiversionPanel diversion={diversion} />
+        ) : (
+          <EmergencyEmptyState>
+            No diversion reported on this flight.
+            {canReportDiversion
+              ? " Use the Report button if a diversion decision was made."
+              : " Diversions can be reported once the flight is off-block and before landing."}
+          </EmergencyEmptyState>
+        )}
       </Container>
 
       {declaring && <DeclareEmergencyModal close={() => setDeclaring(false)} />}
+      {reportingDiversion && <ReportDiversionModal close={() => setReportingDiversion(false)} />}
     </div>
   );
 }

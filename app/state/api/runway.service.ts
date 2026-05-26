@@ -14,9 +14,7 @@ export class PublicRunwayService extends AbstractApiService {
 
 export class RunwayService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {
-    return runwayListCache.getOrFetch(airportId, () =>
-      this.fetchWithAuth<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`),
-    );
+    return this.fetchWithAuth<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`);
   }
 
   async fetchById(airportId: string, runwayId: string) {

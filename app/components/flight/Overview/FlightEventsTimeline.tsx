@@ -7,7 +7,7 @@ import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { UserName } from "~/components/shared/User/UserName";
 import { toHuman } from "~/i18n/translate";
-import { type FlightEvent, FlightEventScope, isEmergencyEvent } from "~/models";
+import { type FlightEvent, FlightEventScope, isDiversionEvent, isEmergencyEvent } from "~/models";
 
 type Props = {
   events: FlightEvent[];
@@ -99,7 +99,7 @@ export function FlightEventsTimeline({ events }: Props) {
                 )}
                 <div
                   className={
-                    isEmergencyEvent(event.type)
+                    isEmergencyEvent(event.type) || isDiversionEvent(event.type)
                       ? "text-sm font-medium text-red-600 dark:text-red-500"
                       : "text-sm font-medium text-gray-900 dark:text-white"
                   }

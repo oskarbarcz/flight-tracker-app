@@ -1,6 +1,7 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer, useRef } from "react";
-import type { Emergency, FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
+import type { Diversion, Emergency, FilledSchedule, Flight, FlightEvent, Loadsheet } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
+import type { ReportDiversionRequest, UpdateDiversionRequest } from "~/state/api/request/diversion.request";
 import type { DeclareEmergencyRequest, UpdateEmergencyRequest } from "~/state/api/request/emergency.request";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
@@ -17,6 +18,7 @@ type State = {
   events: FlightEvent[];
   flight: Flight | null;
   emergencies: Emergency[];
+  diversion: Diversion | null;
   loading: boolean;
 };
 
@@ -25,6 +27,7 @@ const initialState: State = {
   flight: null,
   events: [],
   emergencies: [],
+  diversion: null,
   loading: false,
 };
 
@@ -32,6 +35,7 @@ type Action =
   | { type: "SET_TRACKED_FLIGHT"; payload: Flight }
   | { type: "SET_TRACKED_FLIGHT_EVENTS"; payload: FlightEvent[] }
   | { type: "SET_TRACKED_FLIGHT_EMERGENCIES"; payload: Emergency[] }
+  | { type: "SET_TRACKED_FLIGHT_DIVERSION"; payload: Diversion | null }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_FLIGHT_ID"; payload: string | null };
 
@@ -43,6 +47,8 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, events: action.payload };
     case "SET_TRACKED_FLIGHT_EMERGENCIES":
       return { ...state, emergencies: action.payload };
+    case "SET_TRACKED_FLIGHT_DIVERSION":
+      return { ...state, diversion: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     case "SET_FLIGHT_ID":
@@ -57,6 +63,7 @@ type TrackedFlightContextType = {
   events: FlightEvent[];
   emergencies: Emergency[];
   activeEmergency: Emergency | null;
+  diversion: Diversion | null;
   loading: boolean;
   setFlightId: (flightId: string) => void;
   reload: () => Promise<void>;
@@ -73,6 +80,8 @@ type TrackedFlightContextType = {
   declareEmergency: (body: DeclareEmergencyRequest) => Promise<void>;
   updateEmergency: (emergencyId: string, body: UpdateEmergencyRequest) => Promise<void>;
   resolveEmergency: (emergencyId: string) => Promise<void>;
+  reportDiversion: (body: ReportDiversionRequest) => Promise<void>;
+  updateDiversion: (body: UpdateDiversionRequest) => Promise<void>;
 };
 
 const UseTrackedFlight = createContext<TrackedFlightContextType>({
@@ -80,6 +89,7 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   events: [],
   emergencies: [],
   activeEmergency: null,
+  diversion: null,
   loading: false,
   setFlightId: () => {},
   reload: async () => {},
@@ -96,6 +106,8 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   declareEmergency: async () => {},
   updateEmergency: async () => {},
   resolveEmergency: async () => {},
+  reportDiversion: async () => {},
+  updateDiversion: async () => {},
 });
 
 type FlightStateProviderProps = {
@@ -104,7 +116,7 @@ type FlightStateProviderProps = {
 
 export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { flightService, emergencyService } = useApi();
+  const { flightService, emergencyService, diversionService } = useApi();
   const { markRefreshed } = useDataRefresh();
 
   const setFlightId = useCallback((flightId: string) => {
@@ -118,13 +130,15 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       const updatedFlight = await flightService.fetchById(state.flightId);
       const events = await flightService.fetchEventsByFlightId(state.flightId);
       const emergencies = await emergencyService.listByFlight(state.flightId);
+      const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
       dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
       dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: events });
       dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies });
+      dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
       markRefreshed();
       if (!silent) dispatch({ type: "SET_LOADING", payload: false });
     },
-    [flightService, emergencyService, state.flightId, markRefreshed],
+    [flightService, emergencyService, diversionService, state.flightId, markRefreshed],
   );
 
   // Keep a stable reference to the latest events so pollEvents doesn't need
@@ -151,9 +165,11 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       flightService.fetchById(state.flightId),
       emergencyService.listByFlight(state.flightId),
     ]);
+    const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
     dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
     dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies });
-  }, [flightService, emergencyService, state.flightId, markRefreshed]);
+    dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
+  }, [flightService, emergencyService, diversionService, state.flightId, markRefreshed]);
 
   useEffect(() => {
     if (!state.flightId) return;
@@ -256,6 +272,24 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     [emergencyService, state.flightId, loadFlight],
   );
 
+  const reportDiversion = useCallback(
+    async (body: ReportDiversionRequest) => {
+      if (!state.flightId) return;
+      await diversionService.report(state.flightId, body);
+      await loadFlight({ silent: true });
+    },
+    [diversionService, state.flightId, loadFlight],
+  );
+
+  const updateDiversion = useCallback(
+    async (body: UpdateDiversionRequest) => {
+      if (!state.flightId) return;
+      await diversionService.update(state.flightId, body);
+      await loadFlight({ silent: true });
+    },
+    [diversionService, state.flightId, loadFlight],
+  );
+
   const activeEmergency = state.emergencies.find((e) => e.isActive) ?? null;
 
   return (
@@ -265,6 +299,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         events: state.events,
         emergencies: state.emergencies,
         activeEmergency,
+        diversion: state.diversion,
         loading: state.loading,
         setFlightId,
         reload: () => loadFlight({ silent: true }),
@@ -281,6 +316,8 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         declareEmergency,
         updateEmergency,
         resolveEmergency,
+        reportDiversion,
+        updateDiversion,
       }}
     >
       {children}
