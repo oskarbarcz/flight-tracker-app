@@ -1,19 +1,26 @@
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { createListCache } from "~/state/api/cache/listCache";
 import type {
   CreateTerminalRequest,
   EditTerminalRequest,
   GetTerminalResponse,
 } from "~/state/api/request/terminal.request";
 
+const terminalListCache = createListCache<GetTerminalResponse[]>("terminals");
+
 export class PublicTerminalService extends AbstractApiService {
   async fetchAll(airportId: string) {
-    return this.request<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`);
+    return terminalListCache.getOrFetch(airportId, () =>
+      this.request<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`),
+    );
   }
 }
 
 export class TerminalService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {
-    return this.fetchWithAuth<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`);
+    return terminalListCache.getOrFetch(airportId, () =>
+      this.fetchWithAuth<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`),
+    );
   }
 
   async fetchById(airportId: string, terminalId: string) {
