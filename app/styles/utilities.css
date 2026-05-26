@@ -28,18 +28,34 @@
 .leaflet-tooltip.terminal-label {
   @apply bg-yellow-50 text-yellow-700 border border-yellow-300 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded shadow-none;
   background-color: rgba(254, 252, 232, 0.92);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
 }
 .leaflet-tooltip.terminal-label::before {
   display: none;
 }
+.leaflet-tooltip.terminal-label--hover {
+  @apply text-yellow-900 border-yellow-500;
+  background-color: rgba(254, 240, 138, 0.98);
+}
 
 .terminal-polygon {
+  fill: #fef08a !important;
+  fill-opacity: 0.05 !important;
   transition:
     stroke-width 200ms ease,
     fill-opacity 200ms ease;
 }
 .terminal-polygon:hover {
-  stroke-width: 3 !important;
+  fill-opacity: 0.25 !important;
+}
+.dark .terminal-polygon {
+  fill: #eab308 !important;
+  fill-opacity: 0.2 !important;
+}
+.dark .terminal-polygon:hover {
   fill-opacity: 0.4 !important;
 }
 

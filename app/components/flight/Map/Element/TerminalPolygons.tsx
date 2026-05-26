@@ -1,5 +1,6 @@
 "use client";
 
+import type { LeafletMouseEvent } from "leaflet";
 import { useMemo } from "react";
 import { Polygon, Tooltip } from "react-leaflet";
 import type { Terminal } from "~/models";
@@ -9,6 +10,14 @@ type Props = {
 };
 
 const STROKE_COLOR = "#eab308";
+const HOVER_CLASS = "terminal-label--hover";
+
+function toggleTooltipHover(event: LeafletMouseEvent, on: boolean) {
+  const tooltip = event.target.getTooltip();
+  const el = tooltip?.getElement();
+  if (!el) return;
+  el.classList.toggle(HOVER_CLASS, on);
+}
 
 export function TerminalPolygons({ terminals }: Props) {
   return (
@@ -36,6 +45,10 @@ function TerminalPolygon({ terminal }: { terminal: Terminal }) {
         color: STROKE_COLOR,
         weight: 1.5,
         fillOpacity: 0.2,
+      }}
+      eventHandlers={{
+        mouseover: (e) => toggleTooltipHover(e, true),
+        mouseout: (e) => toggleTooltipHover(e, false),
       }}
     >
       <Tooltip permanent direction="center" className="terminal-label">

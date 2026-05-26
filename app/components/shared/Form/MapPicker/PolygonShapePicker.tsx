@@ -3,9 +3,10 @@
 import { Button, Label } from "flowbite-react";
 import { useField } from "formik";
 import type { LatLngExpression } from "leaflet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CircleMarker, MapContainer, Polygon, Polyline, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/functions/polygon";
 import type { Coordinates } from "~/models/runway.model";
 
 type Props = {
@@ -19,6 +20,8 @@ const TONE_STYLE = {
   airport: { stroke: "#3b82f6", fill: "#3b82f6" },
   terminal: { stroke: "#eab308", fill: "#eab308" },
 };
+
+const ERROR_FLASH_MS = 3000;
 
 function round6(value: number): number {
   return Math.round(value * 1_000_000) / 1_000_000;
@@ -41,6 +44,13 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
 
   // Closed state is UI-only. Initial closed when loading an existing saved polygon.
   const [closed, setClosed] = useState(() => (meta.value?.length ?? 0) >= 3);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!error) return;
+    const id = setTimeout(() => setError(null), ERROR_FLASH_MS);
+    return () => clearTimeout(id);
+  }, [error]);
 
   const [initialCenter] = useState<LatLngExpression>(() => {
     if (vertices.length > 0) {
@@ -56,43 +66,61 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
 
   const onMapClick = (lat: number, lng: number) => {
     if (closed) return;
-    setVertices([...vertices, { latitude: lat, longitude: lng }]);
+    const candidate = { latitude: lat, longitude: lng };
+    if (newEdgeCrossesPolyline(vertices, candidate)) {
+      setError("Edges cannot cross — pick a point that doesn't cause a kink");
+      return;
+    }
+    setError(null);
+    setVertices([...vertices, candidate]);
   };
 
   const onVertexClick = (idx: number) => {
     if (closed) return;
-    if (idx === 0 && vertices.length >= 3) {
-      setClosed(true);
+    if (idx !== 0 || vertices.length < 3) return;
+    if (closingEdgeCrosses(vertices)) {
+      setError("Closing edge would cross an existing edge — rearrange the polygon");
+      return;
     }
+    setError(null);
+    setClosed(true);
   };
 
   const onUndo = () => {
     const next = vertices.slice(0, -1);
     setVertices(next);
     if (next.length < 3) setClosed(false);
+    setError(null);
   };
 
   const onClear = () => {
     setVertices([]);
     setClosed(false);
+    setError(null);
   };
 
   const positions = vertices.map((v) => [v.latitude, v.longitude] as [number, number]);
   const canClose = !closed && vertices.length >= 3;
+
+  const statusText = error
+    ? error
+    : vertices.length === 0
+      ? "no points — optional"
+      : closed
+        ? `${vertices.length} points — closed`
+        : canClose
+          ? `${vertices.length} points — click first point to close`
+          : `${vertices.length} ${vertices.length === 1 ? "point" : "points"} — keep clicking`;
 
   return (
     <div className="mb-4 w-full">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <Label>{label}</Label>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
-            {vertices.length === 0
-              ? "no points — optional"
-              : closed
-                ? `${vertices.length} points — closed`
-                : canClose
-                  ? `${vertices.length} points — click first point to close`
-                  : `${vertices.length} ${vertices.length === 1 ? "point" : "points"} — keep clicking`}
+          <span
+            className={`font-mono text-xs ${error ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400"}`}
+          >
+            {statusText}
           </span>
           <Button color="gray" size="xs" type="button" onClick={onUndo} disabled={vertices.length === 0}>
             Undo last

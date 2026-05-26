@@ -5,6 +5,7 @@ import { useMap, useMapEvents } from "react-leaflet";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/components/flight/Map/Element/zoomThresholds";
 import type { Runway } from "~/models";
+import { type DisplayMode, useMapSettings } from "~/state/app/context/useMapSettings";
 
 type RunwaySource = {
   fetchAll: (airportId: string) => Promise<Runway[]>;
@@ -18,6 +19,12 @@ type Props = {
   arrivalRunwayId: string | null;
 };
 
+function pickRunways(runways: Runway[], assignedId: string | null, mode: DisplayMode): Runway[] {
+  if (mode === "none") return [];
+  if (mode === "all") return runways;
+  return runways.filter((r) => r.id === assignedId);
+}
+
 export function TrackingRunwaysLayer({
   runwayService,
   departureAirportId,
@@ -26,6 +33,7 @@ export function TrackingRunwaysLayer({
   arrivalRunwayId,
 }: Props) {
   const map = useMap();
+  const { mapSettings } = useMapSettings();
   const [zoom, setZoom] = useState(map.getZoom());
   const [departureRunways, setDepartureRunways] = useState<Runway[]>([]);
   const [destinationRunways, setDestinationRunways] = useState<Runway[]>([]);
@@ -44,10 +52,13 @@ export function TrackingRunwaysLayer({
 
   if (zoom < AIRPORT_DETAIL_ZOOM_THRESHOLD) return null;
 
+  const visibleDeparture = pickRunways(departureRunways, departureRunwayId, mapSettings.runwayDisplay);
+  const visibleArrival = pickRunways(destinationRunways, arrivalRunwayId, mapSettings.runwayDisplay);
+
   return (
     <>
-      <RunwayLines runways={departureRunways} selectedRunwayId={departureRunwayId} />
-      <RunwayLines runways={destinationRunways} selectedRunwayId={arrivalRunwayId} />
+      <RunwayLines runways={visibleDeparture} selectedRunwayId={departureRunwayId} />
+      <RunwayLines runways={visibleArrival} selectedRunwayId={arrivalRunwayId} />
     </>
   );
 }
