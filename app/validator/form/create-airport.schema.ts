@@ -1,6 +1,7 @@
 import { number, type ObjectSchema, object, string } from "yup";
 import { Continent } from "~/models";
 import type { CreateAirportFormData } from "~/models/form/airport.form";
+import { polygonSchema } from "~/validator/form/coordinates.schema";
 
 const timezoneSchema = string().test("is-valid-timezone", "Invalid timezone", (value) => {
   try {
@@ -34,4 +35,5 @@ export const createAirportSchema: ObjectSchema<CreateAirportFormData> = object()
   latitude: number().required("Latitude is required").min(-90).max(90),
   continent: string().required("Continent is required").oneOf(Object.values(Continent)),
   timezone: timezoneSchema.required(),
+  shape: polygonSchema,
 });

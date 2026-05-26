@@ -12,19 +12,23 @@ import { RunwayListEmptyState } from "~/components/airport/Runway/RunwayListEmpt
 import type { Runway } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
+import { GateService } from "~/state/api/gate.service";
 import { RunwayService } from "~/state/api/runway.service";
+import { TerminalService } from "~/state/api/terminal.service";
 import { useToast } from "~/state/app/context/useToast";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, runways] = await Promise.all([
+  const [airport, runways, terminals, gates] = await Promise.all([
     new AirportService().fetchById(params.id),
     new RunwayService().fetchAll(params.id),
+    new TerminalService().fetchAll(params.id),
+    new GateService().fetchAll(params.id),
   ]);
-  return { airport, runways };
+  return { airport, runways, terminals, gates };
 }
 
 export default function AirportRunwaysRoute({ params, loaderData }: Route.ComponentProps) {
-  const { airport, runways: initialRunways } = loaderData;
+  const { airport, runways: initialRunways, terminals, gates } = loaderData;
   const [runways, setRunways] = useState<Runway[]>(initialRunways);
   const [pendingRemove, setPendingRemove] = useState<Runway | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -57,7 +61,13 @@ export default function AirportRunwaysRoute({ params, loaderData }: Route.Compon
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
           <div className="h-[400px] lg:h-full lg:min-h-[400px]">
-            <AirportRunwaysMap runways={runways} fallbackCenter={airport.location} />
+            <AirportRunwaysMap
+              airport={airport}
+              runways={runways}
+              terminals={terminals}
+              gates={gates}
+              fallbackCenter={airport.location}
+            />
           </div>
           <div>
             <div className="flex justify-end mb-3">

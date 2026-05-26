@@ -14,6 +14,7 @@ export function formDataToApiFormat(input: CreateAirportFormData): CreateAirport
       latitude: Number(input.latitude),
       longitude: Number(input.longitude),
     },
+    shape: input.shape && input.shape.length > 0 ? input.shape : null,
   };
 }
 
@@ -28,5 +29,6 @@ export function airportToFormData(input: GetAirportResponse): CreateAirportFormD
     continent: input.continent,
     latitude: input.location.latitude,
     longitude: input.location.longitude,
+    shape: input.shape ?? null,
   };
 }

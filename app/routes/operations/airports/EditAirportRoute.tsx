@@ -8,6 +8,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { SkyLinkAutofillPanel } from "~/components/airport/Forms/SkyLinkAutofillPanel";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { AirportShapePickerSection } from "~/components/shared/Form/MapPicker/AirportShapePickerSection";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
@@ -66,7 +67,7 @@ export default function EditAirportRoute() {
   };
 
   return (
-    <div className="mx-auto max-w-md pb-4">
+    <div className="mx-auto max-w-2xl pb-4">
       <SectionHeader title="Edit airport" />
 
       <Formik<CreateAirportFormData>
@@ -122,6 +123,8 @@ export default function EditAirportRoute() {
                       <ManagedInputBlock field="longitude" label="Longitude" type="number" />
                     </div>
                   </div>
+
+                  <AirportShapePickerSection />
                 </div>
               </Container>
 

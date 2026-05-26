@@ -1,3 +1,5 @@
+import type { Coordinates } from "~/models/runway.model";
+
 export enum Continent {
   Africa = "africa",
   Asia = "asia",
@@ -31,4 +33,5 @@ export type Airport = {
     longitude: number;
     latitude: number;
   };
+  shape: Coordinates[] | null;
 };

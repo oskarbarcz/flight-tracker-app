@@ -48,7 +48,7 @@ export const handle: TopNavRouteHandle = {
 };
 
 export default function EditGateRoute({ params, loaderData }: Route.ComponentProps) {
-  const { gate, terminals } = loaderData;
+  const { airport, gate, terminals } = loaderData;
   usePageTitle(`Edit gate ${gate.name}`);
 
   const { gateService } = useApi();
@@ -80,7 +80,12 @@ export default function EditGateRoute({ params, loaderData }: Route.ComponentPro
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <GateFormBody terminals={terminals} isSubmitting={isSubmitting} submitLabel="Save changes" />
+          <GateFormBody
+            airport={airport}
+            terminals={terminals}
+            isSubmitting={isSubmitting}
+            submitLabel="Save changes"
+          />
         )}
       </Formik>
     </div>

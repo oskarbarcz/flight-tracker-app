@@ -1,9 +1,22 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { createListCache } from "~/state/api/cache/listCache";
 import type { CreateGateRequest, EditGateRequest, GetGateResponse } from "~/state/api/request/gate.request";
+
+const gateListCache = createListCache<GetGateResponse[]>("gates");
+
+export class PublicGateService extends AbstractApiService {
+  async fetchAll(airportId: string) {
+    return gateListCache.getOrFetch(airportId, () =>
+      this.request<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`),
+    );
+  }
+}
 
 export class GateService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {
-    return this.fetchWithAuth<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`);
+    return gateListCache.getOrFetch(airportId, () =>
+      this.fetchWithAuth<GetGateResponse[]>(`/api/v1/airport/${airportId}/gate`),
+    );
   }
 
   async fetchById(airportId: string, gateId: string) {

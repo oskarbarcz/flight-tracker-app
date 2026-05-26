@@ -27,6 +27,7 @@ export function gateFormDataToRequest(input: CreateGateFormData): CreateGateRequ
     noiseSensitivityStartTime: noiseActive ? nullable(input.noiseSensitivityStartTime) : null,
     noiseSensitivityEndTime: noiseActive ? nullable(input.noiseSensitivityEndTime) : null,
     fuelingOptions: input.fuelingOptions,
+    coordinates: input.coordinates,
   };
 }
 
@@ -49,5 +50,6 @@ export function gateToFormData(input: GetGateResponse): CreateGateFormData {
     noiseSensitivityStartTime: input.noiseSensitivityStartTime ?? "",
     noiseSensitivityEndTime: input.noiseSensitivityEndTime ?? "",
     fuelingOptions: input.fuelingOptions,
+    coordinates: input.coordinates ?? null,
   };
 }

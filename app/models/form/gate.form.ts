@@ -10,6 +10,7 @@ import {
   ParkingSpotType,
   StairsBoarding,
 } from "~/models/gate.model";
+import type { Coordinates } from "~/models/runway.model";
 
 export type CreateGateFormData = {
   terminalId: string;
@@ -29,6 +30,7 @@ export type CreateGateFormData = {
   noiseSensitivityStartTime: string;
   noiseSensitivityEndTime: string;
   fuelingOptions: FuelingOption;
+  coordinates: Coordinates | null;
 };
 
 export function initCreateGateData(terminalId = ""): CreateGateFormData {
@@ -50,5 +52,6 @@ export function initCreateGateData(terminalId = ""): CreateGateFormData {
     noiseSensitivityStartTime: "",
     noiseSensitivityEndTime: "",
     fuelingOptions: FuelingOption.None,
+    coordinates: null,
   };
 }

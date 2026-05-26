@@ -1,3 +1,5 @@
+import type { Coordinates } from "~/models/runway.model";
+
 export enum BridgeAvailability {
   Yes = "yes",
   No = "no",
@@ -80,6 +82,7 @@ export type Gate = {
   noiseSensitivityStartTime: string | null;
   noiseSensitivityEndTime: string | null;
   fuelingOptions: FuelingOption;
+  coordinates: Coordinates | null;
 };
 
 export const bridgeOptions = [

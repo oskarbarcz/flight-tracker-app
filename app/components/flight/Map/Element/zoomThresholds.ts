@@ -1,0 +1,1 @@
+export const AIRPORT_DETAIL_ZOOM_THRESHOLD = 11;

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
+import { PointCoordinatesPicker } from "~/components/shared/Form/MapPicker/PointCoordinatesPicker";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
@@ -70,7 +71,7 @@ export const handle: TopNavRouteHandle = {
 
 export default function CreateGateRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new gate");
-  const { terminals, source } = loaderData;
+  const { airport, terminals, source } = loaderData;
 
   const { gateService } = useApi();
   const navigate = useNavigate();
@@ -103,7 +104,7 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <GateFormBody terminals={terminals} isSubmitting={isSubmitting} submitLabel="Create gate" />
+          <GateFormBody airport={airport} terminals={terminals} isSubmitting={isSubmitting} submitLabel="Create gate" />
         )}
       </Formik>
     </div>
@@ -111,12 +112,13 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
 }
 
 type FormBodyProps = {
+  airport: Airport;
   terminals: Terminal[];
   isSubmitting: boolean;
   submitLabel: string;
 };
 
-export function GateFormBody({ terminals, isSubmitting, submitLabel }: FormBodyProps) {
+export function GateFormBody({ airport, terminals, isSubmitting, submitLabel }: FormBodyProps) {
   const { values, errors, touched } = useFormikContext<CreateGateFormData>();
   const noiseActive = values.noiseSensitivity === NoiseSensitivity.Yes;
   const deicingActive = values.deicing !== DeicingCapability.No;
@@ -225,6 +227,14 @@ export function GateFormBody({ terminals, isSubmitting, submitLabel }: FormBodyP
               </div>
             </>
           ) : null}
+
+          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Parking position</h3>
+          <PointCoordinatesPicker
+            field="coordinates"
+            airportLocation={airport.location}
+            label="Click on the map to pick the parking position"
+            pinLabel={values.name}
+          />
         </div>
       </Container>
 

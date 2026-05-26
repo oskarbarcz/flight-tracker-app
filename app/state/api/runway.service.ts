@@ -1,15 +1,22 @@
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { createListCache } from "~/state/api/cache/listCache";
 import type { CreateRunwayRequest, EditRunwayRequest, GetRunwayResponse } from "~/state/api/request/runway.request";
+
+const runwayListCache = createListCache<GetRunwayResponse[]>("runways");
 
 export class PublicRunwayService extends AbstractApiService {
   async fetchAll(airportId: string) {
-    return this.request<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`);
+    return runwayListCache.getOrFetch(airportId, () =>
+      this.request<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`),
+    );
   }
 }
 
 export class RunwayService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {
-    return this.fetchWithAuth<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`);
+    return runwayListCache.getOrFetch(airportId, () =>
+      this.fetchWithAuth<GetRunwayResponse[]>(`/api/v1/airport/${airportId}/runway`),
+    );
   }
 
   async fetchById(airportId: string, runwayId: string) {

@@ -3,26 +3,51 @@
 import L from "leaflet";
 import { useMemo } from "react";
 import { MapContainer } from "react-leaflet";
+import { AirportShapePolygon } from "~/components/flight/Map/Element/AirportShapePolygon";
+import { GateMarkers } from "~/components/flight/Map/Element/GateMarkers";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
+import { TerminalPolygons } from "~/components/flight/Map/Element/TerminalPolygons";
 import { computeRunwayLines } from "~/functions/runwayPairs";
-import type { Runway } from "~/models";
+import type { Airport, Gate, Runway, Terminal } from "~/models";
 
 type Props = {
+  airport: Airport;
   runways: Runway[];
+  terminals: Terminal[];
+  gates: Gate[];
   fallbackCenter: { latitude: number; longitude: number };
 };
 
-export function AirportRunwaysMap({ runways, fallbackCenter }: Props) {
+export function AirportRunwaysMap({ airport, runways, terminals, gates, fallbackCenter }: Props) {
   const lines = useMemo(() => computeRunwayLines(runways), [runways]);
 
   const bounds = useMemo(() => {
-    if (lines.length === 0) {
+    const points: L.LatLngTuple[] = [];
+    for (const line of lines) {
+      points.push(...line.positions);
+    }
+    if (airport.shape) {
+      for (const p of airport.shape) {
+        points.push([p.latitude, p.longitude]);
+      }
+    }
+    for (const t of terminals) {
+      if (!t.shape) continue;
+      for (const p of t.shape) {
+        points.push([p.latitude, p.longitude]);
+      }
+    }
+    for (const g of gates) {
+      if (!g.coordinates) continue;
+      points.push([g.coordinates.latitude, g.coordinates.longitude]);
+    }
+
+    if (points.length === 0) {
       return L.latLng(fallbackCenter.latitude, fallbackCenter.longitude).toBounds(4000);
     }
-    const points = lines.flatMap((line) => line.positions);
     return L.latLngBounds(points);
-  }, [lines, fallbackCenter.latitude, fallbackCenter.longitude]);
+  }, [lines, airport.shape, terminals, gates, fallbackCenter.latitude, fallbackCenter.longitude]);
 
   return (
     <MapContainer
@@ -33,6 +58,9 @@ export function AirportRunwaysMap({ runways, fallbackCenter }: Props) {
       attributionControl={false}
     >
       <MapTileLayer />
+      <AirportShapePolygon airport={airport} />
+      <TerminalPolygons terminals={terminals} />
+      <GateMarkers gates={gates} />
       <RunwayLines runways={runways} />
     </MapContainer>
   );

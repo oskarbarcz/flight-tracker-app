@@ -8,6 +8,7 @@ import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMa
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { TrackingAirportLayoutLayer } from "~/components/flight/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/components/flight/Map/Element/TrackingRunwaysLayer";
 import type { Position } from "~/models/common/geo";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
@@ -17,7 +18,7 @@ import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 export function TrackingFlightMap() {
   const { flight } = useTrackedFlight();
   const { flightPath } = useAdsbData();
-  const { runwayService } = useApi();
+  const { runwayService, terminalService, gateService } = useApi();
   const leafletMapOptions = {
     padding: [80, 80],
     duration: 1,
@@ -63,6 +64,15 @@ export function TrackingFlightMap() {
         destinationAirportId={flight.destinationAirport.id}
         departureRunwayId={flight.departureRunwayId}
         arrivalRunwayId={flight.arrivalRunwayId}
+      />
+
+      <TrackingAirportLayoutLayer
+        terminalService={terminalService}
+        gateService={gateService}
+        departureAirport={flight.departureAirport}
+        destinationAirport={flight.destinationAirport}
+        departureGateId={flight.departureGateId}
+        arrivalGateId={flight.arrivalGateId}
       />
 
       {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}

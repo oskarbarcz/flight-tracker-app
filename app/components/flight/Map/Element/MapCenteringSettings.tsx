@@ -1,10 +1,12 @@
 import { Button, Tooltip } from "flowbite-react";
-import { FaPlane } from "react-icons/fa";
+import { FaBan, FaPlane } from "react-icons/fa";
 import { FaChevronRight, FaCrosshairs, FaPlaneArrival, FaPlaneDeparture, FaRoute } from "react-icons/fa6";
 import { type MapSettings, useMapSettings } from "~/state/app/context/useMapSettings";
 
 type Props = {
   size?: "sm" | "md";
+  expanded: boolean;
+  onToggleExpanded: () => void;
 };
 
 function sizeToButtonSize(size: "sm" | "md") {
@@ -16,31 +18,28 @@ function sizeToButtonSize(size: "sm" | "md") {
   }
 }
 
-export function MapCenteringSettings({ size = "md" }: Props) {
+export function MapCenteringSettings({ size = "md", expanded, onToggleExpanded }: Props) {
   const { mapSettings, updateMapSettings } = useMapSettings();
 
-  const toggleAutoCenter = () => {
-    updateMapSettings({
-      ...mapSettings,
-      autoCenter: !mapSettings.autoCenter,
-    });
+  const setCenterOn = (centerOn: MapSettings["centerOn"]) => {
+    updateMapSettings({ ...mapSettings, centerOn, autoCenter: true });
   };
 
-  const setCenterOn = (centerOn: MapSettings["centerOn"]) => {
-    updateMapSettings({ ...mapSettings, centerOn });
+  const disableAutoCenter = () => {
+    updateMapSettings({ ...mapSettings, autoCenter: false });
   };
 
   const isCenteringActive = mapSettings.autoCenter;
-  const isRouteActive = mapSettings.centerOn === "route";
-  const isAircraftActive = mapSettings.centerOn === "aircraft";
-  const isDepartureActive = mapSettings.centerOn === "departure";
-  const isDestinationActive = mapSettings.centerOn === "destination";
+  const isRouteActive = isCenteringActive && mapSettings.centerOn === "route";
+  const isAircraftActive = isCenteringActive && mapSettings.centerOn === "aircraft";
+  const isDepartureActive = isCenteringActive && mapSettings.centerOn === "departure";
+  const isDestinationActive = isCenteringActive && mapSettings.centerOn === "destination";
 
-  const autoCenterButton = (
+  const masterButton = (
     <Button
       color={isCenteringActive ? "indigo" : "alternative"}
       size={sizeToButtonSize(size)}
-      onClick={toggleAutoCenter}
+      onClick={onToggleExpanded}
     >
       <FaCrosshairs />
     </Button>
@@ -93,16 +92,28 @@ export function MapCenteringSettings({ size = "md" }: Props) {
     </Button>
   );
 
+  const offButton = (
+    <Button
+      color={!isCenteringActive ? "indigo" : "alternative"}
+      onClick={disableAutoCenter}
+      size={sizeToButtonSize(size)}
+      className="space-x-2 font-bold"
+    >
+      <FaBan />
+      <span>Do not autocenter</span>
+    </Button>
+  );
+
   return (
     <div className="flex gap-3 items-center pointer-events-auto">
       <div className="hidden md:block">
-        <Tooltip content="Automatic map centering" style="auto" placement="top">
-          {autoCenterButton}
+        <Tooltip content={expanded ? "Hide centering options" : "Show centering options"} style="auto" placement="top">
+          {masterButton}
         </Tooltip>
       </div>
-      <div className="md:hidden">{autoCenterButton}</div>
+      <div className="md:hidden">{masterButton}</div>
 
-      {mapSettings.autoCenter && (
+      {expanded && (
         <div className="flex gap-3 items-center animate-in fade-in slide-in-from-left-4 duration-300">
           <FaChevronRight className="text-gray-500 w-2 h-4" />
           <div className="hidden md:block">
@@ -129,6 +140,12 @@ export function MapCenteringSettings({ size = "md" }: Props) {
             </Tooltip>
           </div>
           <div className="md:hidden">{destinationButton}</div>
+          <div className="hidden md:block">
+            <Tooltip content="Turn off automatic centering" style="auto" placement="top">
+              {offButton}
+            </Tooltip>
+          </div>
+          <div className="md:hidden">{offButton}</div>
         </div>
       )}
     </div>
