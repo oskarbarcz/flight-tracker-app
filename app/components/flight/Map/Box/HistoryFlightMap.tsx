@@ -11,15 +11,16 @@ import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMa
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import type { Flight, FlightPathElement } from "~/models";
+import type { Diversion, Flight, FlightPathElement } from "~/models";
 import type { Position } from "~/models/common/geo";
 import { useApi } from "~/state/api/context/useApi";
 
 type Props = {
   flight: Flight;
+  diversion?: Diversion | null;
 };
 
-export function HistoryFlightMap({ flight }: Props) {
+export function HistoryFlightMap({ flight, diversion = null }: Props) {
   const { flightService } = useApi();
   const leafletMapOptions = {
     padding: [80, 80],
@@ -43,7 +44,15 @@ export function HistoryFlightMap({ flight }: Props) {
     flight.destinationAirport.location.longitude,
   ];
 
-  const mapBounds = L.latLngBounds([departurePosition, destinationPosition]);
+  const diversionPosition: Position | null = diversion
+    ? [diversion.airport.location.latitude, diversion.airport.location.longitude]
+    : null;
+
+  const mapBounds = L.latLngBounds(
+    diversionPosition
+      ? [departurePosition, destinationPosition, diversionPosition]
+      : [departurePosition, destinationPosition],
+  );
 
   return (
     <div className="relative h-full w-full">
@@ -58,10 +67,12 @@ export function HistoryFlightMap({ flight }: Props) {
         <MapTileLayer />
 
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
+        {diversion && <GreatCirclePath start={flight.departureAirport} end={diversion.airport} variant="diversion" />}
         <FlightPath path={flightPath} />
 
         <MapAirportLabel airport={flight.departureAirport} />
         <MapAirportLabel airport={flight.destinationAirport} />
+        {diversion && <MapAirportLabel airport={diversion.airport} variant="diversion" />}
 
         {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
 

@@ -3,9 +3,10 @@
 import { Button } from "flowbite-react";
 import React, { type ReactNode, useEffect, useState } from "react";
 import type { IconType } from "react-icons";
-import { FaChevronDown, FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
+import { FaChevronDown, FaPlaneArrival, FaPlaneCircleExclamation, FaPlaneDeparture } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
+import { diversionReasonLabel, diversionSeverityLabel } from "~/components/flight/Dashboard/Diversion/diversionLabels";
 import { SelectGateModal } from "~/components/flight/Modal/SelectGateModal";
 import { SelectRunwayModal } from "~/components/flight/Modal/SelectRunwayModal";
 import { AirportPreviewPanel } from "~/components/flight/Overview/AirportPreviewPanel";
@@ -15,9 +16,11 @@ import { AssignedTerminalPanel } from "~/components/flight/Overview/AssignedTerm
 import { GateEmptyPanel } from "~/components/flight/Overview/GateEmptyPanel";
 import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
 import { TerminalEmptyPanel } from "~/components/flight/Overview/TerminalEmptyPanel";
+import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { type Airport, FlightStatus, type Gate, type Runway, type Terminal } from "~/models";
+import { type Airport, type Diversion, FlightStatus, type Gate, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";
@@ -83,7 +86,7 @@ const AFTER_TAKEOFF = new Set<FlightStatus>([
 ]);
 
 export function GateRunwayBox() {
-  const { flight, reload } = useTrackedFlight();
+  const { flight, diversion, reload } = useTrackedFlight();
   const { flightService, gateService, runwayService, terminalService } = useApi();
   const { success, error } = useToast();
   const [assignments, setAssignments] = useState<AssignmentState>(EMPTY_ASSIGNMENT);
@@ -222,6 +225,7 @@ export function GateRunwayBox() {
         airport={flight.destinationAirport}
         open={arrivalOpen}
         onToggle={() => setArrivalOpen((v) => !v)}
+        struck={Boolean(diversion)}
       >
         <AirportPreviewPanel airport={flight.destinationAirport} />
         {assignments.arrivalRunway ? <AssignedRunwayPanel runway={assignments.arrivalRunway} /> : <RunwayEmptyPanel />}
@@ -235,25 +239,29 @@ export function GateRunwayBox() {
         ) : (
           <GateEmptyPanel />
         )}
-        <EndpointActions>
-          {canChangeArrivalRunway && (
-            <ChangeButton
-              icon={LuArrowDownToLine}
-              onClick={() => setOpenModal("arrivalRunway")}
-              hasValue={!!assignments.arrivalRunway}
-              kind="runway"
-            />
-          )}
-          {canChangeArrivalGate && (
-            <ChangeButton
-              icon={HiOutlineLocationMarker}
-              onClick={() => setOpenModal("arrivalGate")}
-              hasValue={!!assignments.arrivalGate}
-              kind="gate"
-            />
-          )}
-        </EndpointActions>
+        {!diversion && (
+          <EndpointActions>
+            {canChangeArrivalRunway && (
+              <ChangeButton
+                icon={LuArrowDownToLine}
+                onClick={() => setOpenModal("arrivalRunway")}
+                hasValue={!!assignments.arrivalRunway}
+                kind="runway"
+              />
+            )}
+            {canChangeArrivalGate && (
+              <ChangeButton
+                icon={HiOutlineLocationMarker}
+                onClick={() => setOpenModal("arrivalGate")}
+                hasValue={!!assignments.arrivalGate}
+                kind="gate"
+              />
+            )}
+          </EndpointActions>
+        )}
       </EndpointSection>
+
+      {diversion && <DiversionEndpointSection diversion={diversion} />}
 
       {openModal === "departureGate" && canChangeDepartureGate && (
         <SelectGateModal
@@ -326,9 +334,19 @@ type EndpointSectionProps = {
   open: boolean;
   onToggle: () => void;
   children: ReactNode;
+  struck?: boolean;
 };
 
-function EndpointSection({ icon: Icon, title, airport, open, onToggle, children }: EndpointSectionProps) {
+function EndpointSection({
+  icon: Icon,
+  title,
+  airport,
+  open,
+  onToggle,
+  children,
+  struck = false,
+}: EndpointSectionProps) {
+  const strikeClass = struck ? "line-through decoration-2 text-gray-400 dark:text-gray-500" : undefined;
   return (
     <section className="flex flex-col gap-2">
       <button
@@ -337,15 +355,58 @@ function EndpointSection({ icon: Icon, title, airport, open, onToggle, children 
         aria-expanded={open}
         className="flex items-center gap-2 text-xs cursor-pointer text-start"
       >
-        <Icon size={14} className="text-indigo-500" />
-        <span className="font-bold uppercase tracking-widest text-gray-600 dark:text-gray-300">{title}</span>
-        <span className="ms-auto text-gray-400 dark:text-gray-500">{airport.city}</span>
+        <Icon size={14} className={struck ? "text-gray-400 dark:text-gray-500" : "text-indigo-500"} />
+        <span className={`font-bold uppercase tracking-widest ${strikeClass ?? "text-gray-600 dark:text-gray-300"}`}>
+          {title}
+        </span>
+        <span className={`ms-auto ${strikeClass ?? "text-gray-400 dark:text-gray-500"}`}>{airport.city}</span>
         <span className="text-gray-300 dark:text-gray-600">→</span>
-        <span className="font-mono font-bold text-gray-700 dark:text-gray-200">{airport.iataCode}</span>
+        <span className={`font-mono font-bold ${strikeClass ?? "text-gray-700 dark:text-gray-200"}`}>
+          {airport.iataCode}
+        </span>
         <FaChevronDown size={10} className={`text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
-      {open && children}
+      {open && <div className={`flex flex-col gap-2 ${struck ? "opacity-60" : ""}`}>{children}</div>}
     </section>
+  );
+}
+
+function DiversionEndpointSection({ diversion }: { diversion: Diversion }) {
+  return (
+    <section className="flex flex-col gap-2 rounded-lg border border-red-500/60 bg-red-50/60 p-3 dark:bg-red-950/30">
+      <div className="flex items-center gap-2 text-xs">
+        <FaPlaneCircleExclamation size={14} className="text-red-600 dark:text-red-500" />
+        <span className="font-bold uppercase tracking-widest text-red-600 dark:text-red-500">Diverting to</span>
+        <span className="ms-auto text-red-700/80 dark:text-red-400/80">{diversion.airport.city}</span>
+        <span className="text-red-300 dark:text-red-700">→</span>
+        <span className="font-mono font-bold text-red-700 dark:text-red-400">{diversion.airport.icaoCode}</span>
+      </div>
+      <AirportPreviewPanel airport={diversion.airport} />
+      <dl className="grid grid-cols-3 gap-2 text-xs">
+        <DiversionFact label="Severity" value={diversionSeverityLabel(diversion.severity)} />
+        <DiversionFact label="Reason" value={diversionReasonLabel(diversion.reason)} />
+        <DiversionFact
+          label="ETA"
+          value={
+            <span className="font-mono">
+              <FormattedIcaoDate date={diversion.estimatedTimeAtDestination} />{" "}
+              <FormattedIcaoTime date={diversion.estimatedTimeAtDestination} />
+            </span>
+          }
+        />
+      </dl>
+    </section>
+  );
+}
+
+function DiversionFact({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div className="flex flex-col">
+      <dt className="text-[0.65rem] font-bold uppercase tracking-widest text-red-600/80 dark:text-red-500/80">
+        {label}
+      </dt>
+      <dd className="text-gray-800 dark:text-gray-100">{value}</dd>
+    </div>
   );
 }
 

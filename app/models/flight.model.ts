@@ -89,6 +89,7 @@ export class Flight {
   arrivalGateId: string | null;
   arrivalRunwayId: string | null;
   hasActiveEmergency: boolean;
+  isFlightDiverted: boolean;
   hasFlightPath: boolean;
   createdAt: Date;
 
@@ -113,6 +114,7 @@ export class Flight {
     this.arrivalGateId = flight.arrivalGateId;
     this.arrivalRunwayId = flight.arrivalRunwayId;
     this.hasActiveEmergency = flight.hasActiveEmergency ?? false;
+    this.isFlightDiverted = flight.isFlightDiverted ?? false;
     this.hasFlightPath = flight.hasFlightPath;
     this.createdAt = new Date(flight.createdAt);
   }
@@ -167,6 +169,8 @@ export enum FlightEventType {
   EmergencyWasDeclared = "flight.emergency-declared",
   EmergencyWasUpdated = "flight.emergency-updated",
   EmergencyWasResolved = "flight.emergency-resolved",
+  DiversionWasReported = "flight.diversion-reported",
+  DiversionWasUpdated = "flight.diversion-updated",
 }
 
 export function isEmergencyEvent(type: FlightEventType): boolean {
@@ -175,6 +179,10 @@ export function isEmergencyEvent(type: FlightEventType): boolean {
     type === FlightEventType.EmergencyWasUpdated ||
     type === FlightEventType.EmergencyWasResolved
   );
+}
+
+export function isDiversionEvent(type: FlightEventType): boolean {
+  return type === FlightEventType.DiversionWasReported || type === FlightEventType.DiversionWasUpdated;
 }
 
 export type FlightEvent = {

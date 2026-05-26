@@ -26,6 +26,8 @@ export function translateEventType(eventType: FlightEventType): string {
     [FlightEventType.EmergencyWasDeclared]: "Emergency declared",
     [FlightEventType.EmergencyWasUpdated]: "Emergency updated",
     [FlightEventType.EmergencyWasResolved]: "Emergency resolved",
+    [FlightEventType.DiversionWasReported]: "Diversion reported",
+    [FlightEventType.DiversionWasUpdated]: "Diversion updated",
   };
 
   return eventNames[eventType] ?? eventType;

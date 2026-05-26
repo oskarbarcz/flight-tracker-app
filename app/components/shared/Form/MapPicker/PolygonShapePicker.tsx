@@ -2,9 +2,9 @@
 
 import { Button, Label } from "flowbite-react";
 import { useField } from "formik";
-import type { LatLngExpression } from "leaflet";
+import L, { type LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
-import { CircleMarker, MapContainer, Polygon, Polyline, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, Polygon, Polyline, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/functions/polygon";
 import type { Coordinates } from "~/models/runway.model";
@@ -35,6 +35,18 @@ function ClickHandler({ onPick }: { onPick: (lat: number, lng: number) => void }
     },
   });
   return null;
+}
+
+function vertexIcon(stroke: string, fill: string, highlightFirst: boolean): L.DivIcon {
+  const size = highlightFirst ? 16 : 10;
+  const bg = highlightFirst ? "#ffffff" : fill;
+  const border = highlightFirst ? 3 : 1;
+  return new L.DivIcon({
+    html: `<span style="display:block;width:${size}px;height:${size}px;border-radius:50%;background:${bg};border:${border}px solid ${stroke};box-sizing:border-box;cursor:pointer;"></span>`,
+    className: "shape-picker-vertex",
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+  });
 }
 
 export function PolygonShapePicker({ field, airportLocation, label, tone }: Props) {
@@ -87,9 +99,21 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
   };
 
   const onUndo = () => {
+    if (closed) {
+      setClosed(false);
+      setError(null);
+      return;
+    }
     const next = vertices.slice(0, -1);
     setVertices(next);
-    if (next.length < 3) setClosed(false);
+    setError(null);
+  };
+
+  const onVertexDrag = (idx: number, latlng: L.LatLng) => {
+    const wrapped = latlng.wrap();
+    const moved: Coordinates = { latitude: round6(wrapped.lat), longitude: round6(wrapped.lng) };
+    const next = vertices.map((v, i) => (i === idx ? moved : v));
+    setVertices(next);
     setError(null);
   };
 
@@ -134,7 +158,7 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
         center={initialCenter}
         zoom={14}
         scrollWheelZoom
-        className="h-72 w-full rounded-xl z-0"
+        className={`h-72 w-full rounded-xl z-0 shape-picker-map${closed ? "" : " shape-picker-map--adding"}`}
         attributionControl={false}
       >
         <MapTileLayer />
@@ -155,17 +179,15 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
           const isFirst = idx === 0;
           const highlightFirst = isFirst && canClose;
           return (
-            <CircleMarker
+            <Marker
               key={`${pos[0]},${pos[1]},${idx}`}
-              center={pos}
-              radius={highlightFirst ? 8 : 5}
-              pathOptions={{
-                color: tones.stroke,
-                fillColor: highlightFirst ? "#ffffff" : tones.fill,
-                fillOpacity: 1,
-                weight: highlightFirst ? 3 : 1,
+              position={pos}
+              icon={vertexIcon(tones.stroke, tones.fill, highlightFirst)}
+              draggable
+              eventHandlers={{
+                click: () => onVertexClick(idx),
+                dragend: (e) => onVertexDrag(idx, (e.target as L.Marker).getLatLng()),
               }}
-              eventHandlers={{ click: () => onVertexClick(idx) }}
             />
           );
         })}

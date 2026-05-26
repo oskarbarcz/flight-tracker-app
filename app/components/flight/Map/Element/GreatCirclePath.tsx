@@ -8,6 +8,7 @@ import type { Airport } from "~/models";
 type GreatCirclePathType = {
   start: Airport;
   end: Airport;
+  variant?: "primary" | "diversion";
 };
 
 function generateGreatCirclePath(from: { x: number; y: number }, to: { x: number; y: number }) {
@@ -16,17 +17,15 @@ function generateGreatCirclePath(from: { x: number; y: number }, to: { x: number
   return line.geometries[0].coords.map(([lon, lat]) => [lat, lon] as LatLngTuple);
 }
 
-export function GreatCirclePath({ start, end }: GreatCirclePathType) {
+const VARIANT_STYLE = {
+  primary: { color: "#6875F5", weight: 4, dashArray: "10 10", opacity: 0.5 },
+  diversion: { color: "#dc2626", weight: 4, dashArray: "6 8", opacity: 0.85 },
+} as const;
+
+export function GreatCirclePath({ start, end, variant = "primary" }: GreatCirclePathType) {
   const startPos = { x: start.location.longitude, y: start.location.latitude };
   const endPos = { x: end.location.longitude, y: end.location.latitude };
   const path = generateGreatCirclePath(startPos, endPos);
 
-  const pathOptions = {
-    color: "#6875F5",
-    weight: 4,
-    dashArray: "10 10",
-    opacity: 0.5,
-  };
-
-  return <Polyline pathOptions={pathOptions} positions={path} />;
+  return <Polyline pathOptions={VARIANT_STYLE[variant]} positions={path} />;
 }

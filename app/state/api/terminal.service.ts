@@ -18,9 +18,7 @@ export class PublicTerminalService extends AbstractApiService {
 
 export class TerminalService extends AbstractAuthorizedApiService {
   async fetchAll(airportId: string) {
-    return terminalListCache.getOrFetch(airportId, () =>
-      this.fetchWithAuth<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`),
-    );
+    return this.fetchWithAuth<GetTerminalResponse[]>(`/api/v1/airport/${airportId}/terminal`);
   }
 
   async fetchById(airportId: string, terminalId: string) {

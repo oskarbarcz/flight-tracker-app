@@ -1,10 +1,11 @@
 import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
-import type { Flight, FlightEvent } from "~/models";
+import type { Diversion, Flight, FlightEvent } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 
 type HistoryFlightContextType = {
   flight: Flight | null;
   events: FlightEvent[];
+  diversion: Diversion | null;
   loading: boolean;
 };
 
@@ -21,19 +22,27 @@ type Props = {
  * closed flights don't change. The map tab loads the flight path on demand.
  */
 export function HistoryFlightProvider({ flightId, children }: Props) {
-  const { flightService } = useApi();
+  const { flightService, diversionService } = useApi();
   const [flight, setFlight] = useState<Flight | null>(null);
   const [events, setEvents] = useState<FlightEvent[]>([]);
+  const [diversion, setDiversion] = useState<Diversion | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    Promise.all([flightService.fetchById(flightId), flightService.fetchEventsByFlightId(flightId)])
-      .then(([f, e]) => {
+    flightService
+      .fetchById(flightId)
+      .then(async (f) => {
         if (cancelled) return;
         setFlight(f);
+        const [e, d] = await Promise.all([
+          flightService.fetchEventsByFlightId(flightId),
+          f.isFlightDiverted ? diversionService.getByFlight(flightId) : Promise.resolve(null),
+        ]);
+        if (cancelled) return;
         setEvents(e);
+        setDiversion(d);
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -41,9 +50,13 @@ export function HistoryFlightProvider({ flightId, children }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [flightService, flightId]);
+  }, [flightService, diversionService, flightId]);
 
-  return <HistoryFlightContext.Provider value={{ flight, events, loading }}>{children}</HistoryFlightContext.Provider>;
+  return (
+    <HistoryFlightContext.Provider value={{ flight, events, diversion, loading }}>
+      {children}
+    </HistoryFlightContext.Provider>
+  );
 }
 
 export function useHistoryFlight() {

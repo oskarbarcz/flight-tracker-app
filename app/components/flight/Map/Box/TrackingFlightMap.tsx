@@ -16,7 +16,7 @@ import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export function TrackingFlightMap() {
-  const { flight } = useTrackedFlight();
+  const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
   const { runwayService, terminalService, gateService } = useApi();
   const leafletMapOptions = {
@@ -39,7 +39,15 @@ export function TrackingFlightMap() {
     flight.destinationAirport.location.longitude,
   ];
 
-  const mapBounds = L.latLngBounds([departurePosition, destinationPosition]);
+  const diversionPosition: Position | null = diversion
+    ? [diversion.airport.location.latitude, diversion.airport.location.longitude]
+    : null;
+
+  const mapBounds = L.latLngBounds(
+    diversionPosition
+      ? [departurePosition, destinationPosition, diversionPosition]
+      : [departurePosition, destinationPosition],
+  );
 
   return (
     <MapContainer
@@ -53,10 +61,12 @@ export function TrackingFlightMap() {
       <MapTileLayer />
 
       <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
+      {diversion && <GreatCirclePath start={flight.departureAirport} end={diversion.airport} variant="diversion" />}
       <FlightPath path={flightPath} />
 
       <MapAirportLabel airport={flight.departureAirport} />
       <MapAirportLabel airport={flight.destinationAirport} />
+      {diversion && <MapAirportLabel airport={diversion.airport} variant="diversion" />}
 
       <TrackingRunwaysLayer
         runwayService={runwayService}

@@ -3,6 +3,7 @@ import { AircraftService } from "~/state/api/aircraft.service";
 import { AirframeService } from "~/state/api/airframe.service";
 import { AirportService } from "~/state/api/airport.service";
 import { AuthService } from "~/state/api/auth.service";
+import { DiversionService } from "~/state/api/diversion.service";
 import { EmergencyService } from "~/state/api/emergency.service";
 import { FlightService } from "~/state/api/flight.service";
 import { GateService } from "~/state/api/gate.service";
@@ -24,6 +25,7 @@ type ApiServices = {
   gateService: GateService;
   flightService: FlightService;
   emergencyService: EmergencyService;
+  diversionService: DiversionService;
   userService: UserService;
   skyLinkService: SkyLinkService;
   authService: AuthService;
@@ -48,6 +50,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       gateService: new GateService(),
       flightService: new FlightService(),
       emergencyService: new EmergencyService(),
+      diversionService: new DiversionService(),
       userService: new UserService(),
       skyLinkService: new SkyLinkService(),
       authService: new AuthService(),
