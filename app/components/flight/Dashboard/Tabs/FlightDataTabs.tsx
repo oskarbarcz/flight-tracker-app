@@ -8,6 +8,7 @@ export enum FlightDataTab {
   OperationalFlightPlan,
   RunwayAnalysis,
   EmergenciesDiversions,
+  Delays,
 }
 
 type Props = {
@@ -15,13 +16,20 @@ type Props = {
   setTab: (tab: FlightDataTab) => void;
   isSimbriefAvailable: boolean;
   hasActiveEmergency: boolean;
+  hasUnsettledDelay: boolean;
 };
 
-export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmergency }: Props) {
+export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmergency, hasUnsettledDelay }: Props) {
   const emergencyTitle = hasActiveEmergency ? (
     <span className="text-red-600 dark:text-red-500 font-semibold">Emergencies &amp; diversions</span>
   ) : (
     "Emergencies & diversions"
+  );
+
+  const delaysTitle = hasUnsettledDelay ? (
+    <span className="text-amber-600 dark:text-amber-500 font-semibold">Delay report</span>
+  ) : (
+    "Delay report"
   );
 
   return (
@@ -31,6 +39,7 @@ export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmer
       <TabItem active={tab === FlightDataTab.OperationalFlightPlan} title="OFP" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === FlightDataTab.RunwayAnalysis} title="Runway analysis" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === FlightDataTab.EmergenciesDiversions} title={emergencyTitle} />
+      <TabItem active={tab === FlightDataTab.Delays} title={delaysTitle} />
     </Tabs>
   );
 }

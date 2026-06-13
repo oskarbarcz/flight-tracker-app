@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { FlightDataTab, FlightDataTabs } from "~/components/flight/Dashboard/Tabs/FlightDataTabs";
+import { FlightDelaysTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightDelaysTab";
 import { FlightEmergenciesDiversionsTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightEmergenciesDiversionsTab";
 import { FlightOfpTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightOfpTab";
 import { FlightOverviewTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightOverviewTab";
@@ -16,7 +17,7 @@ type Props = {
 };
 
 export function FlightTrackingDashboard({ flightId }: Props) {
-  const { flight, activeEmergency, setFlightId } = useTrackedFlight();
+  const { flight, activeEmergency, delayRequest, setFlightId } = useTrackedFlight();
   const navigate = useNavigate();
   const [tab, setTab] = useState<FlightDataTab>(FlightDataTab.Overview);
   usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
@@ -39,6 +40,7 @@ export function FlightTrackingDashboard({ flightId }: Props) {
 
   const isSimbriefAvailable = flight.source === FlightSource.SimBrief;
   const hasActiveEmergency = activeEmergency !== null;
+  const hasUnsettledDelay = delayRequest !== null && !delayRequest.isSettled;
 
   return (
     <>
@@ -48,6 +50,7 @@ export function FlightTrackingDashboard({ flightId }: Props) {
         setTab={setTab}
         isSimbriefAvailable={isSimbriefAvailable}
         hasActiveEmergency={hasActiveEmergency}
+        hasUnsettledDelay={hasUnsettledDelay}
       />
 
       {tab === FlightDataTab.Overview && <FlightOverviewTab />}
@@ -55,6 +58,7 @@ export function FlightTrackingDashboard({ flightId }: Props) {
       {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
       {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}
       {tab === FlightDataTab.EmergenciesDiversions && <FlightEmergenciesDiversionsTab />}
+      {tab === FlightDataTab.Delays && <FlightDelaysTab />}
     </>
   );
 }

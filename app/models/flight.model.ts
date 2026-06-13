@@ -171,6 +171,10 @@ export enum FlightEventType {
   EmergencyWasResolved = "flight.emergency-resolved",
   DiversionWasReported = "flight.diversion-reported",
   DiversionWasUpdated = "flight.diversion-updated",
+  DelayRequestWasCreated = "flight.delay-request-created",
+  DelayReportWasFiled = "flight.delay-report-filed",
+  DelayReportWasAccepted = "flight.delay-report-accepted",
+  DelayReportWasRejected = "flight.delay-report-rejected",
 }
 
 export function isEmergencyEvent(type: FlightEventType): boolean {
