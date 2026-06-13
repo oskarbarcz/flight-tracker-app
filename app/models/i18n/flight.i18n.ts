@@ -28,6 +28,10 @@ export function translateEventType(eventType: FlightEventType): string {
     [FlightEventType.EmergencyWasResolved]: "Emergency resolved",
     [FlightEventType.DiversionWasReported]: "Diversion reported",
     [FlightEventType.DiversionWasUpdated]: "Diversion updated",
+    [FlightEventType.DelayRequestWasCreated]: "Delay request created",
+    [FlightEventType.DelayReportWasFiled]: "Delay report filed",
+    [FlightEventType.DelayReportWasAccepted]: "Delay report accepted",
+    [FlightEventType.DelayReportWasRejected]: "Delay report rejected",
   };
 
   return eventNames[eventType] ?? eventType;

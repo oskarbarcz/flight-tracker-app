@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FlightHeroCard } from "~/components/flight/Dashboard/History/Box/FlightHeroCard";
 import { HistoryDataTab, HistoryDataTabs } from "~/components/flight/Dashboard/History/Tabs/HistoryDataTabs";
+import { HistoryDelaysTab } from "~/components/flight/Dashboard/History/Tabs/Tab/HistoryDelaysTab";
 import { HistoryEventsTab } from "~/components/flight/Dashboard/History/Tabs/Tab/HistoryEventsTab";
 import { HistoryMapTab } from "~/components/flight/Dashboard/History/Tabs/Tab/HistoryMapTab";
 import { HistoryOfpTab } from "~/components/flight/Dashboard/History/Tabs/Tab/HistoryOfpTab";
@@ -33,6 +34,7 @@ export function FlightHistoryDashboard() {
       {tab === HistoryDataTab.Events && <HistoryEventsTab />}
       {tab === HistoryDataTab.Map && <HistoryMapTab />}
       {tab === HistoryDataTab.OperationalFlightPlan && <HistoryOfpTab />}
+      {tab === HistoryDataTab.Delays && <HistoryDelaysTab flightId={flight.id} />}
     </>
   );
 }

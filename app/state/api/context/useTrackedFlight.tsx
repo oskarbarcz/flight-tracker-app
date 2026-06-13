@@ -1,5 +1,6 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer } from "react";
 import {
+  type DelayRequest,
   type Diversion,
   type Emergency,
   type FilledSchedule,
@@ -10,6 +11,7 @@ import {
 } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { subscribeToFlightEvents } from "~/state/api/flightEvents.socket";
+import type { ReportDelayRequest } from "~/state/api/request/delay.request";
 import type { ReportDiversionRequest, UpdateDiversionRequest } from "~/state/api/request/diversion.request";
 import type { DeclareEmergencyRequest, UpdateEmergencyRequest } from "~/state/api/request/emergency.request";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
@@ -24,6 +26,7 @@ type State = {
   flight: Flight | null;
   emergencies: Emergency[];
   diversion: Diversion | null;
+  delayRequest: DelayRequest | null;
   loading: boolean;
 };
 
@@ -33,6 +36,7 @@ const initialState: State = {
   events: [],
   emergencies: [],
   diversion: null,
+  delayRequest: null,
   loading: false,
 };
 
@@ -42,6 +46,7 @@ type Action =
   | { type: "PREPEND_TRACKED_FLIGHT_EVENT"; payload: FlightEvent }
   | { type: "SET_TRACKED_FLIGHT_EMERGENCIES"; payload: Emergency[] }
   | { type: "SET_TRACKED_FLIGHT_DIVERSION"; payload: Diversion | null }
+  | { type: "SET_TRACKED_FLIGHT_DELAY"; payload: DelayRequest | null }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_FLIGHT_ID"; payload: string | null };
 
@@ -58,6 +63,8 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, emergencies: action.payload };
     case "SET_TRACKED_FLIGHT_DIVERSION":
       return { ...state, diversion: action.payload };
+    case "SET_TRACKED_FLIGHT_DELAY":
+      return { ...state, delayRequest: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     case "SET_FLIGHT_ID":
@@ -73,6 +80,7 @@ type TrackedFlightContextType = {
   emergencies: Emergency[];
   activeEmergency: Emergency | null;
   diversion: Diversion | null;
+  delayRequest: DelayRequest | null;
   loading: boolean;
   setFlightId: (flightId: string) => void;
   reload: () => Promise<void>;
@@ -91,6 +99,8 @@ type TrackedFlightContextType = {
   resolveEmergency: (emergencyId: string) => Promise<void>;
   reportDiversion: (body: ReportDiversionRequest) => Promise<void>;
   updateDiversion: (body: UpdateDiversionRequest) => Promise<void>;
+  fileDelayReport: (body: ReportDelayRequest) => Promise<void>;
+  removeDelayReport: (reportId: string) => Promise<void>;
 };
 
 const UseTrackedFlight = createContext<TrackedFlightContextType>({
@@ -99,6 +109,7 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   emergencies: [],
   activeEmergency: null,
   diversion: null,
+  delayRequest: null,
   loading: false,
   setFlightId: () => {},
   reload: async () => {},
@@ -117,6 +128,8 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   resolveEmergency: async () => {},
   reportDiversion: async () => {},
   updateDiversion: async () => {},
+  fileDelayReport: async () => {},
+  removeDelayReport: async () => {},
 });
 
 type FlightStateProviderProps = {
@@ -125,7 +138,7 @@ type FlightStateProviderProps = {
 
 export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { flightService, emergencyService, diversionService } = useApi();
+  const { flightService, emergencyService, diversionService, delayService } = useApi();
   const { markRefreshed } = useDataRefresh();
 
   const setFlightId = useCallback((flightId: string) => {
@@ -138,12 +151,14 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       if (!silent) dispatch({ type: "SET_LOADING", payload: true });
       const updatedFlight = await flightService.fetchById(state.flightId);
       const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
+      const delayRequest = await delayService.getByFlight(state.flightId);
       dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
       dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
+      dispatch({ type: "SET_TRACKED_FLIGHT_DELAY", payload: delayRequest });
       markRefreshed();
       if (!silent) dispatch({ type: "SET_LOADING", payload: false });
     },
-    [flightService, diversionService, state.flightId, markRefreshed],
+    [flightService, diversionService, delayService, state.flightId, markRefreshed],
   );
 
   useEffect(() => {
@@ -293,6 +308,24 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     [diversionService, state.flightId, loadFlight],
   );
 
+  const fileDelayReport = useCallback(
+    async (body: ReportDelayRequest) => {
+      if (!state.flightId) return;
+      await delayService.fileReport(state.flightId, body);
+      await loadFlight({ silent: true });
+    },
+    [delayService, state.flightId, loadFlight],
+  );
+
+  const removeDelayReport = useCallback(
+    async (reportId: string) => {
+      if (!state.flightId) return;
+      await delayService.removeReport(state.flightId, reportId);
+      await loadFlight({ silent: true });
+    },
+    [delayService, state.flightId, loadFlight],
+  );
+
   const activeEmergency = state.emergencies.find((e) => e.isActive) ?? null;
 
   return (
@@ -303,6 +336,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         emergencies: state.emergencies,
         activeEmergency,
         diversion: state.diversion,
+        delayRequest: state.delayRequest,
         loading: state.loading,
         setFlightId,
         reload: () => loadFlight({ silent: true }),
@@ -321,6 +355,8 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         resolveEmergency,
         reportDiversion,
         updateDiversion,
+        fileDelayReport,
+        removeDelayReport,
       }}
     >
       {children}
