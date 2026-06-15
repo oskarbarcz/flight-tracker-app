@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import React from "react";
-import { FaTrash } from "react-icons/fa6";
+import { FaCheck, FaTrash, FaXmark } from "react-icons/fa6";
 import type { DelayReport } from "~/models";
 import { DelayReportStatus } from "~/models";
 import { translateDelayReasonCode } from "~/models/i18n/delay.i18n";
@@ -22,9 +22,12 @@ const STATUS_LABELS: Record<DelayReportStatus, string> = {
 type Props = {
   report: DelayReport;
   onRemove?: (report: DelayReport) => void;
+  onAccept?: (report: DelayReport) => void;
+  onReject?: (report: DelayReport) => void;
 };
 
-export function DelayReportRow({ report, onRemove }: Props) {
+export function DelayReportRow({ report, onRemove, onAccept, onReject }: Props) {
+  const canReview = report.isPending && (onAccept || onReject);
   return (
     <div className="flex items-start justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800/40">
       <div className="flex flex-col gap-1">
@@ -52,6 +55,20 @@ export function DelayReportRow({ report, onRemove }: Props) {
         <Button size="xs" color="gray" outline onClick={() => onRemove(report)} title="Remove report">
           <FaTrash />
         </Button>
+      )}
+      {canReview && (
+        <div className="flex shrink-0 gap-2">
+          {onReject && (
+            <Button size="xs" color="red" outline onClick={() => onReject(report)} title="Reject report">
+              <FaXmark className="me-1" /> Reject
+            </Button>
+          )}
+          {onAccept && (
+            <Button size="xs" color="green" onClick={() => onAccept(report)} title="Accept report">
+              <FaCheck className="me-1" /> Accept
+            </Button>
+          )}
+        </div>
       )}
     </div>
   );

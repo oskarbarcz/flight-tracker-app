@@ -34,3 +34,9 @@ export type ReportDelayRequest = {
   reasonCode: DelayReasonCode;
   freeText?: string;
 };
+
+export type RejectDelayReportRequest = {
+  rejectionReason: string;
+};
+
+export type DelayRequestStatusFilter = "pending" | "settled";

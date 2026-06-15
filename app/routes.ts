@@ -35,13 +35,17 @@ export default [
       ),
       // operations - flights
       route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
+      route("current-flights", "routes/operations/flights/CurrentFlightsRoute.tsx"),
+      route("finished-flights", "routes/operations/flights/FinishedFlightsRoute.tsx"),
       route("flights/new", "routes/operations/flights/CreateFlightRoute.tsx"),
+      route("delays", "routes/operations/flights/DelaysWorklistRoute.tsx"),
       layout("routes/operations/flights/FlightLayout.tsx", [
         route("flights/:id/overview", "routes/operations/flights/FlightOverviewRoute.tsx"),
         route("flights/:id/timesheet", "routes/operations/flights/FlightTimesheetRoute.tsx"),
         route("flights/:id/loadsheet", "routes/operations/flights/FlightLoadsheetRoute.tsx"),
         route("flights/:id/ofp", "routes/operations/flights/FlightOfpRoute.tsx"),
         route("flights/:id/emergencies", "routes/operations/flights/FlightEmergenciesRoute.tsx"),
+        route("flights/:id/delays", "routes/operations/flights/FlightDelaysRoute.tsx"),
       ]),
       // operations - airports
       route("airports", "routes/operations/airports/AirportsListRoute.tsx"),

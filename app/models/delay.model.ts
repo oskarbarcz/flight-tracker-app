@@ -82,7 +82,6 @@ export class DelayRequest {
   id: string;
   flightId: string;
   totalDelayMinutes: number;
-  allocatedMinutes: number;
   isReconciled: boolean;
   isSettled: boolean;
   reports: DelayReport[];
@@ -92,14 +91,27 @@ export class DelayRequest {
     this.id = data.id;
     this.flightId = data.flightId;
     this.totalDelayMinutes = data.totalDelayMinutes;
-    this.allocatedMinutes = data.allocatedMinutes;
     this.isReconciled = data.isReconciled;
     this.isSettled = data.isSettled;
     this.reports = data.reports.map((report) => new DelayReport(report));
     this.createdAt = new Date(data.createdAt);
   }
 
+  get allocatedMinutes(): number {
+    return this.reports
+      .filter((report) => report.isAccepted || report.isPending)
+      .reduce((sum, report) => sum + report.delayMinutes, 0);
+  }
+
   get unallocatedMinutes(): number {
     return Math.max(0, this.totalDelayMinutes - this.allocatedMinutes);
+  }
+
+  get pendingReports(): DelayReport[] {
+    return this.reports.filter((report) => report.isPending);
+  }
+
+  get hasPendingReports(): boolean {
+    return this.reports.some((report) => report.isPending);
   }
 }

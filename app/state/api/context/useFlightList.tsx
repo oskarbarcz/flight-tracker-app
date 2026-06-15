@@ -11,40 +11,54 @@ type FlightListContextType = {
   totalCount: number;
   emergencyCount: number;
   limit: number;
-  reloadFlights: (phase: FlightPhase, page: number) => void;
+  reloadFlights: (phase: FlightPhase | FlightPhase[], page: number) => void;
 };
 
 const UseFlightList = createContext<FlightListContextType | null>(null);
 
 type FlightListProviderProps = {
   children: ReactNode;
+  limit?: number;
 };
 
-export function FlightListProvider({ children }: FlightListProviderProps) {
+export function FlightListProvider({ children, limit = 10 }: FlightListProviderProps) {
   const { flightService } = useApi();
   const { markRefreshed } = useDataRefresh();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [emergencyCount, setEmergencyCount] = useState(0);
-  const limit = 10;
 
   const reloadFlights = useCallback(
-    (phase: FlightPhase, pageToLoad: number) => {
+    (phase: FlightPhase | FlightPhase[], pageToLoad: number) => {
+      const phases = Array.isArray(phase) ? phase : [phase];
       setLoading(true);
       Promise.all([
-        flightService.fetchAllFlights({ phase, page: pageToLoad, limit }),
+        ...phases.map((p) => flightService.fetchAllFlights({ phase: p, page: pageToLoad, limit })),
         flightService.fetchAllFlights({ phase: FlightPhase.Emergency, page: 1, limit: 1 }),
       ])
-        .then(([listResponse, emergencyResponse]) => {
-          setFlights(listResponse.flights);
-          setTotalCount(listResponse.totalCount);
+        .then((responses) => {
+          const emergencyResponse = responses[responses.length - 1];
+          const listResponses = responses.slice(0, -1);
+
+          const merged: Flight[] = [];
+          const seen = new Set<string>();
+          for (const response of listResponses) {
+            for (const flight of response.flights) {
+              if (seen.has(flight.id)) continue;
+              seen.add(flight.id);
+              merged.push(flight);
+            }
+          }
+
+          setFlights(merged);
+          setTotalCount(listResponses.length === 1 ? listResponses[0].totalCount : merged.length);
           setEmergencyCount(emergencyResponse.totalCount);
           markRefreshed();
         })
         .finally(() => setLoading(false));
     },
-    [flightService, markRefreshed],
+    [flightService, markRefreshed, limit],
   );
 
   return (

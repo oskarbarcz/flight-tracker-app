@@ -10,15 +10,17 @@ const ALL_TABS = [
   { title: "Loadsheet", path: "loadsheet" },
   { title: "OFP", path: "ofp" },
   { title: "Emergencies", path: "emergencies" },
+  { title: "Delays", path: "delays" },
 ];
 
 type Props = {
   id: string;
   showOfp: boolean;
   hasActiveEmergency: boolean;
+  hasPendingDelays: boolean;
 };
 
-export function FlightTabs({ id, showOfp, hasActiveEmergency }: Props) {
+export function FlightTabs({ id, showOfp, hasActiveEmergency, hasPendingDelays }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -33,12 +35,17 @@ export function FlightTabs({ id, showOfp, hasActiveEmergency }: Props) {
   };
 
   const renderTitle = (tab: { title: string; path: string }): React.ReactNode => {
-    if (tab.path !== "emergencies") return tab.title;
-    return hasActiveEmergency ? (
-      <span className="text-red-600 dark:text-red-500 font-semibold">{tab.title}</span>
-    ) : (
-      tab.title
-    );
+    if (tab.path === "emergencies") {
+      return hasActiveEmergency ? (
+        <span className="text-red-600 dark:text-red-500 font-semibold">{tab.title}</span>
+      ) : (
+        tab.title
+      );
+    }
+    if (tab.path === "delays" && hasPendingDelays) {
+      return <span className="text-amber-600 dark:text-amber-400 font-semibold">{tab.title}</span>;
+    }
+    return tab.title;
   };
 
   return (

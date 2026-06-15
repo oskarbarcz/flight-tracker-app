@@ -11,7 +11,7 @@ import {
 } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { subscribeToFlightEvents } from "~/state/api/flightEvents.socket";
-import type { ReportDelayRequest } from "~/state/api/request/delay.request";
+import type { RejectDelayReportRequest, ReportDelayRequest } from "~/state/api/request/delay.request";
 import type { ReportDiversionRequest, UpdateDiversionRequest } from "~/state/api/request/diversion.request";
 import type { DeclareEmergencyRequest, UpdateEmergencyRequest } from "~/state/api/request/emergency.request";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
@@ -101,6 +101,8 @@ type TrackedFlightContextType = {
   updateDiversion: (body: UpdateDiversionRequest) => Promise<void>;
   fileDelayReport: (body: ReportDelayRequest) => Promise<void>;
   removeDelayReport: (reportId: string) => Promise<void>;
+  acceptDelayReport: (reportId: string) => Promise<void>;
+  rejectDelayReport: (reportId: string, body: RejectDelayReportRequest) => Promise<void>;
 };
 
 const UseTrackedFlight = createContext<TrackedFlightContextType>({
@@ -130,6 +132,8 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   updateDiversion: async () => {},
   fileDelayReport: async () => {},
   removeDelayReport: async () => {},
+  acceptDelayReport: async () => {},
+  rejectDelayReport: async () => {},
 });
 
 type FlightStateProviderProps = {
@@ -326,6 +330,24 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     [delayService, state.flightId, loadFlight],
   );
 
+  const acceptDelayReport = useCallback(
+    async (reportId: string) => {
+      if (!state.flightId) return;
+      await delayService.acceptReport(state.flightId, reportId);
+      await loadFlight({ silent: true });
+    },
+    [delayService, state.flightId, loadFlight],
+  );
+
+  const rejectDelayReport = useCallback(
+    async (reportId: string, body: RejectDelayReportRequest) => {
+      if (!state.flightId) return;
+      await delayService.rejectReport(state.flightId, reportId, body);
+      await loadFlight({ silent: true });
+    },
+    [delayService, state.flightId, loadFlight],
+  );
+
   const activeEmergency = state.emergencies.find((e) => e.isActive) ?? null;
 
   return (
@@ -357,6 +379,8 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         updateDiversion,
         fileDelayReport,
         removeDelayReport,
+        acceptDelayReport,
+        rejectDelayReport,
       }}
     >
       {children}
