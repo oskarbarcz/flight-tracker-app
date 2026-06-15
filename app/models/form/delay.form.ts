@@ -1,5 +1,5 @@
 import { DelayReasonCode } from "~/models/delay.model";
-import type { ReportDelayRequest } from "~/state/api/request/delay.request";
+import type { RejectDelayReportRequest, ReportDelayRequest } from "~/state/api/request/delay.request";
 
 export type FileDelayReportFormData = {
   reasonCode: DelayReasonCode;
@@ -21,5 +21,21 @@ export function fileDelayReportFormDataToRequest(values: FileDelayReportFormData
     reasonCode: values.reasonCode,
     delayMinutes: Number(values.delayMinutes),
     ...(freeText.length > 0 ? { freeText } : {}),
+  };
+}
+
+export type RejectDelayReportFormData = {
+  rejectionReason: string;
+};
+
+export function initRejectDelayReportData(): RejectDelayReportFormData {
+  return {
+    rejectionReason: "",
+  };
+}
+
+export function rejectDelayReportFormDataToRequest(values: RejectDelayReportFormData): RejectDelayReportRequest {
+  return {
+    rejectionReason: values.rejectionReason.trim(),
   };
 }

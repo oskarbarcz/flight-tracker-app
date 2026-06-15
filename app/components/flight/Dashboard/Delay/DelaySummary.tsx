@@ -7,9 +7,11 @@ import type { DelayReport, DelayRequest } from "~/models";
 type Props = {
   delayRequest: DelayRequest;
   onRemove?: (report: DelayReport) => void;
+  onAccept?: (report: DelayReport) => void;
+  onReject?: (report: DelayReport) => void;
 };
 
-export function DelaySummary({ delayRequest, onRemove }: Props) {
+export function DelaySummary({ delayRequest, onRemove, onAccept, onReject }: Props) {
   const { totalDelayMinutes, allocatedMinutes, unallocatedMinutes, reports } = delayRequest;
 
   return (
@@ -24,7 +26,15 @@ export function DelaySummary({ delayRequest, onRemove }: Props) {
         {reports.length === 0 ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">No delay reports filed yet.</p>
         ) : (
-          reports.map((report) => <DelayReportRow key={report.id} report={report} onRemove={onRemove} />)
+          reports.map((report) => (
+            <DelayReportRow
+              key={report.id}
+              report={report}
+              onRemove={onRemove}
+              onAccept={onAccept}
+              onReject={onReject}
+            />
+          ))
         )}
       </div>
     </div>

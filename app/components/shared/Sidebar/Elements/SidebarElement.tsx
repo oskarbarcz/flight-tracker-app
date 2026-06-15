@@ -9,9 +9,23 @@ type Props = {
   label: string;
   href: string;
   icon: IconType;
+  badge?: number;
 };
 
-export function SidebarElement({ isSelected, label, href, icon: Icon }: Props) {
+export function SidebarElement({ isSelected, label, href, icon: Icon, badge }: Props) {
+  const showBadge = typeof badge === "number" && badge > 0;
+  const content = (
+    <>
+      <Icon size={18} />
+      <span>{label}</span>
+      {showBadge && (
+        <span className="ml-auto inline-flex min-w-5 items-center justify-center rounded-full bg-amber-500 px-1.5 text-xs font-bold text-white">
+          {badge}
+        </span>
+      )}
+    </>
+  );
+
   if (isSelected) {
     return (
       <Link
@@ -20,8 +34,7 @@ export function SidebarElement({ isSelected, label, href, icon: Icon }: Props) {
         replace
         viewTransition
       >
-        <Icon size={18} />
-        <span>{label}</span>
+        {content}
       </Link>
     );
   }
@@ -33,8 +46,7 @@ export function SidebarElement({ isSelected, label, href, icon: Icon }: Props) {
       replace
       viewTransition
     >
-      <Icon size={18} />
-      <span>{label}</span>
+      {content}
     </Link>
   );
 }

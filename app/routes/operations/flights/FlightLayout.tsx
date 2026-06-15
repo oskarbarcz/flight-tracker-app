@@ -55,7 +55,7 @@ function FlightLayoutContent() {
   const { flightService } = useApi();
   const { success, error } = useToast();
   const { markRefreshed } = useDataRefresh();
-  const { activeEmergency, setFlightId } = useTrackedFlight();
+  const { activeEmergency, delayRequest, setFlightId } = useTrackedFlight();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
 
@@ -124,6 +124,7 @@ function FlightLayoutContent() {
         id={flight.id}
         showOfp={flight.source === FlightSource.SimBrief}
         hasActiveEmergency={activeEmergency !== null}
+        hasPendingDelays={delayRequest?.hasPendingReports ?? false}
       />
       <Outlet />
 

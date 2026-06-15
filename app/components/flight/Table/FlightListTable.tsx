@@ -4,14 +4,10 @@ import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableR
 import React from "react";
 import { useSearchParams } from "react-router";
 import { FlightListElement } from "~/components/flight/Table/FlightListElement";
-import type { Flight, FlightPhase } from "~/models";
+import type { Flight } from "~/models";
 import { useFlightList } from "~/state/api/context/useFlightList";
 
-type Props = {
-  phase: FlightPhase;
-};
-
-export function FlightListTable({ phase: _phase }: Props) {
+export function FlightListTable() {
   const { flights, loading, totalCount, limit } = useFlightList();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number.parseInt(searchParams.get("page") ?? "1", 10);
