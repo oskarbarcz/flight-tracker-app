@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaClock, FaPlus } from "react-icons/fa6";

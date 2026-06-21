@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";

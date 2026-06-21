@@ -1,5 +1,3 @@
-"use client";
-
 import { useFormikContext } from "formik";
 import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 import { getTimeDifferenceInHours, getTimeDifferenceInMinutes } from "~/functions/time";

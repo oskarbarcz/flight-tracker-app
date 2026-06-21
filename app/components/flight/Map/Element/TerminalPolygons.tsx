@@ -1,5 +1,3 @@
-"use client";
-
 import type { LeafletMouseEvent } from "leaflet";
 import { useMemo } from "react";
 import { Polygon, Tooltip } from "react-leaflet";

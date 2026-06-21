@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";

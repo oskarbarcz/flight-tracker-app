@@ -1,5 +1,3 @@
-"use client";
-
 import L from "leaflet";
 import React, { useCallback, useEffect } from "react";
 import { MapContainer } from "react-leaflet";

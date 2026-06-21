@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { Link } from "react-router";

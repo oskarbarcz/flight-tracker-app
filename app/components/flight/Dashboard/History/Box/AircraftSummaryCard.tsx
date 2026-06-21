@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaPlane } from "react-icons/fa6";
 import { GiCommercialAirplane } from "react-icons/gi";

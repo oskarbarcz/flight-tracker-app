@@ -1,5 +1,3 @@
-"use client";
-
 import L from "leaflet";
 import { Marker, Tooltip } from "react-leaflet";
 import type { Gate } from "~/models";

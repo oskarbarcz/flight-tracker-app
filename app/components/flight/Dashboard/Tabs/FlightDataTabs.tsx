@@ -1,5 +1,3 @@
-"use client";
-
 import { TabItem, Tabs } from "flowbite-react";
 
 export enum FlightDataTab {

@@ -1,5 +1,3 @@
-"use client";
-
 import { Label } from "flowbite-react";
 import { useField } from "formik";
 import L, { type LatLngExpression } from "leaflet";

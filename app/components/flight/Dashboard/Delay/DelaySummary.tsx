@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { DelayReportRow } from "~/components/flight/Dashboard/Delay/DelayReportRow";
 import type { DelayReport, DelayRequest } from "~/models";

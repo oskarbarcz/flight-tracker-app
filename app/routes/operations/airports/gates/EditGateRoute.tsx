@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/airports/gates/+types/EditGateRoute";
 import { Formik, type FormikHelpers } from "formik";
 import React from "react";

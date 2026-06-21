@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect } from "react";
 import { Navigate } from "react-router";
 import { useAuth } from "~/state/api/context/useAuth";

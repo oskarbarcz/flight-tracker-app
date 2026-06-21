@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportLayout";
 import React from "react";
 import { Outlet, useLoaderData } from "react-router";

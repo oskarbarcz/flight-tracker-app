@@ -1,5 +1,3 @@
-"use client";
-
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { FaClockRotateLeft } from "react-icons/fa6";

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import type { FilledSchedule } from "~/models";

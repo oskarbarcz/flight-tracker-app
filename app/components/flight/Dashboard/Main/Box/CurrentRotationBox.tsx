@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaArrowsSpin, FaCircleInfo } from "react-icons/fa6";
 import { Container } from "~/components/shared/Layout/Container";

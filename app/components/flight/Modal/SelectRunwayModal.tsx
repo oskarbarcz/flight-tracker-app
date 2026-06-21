@@ -1,5 +1,3 @@
-"use client";
-
 import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader, Radio, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";

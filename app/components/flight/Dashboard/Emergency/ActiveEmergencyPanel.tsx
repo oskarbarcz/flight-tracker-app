@@ -1,5 +1,3 @@
-"use client";
-
 import { Badge, Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaPencil, FaTriangleExclamation } from "react-icons/fa6";

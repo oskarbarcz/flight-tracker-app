@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import type { FlightProgressButtonProps } from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { toHuman } from "~/i18n/translate";

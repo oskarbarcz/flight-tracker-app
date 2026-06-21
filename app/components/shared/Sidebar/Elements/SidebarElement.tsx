@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import type { IconType } from "react-icons";
 import { Link } from "react-router";

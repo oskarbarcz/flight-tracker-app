@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { FaClock } from "react-icons/fa6";
 import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";

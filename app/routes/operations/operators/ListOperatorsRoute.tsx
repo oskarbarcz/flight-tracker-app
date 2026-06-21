@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";

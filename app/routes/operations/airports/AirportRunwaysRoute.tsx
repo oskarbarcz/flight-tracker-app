@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportRunwaysRoute";
 import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";

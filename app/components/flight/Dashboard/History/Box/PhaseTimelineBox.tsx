@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";

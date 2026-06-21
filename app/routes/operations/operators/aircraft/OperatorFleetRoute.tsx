@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/OperatorFleetRoute";
 import React, { useMemo, useState } from "react";
 import { useLoaderData } from "react-router";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";

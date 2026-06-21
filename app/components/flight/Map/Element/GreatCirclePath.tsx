@@ -1,5 +1,3 @@
-"use client";
-
 import Arc from "arc";
 import type { LatLngTuple } from "leaflet";
 import { Polyline } from "react-leaflet";

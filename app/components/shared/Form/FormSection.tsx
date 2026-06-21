@@ -1,5 +1,3 @@
-"use client";
-
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import type { IconType } from "react-icons";

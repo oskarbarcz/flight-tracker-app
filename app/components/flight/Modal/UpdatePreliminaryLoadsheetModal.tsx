@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { UpdateLoadsheetForm } from "~/components/flight/Forms/UpdateLoadsheetForm";

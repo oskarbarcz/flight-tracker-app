@@ -1,5 +1,3 @@
-"use client";
-
 import { FloatingLabel, HelperText } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute } from "react";

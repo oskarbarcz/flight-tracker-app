@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { DangerousGoodsCheckboxes } from "~/components/flight/Dashboard/Emergency/DangerousGoodsCheckboxes";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";

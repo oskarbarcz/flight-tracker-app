@@ -1,5 +1,3 @@
-"use client";
-
 import type { LatLngTuple } from "leaflet";
 import { useMemo } from "react";
 import { Polyline } from "react-leaflet";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Formik, Form as FormikForm } from "formik";
 import React from "react";
 import type { ObjectSchema } from "yup";

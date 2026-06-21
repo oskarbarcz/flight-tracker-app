@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Tooltip } from "flowbite-react";
 import React, { useState } from "react";
 import { FaPlaneCircleExclamation, FaTriangleExclamation } from "react-icons/fa6";

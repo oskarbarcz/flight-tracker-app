@@ -1,5 +1,3 @@
-"use client";
-
 import { Checkbox, Label, Select } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useMemo, useState } from "react";

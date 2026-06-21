@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect } from "react";
 import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
 import { MapLinkOverlay } from "~/components/flight/Map/Box/Overlay/MapLinkOverlay";

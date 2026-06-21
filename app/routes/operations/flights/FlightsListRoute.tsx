@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { PlanFlightOptions } from "~/components/flight/PlanFlightOptions";
 import { FlightListView } from "~/components/flight/Table/FlightListView";

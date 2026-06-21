@@ -1,5 +1,3 @@
-"use client";
-
 import { Badge } from "flowbite-react";
 import React from "react";
 import { categoryLabel, threatLevelLabel, urgencyLabel } from "~/components/flight/Dashboard/Emergency/emergencyLabels";

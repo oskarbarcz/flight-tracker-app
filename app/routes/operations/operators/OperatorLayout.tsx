@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/operators/+types/OperatorLayout";
 import { Button } from "flowbite-react";
 import React from "react";

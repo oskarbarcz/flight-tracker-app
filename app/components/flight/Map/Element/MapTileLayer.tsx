@@ -1,5 +1,3 @@
-"use client";
-
 import { useThemeMode } from "flowbite-react";
 import { TileLayer } from "react-leaflet";
 

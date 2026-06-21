@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 import { Polygon } from "react-leaflet";
 import type { Airport } from "~/models";

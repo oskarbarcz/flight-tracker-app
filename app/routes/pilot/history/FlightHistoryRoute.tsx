@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/pilot/history/+types/FlightHistoryRoute";
 import React from "react";
 import { FlightHistoryDashboard } from "~/components/flight/Dashboard/History/FlightHistoryDashboard";

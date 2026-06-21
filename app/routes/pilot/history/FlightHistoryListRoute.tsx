@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FlightHistoryListTable } from "~/components/flight/Table/FlightHistoryListTable";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";

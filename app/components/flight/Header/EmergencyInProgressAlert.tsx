@@ -1,5 +1,3 @@
-"use client";
-
 import { Alert, Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight, FaTriangleExclamation } from "react-icons/fa6";

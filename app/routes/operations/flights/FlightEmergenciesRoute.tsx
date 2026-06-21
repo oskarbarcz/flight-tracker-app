@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { ActiveEmergencyPanel } from "~/components/flight/Dashboard/Emergency/ActiveEmergencyPanel";

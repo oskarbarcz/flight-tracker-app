@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import React, { type ReactElement, useEffect } from "react";
 import { FaUnlock } from "react-icons/fa";

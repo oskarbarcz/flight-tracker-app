@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Label, TextInput } from "flowbite-react";
 import { useFormikContext } from "formik";
 import React, { useState } from "react";

@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useSearchParams } from "react-router";

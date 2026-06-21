@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightLayout";
 import React, { useEffect, useState } from "react";
 import { Outlet, useLoaderData, useNavigate, useRevalidator } from "react-router";

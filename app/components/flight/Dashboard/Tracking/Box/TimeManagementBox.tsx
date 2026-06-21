@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { FaCircleInfo, FaClock, FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
