@@ -1,6 +1,6 @@
 import L from "leaflet";
 import React, { useMemo } from "react";
-import { MapContainer } from "react-leaflet";
+import { MapContainer, ZoomControl } from "react-leaflet";
 import { AirportShapePolygon } from "~/components/flight/Map/Element/AirportShapePolygon";
 import { GateMarkers } from "~/components/flight/Map/Element/GateMarkers";
 import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
@@ -62,6 +62,7 @@ export function AirportLocationMap({ airport, runways, terminals, gates }: Props
           zoomControl={false}
           attributionControl={false}
         >
+          <ZoomControl position="bottomright" />
           <MapTileLayer />
           <AirportShapePolygon airport={airport} />
           <TerminalPolygons terminals={terminals} />
@@ -78,7 +79,7 @@ export function AirportLocationMap({ airport, runways, terminals, gates }: Props
           {coordinates}
         </div>
 
-        <div className="absolute bottom-1 right-1 z-10 bg-white/80 dark:bg-gray-900/80 px-1.5 py-0.5 rounded text-[10px] text-gray-500 dark:text-gray-400">
+        <div className="absolute top-1 right-1 z-10 bg-white/80 dark:bg-gray-900/80 px-1.5 py-0.5 rounded text-[10px] text-gray-500 dark:text-gray-400">
           ©{" "}
           <a
             href="https://www.openstreetmap.org/copyright"

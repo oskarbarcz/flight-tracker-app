@@ -4,6 +4,10 @@
   @apply bg-gray-100 dark:bg-gray-900;
 }
 
+.leaflet-control-zoom.leaflet-bar {
+  @apply shadow-sm;
+}
+
 .leaflet-div-icon.custom-airport-marker {
   background: transparent;
   border: none;

@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 
 import React from "react";
 import { HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
+import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
 import {
   formatCruiseSpeed,
   formatPerformanceCode,
@@ -21,7 +22,6 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
       <TableHead>
         <TableRow>
           <TableHeadCell>Registration</TableHeadCell>
-          <TableHeadCell>Type</TableHeadCell>
           <TableHeadCell>SELCAL</TableHeadCell>
           <TableHeadCell>Cruise speed</TableHeadCell>
           <TableHeadCell>Service ceiling</TableHeadCell>
@@ -34,10 +34,14 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
         {aircraft.map((each: Aircraft) => (
           <TableRow key={each.id}>
             <TableCell className="text-gray-900 dark:text-gray-100">
-              <span className="block font-mono text-lg font-bold">{each.registration}</span>
-              <span className="block text-xs text-gray-500 dark:text-gray-400">{each.airframe.name}</span>
+              <div className="flex items-center gap-3">
+                <AircraftIcon type={each.airframe.type} name={each.airframe.name} />
+                <div>
+                  <span className="block font-mono text-lg font-bold">{each.registration}</span>
+                  <span className="block text-xs text-gray-500 dark:text-gray-400">{each.airframe.name}</span>
+                </div>
+              </div>
             </TableCell>
-            <TableCell className="font-mono font-bold">{each.airframe.type}</TableCell>
             <TableCell className="font-mono text-gray-500 dark:text-gray-400">{each.selcal}</TableCell>
             <TableCell>{formatCruiseSpeed(each.airframe.cruiseSpeed)}</TableCell>
             <TableCell>{formatServiceCeiling(each.airframe.serviceCeiling)}</TableCell>
