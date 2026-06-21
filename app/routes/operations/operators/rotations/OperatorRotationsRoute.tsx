@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/OperatorRotationsRoute";
 import React, { useState } from "react";
 import { useLoaderData } from "react-router";

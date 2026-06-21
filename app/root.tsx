@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
 import React from "react";
 import { isRouteErrorResponse, Link, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";

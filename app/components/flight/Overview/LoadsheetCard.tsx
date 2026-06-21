@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaFileInvoice } from "react-icons/fa6";
 import { HiExclamationTriangle, HiInformationCircle } from "react-icons/hi2";

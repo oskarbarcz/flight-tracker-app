@@ -1,5 +1,3 @@
-"use client";
-
 import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { useSearchParams } from "react-router";

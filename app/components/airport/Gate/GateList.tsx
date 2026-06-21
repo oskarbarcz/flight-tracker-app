@@ -1,5 +1,3 @@
-"use client";
-
 import { Badge } from "flowbite-react";
 import React from "react";
 import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";

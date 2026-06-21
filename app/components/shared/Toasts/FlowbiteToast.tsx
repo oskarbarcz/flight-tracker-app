@@ -1,5 +1,3 @@
-"use client";
-
 import { Toast, ToastToggle } from "flowbite-react";
 import React from "react";
 import { HiCheck, HiExclamation, HiInformationCircle, HiX } from "react-icons/hi";

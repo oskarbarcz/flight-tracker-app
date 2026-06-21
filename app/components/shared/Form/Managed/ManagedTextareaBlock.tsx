@@ -1,5 +1,3 @@
-"use client";
-
 import { Label, Textarea } from "flowbite-react";
 import { useField } from "formik";
 import React from "react";

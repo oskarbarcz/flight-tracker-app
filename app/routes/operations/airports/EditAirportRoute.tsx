@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/EditAirportRoute";
 import { Button } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";

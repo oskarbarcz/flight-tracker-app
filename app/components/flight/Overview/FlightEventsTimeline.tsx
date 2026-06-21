@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import { FaListCheck } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";

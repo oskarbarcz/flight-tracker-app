@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import type { GetRotationResponse } from "~/state/api/request/operator.request";
 

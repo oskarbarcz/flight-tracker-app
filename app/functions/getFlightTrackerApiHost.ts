@@ -1,5 +1,3 @@
-"use client";
-
 export function getFlightTrackerApiHost() {
   const baseUrl = import.meta.env.VITE_FLIGHT_TRACKER_API_HOST;
 

@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";

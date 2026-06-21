@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { useSearchParams } from "react-router";
 import { FlightListEmptyState } from "~/components/flight/Table/FlightListEmptyState";

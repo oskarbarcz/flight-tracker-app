@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaPlane, FaPlaneCircleExclamation } from "react-icons/fa6";
 import { PiUserSoundBold } from "react-icons/pi";

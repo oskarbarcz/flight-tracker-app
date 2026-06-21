@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightOfpRoute";
 import React from "react";
 import { FaArrowUpRightFromSquare, FaFileLines, FaPlaneUp } from "react-icons/fa6";

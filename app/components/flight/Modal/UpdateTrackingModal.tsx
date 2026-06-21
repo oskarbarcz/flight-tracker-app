@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Radio } from "flowbite-react";
 import React, { useState } from "react";
 import { type Flight, Tracking } from "~/models";

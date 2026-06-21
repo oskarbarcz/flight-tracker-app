@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import React, { type ReactNode, useEffect, useState } from "react";
 import type { IconType } from "react-icons";

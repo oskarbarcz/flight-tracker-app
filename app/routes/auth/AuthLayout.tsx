@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Outlet } from "react-router";
 import { AnimatedBlobs } from "~/components/shared/Blob/AnimatedBlobs";

@@ -1,5 +1,3 @@
-"use client";
-
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
 import type { SkyLinkAirportResponse } from "~/state/api/request/skylink.request";
 

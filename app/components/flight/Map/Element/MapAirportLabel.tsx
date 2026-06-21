@@ -1,5 +1,3 @@
-"use client";
-
 import L, { type LatLngExpression } from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { Marker } from "react-leaflet";

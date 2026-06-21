@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/pilot/track/+types/TrackFlightRoute";
 import React from "react";
 import { redirect } from "react-router";

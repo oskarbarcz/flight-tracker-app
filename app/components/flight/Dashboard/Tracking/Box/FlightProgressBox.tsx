@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaGaugeHigh } from "react-icons/fa6";
 import { FlightTimerBox } from "~/components/flight/Dashboard/Tracking/Box/FlightTimerBox";

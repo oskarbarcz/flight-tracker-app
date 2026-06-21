@@ -1,5 +1,3 @@
-"use client";
-
 import React, { createContext, type ReactNode, useCallback, useContext, useState } from "react";
 import { type Flight, FlightPhase } from "~/models";
 import { useApi } from "~/state/api/context/useApi";

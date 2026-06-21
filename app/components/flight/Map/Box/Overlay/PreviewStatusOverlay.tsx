@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { FlightStatus } from "~/models";

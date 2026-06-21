@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FlightListView } from "~/components/flight/Table/FlightListView";
 import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";

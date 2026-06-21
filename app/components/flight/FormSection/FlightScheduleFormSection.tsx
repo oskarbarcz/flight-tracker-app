@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { FaRegCalendar } from "react-icons/fa6";
 import { FormSection } from "~/components/shared/Form/FormSection";

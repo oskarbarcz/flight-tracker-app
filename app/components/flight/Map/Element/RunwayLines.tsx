@@ -1,5 +1,3 @@
-"use client";
-
 import L from "leaflet";
 import { useMemo } from "react";
 import { Marker, Polyline } from "react-leaflet";

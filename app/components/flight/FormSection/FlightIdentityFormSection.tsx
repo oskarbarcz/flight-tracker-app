@@ -1,5 +1,3 @@
-"use client";
-
 import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { FaIdCard } from "react-icons/fa6";

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
 import type { Airport } from "~/models";

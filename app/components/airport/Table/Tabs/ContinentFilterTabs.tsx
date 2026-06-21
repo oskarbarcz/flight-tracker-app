@@ -1,5 +1,3 @@
-"use client";
-
 import { TabItem, Tabs } from "flowbite-react";
 import { useNavigate, useSearchParams } from "react-router";
 import { toHuman } from "~/i18n/translate";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "flowbite-react";
 import React from "react";
 import { PickFlightModal } from "~/components/operator/Modal/PickFlightModal";

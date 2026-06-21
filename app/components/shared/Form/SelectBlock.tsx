@@ -1,5 +1,3 @@
-"use client";
-
 import { Label, Select } from "flowbite-react";
 import React from "react";
 

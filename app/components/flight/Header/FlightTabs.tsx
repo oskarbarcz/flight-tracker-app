@@ -1,5 +1,3 @@
-"use client";
-
 import { TabItem, Tabs } from "flowbite-react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router";

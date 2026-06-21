@@ -1,5 +1,3 @@
-"use client";
-
 import type { FitBoundsOptions, LatLngBounds } from "leaflet";
 import { useCallback, useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";

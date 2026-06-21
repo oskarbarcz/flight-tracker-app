@@ -1,5 +1,3 @@
-"use client";
-
 import { FaHeart } from "react-icons/fa";
 
 export function Footer() {

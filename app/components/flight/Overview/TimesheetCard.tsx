@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaClock } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";

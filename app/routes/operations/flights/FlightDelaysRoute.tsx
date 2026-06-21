@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import { FaRegClock } from "react-icons/fa6";
 import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";

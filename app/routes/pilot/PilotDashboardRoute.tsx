@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { CurrentFlightBox } from "~/components/flight/Dashboard/Main/Box/CurrentFlightBox";
 import { CurrentRotationBox } from "~/components/flight/Dashboard/Main/Box/CurrentRotationBox";

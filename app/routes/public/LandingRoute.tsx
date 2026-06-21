@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Navigate } from "react-router";
 import { HowItWorksSection } from "~/components/public/Landing/HowItWorksSection";

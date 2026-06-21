@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
 import { FlightIdentityFormSection } from "~/components/flight/FormSection/FlightIdentityFormSection";

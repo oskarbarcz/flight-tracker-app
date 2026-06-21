@@ -1,5 +1,3 @@
-"use client";
-
 import { FaPlaneCircleExclamation } from "react-icons/fa6";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
 import type { Airport } from "~/models";

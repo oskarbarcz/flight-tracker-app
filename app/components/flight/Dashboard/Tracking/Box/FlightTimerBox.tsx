@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrivalTimer } from "~/components/flight/Dashboard/Tracking/Timer/ArrivalTimer";
 import { OffBlockTimer } from "~/components/flight/Dashboard/Tracking/Timer/OffBlockTimer";
 import { OnBlockTimer } from "~/components/flight/Dashboard/Tracking/Timer/OnBlockTimer";

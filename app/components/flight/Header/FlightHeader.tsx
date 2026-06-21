@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Tooltip } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";

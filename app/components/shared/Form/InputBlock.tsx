@@ -1,5 +1,3 @@
-"use client";
-
 import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";

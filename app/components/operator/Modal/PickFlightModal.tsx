@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";

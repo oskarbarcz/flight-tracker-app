@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FlightInfoBox } from "~/components/flight/Dashboard/Tracking/Box/FlightInfoBox";
 import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";

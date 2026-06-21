@@ -1,5 +1,3 @@
-"use client";
-
 import type { Route } from ".react-router/types/app/routes/operations/airports/gates/+types/CreateGateRoute";
 import { Button, Label, Textarea } from "flowbite-react";
 import { Field, Formik, Form as FormikForm, type FormikHelpers, useFormikContext } from "formik";
