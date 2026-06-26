@@ -1,8 +1,9 @@
 import React from "react";
+import { padZero } from "~/functions/time";
 
 export function dateToIcaoTime(date: Date): string {
-  const hours = String(date.getUTCHours()).padStart(2, "0");
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  const hours = padZero(date.getUTCHours());
+  const minutes = padZero(date.getUTCMinutes());
 
   return `${hours}:${minutes}`;
 }

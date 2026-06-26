@@ -101,8 +101,6 @@ export function GateRunwayBox() {
   const [departureOpen, setDepartureOpen] = useState(!afterTakeoff);
   const [arrivalOpen, setArrivalOpen] = useState(afterTakeoff);
 
-  // Snap section state back to the phase default whenever the flight crosses
-  // the takeoff boundary. Manual toggles persist until the next phase change.
   useEffect(() => {
     setDepartureOpen(!afterTakeoff);
     setArrivalOpen(afterTakeoff);

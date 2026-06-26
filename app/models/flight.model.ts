@@ -193,7 +193,7 @@ export type FlightEvent = {
   id: string;
   scope: FlightEventScope;
   type: FlightEventType;
-  payload: never;
+  payload: Record<string, unknown>;
   actor: {
     id: string;
     name: string;
@@ -237,8 +237,9 @@ export interface Timesheet {
   actual?: Schedule;
 }
 
-function isFilledSchedule(schedule: Schedule): schedule is FilledSchedule {
+export function isFilledSchedule(schedule: Schedule | undefined): schedule is FilledSchedule {
   return (
+    schedule !== undefined &&
     schedule.offBlockTime !== null &&
     schedule.takeoffTime !== null &&
     schedule.arrivalTime !== null &&

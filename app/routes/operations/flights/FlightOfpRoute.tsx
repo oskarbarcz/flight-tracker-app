@@ -3,6 +3,9 @@ import React from "react";
 import { FaArrowUpRightFromSquare, FaFileLines, FaPlaneUp } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { useLoaderData } from "react-router";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { RawHtml } from "~/components/shared/RawHtml";
 import type { FlightOfp } from "~/models";
 import { FlightService } from "~/state/api/flight.service";
 
@@ -39,57 +42,49 @@ export default function FlightOfpRoute() {
 
 function DocumentCard({ ofp }: { ofp: FlightOfp }) {
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <Container padding="none" className="gap-0">
       <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
-
       <div className="flex flex-col gap-4 p-5">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-indigo-500">
-            <FaFileLines size={13} />
-            <span className="text-xs font-bold uppercase tracking-widest">Operational Flight Plan</span>
-          </div>
-          {ofp.ofpDocumentUrl && (
-            <a
-              href={ofp.ofpDocumentUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
-            >
-              Open PDF
-              <FaArrowUpRightFromSquare size={11} />
-            </a>
-          )}
-        </div>
-
+        <ContainerTitle
+          icon={FaFileLines}
+          title="Operational Flight Plan"
+          actions={
+            ofp.ofpDocumentUrl ? (
+              <a
+                href={ofp.ofpDocumentUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+              >
+                Open PDF
+                <FaArrowUpRightFromSquare size={11} />
+              </a>
+            ) : undefined
+          }
+        />
         <OfpHtml html={ofp.ofpContent} />
       </div>
-    </section>
+    </Container>
   );
 }
 
 function RunwayAnalysisCard({ ofp }: { ofp: FlightOfp }) {
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <Container padding="none" className="gap-0">
       <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
-
       <div className="flex flex-col gap-4 p-5">
-        <div className="flex items-center gap-2 text-indigo-500">
-          <FaPlaneUp size={13} />
-          <span className="text-xs font-bold uppercase tracking-widest">Runway Analysis</span>
-        </div>
-
+        <ContainerTitle icon={FaPlaneUp} title="Runway Analysis" />
         <OfpHtml html={ofp.runwayAnalysis} />
       </div>
-    </section>
+    </Container>
   );
 }
 
 function OfpHtml({ html }: { html: string }) {
   return (
-    <div
+    <RawHtml
       className="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50/60 p-4 font-mono text-xs leading-relaxed text-gray-800 dark:border-gray-800 dark:bg-gray-950/60 dark:text-gray-200 [&_a]:text-indigo-500 [&_a:hover]:underline [&_pre]:whitespace-pre-wrap [&_table]:w-full"
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: trusted HTML payload from the flight tracker API
-      dangerouslySetInnerHTML={{ __html: html }}
+      html={html}
     />
   );
 }

@@ -7,7 +7,7 @@ import { DiversionRoute } from "~/components/flight/Map/Element/DiversionRoute";
 import { FlightPath } from "~/components/flight/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMarker";
-import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
+import { MapAirportLabel } from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { flightMapPositions } from "~/functions/flightMapBounds";

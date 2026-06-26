@@ -5,7 +5,7 @@ import { FlightRouteFormSection } from "~/components/flight/FormSection/FlightRo
 import { FlightScheduleFormSection } from "~/components/flight/FormSection/FlightScheduleFormSection";
 import { FormSubmit } from "~/components/shared/Form/FormSubmit";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import getFormData from "~/functions/getFormData";
+import { getFormData } from "~/functions/getFormData";
 import { Tracking } from "~/models";
 import { type CreateFlightFormData, initCreateFlightData } from "~/models/form/flight.form";
 import { useApi } from "~/state/api/context/useApi";

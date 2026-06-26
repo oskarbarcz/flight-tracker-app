@@ -3,7 +3,8 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import type { FilledSchedule, Flight } from "~/models";
+import { durationMinutes, formatDuration } from "~/functions/time";
+import { type FilledSchedule, type Flight, isFilledSchedule } from "~/models";
 
 type Props = {
   flight: Flight;
@@ -11,19 +12,13 @@ type Props = {
 
 function formatBlockTime(actual: FilledSchedule | undefined): string {
   if (!actual?.offBlockTime || !actual.onBlockTime) return "—";
-  const minutes = Math.round((actual.onBlockTime.getTime() - actual.offBlockTime.getTime()) / 60_000);
+  const minutes = durationMinutes(actual.offBlockTime, actual.onBlockTime);
   if (minutes <= 0) return "—";
-  return `${Math.floor(minutes / 60)}h ${(minutes % 60).toString().padStart(2, "0")}m`;
+  return formatDuration(minutes);
 }
 
 export function FlightHistoryListElement({ flight }: Props) {
-  const actual =
-    flight.timesheet.actual?.offBlockTime &&
-    flight.timesheet.actual.takeoffTime &&
-    flight.timesheet.actual.arrivalTime &&
-    flight.timesheet.actual.onBlockTime
-      ? (flight.timesheet.actual as FilledSchedule)
-      : undefined;
+  const actual = isFilledSchedule(flight.timesheet.actual) ? flight.timesheet.actual : undefined;
 
   return (
     <TableRow key={flight.id}>

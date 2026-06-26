@@ -14,11 +14,9 @@ type DelayReasonDefinition = {
 };
 
 const delayReasons: Record<DelayReasonCode, DelayReasonDefinition> = {
-  // ATC delays
   [DelayReasonCode.AtcStartup]: { label: "ATC startup delay", category: DelayReasonCategory.Atc },
   [DelayReasonCode.EnrouteSlot]: { label: "Enroute slot delay", category: DelayReasonCategory.Atc },
   [DelayReasonCode.DepartureRunwayChange]: { label: "Departure runway change", category: DelayReasonCategory.Atc },
-  // Ramp delays
   [DelayReasonCode.LoadingError]: { label: "Loading error", category: DelayReasonCategory.Ramp },
   [DelayReasonCode.LatePushbackCrew]: { label: "Late arrival of pushback crew", category: DelayReasonCategory.Ramp },
   [DelayReasonCode.LateStepsRemoval]: { label: "Late removal of steps", category: DelayReasonCategory.Ramp },
@@ -26,15 +24,12 @@ const delayReasons: Record<DelayReasonCode, DelayReasonDefinition> = {
     label: "Late arrival of servicing equipment",
     category: DelayReasonCategory.Ramp,
   },
-  // Engineering delays
   [DelayReasonCode.SystemReset]: { label: "System reset", category: DelayReasonCategory.Engineering },
   [DelayReasonCode.NewDefect]: { label: "Status message / new defect", category: DelayReasonCategory.Engineering },
   [DelayReasonCode.SimulatorRestart]: { label: "Simulator restart", category: DelayReasonCategory.Engineering },
-  // Ground equipment
   [DelayReasonCode.TugBroken]: { label: "Tug broken", category: DelayReasonCategory.GroundEquipment },
   [DelayReasonCode.JetwayBroken]: { label: "Jetway broken", category: DelayReasonCategory.GroundEquipment },
   [DelayReasonCode.StairsBroken]: { label: "Stairs broken", category: DelayReasonCategory.GroundEquipment },
-  // Operational delays
   [DelayReasonCode.IncorrectDepartureTime]: {
     label: "Incorrect departure time",
     category: DelayReasonCategory.Operational,

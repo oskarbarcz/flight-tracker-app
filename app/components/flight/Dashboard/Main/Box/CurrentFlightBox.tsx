@@ -9,7 +9,7 @@ import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { dateDiffToReadable } from "~/functions/time";
 import { toHuman } from "~/i18n/translate";
-import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
+import { type Flight, FlightStatus } from "~/models";
 import { useDateProgress } from "~/state/static/hooks/useDateProgress";
 
 type Props = {
@@ -25,7 +25,7 @@ export function CurrentFlightBox({ flight }: Props) {
   ].includes(flight.status);
 
   const scheduled = flight.timesheet.scheduled;
-  const estimated = flight.timesheet.estimated as FilledSchedule | undefined;
+  const estimated = flight.timesheet.estimated;
 
   const scheduledReference = showDeparture ? scheduled.takeoffTime : scheduled.arrivalTime;
   const estimatedReference = (showDeparture ? estimated?.takeoffTime : estimated?.arrivalTime) ?? scheduledReference;

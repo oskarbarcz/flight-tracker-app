@@ -13,7 +13,6 @@ export class DelayService extends AbstractAuthorizedApiService {
       const response = await this.fetchWithAuth<ApiDelayRequestResponse>(`/api/v1/flight/${flightId}/delay`);
       return new DelayRequest(response);
     } catch (error) {
-      // No delay request exists for this flight (no qualifying delay).
       if ((error as { statusCode?: number } | undefined)?.statusCode === 404) {
         return null;
       }

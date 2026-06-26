@@ -8,7 +8,7 @@ type Response = {
   loading: boolean;
 };
 
-export default function useCurrentFlight(): Response {
+export function useCurrentFlight(): Response {
   const [currentFlight, setCurrentFlight] = useState<Flight | null>(null);
   const [loading, setLoading] = useState(true);
   const { flightService } = useApi();

@@ -7,7 +7,7 @@ type Response = {
   loading: boolean;
 };
 
-export default function useUserStats(): Response {
+export function useUserStats(): Response {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
   const { userService } = useApi();

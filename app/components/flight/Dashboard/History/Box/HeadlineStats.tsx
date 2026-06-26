@@ -4,19 +4,12 @@ import { FaCheckCircle, FaExclamationCircle, FaQuestionCircle } from "react-icon
 import { FaPlane, FaStopwatch } from "react-icons/fa6";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { durationMinutes, formatDuration } from "~/functions/time";
 import type { FilledSchedule, Flight } from "~/models";
 
 type Props = {
   flight: Flight;
 };
-
-function durationMinutes(start: Date, end: Date): number {
-  return Math.max(0, Math.round((end.getTime() - start.getTime()) / 60_000));
-}
-
-function formatHm(minutes: number): string {
-  return `${Math.floor(minutes / 60)}h ${(minutes % 60).toString().padStart(2, "0")}m`;
-}
 
 function isFilled(s: Flight["timesheet"]["actual"]): s is FilledSchedule {
   return Boolean(s?.offBlockTime && s.takeoffTime && s.arrivalTime && s.onBlockTime);
@@ -35,8 +28,6 @@ export function HeadlineStats({ flight }: Props) {
   const { scheduled, estimated, actual } = flight.timesheet;
   const actualFilled = isFilled(actual) ? actual : null;
 
-  // Compare against the revised flight plan (estimated) when it exists; fall
-  // back to the originally scheduled plan if no estimate was filed.
   const baseline = estimated ?? scheduled;
   const baselineLabel = estimated ? "Estimated" : "Scheduled";
   const baselineLowercase = estimated ? "estimated" : "scheduled";
@@ -57,15 +48,15 @@ export function HeadlineStats({ flight }: Props) {
         icon={FaStopwatch}
         tone="indigo"
         label="Block time"
-        value={actualBlock !== null ? formatHm(actualBlock) : "—"}
-        sub={`${baselineLabel} ${formatHm(baselineBlock)}`}
+        value={actualBlock !== null ? formatDuration(actualBlock) : "—"}
+        sub={`${baselineLabel} ${formatDuration(baselineBlock)}`}
       />
       <Tile
         icon={FaPlane}
         tone="indigo"
         label="Air time"
-        value={actualAir !== null ? formatHm(actualAir) : "—"}
-        sub={`${baselineLabel} ${formatHm(baselineAir)}`}
+        value={actualAir !== null ? formatDuration(actualAir) : "—"}
+        sub={`${baselineLabel} ${formatDuration(baselineAir)}`}
       />
       <ArrivalTile deltaMin={arrivalDeltaMin} baselineLabel={baselineLowercase} />
     </div>
@@ -101,7 +92,6 @@ function ArrivalTile({ deltaMin, baselineLabel }: { deltaMin: number | null; bas
     return <Tile icon={FaQuestionCircle} tone="gray" label="Arrival" value="—" sub="No actual times recorded" />;
   }
 
-  // Treat ±5 minutes as on time.
   const onTime = Math.abs(deltaMin) <= 5;
   const late = deltaMin > 5;
 

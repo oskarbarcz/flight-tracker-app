@@ -26,8 +26,6 @@ export function FlightTrackingDashboard({ flightId }: Props) {
     setFlightId(flightId);
   }, [flightId, setFlightId]);
 
-  // When the pilot closes the flight, the tracking view becomes meaningless —
-  // hand off to the history view.
   useEffect(() => {
     if (flight?.status === FlightStatus.Closed) {
       navigate(`/flight-history/${flight.id}`, { replace: true });

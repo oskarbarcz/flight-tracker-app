@@ -1,5 +1,6 @@
 import { FaDownload } from "react-icons/fa6";
 import { HiInformationCircle, HiX } from "react-icons/hi";
+import { RawHtml } from "~/components/shared/RawHtml";
 import type { Flight } from "~/models";
 import { usePublicFlightOfp } from "~/state/api/hooks/usePublicFlightOfp";
 
@@ -61,10 +62,9 @@ export function FlightPlanOverlay({ flight, onClose }: Props) {
 
       {!loading && ofp && (
         <div className="max-h-[24rem] overflow-auto rounded-lg bg-white p-4 dark:bg-gray-900">
-          <div
+          <RawHtml
             className="font-mono text-[11px] leading-relaxed text-gray-700 dark:text-gray-300"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: SimBrief OFP HTML, sanitized via unescape
-            dangerouslySetInnerHTML={{ __html: unescapeOfp(ofp.ofpContent) || "" }}
+            html={unescapeOfp(ofp.ofpContent) || ""}
           />
         </div>
       )}

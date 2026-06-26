@@ -5,15 +5,20 @@ import { UpdateFinalLoadsheetModal } from "~/components/flight/Modal/UpdateFinal
 import { toHuman } from "~/i18n/translate";
 import type { Loadsheet } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import { useToast } from "~/state/app/context/useToast";
 
 export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   const { flight, finishBoarding } = useTrackedFlight();
+  const { error } = useToast();
   const [showModal, setShowModal] = useState(false);
 
   const handleFinishBoarding = async (loadsheet: Loadsheet): Promise<void> => {
     await finishBoarding(loadsheet)
       .then(() => setShowModal(false))
-      .catch((error: unknown) => console.error("Failed to finish boarding", error));
+      .catch((err: unknown) => {
+        console.error("Failed to finish boarding", err);
+        error("Could not finish boarding. Please try again.");
+      });
   };
 
   if (!flight) {

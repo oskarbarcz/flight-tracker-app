@@ -1,6 +1,7 @@
 import React from "react";
 import { HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
+import { formatDegrees } from "~/functions/geo";
 import { groupRunwaysByPair } from "~/functions/runwayPairs";
 import { type Runway, surfaceTypeOptions } from "~/models";
 
@@ -16,7 +17,7 @@ function surfaceLabel(value: string): string {
 
 function formatHeading(value: number | null): string {
   if (value === null || value === undefined) return "—";
-  return `${String(value).padStart(3, "0")}°`;
+  return formatDegrees(value);
 }
 
 export function RunwayList({ airportId, runways, onDelete }: Props) {

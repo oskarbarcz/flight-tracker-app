@@ -16,7 +16,7 @@ export function TimeManagementBox() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 60 * 1000); // update every minute
+    }, 60 * 1000);
     setCurrentTime(new Date());
 
     return () => clearInterval(interval);

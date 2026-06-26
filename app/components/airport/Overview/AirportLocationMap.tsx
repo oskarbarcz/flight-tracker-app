@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { MapContainer, ZoomControl } from "react-leaflet";
 import { AirportShapePolygon } from "~/components/flight/Map/Element/AirportShapePolygon";
 import { GateMarkers } from "~/components/flight/Map/Element/GateMarkers";
-import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
+import { MapAirportLabel } from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/components/flight/Map/Element/TerminalPolygons";

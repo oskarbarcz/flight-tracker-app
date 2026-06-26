@@ -7,7 +7,7 @@ import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import getFormData from "~/functions/getFormData";
+import { getFormData } from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import type { Airframe } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";

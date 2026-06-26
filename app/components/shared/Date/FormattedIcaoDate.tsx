@@ -1,7 +1,8 @@
 import { MONTHS_SHORT_UPPER } from "~/functions/date";
+import { padZero } from "~/functions/time";
 
 export function dateToIcaoDate(date: Date): string {
-  const day = String(date.getUTCDate()).padStart(2, "0");
+  const day = padZero(date.getUTCDate());
   const month = MONTHS_SHORT_UPPER[date.getUTCMonth()];
   const year = date.getUTCFullYear();
   const currentYear = new Date().getUTCFullYear();

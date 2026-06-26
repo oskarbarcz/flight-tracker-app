@@ -8,7 +8,7 @@ import { GitHubButton } from "~/components/flight/Map/FullScreen/Element/GitHubB
 import { ThemeSwitchButton } from "~/components/flight/Map/FullScreen/Element/ThemeSwitchButton";
 import { VerticalSeparator } from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
 
-export default function TopBar() {
+export function TopBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {

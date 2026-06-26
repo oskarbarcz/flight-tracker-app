@@ -34,9 +34,7 @@ export function createListCache<T>(namespace: string, ttlMs: number = DEFAULT_TT
     if (typeof window === "undefined") return;
     try {
       window.localStorage.setItem(storageKey, JSON.stringify(Object.fromEntries(store)));
-    } catch {
-      /* quota exceeded or storage unavailable — silently no-op */
-    }
+    } catch {}
   }
 
   const store = load();

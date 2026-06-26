@@ -18,7 +18,6 @@ function segmentsCross(a: Point, b: Point, c: Point, d: Point): boolean {
   return ((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0));
 }
 
-// Does the new edge (last → candidate) cross any earlier non-adjacent edge of an open polyline?
 export function newEdgeCrossesPolyline(vertices: Coordinates[], candidate: Coordinates): boolean {
   if (vertices.length < 2) return false;
   const a = toPoint(vertices[vertices.length - 1]);
@@ -31,7 +30,6 @@ export function newEdgeCrossesPolyline(vertices: Coordinates[], candidate: Coord
   return false;
 }
 
-// Does the closing edge (last → first) cross any non-adjacent existing edge?
 export function closingEdgeCrosses(vertices: Coordinates[]): boolean {
   if (vertices.length < 4) return false;
   const a = toPoint(vertices[vertices.length - 1]);

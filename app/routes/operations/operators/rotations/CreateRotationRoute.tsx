@@ -7,7 +7,7 @@ import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseI
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import getFormData from "~/functions/getFormData";
+import { getFormData } from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import { OperatorService } from "~/state/api/operator.service";
 import type { CreateRotationRequest } from "~/state/api/request/operator.request";

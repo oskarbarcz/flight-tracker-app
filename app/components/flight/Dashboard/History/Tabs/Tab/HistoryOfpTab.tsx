@@ -1,8 +1,9 @@
 import React from "react";
 import { FaFileLines } from "react-icons/fa6";
 import { Container } from "~/components/shared/Layout/Container";
+import { RawHtml } from "~/components/shared/RawHtml";
 import { useHistoryFlight } from "~/state/api/context/useHistoryFlight";
-import useFlightOfp from "~/state/api/hooks/useFlightOfp";
+import { useFlightOfp } from "~/state/api/hooks/useFlightOfp";
 
 function unescapeOFP(html: string): string {
   return html
@@ -27,10 +28,9 @@ export function HistoryOfpTab() {
         {loading && <p className="text-sm text-gray-500">Loading OFP…</p>}
         {!loading && !ofp && <p className="text-sm text-gray-500">No OFP available.</p>}
         {ofp && (
-          <div
+          <RawHtml
             className="font-mono text-xs text-gray-700 dark:text-gray-300"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: we trust and verify SimBrief data
-            dangerouslySetInnerHTML={{ __html: unescapeOFP(ofp.ofpContent) || "" }}
+            html={unescapeOFP(ofp.ofpContent) || ""}
           />
         )}
       </div>

@@ -14,9 +14,9 @@ import { CurrentLocationBox } from "~/components/flight/Dashboard/Travel/Current
 import { CurrentLocationBoxLoader } from "~/components/flight/Dashboard/Travel/CurrentLocationBoxLoader";
 import { type Flight, FlightStatus } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
-import useCurrentFlight from "~/state/api/hooks/useCurrentFlight";
-import useLastFlight from "~/state/api/hooks/useLastFlight";
-import useUserTravels from "~/state/api/hooks/useUserTravels";
+import { useCurrentFlight } from "~/state/api/hooks/useCurrentFlight";
+import { useLastFlight } from "~/state/api/hooks/useLastFlight";
+import { useUserTravels } from "~/state/api/hooks/useUserTravels";
 import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 

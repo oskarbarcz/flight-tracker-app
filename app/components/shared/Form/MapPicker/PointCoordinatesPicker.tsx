@@ -4,6 +4,7 @@ import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Tooltip, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { PIN_COLOR } from "~/functions/mapColors";
 import type { Coordinates } from "~/models/runway.model";
 
 type Props = {
@@ -12,8 +13,6 @@ type Props = {
   label: string;
   pinLabel?: string;
 };
-
-const PIN_COLOR = "#10b981";
 
 const pinIcon = new L.DivIcon({
   html: `

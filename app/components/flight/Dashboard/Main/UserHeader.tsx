@@ -4,7 +4,7 @@ import { SimpleStatDisplayLoader } from "~/components/shared/Display/SimpleStatD
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import type { User } from "~/models/user.model";
 import { useAuth } from "~/state/api/context/useAuth";
-import useUserStats from "~/state/api/hooks/useUserStats";
+import { useUserStats } from "~/state/api/hooks/useUserStats";
 
 enum Status {
   ReadyForDuty,

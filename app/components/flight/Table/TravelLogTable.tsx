@@ -1,7 +1,7 @@
 import { Spinner, Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { TravelLogListElement } from "~/components/flight/Table/TravelLogListElement";
-import useUserTravels from "~/state/api/hooks/useUserTravels";
+import { useUserTravels } from "~/state/api/hooks/useUserTravels";
 
 export function TravelLogTable() {
   const { travels, loading } = useUserTravels();

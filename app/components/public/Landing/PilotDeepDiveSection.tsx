@@ -32,7 +32,6 @@ export function PilotDeepDiveSection() {
     <section className="bg-transparent font-sans relative pt-24 pb-32 border-t border-gray-200 dark:border-gray-800">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="flex flex-col md:flex-row gap-16 md:gap-24 relative items-start">
-          {/* Left Sticky Column */}
           <div className="w-full md:w-1/3 md:sticky md:top-32 h-auto mb-12 md:mb-0">
             <SectionHeader
               eyebrow="Pilot Toolkit"
@@ -43,7 +42,6 @@ export function PilotDeepDiveSection() {
             />
           </div>
 
-          {/* Right Scrolling Column */}
           <div className="w-full md:w-2/3 flex flex-col gap-32 md:gap-48 pb-16">
             {pilotFeatures.map((feature) => (
               <DeepDiveCard key={feature.title} {...feature} />

@@ -2,7 +2,7 @@ import React from "react";
 import { FaPlane, FaPlaneCircleExclamation } from "react-icons/fa6";
 import { PiUserSoundBold } from "react-icons/pi";
 import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
-import { type Diversion, type FilledSchedule, FlightStatus } from "~/models";
+import { type Diversion, FlightStatus, isFilledSchedule } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date): string {
@@ -27,7 +27,7 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
   const { timesheet } = flight;
   const scheduledBlockTime = calculateBlockTime(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
   const showEstimated = flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready;
-  const estimated = showEstimated ? (timesheet.estimated as FilledSchedule) : null;
+  const estimated = showEstimated && isFilledSchedule(timesheet.estimated) ? timesheet.estimated : null;
   const estimatedBlockTime = estimated ? calculateBlockTime(estimated.offBlockTime, estimated.onBlockTime) : null;
 
   return (

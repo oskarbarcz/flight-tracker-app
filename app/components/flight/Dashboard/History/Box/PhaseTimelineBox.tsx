@@ -4,6 +4,7 @@ import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { durationMinutes, formatDuration } from "~/functions/time";
 import type { FilledSchedule, Flight, Schedule } from "~/models";
 
 type Props = {
@@ -31,13 +32,11 @@ function deltaMin(a: Date | null, b: Date | null): number | null {
 
 function durationMin(start: Date | null | undefined, end: Date | null | undefined): number | null {
   if (!start || !end) return null;
-  return Math.max(0, Math.round((end.getTime() - start.getTime()) / 60_000));
+  return durationMinutes(start, end);
 }
 
 function formatHm(minutes: number | null): string {
-  if (minutes === null) return "—";
-  if (minutes < 60) return `${minutes}m`;
-  return `${Math.floor(minutes / 60)}h ${(minutes % 60).toString().padStart(2, "0")}m`;
+  return minutes === null ? "—" : formatDuration(minutes);
 }
 
 function hasAnyTime(s: Schedule | undefined): boolean {
@@ -45,11 +44,6 @@ function hasAnyTime(s: Schedule | undefined): boolean {
   return Boolean(s.offBlockTime || s.takeoffTime || s.arrivalTime || s.onBlockTime);
 }
 
-/**
- * Describe a non-zero delta in plain English so ops/cabin crew don't have to
- * decode a "+5m" badge. Returns e.g. "5 minutes later than estimation" or
- * "1 minute before schedule".
- */
 function describeDelta(minutes: number, baselineLabel: string): string {
   const abs = Math.abs(minutes);
   const unit = abs === 1 ? "minute" : "minutes";
@@ -61,8 +55,6 @@ export function PhaseTimelineBox({ flight }: Props) {
   const { scheduled, estimated, actual } = flight.timesheet;
   const actualPresent = hasAnyTime(actual);
 
-  // Deltas compare actual against the revised flight plan (estimated) when
-  // available, falling back to scheduled when no estimate was filed.
   const baseline: Schedule | undefined = estimated ?? scheduled;
   const baselineLabel = estimated ? "estimation" : "schedule";
 
@@ -70,7 +62,6 @@ export function PhaseTimelineBox({ flight }: Props) {
     <Container padding="spacious">
       <ContainerTitle icon={FaStopwatch} title="Phase timeline" />
 
-      {/* Phase callouts: four basic cells in a single row */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {PHASES.map((p) => (
           <PhaseCallout
@@ -83,7 +74,6 @@ export function PhaseTimelineBox({ flight }: Props) {
         ))}
       </div>
 
-      {/* Block time and air time totals — wide pill rows */}
       <div className="space-y-2">
         <DurationRow
           label="Block time"
@@ -112,10 +102,6 @@ export function PhaseTimelineBox({ flight }: Props) {
     </Container>
   );
 }
-
-// ────────────────────────────────────────────────────────────────────────────
-// Subcomponents
-// ────────────────────────────────────────────────────────────────────────────
 
 function PhaseCallout({
   label,

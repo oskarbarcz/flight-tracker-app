@@ -1,14 +1,15 @@
 import React from "react";
+import { padZero } from "~/functions/time";
 
 export function dateToLocalTime(date: Date, seconds: boolean): string {
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
 
   if (!seconds) {
     return `${hours}:${minutes}`;
   }
 
-  const secs = date.getSeconds().toString().padStart(2, "0");
+  const secs = padZero(date.getSeconds());
   return `${hours}:${minutes}:${secs}`;
 }
 

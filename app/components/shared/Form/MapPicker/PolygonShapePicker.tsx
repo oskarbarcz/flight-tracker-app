@@ -52,7 +52,6 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
   const vertices = meta.value ?? [];
   const tones = TONE_STYLE[tone];
 
-  // Closed state is UI-only. Initial closed when loading an existing saved polygon.
   const [closed, setClosed] = useState(() => (meta.value?.length ?? 0) >= 3);
   const [error, setError] = useState<string | null>(null);
 

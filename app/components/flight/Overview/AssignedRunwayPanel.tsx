@@ -1,5 +1,6 @@
 import React from "react";
 import { LuArrowDownToLine } from "react-icons/lu";
+import { formatDegrees } from "~/functions/geo";
 import { lightingTypeOptions, type Runway, surfaceTypeOptions } from "~/models";
 
 type Props = {
@@ -16,7 +17,7 @@ function shortLighting(value: string): string {
 
 function formatHeading(value: number | null): string | null {
   if (value === null || value === undefined) return null;
-  return `${String(value).padStart(3, "0")}°`;
+  return formatDegrees(value);
 }
 
 export function AssignedRunwayPanel({ runway }: Props) {

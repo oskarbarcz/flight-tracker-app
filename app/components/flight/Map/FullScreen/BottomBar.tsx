@@ -9,7 +9,7 @@ function getMessage(count: number) {
   return `${count} segments`;
 }
 
-export default function BottomBar() {
+export function BottomBar() {
   const { appVersion } = useAppEnvironment();
   const { lastRequestedAt, flightPath } = useAdsbData();
 

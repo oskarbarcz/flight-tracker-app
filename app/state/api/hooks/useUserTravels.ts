@@ -11,7 +11,7 @@ type Response = {
   refresh: () => Promise<void>;
 };
 
-export default function useUserTravels(): Response {
+export function useUserTravels(): Response {
   const { travelService } = useApi();
   const { user } = useAuth();
   const [travels, setTravels] = useState<UserTravel[]>([]);
