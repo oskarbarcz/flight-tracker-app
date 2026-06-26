@@ -32,6 +32,10 @@ export function PlanFlightOptions() {
     <div className="mb-4 grid gap-4 lg:grid-cols-2">
       <Container>
         <ContainerTitle icon={FaFileImport} title="Import from SimBrief" />
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Pull your latest SimBrief OFP to pre-fill the flight number, route, schedule and aircraft. You can review
+          everything before the plan goes live.
+        </p>
         <Button className="mt-auto w-full sm:w-fit" color="indigo" onClick={handleImport} disabled={importing}>
           <FaFileImport className="mr-2 h-5 w-5" />
           Import from SimBrief
@@ -39,6 +43,10 @@ export function PlanFlightOptions() {
       </Container>
       <Container>
         <ContainerTitle icon={HiPlus} title="Create manually" />
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Enter the flight number, schedule, route and aircraft by hand — best when you're not starting from a SimBrief
+          plan.
+        </p>
         <Button
           as={Link}
           to="/flights/new"

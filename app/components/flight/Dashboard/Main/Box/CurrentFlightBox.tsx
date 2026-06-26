@@ -1,4 +1,4 @@
-import { Button, Progress } from "flowbite-react";
+import { Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight, FaPlane } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
@@ -24,18 +24,17 @@ export function CurrentFlightBox({ flight }: Props) {
     FlightStatus.TaxiingOut,
   ].includes(flight.status);
 
-  const showArrival = [
-    FlightStatus.InCruise,
-    FlightStatus.TaxiingIn,
-    FlightStatus.OnBlock,
-    FlightStatus.OffboardingStarted,
-    FlightStatus.OffboardingFinished,
-  ].includes(flight.status);
+  const scheduled = flight.timesheet.scheduled;
+  const estimated = flight.timesheet.estimated as FilledSchedule | undefined;
 
-  const estimated = flight.timesheet.estimated as FilledSchedule;
-  const timeReference = showArrival ? estimated.arrivalTime : estimated.takeoffTime;
-  const timeRemaining = dateDiffToReadable(new Date(), timeReference);
-  const timeProgress = useDateProgress(estimated.offBlockTime, estimated.onBlockTime);
+  const scheduledReference = showDeparture ? scheduled.takeoffTime : scheduled.arrivalTime;
+  const estimatedReference = (showDeparture ? estimated?.takeoffTime : estimated?.arrivalTime) ?? scheduledReference;
+  const delayMinutes = Math.round((estimatedReference.getTime() - scheduledReference.getTime()) / 60000);
+
+  const timeRemaining = dateDiffToReadable(new Date(), estimatedReference);
+  const timeProgress = useDateProgress(estimated?.offBlockTime ?? scheduled.offBlockTime, scheduled.onBlockTime);
+
+  const loadsheet = flight.loadsheets.final ?? flight.loadsheets.preliminary;
 
   return (
     <Container padding="condensed">
@@ -43,66 +42,110 @@ export function CurrentFlightBox({ flight }: Props) {
         icon={FaPlane}
         title="Current flight"
         actions={
-          <span className="text-xs bg-indigo-100 dark:bg-indigo-900 uppercase text-indigo-500 dark:text-indigo-300 rounded-full py-1 px-2">
+          <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs uppercase text-indigo-500 dark:bg-indigo-900 dark:text-indigo-300">
             {toHuman.flight.status.short(flight.status)}
           </span>
         }
       />
 
-      <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
+      <article className="mt-2 flex flex-row justify-between gap-3">
         <div>
-          <span className="block text-indigo-500 text-4xl font-bold">{flight.flightNumber}</span>
-          <span className="text-sm text-gray-500 mb-2">
-            {flight.aircraft.airframe.name}&nbsp;&bull; {flight.aircraft.registration}
+          <span className="block font-mono text-4xl font-bold leading-none text-indigo-500">{flight.flightNumber}</span>
+          <span className="mt-1.5 block font-semibold text-gray-700 text-sm dark:text-gray-300">
+            {flight.operator.shortName}
+          </span>
+          <span className="block text-sm text-gray-500">
+            {flight.aircraft.registration} · {flight.aircraft.airframe.name}
           </span>
         </div>
 
-        {showDeparture && (
-          <div className="text-right">
-            <span className="text-right text-xl font-bold ">
-              <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
-            </span>
-            <span className="block text-sm text-gray-500 mb-2 leading-5">Departure</span>
-          </div>
-        )}
-
-        {showArrival && (
-          <div className="text-right">
-            <span className="text-right text-xl font-bold ">
-              <FormattedIcaoTime date={flight.timesheet.scheduled.arrivalTime} />
-            </span>
-            <span className="block text-sm text-gray-500 mb-2 leading-5">Arrival</span>
-          </div>
-        )}
-      </article>
-
-      <article className="flex items-center justify-between mb-8 gap-3">
-        <div className="basis-1/3">
-          <span className="font-bold text-3xl">{flight.departureAirport.icaoCode}</span>
-          <span className="block text-sm text-gray-500 leading-4">{flight.departureAirport.city}</span>
-        </div>
-        <div className="basis-1/3 flex gap-3 flex-col">
-          <FaPlane className="text-gray-300 dark:text-gray-700 mx-auto text-xl rotate-270" />
-          <Progress progress={timeProgress} color="indigo" size="sm" />
-        </div>
-        <div className="basis-1/3 text-right">
-          <span className="font-bold text-3xl">{flight.destinationAirport.icaoCode}</span>
-          <span className="block text-sm text-gray-500 leading-4">{flight.destinationAirport.city}</span>
+        <div className="text-right">
+          <span className="font-mono text-xl font-bold tabular-nums text-gray-900 dark:text-white">
+            <FormattedIcaoTime date={estimatedReference} />
+          </span>
+          <span className="mt-0.5 flex items-center justify-end gap-1.5 text-xs uppercase tracking-wide text-gray-500">
+            {showDeparture ? "Est. departure" : "Est. arrival"}
+            {delayMinutes > 0 && (
+              <span className="inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-[11px] font-bold normal-case text-amber-700 dark:bg-amber-950 dark:text-amber-400">
+                +{delayMinutes}
+              </span>
+            )}
+          </span>
         </div>
       </article>
 
-      <div className="flex justify-between">
-        <div className="flex items-center text-xs text-gray-500 py-2">
-          <FaClock className="mr-1 inline"></FaClock>
-          {showDeparture && "Time to departure: "}
-          {showArrival && "Time remaining: "}
+      <article className="mt-5 grid grid-cols-[1fr_1.5fr_1fr] items-center gap-4">
+        <div className="min-w-0">
+          <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">
+            {flight.departureAirport.iataCode}
+          </span>
+          <span className="mt-1 block truncate text-sm font-bold text-gray-700 dark:text-gray-200">
+            {flight.departureAirport.name}
+          </span>
+          <span className="block truncate text-xs text-gray-400">
+            {flight.departureAirport.city}, {flight.departureAirport.country}
+          </span>
+        </div>
+
+        <div className="relative h-5">
+          <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded bg-gray-200 dark:bg-gray-700" />
+          <div
+            className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2 rounded bg-indigo-500"
+            style={{ width: `${timeProgress}%` }}
+          />
+          <span className="absolute left-0 top-1/2 size-2 -translate-y-1/2 rounded-full bg-indigo-500" />
+          <span className="absolute right-0 top-1/2 size-2 -translate-y-1/2 rounded-full bg-gray-300 dark:bg-gray-600" />
+          <FaPlane
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-500"
+            style={{ left: `${timeProgress}%` }}
+          />
+        </div>
+
+        <div className="min-w-0 text-right">
+          <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">
+            {flight.destinationAirport.iataCode}
+          </span>
+          <span className="mt-1 block truncate text-sm font-bold text-gray-700 dark:text-gray-200">
+            {flight.destinationAirport.name}
+          </span>
+          <span className="block truncate text-xs text-gray-400">
+            {flight.destinationAirport.city}, {flight.destinationAirport.country}
+          </span>
+        </div>
+      </article>
+
+      {loadsheet && (
+        <div className="mt-5 grid grid-cols-4 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+          <Stat label="Passengers" value={loadsheet.passengers.toString()} />
+          <Stat label="Cargo" value={loadsheet.cargo.toString()} unit="t" />
+          <Stat label="Crew" value={`${loadsheet.flightCrew.pilots} + ${loadsheet.flightCrew.cabinCrew}`} />
+          <Stat label="Block fuel" value={loadsheet.blockFuel.toString()} unit="t" />
+        </div>
+      )}
+
+      <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-800">
+        <div className="flex items-center text-xs text-gray-500">
+          <FaClock className="mr-1.5 inline" />
+          {showDeparture ? "Time to departure: " : "Time remaining: "}
           {timeRemaining}
         </div>
         <Button color="indigo" as={Link} to={`/track/${flight.id}`} viewTransition>
           Manage
-          <FaArrowRight className="inline ml-2" aria-hidden="true" />
+          <FaArrowRight className="ml-2 inline" aria-hidden="true" />
         </Button>
       </div>
     </Container>
+  );
+}
+
+function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
+  return (
+    <div className="border-l border-gray-100 px-3 py-2.5 first:border-l-0 dark:border-gray-800">
+      <div className="text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</div>
+      <div className="mt-0.5 font-mono text-base font-bold text-gray-900 dark:text-gray-100">
+        {value}
+        {unit && <span className="ms-0.5 text-xs font-normal text-gray-400">{unit}</span>}
+      </div>
+    </div>
   );
 }
