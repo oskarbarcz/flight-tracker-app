@@ -7,8 +7,7 @@ import { FlightTabs } from "~/components/flight/Header/FlightTabs";
 import { ReleaseFlightModal } from "~/components/flight/Modal/ReleaseFlightModal";
 import { RemoveFlightModal } from "~/components/flight/Modal/RemoveFlightModal";
 import { UpdateTrackingModal } from "~/components/flight/Modal/UpdateTrackingModal";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
-import { type Flight, FlightSource, type Tracking } from "~/models";
+import { FlightSource, type Tracking } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { TrackedFlightProvider, useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { FlightService } from "~/state/api/flight.service";
@@ -20,33 +19,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const flight = await new FlightService().fetchById(params.id);
   return { flight };
 }
-
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
-function formatFlightDate(date: Date): string {
-  const day = date.getUTCDate();
-  const month = MONTHS[date.getUTCMonth()];
-  const year = date.getUTCFullYear();
-  const currentYear = new Date().getUTCFullYear();
-  const yearPart = year === currentYear ? "" : ` ${year}`;
-  return `${day} ${month}${yearPart}`;
-}
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { flight } = data as { flight: Flight };
-    return [
-      { label: "Flight plans", to: "/flights" },
-      {
-        label: (
-          <span className="font-mono">
-            {formatFlightDate(flight.timesheet.scheduled.takeoffTime)} · {flight.flightNumberWithoutSpaces}
-          </span>
-        ),
-      },
-    ];
-  },
-};
 
 function FlightLayoutContent() {
   const { flight } = useLoaderData<typeof clientLoader>();

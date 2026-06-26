@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import BottomBar from "~/components/flight/Map/FullScreen/BottomBar";
-import FullScreenMap from "~/components/flight/Map/FullScreen/FullScreenMap";
-import TopBar from "~/components/flight/Map/FullScreen/TopBar";
+import { BottomBar } from "~/components/flight/Map/FullScreen/BottomBar";
+import { FullScreenMap } from "~/components/flight/Map/FullScreen/FullScreenMap";
+import { TopBar } from "~/components/flight/Map/FullScreen/TopBar";
 import type { Flight } from "~/models";
 import MapSplash from "~/routes/public/MapSplash";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
@@ -30,23 +30,20 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
     }
   }, [params.id, publicFlightService, setCallsign, loadFlightPath]);
 
-  // Initial fetch on mount
   useEffect(() => {
     fetchFlight().then();
   }, [fetchFlight]);
 
-  // Refresh flight data every 5 seconds
   useEffect(() => {
     if (!flight) return;
 
     const intervalId = setInterval(() => {
       fetchFlight().then();
-    }, 5000); // 5 seconds
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, [flight, fetchFlight]);
 
-  // Hide splash screen after 1 second
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 1000);
     return () => clearTimeout(timer);

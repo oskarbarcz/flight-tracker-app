@@ -4,6 +4,7 @@ import React, { type HTMLInputAutoCompleteAttribute, useEffect, useState } from 
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { RequiredMark } from "~/components/shared/Form/RequiredMark";
+import { formatDate } from "~/functions/time";
 
 type Props = {
   className?: string;
@@ -15,20 +16,6 @@ type Props = {
   disabled?: boolean;
 };
 
-// Convert Date to DD-MM-YYYY HH:mm format in Zulu (UTC) time
-const formatDateTimeLocal = (date: Date): string => {
-  const pad = (num: number) => num.toString().padStart(2, "0");
-
-  const day = pad(date.getUTCDate());
-  const month = pad(date.getUTCMonth() + 1);
-  const year = date.getUTCFullYear();
-  const hours = pad(date.getUTCHours());
-  const minutes = pad(date.getUTCMinutes());
-
-  return `${day}-${month}-${year} ${hours}:${minutes}`;
-};
-
-// Convert DD-MM-YYYY HH:mm format to Date in Zulu (UTC) time
 const parseDateTime = (dateTimeString: string): Date | null => {
   try {
     const [datePart, timePart] = dateTimeString.split(" ");
@@ -41,7 +28,6 @@ const parseDateTime = (dateTimeString: string): Date | null => {
       return null;
     }
 
-    // Create date using UTC values
     return new Date(Date.UTC(year, month - 1, day, hours, minutes));
   } catch {
     return null;
@@ -59,7 +45,7 @@ export function ManagedDateTimeInputBlock({
 }: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const [inputValue, setInputValue] = useState<string>(
-    fieldProps.value instanceof Date ? formatDateTimeLocal(fieldProps.value) : "",
+    fieldProps.value instanceof Date ? formatDate(fieldProps.value) : "",
   );
   const isError = meta.touched && meta.error;
 
@@ -79,11 +65,11 @@ export function ManagedDateTimeInputBlock({
 
   useEffect(() => {
     if (fieldProps.value instanceof Date) {
-      setInputValue(formatDateTimeLocal(fieldProps.value));
+      setInputValue(formatDate(fieldProps.value));
     }
 
     if (defaultValue) {
-      setInputValue(formatDateTimeLocal(defaultValue));
+      setInputValue(formatDate(defaultValue));
     }
   }, [defaultValue, fieldProps.value]);
 

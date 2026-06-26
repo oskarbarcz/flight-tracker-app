@@ -12,6 +12,7 @@ export type BadRequestViolations<T> = Record<keyof T, string[]>;
 export type ErrorResponse<T> = {
   error: string;
   message: string;
+  statusCode?: number;
   violations?: BadRequestViolations<T>;
 };
 
@@ -42,7 +43,10 @@ export abstract class AbstractApiService {
     }
 
     if (response.status >= 300) {
-      return Promise.reject(response.body);
+      const errorResponse = (await response
+        .json()
+        .catch(() => ({ error: response.statusText, message: response.statusText }))) as ErrorResponse<T>;
+      return Promise.reject({ ...errorResponse, statusCode: response.status });
     }
 
     return (await response.json()) as T;
@@ -73,7 +77,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
 
     if (response.status >= 400 && response.status < 500) {
       const errorResponse = (await response.json()) as ErrorResponse<T>;
-      return Promise.reject(errorResponse);
+      return Promise.reject({ ...errorResponse, statusCode: response.status });
     }
 
     const data = (await response.json()) as T;

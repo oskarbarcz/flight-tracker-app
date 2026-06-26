@@ -1,5 +1,5 @@
 import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath";
-import MapAirportLabel from "~/components/flight/Map/Element/MapAirportLabel";
+import { MapAirportLabel } from "~/components/flight/Map/Element/MapAirportLabel";
 import type { Airport, Diversion } from "~/models";
 
 type Props = {

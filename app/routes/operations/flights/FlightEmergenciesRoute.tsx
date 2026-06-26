@@ -14,11 +14,7 @@ export default function FlightEmergenciesRoute() {
   return (
     <div className="mt-4 flex flex-col gap-4">
       <Container padding="condensed">
-        <ContainerTitle
-          icon={FaTriangleExclamation}
-          title="Emergencies"
-          description="Review emergency declarations reported for this flight."
-        />
+        <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" />
 
         {activeEmergency ? (
           <ActiveEmergencyPanel emergency={activeEmergency} readOnly />

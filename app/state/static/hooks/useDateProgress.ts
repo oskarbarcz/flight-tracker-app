@@ -11,7 +11,7 @@ export function useDateProgress(a: Date, b: Date): number {
   useEffect(() => {
     updateNow();
 
-    const interval = setInterval(updateNow, 60000); // Every minute
+    const interval = setInterval(updateNow, 60000);
 
     return () => clearInterval(interval);
   }, [updateNow]);

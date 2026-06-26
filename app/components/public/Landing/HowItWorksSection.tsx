@@ -80,7 +80,6 @@ export function HowItWorksSection() {
 
   return (
     <section className="pt-6 bg-gray-50 dark:bg-[#0c0c0e] relative">
-      {/* Background Bloom Blobs — providing texture for glassmorphism */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 -right-20 w-125 h-125 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-[150px]" />

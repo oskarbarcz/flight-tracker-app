@@ -7,15 +7,10 @@ import { ContinentFilterTabs } from "~/components/airport/Table/Tabs/ContinentFi
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { type Airport, Continent } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: () => [{ label: "Airports" }],
-};
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");

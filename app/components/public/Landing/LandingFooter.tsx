@@ -15,7 +15,6 @@ export function LandingFooter() {
     >
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-12 pb-4">
         <div className="grid w-full grid-cols-1 gap-12 md:grid-cols-2">
-          {/* First Column */}
           <div>
             <Link to="/" className="flex items-center mb-4 w-fit">
               <img src={logo} className="mr-3 h-8" alt="Flight Tracker app logo" />
@@ -29,7 +28,6 @@ export function LandingFooter() {
             </p>
           </div>
 
-          {/* Second Column */}
           <div className="flex flex-col md:text-right md:items-end">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wide">Contact</h3>
             <div className="flex flex-col gap-4 text-gray-500 dark:text-gray-400 font-medium md:items-end">

@@ -6,7 +6,7 @@ import { TimeManagementBox } from "~/components/flight/Dashboard/Tracking/Box/Ti
 
 export function FlightOverviewTab() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
       <FlightProgressBox />
       <GateRunwayBox />
       <div className="flex flex-col gap-4">

@@ -11,7 +11,7 @@ export function AssignedTerminalPanel({ terminal }: Props) {
     <div className="rounded-lg border border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/40">
       <div className="flex items-center gap-2 border-b border-amber-200/70 px-3 py-2 dark:border-amber-900/70">
         <HiOutlineOfficeBuilding className="text-amber-500" size={14} />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-500">
           Terminal
         </span>
         <span className="ms-auto font-mono text-xl font-bold text-gray-900 dark:text-white">{terminal.shortName}</span>

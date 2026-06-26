@@ -3,9 +3,8 @@ import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import type { Airport, CreateGateFormData, Gate } from "~/models";
+import type { CreateGateFormData } from "~/models";
 import { GateFormBody } from "~/routes/operations/airports/gates/CreateGateRoute";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
@@ -24,26 +23,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   ]);
   return { airport, gate, terminals };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { airport, gate } = data as { airport: Airport; gate: Gate };
-    return [
-      { label: "Airports", to: "/airports" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{airport.iataCode}</span> · {airport.name}
-          </>
-        ),
-        to: `/airports/${airport.id}/overview`,
-      },
-      { label: "Gates", to: `/airports/${airport.id}/gates` },
-      { label: <span className="font-mono">{gate.name}</span> },
-      { label: "Edit" },
-    ];
-  },
-};
 
 export default function EditGateRoute({ params, loaderData }: Route.ComponentProps) {
   const { airport, gate, terminals } = loaderData;

@@ -1,7 +1,7 @@
 import React from "react";
 import { FaGaugeHigh } from "react-icons/fa6";
 import { FlightTimerBox } from "~/components/flight/Dashboard/Tracking/Box/FlightTimerBox";
-import ChangeFlightProgressButton from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
+import { ChangeFlightProgressButton } from "~/components/flight/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { toHuman } from "~/i18n/translate";

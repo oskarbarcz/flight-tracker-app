@@ -46,7 +46,7 @@ export type FlightProgressButtonProps = {
   disabled: boolean;
 };
 
-export default function ChangeFlightProgressButton() {
+export function ChangeFlightProgressButton() {
   const [disabled, setDisabled] = React.useState(true);
   const { flight } = useTrackedFlight();
 

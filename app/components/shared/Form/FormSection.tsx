@@ -13,7 +13,6 @@ type Props<T extends object> = {
   onSubmit: (data: T) => void;
   icon: IconType;
   title: string;
-  description?: string;
   children: React.ReactNode;
 };
 
@@ -24,7 +23,6 @@ export function FormSection<T extends object>({
   setIsEditable,
   icon,
   title,
-  description,
   onSubmit,
   children,
 }: Props<T>) {
@@ -50,7 +48,6 @@ export function FormSection<T extends object>({
           <FormSectionHeader
             icon={icon}
             title={title}
-            description={description}
             edit={isEditable}
             setEdit={setIsEditable}
             showSaveConfirmation={showSavedInfo}

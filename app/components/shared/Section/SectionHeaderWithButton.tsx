@@ -44,8 +44,8 @@ function ActionButton({ button }: { button: ActionButton }) {
 
 export function SectionHeaderWithButton({ sectionTitle, primaryButton, secondaryButton }: Props) {
   return (
-    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <h2 className="text-2xl md:text-4xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
+    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
       <div className="flex gap-2 flex-row flex-wrap [&_button]:shrink-0 [&_button]:whitespace-nowrap">
         {secondaryButton && <ActionButton button={secondaryButton} />}
         {primaryButton && <ActionButton button={primaryButton} />}

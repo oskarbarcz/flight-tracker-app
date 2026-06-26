@@ -1,12 +1,11 @@
 import React from "react";
 import { Container } from "~/components/shared/Layout/Container";
+import { RawHtml } from "~/components/shared/RawHtml";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
-import useFlightOfp from "~/state/api/hooks/useFlightOfp";
+import { useFlightOfp } from "~/state/api/hooks/useFlightOfp";
 
 function unescapeRunwayAnalysis(html: string): string {
-  return html
-    .replaceAll(" ", "&nbsp;") // Replace spaces with non-breaking spaces
-    .replaceAll("\n", "<br />"); // Replace carriage returns
+  return html.replaceAll(" ", "&nbsp;").replaceAll("\n", "<br />");
 }
 
 export function FlightRunwayAnalysisTab() {
@@ -23,12 +22,7 @@ export function FlightRunwayAnalysisTab() {
         <b>[ Runway analysis ]</b>
         <br />
         <b>--------------------------------------------------------------------</b>
-        <div
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: we trust and verify SimBrief data
-          dangerouslySetInnerHTML={{
-            __html: unescapeRunwayAnalysis(ofp.runwayAnalysis) || "",
-          }}
-        />
+        <RawHtml html={unescapeRunwayAnalysis(ofp.runwayAnalysis) || ""} />
       </div>
     </Container>
   );

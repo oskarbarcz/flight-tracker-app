@@ -45,7 +45,7 @@ function Stat({ label, value, emphasize = false }: { label: string; value: strin
       <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</p>
       <p
         className={`mt-1 font-mono text-lg font-semibold ${
-          emphasize ? "text-amber-600 dark:text-amber-400" : "text-gray-900 dark:text-white"
+          emphasize ? "text-amber-600 dark:text-amber-500" : "text-gray-900 dark:text-white"
         }`}
       >
         {value}

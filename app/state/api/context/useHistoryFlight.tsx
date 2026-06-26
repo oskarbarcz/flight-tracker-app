@@ -16,11 +16,6 @@ type Props = {
   children: ReactNode;
 };
 
-/**
- * Read-only counterpart to {@link TrackedFlightProvider}: fetches the flight
- * and its events once for the history view. No polling, no mutation actions —
- * closed flights don't change. The map tab loads the flight path on demand.
- */
 export function HistoryFlightProvider({ flightId, children }: Props) {
   const { flightService, diversionService } = useApi();
   const [flight, setFlight] = useState<Flight | null>(null);

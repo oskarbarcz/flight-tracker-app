@@ -5,15 +5,20 @@ import { CheckInFlightModal } from "~/components/flight/Modal/CheckInFlightModal
 import { toHuman } from "~/i18n/translate";
 import type { FilledSchedule } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import { useToast } from "~/state/app/context/useToast";
 
 export function CheckInButton({ disabled }: FlightProgressButtonProps) {
   const { flight, checkIn } = useTrackedFlight();
+  const { error } = useToast();
   const [showModal, setShowModal] = useState(false);
 
   const handleCheckIn = async (timesheet: FilledSchedule): Promise<void> => {
     await checkIn(timesheet)
       .then(() => setShowModal(false))
-      .catch((error: unknown) => console.error("Failed to check in", error));
+      .catch((err: unknown) => {
+        console.error("Failed to check in", err);
+        error("Could not check in. Please try again.");
+      });
   };
 
   if (!flight) {

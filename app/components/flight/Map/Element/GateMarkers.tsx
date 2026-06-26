@@ -1,13 +1,12 @@
 import L from "leaflet";
 import { Marker, Tooltip } from "react-leaflet";
+import { PIN_COLOR } from "~/functions/mapColors";
 import type { Gate } from "~/models";
 
 type Props = {
   gates: Gate[];
   selectedGateIds?: (string | null)[];
 };
-
-const PIN_COLOR = "#10b981";
 
 const pinIcon = new L.DivIcon({
   html: `

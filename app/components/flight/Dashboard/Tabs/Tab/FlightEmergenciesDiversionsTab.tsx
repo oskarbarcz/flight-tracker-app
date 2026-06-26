@@ -68,12 +68,7 @@ export function FlightEmergenciesDiversionsTab() {
   return (
     <div className="mt-4 flex flex-col gap-4">
       <Container padding="condensed">
-        <ContainerTitle
-          icon={FaTriangleExclamation}
-          title="Emergencies"
-          description="Declare, manage and review emergency declarations for this flight."
-          actions={emergencyActions}
-        />
+        <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" actions={emergencyActions} />
 
         {activeEmergency ? (
           <ActiveEmergencyPanel emergency={activeEmergency} />
@@ -99,12 +94,7 @@ export function FlightEmergenciesDiversionsTab() {
       </Container>
 
       <Container padding="condensed">
-        <ContainerTitle
-          icon={FaPlaneCircleExclamation}
-          title="Diversions"
-          description="Report and review flight diversion decisions."
-          actions={diversionActions}
-        />
+        <ContainerTitle icon={FaPlaneCircleExclamation} title="Diversions" actions={diversionActions} />
 
         {diversion ? (
           <ActiveDiversionPanel diversion={diversion} />

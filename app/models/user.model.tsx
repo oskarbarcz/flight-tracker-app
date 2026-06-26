@@ -16,5 +16,8 @@ export type User = {
 export type UserStats = {
   total: {
     blockTime: number;
+    totalFlightTime: number;
+    totalFuelBurned: number;
+    totalGreatCircleDistance: number;
   };
 };

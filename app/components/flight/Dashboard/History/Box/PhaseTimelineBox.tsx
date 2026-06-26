@@ -1,6 +1,10 @@
 import React from "react";
+import { FaStopwatch } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { durationMinutes, formatDuration } from "~/functions/time";
 import type { FilledSchedule, Flight, Schedule } from "~/models";
 
 type Props = {
@@ -28,13 +32,11 @@ function deltaMin(a: Date | null, b: Date | null): number | null {
 
 function durationMin(start: Date | null | undefined, end: Date | null | undefined): number | null {
   if (!start || !end) return null;
-  return Math.max(0, Math.round((end.getTime() - start.getTime()) / 60_000));
+  return durationMinutes(start, end);
 }
 
 function formatHm(minutes: number | null): string {
-  if (minutes === null) return "—";
-  if (minutes < 60) return `${minutes}m`;
-  return `${Math.floor(minutes / 60)}h ${(minutes % 60).toString().padStart(2, "0")}m`;
+  return minutes === null ? "—" : formatDuration(minutes);
 }
 
 function hasAnyTime(s: Schedule | undefined): boolean {
@@ -42,11 +44,6 @@ function hasAnyTime(s: Schedule | undefined): boolean {
   return Boolean(s.offBlockTime || s.takeoffTime || s.arrivalTime || s.onBlockTime);
 }
 
-/**
- * Describe a non-zero delta in plain English so ops/cabin crew don't have to
- * decode a "+5m" badge. Returns e.g. "5 minutes later than estimation" or
- * "1 minute before schedule".
- */
 function describeDelta(minutes: number, baselineLabel: string): string {
   const abs = Math.abs(minutes);
   const unit = abs === 1 ? "minute" : "minutes";
@@ -58,21 +55,13 @@ export function PhaseTimelineBox({ flight }: Props) {
   const { scheduled, estimated, actual } = flight.timesheet;
   const actualPresent = hasAnyTime(actual);
 
-  // Deltas compare actual against the revised flight plan (estimated) when
-  // available, falling back to scheduled when no estimate was filed.
   const baseline: Schedule | undefined = estimated ?? scheduled;
   const baselineLabel = estimated ? "estimation" : "schedule";
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <header className="mb-6">
-        <div className="text-sm font-bold uppercase tracking-wider text-gray-500">Phase timeline</div>
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          Actual times for each phase, with deltas measured against the {baselineLabel}.
-        </p>
-      </header>
+    <Container padding="spacious">
+      <ContainerTitle icon={FaStopwatch} title="Phase timeline" />
 
-      {/* Phase callouts: four basic cells in a single row */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {PHASES.map((p) => (
           <PhaseCallout
@@ -85,8 +74,7 @@ export function PhaseTimelineBox({ flight }: Props) {
         ))}
       </div>
 
-      {/* Block time and air time totals — wide pill rows */}
-      <div className="mt-3 space-y-2">
+      <div className="space-y-2">
         <DurationRow
           label="Block time"
           actualMin={durationMin(actual?.offBlockTime, actual?.onBlockTime)}
@@ -106,18 +94,14 @@ export function PhaseTimelineBox({ flight }: Props) {
       </div>
 
       {!actualPresent && (
-        <div className="mt-4 flex items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-gray-50/50 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-400">
+        <div className="flex items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-gray-50/50 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-400">
           <HiInformationCircle className="size-4 shrink-0 text-gray-400" />
           <span>No actual times were recorded for this flight.</span>
         </div>
       )}
-    </section>
+    </Container>
   );
 }
-
-// ────────────────────────────────────────────────────────────────────────────
-// Subcomponents
-// ────────────────────────────────────────────────────────────────────────────
 
 function PhaseCallout({
   label,
@@ -141,7 +125,7 @@ function PhaseCallout({
       {hasDelta && (
         <div
           className={`mt-1 text-[11px] leading-tight ${
-            delta > 0 ? "text-amber-600 dark:text-amber-300" : "text-emerald-600 dark:text-emerald-300"
+            delta > 0 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-300"
           }`}
         >
           {describeDelta(delta, baselineLabel)}
@@ -181,7 +165,7 @@ function DurationRow({
       {hasDelta && (
         <div
           className={`mt-2 text-[11px] ${
-            delta > 0 ? "text-amber-600 dark:text-amber-300" : "text-emerald-600 dark:text-emerald-300"
+            delta > 0 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-300"
           }`}
         >
           {describeDelta(delta, baselineLabel)}

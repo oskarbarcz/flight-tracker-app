@@ -13,9 +13,9 @@ export default [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
       route("flight-history", "routes/pilot/history/FlightHistoryListRoute.tsx"),
       route("flight-history/:id", "routes/pilot/history/FlightHistoryRoute.tsx"),
+      route("travels", "routes/pilot/travels/TravelLogRoute.tsx"),
     ]),
     layout("routes/operations/OperationsLayout.tsx", [
-      // operations - operators
       route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),
       route("operators/new", "routes/operations/operators/CreateOperatorRoute.tsx"),
       route("operators/:operatorId/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
@@ -33,7 +33,6 @@ export default [
         "operators/:operatorId/rotations/:rotationId/edit",
         "routes/operations/operators/rotations/EditRotationRoute.tsx",
       ),
-      // operations - flights
       route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
       route("current-flights", "routes/operations/flights/CurrentFlightsRoute.tsx"),
       route("finished-flights", "routes/operations/flights/FinishedFlightsRoute.tsx"),
@@ -47,7 +46,6 @@ export default [
         route("flights/:id/emergencies", "routes/operations/flights/FlightEmergenciesRoute.tsx"),
         route("flights/:id/delays", "routes/operations/flights/FlightDelaysRoute.tsx"),
       ]),
-      // operations - airports
       route("airports", "routes/operations/airports/AirportsListRoute.tsx"),
       route("airports/new", "routes/operations/airports/CreateAirportRoute.tsx"),
       route("airports/:id/edit", "routes/operations/airports/EditAirportRoute.tsx"),

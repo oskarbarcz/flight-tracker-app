@@ -1,3 +1,4 @@
+import { padZero } from "~/functions/time";
 import type { Runway } from "~/models";
 
 export type RunwayPair = {
@@ -18,7 +19,7 @@ export function reciprocalDesignator(designator: string): string {
   const suffix = designator.match(/[LCR]$/)?.[0] ?? "";
   const recipNum = num <= 18 ? num + 18 : num - 18;
   const recipSuffix = suffix === "L" ? "R" : suffix === "R" ? "L" : suffix;
-  return `${String(recipNum).padStart(2, "0")}${recipSuffix}`;
+  return `${padZero(recipNum)}${recipSuffix}`;
 }
 
 function pairKey(designator: string): string {

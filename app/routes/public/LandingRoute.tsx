@@ -12,7 +12,7 @@ export default function LandingRoute() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return null; // Avoid flicker
+    return null;
   }
 
   if (user) {

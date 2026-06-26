@@ -32,7 +32,7 @@ const extendedLabel = (airport: Airport, variant: "primary" | "diversion") => {
   });
 };
 
-export default function MapAirportLabel({ airport, extended = false, variant = "primary" }: MapAirportLabelProps) {
+export function MapAirportLabel({ airport, extended = false, variant = "primary" }: MapAirportLabelProps) {
   const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
 
   const label = extended ? extendedLabel(airport, variant) : shortLabel(airport, variant);

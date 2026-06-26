@@ -1,4 +1,4 @@
-import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer } from "react";
+import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import {
   type DelayRequest,
   type Diversion,
@@ -200,7 +200,6 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       .catch((error) => console.error("Failed to load flight emergencies", error));
   }, [state.flightId, hasActiveEmergency, emergencyEventIds, emergencyService]);
 
-  // All domain actions now in context
   const checkIn = useCallback(
     async (schedule: FilledSchedule) => {
       if (!state.flightId) return;
@@ -350,42 +349,70 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
 
   const activeEmergency = state.emergencies.find((e) => e.isActive) ?? null;
 
-  return (
-    <UseTrackedFlight.Provider
-      value={{
-        flight: state.flight,
-        events: state.events,
-        emergencies: state.emergencies,
-        activeEmergency,
-        diversion: state.diversion,
-        delayRequest: state.delayRequest,
-        loading: state.loading,
-        setFlightId,
-        reload: () => loadFlight({ silent: true }),
-        checkIn,
-        startBoarding,
-        finishBoarding,
-        reportOffBlock,
-        reportTakeoff,
-        reportArrival,
-        reportOnBlock,
-        startOffboarding,
-        finishOffboarding,
-        close,
-        declareEmergency,
-        updateEmergency,
-        resolveEmergency,
-        reportDiversion,
-        updateDiversion,
-        fileDelayReport,
-        removeDelayReport,
-        acceptDelayReport,
-        rejectDelayReport,
-      }}
-    >
-      {children}
-    </UseTrackedFlight.Provider>
+  const value = useMemo(
+    () => ({
+      flight: state.flight,
+      events: state.events,
+      emergencies: state.emergencies,
+      activeEmergency,
+      diversion: state.diversion,
+      delayRequest: state.delayRequest,
+      loading: state.loading,
+      setFlightId,
+      reload: () => loadFlight({ silent: true }),
+      checkIn,
+      startBoarding,
+      finishBoarding,
+      reportOffBlock,
+      reportTakeoff,
+      reportArrival,
+      reportOnBlock,
+      startOffboarding,
+      finishOffboarding,
+      close,
+      declareEmergency,
+      updateEmergency,
+      resolveEmergency,
+      reportDiversion,
+      updateDiversion,
+      fileDelayReport,
+      removeDelayReport,
+      acceptDelayReport,
+      rejectDelayReport,
+    }),
+    [
+      state.flight,
+      state.events,
+      state.emergencies,
+      activeEmergency,
+      state.diversion,
+      state.delayRequest,
+      state.loading,
+      setFlightId,
+      loadFlight,
+      checkIn,
+      startBoarding,
+      finishBoarding,
+      reportOffBlock,
+      reportTakeoff,
+      reportArrival,
+      reportOnBlock,
+      startOffboarding,
+      finishOffboarding,
+      close,
+      declareEmergency,
+      updateEmergency,
+      resolveEmergency,
+      reportDiversion,
+      updateDiversion,
+      fileDelayReport,
+      removeDelayReport,
+      acceptDelayReport,
+      rejectDelayReport,
+    ],
   );
+
+  return <UseTrackedFlight.Provider value={value}>{children}</UseTrackedFlight.Provider>;
 };
 
 export const useTrackedFlight = () => {

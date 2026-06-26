@@ -3,6 +3,8 @@ import { FaListCheck } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { UserName } from "~/components/shared/User/UserName";
 import { toHuman } from "~/i18n/translate";
 import { type FlightEvent, FlightEventScope, isDiversionEvent, isEmergencyEvent } from "~/models";
@@ -43,84 +45,74 @@ export function FlightEventsTimeline({ events }: Props) {
   const filtered = events.filter((e) => activeScopes.has(e.scope));
 
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
+    <Container>
+      <ContainerTitle icon={FaListCheck} title="Activity log" />
 
-      <div className="flex flex-1 flex-col gap-4 p-5">
-        <div>
-          <div className="flex items-center gap-2 text-indigo-500">
-            <FaListCheck size={13} />
-            <span className="text-xs font-bold uppercase tracking-widest">Events</span>
-          </div>
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Activity log for this flight.</p>
-        </div>
-
-        <div className="flex flex-wrap gap-1.5">
-          {SCOPE_FILTERS.map(({ scope, label }) => {
-            const active = activeScopes.has(scope);
-            return (
-              <button
-                type="button"
-                key={scope}
-                onClick={() => toggleScope(scope)}
-                className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer ${
-                  active
-                    ? "border border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-300"
-                    : "border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800"
-                }`}
-              >
-                <span
-                  className={`size-1.5 rounded-full ${SCOPE_DOT[scope]
-                    .split(" ")
-                    .filter((c) => c.startsWith("bg-"))
-                    .join(" ")}`}
-                />
-                {label}
-              </button>
-            );
-          })}
-        </div>
-
-        {events.length === 0 ? (
-          <EmptyState message="No events recorded yet." />
-        ) : filtered.length === 0 ? (
-          <EmptyState message="No events match the selected filters." />
-        ) : (
-          <ol className="relative space-y-5">
-            {filtered.map((event, i) => (
-              <li key={event.id} className="relative ps-6">
-                <span
-                  className={`absolute left-0.5 top-1.5 size-2.5 rounded-full border-2 border-white ring-1 dark:border-gray-900 ${SCOPE_DOT[event.scope]}`}
-                />
-                {i < filtered.length - 1 && (
-                  <span className="absolute left-[5px] top-4 bottom-[-1.25rem] w-px bg-gray-200 dark:bg-gray-700" />
-                )}
-                <div
-                  className={
-                    isEmergencyEvent(event.type) || isDiversionEvent(event.type)
-                      ? "text-sm font-medium text-red-600 dark:text-red-500"
-                      : "text-sm font-medium text-gray-900 dark:text-white"
-                  }
-                >
-                  {toHuman.flight.eventType(event.type)}
-                </div>
-                <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-xs text-gray-500 dark:text-gray-400">
-                  <span className="font-mono">
-                    <FormattedIcaoDate date={event.createdAt} /> <FormattedIcaoTime date={event.createdAt} />
-                  </span>
-                  {event.actor?.name && (
-                    <>
-                      <span aria-hidden>·</span>
-                      <UserName user={event.actor} />
-                    </>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
-        )}
+      <div className="flex flex-wrap gap-1.5">
+        {SCOPE_FILTERS.map(({ scope, label }) => {
+          const active = activeScopes.has(scope);
+          return (
+            <button
+              type="button"
+              key={scope}
+              onClick={() => toggleScope(scope)}
+              className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer ${
+                active
+                  ? "border border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950 dark:text-indigo-300"
+                  : "border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800"
+              }`}
+            >
+              <span
+                className={`size-1.5 rounded-full ${SCOPE_DOT[scope]
+                  .split(" ")
+                  .filter((c) => c.startsWith("bg-"))
+                  .join(" ")}`}
+              />
+              {label}
+            </button>
+          );
+        })}
       </div>
-    </section>
+
+      {events.length === 0 ? (
+        <EmptyState message="No events recorded yet." />
+      ) : filtered.length === 0 ? (
+        <EmptyState message="No events match the selected filters." />
+      ) : (
+        <ol className="relative space-y-5">
+          {filtered.map((event, i) => (
+            <li key={event.id} className="relative ps-6">
+              <span
+                className={`absolute left-0.5 top-1.5 size-2.5 rounded-full border-2 border-white ring-1 dark:border-gray-900 ${SCOPE_DOT[event.scope]}`}
+              />
+              {i < filtered.length - 1 && (
+                <span className="absolute left-[5px] top-4 bottom-[-1.25rem] w-px bg-gray-200 dark:bg-gray-700" />
+              )}
+              <div
+                className={
+                  isEmergencyEvent(event.type) || isDiversionEvent(event.type)
+                    ? "text-sm font-medium text-red-600 dark:text-red-500"
+                    : "text-sm font-medium text-gray-900 dark:text-white"
+                }
+              >
+                {toHuman.flight.eventType(event.type)}
+              </div>
+              <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-xs text-gray-500 dark:text-gray-400">
+                <span className="font-mono">
+                  <FormattedIcaoDate date={event.createdAt} /> <FormattedIcaoTime date={event.createdAt} />
+                </span>
+                {event.actor?.name && (
+                  <>
+                    <span aria-hidden>·</span>
+                    <UserName user={event.actor} />
+                  </>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+    </Container>
   );
 }
 

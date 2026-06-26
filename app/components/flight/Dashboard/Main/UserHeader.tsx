@@ -1,11 +1,10 @@
 import React from "react";
-import { FaClock } from "react-icons/fa6";
 import { SimpleStatDisplay } from "~/components/shared/Display/SimpleStatDisplay";
 import { SimpleStatDisplayLoader } from "~/components/shared/Display/SimpleStatDisplayLoader";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import type { User } from "~/models/user.model";
 import { useAuth } from "~/state/api/context/useAuth";
-import useUserStats from "~/state/api/hooks/useUserStats";
+import { useUserStats } from "~/state/api/hooks/useUserStats";
 
 enum Status {
   ReadyForDuty,
@@ -30,6 +29,14 @@ function minutesToHoursDisplay(minutes: number): string {
   return `${hours.toLocaleString("en-US")}h`;
 }
 
+function fuelToDisplay(kilograms: number): string {
+  return `${(kilograms / 1000).toLocaleString("en-US", { maximumFractionDigits: 1 })} t`;
+}
+
+function distanceToDisplay(nauticalMiles: number): string {
+  return `${nauticalMiles.toLocaleString("en-US")} nm`;
+}
+
 export function UserHeader() {
   const { user } = useAuth() as { user: User };
   const { stats, loading } = useUserStats();
@@ -49,14 +56,22 @@ export function UserHeader() {
           <span>. Clear skies ahead!</span>
         </div>
       </div>
-      <div className="flex gap-4">
-        {(loading || stats === null) && <SimpleStatDisplayLoader />}
-        {stats !== null && (
-          <SimpleStatDisplay
-            icon={<FaClock className="text-indigo-500 my-1 text-2xl" />}
-            title="Total flight time"
-            value={minutesToHoursDisplay(stats.total.blockTime)}
-          />
+      <div className="flex items-center divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-[0_1px_2px_rgb(15_23_42/0.04),0_6px_16px_-8px_rgb(15_23_42/0.12)] dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900 dark:shadow-none">
+        {loading || stats === null ? (
+          <>
+            <SimpleStatDisplayLoader />
+            <SimpleStatDisplayLoader />
+            <SimpleStatDisplayLoader />
+          </>
+        ) : (
+          <>
+            <SimpleStatDisplay title="Total flight time" value={minutesToHoursDisplay(stats.total.totalFlightTime)} />
+            <SimpleStatDisplay title="Total fuel burned" value={fuelToDisplay(stats.total.totalFuelBurned)} />
+            <SimpleStatDisplay
+              title="Total distance flown"
+              value={distanceToDisplay(stats.total.totalGreatCircleDistance)}
+            />
+          </>
         )}
       </div>
     </TransparentContainer>

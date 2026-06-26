@@ -1,19 +1,31 @@
+export function padZero(value: number, width = 2): string {
+  return String(value).padStart(width, "0");
+}
+
+export function durationMinutes(start: Date, end: Date): number {
+  return Math.max(0, Math.round((end.getTime() - start.getTime()) / 60_000));
+}
+
+export function formatDuration(minutes: number): string {
+  return `${Math.floor(minutes / 60)}h ${padZero(minutes % 60)}m`;
+}
+
 export function formatDate(date: Date): string {
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const day = padZero(date.getUTCDate());
+  const month = padZero(date.getUTCMonth() + 1);
   const year = date.getUTCFullYear();
-  const hours = String(date.getUTCHours()).padStart(2, "0");
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  const hours = padZero(date.getUTCHours());
+  const minutes = padZero(date.getUTCMinutes());
 
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
 
 export function formatDateToLocal(date: Date): string {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const day = padZero(date.getDate());
+  const month = padZero(date.getMonth() + 1);
   const year = date.getUTCFullYear();
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
 
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
@@ -28,8 +40,8 @@ export function getTimeDifferenceInHours(a: Date, b: Date): string {
   const totalMinutes = Math.floor(diffInMs / (1000 * 60));
   const sign = totalMinutes < 0 ? "-" : "";
   const absMinutes = Math.abs(totalMinutes);
-  const hours = String(Math.floor(absMinutes / 60)).padStart(2, "0");
-  const minutes = String(absMinutes % 60).padStart(2, "0");
+  const hours = padZero(Math.floor(absMinutes / 60));
+  const minutes = padZero(absMinutes % 60);
 
   return `${sign}${hours}:${minutes}`;
 }
@@ -42,7 +54,7 @@ export function formatTimeInterval(seconds: number) {
   const minutes = Math.floor((absSeconds % 3600) / 60);
   const secs = absSeconds % 60;
 
-  return `${sign}${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  return `${sign}${padZero(hours)}:${padZero(minutes)}:${padZero(secs)}`;
 }
 
 export function timeDiff(a: Date, b: Date): number {

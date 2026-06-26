@@ -33,7 +33,7 @@ export function TransparentContainer({
   return (
     <section
       className={twMerge(
-        "overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900",
+        "overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04),0_6px_16px_-8px_rgb(15_23_42/0.12)] dark:border-gray-800 dark:bg-gray-900 dark:shadow-none",
         paddingClass(padding),
         className,
       )}

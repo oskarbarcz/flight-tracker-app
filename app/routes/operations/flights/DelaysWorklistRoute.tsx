@@ -15,16 +15,12 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
+import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { DelayRequest, Flight } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import type { DelayRequestStatusFilter } from "~/state/api/request/delay.request";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: () => [{ label: "Delay reviews" }],
-};
 
 const TABS: { status: DelayRequestStatusFilter; label: string }[] = [
   { status: "pending", label: "To review" },
@@ -84,6 +80,7 @@ export default function DelaysWorklistRoute() {
 
   return (
     <>
+      <SectionHeader title="Delay reviews" />
       <Tabs key={status} variant="underline" onActiveTabChange={handleTabChange}>
         {TABS.map((tab, i) => (
           <TabItem key={tab.status} active={activeIndex === i} title={tab.label} />
@@ -135,7 +132,7 @@ export default function DelaysWorklistRoute() {
                     {status === "pending" ? (
                       <TableCell
                         className={`font-mono ${
-                          delayRequest.unallocatedMinutes > 0 ? "font-semibold text-amber-600 dark:text-amber-400" : ""
+                          delayRequest.unallocatedMinutes > 0 ? "font-semibold text-amber-600 dark:text-amber-500" : ""
                         }`}
                       >
                         {delayRequest.unallocatedMinutes} min
@@ -145,7 +142,7 @@ export default function DelaysWorklistRoute() {
                     )}
                     <TableCell>
                       {status === "pending" ? (
-                        <span className="inline-flex min-w-8 justify-center rounded-md bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+                        <span className="inline-flex min-w-8 justify-center rounded-md bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-400">
                           {delayRequest.pendingReports.length}
                         </span>
                       ) : (

@@ -24,7 +24,6 @@ export function MapBox({ className }: MapBoxProps) {
     await loadFlightPath();
   }, [flight, setCallsign, loadFlightPath]);
 
-  // Initial fetch on mount
   useEffect(() => {
     if (!flight) return;
     if (!shouldPollForAdsbData(flight.status)) return;
@@ -32,14 +31,13 @@ export function MapBox({ className }: MapBoxProps) {
     fetchFlight().then();
   }, [fetchFlight, flight]);
 
-  // Refresh flight data every 5 seconds
   useEffect(() => {
     if (!flight) return;
     if (!shouldPollForAdsbData(flight.status)) return;
 
     const intervalId = setInterval(() => {
       fetchFlight().then();
-    }, 5000); // 5 seconds
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, [flight, fetchFlight]);

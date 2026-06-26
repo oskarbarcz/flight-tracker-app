@@ -1,3 +1,4 @@
+import { formatDegrees } from "~/functions/geo";
 import type { FlightPathElement } from "~/models";
 
 type Props = {
@@ -16,7 +17,7 @@ function formatGroundSpeed(groundSpeed: number | undefined): string {
 
 function formatTrack(track: number | undefined): string {
   if (track === undefined) return "—";
-  return `${Math.round(track).toString().padStart(3, "0")}°`;
+  return formatDegrees(track);
 }
 
 function formatVerticalRate(verticalRate: number | undefined): string {

@@ -5,24 +5,19 @@ import type {
 } from "~/state/api/request/delay.request";
 
 export enum DelayReasonCode {
-  // ATC delays
   AtcStartup = "AMZ",
   EnrouteSlot = "ATZ",
   DepartureRunwayChange = "AMC",
-  // Ramp delays
   LoadingError = "RLL",
   LatePushbackCrew = "RLP",
   LateStepsRemoval = "RLS",
   LateServicingEquipment = "RLV",
-  // Engineering delays
   SystemReset = "ESR",
   NewDefect = "END",
   SimulatorRestart = "ESM",
-  // Ground equipment
   TugBroken = "GBT",
   JetwayBroken = "GBJ",
   StairsBroken = "GBS",
-  // Operational delays
   IncorrectDepartureTime = "ODI",
   NewRouteAtc = "ORA",
   NewRouteOps = "ORO",

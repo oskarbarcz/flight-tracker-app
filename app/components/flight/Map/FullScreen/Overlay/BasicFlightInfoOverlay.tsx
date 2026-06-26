@@ -1,7 +1,7 @@
 import { FaArrowRight } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 import { toHuman } from "~/i18n/translate";
-import { type FilledSchedule, type Flight, FlightStatus } from "~/models";
+import { type Flight, FlightStatus, isFilledSchedule } from "~/models";
 
 type Props = {
   flight: Flight;
@@ -21,9 +21,12 @@ export function BasicFlightInfoOverlay({ flight, onClose }: Props) {
   const scheduledBlockTime = calculateBlockTime(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
 
   let estimatedBlockTime: string | null = null;
-  if (flight.status !== FlightStatus.Created && flight.status !== FlightStatus.Ready) {
-    const schedule = timesheet.estimated as FilledSchedule;
-    estimatedBlockTime = calculateBlockTime(schedule.offBlockTime, schedule.onBlockTime);
+  if (
+    flight.status !== FlightStatus.Created &&
+    flight.status !== FlightStatus.Ready &&
+    isFilledSchedule(timesheet.estimated)
+  ) {
+    estimatedBlockTime = calculateBlockTime(timesheet.estimated.offBlockTime, timesheet.estimated.onBlockTime);
   }
 
   return (

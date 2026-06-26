@@ -4,7 +4,6 @@ import { useLoaderData } from "react-router";
 import { OperatorListTable } from "~/components/operator/Table/OperatorListTable";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
@@ -13,10 +12,6 @@ import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: () => [{ label: "Operators" }],
-};
 
 export default function ListOperatorsRoute() {
   usePageTitle("Operator list");

@@ -7,7 +7,6 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type CreateOperatorFormData,
@@ -26,24 +25,6 @@ import { createOperatorSchema } from "~/validator/form/operator.schema";
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return new OperatorService().fetchById(params.operatorId);
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const operator = data as Operator;
-    return [
-      { label: "Operators", to: "/operators" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{operator.iataCode}</span> · {operator.shortName}
-          </>
-        ),
-        to: `/operators/${operator.id}/fleet`,
-      },
-      { label: "Edit" },
-    ];
-  },
-};
 
 export default function EditOperatorRoute() {
   usePageTitle("Edit operator");

@@ -21,7 +21,6 @@ const defaultMapSettings: MapSettings = {
 
 function migrate(raw: Partial<MapSettings> & Record<string, unknown>): MapSettings {
   const merged = { ...defaultMapSettings, ...raw };
-  // Pre-rename value carried over from earlier builds.
   if ((raw.gateDisplay as unknown) === "selected") {
     merged.gateDisplay = "assigned";
   }

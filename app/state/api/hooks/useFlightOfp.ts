@@ -8,7 +8,7 @@ interface Return {
   error: Error | null;
 }
 
-export default function useFlightOfp(flightId: string | null): Return {
+export function useFlightOfp(flightId: string | null): Return {
   const [ofp, setOfp] = useState<FlightOfp | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);

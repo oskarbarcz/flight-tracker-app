@@ -6,7 +6,7 @@ import { DelayReportStatus } from "~/models";
 import { translateDelayReasonCode } from "~/models/i18n/delay.i18n";
 
 const STATUS_STYLES: Record<DelayReportStatus, string> = {
-  [DelayReportStatus.Pending]: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
+  [DelayReportStatus.Pending]: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-400",
   [DelayReportStatus.Accepted]: "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300",
   [DelayReportStatus.Rejected]: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
 };
@@ -43,7 +43,7 @@ export function DelayReportRow({ report, onRemove, onAccept, onReject }: Props) 
           </span>
         </div>
         {report.freeText && <p className="text-xs text-gray-500 dark:text-gray-400">{report.freeText}</p>}
-        {report.isPending && <p className="text-xs text-amber-600 dark:text-amber-400">Awaiting Operations review</p>}
+        {report.isPending && <p className="text-xs text-amber-600 dark:text-amber-500">Awaiting Operations review</p>}
         {report.isRejected && report.rejectionReason && (
           <p className="text-xs text-red-600 dark:text-red-400">Rejected: {report.rejectionReason}</p>
         )}

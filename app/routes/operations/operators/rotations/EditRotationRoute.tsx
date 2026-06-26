@@ -8,7 +8,7 @@ import { RotationFlightsInputBlock } from "~/components/operator/Form/RotationFl
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import getFormData from "~/functions/getFormData";
+import { getFormData } from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
 import type { EditRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
