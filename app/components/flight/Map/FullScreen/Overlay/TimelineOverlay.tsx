@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { HiX } from "react-icons/hi";
+import { MONTHS_SHORT_UPPER } from "~/functions/date";
 import type { Flight, Schedule } from "~/models";
 
 type Props = {
@@ -24,10 +25,8 @@ function getUserTzAbbr(): string {
   return parts.find((p) => p.type === "timeZoneName")?.value ?? "LT";
 }
 
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
 function formatDate(date: Date): string {
-  return `${String(date.getUTCDate()).padStart(2, "0")} ${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  return `${String(date.getUTCDate()).padStart(2, "0")} ${MONTHS_SHORT_UPPER[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 const ROWS: { key: keyof Schedule; label: string; side: "departure" | "arrival" }[] = [

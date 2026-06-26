@@ -1,6 +1,9 @@
 import React from "react";
+import { FaStopwatch } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
+import { Container } from "~/components/shared/Layout/Container";
+import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { FilledSchedule, Flight, Schedule } from "~/models";
 
 type Props = {
@@ -64,13 +67,8 @@ export function PhaseTimelineBox({ flight }: Props) {
   const baselineLabel = estimated ? "estimation" : "schedule";
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-      <header className="mb-6">
-        <div className="text-sm font-bold uppercase tracking-wider text-gray-500">Phase timeline</div>
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          Actual times for each phase, with deltas measured against the {baselineLabel}.
-        </p>
-      </header>
+    <Container padding="spacious">
+      <ContainerTitle icon={FaStopwatch} title="Phase timeline" />
 
       {/* Phase callouts: four basic cells in a single row */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -86,7 +84,7 @@ export function PhaseTimelineBox({ flight }: Props) {
       </div>
 
       {/* Block time and air time totals — wide pill rows */}
-      <div className="mt-3 space-y-2">
+      <div className="space-y-2">
         <DurationRow
           label="Block time"
           actualMin={durationMin(actual?.offBlockTime, actual?.onBlockTime)}
@@ -106,12 +104,12 @@ export function PhaseTimelineBox({ flight }: Props) {
       </div>
 
       {!actualPresent && (
-        <div className="mt-4 flex items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-gray-50/50 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-400">
+        <div className="flex items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-gray-50/50 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-400">
           <HiInformationCircle className="size-4 shrink-0 text-gray-400" />
           <span>No actual times were recorded for this flight.</span>
         </div>
       )}
-    </section>
+    </Container>
   );
 }
 

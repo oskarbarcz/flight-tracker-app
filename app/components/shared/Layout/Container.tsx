@@ -5,10 +5,11 @@ export type ContainerClassProps = {
   className?: string;
 };
 
-type Padding = "condensed" | "normal" | "spacious";
+type Padding = "none" | "condensed" | "normal" | "spacious";
 
 function paddingClass(padding: Padding): string {
   const options = {
+    none: "p-0",
     condensed: "p-4",
     normal: "p-5",
     spacious: "p-6",

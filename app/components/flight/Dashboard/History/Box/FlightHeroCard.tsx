@@ -1,16 +1,15 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
+import { MONTHS_SHORT } from "~/functions/date";
 import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight;
 };
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
 function longDate(date: Date): string {
-  return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  return `${MONTHS_SHORT[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
 }
 
 export function FlightHeroCard({ flight }: Props) {

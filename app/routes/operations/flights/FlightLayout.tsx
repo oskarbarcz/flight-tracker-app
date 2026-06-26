@@ -20,17 +20,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return { flight };
 }
 
-const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
-function _formatFlightDate(date: Date): string {
-  const day = date.getUTCDate();
-  const month = MONTHS[date.getUTCMonth()];
-  const year = date.getUTCFullYear();
-  const currentYear = new Date().getUTCFullYear();
-  const yearPart = year === currentYear ? "" : ` ${year}`;
-  return `${day} ${month}${yearPart}`;
-}
-
 function FlightLayoutContent() {
   const { flight } = useLoaderData<typeof clientLoader>();
   const { flightService } = useApi();

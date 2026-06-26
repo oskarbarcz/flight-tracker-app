@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFileLines } from "react-icons/fa6";
+import { Container } from "~/components/shared/Layout/Container";
 import { useHistoryFlight } from "~/state/api/context/useHistoryFlight";
 import useFlightOfp from "~/state/api/hooks/useFlightOfp";
 
@@ -17,7 +18,7 @@ export function HistoryOfpTab() {
   if (!flight) return null;
 
   return (
-    <section className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <Container padding="none" className="mt-4 gap-0">
       <header className="flex items-center gap-2 border-b border-gray-100 px-5 py-3 text-indigo-500 dark:border-gray-800">
         <FaFileLines size={13} />
         <span className="text-xs font-bold uppercase tracking-widest">Operational flight plan</span>
@@ -33,6 +34,6 @@ export function HistoryOfpTab() {
           />
         )}
       </div>
-    </section>
+    </Container>
   );
 }
