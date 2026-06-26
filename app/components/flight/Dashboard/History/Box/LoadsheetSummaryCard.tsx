@@ -42,7 +42,7 @@ export function LoadsheetSummaryCard({ preliminary, final }: Props) {
           </div>
         </div>
         {isPreliminary && (
-          <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
+          <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-400">
             Preliminary
           </span>
         )}

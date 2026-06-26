@@ -9,7 +9,6 @@ import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSele
 import { PointCoordinatesPicker } from "~/components/shared/Form/MapPicker/PointCoordinatesPicker";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type Airport,
@@ -47,25 +46,6 @@ export async function clientLoader({ params, request }: Route.ClientLoaderArgs) 
   ]);
   return { airport, terminals, source };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { airport } = data as { airport: Airport };
-    return [
-      { label: "Airports", to: "/airports" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{airport.iataCode}</span> · {airport.name}
-          </>
-        ),
-        to: `/airports/${airport.id}/overview`,
-      },
-      { label: "Gates", to: `/airports/${airport.id}/gates` },
-      { label: "New gate" },
-    ];
-  },
-};
 
 export default function CreateGateRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new gate");

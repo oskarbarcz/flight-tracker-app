@@ -26,11 +26,7 @@ export function SkyLinkAutofillPanel() {
 
   return (
     <Container>
-      <ContainerTitle
-        icon={FaCloudArrowDown}
-        title="Fill from SkyLink"
-        description="Enter the IATA code to autofill airport data."
-      />
+      <ContainerTitle icon={FaCloudArrowDown} title="Fill from SkyLink" />
       <div className="mb-2 block">
         <Label htmlFor="skylinkIataCode">IATA code</Label>
       </div>

@@ -10,10 +10,13 @@ import { NextScheduledFlightBox } from "~/components/flight/Dashboard/Main/Box/N
 import { NoCurrentFlightBox } from "~/components/flight/Dashboard/Main/Box/NoCurrentFlightBox";
 import { PilotStatsBox } from "~/components/flight/Dashboard/Main/Box/PilotStatsBox";
 import { UserHeader } from "~/components/flight/Dashboard/Main/UserHeader";
+import { CurrentLocationBox } from "~/components/flight/Dashboard/Travel/CurrentLocationBox";
+import { CurrentLocationBoxLoader } from "~/components/flight/Dashboard/Travel/CurrentLocationBoxLoader";
 import { type Flight, FlightStatus } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import useCurrentFlight from "~/state/api/hooks/useCurrentFlight";
 import useLastFlight from "~/state/api/hooks/useLastFlight";
+import useUserTravels from "~/state/api/hooks/useUserTravels";
 import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
@@ -23,6 +26,7 @@ export default function PilotDashboardRoute() {
   const [flights, setFlights] = useState<Flight[]>([]);
   const { lastFlight, loading: loadingLast } = useLastFlight();
   const { currentFlight, loading: loadingCurrent } = useCurrentFlight();
+  const { currentLocation, latestTravel, loading: loadingTravels, refresh: refreshTravels } = useUserTravels();
   usePageTitle("Dashboard");
 
   const [loadingAll, setLoadingAll] = useState(true);
@@ -36,20 +40,15 @@ export default function PilotDashboardRoute() {
   }, [flightService]);
 
   const nextFlight = flights.filter((flight) => flight.status === FlightStatus.Ready)[0];
+  const travelFlightNumber = latestTravel?.flightId
+    ? flights.find((flight) => flight.id === latestTravel.flightId)?.flightNumberWithoutSpaces
+    : undefined;
 
   return (
     <>
       <UserHeader />
-      <div className="grid grid-cols-1 gap-4 pt-12 md:grid-cols-3">
-        <div className="flex flex-col gap-4">
-          {loadingAll ? (
-            <NextScheduledFlightBoxLoader />
-          ) : (
-            <NextScheduledFlightBox flight={nextFlight} isCurrentFlight={currentFlight !== null} />
-          )}
-          {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
-        </div>
-        <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 gap-4 pt-12 lg:grid-cols-3">
+        <div className="flex flex-col gap-4 lg:col-span-2">
           {loadingCurrent ? (
             <CurrentFlightBoxLoader />
           ) : currentFlight ? (
@@ -57,13 +56,35 @@ export default function PilotDashboardRoute() {
           ) : (
             <NoCurrentFlightBox />
           )}
-          <CurrentRotationBox />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
+            {loadingAll ? (
+              <NextScheduledFlightBoxLoader />
+            ) : (
+              <NextScheduledFlightBox flight={nextFlight} isCurrentFlight={currentFlight !== null} />
+            )}
+          </div>
         </div>
         <div className="flex flex-col gap-4">
+          {loadingTravels ? (
+            <CurrentLocationBoxLoader />
+          ) : (
+            <CurrentLocationBox
+              currentLocation={currentLocation}
+              latestTravel={latestTravel}
+              flightNumber={travelFlightNumber}
+              onTravelCreated={refreshTravels}
+            />
+          )}
           <PilotStatsBox />
-          {isDebug && <DebugFlightListBox flights={flights} />}
+          <CurrentRotationBox />
         </div>
       </div>
+      {isDebug && (
+        <div className="pt-4">
+          <DebugFlightListBox flights={flights} />
+        </div>
+      )}
     </>
   );
 }

@@ -6,7 +6,6 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type CreateOperatorFormData,
@@ -19,10 +18,6 @@ import { useApi } from "~/state/api/context/useApi";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createOperatorSchema } from "~/validator/form/operator.schema";
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: () => [{ label: "Operators", to: "/operators" }, { label: "New operator" }],
-};
 
 export default function CreateOperatorRoute() {
   usePageTitle("Create new operator");

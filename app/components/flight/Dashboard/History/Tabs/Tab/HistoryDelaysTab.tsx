@@ -35,11 +35,7 @@ export function HistoryDelaysTab({ flightId }: Props) {
   return (
     <div className="mt-4 flex flex-col gap-4">
       <Container padding="condensed">
-        <ContainerTitle
-          icon={FaClock}
-          title="Delay allocation"
-          description="Final departure delay allocation for this flight."
-        />
+        <ContainerTitle icon={FaClock} title="Delay allocation" />
 
         {loading ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">Loading…</p>

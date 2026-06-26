@@ -26,11 +26,7 @@ export default function FlightDelaysRoute() {
   return (
     <div className="mt-4 flex flex-col gap-4">
       <Container padding="condensed">
-        <ContainerTitle
-          icon={FaRegClock}
-          title="Delays"
-          description="Review coded delay reports filed by the crew. Accept them or send them back to be amended."
-        />
+        <ContainerTitle icon={FaRegClock} title="Delays" />
 
         {delayRequest ? (
           <DelaySummary delayRequest={delayRequest} onAccept={handleAccept} onReject={setReportToReject} />

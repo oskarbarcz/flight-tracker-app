@@ -2,8 +2,7 @@ import React from "react";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import { Sidebar, SidebarDrawerProvider, SidebarMobileTrigger } from "~/components/shared/Sidebar/Sidebar";
-import { BreadcrumbsHeader } from "~/components/shared/TopBar/BreadcrumbsHeader";
-import { TopBar } from "~/components/shared/TopBar/TopBar";
+import { TopBarLogo } from "~/components/shared/TopBar/TopBarLogo";
 import { AuthGuard } from "~/routes/auth/AuthGuard";
 import { DataRefreshProvider } from "~/state/app/context/useDataRefresh";
 
@@ -12,20 +11,16 @@ export default function AppLayout() {
     <AuthGuard>
       <DataRefreshProvider>
         <SidebarDrawerProvider>
-          <div className="h-screen flex flex-col overflow-hidden dark:bg-gray-900">
-            <div className="shrink-0">
-              <TopBar mobileMenuTrigger={<SidebarMobileTrigger />} />
+          <div className="h-screen flex flex-col overflow-hidden dark:bg-gray-950">
+            <div className="md:hidden shrink-0 flex items-center gap-3 border-b border-gray-200 bg-white px-3 py-2.5 dark:border-gray-800 dark:bg-gray-900">
+              <SidebarMobileTrigger />
+              <TopBarLogo />
             </div>
             <div className="flex-1 flex flex-col md:flex-row min-h-0">
               <Sidebar />
-              <main className="flex-1 flex flex-col px-3 pb-3 md:px-5 md:pb-5 min-h-0">
-                <div className="flex-1 flex flex-col min-h-0 w-full bg-white dark:bg-gray-950 rounded-2xl overflow-hidden">
-                  <div className="shrink-0">
-                    <BreadcrumbsHeader />
-                  </div>
-                  <div className="flex-1 overflow-y-auto p-4 md:p-6">
-                    <Outlet />
-                  </div>
+              <main className="flex-1 min-h-0 min-w-0 overflow-y-auto">
+                <div className="mx-auto w-full max-w-7xl p-4 md:p-6">
+                  <Outlet />
                 </div>
               </main>
             </div>

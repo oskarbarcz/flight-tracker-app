@@ -39,7 +39,7 @@ const TONE: Record<Tone, { ring: string; iconBg: string; iconFg: string; value: 
     ring: "ring-amber-100 dark:ring-amber-900/50",
     iconBg: "bg-amber-100 dark:bg-amber-950",
     iconFg: "text-amber-500",
-    value: "text-amber-600 dark:text-amber-300",
+    value: "text-amber-600 dark:text-amber-400",
   },
   gray: {
     ring: "ring-gray-100 dark:ring-gray-800",

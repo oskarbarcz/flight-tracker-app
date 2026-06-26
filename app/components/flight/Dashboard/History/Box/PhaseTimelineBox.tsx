@@ -141,7 +141,7 @@ function PhaseCallout({
       {hasDelta && (
         <div
           className={`mt-1 text-[11px] leading-tight ${
-            delta > 0 ? "text-amber-600 dark:text-amber-300" : "text-emerald-600 dark:text-emerald-300"
+            delta > 0 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-300"
           }`}
         >
           {describeDelta(delta, baselineLabel)}
@@ -181,7 +181,7 @@ function DurationRow({
       {hasDelta && (
         <div
           className={`mt-2 text-[11px] ${
-            delta > 0 ? "text-amber-600 dark:text-amber-300" : "text-emerald-600 dark:text-emerald-300"
+            delta > 0 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-300"
           }`}
         >
           {describeDelta(delta, baselineLabel)}

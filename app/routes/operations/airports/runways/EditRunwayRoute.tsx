@@ -8,15 +8,8 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import {
-  type Airport,
-  type CreateRunwayFormData,
-  lightingTypeOptions,
-  type Runway,
-  surfaceTypeOptions,
-} from "~/models";
+import { type CreateRunwayFormData, lightingTypeOptions, surfaceTypeOptions } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { RunwayService } from "~/state/api/runway.service";
@@ -32,26 +25,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   ]);
   return { airport, runway };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { airport, runway } = data as { airport: Airport; runway: Runway };
-    return [
-      { label: "Airports", to: "/airports" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{airport.iataCode}</span> · {airport.name}
-          </>
-        ),
-        to: `/airports/${airport.id}/overview`,
-      },
-      { label: "Runways", to: `/airports/${airport.id}/runways` },
-      { label: <span className="font-mono">{runway.designator}</span> },
-      { label: "Edit" },
-    ];
-  },
-};
 
 export default function EditRunwayRoute({ params, loaderData }: Route.ComponentProps) {
   const { airport, runway } = loaderData;

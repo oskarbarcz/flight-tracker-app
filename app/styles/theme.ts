@@ -24,6 +24,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       },
     },
     tabs: {
+      tabpanel: "py-1",
       tablist: {
         base: "flex flex-nowrap overflow-x-auto text-center",
         variant: {
@@ -47,7 +48,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       head: {
         base: "border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200",
         cell: {
-          base: "bg-gray-50 dark:bg-gray-800",
+          base: "bg-gray-50 dark:bg-gray-800/50",
         },
       },
       row: {
@@ -60,6 +61,31 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     buttonGroup: {
       base: "shadow-none",
     },
+    card: {
+      root: {
+        base: "flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04),0_6px_16px_-8px_rgb(15_23_42/0.12)] dark:border-gray-800 dark:bg-gray-900 dark:shadow-none",
+        children: "flex flex-col gap-4 p-5",
+      },
+    },
+    badge: {
+      root: {
+        base: "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-bold uppercase tracking-wide",
+        color: {
+          success: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
+          warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",
+          info: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
+          gray: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
+          indigo: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
+        },
+        size: {
+          xs: "text-[11px]",
+          sm: "text-xs",
+        },
+      },
+      icon: {
+        off: "",
+      },
+    },
     button: {
       base: "cursor-pointer transition-colors duration-200",
       color: {
@@ -70,6 +96,8 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
           "bg-gray-200 hover:bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 hover:text-gray-900 dark:text-gray-300 border-0",
         light:
           "bg-gray-100 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 hover:text-gray-900 dark:text-gray-300 border-0",
+        subtle:
+          "bg-transparent hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:bg-indigo-950 border-0 focus:ring-indigo-200 dark:focus:ring-indigo-800",
       },
       outlineColor: {
         indigo:

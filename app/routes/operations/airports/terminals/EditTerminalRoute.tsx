@@ -8,9 +8,8 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { PolygonShapePicker } from "~/components/shared/Form/MapPicker/PolygonShapePicker";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import type { Airport, CreateTerminalFormData, Terminal } from "~/models";
+import type { CreateTerminalFormData } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { TerminalService } from "~/state/api/terminal.service";
@@ -26,26 +25,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   ]);
   return { airport, terminal };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { airport, terminal } = data as { airport: Airport; terminal: Terminal };
-    return [
-      { label: "Airports", to: "/airports" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{airport.iataCode}</span> · {airport.name}
-          </>
-        ),
-        to: `/airports/${airport.id}/overview`,
-      },
-      { label: "Terminals", to: `/airports/${airport.id}/terminals` },
-      { label: <span className="font-mono">{terminal.shortName}</span> },
-      { label: "Edit" },
-    ];
-  },
-};
 
 export default function EditTerminalRoute({ params, loaderData }: Route.ComponentProps) {
   const { airport, terminal } = loaderData;

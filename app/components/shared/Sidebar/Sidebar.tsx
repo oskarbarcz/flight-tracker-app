@@ -4,6 +4,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { CabinCrewSidebarItems } from "~/components/shared/Sidebar/Items/CabinCrewSidebarItems";
 import { OperatorSidebarItems } from "~/components/shared/Sidebar/Items/OperationsSidebarItems";
 import { TopBarLogo } from "~/components/shared/TopBar/TopBarLogo";
+import { TopBarUserTile } from "~/components/shared/TopBar/TopBarUserTile";
 import { UserRole } from "~/models";
 import { useAuth } from "~/state/api/context/useAuth";
 
@@ -82,8 +83,8 @@ export function Sidebar() {
 
   return (
     <>
-      <Drawer open={isOpen} onClose={close} className="bg-gray-100 dark:bg-gray-900 w-80">
-        <DrawerItems className="flex flex-col h-full overflow-y-auto">
+      <Drawer open={isOpen} onClose={close} className="bg-white dark:bg-gray-900 w-80">
+        <DrawerItems className="flex h-full flex-col">
           <div className="flex items-center justify-between px-3 py-3 mb-2">
             <TopBarLogo />
             <button
@@ -95,14 +96,23 @@ export function Sidebar() {
               <HiX size={20} />
             </button>
           </div>
-          <div role="presentation" onClickCapture={close} className="px-3">
+          <div role="presentation" onClickCapture={close} className="min-h-0 flex-1 overflow-y-auto px-3">
             {navItems}
+          </div>
+          <div className="mt-2 border-t border-gray-200 px-3 pt-3 dark:border-gray-800">
+            <TopBarUserTile />
           </div>
         </DrawerItems>
       </Drawer>
 
-      <aside className="hidden md:flex w-60 flex-col text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-900 pl-3 pb-3 md:pl-5 md:pb-5 overflow-y-auto">
-        {navItems}
+      <aside className="hidden md:flex h-full w-60 shrink-0 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-e border-gray-200 dark:border-gray-800 px-3 py-4 md:px-4">
+        <div className="mb-4 px-2">
+          <TopBarLogo />
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto">{navItems}</div>
+        <div className="mt-3 border-t border-gray-200 pt-3 dark:border-gray-800">
+          <TopBarUserTile />
+        </div>
       </aside>
     </>
   );

@@ -33,7 +33,6 @@ export function FlightDelaysTab() {
         <ContainerTitle
           icon={FaClock}
           title="Delay allocation"
-          description="Allocate the departure delay across coded reasons. Operations review each report."
           actions={
             delayRequest ? (
               <Button color="blue" onClick={() => setFiling(true)} disabled={!canFile}>

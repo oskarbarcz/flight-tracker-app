@@ -7,10 +7,9 @@ import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
-import type { Airframe, Operator } from "~/models";
+import type { Airframe } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { AirframeService } from "~/state/api/airframe.service";
 import { OperatorService } from "~/state/api/operator.service";
@@ -26,24 +25,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   ]);
   return { operator, airframes };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { operator } = data as { operator: Operator };
-    return [
-      { label: "Operators", to: "/operators" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{operator.iataCode}</span> · {operator.shortName}
-          </>
-        ),
-        to: `/operators/${operator.id}/fleet`,
-      },
-      { label: "New aircraft" },
-    ];
-  },
-};
 
 export async function clientAction({ params, request }: Route.ClientActionArgs) {
   const aircraftService = new AircraftService();

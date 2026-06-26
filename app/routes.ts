@@ -13,6 +13,7 @@ export default [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
       route("flight-history", "routes/pilot/history/FlightHistoryListRoute.tsx"),
       route("flight-history/:id", "routes/pilot/history/FlightHistoryRoute.tsx"),
+      route("travels", "routes/pilot/travels/TravelLogRoute.tsx"),
     ]),
     layout("routes/operations/OperationsLayout.tsx", [
       // operations - operators

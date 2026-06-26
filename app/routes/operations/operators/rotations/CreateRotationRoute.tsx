@@ -7,10 +7,8 @@ import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseI
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import getFormData from "~/functions/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
-import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
 import type { CreateRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
@@ -22,24 +20,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const operator = await new OperatorService().fetchById(params.operatorId);
   return { operator };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: (data) => {
-    const { operator } = data as { operator: Operator };
-    return [
-      { label: "Operators", to: "/operators" },
-      {
-        label: (
-          <>
-            <span className="font-mono">{operator.iataCode}</span> · {operator.shortName}
-          </>
-        ),
-        to: `/operators/${operator.id}/rotations`,
-      },
-      { label: "New rotation" },
-    ];
-  },
-};
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
   const rotationService = new RotationService();

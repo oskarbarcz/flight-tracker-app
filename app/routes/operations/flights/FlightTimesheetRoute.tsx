@@ -47,7 +47,6 @@ export default function FlightTimesheetRoute() {
       <div className="flex flex-col gap-3">
         <TimesheetCard
           title="Scheduled timesheet"
-          subtitle="Filled by OCC and submitted to air navigation services."
           schedule={flight.timesheet.scheduled}
           emptyMessage="No scheduled timesheet has been filed."
           footer={
@@ -61,13 +60,11 @@ export default function FlightTimesheetRoute() {
         />
         <TimesheetCard
           title="Estimated timesheet"
-          subtitle="Entered by the pilot once the operational flight plan is finalised."
           schedule={flight.timesheet.estimated}
           emptyMessage="Waiting for the pilot to check in."
         />
         <TimesheetCard
           title="Actual timesheet"
-          subtitle="Recorded automatically as flight events are reported."
           schedule={flight.timesheet.actual}
           emptyMessage="Times will appear here as the flight progresses."
         />

@@ -31,22 +31,14 @@ export function PlanFlightOptions() {
   return (
     <div className="mb-4 grid gap-4 lg:grid-cols-2">
       <Container>
-        <ContainerTitle
-          icon={FaFileImport}
-          title="Import from SimBrief"
-          description="Pull your latest SimBrief OFP to pre-fill the route, schedule and aircraft. You can review everything before the plan goes live."
-        />
+        <ContainerTitle icon={FaFileImport} title="Import from SimBrief" />
         <Button className="mt-auto w-full sm:w-fit" color="indigo" onClick={handleImport} disabled={importing}>
           <FaFileImport className="mr-2 h-5 w-5" />
           Import from SimBrief
         </Button>
       </Container>
       <Container>
-        <ContainerTitle
-          icon={HiPlus}
-          title="Create manually"
-          description="Enter the flight number, schedule, route and aircraft by hand — best when you're not starting from a SimBrief plan."
-        />
+        <ContainerTitle icon={HiPlus} title="Create manually" />
         <Button
           as={Link}
           to="/flights/new"

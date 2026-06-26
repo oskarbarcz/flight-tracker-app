@@ -9,20 +9,18 @@ import type { Schedule } from "~/models";
 
 type Props = {
   title: string;
-  subtitle?: string;
   schedule?: Schedule;
   emptyMessage: string;
   badge?: string;
   footer?: React.ReactNode;
 };
 
-export function TimesheetCard({ title, subtitle, schedule, emptyMessage, badge, footer }: Props) {
+export function TimesheetCard({ title, schedule, emptyMessage, badge, footer }: Props) {
   return (
     <Container>
       <ContainerTitle
         icon={FaClock}
         title={title}
-        description={subtitle}
         actions={
           badge && (
             <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">

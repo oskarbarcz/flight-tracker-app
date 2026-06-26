@@ -13,6 +13,7 @@ import { RotationService } from "~/state/api/rotation.service";
 import { RunwayService } from "~/state/api/runway.service";
 import { SkyLinkService } from "~/state/api/skylink.service";
 import { TerminalService } from "~/state/api/terminal.service";
+import { TravelService } from "~/state/api/travel.service";
 import { UserService } from "~/state/api/user.service";
 
 type ApiServices = {
@@ -28,6 +29,7 @@ type ApiServices = {
   emergencyService: EmergencyService;
   diversionService: DiversionService;
   delayService: DelayService;
+  travelService: TravelService;
   userService: UserService;
   skyLinkService: SkyLinkService;
   authService: AuthService;
@@ -54,6 +56,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       emergencyService: new EmergencyService(),
       diversionService: new DiversionService(),
       delayService: new DelayService(),
+      travelService: new TravelService(),
       userService: new UserService(),
       skyLinkService: new SkyLinkService(),
       authService: new AuthService(),

@@ -1,3 +1,4 @@
+import { FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome } from "react-icons/hi";
 import { useLocation } from "react-router";
@@ -14,6 +15,12 @@ export function CabinCrewSidebarItems() {
         href="/flight-history"
         isSelected={path.startsWith("/flight-history")}
         icon={GrDocumentTime}
+      />
+      <SidebarElement
+        label="Travel log"
+        href="/travels"
+        isSelected={path.startsWith("/travels")}
+        icon={FaMapLocationDot}
       />
     </nav>
   );

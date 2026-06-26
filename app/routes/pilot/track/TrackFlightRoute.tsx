@@ -2,7 +2,6 @@ import type { Route } from ".react-router/types/app/routes/pilot/track/+types/Tr
 import React from "react";
 import { redirect } from "react-router";
 import { FlightTrackingDashboard } from "~/components/flight/Dashboard/Tracking/FlightTrackingDashboard";
-import type { TopNavRouteHandle } from "~/components/shared/TopNav/types";
 import { FlightStatus } from "~/models";
 import { TrackedFlightProvider } from "~/state/api/context/useTrackedFlight";
 import { FlightService } from "~/state/api/flight.service";
@@ -15,10 +14,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   }
   return { flight };
 }
-
-export const handle: TopNavRouteHandle = {
-  breadcrumbs: () => [{ label: "Dashboard", to: "/dashboard" }, { label: <span className="font-mono">Tracking</span> }],
-};
 
 export default function TrackFlightRoute({ params }: Route.ClientLoaderArgs) {
   usePageTitle("Tracking");

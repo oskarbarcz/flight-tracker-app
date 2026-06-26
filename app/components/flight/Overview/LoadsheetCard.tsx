@@ -80,7 +80,7 @@ function StatBlock({ label, value, unit }: { label: string; value: string; unit?
 function EmptyState({ message, severity }: { message: string; severity: "info" | "warning" }) {
   if (severity === "warning") {
     return (
-      <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+      <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300">
         <HiExclamationTriangle className="size-5 shrink-0 text-amber-500" />
         <span>{message}</span>
       </div>

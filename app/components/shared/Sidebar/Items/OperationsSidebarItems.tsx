@@ -37,7 +37,7 @@ export function OperatorSidebarItems() {
   return (
     <nav className="flex flex-col gap-y-1">
       <SidebarElement
-        label="Plan a flight"
+        label="Plan new flight"
         href="/flights"
         isSelected={path.startsWith("/flights")}
         icon={GrDocumentTime}
