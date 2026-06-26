@@ -5,12 +5,11 @@ import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { type AircraftStatusView, deriveAircraftStatus } from "~/functions/aircraftStatus";
 import { formatDate } from "~/functions/time";
-import type { Aircraft, Coordinates, FlightHistoryEntry } from "~/models";
+import type { Aircraft, FlightHistoryEntry } from "~/models";
 
 type Props = {
   aircraft: Aircraft;
   history: FlightHistoryEntry[];
-  mapPoint: Coordinates | null;
 };
 
 type TimelineStep = {
@@ -100,16 +99,14 @@ function Timeline({ steps }: { steps: TimelineStep[] }) {
 function ParkedView({
   aircraft,
   status,
-  mapPoint,
 }: {
   aircraft: Aircraft;
   status: Extract<AircraftStatusView, { kind: "parked" }>;
-  mapPoint: Coordinates | null;
 }) {
   const { since, flight } = status;
   const airport = aircraft.lastAirport;
   const gate = aircraft.lastGate;
-  const point = mapPoint ?? airport?.location ?? null;
+  const point = gate?.coordinates ?? airport?.location ?? null;
 
   const steps: TimelineStep[] = [];
 
@@ -193,14 +190,14 @@ function FlightView({
   );
 }
 
-export function AircraftCurrentStatusCard({ aircraft, history, mapPoint }: Props) {
+export function AircraftCurrentStatusCard({ aircraft, history }: Props) {
   const status = deriveAircraftStatus(aircraft, history);
 
   return (
     <Container>
       <ContainerTitle icon={HiOutlineLocationMarker} title="Current location" />
 
-      {status.kind === "parked" && <ParkedView aircraft={aircraft} status={status} mapPoint={mapPoint} />}
+      {status.kind === "parked" && <ParkedView aircraft={aircraft} status={status} />}
 
       {status.kind === "cruise" && (
         <FlightView
@@ -210,16 +207,26 @@ export function AircraftCurrentStatusCard({ aircraft, history, mapPoint }: Props
           planeAt="58%"
           steps={[
             {
-              key: "departed",
-              when: formatIso(status.flight.actualTimesheet?.takeoffTime ?? status.flight.actualTimesheet?.offBlockTime)
-                ? `Departed ${formatIso(status.flight.actualTimesheet?.takeoffTime ?? status.flight.actualTimesheet?.offBlockTime)}`
-                : "Departed",
+              key: "parked",
+              when: aircraft.lastAirportUpdatedAt
+                ? `Parked ${formatDate(new Date(aircraft.lastAirportUpdatedAt))}`
+                : "Was parked",
               title: (
                 <>
-                  Off from <span className="font-mono">{status.flight.departureAirport.iataCode}</span>
+                  Was parked at <span className="font-mono">{status.flight.departureAirport.iataCode}</span>
                 </>
               ),
-              sub: status.flight.departureAirport.name,
+              sub: (
+                <>
+                  {aircraft.lastGate && (
+                    <>
+                      Gate{" "}
+                      <span className="font-semibold text-gray-700 dark:text-gray-300">{aircraft.lastGate.name}</span> ·{" "}
+                    </>
+                  )}
+                  {status.flight.departureAirport.name}
+                </>
+              ),
             },
             {
               key: "now",
@@ -227,7 +234,19 @@ export function AircraftCurrentStatusCard({ aircraft, history, mapPoint }: Props
               when: "Now · in cruise",
               title: (
                 <>
-                  En route to <span className="font-mono">{status.flight.arrivalAirport.iataCode}</span>
+                  In cruise on <span className="font-mono">{status.flight.flightNumber}</span>
+                </>
+              ),
+              sub: formatIso(status.flight.actualTimesheet?.offBlockTime)
+                ? `Departed ${formatIso(status.flight.actualTimesheet?.offBlockTime)}`
+                : undefined,
+            },
+            {
+              key: "arrival",
+              when: "Planned arrival",
+              title: (
+                <>
+                  Arriving at <span className="font-mono">{status.flight.arrivalAirport.iataCode}</span>
                 </>
               ),
               sub: status.flight.arrivalAirport.name,

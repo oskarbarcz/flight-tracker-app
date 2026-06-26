@@ -1,6 +1,7 @@
 import { Pagination, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React, { useState } from "react";
 import { HiOutlineClock } from "react-icons/hi";
+import { Link } from "react-router";
 import { FlightStatusBadge } from "~/components/shared/Flight/FlightStatusBadge";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
@@ -38,15 +39,39 @@ function buildTimeline(history: FlightHistoryEntry[], repositions: AircraftRepos
   return [...flights, ...deadHeads].sort((a, b) => sortKey(b) - sortKey(a));
 }
 
+function AirportLink({ id, code, className }: { id: string; code: string; className?: string }) {
+  return (
+    <Link to={`/airports/${id}/overview`} viewTransition className={`hover:text-primary-500 ${className ?? ""}`}>
+      {code}
+    </Link>
+  );
+}
+
 function FlightRow({ flight }: { flight: FlightHistoryEntry }) {
   return (
     <TableRow className="h-14">
-      <TableCell className="font-mono font-bold text-gray-900 dark:text-gray-100">{flight.flightNumber}</TableCell>
+      <TableCell className="font-mono font-bold text-gray-900 dark:text-gray-100">
+        {flight.id ? (
+          <Link to={`/flights/${flight.id}/overview`} viewTransition className="hover:text-primary-500">
+            {flight.flightNumber}
+          </Link>
+        ) : (
+          flight.flightNumber
+        )}
+      </TableCell>
       <TableCell>
         <div className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
-          <span className="font-mono font-bold">{flight.departureAirport.iataCode}</span>
+          <AirportLink
+            id={flight.departureAirport.id}
+            code={flight.departureAirport.iataCode}
+            className="font-mono font-bold"
+          />
           <span className="text-gray-400">→</span>
-          <span className="font-mono font-bold">{flight.arrivalAirport.iataCode}</span>
+          <AirportLink
+            id={flight.arrivalAirport.id}
+            code={flight.arrivalAirport.iataCode}
+            className="font-mono font-bold"
+          />
         </div>
       </TableCell>
       <TableCell>
@@ -61,9 +86,19 @@ function RepositionRow({ reposition }: { reposition: AircraftReposition }) {
   return (
     <TableRow className="h-14">
       <TableCell colSpan={4} className="text-center text-xs italic text-gray-400 dark:text-gray-500">
-        (reposition flight <span className="font-bold">{reposition.departureAirport.iataCode}</span> →{" "}
-        <span className="font-bold">{reposition.destinationAirport.iataCode}</span> on{" "}
-        <span className="font-mono font-bold not-italic">{formatDate(new Date(reposition.createdAt))}z</span>)
+        (reposition flight{" "}
+        <AirportLink
+          id={reposition.departureAirport.id}
+          code={reposition.departureAirport.iataCode}
+          className="font-bold"
+        />{" "}
+        →{" "}
+        <AirportLink
+          id={reposition.destinationAirport.id}
+          code={reposition.destinationAirport.iataCode}
+          className="font-bold"
+        />{" "}
+        on <span className="font-mono font-bold not-italic">{formatDate(new Date(reposition.createdAt))}z</span>)
       </TableCell>
     </TableRow>
   );

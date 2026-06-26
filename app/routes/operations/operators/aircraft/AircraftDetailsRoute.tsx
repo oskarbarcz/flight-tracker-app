@@ -7,9 +7,7 @@ import { AircraftDetailsHeader } from "~/components/operator/AircraftDetails/Air
 import { AircraftFlightHistoryCard } from "~/components/operator/AircraftDetails/AircraftFlightHistoryCard";
 import { AircraftTechnicalStatusCard } from "~/components/operator/AircraftDetails/AircraftTechnicalStatusCard";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { type Aircraft, AircraftState, type Coordinates } from "~/models";
 import { AircraftService } from "~/state/api/aircraft.service";
-import { GateService } from "~/state/api/gate.service";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -21,24 +19,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     aircraftService.fetchRepositionHistory(params.operatorId, params.aircraftId),
   ]);
 
-  const mapPoint = aircraft.currentState === AircraftState.Idle ? await resolveMapPoint(aircraft) : null;
-
-  return { aircraft, history, repositions, mapPoint };
-}
-
-async function resolveMapPoint(aircraft: Aircraft): Promise<Coordinates | null> {
-  const { lastAirport, lastGate } = aircraft;
-
-  if (lastGate && lastAirport) {
-    const gate = await new GateService().fetchById(lastAirport.id, lastGate.id).catch(() => null);
-    if (gate?.coordinates) return gate.coordinates;
-  }
-
-  return lastAirport?.location ?? null;
+  return { aircraft, history, repositions };
 }
 
 export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
-  const { aircraft, history, repositions, mapPoint } = useLoaderData<typeof clientLoader>();
+  const { aircraft, history, repositions } = useLoaderData<typeof clientLoader>();
 
   usePageTitle(`Aircraft ${aircraft.registration}`);
 
@@ -57,7 +42,7 @@ export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
         </div>
         <div className="flex flex-col gap-3">
           <AircraftBaseAirportCard baseAirport={aircraft.baseAirport} />
-          <AircraftCurrentStatusCard aircraft={aircraft} history={history} mapPoint={mapPoint} />
+          <AircraftCurrentStatusCard aircraft={aircraft} history={history} />
           <AircraftTechnicalStatusCard />
         </div>
       </div>

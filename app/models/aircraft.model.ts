@@ -15,12 +15,13 @@ export type AircraftAirport = {
   name: string;
   city: string;
   country: string;
-  location?: Coordinates;
+  location: Coordinates;
 };
 
 export type AircraftGate = {
   id: string;
   name: string;
+  coordinates: Coordinates | null;
 };
 
 export type Aircraft = {
@@ -50,6 +51,7 @@ export type FlightHistoryTimesheet = {
 };
 
 export type FlightHistoryEntry = {
+  id?: string;
   flightNumber: string;
   status: FlightStatus;
   departureAirport: FlightHistoryAirport;
