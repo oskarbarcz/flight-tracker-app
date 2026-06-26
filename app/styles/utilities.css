@@ -89,3 +89,18 @@
 .leaflet-tooltip.gate-label::before {
   display: none;
 }
+
+.location-map {
+  background: radial-gradient(120% 120% at 70% 20%, #eef2ff 0%, #e7ecff 40%, #dfe6ff 100%);
+}
+.dark .location-map {
+  background: radial-gradient(120% 120% at 70% 20%, #312e81 0%, #1e293b 55%, #0f172a 100%);
+}
+.location-map__grid {
+  background-image:
+    linear-gradient(to right, rgb(99 102 241 / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(99 102 241 / 0.12) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(120% 100% at 38% 62%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(120% 100% at 38% 62%, #000 30%, transparent 78%);
+}

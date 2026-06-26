@@ -25,6 +25,10 @@ export default [
       ]),
       route("operators/:operatorId/aircraft/add", "routes/operations/operators/aircraft/CreateAircraftRoute.tsx"),
       route(
+        "operators/:operatorId/aircraft/:aircraftId",
+        "routes/operations/operators/aircraft/AircraftDetailsRoute.tsx",
+      ),
+      route(
         "operators/:operatorId/aircraft/:aircraftId/edit",
         "routes/operations/operators/aircraft/EditAircraftRoute.tsx",
       ),

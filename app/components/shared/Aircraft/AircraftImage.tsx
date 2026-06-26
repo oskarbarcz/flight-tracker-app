@@ -1,16 +1,32 @@
 import React from "react";
 
-const avifImages = import.meta.glob("../../../assets/aircraft/*/*-600x338.avif", {
+const cardAvif = import.meta.glob("../../../assets/aircraft/*/*-600x338.avif", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const webpImages = import.meta.glob("../../../assets/aircraft/*/*-600x338.webp", {
+const cardWebp = import.meta.glob("../../../assets/aircraft/*/*-600x338.webp", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const pngImages = import.meta.glob("../../../assets/aircraft/*/*-600x338.png", {
+const cardPng = import.meta.glob("../../../assets/aircraft/*/*-600x338.png", {
+  eager: true,
+  import: "default",
+  query: "?url",
+});
+
+const heroAvif = import.meta.glob("../../../assets/aircraft/*/*-1200x675.avif", {
+  eager: true,
+  import: "default",
+  query: "?url",
+});
+const heroWebp = import.meta.glob("../../../assets/aircraft/*/*-1200x675.webp", {
+  eager: true,
+  import: "default",
+  query: "?url",
+});
+const heroPng = import.meta.glob("../../../assets/aircraft/*/*-1200x675.png", {
   eager: true,
   import: "default",
   query: "?url",
@@ -25,33 +41,46 @@ function indexByType(modules: Record<string, unknown>): Record<string, string> {
   return byType;
 }
 
-const avifByType = indexByType(avifImages);
-const webpByType = indexByType(webpImages);
-const pngByType = indexByType(pngImages);
+const sources = {
+  card: {
+    avif: indexByType(cardAvif),
+    webp: indexByType(cardWebp),
+    png: indexByType(cardPng),
+  },
+  hero: {
+    avif: indexByType(heroAvif),
+    webp: indexByType(heroWebp),
+    png: indexByType(heroPng),
+  },
+};
 
 type Props = {
   type: string;
   name?: string;
   className?: string;
+  size?: "card" | "hero";
 };
 
 function merge(...classes: (string | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-export function AircraftImage({ type, name, className }: Props) {
+export function AircraftImage({ type, name, className, size = "card" }: Props) {
   const code = type.toLowerCase();
-  const png = pngByType[code];
+  const { avif, webp, png } = sources[size];
+  const fallback = png[code];
 
-  if (!png) {
+  if (!fallback) {
     return null;
   }
 
+  const objectFit = size === "hero" ? "object-contain" : "object-cover";
+
   return (
     <picture>
-      {avifByType[code] && <source srcSet={avifByType[code]} type="image/avif" />}
-      {webpByType[code] && <source srcSet={webpByType[code]} type="image/webp" />}
-      <img src={png} alt={name ?? type} className={merge("w-full object-cover", className)} />
+      {avif[code] && <source srcSet={avif[code]} type="image/avif" />}
+      {webp[code] && <source srcSet={webp[code]} type="image/webp" />}
+      <img src={fallback} alt={name ?? type} className={merge("w-full", objectFit, className)} />
     </picture>
   );
 }
