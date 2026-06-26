@@ -41,6 +41,10 @@ export function InitiateTravelModal({ close, onTravelCreated, currentAirportId }
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={close}>
       <ModalHeader>Initiate company travel</ModalHeader>
       <ModalBody>
+        <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
+          Initiate a company travel when your next flight departs from a different airport than the one where your last
+          flight ended. This repositions you to the new departure airport before you can plan from there.
+        </p>
         <Formik<InitiateTravelFormData>
           initialValues={initInitiateTravelData()}
           validationSchema={initiateTravelSchema}
