@@ -5,7 +5,7 @@ import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { toHuman } from "~/i18n/translate";
+import { FlightStatusBadge } from "~/components/shared/Flight/FlightStatusBadge";
 import type { Flight } from "~/models";
 
 type Props = {
@@ -19,10 +19,22 @@ export function FlightListElement({ flight }: Props) {
         {flight.flightNumberWithoutSpaces}
       </TableCell>
       <TableCell>
-        <div className="flex gap-1 items-center">
-          {flight.departureAirport.iataCode}
-          <FaArrowRight size="12" className="text-gray-800 dark:text-white" />
-          {flight.destinationAirport.iataCode}
+        <div className="flex items-center gap-2 font-mono text-lg font-bold text-gray-900 dark:text-white">
+          <Link
+            to={`/airports/${flight.departureAirport.id}/overview`}
+            viewTransition
+            className="hover:text-primary-500"
+          >
+            {flight.departureAirport.iataCode}
+          </Link>
+          <FaArrowRight size="14" className="text-gray-500" />
+          <Link
+            to={`/airports/${flight.destinationAirport.id}/overview`}
+            viewTransition
+            className="hover:text-primary-500"
+          >
+            {flight.destinationAirport.iataCode}
+          </Link>
         </div>
       </TableCell>
       <TableCell>
@@ -34,14 +46,18 @@ export function FlightListElement({ flight }: Props) {
         )}
       </TableCell>
       <TableCell>
-        <div className="mb-1 text-sm">{flight.aircraft.airframe.name}</div>
-        <span className="inline-flex min-w-16 justify-center rounded-md border border-gray-500 px-2 py-0.5 text-xs">
+        <Link
+          to={`/operators/${flight.operator.id}/aircraft/${flight.aircraft.id}`}
+          viewTransition
+          className="block font-mono text-lg font-bold text-gray-900 hover:text-primary-500 dark:text-white"
+        >
           {flight.aircraft.registration}
-        </span>
+        </Link>
+        <span className="block text-xs text-gray-500 dark:text-gray-400">{flight.aircraft.airframe.name}</span>
       </TableCell>
       <TableCell>
         <div className="flex flex-col items-start gap-1">
-          <span className="font-bold text-indigo-500">{toHuman.flight.status.standard(flight.status)}</span>
+          <FlightStatusBadge status={flight.status} size="sm" />
           {flight.hasActiveEmergency && (
             <span className="inline-flex items-center gap-1 rounded-md bg-red-600 px-2 py-0.5 text-xs font-bold uppercase tracking-widest text-white">
               <FaTriangleExclamation />

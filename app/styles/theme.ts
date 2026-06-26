@@ -71,11 +71,14 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       root: {
         base: "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-bold uppercase tracking-wide",
         color: {
-          success: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
-          warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",
-          info: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
-          gray: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
-          indigo: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
+          success:
+            "bg-green-100 text-green-700 hover:bg-green-100 dark:bg-green-900/40 dark:text-green-300 dark:hover:bg-green-900/40",
+          warning:
+            "bg-amber-100 text-amber-700 hover:bg-amber-100 dark:bg-amber-900/40 dark:text-amber-400 dark:hover:bg-amber-900/40",
+          info: "bg-sky-100 text-sky-700 hover:bg-sky-100 dark:bg-sky-900/40 dark:text-sky-300 dark:hover:bg-sky-900/40",
+          gray: "bg-gray-100 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-800",
+          indigo:
+            "bg-indigo-100 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300 dark:hover:bg-indigo-900/40",
         },
         size: {
           xs: "text-[11px]",

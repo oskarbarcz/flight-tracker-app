@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
-import { HiPencil } from "react-icons/hi";
+import { HiOutlineArrowRight } from "react-icons/hi";
 import { Link } from "react-router";
 import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
 import {
@@ -37,7 +37,13 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
               <div className="flex items-center gap-3">
                 <AircraftIcon type={each.airframe.type} name={each.airframe.name} />
                 <div>
-                  <span className="block font-mono text-lg font-bold">{each.registration}</span>
+                  <Link
+                    to={`/operators/${operatorId}/aircraft/${each.id}`}
+                    viewTransition
+                    className="block font-mono text-lg font-bold hover:text-primary-500"
+                  >
+                    {each.registration}
+                  </Link>
                   <span className="block text-xs text-gray-500 dark:text-gray-400">{each.airframe.name}</span>
                 </div>
               </div>
@@ -55,11 +61,11 @@ export function AircraftListTable({ operatorId, aircraft }: Props) {
             <TableCell>
               <Link
                 className="inline-flex items-center gap-1.5 text-primary-500 font-bold"
-                to={`/operators/${operatorId}/aircraft/${each.id}/edit`}
+                to={`/operators/${operatorId}/aircraft/${each.id}`}
                 viewTransition
               >
-                <HiPencil className="size-4" />
-                <span>Update details</span>
+                <span>View details</span>
+                <HiOutlineArrowRight className="size-4" />
               </Link>
             </TableCell>
           </TableRow>

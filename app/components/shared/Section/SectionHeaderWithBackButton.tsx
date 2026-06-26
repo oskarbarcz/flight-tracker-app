@@ -3,7 +3,7 @@ import { HiOutlineArrowLeft } from "react-icons/hi";
 import { Link } from "react-router";
 
 type Props = {
-  sectionTitle: string;
+  sectionTitle?: string;
   backUrl: string;
   backText: string;
 };
@@ -17,7 +17,7 @@ export function SectionHeaderWithBackButton({ sectionTitle, backUrl, backText }:
           {backText}
         </Button>
       </Link>
-      <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
+      {sectionTitle && <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>}
     </div>
   );
 }
