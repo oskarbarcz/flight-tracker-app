@@ -3,10 +3,10 @@ import { HiOutlineHome } from "react-icons/hi";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import type { Airport } from "~/models";
+import type { AircraftAirport } from "~/models";
 
 type Props = {
-  baseAirport: Airport | null;
+  baseAirport: AircraftAirport | null;
 };
 
 export function AircraftBaseAirportCard({ baseAirport }: Props) {

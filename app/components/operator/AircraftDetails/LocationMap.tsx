@@ -2,7 +2,6 @@ import L from "leaflet";
 import React from "react";
 import { MapContainer, Marker } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import type { Airport } from "~/models";
 
 export type MapTone = "parked" | "cruise" | "assigned" | "base";
 
@@ -34,14 +33,18 @@ const locationIcon = new L.DivIcon({
   iconAnchor: [7, 7],
 });
 
-export function LocationMap({ airport, pill }: { airport: Airport; pill?: React.ReactNode }) {
-  const center: [number, number] = [airport.location.latitude, airport.location.longitude];
+type Props = {
+  center: [number, number];
+  label: string;
+  pill?: React.ReactNode;
+};
 
+export function LocationMap({ center, label, pill }: Props) {
   return (
     <div className="relative h-[170px] overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
       <MapContainer
         center={center}
-        zoom={13}
+        zoom={14}
         className="z-0 h-full w-full"
         scrollWheelZoom={false}
         dragging={false}
@@ -54,7 +57,7 @@ export function LocationMap({ airport, pill }: { airport: Airport; pill?: React.
         <Marker position={center} icon={locationIcon} interactive={false} />
       </MapContainer>
       <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-gray-200 bg-white/95 px-2.5 py-1 font-mono text-sm font-bold text-gray-900 shadow-sm dark:border-gray-800 dark:bg-gray-900/95 dark:text-gray-100">
-        {airport.iataCode}
+        {label}
       </div>
       {pill && <div className="pointer-events-none absolute right-3 top-3 z-10">{pill}</div>}
     </div>

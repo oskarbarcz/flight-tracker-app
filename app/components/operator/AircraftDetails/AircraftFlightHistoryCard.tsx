@@ -25,13 +25,17 @@ function onBlockDate(entry: FlightHistoryEntry): string {
   return onBlockTime ? formatDate(new Date(onBlockTime)) : "—";
 }
 
+function sortKey(item: TimelineItem): number {
+  return item.time === 0 ? Number.MAX_SAFE_INTEGER : item.time;
+}
+
 function buildTimeline(history: FlightHistoryEntry[], repositions: AircraftReposition[]): TimelineItem[] {
   const flights: TimelineItem[] = history.map((flight) => ({ kind: "flight", time: entryTime(flight), flight }));
   const deadHeads: TimelineItem[] = repositions
     .filter((reposition) => reposition.type !== RepositionType.PerformingFlight)
     .map((reposition) => ({ kind: "reposition", time: new Date(reposition.createdAt).getTime(), reposition }));
 
-  return [...flights, ...deadHeads].sort((a, b) => b.time - a.time);
+  return [...flights, ...deadHeads].sort((a, b) => sortKey(b) - sortKey(a));
 }
 
 function FlightRow({ flight }: { flight: FlightHistoryEntry }) {

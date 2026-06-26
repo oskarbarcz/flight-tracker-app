@@ -5,12 +5,12 @@ import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { type AircraftStatusView, deriveAircraftStatus } from "~/functions/aircraftStatus";
 import { formatDate } from "~/functions/time";
-import type { Aircraft, Airport, FlightHistoryEntry } from "~/models";
+import type { Aircraft, Coordinates, FlightHistoryEntry } from "~/models";
 
 type Props = {
   aircraft: Aircraft;
   history: FlightHistoryEntry[];
-  locationAirport: Airport | null;
+  mapPoint: Coordinates | null;
 };
 
 type TimelineStep = {
@@ -98,14 +98,18 @@ function Timeline({ steps }: { steps: TimelineStep[] }) {
 }
 
 function ParkedView({
+  aircraft,
   status,
-  locationAirport,
+  mapPoint,
 }: {
+  aircraft: Aircraft;
   status: Extract<AircraftStatusView, { kind: "parked" }>;
-  locationAirport: Airport | null;
+  mapPoint: Coordinates | null;
 }) {
-  const { airport, since, flight } = status;
-  const airportName = locationAirport?.name ?? airport?.name ?? null;
+  const { since, flight } = status;
+  const airport = aircraft.lastAirport;
+  const gate = aircraft.lastGate;
+  const point = mapPoint ?? airport?.location ?? null;
 
   const steps: TimelineStep[] = [];
 
@@ -131,13 +135,28 @@ function ParkedView({
     key: "now",
     now: true,
     when: "Now",
-    title: airportName ? <>Parked at {airportName}</> : "Parked",
-    sub: locationAirport ? `${locationAirport.city}, ${locationAirport.country}` : undefined,
+    title: airport ? <>Parked at {airport.name}</> : "Parked",
+    sub: airport ? (
+      <>
+        {gate && (
+          <>
+            Gate <span className="font-semibold text-gray-700 dark:text-gray-300">{gate.name}</span> ·{" "}
+          </>
+        )}
+        {airport.city}, {airport.country}
+      </>
+    ) : undefined,
   });
 
   return (
     <>
-      {locationAirport && <LocationMap airport={locationAirport} pill={<MapPill label="Parked" tone="parked" />} />}
+      {point && airport && (
+        <LocationMap
+          center={[point.latitude, point.longitude]}
+          label={airport.iataCode}
+          pill={<MapPill label="Parked" tone="parked" />}
+        />
+      )}
       <Timeline steps={steps} />
     </>
   );
@@ -174,14 +193,14 @@ function FlightView({
   );
 }
 
-export function AircraftCurrentStatusCard({ aircraft, history, locationAirport }: Props) {
+export function AircraftCurrentStatusCard({ aircraft, history, mapPoint }: Props) {
   const status = deriveAircraftStatus(aircraft, history);
 
   return (
     <Container>
       <ContainerTitle icon={HiOutlineLocationMarker} title="Current location" />
 
-      {status.kind === "parked" && <ParkedView status={status} locationAirport={locationAirport} />}
+      {status.kind === "parked" && <ParkedView aircraft={aircraft} status={status} mapPoint={mapPoint} />}
 
       {status.kind === "cruise" && (
         <FlightView

@@ -1,5 +1,6 @@
 import type { Airframe } from "~/models/airframe.model";
 import type { FlightStatus } from "~/models/flight.model";
+import type { Coordinates } from "~/models/runway.model";
 
 export enum AircraftState {
   Idle = "idle",
@@ -8,6 +9,20 @@ export enum AircraftState {
   Cruise = "cruise",
 }
 
+export type AircraftAirport = {
+  id: string;
+  iataCode: string;
+  name: string;
+  city: string;
+  country: string;
+  location?: Coordinates;
+};
+
+export type AircraftGate = {
+  id: string;
+  name: string;
+};
+
 export type Aircraft = {
   id: string;
   airframe: Airframe;
@@ -15,9 +30,10 @@ export type Aircraft = {
   selcal: string;
   livery: string;
   currentState: AircraftState;
-  baseAirportId: string | null;
-  lastAirportId: string | null;
+  baseAirport: AircraftAirport | null;
+  lastAirport: AircraftAirport | null;
   lastAirportUpdatedAt: string | null;
+  lastGate: AircraftGate | null;
 };
 
 export type FlightHistoryAirport = {
