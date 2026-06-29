@@ -1,5 +1,5 @@
 import { Continent } from "~/models/airport.model";
-import { type Operator, OperatorType } from "~/models/operator.model";
+import { Alliance, type Operator, OperatorType } from "~/models/operator.model";
 import type { CreateOperatorRequest } from "~/state/api/request/operator.request";
 
 export type CreateOperatorFormData = {
@@ -31,6 +31,21 @@ export const operatorTypeOptions = [
   { label: "Low-cost", value: OperatorType.LowCost },
   { label: "Government / military", value: OperatorType.GovernmentMilitary },
 ];
+
+export const allianceOptions = [
+  { label: "Star Alliance", value: Alliance.StarAlliance },
+  { label: "SkyTeam", value: Alliance.SkyTeam },
+  { label: "Oneworld", value: Alliance.Oneworld },
+  { label: "Vanilla Alliance", value: Alliance.VanillaAlliance },
+];
+
+export function allianceLabel(alliance: Alliance | null | undefined): string | null {
+  return allianceOptions.find((option) => option.value === alliance)?.label ?? null;
+}
+
+export function continentLabel(continent: Continent): string {
+  return continentOptions.find((option) => option.value === continent)?.label ?? continent;
+}
 
 export function initCreateOperatorData(): CreateOperatorFormData {
   return {

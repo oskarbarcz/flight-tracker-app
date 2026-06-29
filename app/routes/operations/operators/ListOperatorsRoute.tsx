@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
-import { OperatorListTable } from "~/components/operator/Table/OperatorListTable";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
+import { OperatorList } from "~/components/operator/List/OperatorList";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import type { Operator } from "~/models";
 import { OperatorService } from "~/state/api/operator.service";
@@ -33,9 +32,7 @@ export default function ListOperatorsRoute() {
           color: "indigo",
         }}
       />
-      <TransparentContainer className="overflow-x-auto">
-        <OperatorListTable operators={operators} />
-      </TransparentContainer>
+      <OperatorList operators={operators} />
     </>
   );
 }

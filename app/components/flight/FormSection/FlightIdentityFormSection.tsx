@@ -1,10 +1,11 @@
 import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { FaIdCard } from "react-icons/fa6";
+import { AdvancedSelect, type AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
 import { FormSection } from "~/components/shared/Form/FormSection";
 import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import type { Aircraft, Operator } from "~/models";
+import { type Aircraft, allianceLabel, type Operator } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/state/api/context/useApi";
 import { newFlightIdentitySchema } from "~/validator/form/flight.schema";
@@ -16,10 +17,25 @@ type Props = {
   onSubmit: (data: FormData) => void;
 };
 
-function optionsFromOperators(operators: Operator[]) {
+function operatorSecondaryLine(operator: Operator): string {
+  const parts: string[] = [];
+  const alliance = allianceLabel(operator.alliance);
+  if (alliance) {
+    parts.push(alliance);
+  }
+  if (operator.hubs.length > 0) {
+    parts.push(`Hubs: ${operator.hubs.join(", ")}`);
+  }
+  return parts.length > 0 ? parts.join(" · ") : operator.fullName;
+}
+
+function operatorSelectOptions(operators: Operator[]): AdvancedSelectOption[] {
   return operators.map((operator) => ({
-    label: operator.shortName,
     value: operator.id,
+    keywords: [operator.iataCode, operator.icaoCode, operator.shortName],
+    avatar: operator.iataCode,
+    title: operator.shortName,
+    subtitle: operatorSecondaryLine(operator),
   }));
 }
 
@@ -96,12 +112,13 @@ export function FlightIdentityFormSection({ data, onSubmit }: Props) {
           disabled={!isEditable}
         />
 
-        <ManagedSelectBlock
+        <AdvancedSelect
           className="basis-[calc(50%-0.5rem)]"
           field="operatorId"
           label="Operator"
+          placeholder="Select operator"
           disabled={!isEditable}
-          options={optionsFromOperators(operators)}
+          options={operatorSelectOptions(operators)}
         />
         <AircraftSelectBlock disabled={!isEditable} />
       </div>

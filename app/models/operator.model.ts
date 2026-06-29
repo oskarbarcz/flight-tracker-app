@@ -7,6 +7,13 @@ export enum OperatorType {
   GovernmentMilitary = "government_military",
 }
 
+export enum Alliance {
+  StarAlliance = "star_alliance",
+  SkyTeam = "sky_team",
+  Oneworld = "oneworld",
+  VanillaAlliance = "vanilla_alliance",
+}
+
 export type Operator = {
   id: string;
   icaoCode: string;
@@ -22,4 +29,5 @@ export type Operator = {
   backgroundUrl: string | null;
   type: OperatorType;
   continent: Continent;
+  alliance?: Alliance | null;
 };
