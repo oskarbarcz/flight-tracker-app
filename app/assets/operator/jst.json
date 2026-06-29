@@ -1,0 +1,20 @@
+{
+  "row": 15,
+  "icaoCode": "JST",
+  "iataCode": "JQ",
+  "shortName": "Jetstar",
+  "fullName": "Jetstar Airways",
+  "callsign": "JETSTAR",
+  "avgFleetAge": "10",
+  "type": "low_cost",
+  "continent": "oceania",
+  "hubs": "MEL",
+  "logoUrl": "",
+  "backgroundUrl": "",
+  "prompt": "Use the provided base image as the exact, fixed template for a commercial aircraft tail fin on a pure white background. The base image defines the vertical stabilizer's silhouette, outline, shape, size, position, crop, framing, scale, proportions, perspective, and camera angle. You MUST preserve all of these from the base image with zero deviation: do not move, resize, rotate, reshape, stretch, skew, warp, re-crop, or otherwise distort the fin or its outline in any way. The fin geometry in the output must be pixel-for-pixel aligned with the base image. Keep the surrounding background pure white and identical to the base.\n\nYour only task is to paint the real-world livery of Jetstar onto the surface of this exact fin, as it appears on actual Jetstar aircraft: use the airline's authentic dominant tail color, its real secondary brand color only as a restrained accent, and render the airline's genuine logo and insignia accurately in its correct shape, colors, proportions, and placement, conformed to the fin's existing surface and angle - do it only, if the insignia or genuine logo is ACTUALLY present there. The airline name is \"Jetstar\" and may appear as subtle brand text if needed. The result must look polished, minimal, premium, and crisp-edged, consistent across the batch. No fuselage, no wings, no engines, no runway, no sky, no clouds, no people, no extra objects, no dramatic lighting, no heavy reflections, and no perspective distortion. The livery must stay strictly within the fin outline defined by the base image.",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "quality": "medium",
+  "background": "opaque",
+  "format": "png"
+}

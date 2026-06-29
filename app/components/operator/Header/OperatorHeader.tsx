@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { OperatorLogo } from "~/components/operator/Header/OperatorLogo";
+import { OperatorFin } from "~/components/operator/OperatorFin";
 import { VerifiedOperatorBadge } from "~/components/operator/VerifiedOperatorBadge";
 import { BadgeValueDisplay } from "~/components/shared/Display/BadgeValueDisplay";
 import type { Operator } from "~/models";
@@ -12,7 +12,9 @@ type Props = {
 export function OperatorHeader({ operator, actions }: Props) {
   return (
     <header className="flex flex-col md:flex-row md:items-end gap-3 mb-3">
-      {operator.logoUrl && <OperatorLogo logoUrl={operator.logoUrl} />}
+      <div className="flex size-28 shrink-0 items-center justify-center self-center rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700">
+        <OperatorFin operator={operator} className="mix-blend-multiply" />
+      </div>
       <div className="flex-1">
         <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-2">{operator.shortName}</h1>
         <div className="flex flex-wrap gap-1.5 items-center">

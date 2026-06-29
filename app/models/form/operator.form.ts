@@ -43,6 +43,10 @@ export function allianceLabel(alliance: Alliance | null | undefined): string | n
   return allianceOptions.find((option) => option.value === alliance)?.label ?? null;
 }
 
+export function continentLabel(continent: Continent): string {
+  return continentOptions.find((option) => option.value === continent)?.label ?? continent;
+}
+
 export function initCreateOperatorData(): CreateOperatorFormData {
   return {
     icaoCode: "",
