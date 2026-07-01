@@ -4,6 +4,7 @@ import { FaIdCard } from "react-icons/fa6";
 import { OperatorFin } from "~/components/operator/OperatorFin";
 import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
 import { AdvancedSelect, type AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
+import { OptionAvatarFrame } from "~/components/shared/Form/AdvancedSelect/OptionAvatarFrame";
 import { FormSection } from "~/components/shared/Form/FormSection";
 import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
 import { type Aircraft, allianceLabel, type Operator } from "~/models";
@@ -35,9 +36,9 @@ function operatorSelectOptions(operators: Operator[]): AdvancedSelectOption[] {
     value: operator.id,
     keywords: [operator.iataCode, operator.icaoCode, operator.shortName],
     avatar: (
-      <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-gray-100 p-1 dark:bg-gray-700">
+      <OptionAvatarFrame>
         <OperatorFin operator={operator} className="mix-blend-multiply" />
-      </span>
+      </OptionAvatarFrame>
     ),
     title: operator.shortName,
     subtitle: operatorSecondaryLine(operator),

@@ -137,7 +137,7 @@ export function AdvancedSelect({
   }
 
   return (
-    <div className={twMerge("w-full mb-4", className)}>
+    <div className={twMerge("w-full mb-4 min-w-0", className)}>
       <div className="mb-2 block">
         <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}

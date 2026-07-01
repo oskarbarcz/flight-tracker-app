@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaRoute } from "react-icons/fa6";
+import { AirportShape } from "~/components/shared/Airport/AirportShape";
+import { AdvancedSelect, type AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
+import { OptionAvatarFrame } from "~/components/shared/Form/AdvancedSelect/OptionAvatarFrame";
 import { FormSection } from "~/components/shared/Form/FormSection";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import type { Airport } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/state/api/context/useApi";
@@ -14,10 +16,23 @@ type Props = {
   onSubmit: (data: FlightRouteFormData) => void;
 };
 
-function optionsFromAirports(airports: Airport[]) {
+function airportSelectOptions(airports: Airport[]): AdvancedSelectOption[] {
   return airports.map((airport) => ({
-    label: `${airport.iataCode} - ${airport.city}`,
     value: airport.id,
+    keywords: [airport.iataCode, airport.icaoCode, airport.city, airport.name],
+    avatar: (
+      <OptionAvatarFrame>
+        <AirportShape shape={airport.shape} />
+      </OptionAvatarFrame>
+    ),
+    title: airport.name,
+    subtitle: `${airport.city}, ${airport.country}`,
+    selectedSubtitle: (
+      <>
+        IATA: <span className="font-semibold">{airport.iataCode}</span>, ICAO:{" "}
+        <span className="font-semibold">{airport.icaoCode}</span>
+      </>
+    ),
   }));
 }
 
@@ -35,6 +50,8 @@ export function FlightRouteFormSection({ data, onSubmit }: Props) {
     airportService.fetchAll().then(setAirports);
   }, [airportService]);
 
+  const options = airportSelectOptions(airports);
+
   return (
     <FormSection<FlightRouteFormData>
       initialValues={initialValues}
@@ -45,20 +62,22 @@ export function FlightRouteFormSection({ data, onSubmit }: Props) {
       title="Route"
       onSubmit={onSubmit}
     >
-      <div className="flex gap-4">
-        <ManagedSelectBlock
+      <div className="flex flex-wrap gap-4">
+        <AdvancedSelect
           className="basis-[calc(50%-0.5rem)]"
           field="departureAirportId"
           label="Departure"
+          placeholder="Select departure"
           disabled={!isEditable}
-          options={optionsFromAirports(airports)}
+          options={options}
         />
-        <ManagedSelectBlock
+        <AdvancedSelect
           className="basis-[calc(50%-0.5rem)]"
           field="destinationAirportId"
           label="Destination"
+          placeholder="Select destination"
           disabled={!isEditable}
-          options={optionsFromAirports(airports)}
+          options={options}
         />
       </div>
     </FormSection>

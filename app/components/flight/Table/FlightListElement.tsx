@@ -3,6 +3,7 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
+import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { FlightStatusBadge } from "~/components/shared/Flight/FlightStatusBadge";
@@ -16,7 +17,9 @@ export function FlightListElement({ flight }: Props) {
   return (
     <TableRow key={flight.id}>
       <TableCell className="text-base text-gray-900 font-bold font-mono dark:text-white">
-        {flight.flightNumberWithoutSpaces}
+        <Link to={`/flights/${flight.id}/overview`} viewTransition className="hover:text-primary-500">
+          {flight.flightNumberWithoutSpaces}
+        </Link>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2 font-mono text-lg font-bold text-gray-900 dark:text-white">
@@ -46,14 +49,25 @@ export function FlightListElement({ flight }: Props) {
         )}
       </TableCell>
       <TableCell>
-        <Link
-          to={`/operators/${flight.operator.id}/aircraft/${flight.aircraft.id}`}
-          viewTransition
-          className="block font-mono text-lg font-bold text-gray-900 hover:text-primary-500 dark:text-white"
-        >
-          {flight.aircraft.registration}
-        </Link>
-        <span className="block text-xs text-gray-500 dark:text-gray-400">{flight.aircraft.airframe.name}</span>
+        <div className="flex items-center gap-3">
+          <span className="flex shrink-0">
+            <AircraftIcon
+              type={flight.aircraft.airframe.type}
+              name={flight.aircraft.airframe.name}
+              className="rounded-md"
+            />
+          </span>
+          <span className="whitespace-nowrap">
+            <Link
+              to={`/operators/${flight.operator.id}/aircraft/${flight.aircraft.id}`}
+              viewTransition
+              className="block font-mono text-lg font-bold text-gray-900 hover:text-primary-500 dark:text-white"
+            >
+              {flight.aircraft.registration}
+            </Link>
+            <span className="block text-xs text-gray-500 dark:text-gray-400">{flight.aircraft.airframe.name}</span>
+          </span>
+        </div>
       </TableCell>
       <TableCell>
         <div className="flex flex-col items-start gap-1">

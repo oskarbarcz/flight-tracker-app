@@ -124,7 +124,7 @@ export default function CreateAirportRoute() {
   }
 
   return (
-    <div className="mx-auto max-w-md pb-4">
+    <div className="mx-auto max-w-2xl pb-4">
       <SectionHeaderWithBackButton sectionTitle="Create new flight" backText="Back to flights" backUrl="/flights" />
       <div className="space-y-4">
         <FlightIdentityFormSection data={formData.identity} onSubmit={onIdentitySubmit} />

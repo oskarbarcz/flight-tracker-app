@@ -29,7 +29,7 @@ export function FlightListTable() {
           <Spinner color="indigo" size="xl" />
         </div>
       )}
-      <Table>
+      <Table className="min-w-max">
         <TableHead>
           <TableRow>
             <TableHeadCell>Flight no</TableHeadCell>
