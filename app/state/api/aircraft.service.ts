@@ -1,6 +1,10 @@
 import type { Aircraft, AircraftReposition, FlightHistoryEntry } from "~/models";
 import { AbstractAuthorizedApiService } from "~/state/api/api.service";
-import type { CreateAircraftRequest, EditAircraftRequest } from "~/state/api/request/operator.request";
+import type {
+  CreateAircraftRequest,
+  CreateRepositionRequest,
+  EditAircraftRequest,
+} from "~/state/api/request/operator.request";
 
 export class AircraftService extends AbstractAuthorizedApiService {
   async fetchAll(operatorId: string): Promise<Aircraft[]> {
@@ -17,6 +21,17 @@ export class AircraftService extends AbstractAuthorizedApiService {
 
   async fetchRepositionHistory(operatorId: string, aircraftId: string): Promise<AircraftReposition[]> {
     return this.fetchWithAuth<AircraftReposition[]>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}/reposition`);
+  }
+
+  async createReposition(
+    operatorId: string,
+    aircraftId: string,
+    data: CreateRepositionRequest,
+  ): Promise<AircraftReposition> {
+    return this.fetchWithAuth<AircraftReposition>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}/reposition`, {
+      body: JSON.stringify(data),
+      method: "POST",
+    });
   }
 
   async createNew(operatorId: string, data: CreateAircraftRequest) {

@@ -1,5 +1,5 @@
 import { type ObjectSchema, object, string } from "yup";
-import type { CreateAircraftRequest } from "~/state/api/request/operator.request";
+import type { CreateAircraftRequest, CreateRepositionRequest } from "~/state/api/request/operator.request";
 
 export const aircraftSchema: ObjectSchema<CreateAircraftRequest> = object().shape({
   type: string().required("Aircraft type is required"),
@@ -14,4 +14,8 @@ export const aircraftSchema: ObjectSchema<CreateAircraftRequest> = object().shap
     .required("Livery name is required")
     .min(2, "Livery must be at least 2 characters")
     .max(100, "Livery must be under 100 characters"),
+});
+
+export const repositionSchema: ObjectSchema<CreateRepositionRequest> = object().shape({
+  destinationAirportId: string().uuid("Invalid airport").required("Destination is required"),
 });

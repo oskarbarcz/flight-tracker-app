@@ -11,6 +11,10 @@ export type CreateAircraftRequest = {
 };
 export type EditAircraftRequest = CreateAircraftRequest;
 
+export type CreateRepositionRequest = {
+  destinationAirportId: string;
+};
+
 export type CreateRotationRequest = Pick<Rotation, "name" | "pilotId">;
 export type EditRotationRequest = CreateRotationRequest;
 export type GetRotationResponse = Omit<Rotation, "pilotId">;

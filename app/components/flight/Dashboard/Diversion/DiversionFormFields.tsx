@@ -1,11 +1,11 @@
-import { Checkbox, Label, Select } from "flowbite-react";
+import { Checkbox, Label } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
+import { AdvancedSelect, type AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
 import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { ManagedTextareaBlock } from "~/components/shared/Form/Managed/ManagedTextareaBlock";
-import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 import {
   type Airport,
   type AirportOnFlight,
@@ -57,8 +57,16 @@ const FLIGHT_AIRPORT_ORDER: AirportOnFlightType[] = [
   AirportOnFlightType.EtopsAlternate,
 ];
 
-function formatAirportOption(airport: Airport): string {
-  return `${airport.iataCode} — ${airport.city} (${airport.name})`;
+function flightAirportOptions(flightAirports: AirportOnFlight[]): AdvancedSelectOption[] {
+  return airportSelectOptions(flightAirports).map((option, index) => {
+    const airport = flightAirports[index];
+    const role = FLIGHT_AIRPORT_LABEL[airport.type];
+    return {
+      ...option,
+      keywords: [...option.keywords, role],
+      subtitle: `${role} · ${airport.city}, ${airport.country}`,
+    };
+  });
 }
 
 function DiversionAirportField({
@@ -68,9 +76,6 @@ function DiversionAirportField({
   flightAirports: AirportOnFlight[];
   allAirports: Airport[];
 }) {
-  const [fieldProps, meta] = useField<string>("airportId");
-  const isError = meta.touched && meta.error;
-
   const sortedFlightAirports = useMemo(
     () =>
       [...flightAirports].sort((a, b) => FLIGHT_AIRPORT_ORDER.indexOf(a.type) - FLIGHT_AIRPORT_ORDER.indexOf(b.type)),
@@ -82,37 +87,19 @@ function DiversionAirportField({
     return allAirports.filter((a) => !flightIds.has(a.id)).sort((a, b) => a.iataCode.localeCompare(b.iataCode));
   }, [flightAirports, allAirports]);
 
+  const options = useMemo(
+    () => [...flightAirportOptions(sortedFlightAirports), ...airportSelectOptions(otherAirports)],
+    [sortedFlightAirports, otherAirports],
+  );
+
   return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 block">
-        <Label htmlFor="airportId" color={isError ? "failure" : undefined}>
-          Diversion airport
-          <RequiredMark />
-        </Label>
-      </div>
-      <Select id="airportId" color={isError ? "failure" : undefined} required {...fieldProps}>
-        <option value="">— select airport —</option>
-        {sortedFlightAirports.length > 0 && (
-          <optgroup label="Flight airports">
-            {sortedFlightAirports.map((airport) => (
-              <option key={airport.id} value={airport.id}>
-                {FLIGHT_AIRPORT_LABEL[airport.type]} · {formatAirportOption(airport)}
-              </option>
-            ))}
-          </optgroup>
-        )}
-        {otherAirports.length > 0 && (
-          <optgroup label="All airports">
-            {otherAirports.map((airport) => (
-              <option key={airport.id} value={airport.id}>
-                {formatAirportOption(airport)}
-              </option>
-            ))}
-          </optgroup>
-        )}
-      </Select>
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
-    </div>
+    <AdvancedSelect
+      field="airportId"
+      label="Diversion airport"
+      placeholder="Select diversion airport"
+      options={options}
+      maxResults={8}
+    />
   );
 }
 
