@@ -1,5 +1,6 @@
+import { Button } from "flowbite-react";
 import React from "react";
-import { HiOutlineLocationMarker, HiOutlinePaperAirplane } from "react-icons/hi";
+import { HiOutlineLocationMarker, HiOutlinePaperAirplane, HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { LocationMap, MapPill, type MapTone } from "~/components/operator/AircraftDetails/LocationMap";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
@@ -10,6 +11,7 @@ import type { Aircraft, FlightHistoryEntry } from "~/models";
 type Props = {
   aircraft: Aircraft;
   history: FlightHistoryEntry[];
+  onReposition?: () => void;
 };
 
 type TimelineStep = {
@@ -190,12 +192,31 @@ function FlightView({
   );
 }
 
-export function AircraftCurrentStatusCard({ aircraft, history }: Props) {
+export function AircraftCurrentStatusCard({ aircraft, history, onReposition }: Props) {
   const status = deriveAircraftStatus(aircraft, history);
+  const isAirborne = status.kind === "cruise";
 
   return (
     <Container>
-      <ContainerTitle icon={HiOutlineLocationMarker} title="Current location" />
+      <ContainerTitle
+        icon={HiOutlineLocationMarker}
+        title="Current location"
+        actions={
+          onReposition && (
+            <Button
+              size="xs"
+              color="gray"
+              outline
+              disabled={isAirborne}
+              title={isAirborne ? "Available when the aircraft is on the ground" : undefined}
+              onClick={onReposition}
+            >
+              <HiOutlineSwitchHorizontal className="me-1.5" />
+              Reposition
+            </Button>
+          )
+        }
+      />
 
       {status.kind === "parked" && <ParkedView aircraft={aircraft} status={status} />}
 
