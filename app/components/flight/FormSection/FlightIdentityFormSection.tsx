@@ -1,10 +1,11 @@
 import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { FaIdCard } from "react-icons/fa6";
+import { OperatorFin } from "~/components/operator/OperatorFin";
+import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
 import { AdvancedSelect, type AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
 import { FormSection } from "~/components/shared/Form/FormSection";
 import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { type Aircraft, allianceLabel, type Operator } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/state/api/context/useApi";
@@ -33,16 +34,40 @@ function operatorSelectOptions(operators: Operator[]): AdvancedSelectOption[] {
   return operators.map((operator) => ({
     value: operator.id,
     keywords: [operator.iataCode, operator.icaoCode, operator.shortName],
-    avatar: operator.iataCode,
+    avatar: (
+      <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-gray-100 p-1 dark:bg-gray-700">
+        <OperatorFin operator={operator} className="mix-blend-multiply" />
+      </span>
+    ),
     title: operator.shortName,
     subtitle: operatorSecondaryLine(operator),
+    selectedSubtitle: (
+      <>
+        IATA: <span className="font-semibold">{operator.iataCode}</span>, ICAO:{" "}
+        <span className="font-semibold">{operator.icaoCode}</span>
+      </>
+    ),
   }));
 }
 
-function optionsFromAircrafts(aircrafts: Aircraft[]) {
+function aircraftSecondaryLine(aircraft: Aircraft): string {
+  const parts: string[] = [aircraft.airframe.name];
+  if (aircraft.lastAirport) {
+    parts.push(`At: ${aircraft.lastAirport.iataCode}`);
+  } else if (aircraft.baseAirport) {
+    parts.push(`Base: ${aircraft.baseAirport.iataCode}`);
+  }
+  return parts.join(" · ");
+}
+
+function aircraftSelectOptions(aircrafts: Aircraft[]): AdvancedSelectOption[] {
   return aircrafts.map((aircraft) => ({
-    label: `${aircraft.registration} - ${aircraft.airframe.type}`,
     value: aircraft.id,
+    keywords: [aircraft.registration, aircraft.airframe.type, aircraft.airframe.name],
+    avatar: <AircraftIcon type={aircraft.airframe.type} name={aircraft.airframe.name} className="rounded-md" />,
+    title: aircraft.registration,
+    subtitle: aircraftSecondaryLine(aircraft),
+    selectedSubtitle: aircraft.airframe.name,
   }));
 }
 
@@ -62,12 +87,13 @@ function AircraftSelectBlock({ disabled }: { disabled: boolean }) {
   }, [operatorId, aircraftService, setFieldValue]);
 
   return (
-    <ManagedSelectBlock
+    <AdvancedSelect
       className="basis-[calc(50%-0.5rem)]"
       field="aircraftId"
       label="Aircraft"
+      placeholder="Select aircraft"
       disabled={disabled || !operatorId}
-      options={optionsFromAircrafts(aircrafts)}
+      options={aircraftSelectOptions(aircrafts)}
     />
   );
 }

@@ -11,7 +11,8 @@ export type AdvancedSelectOption = {
   keywords: string[];
   title: string;
   subtitle?: React.ReactNode;
-  avatar?: string;
+  selectedSubtitle?: React.ReactNode;
+  avatar?: React.ReactNode;
 };
 
 type Props = {
@@ -39,14 +40,6 @@ function matchRank(option: AdvancedSelectOption, query: string): number {
     return 1;
   }
   return 2;
-}
-
-function OptionAvatar({ label }: { label: string }) {
-  return (
-    <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-indigo-100 font-mono text-xs font-bold uppercase text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200">
-      {label}
-    </span>
-  );
 }
 
 export function AdvancedSelect({
@@ -119,7 +112,7 @@ export function AdvancedSelect({
 
   function commitSelection(option: AdvancedSelectOption) {
     helpers.setValue(option.value);
-    helpers.setTouched(true);
+    helpers.setTouched(true, false);
     setSearch("");
     setIsOpen(false);
   }
@@ -193,12 +186,16 @@ export function AdvancedSelect({
               isError ? "border-red-500" : "border-gray-300 dark:border-gray-600",
             )}
           >
-            {selected?.avatar && <OptionAvatar label={selected.avatar} />}
+            {selected?.avatar && <span className="flex shrink-0">{selected.avatar}</span>}
             <span className="min-w-0">
               <span className="block truncate text-sm font-medium text-gray-900 dark:text-white">
                 {selected?.title}
               </span>
-              <span className="block text-xs text-gray-400 dark:text-gray-500">(click to change)</span>
+              {selected?.selectedSubtitle && (
+                <span className="block truncate text-xs text-gray-500 dark:text-gray-400">
+                  {selected.selectedSubtitle}
+                </span>
+              )}
             </span>
           </button>
         )}
@@ -239,7 +236,7 @@ export function AdvancedSelect({
                     index === activeIndex && "bg-indigo-50 dark:bg-indigo-950",
                   )}
                 >
-                  {option.avatar && <OptionAvatar label={option.avatar} />}
+                  {option.avatar && <span className="flex shrink-0">{option.avatar}</span>}
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium text-gray-900 dark:text-white">
                       {option.title}
