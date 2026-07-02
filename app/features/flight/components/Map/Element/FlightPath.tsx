@@ -2,8 +2,8 @@ import type { LatLngTuple } from "leaflet";
 import { useMemo } from "react";
 import { Polyline } from "react-leaflet";
 import type { FlightPathElement } from "~/features/flight";
-import { altitudeToColor, quantizeAltitude } from "~/shared/lib/altitudeColor";
 import { smoothFlightPath } from "~/features/flight/lib/smooth";
+import { altitudeToColor, quantizeAltitude } from "~/shared/lib/altitudeColor";
 
 type Props = {
   path: FlightPathElement[];

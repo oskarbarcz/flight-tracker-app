@@ -1,5 +1,6 @@
 import L from "leaflet";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 import { MapContainer, ZoomControl } from "react-leaflet";
 import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
@@ -24,6 +25,8 @@ type Props = {
 
 export function AirportLocationMap({ airport, runways, terminals, parkingPositions }: Props) {
   const coordinates = formatCoordinates(airport.location.latitude, airport.location.longitude);
+  const mapRef = useRef<L.Map | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const bounds = useMemo(() => {
     const points: L.LatLngTuple[] = [];
@@ -54,10 +57,38 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
     return L.latLngBounds(points);
   }, [runways, airport.shape, airport.location.latitude, airport.location.longitude, terminals, parkingPositions]);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (isFullscreen) {
+      map.scrollWheelZoom.enable();
+    } else {
+      map.scrollWheelZoom.disable();
+    }
+    const id = window.setTimeout(() => map.invalidateSize(), 120);
+    return () => window.clearTimeout(id);
+  }, [isFullscreen]);
+
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsFullscreen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isFullscreen]);
+
   return (
     <TransparentContainer className="h-full">
-      <div className="relative h-full min-h-72 w-full">
+      <div
+        className={
+          isFullscreen
+            ? "fixed inset-0 z-[1000] h-screen w-screen bg-gray-100 dark:bg-gray-950"
+            : "relative h-full min-h-72 w-full"
+        }
+      >
         <MapContainer
+          ref={mapRef}
           bounds={bounds}
           boundsOptions={{ padding: [40, 40] }}
           scrollWheelZoom={false}
@@ -74,6 +105,15 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
           <MapAirportLabel airport={airport} />
         </MapContainer>
 
+        <button
+          type="button"
+          onClick={() => setIsFullscreen((value) => !value)}
+          aria-label={isFullscreen ? "Exit fullscreen" : "View map fullscreen"}
+          className="absolute top-3 right-3 z-[1001] flex cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white/95 p-2 text-gray-700 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/95 dark:text-gray-200 dark:hover:bg-gray-800"
+        >
+          {isFullscreen ? <MdFullscreenExit size={20} /> : <MdFullscreen size={20} />}
+        </button>
+
         <div className="absolute top-3 left-3 z-10 bg-white/95 dark:bg-gray-900/95 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 text-sm font-mono font-bold text-gray-900 dark:text-gray-100 shadow-sm pointer-events-none">
           {airport.icaoCode} · {airport.iataCode}
         </div>
@@ -82,7 +122,7 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
           {coordinates}
         </div>
 
-        <div className="absolute top-1 right-1 z-10 bg-white/80 dark:bg-gray-900/80 px-1.5 py-0.5 rounded text-[10px] text-gray-500 dark:text-gray-400">
+        <div className="absolute bottom-1 right-1 z-10 bg-white/80 dark:bg-gray-900/80 px-1.5 py-0.5 rounded text-[10px] text-gray-500 dark:text-gray-400">
           ©{" "}
           <a
             href="https://www.openstreetmap.org/copyright"
