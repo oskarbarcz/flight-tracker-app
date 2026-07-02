@@ -3,7 +3,7 @@ import { useField } from "formik";
 import L, { type LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polygon, Polyline, useMapEvents } from "react-leaflet";
-import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import type { Coordinates } from "~/features/runway/model";
 import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/shared/lib/polygon";
 

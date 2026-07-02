@@ -4,6 +4,7 @@ import React from "react";
 import { useToast } from "~/app-state/useToast";
 import { translateDelayReasonCode } from "~/features/delay/i18n";
 import { rejectDelayReportSchema } from "~/features/delay/schema";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import type { DelayReport } from "~/models";
 import {
   initRejectDelayReportData,
@@ -12,7 +13,6 @@ import {
 } from "~/models";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 type Props = {
   report: DelayReport;

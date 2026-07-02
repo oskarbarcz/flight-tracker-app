@@ -6,6 +6,7 @@ import { AuthService } from "~/features/auth/service";
 import { DelayService } from "~/features/delay/service";
 import { DiversionService } from "~/features/diversion/service";
 import { EmergencyService } from "~/features/emergency/service";
+import { FlightService } from "~/features/flight/service";
 import { GateService } from "~/features/gate/service";
 import { OperatorService } from "~/features/operator/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
@@ -15,7 +16,6 @@ import { SkyLinkService } from "~/features/skylink/service";
 import { TerminalService } from "~/features/terminal/service";
 import { TravelService } from "~/features/travel/service";
 import { UserService } from "~/features/user/service";
-import { FlightService } from "~/state/api/flight.service";
 
 type ApiServices = {
   rotationService: RotationService;

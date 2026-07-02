@@ -6,21 +6,21 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
 import { Link, useLoaderData, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { SelectParkingPositionModal } from "~/components/flight/Modal/SelectParkingPositionModal";
-import { SelectRunwayModal } from "~/components/flight/Modal/SelectRunwayModal";
-import { AirportEndpointCard } from "~/components/flight/Overview/AirportEndpointCard";
-import { AssignedParkingPositionPanel } from "~/components/flight/Overview/AssignedParkingPositionPanel";
-import { AssignedRunwayPanel } from "~/components/flight/Overview/AssignedRunwayPanel";
-import { LoadsheetCard } from "~/components/flight/Overview/LoadsheetCard";
-import { ParkingPositionEmptyPanel } from "~/components/flight/Overview/ParkingPositionEmptyPanel";
-import { RouteMap } from "~/components/flight/Overview/RouteMap";
-import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
+import { SelectParkingPositionModal } from "~/features/flight/components/Modal/SelectParkingPositionModal";
+import { SelectRunwayModal } from "~/features/flight/components/Modal/SelectRunwayModal";
+import { AirportEndpointCard } from "~/features/flight/components/Overview/AirportEndpointCard";
+import { AssignedParkingPositionPanel } from "~/features/flight/components/Overview/AssignedParkingPositionPanel";
+import { AssignedRunwayPanel } from "~/features/flight/components/Overview/AssignedRunwayPanel";
+import { LoadsheetCard } from "~/features/flight/components/Overview/LoadsheetCard";
+import { ParkingPositionEmptyPanel } from "~/features/flight/components/Overview/ParkingPositionEmptyPanel";
+import { RouteMap } from "~/features/flight/components/Overview/RouteMap";
+import { RunwayEmptyPanel } from "~/features/flight/components/Overview/RunwayEmptyPanel";
+import { FlightService } from "~/features/flight/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
 import { FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/shared/api/useApi";
-import { FlightService } from "~/state/api/flight.service";
 
 const DEPARTURE_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.Created,

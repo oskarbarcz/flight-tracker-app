@@ -3,11 +3,11 @@ import React from "react";
 import { FaArrowUpRightFromSquare, FaFileLines, FaPlaneUp } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { useLoaderData } from "react-router";
+import { FlightService } from "~/features/flight/service";
 import type { FlightOfp } from "~/models";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { RawHtml } from "~/shared/ui/RawHtml";
-import { FlightService } from "~/state/api/flight.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   try {

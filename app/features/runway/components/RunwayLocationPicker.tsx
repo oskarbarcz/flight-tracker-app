@@ -3,7 +3,7 @@ import { useField } from "formik";
 import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, useMapEvents } from "react-leaflet";
-import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 
 type Props = {
   airportLocation: { latitude: number; longitude: number };

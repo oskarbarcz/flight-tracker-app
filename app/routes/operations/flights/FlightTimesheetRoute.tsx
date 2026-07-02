@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { useLoaderData, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { UpdateScheduledTimesheetModal } from "~/components/flight/Modal/UpdateScheduledTimesheetModal";
-import { FlightEventsTimeline } from "~/components/flight/Overview/FlightEventsTimeline";
-import { TimesheetCard } from "~/components/flight/Overview/TimesheetCard";
+import { UpdateScheduledTimesheetModal } from "~/features/flight/components/Modal/UpdateScheduledTimesheetModal";
+import { FlightEventsTimeline } from "~/features/flight/components/Overview/FlightEventsTimeline";
+import { TimesheetCard } from "~/features/flight/components/Overview/TimesheetCard";
+import { FlightService } from "~/features/flight/service";
 import { type FilledSchedule, FlightStatus } from "~/models";
 import { useApi } from "~/shared/api/useApi";
-import { FlightService } from "~/state/api/flight.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const flightService = new FlightService();

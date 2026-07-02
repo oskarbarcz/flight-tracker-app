@@ -1,6 +1,6 @@
 import type { Airframe } from "~/features/airframe/model";
+import type { FlightStatus } from "~/features/flight/model";
 import type { Coordinates } from "~/features/runway/model";
-import type { FlightStatus } from "~/models/flight.model";
 
 export enum AircraftState {
   Idle = "idle",

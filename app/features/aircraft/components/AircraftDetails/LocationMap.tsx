@@ -1,7 +1,7 @@
 import L from "leaflet";
 import React from "react";
 import { MapContainer, Marker } from "react-leaflet";
-import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 
 export type MapTone = "parked" | "cruise" | "assigned" | "base";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { TravelLogTable } from "~/components/flight/Table/TravelLogTable";
+import { TravelLogTable } from "~/features/flight/components/Table/TravelLogTable";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";

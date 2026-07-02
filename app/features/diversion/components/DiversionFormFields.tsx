@@ -2,6 +2,7 @@ import { Checkbox, Label } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
 import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import {
   type Airport,
   type AirportOnFlight,
@@ -14,7 +15,6 @@ import { AdvancedSelect, type AdvancedSelectOption } from "~/shared/ui/Form/Adva
 import { ManagedDateTimeInputBlock } from "~/shared/ui/Form/Managed/ManagedDateTimeInputBlock";
 import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 function NotificationCheckbox({ field, label }: { field: string; label: string }) {
   const [fieldProps, , helpers] = useField<boolean>(field);

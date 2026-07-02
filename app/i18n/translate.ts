@@ -4,7 +4,7 @@ import {
   translateShortStatus,
   translateStatus,
   translateStatusNextAction,
-} from "~/models/i18n/flight.i18n";
+} from "~/features/flight/i18n";
 
 export const toHuman = {
   flight: {

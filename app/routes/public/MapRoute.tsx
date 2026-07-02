@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { MapSettingsProvider } from "~/app-state/useMapSettings";
-import { BottomBar } from "~/components/flight/Map/FullScreen/BottomBar";
-import { FullScreenMap } from "~/components/flight/Map/FullScreen/FullScreenMap";
-import { TopBar } from "~/components/flight/Map/FullScreen/TopBar";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
+import { BottomBar } from "~/features/flight/components/Map/FullScreen/BottomBar";
+import { FullScreenMap } from "~/features/flight/components/Map/FullScreen/FullScreenMap";
+import { TopBar } from "~/features/flight/components/Map/FullScreen/TopBar";
 import type { Flight } from "~/models";
 import MapSplash from "~/routes/public/MapSplash";
 import { usePublicApi } from "~/shared/api/usePublicApi";

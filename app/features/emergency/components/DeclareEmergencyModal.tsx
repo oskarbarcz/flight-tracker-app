@@ -4,9 +4,9 @@ import React from "react";
 import { useToast } from "~/app-state/useToast";
 import { EmergencyFormFields } from "~/features/emergency/components/EmergencyFormFields";
 import { declareEmergencySchema } from "~/features/emergency/schema";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { type DeclareEmergencyFormData, declareFormDataToRequest, initDeclareEmergencyData } from "~/models";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 type Props = {
   close: () => void;

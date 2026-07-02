@@ -4,10 +4,10 @@ import React from "react";
 import { useToast } from "~/app-state/useToast";
 import { DiversionFormFields } from "~/features/diversion/components/DiversionFormFields";
 import { reportDiversionSchema } from "~/features/diversion/schema";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { type Diversion, diversionToFormData, type ReportDiversionFormData, reportFormDataToRequest } from "~/models";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 type Props = {
   diversion: Diversion;
