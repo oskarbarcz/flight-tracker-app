@@ -3,9 +3,9 @@ import { useFormikContext } from "formik";
 import React, { useState } from "react";
 import { FaCloudArrowDown } from "react-icons/fa6";
 import type { CreateAirportFormData } from "~/models";
+import { useApi } from "~/shared/api/useApi";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
-import { useApi } from "~/state/api/context/useApi";
 import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
 
 export function SkyLinkAutofillPanel() {

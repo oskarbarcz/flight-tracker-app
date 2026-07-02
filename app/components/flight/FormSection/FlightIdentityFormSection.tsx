@@ -5,11 +5,11 @@ import { OperatorFin } from "~/components/operator/OperatorFin";
 import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
 import { type Aircraft, allianceLabel, type Operator } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
+import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect, type AdvancedSelectOption } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
 import { FormSection } from "~/shared/ui/Form/FormSection";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
-import { useApi } from "~/state/api/context/useApi";
 import { newFlightIdentitySchema } from "~/validator/form/flight.schema";
 
 type FormData = CreateFlightFormData["identity"];

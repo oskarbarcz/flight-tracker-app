@@ -3,6 +3,7 @@ import { Button } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
+import { useToast } from "~/app-state/useToast";
 import {
   type CreateGateFormData,
   gateCategoryOptions,
@@ -10,6 +11,7 @@ import {
   type ParkingPosition,
   type Terminal,
 } from "~/models";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
@@ -17,12 +19,10 @@ import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock"
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
-import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
 import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { gateFormDataToRequest } from "~/state/api/transformer/gate.transformer";
-import { useToast } from "~/state/app/context/useToast";
 import { createGateSchema } from "~/validator/form/gate.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

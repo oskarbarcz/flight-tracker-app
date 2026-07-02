@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
+import { type DisplayMode, useMapSettings } from "~/app-state/useMapSettings";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/components/flight/Map/Element/zoomThresholds";
 import type { Runway } from "~/models";
-import { type DisplayMode, useMapSettings } from "~/state/app/context/useMapSettings";
 
 type RunwaySource = {
   fetchAll: (airportId: string) => Promise<Runway[]>;

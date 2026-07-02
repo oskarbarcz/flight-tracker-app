@@ -1,5 +1,5 @@
-import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
-import { createListCache } from "~/state/api/cache/listCache";
+import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
+import { createListCache } from "~/shared/api/cache/listCache";
 import type {
   CreateTerminalRequest,
   EditTerminalRequest,

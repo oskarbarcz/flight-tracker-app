@@ -1,7 +1,7 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useState } from "react";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
 import { type Flight, FlightPhase } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
+import { useApi } from "~/shared/api/useApi";
 
 type FlightListContextType = {
   flights: Flight[];

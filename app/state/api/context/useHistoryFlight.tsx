@@ -1,6 +1,6 @@
 import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import type { Diversion, Flight, FlightEvent } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 
 type HistoryFlightContextType = {
   flight: Flight | null;

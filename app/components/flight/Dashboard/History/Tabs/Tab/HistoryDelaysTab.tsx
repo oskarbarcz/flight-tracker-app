@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FaClock } from "react-icons/fa6";
 import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";
 import type { DelayRequest } from "~/models";
+import { useApi } from "~/shared/api/useApi";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
-import { useApi } from "~/state/api/context/useApi";
 
 type Props = {
   flightId: string;

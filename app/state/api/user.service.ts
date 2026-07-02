@@ -1,5 +1,5 @@
 import type { UserStats } from "~/models";
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 import type { GetUserResponse, ListUsersResponse } from "~/state/api/request/user.request";
 
 export class UserService extends AbstractAuthorizedApiService {

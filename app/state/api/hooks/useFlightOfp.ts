@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FlightOfp } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 
 interface Return {
   ofp: FlightOfp | null;

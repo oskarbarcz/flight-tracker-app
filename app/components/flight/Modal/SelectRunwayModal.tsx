@@ -2,7 +2,7 @@ import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader, Radio, Spinn
 import React, { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import type { Runway } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 
 type Props = {
   airportId: string;

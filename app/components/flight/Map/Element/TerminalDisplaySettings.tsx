@@ -1,7 +1,7 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { useMapSettings } from "~/app-state/useMapSettings";
 import { DisplayModeToggle } from "~/components/flight/Map/Element/DisplayModeToggle";
-import { useMapSettings } from "~/state/app/context/useMapSettings";
 
 type Props = {
   size?: "sm" | "md";

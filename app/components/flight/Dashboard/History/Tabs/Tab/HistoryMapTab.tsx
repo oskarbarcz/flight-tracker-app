@@ -1,8 +1,8 @@
 import React from "react";
+import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { HistoryFlightMap } from "~/components/flight/Map/Box/HistoryFlightMap";
 import { Container } from "~/shared/ui/Layout/Container";
 import { useHistoryFlight } from "~/state/api/context/useHistoryFlight";
-import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
 
 export function HistoryMapTab() {
   const { flight, diversion } = useHistoryFlight();

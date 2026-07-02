@@ -5,8 +5,8 @@ import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { LuTowerControl } from "react-icons/lu";
 import { MdHistory } from "react-icons/md";
 import { useLocation } from "react-router";
+import { useApi } from "~/shared/api/useApi";
 import { SidebarElement } from "~/shared/ui/Sidebar/Elements/SidebarElement";
-import { useApi } from "~/state/api/context/useApi";
 
 export function OperatorSidebarItems() {
   const path = useLocation().pathname;

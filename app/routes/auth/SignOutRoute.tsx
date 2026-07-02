@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Navigate } from "react-router";
-import { useAuth } from "~/state/api/context/useAuth";
+import { useAuth } from "~/app-state/useAuth";
 
 export default function SignOutRoute() {
   const { signOut } = useAuth();

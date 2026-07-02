@@ -1,9 +1,9 @@
 import React from "react";
+import { useAuth } from "~/app-state/useAuth";
 import type { User } from "~/models/user.model";
 import { SimpleStatDisplay } from "~/shared/ui/Display/SimpleStatDisplay";
 import { SimpleStatDisplayLoader } from "~/shared/ui/Display/SimpleStatDisplayLoader";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
-import { useAuth } from "~/state/api/context/useAuth";
 import { useUserStats } from "~/state/api/hooks/useUserStats";
 
 enum Status {

@@ -1,4 +1,4 @@
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 import type { CreateGateRequest, EditGateRequest, GetGateResponse } from "~/state/api/request/gate.request";
 
 export class GateService extends AbstractAuthorizedApiService {

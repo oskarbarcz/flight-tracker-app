@@ -3,14 +3,14 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
+import { useToast } from "~/app-state/useToast";
 import { ParkingPositionList } from "~/components/airport/ParkingPosition/ParkingPositionList";
 import { ParkingPositionListEmptyState } from "~/components/airport/ParkingPosition/ParkingPositionListEmptyState";
 import { RemoveParkingPositionModal } from "~/components/airport/ParkingPosition/RemoveParkingPositionModal";
 import type { ParkingPosition } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
-import { useToast } from "~/state/app/context/useToast";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [parkingPositions, terminals] = await Promise.all([

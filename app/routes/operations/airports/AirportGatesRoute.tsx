@@ -3,15 +3,15 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
+import { useToast } from "~/app-state/useToast";
 import { GateList } from "~/components/airport/Gate/GateList";
 import { GateListEmptyState } from "~/components/airport/Gate/GateListEmptyState";
 import { RemoveGateModal } from "~/components/airport/Gate/RemoveGateModal";
 import type { Gate } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 import { GateService } from "~/state/api/gate.service";
 import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
-import { useToast } from "~/state/app/context/useToast";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [gates, terminals, parkingPositions] = await Promise.all([

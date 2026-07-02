@@ -1,5 +1,5 @@
 import type { FormikErrors } from "formik";
-import type { ErrorResponse } from "~/state/api/api.service";
+import type { ErrorResponse } from "~/shared/api/api.service";
 
 export function handleFormikApiError<T extends object>(
   err: unknown,

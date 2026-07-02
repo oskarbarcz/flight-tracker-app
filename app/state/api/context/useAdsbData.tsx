@@ -1,6 +1,6 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer } from "react";
 import type { FlightPathElement } from "~/models";
-import { usePublicApi } from "~/state/api/context/usePublicApi";
+import { usePublicApi } from "~/shared/api/usePublicApi";
 
 type State = {
   callsign: string | null;

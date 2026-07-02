@@ -1,5 +1,5 @@
 import { Diversion } from "~/models/diversion.model";
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 import type {
   ApiDiversionResponse,
   ReportDiversionRequest,

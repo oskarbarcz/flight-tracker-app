@@ -11,8 +11,8 @@ import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { TrackingAirportLayoutLayer } from "~/components/flight/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/components/flight/Map/Element/TrackingRunwaysLayer";
 import { flightMapPositions } from "~/functions/flightMapBounds";
+import { useApi } from "~/shared/api/useApi";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
-import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export function TrackingFlightMap() {

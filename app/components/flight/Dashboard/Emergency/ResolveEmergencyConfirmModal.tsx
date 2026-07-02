@@ -1,8 +1,8 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
+import { useToast } from "~/app-state/useToast";
 import type { Emergency } from "~/models";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
-import { useToast } from "~/state/app/context/useToast";
 
 type Props = {
   emergency: Emergency;

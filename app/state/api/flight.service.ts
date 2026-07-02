@@ -9,7 +9,7 @@ import {
   type Schedule,
   type Tracking,
 } from "~/models";
-import { AbstractApiService, AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
 import type { ApiFlightResponse, CreateFlightRequest } from "~/state/api/request/flight.request";
 
 type FlightListFilters = {

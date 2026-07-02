@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useSearchParams } from "react-router";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
 import { AirportListEmptyState } from "~/components/airport/Table/AirportListEmptyState";
 import { AirportListTable } from "~/components/airport/Table/AirportListTable";
 import { ContinentFilterTabs } from "~/components/airport/Table/Tabs/ContinentFilterTabs";
 import { type Airport, Continent } from "~/models";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 import { SectionHeaderWithButton } from "~/shared/ui/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
-import { useApi } from "~/state/api/context/useApi";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");

@@ -12,7 +12,7 @@ import { TrackingAirportLayoutLayer } from "~/components/flight/Map/Element/Trac
 import { TrackingRunwaysLayer } from "~/components/flight/Map/Element/TrackingRunwaysLayer";
 import { FlightDetailsSectionOverlay } from "~/components/flight/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
 import type { Flight, FlightPathElement, Position } from "~/models";
-import { usePublicApi } from "~/state/api/context/usePublicApi";
+import { usePublicApi } from "~/shared/api/usePublicApi";
 
 type Props = {
   flight: Flight;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { UserStats } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 
 type Response = {
   stats: UserStats | null;

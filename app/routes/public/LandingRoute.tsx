@@ -1,12 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router";
+import { useAuth } from "~/app-state/useAuth";
 import { HowItWorksSection } from "~/components/public/Landing/HowItWorksSection";
 import { LandingFooter } from "~/components/public/Landing/LandingFooter";
 import { LandingHero } from "~/components/public/Landing/LandingHero";
 import { LandingNavbar } from "~/components/public/Landing/LandingNavbar";
 import { OperatorDeepDiveSection } from "~/components/public/Landing/OperatorDeepDiveSection";
 import { PilotDeepDiveSection } from "~/components/public/Landing/PilotDeepDiveSection";
-import { useAuth } from "~/state/api/context/useAuth";
 
 export default function LandingRoute() {
   const { user, isLoading } = useAuth();

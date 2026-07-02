@@ -12,7 +12,7 @@ import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandl
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { flightMapPositions } from "~/functions/flightMapBounds";
 import type { Diversion, Flight, FlightPathElement } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 
 type Props = {
   flight: Flight;

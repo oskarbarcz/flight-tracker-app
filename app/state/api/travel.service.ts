@@ -1,5 +1,5 @@
 import { UserTravel } from "~/models/travel.model";
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 import type { ApiUserTravelResponse, CreateTravelRequest } from "~/state/api/request/travel.request";
 
 export class TravelService extends AbstractAuthorizedApiService {

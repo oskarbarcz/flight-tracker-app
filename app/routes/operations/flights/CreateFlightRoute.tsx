@@ -5,11 +5,11 @@ import { FlightRouteFormSection } from "~/components/flight/FormSection/FlightRo
 import { FlightScheduleFormSection } from "~/components/flight/FormSection/FlightScheduleFormSection";
 import { Tracking } from "~/models";
 import { type CreateFlightFormData, initCreateFlightData } from "~/models/form/flight.form";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";
 import { FormSubmit } from "~/shared/ui/Form/FormSubmit";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
-import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
 import type { CreateFlightRequest } from "~/state/api/request/flight.request";
 import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";

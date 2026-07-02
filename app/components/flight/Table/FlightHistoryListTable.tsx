@@ -1,10 +1,10 @@
 import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
 import { FlightHistoryListElement } from "~/components/flight/Table/FlightHistoryListElement";
 import { type Flight, FlightPhase } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
+import { useApi } from "~/shared/api/useApi";
 
 const PAGE_SIZE = 10;
 

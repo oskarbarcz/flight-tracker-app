@@ -2,6 +2,7 @@ import { Button } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
+import { useToast } from "~/app-state/useToast";
 import {
   type CreateOperatorFormData,
   continentOptions,
@@ -9,14 +10,13 @@ import {
   operatorFormDataToRequest,
   operatorTypeOptions,
 } from "~/models";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
-import { useApi } from "~/state/api/context/useApi";
-import { useToast } from "~/state/app/context/useToast";
 import { createOperatorSchema } from "~/validator/form/operator.schema";
 
 export default function CreateOperatorRoute() {

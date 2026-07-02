@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from "react";
+import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { LiveTelemetryOverlay } from "~/components/flight/Map/Box/Overlay/LiveTelemetryOverlay";
 import { MapLinkOverlay } from "~/components/flight/Map/Box/Overlay/MapLinkOverlay";
 import { MapPreviewStatusOverlay } from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
@@ -9,7 +10,6 @@ import type { ContainerClassProps } from "~/shared/ui/Layout/Container";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
-import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
 
 type MapBoxProps = ContainerClassProps;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "~/state/api/context/useAuth";
+import { useAuth } from "~/app-state/useAuth";
 
 type Props = {
   user: { id: string; name: string };

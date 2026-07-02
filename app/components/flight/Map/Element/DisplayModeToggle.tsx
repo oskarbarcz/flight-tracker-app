@@ -1,7 +1,7 @@
 import { Button, Tooltip } from "flowbite-react";
 import type { ReactNode } from "react";
 import { FaChevronRight, FaEyeSlash } from "react-icons/fa6";
-import type { DisplayMode } from "~/state/app/context/useMapSettings";
+import type { DisplayMode } from "~/app-state/useMapSettings";
 
 type Props = {
   size?: "sm" | "md";

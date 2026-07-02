@@ -1,12 +1,12 @@
 import { Drawer, DrawerItems } from "flowbite-react";
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
+import { useAuth } from "~/app-state/useAuth";
 import { UserRole } from "~/models";
 import { CabinCrewSidebarItems } from "~/shared/ui/Sidebar/Items/CabinCrewSidebarItems";
 import { OperatorSidebarItems } from "~/shared/ui/Sidebar/Items/OperationsSidebarItems";
 import { TopBarLogo } from "~/shared/ui/TopBar/TopBarLogo";
 import { TopBarUserTile } from "~/shared/ui/TopBar/TopBarUserTile";
-import { useAuth } from "~/state/api/context/useAuth";
 
 type SidebarDrawerContextValue = {
   isOpen: boolean;

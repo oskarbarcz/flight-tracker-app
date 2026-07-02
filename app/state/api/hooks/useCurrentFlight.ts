@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "~/app-state/useAuth";
 import type { Flight, User } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { useAuth } from "~/state/api/context/useAuth";
+import { useApi } from "~/shared/api/useApi";
 
 type Response = {
   currentFlight: Flight | null;

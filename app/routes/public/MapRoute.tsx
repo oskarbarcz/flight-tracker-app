@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
+import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { BottomBar } from "~/components/flight/Map/FullScreen/BottomBar";
 import { FullScreenMap } from "~/components/flight/Map/FullScreen/FullScreenMap";
 import { TopBar } from "~/components/flight/Map/FullScreen/TopBar";
 import type { Flight } from "~/models";
 import MapSplash from "~/routes/public/MapSplash";
+import { usePublicApi } from "~/shared/api/usePublicApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
-import { usePublicApi } from "~/state/api/context/usePublicApi";
-import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
 import type { Route } from "../../../.react-router/types/app/routes/public/+types/MapRoute";
 
 export default function MapRoute({ params }: Route.ClientLoaderArgs) {

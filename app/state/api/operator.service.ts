@@ -1,5 +1,5 @@
 import type { Operator } from "~/models";
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 import type { CreateOperatorRequest, EditOperatorRequest } from "~/state/api/request/operator.request";
 
 export class OperatorService extends AbstractAuthorizedApiService {

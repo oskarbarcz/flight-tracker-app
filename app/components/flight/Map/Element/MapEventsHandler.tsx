@@ -1,8 +1,8 @@
 import type { FitBoundsOptions, LatLngBounds } from "leaflet";
 import { useCallback, useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
+import { useMapSettings } from "~/app-state/useMapSettings";
 import type { FlightPathElement, Position } from "~/models";
-import { useMapSettings } from "~/state/app/context/useMapSettings";
 
 type MapEventsHandlerProps = {
   bounds: LatLngBounds;

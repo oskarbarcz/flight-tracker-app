@@ -3,7 +3,9 @@ import { Button, Label, Textarea } from "flowbite-react";
 import { Field, Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
+import { useToast } from "~/app-state/useToast";
 import { type CreateTerminalFormData, initCreateTerminalData } from "~/models";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
@@ -12,9 +14,7 @@ import { PolygonShapePicker } from "~/shared/ui/Form/MapPicker/PolygonShapePicke
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
-import { useApi } from "~/state/api/context/useApi";
 import { terminalFormDataToRequest } from "~/state/api/transformer/terminal.transformer";
-import { useToast } from "~/state/app/context/useToast";
 import { createTerminalSchema } from "~/validator/form/terminal.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

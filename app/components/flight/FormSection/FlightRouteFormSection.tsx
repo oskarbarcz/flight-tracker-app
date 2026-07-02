@@ -3,9 +3,9 @@ import { FaRoute } from "react-icons/fa6";
 import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
 import type { Airport } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
+import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { FormSection } from "~/shared/ui/Form/FormSection";
-import { useApi } from "~/state/api/context/useApi";
 import { newFlightRouteSchema } from "~/validator/form/flight.schema";
 
 type FlightRouteFormData = CreateFlightFormData["route"];

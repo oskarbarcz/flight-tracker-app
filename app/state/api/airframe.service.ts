@@ -1,5 +1,5 @@
 import type { Airframe } from "~/models";
-import { AbstractAuthorizedApiService } from "~/state/api/api.service";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 let airframesCache: Promise<Airframe[]> | null = null;
 

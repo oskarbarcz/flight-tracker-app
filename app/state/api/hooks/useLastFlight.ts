@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { type Flight, FlightPhase } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 
 type Response = {
   lastFlight: Flight | null;

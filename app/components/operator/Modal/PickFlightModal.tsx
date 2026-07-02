@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { LegPreview } from "~/components/operator/Form/Preview/LegPreview";
 import { type Flight, FlightPhase, FlightStatus } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 import type { GetRotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {

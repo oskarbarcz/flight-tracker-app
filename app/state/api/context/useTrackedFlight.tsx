@@ -1,4 +1,5 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
 import {
   type DelayRequest,
   type Diversion,
@@ -9,12 +10,11 @@ import {
   isEmergencyEvent,
   type Loadsheet,
 } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
+import { useApi } from "~/shared/api/useApi";
 import { subscribeToFlightEvents } from "~/state/api/flightEvents.socket";
 import type { RejectDelayReportRequest, ReportDelayRequest } from "~/state/api/request/delay.request";
 import type { ReportDiversionRequest, UpdateDiversionRequest } from "~/state/api/request/diversion.request";
 import type { DeclareEmergencyRequest, UpdateEmergencyRequest } from "~/state/api/request/emergency.request";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 
 function sortNewestFirst(events: FlightEvent[]): FlightEvent[] {
   return [...events].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());

@@ -4,9 +4,9 @@ import type { IconType } from "react-icons";
 import { HiOutlineLogout } from "react-icons/hi";
 import { MdBrightnessAuto, MdBrightnessHigh, MdBrightnessLow } from "react-icons/md";
 import { Link } from "react-router";
+import { useAuth } from "~/app-state/useAuth";
 import { type User, UserRole } from "~/models/user.model";
 import { getInitials } from "~/shared/lib/getInitials";
-import { useAuth } from "~/state/api/context/useAuth";
 
 type ThemeMode = "light" | "dark" | "auto";
 
