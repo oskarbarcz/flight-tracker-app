@@ -20,7 +20,7 @@ type Props = {
 };
 
 export function FullScreenMap({ flight, path }: Props) {
-  const { publicRunwayService, publicTerminalService, publicGateService } = usePublicApi();
+  const { publicRunwayService, publicTerminalService, publicParkingPositionService } = usePublicApi();
   const mapOptions = {
     padding: [100, 100],
     duration: 1,
@@ -68,11 +68,11 @@ export function FullScreenMap({ flight, path }: Props) {
 
         <TrackingAirportLayoutLayer
           terminalService={publicTerminalService}
-          gateService={publicGateService}
+          parkingPositionService={publicParkingPositionService}
           departureAirport={flight.departureAirport}
           destinationAirport={flight.destinationAirport}
-          departureGateId={flight.departureGateId}
-          arrivalGateId={flight.arrivalGateId}
+          departureParkingPositionId={flight.departureParkingPositionId}
+          arrivalParkingPositionId={flight.arrivalParkingPositionId}
         />
 
         <MapEventsHandler

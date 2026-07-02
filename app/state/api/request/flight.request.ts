@@ -10,9 +10,9 @@ export type CreateFlightRequest = Omit<
   | "status"
   | "source"
   | "createdAt"
-  | "departureGateId"
+  | "departureParkingPositionId"
   | "departureRunwayId"
-  | "arrivalGateId"
+  | "arrivalParkingPositionId"
   | "arrivalRunwayId"
   | "hasFlightPath"
 >;
@@ -67,9 +67,9 @@ export type ApiFlightResponse = {
   status: FlightStatus;
   tracking: Tracking;
   loadsheets: ApiLoadsheetsResponse;
-  departureGateId: string | null;
+  departureParkingPositionId: string | null;
   departureRunwayId: string | null;
-  arrivalGateId: string | null;
+  arrivalParkingPositionId: string | null;
   arrivalRunwayId: string | null;
   hasActiveEmergency?: boolean;
   isFlightDiverted?: boolean;

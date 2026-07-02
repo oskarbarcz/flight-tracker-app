@@ -84,9 +84,9 @@ export class Flight {
   status: FlightStatus;
   loadsheets: Loadsheets;
   rotationId: string | null;
-  departureGateId: string | null;
+  departureParkingPositionId: string | null;
   departureRunwayId: string | null;
-  arrivalGateId: string | null;
+  arrivalParkingPositionId: string | null;
   arrivalRunwayId: string | null;
   hasActiveEmergency: boolean;
   isFlightDiverted: boolean;
@@ -109,9 +109,9 @@ export class Flight {
       preliminary: flight.loadsheets.preliminary,
       final: flight.loadsheets.final,
     };
-    this.departureGateId = flight.departureGateId;
+    this.departureParkingPositionId = flight.departureParkingPositionId;
     this.departureRunwayId = flight.departureRunwayId;
-    this.arrivalGateId = flight.arrivalGateId;
+    this.arrivalParkingPositionId = flight.arrivalParkingPositionId;
     this.arrivalRunwayId = flight.arrivalRunwayId;
     this.hasActiveEmergency = flight.hasActiveEmergency ?? false;
     this.isFlightDiverted = flight.isFlightDiverted ?? false;
@@ -148,9 +148,9 @@ export enum FlightEventType {
   FlightWasCreated = "flight.created",
   PreliminaryLoadsheetWasUpdated = "flight.preliminary-loadsheet-updated",
   ScheduledTimesheetWasUpdated = "flight.scheduled-timesheet-updated",
-  DepartureGateWasChanged = "flight.departure-gate-changed",
+  DepartureParkingPositionWasChanged = "flight.departure-parking-position-changed",
   DepartureRunwayWasChanged = "flight.departure-runway-changed",
-  ArrivalGateWasChanged = "flight.arrival-gate-changed",
+  ArrivalParkingPositionWasChanged = "flight.arrival-parking-position-changed",
   ArrivalRunwayWasChanged = "flight.arrival-runway-changed",
   FlightWasAddedToRotation = "flight.added-to-rotation",
   FlightWasRemovedFromRotation = "flight.removed-from-rotation",
