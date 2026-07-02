@@ -1,4 +1,4 @@
-import type { Airframe } from "~/models/airframe.model";
+import type { Airframe } from "~/features/airframe/model";
 import type { FlightStatus } from "~/models/flight.model";
 import type { Coordinates } from "~/models/runway.model";
 

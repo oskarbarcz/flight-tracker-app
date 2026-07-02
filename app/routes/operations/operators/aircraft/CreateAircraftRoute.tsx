@@ -4,6 +4,7 @@ import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } fro
 import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { AirframeService } from "~/features/airframe/service";
 import type { Airframe } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";
@@ -13,7 +14,6 @@ import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock"
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AircraftService } from "~/state/api/aircraft.service";
-import { AirframeService } from "~/state/api/airframe.service";
 import { OperatorService } from "~/state/api/operator.service";
 import type { CreateAircraftRequest } from "~/state/api/request/operator.request";
 import { aircraftSchema } from "~/validator/form/aircraft.schema";

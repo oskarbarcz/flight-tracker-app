@@ -8,7 +8,7 @@ import {
   formatPerformanceCode,
   formatServiceCeiling,
   formatWeightCategory,
-} from "~/functions/formatAirframe";
+} from "~/features/airframe/lib/formatAirframe";
 import type { Aircraft } from "~/models";
 
 type Props = {

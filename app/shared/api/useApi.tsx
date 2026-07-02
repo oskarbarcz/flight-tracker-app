@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
+import { AirframeService } from "~/features/airframe/service";
 import { AircraftService } from "~/state/api/aircraft.service";
-import { AirframeService } from "~/state/api/airframe.service";
 import { AirportService } from "~/state/api/airport.service";
 import { AuthService } from "~/state/api/auth.service";
 import { DelayService } from "~/state/api/delay.service";

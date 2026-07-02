@@ -1,7 +1,7 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa6";
 import { AircraftImage } from "~/components/shared/Aircraft/AircraftImage";
-import { formatWeightCategory } from "~/functions/formatAirframe";
+import { formatWeightCategory } from "~/features/airframe/lib/formatAirframe";
 import type { Flight } from "~/models";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

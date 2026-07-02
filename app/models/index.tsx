@@ -1,6 +1,6 @@
+export * from "~/features/airframe/model";
 export * from "~/shared/models/geo";
 export * from "./aircraft.model";
-export * from "./airframe.model";
 export * from "./airport.model";
 export * from "./auth.model";
 export * from "./delay.model";
