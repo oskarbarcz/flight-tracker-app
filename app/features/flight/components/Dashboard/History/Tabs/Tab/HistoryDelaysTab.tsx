@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaClock } from "react-icons/fa6";
+import type { DelayRequest } from "~/features/delay";
 import { DelaySummary } from "~/features/delay/components/DelaySummary";
-import type { DelayRequest } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

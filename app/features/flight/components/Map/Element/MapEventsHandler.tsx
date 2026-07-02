@@ -2,7 +2,8 @@ import type { FitBoundsOptions, LatLngBounds } from "leaflet";
 import { useCallback, useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 import { useMapSettings } from "~/app-state/useMapSettings";
-import type { FlightPathElement, Position } from "~/models";
+import type { FlightPathElement } from "~/features/flight";
+import type { Position } from "~/shared/models/geo";
 
 type MapEventsHandlerProps = {
   bounds: LatLngBounds;

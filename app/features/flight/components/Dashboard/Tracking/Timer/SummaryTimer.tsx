@@ -1,5 +1,5 @@
 import React from "react";
-import type { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/features/flight";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 type Props = {

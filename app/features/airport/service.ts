@@ -1,5 +1,5 @@
+import type { Continent } from "~/features/airport";
 import type { CreateAirportRequest, EditAirportRequest, GetAirportResponse } from "~/features/airport/request";
-import type { Continent } from "~/models";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type AirportListFilters = {

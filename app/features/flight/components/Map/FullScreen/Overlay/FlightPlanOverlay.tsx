@@ -1,7 +1,7 @@
 import { FaDownload } from "react-icons/fa6";
 import { HiInformationCircle, HiX } from "react-icons/hi";
+import type { Flight } from "~/features/flight";
 import { usePublicFlightOfp } from "~/features/flight/hooks/usePublicFlightOfp";
-import type { Flight } from "~/models";
 import { RawHtml } from "~/shared/ui/RawHtml";
 
 type Props = {

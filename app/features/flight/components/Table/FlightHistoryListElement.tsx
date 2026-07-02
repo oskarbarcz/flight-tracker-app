@@ -2,7 +2,7 @@ import { TableCell, TableRow } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
-import { type FilledSchedule, type Flight, isFilledSchedule } from "~/models";
+import { type FilledSchedule, type Flight, isFilledSchedule } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 

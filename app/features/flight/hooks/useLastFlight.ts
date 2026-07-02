@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { type Flight, FlightPhase } from "~/models";
+import { type Flight, FlightPhase } from "~/features/flight";
 import { useApi } from "~/shared/api/useApi";
 
 type Response = {

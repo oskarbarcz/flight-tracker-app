@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Polygon } from "react-leaflet";
-import type { Airport } from "~/models";
+import type { Airport } from "~/features/airport";
 
 type Props = {
   airport: Airport;

@@ -1,5 +1,5 @@
 import { io, type Socket } from "socket.io-client";
-import type { FlightEvent } from "~/models";
+import type { FlightEvent } from "~/features/flight";
 import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
 import { readAccessToken } from "~/shared/lib/tokenStorage";
 

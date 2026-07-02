@@ -1,7 +1,7 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
-import type { Flight } from "~/models";
+import type { Flight } from "~/features/flight";
 import { MONTHS_SHORT } from "~/shared/lib/date";
 
 type Props = {

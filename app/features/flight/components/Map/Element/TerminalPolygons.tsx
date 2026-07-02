@@ -1,7 +1,7 @@
 import type { LeafletMouseEvent } from "leaflet";
 import { useMemo } from "react";
 import { Polygon, Tooltip } from "react-leaflet";
-import type { Terminal } from "~/models";
+import type { Terminal } from "~/features/terminal";
 import { TERMINAL_COLOR } from "~/shared/lib/mapColors";
 
 type Props = {

@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router";
+import { allianceLabel, continentLabel, type Operator } from "~/features/operator";
 import { allianceDot } from "~/features/operator/components/List/allianceStyle";
 import { OperatorFin } from "~/features/operator/components/OperatorFin";
-import { allianceLabel, continentLabel, type Operator } from "~/models";
 
 type Props = {
   operator: Operator;

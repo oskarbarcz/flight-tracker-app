@@ -3,7 +3,7 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo, FaPlaneCircleCheck } from "react-icons/fa6";
 import { Link } from "react-router";
-import type { Flight } from "~/models";
+import type { Flight } from "~/features/flight";
 import { dateDiffToReadable } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";

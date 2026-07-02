@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
+import { FlightStatus } from "~/features/flight";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { FlightStatus } from "~/models";
 
 export function MapPreviewStatusOverlay() {
   const { flight } = useTrackedFlight();

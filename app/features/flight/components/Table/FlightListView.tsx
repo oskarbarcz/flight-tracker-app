@@ -1,9 +1,9 @@
 import React from "react";
 import { useSearchParams } from "react-router";
+import type { FlightPhase } from "~/features/flight";
 import { FlightListEmptyState } from "~/features/flight/components/Table/FlightListEmptyState";
 import { FlightListTable } from "~/features/flight/components/Table/FlightListTable";
 import { useFlightList } from "~/features/flight/hooks/useFlightList";
-import type { FlightPhase } from "~/models";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
 type Props = {

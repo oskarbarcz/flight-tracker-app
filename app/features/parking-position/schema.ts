@@ -1,5 +1,4 @@
 import { type ObjectSchema, object, string } from "yup";
-import type { CreateParkingPositionFormData } from "~/features/parking-position/form";
 import {
   BridgeAvailability,
   DeicingCapability,
@@ -11,7 +10,8 @@ import {
   ParkingPositionType,
   ParkingSpotType,
   StairsBoarding,
-} from "~/models";
+} from "~/features/parking-position";
+import type { CreateParkingPositionFormData } from "~/features/parking-position/form";
 import { coordinatesSchema } from "~/shared/validator/coordinates.schema";
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;

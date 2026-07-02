@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { UserRole } from "~/models";
+import { UserRole } from "~/features/user";
 import { AuthGuard } from "~/routes/auth/AuthGuard";
 
 export default function OperationsLayout() {

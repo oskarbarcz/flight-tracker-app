@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import type { Terminal } from "~/features/terminal";
 import { RemoveTerminalModal } from "~/features/terminal/components/RemoveTerminalModal";
 import { TerminalList } from "~/features/terminal/components/TerminalList";
 import { TerminalListEmptyState } from "~/features/terminal/components/TerminalListEmptyState";
 import { TerminalService } from "~/features/terminal/service";
-import type { Terminal } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

@@ -1,4 +1,4 @@
-import type { SignInRequest, SignInResponse } from "~/models";
+import type { SignInRequest, SignInResponse } from "~/features/auth";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class AuthService extends AbstractAuthorizedApiService {

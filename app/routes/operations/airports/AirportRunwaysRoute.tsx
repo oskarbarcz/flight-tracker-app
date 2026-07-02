@@ -6,13 +6,13 @@ import { Link, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { AirportService } from "~/features/airport/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
+import type { Runway } from "~/features/runway";
 import { AirportRunwaysMap } from "~/features/runway/components/AirportRunwaysMap";
 import { RemoveRunwayModal } from "~/features/runway/components/RemoveRunwayModal";
 import { RunwayList } from "~/features/runway/components/RunwayList";
 import { RunwayListEmptyState } from "~/features/runway/components/RunwayListEmptyState";
 import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
-import type { Runway } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

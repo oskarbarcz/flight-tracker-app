@@ -6,6 +6,7 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
 import { Link, useLoaderData, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { FlightStatus } from "~/features/flight";
 import { SelectParkingPositionModal } from "~/features/flight/components/Modal/SelectParkingPositionModal";
 import { SelectRunwayModal } from "~/features/flight/components/Modal/SelectRunwayModal";
 import { AirportEndpointCard } from "~/features/flight/components/Overview/AirportEndpointCard";
@@ -16,10 +17,12 @@ import { ParkingPositionEmptyPanel } from "~/features/flight/components/Overview
 import { RouteMap } from "~/features/flight/components/Overview/RouteMap";
 import { RunwayEmptyPanel } from "~/features/flight/components/Overview/RunwayEmptyPanel";
 import { FlightService } from "~/features/flight/service";
+import type { ParkingPosition } from "~/features/parking-position";
 import { ParkingPositionService } from "~/features/parking-position/service";
+import type { Runway } from "~/features/runway";
 import { RunwayService } from "~/features/runway/service";
+import type { Terminal } from "~/features/terminal";
 import { TerminalService } from "~/features/terminal/service";
-import { FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 const DEPARTURE_RUNWAY_CHANGEABLE = new Set<FlightStatus>([

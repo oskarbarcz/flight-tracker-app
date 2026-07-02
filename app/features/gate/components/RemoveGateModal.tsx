@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
-import type { Gate } from "~/models";
+import type { Gate } from "~/features/gate";
 
 type Props = {
   gate: Gate;

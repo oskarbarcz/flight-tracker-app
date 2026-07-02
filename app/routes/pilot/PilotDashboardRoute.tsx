@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { type Flight, FlightStatus } from "~/features/flight";
 import { CurrentFlightBox } from "~/features/flight/components/Dashboard/Main/Box/CurrentFlightBox";
 import { CurrentRotationBox } from "~/features/flight/components/Dashboard/Main/Box/CurrentRotationBox";
 import { DebugFlightListBox } from "~/features/flight/components/Dashboard/Main/Box/DebugFlightListBox";
@@ -15,7 +16,6 @@ import { useLastFlight } from "~/features/flight/hooks/useLastFlight";
 import { CurrentLocationBox } from "~/features/travel/components/CurrentLocationBox";
 import { CurrentLocationBoxLoader } from "~/features/travel/components/CurrentLocationBoxLoader";
 import { useUserTravels } from "~/features/user/hooks/useUserTravels";
-import { type Flight, FlightStatus } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";

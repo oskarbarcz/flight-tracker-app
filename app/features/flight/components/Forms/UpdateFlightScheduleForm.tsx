@@ -1,5 +1,5 @@
 import { useFormikContext } from "formik";
-import type { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/features/flight";
 import { getTimeDifferenceInHours, getTimeDifferenceInMinutes } from "~/shared/lib/time";
 import { ManagedDateTimeInputBlock } from "~/shared/ui/Form/Managed/ManagedDateTimeInputBlock";
 

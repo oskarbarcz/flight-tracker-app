@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { useLoaderData, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { FlightStatus, type Loadsheet } from "~/features/flight";
 import { UpdatePreliminaryLoadsheetModal } from "~/features/flight/components/Modal/UpdatePreliminaryLoadsheetModal";
 import { LoadsheetCard } from "~/features/flight/components/Overview/LoadsheetCard";
 import { FlightService } from "~/features/flight/service";
-import { FlightStatus, type Loadsheet } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

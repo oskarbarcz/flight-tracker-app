@@ -1,7 +1,8 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
-import type { Airport, FilledSchedule } from "~/models";
+import type { Airport } from "~/features/airport";
+import type { FilledSchedule } from "~/features/flight";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { Container } from "~/shared/ui/Layout/Container";

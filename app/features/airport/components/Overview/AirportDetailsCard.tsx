@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { LuClock, LuMapPin, LuTag } from "react-icons/lu";
 import { Link } from "react-router";
-import type { Airport } from "~/models";
+import type { Airport } from "~/features/airport";
 import { formatLatitude, formatLongitude, getUtcOffset } from "~/shared/lib/formatGeo";
 import { dateToTimezoneTime } from "~/shared/ui/Date/FormattedTimezoneTime";
 import { DataField } from "~/shared/ui/Display/DataField";

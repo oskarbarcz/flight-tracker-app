@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
+import type { Airport } from "~/features/airport";
 import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
-import type { Airport } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 

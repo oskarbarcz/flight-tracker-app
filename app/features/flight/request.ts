@@ -1,4 +1,6 @@
-import type { Aircraft, AirportOnFlight, FlightCrew, FlightStatus, Operator, Tracking } from "~/models";
+import type { Aircraft } from "~/features/aircraft";
+import type { AirportOnFlight, FlightCrew, FlightStatus, Tracking } from "~/features/flight";
+import type { Operator } from "~/features/operator";
 
 export type CreateFlightRequest = Omit<
   ApiFlightResponse,

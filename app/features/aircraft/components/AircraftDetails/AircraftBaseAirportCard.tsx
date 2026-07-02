@@ -1,6 +1,6 @@
 import React from "react";
 import { HiOutlineHome } from "react-icons/hi";
-import type { AircraftAirport } from "~/models";
+import type { AircraftAirport } from "~/features/aircraft";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

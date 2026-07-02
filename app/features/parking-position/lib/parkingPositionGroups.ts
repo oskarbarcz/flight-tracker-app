@@ -1,4 +1,5 @@
-import type { ParkingPosition, Terminal } from "~/models";
+import type { ParkingPosition } from "~/features/parking-position";
+import type { Terminal } from "~/features/terminal";
 
 export type TerminalParkingPositionGroup = {
   terminal: Terminal | null;

@@ -1,7 +1,7 @@
 import { Tooltip } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import type { Flight } from "~/models";
+import type { Flight } from "~/features/flight";
 import { formatDate } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 

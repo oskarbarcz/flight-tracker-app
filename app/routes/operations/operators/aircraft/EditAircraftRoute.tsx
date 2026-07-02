@@ -6,9 +6,9 @@ import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-rout
 import { useToast } from "~/app-state/useToast";
 import { aircraftSchema } from "~/features/aircraft/schema";
 import { AircraftService } from "~/features/aircraft/service";
+import type { Airframe } from "~/features/airframe";
 import { AirframeService } from "~/features/airframe/service";
 import type { EditAircraftRequest } from "~/features/operator/request";
-import type { Airframe } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";

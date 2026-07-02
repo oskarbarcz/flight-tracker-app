@@ -1,4 +1,5 @@
-import type { Operator, Rotation } from "~/models";
+import type { Operator } from "~/features/operator";
+import type { Rotation } from "~/features/rotation";
 
 export type CreateOperatorRequest = Omit<Operator, "id" | "fleetTypes" | "fleetSize">;
 export type EditOperatorRequest = CreateOperatorRequest;

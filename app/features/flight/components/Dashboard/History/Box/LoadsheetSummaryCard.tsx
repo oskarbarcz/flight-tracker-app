@@ -2,7 +2,7 @@ import React from "react";
 import type { IconType } from "react-icons";
 import { FaBox, FaFileInvoice, FaGasPump, FaScaleBalanced, FaUserGroup, FaUserTie } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
-import type { Loadsheet } from "~/models";
+import type { Loadsheet } from "~/features/flight";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 

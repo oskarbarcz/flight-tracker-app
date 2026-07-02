@@ -4,13 +4,9 @@ import { Field, Formik, Form as FormikForm, type FormikHelpers, useFormikContext
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import type { Airport } from "~/features/airport";
 import { AirportService } from "~/features/airport/service";
-import { createParkingPositionSchema } from "~/features/parking-position/schema";
-import { ParkingPositionService } from "~/features/parking-position/service";
-import { parkingPositionFormDataToRequest, parkingPositionToFormData } from "~/features/parking-position/transformer";
-import { TerminalService } from "~/features/terminal/service";
 import {
-  type Airport,
   bridgeOptions,
   type CreateParkingPositionFormData,
   DeicingCapability,
@@ -25,8 +21,12 @@ import {
   parkingPositionTypeOptions,
   parkingSpotTypeOptions,
   stairsOptions,
-  type Terminal,
-} from "~/models";
+} from "~/features/parking-position";
+import { createParkingPositionSchema } from "~/features/parking-position/schema";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { parkingPositionFormDataToRequest, parkingPositionToFormData } from "~/features/parking-position/transformer";
+import type { Terminal } from "~/features/terminal";
+import { TerminalService } from "~/features/terminal/service";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";

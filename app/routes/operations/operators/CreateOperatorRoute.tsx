@@ -3,14 +3,14 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { createOperatorSchema } from "~/features/operator/schema";
 import {
   type CreateOperatorFormData,
   continentOptions,
   initCreateOperatorData,
   operatorFormDataToRequest,
   operatorTypeOptions,
-} from "~/models";
+} from "~/features/operator";
+import { createOperatorSchema } from "~/features/operator/schema";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";

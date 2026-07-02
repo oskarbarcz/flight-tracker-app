@@ -1,6 +1,6 @@
 import React from "react";
+import type { Airport } from "~/features/airport";
 import { toHuman } from "~/i18n/translate";
-import type { Airport } from "~/models";
 import { getUtcOffset } from "~/shared/lib/formatGeo";
 
 type Props = {

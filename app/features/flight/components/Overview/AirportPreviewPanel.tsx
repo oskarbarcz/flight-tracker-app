@@ -1,6 +1,6 @@
 import React from "react";
 import { HiOutlineGlobeAlt } from "react-icons/hi";
-import type { Airport } from "~/models";
+import type { Airport } from "~/features/airport";
 
 type Props = {
   airport: Airport;

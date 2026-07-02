@@ -11,8 +11,8 @@ import {
   type ParkingPosition,
   parkingSpotTypeOptions,
   stairsOptions,
-  type Terminal,
-} from "~/models";
+} from "~/features/parking-position";
+import type { Terminal } from "~/features/terminal";
 import { formatCoordinates } from "~/shared/lib/formatGeo";
 
 type Props = {

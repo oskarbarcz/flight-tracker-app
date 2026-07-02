@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { FlightSource, FlightStatus } from "~/features/flight";
 import { FlightDataTab, FlightDataTabs } from "~/features/flight/components/Dashboard/Tabs/FlightDataTabs";
 import { FlightDelaysTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightDelaysTab";
 import { FlightEmergenciesDiversionsTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightEmergenciesDiversionsTab";
@@ -9,7 +10,6 @@ import { FlightProgressTab } from "~/features/flight/components/Dashboard/Tabs/T
 import { FlightRunwayAnalysisTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightRunwayAnalysisTab";
 import { FlightHeader } from "~/features/flight/components/Dashboard/Tracking/FlightHeader";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { FlightSource, FlightStatus } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 type Props = {

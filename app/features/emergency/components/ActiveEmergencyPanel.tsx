@@ -1,6 +1,7 @@
 import { Badge, Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaPencil, FaTriangleExclamation } from "react-icons/fa6";
+import { type Emergency, EmergencyThreatLevel } from "~/features/emergency";
 import {
   categoryLabel,
   dangerousGoodsLabel,
@@ -12,8 +13,6 @@ import {
 import { ResolveEmergencyConfirmModal } from "~/features/emergency/components/ResolveEmergencyConfirmModal";
 import { UpdateEmergencyModal } from "~/features/emergency/components/UpdateEmergencyModal";
 import { UserName } from "~/features/user/components/UserName";
-import type { Emergency } from "~/models";
-import { EmergencyThreatLevel } from "~/models";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 

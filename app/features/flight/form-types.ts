@@ -1,4 +1,4 @@
-import type { Loadsheet } from "~/models";
+import type { Loadsheet } from "~/features/flight";
 
 export type FlatLoadsheetFormData = {
   pilots: number;

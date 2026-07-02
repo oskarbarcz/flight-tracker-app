@@ -1,5 +1,6 @@
 import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
+import type { Flight, FlightPathElement } from "~/features/flight";
 import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -11,8 +12,8 @@ import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLa
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
 import { FlightDetailsSectionOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
-import type { Flight, FlightPathElement, Position } from "~/models";
 import { usePublicApi } from "~/shared/api/usePublicApi";
+import type { Position } from "~/shared/models/geo";
 
 type Props = {
   flight: Flight;

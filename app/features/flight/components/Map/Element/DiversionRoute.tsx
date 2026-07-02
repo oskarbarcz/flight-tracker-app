@@ -1,6 +1,7 @@
+import type { Airport } from "~/features/airport";
+import type { Diversion } from "~/features/diversion";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
-import type { Airport, Diversion } from "~/models";
 
 type Props = {
   origin: Airport;

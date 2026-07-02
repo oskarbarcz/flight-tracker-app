@@ -1,6 +1,6 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import type { Operator } from "~/models";
+import type { Operator } from "~/features/operator";
 
 const finThumbnails = import.meta.glob("../../assets/operator/thumb/*.jpg", {
   eager: true,

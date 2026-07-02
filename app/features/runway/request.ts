@@ -1,4 +1,4 @@
-import type { Runway } from "~/models";
+import type { Runway } from "~/features/runway";
 
 export type CreateRunwayRequest = Omit<Runway, "id" | "airportId">;
 export type EditRunwayRequest = CreateRunwayRequest;

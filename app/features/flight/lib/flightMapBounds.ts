@@ -1,4 +1,5 @@
-import type { Diversion, Flight } from "~/models";
+import type { Diversion } from "~/features/diversion";
+import type { Flight } from "~/features/flight";
 import type { Position } from "~/shared/models/geo";
 
 export type FlightMapPositions = {

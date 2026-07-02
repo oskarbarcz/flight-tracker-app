@@ -1,11 +1,12 @@
 import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { FaIdCard } from "react-icons/fa6";
+import type { Aircraft } from "~/features/aircraft";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import type { CreateFlightFormData } from "~/features/flight/form";
 import { newFlightIdentitySchema } from "~/features/flight/schema";
+import { allianceLabel, type Operator } from "~/features/operator";
 import { OperatorFin } from "~/features/operator/components/OperatorFin";
-import { type Aircraft, allianceLabel, type Operator } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect, type AdvancedSelectOption } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";

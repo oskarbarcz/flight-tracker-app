@@ -2,8 +2,10 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
+import { type Gate, gateCategoryOptions } from "~/features/gate";
 import { groupGatesByTerminal } from "~/features/gate/lib/gateGroups";
-import { type Gate, gateCategoryOptions, type ParkingPosition, type Terminal } from "~/models";
+import type { ParkingPosition } from "~/features/parking-position";
+import type { Terminal } from "~/features/terminal";
 
 type Props = {
   airportId: string;

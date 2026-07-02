@@ -11,7 +11,7 @@ import {
   emergencySquawkOptions,
   emergencyThreatLevelOptions,
   emergencyUrgencyOptions,
-} from "~/models";
+} from "~/features/emergency";
 import { buildEnumLookup } from "~/shared/lib/buildEnumLookup";
 
 export const urgencyLabel = buildEnumLookup<EmergencyUrgency>(emergencyUrgencyOptions);

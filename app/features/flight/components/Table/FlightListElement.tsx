@@ -4,8 +4,8 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
+import type { Flight } from "~/features/flight";
 import { FlightStatusBadge } from "~/features/flight/components/Flight/FlightStatusBadge";
-import type { Flight } from "~/models";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 

@@ -1,10 +1,10 @@
+import { type FilledSchedule, FlightStatus } from "~/features/flight";
 import { ArrivalTimer } from "~/features/flight/components/Dashboard/Tracking/Timer/ArrivalTimer";
 import { OffBlockTimer } from "~/features/flight/components/Dashboard/Tracking/Timer/OffBlockTimer";
 import { OnBlockTimer } from "~/features/flight/components/Dashboard/Tracking/Timer/OnBlockTimer";
 import { SummaryTimer } from "~/features/flight/components/Dashboard/Tracking/Timer/SummaryTimer";
 import { TakeoffTimer } from "~/features/flight/components/Dashboard/Tracking/Timer/TakeoffTimer";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { type FilledSchedule, FlightStatus } from "~/models";
 
 export function FlightTimerBox() {
   const { flight } = useTrackedFlight();

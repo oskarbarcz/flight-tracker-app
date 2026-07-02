@@ -1,7 +1,7 @@
 import { TabItem, Tabs } from "flowbite-react";
 import { useNavigate, useSearchParams } from "react-router";
+import { allContinents } from "~/features/airport";
 import { toHuman } from "~/i18n/translate";
-import { allContinents } from "~/models";
 
 export function ContinentFilterTabs() {
   const continents = allContinents();

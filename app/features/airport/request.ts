@@ -1,5 +1,5 @@
+import type { Airport } from "~/features/airport";
 import type { Coordinates } from "~/features/runway/model";
-import type { Airport } from "~/models";
 
 export type CreateAirportRequest = Omit<Airport, "id" | "shape"> & {
   shape?: Coordinates[] | null;

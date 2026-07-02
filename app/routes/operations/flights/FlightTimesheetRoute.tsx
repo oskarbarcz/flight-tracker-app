@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { useLoaderData, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { type FilledSchedule, FlightStatus } from "~/features/flight";
 import { UpdateScheduledTimesheetModal } from "~/features/flight/components/Modal/UpdateScheduledTimesheetModal";
 import { FlightEventsTimeline } from "~/features/flight/components/Overview/FlightEventsTimeline";
 import { TimesheetCard } from "~/features/flight/components/Overview/TimesheetCard";
 import { FlightService } from "~/features/flight/service";
-import { type FilledSchedule, FlightStatus } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

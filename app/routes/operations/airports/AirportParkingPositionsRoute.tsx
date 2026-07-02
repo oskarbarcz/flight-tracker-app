@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import type { ParkingPosition } from "~/features/parking-position";
 import { ParkingPositionList } from "~/features/parking-position/components/ParkingPositionList";
 import { ParkingPositionListEmptyState } from "~/features/parking-position/components/ParkingPositionListEmptyState";
 import { RemoveParkingPositionModal } from "~/features/parking-position/components/RemoveParkingPositionModal";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { TerminalService } from "~/features/terminal/service";
-import type { ParkingPosition } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

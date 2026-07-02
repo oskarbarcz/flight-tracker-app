@@ -5,7 +5,10 @@ import { FaChevronDown, FaPlaneArrival, FaPlaneCircleExclamation, FaPlaneDepartu
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
 import { useToast } from "~/app-state/useToast";
+import type { Airport } from "~/features/airport";
+import type { Diversion } from "~/features/diversion";
 import { diversionReasonLabel, diversionSeverityLabel } from "~/features/diversion/components/diversionLabels";
+import { FlightStatus } from "~/features/flight";
 import { SelectParkingPositionModal } from "~/features/flight/components/Modal/SelectParkingPositionModal";
 import { SelectRunwayModal } from "~/features/flight/components/Modal/SelectRunwayModal";
 import { AirportPreviewPanel } from "~/features/flight/components/Overview/AirportPreviewPanel";
@@ -16,7 +19,9 @@ import { ParkingPositionEmptyPanel } from "~/features/flight/components/Overview
 import { RunwayEmptyPanel } from "~/features/flight/components/Overview/RunwayEmptyPanel";
 import { TerminalEmptyPanel } from "~/features/flight/components/Overview/TerminalEmptyPanel";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { type Airport, type Diversion, FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
+import type { ParkingPosition } from "~/features/parking-position";
+import type { Runway } from "~/features/runway";
+import type { Terminal } from "~/features/terminal";
 import { useApi } from "~/shared/api/useApi";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";

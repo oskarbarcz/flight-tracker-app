@@ -1,7 +1,7 @@
 import Arc from "arc";
 import type { LatLngTuple } from "leaflet";
 import { Polyline } from "react-leaflet";
-import type { Airport } from "~/models";
+import type { Airport } from "~/features/airport";
 
 type GreatCirclePathType = {
   start: Airport;

@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
-import type { Runway } from "~/models";
+import type { Runway } from "~/features/runway";
 
 type Props = {
   runway: Runway;

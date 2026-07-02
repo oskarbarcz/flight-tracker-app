@@ -2,8 +2,8 @@ import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableR
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useDataRefresh } from "~/app-state/useDataRefresh";
+import { type Flight, FlightPhase } from "~/features/flight";
 import { FlightHistoryListElement } from "~/features/flight/components/Table/FlightHistoryListElement";
-import { type Flight, FlightPhase } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 const PAGE_SIZE = 10;

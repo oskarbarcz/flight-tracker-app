@@ -1,10 +1,5 @@
-import {
-  type Aircraft,
-  AircraftState,
-  type FlightHistoryAirport,
-  type FlightHistoryEntry,
-  FlightStatus,
-} from "~/models";
+import { type Aircraft, AircraftState, type FlightHistoryAirport, type FlightHistoryEntry } from "~/features/aircraft";
+import { FlightStatus } from "~/features/flight";
 
 export type AircraftStatusView =
   | { kind: "parked"; airport: FlightHistoryAirport | null; since: Date | null; flight: FlightHistoryEntry | null }

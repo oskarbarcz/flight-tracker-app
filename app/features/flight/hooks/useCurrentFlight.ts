@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "~/app-state/useAuth";
-import type { Flight, User } from "~/models";
+import type { Flight } from "~/features/flight";
+import type { User } from "~/features/user";
 import { useApi } from "~/shared/api/useApi";
 
 type Response = {

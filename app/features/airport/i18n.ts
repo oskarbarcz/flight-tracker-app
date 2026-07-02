@@ -1,4 +1,4 @@
-import { Continent } from "~/models";
+import { Continent } from "~/features/airport";
 
 export function translateContinent(continent: Continent): string {
   switch (continent) {

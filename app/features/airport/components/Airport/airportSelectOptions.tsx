@@ -1,6 +1,6 @@
 import React from "react";
+import type { Airport } from "~/features/airport";
 import { AirportShape } from "~/features/airport/components/Airport/AirportShape";
-import type { Airport } from "~/models";
 import type { AdvancedSelectOption } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
 

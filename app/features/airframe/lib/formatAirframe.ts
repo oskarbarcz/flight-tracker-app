@@ -1,4 +1,4 @@
-import { type CruiseSpeed, PerformanceCode, SpeedUnit, type WeightCategory } from "~/models";
+import { type CruiseSpeed, PerformanceCode, SpeedUnit, type WeightCategory } from "~/features/airframe";
 
 export function formatCruiseSpeed({ value, unit }: CruiseSpeed): string {
   return unit === SpeedUnit.Mach ? `Mach ${value}` : `${value} kt`;

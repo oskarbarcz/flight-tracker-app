@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useLoaderData, useNavigate, useRevalidator } from "react-router";
 import { useDataRefresh } from "~/app-state/useDataRefresh";
 import { useToast } from "~/app-state/useToast";
+import { FlightSource, type Tracking } from "~/features/flight";
 import { EmergencyInProgressAlert } from "~/features/flight/components/Header/EmergencyInProgressAlert";
 import { FlightHeader } from "~/features/flight/components/Header/FlightHeader";
 import { FlightTabs } from "~/features/flight/components/Header/FlightTabs";
@@ -11,7 +12,6 @@ import { RemoveFlightModal } from "~/features/flight/components/Modal/RemoveFlig
 import { UpdateTrackingModal } from "~/features/flight/components/Modal/UpdateTrackingModal";
 import { TrackedFlightProvider, useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { FlightService } from "~/features/flight/service";
-import { FlightSource, type Tracking } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 

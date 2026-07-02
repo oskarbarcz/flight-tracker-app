@@ -1,5 +1,6 @@
+import type { Airport } from "~/features/airport";
+import type { DiversionReason, DiversionSeverity } from "~/features/diversion";
 import type { ApiCoordinates } from "~/features/emergency/request";
-import type { Airport, DiversionReason, DiversionSeverity } from "~/models";
 
 export type ApiDiversionResponse = {
   id: string;

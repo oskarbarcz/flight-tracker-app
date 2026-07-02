@@ -2,6 +2,7 @@ import { Button } from "flowbite-react";
 import React, { type ReactElement, useEffect } from "react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
+import { FlightStatus } from "~/features/flight";
 import { CheckInButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CheckInButton";
 import { CloseFlightButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CloseFlightButton";
 import { FinishBoardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/FinishBoardingButton";
@@ -13,7 +14,6 @@ import { ReportTakeoffButton } from "~/features/flight/components/Dashboard/Trac
 import { StartBoardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/StartBoardingButton";
 import { StartOffboardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/StartOffboardingButton";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { FlightStatus } from "~/models";
 
 function mapStatusToButton(status: FlightStatus, disabled: boolean): ReactElement<typeof StartBoardingButton> | null {
   switch (status) {

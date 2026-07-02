@@ -4,8 +4,6 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { createOperatorSchema } from "~/features/operator/schema";
-import { OperatorService } from "~/features/operator/service";
 import {
   type CreateOperatorFormData,
   continentOptions,
@@ -13,7 +11,9 @@ import {
   operatorFormDataToRequest,
   operatorToFormData,
   operatorTypeOptions,
-} from "~/models";
+} from "~/features/operator";
+import { createOperatorSchema } from "~/features/operator/schema";
+import { OperatorService } from "~/features/operator/service";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";

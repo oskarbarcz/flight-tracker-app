@@ -5,18 +5,14 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { AirportService } from "~/features/airport/service";
+import { type CreateGateFormData, gateCategoryOptions, initCreateGateData } from "~/features/gate";
 import { createGateSchema } from "~/features/gate/schema";
 import { GateService } from "~/features/gate/service";
 import { gateFormDataToRequest } from "~/features/gate/transformer";
+import type { ParkingPosition } from "~/features/parking-position";
 import { ParkingPositionService } from "~/features/parking-position/service";
+import type { Terminal } from "~/features/terminal";
 import { TerminalService } from "~/features/terminal/service";
-import {
-  type CreateGateFormData,
-  gateCategoryOptions,
-  initCreateGateData,
-  type ParkingPosition,
-  type Terminal,
-} from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";

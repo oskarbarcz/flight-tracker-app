@@ -2,6 +2,7 @@ import L from "leaflet";
 import React, { useCallback, useEffect } from "react";
 import { MapContainer } from "react-leaflet";
 import { AdsbProvider, useAdsbData } from "~/features/adsb/hooks/useAdsbData";
+import { type Flight, shouldPollForAdsbData } from "~/features/flight";
 import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
 import { MapPreviewStatusOverlay } from "~/features/flight/components/Map/Box/Overlay/PreviewStatusOverlay";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
@@ -9,7 +10,6 @@ import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatC
 import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
-import { type Flight, shouldPollForAdsbData } from "~/models";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
 type Props = {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { UserStats } from "~/models";
+import type { UserStats } from "~/features/user";
 import { useApi } from "~/shared/api/useApi";
 
 type Response = {

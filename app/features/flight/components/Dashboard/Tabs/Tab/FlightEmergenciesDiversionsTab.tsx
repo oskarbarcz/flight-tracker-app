@@ -7,8 +7,8 @@ import { ActiveEmergencyPanel } from "~/features/emergency/components/ActiveEmer
 import { DeclareEmergencyModal } from "~/features/emergency/components/DeclareEmergencyModal";
 import { EmergencyEmptyState } from "~/features/emergency/components/EmergencyEmptyState";
 import { ResolvedEmergenciesHistory } from "~/features/emergency/components/ResolvedEmergenciesHistory";
+import { FlightStatus } from "~/features/flight";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { FlightStatus } from "~/models";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 

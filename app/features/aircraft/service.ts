@@ -1,5 +1,5 @@
+import type { Aircraft, AircraftReposition, FlightHistoryEntry } from "~/features/aircraft";
 import type { CreateAircraftRequest, CreateRepositionRequest, EditAircraftRequest } from "~/features/operator/request";
-import type { Aircraft, AircraftReposition, FlightHistoryEntry } from "~/models";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class AircraftService extends AbstractAuthorizedApiService {

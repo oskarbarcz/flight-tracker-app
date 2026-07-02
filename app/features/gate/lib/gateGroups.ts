@@ -1,4 +1,5 @@
-import type { Gate, Terminal } from "~/models";
+import type { Gate } from "~/features/gate";
+import type { Terminal } from "~/features/terminal";
 
 export type TerminalGateGroup = {
   terminal: Terminal | null;

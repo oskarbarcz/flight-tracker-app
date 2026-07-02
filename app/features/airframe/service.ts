@@ -1,4 +1,4 @@
-import type { Airframe } from "~/models";
+import type { Airframe } from "~/features/airframe";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 let airframesCache: Promise<Airframe[]> | null = null;

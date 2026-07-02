@@ -1,6 +1,6 @@
 import { number, type ObjectSchema, object, string } from "yup";
+import { LightingType, SurfaceType } from "~/features/runway";
 import type { CreateRunwayFormData } from "~/features/runway/form";
-import { LightingType, SurfaceType } from "~/models";
 
 const optionalIntegerString = (min?: number, max?: number) => {
   const rangeMessage =

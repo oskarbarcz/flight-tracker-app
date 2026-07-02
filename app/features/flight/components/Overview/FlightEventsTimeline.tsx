@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FaListCheck } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
+import { type FlightEvent, FlightEventScope, isDiversionEvent, isEmergencyEvent } from "~/features/flight";
 import { UserName } from "~/features/user/components/UserName";
 import { toHuman } from "~/i18n/translate";
-import { type FlightEvent, FlightEventScope, isDiversionEvent, isEmergencyEvent } from "~/models";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { Container } from "~/shared/ui/Layout/Container";

@@ -3,9 +3,9 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useAuth } from "~/app-state/useAuth";
 import { useToast } from "~/app-state/useToast";
+import { type InitiateTravelFormData, initInitiateTravelData } from "~/features/travel";
 import { TravelDestinationField } from "~/features/travel/components/TravelDestinationField";
 import { initiateTravelSchema } from "~/features/travel/schema";
-import { type InitiateTravelFormData, initInitiateTravelData } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 

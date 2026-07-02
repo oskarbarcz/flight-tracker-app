@@ -2,11 +2,11 @@ import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaPlane, FaRegClock } from "react-icons/fa";
 import { FaFileInvoice, FaMapLocationDot, FaUserGroup } from "react-icons/fa6";
+import type { Flight } from "~/features/flight";
 import { BasicFlightInfoOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/BasicFlightInfoOverlay";
 import { DocumentsOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/DocumentsOverlay";
 import { FlightPlanOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/FlightPlanOverlay";
 import { TimelineOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/TimelineOverlay";
-import type { Flight } from "~/models";
 
 type Props = {
   flight: Flight;

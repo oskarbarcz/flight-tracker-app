@@ -1,4 +1,4 @@
-import type { FlightPathElement } from "~/models";
+import type { FlightPathElement } from "~/features/flight";
 import { AbstractApiService } from "~/shared/api/api.service";
 import { getAdsbApiHost } from "~/shared/lib/getFlightTrackerApiHost";
 

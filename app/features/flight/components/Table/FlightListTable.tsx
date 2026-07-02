@@ -1,9 +1,9 @@
 import { Pagination, Spinner, Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { useSearchParams } from "react-router";
+import type { Flight } from "~/features/flight";
 import { FlightListElement } from "~/features/flight/components/Table/FlightListElement";
 import { useFlightList } from "~/features/flight/hooks/useFlightList";
-import type { Flight } from "~/models";
 
 export function FlightListTable() {
   const { flights, loading, totalCount, limit } = useFlightList();

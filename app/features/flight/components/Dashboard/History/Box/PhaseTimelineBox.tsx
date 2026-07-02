@@ -1,7 +1,7 @@
 import React from "react";
 import { FaStopwatch } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
-import type { FilledSchedule, Flight, Schedule } from "~/models";
+import type { FilledSchedule, Flight, Schedule } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { Container } from "~/shared/ui/Layout/Container";

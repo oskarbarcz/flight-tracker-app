@@ -5,10 +5,15 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { AirportService } from "~/features/airport/service";
+import {
+  type CreateRunwayFormData,
+  initCreateRunwayData,
+  lightingTypeOptions,
+  surfaceTypeOptions,
+} from "~/features/runway";
 import { RunwayLocationPicker } from "~/features/runway/components/RunwayLocationPicker";
 import { createRunwaySchema } from "~/features/runway/schema";
 import { runwayFormDataToRequest } from "~/features/runway/transformer";
-import { type CreateRunwayFormData, initCreateRunwayData, lightingTypeOptions, surfaceTypeOptions } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";

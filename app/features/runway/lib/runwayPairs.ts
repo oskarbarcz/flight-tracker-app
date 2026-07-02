@@ -1,4 +1,4 @@
-import type { Runway } from "~/models";
+import type { Runway } from "~/features/runway";
 import { padZero } from "~/shared/lib/time";
 
 export type RunwayPair = {

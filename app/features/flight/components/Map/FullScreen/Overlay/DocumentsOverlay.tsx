@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBox, FaGasPump, FaScaleBalanced, FaUserGroup, FaUserTie } from "react-icons/fa6";
 import { HiInformationCircle, HiX } from "react-icons/hi";
-import type { Flight, Loadsheet } from "~/models";
+import type { Flight, Loadsheet } from "~/features/flight";
 
 type Props = {
   flight: Flight;

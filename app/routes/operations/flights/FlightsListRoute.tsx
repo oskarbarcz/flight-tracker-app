@@ -1,8 +1,8 @@
 import React from "react";
+import { FlightPhase } from "~/features/flight";
 import { PlanFlightOptions } from "~/features/flight/components/PlanFlightOptions";
 import { FlightListView } from "~/features/flight/components/Table/FlightListView";
 import { FlightListProvider } from "~/features/flight/hooks/useFlightList";
-import { FlightPhase } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 

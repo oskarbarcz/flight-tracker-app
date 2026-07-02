@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
-import type { Terminal } from "~/models";
+import type { Terminal } from "~/features/terminal";
 
 type Props = {
   terminal: Terminal;

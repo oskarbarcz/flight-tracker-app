@@ -1,9 +1,9 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { HiOutlineLocationMarker, HiOutlinePaperAirplane, HiOutlineSwitchHorizontal } from "react-icons/hi";
+import type { Aircraft, FlightHistoryEntry } from "~/features/aircraft";
 import { LocationMap, MapPill, type MapTone } from "~/features/aircraft/components/AircraftDetails/LocationMap";
 import { type AircraftStatusView, deriveAircraftStatus } from "~/features/aircraft/lib/aircraftStatus";
-import type { Aircraft, FlightHistoryEntry } from "~/models";
 import { formatDate } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

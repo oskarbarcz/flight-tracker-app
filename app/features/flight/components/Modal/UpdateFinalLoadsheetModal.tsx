@@ -1,5 +1,6 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
+import type { Flight, Loadsheet } from "~/features/flight";
 import { UpdateLoadsheetForm } from "~/features/flight/components/Forms/UpdateLoadsheetForm";
 import {
   type FlatLoadsheetFormData,
@@ -7,7 +8,6 @@ import {
   loadsheetToFlatLoadsheet,
 } from "~/features/flight/form-types";
 import { updatePreliminaryLoadsheetSchema } from "~/features/flight/schema";
-import type { Flight, Loadsheet } from "~/models";
 import { Form } from "~/shared/ui/Form/Form";
 
 type UpdateFinalLoadsheetModalProps = {

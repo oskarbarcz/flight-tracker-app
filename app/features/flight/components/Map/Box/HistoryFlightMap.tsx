@@ -2,6 +2,8 @@ import L from "leaflet";
 import { useEffect, useState } from "react";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { MapContainer } from "react-leaflet";
+import type { Diversion } from "~/features/diversion";
+import type { Flight, FlightPathElement } from "~/features/flight";
 import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
 import { DiversionRoute } from "~/features/flight/components/Map/Element/DiversionRoute";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
@@ -11,7 +13,6 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
-import type { Diversion, Flight, FlightPathElement } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 
 type Props = {

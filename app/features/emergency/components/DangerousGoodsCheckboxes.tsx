@@ -1,7 +1,7 @@
 import { Checkbox, Label } from "flowbite-react";
 import { useField } from "formik";
 import React from "react";
-import { type DangerousGoodsClass, dangerousGoodsOptions } from "~/models";
+import { type DangerousGoodsClass, dangerousGoodsOptions } from "~/features/emergency";
 
 type Props = {
   field: string;

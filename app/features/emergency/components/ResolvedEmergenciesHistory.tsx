@@ -1,8 +1,8 @@
 import { Badge } from "flowbite-react";
 import React from "react";
+import type { Emergency } from "~/features/emergency";
 import { categoryLabel, threatLevelLabel, urgencyLabel } from "~/features/emergency/components/emergencyLabels";
 import { UserName } from "~/features/user/components/UserName";
-import type { Emergency } from "~/models";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 

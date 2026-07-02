@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
+import type { Flight } from "~/features/flight";
 import { BottomBar } from "~/features/flight/components/Map/FullScreen/BottomBar";
 import { FullScreenMap } from "~/features/flight/components/Map/FullScreen/FullScreenMap";
 import { TopBar } from "~/features/flight/components/Map/FullScreen/TopBar";
-import type { Flight } from "~/models";
 import MapSplash from "~/routes/public/MapSplash";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";

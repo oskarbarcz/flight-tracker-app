@@ -1,6 +1,6 @@
 import React from "react";
+import type { DelayReport, DelayRequest } from "~/features/delay";
 import { DelayReportRow } from "~/features/delay/components/DelayReportRow";
-import type { DelayReport, DelayRequest } from "~/models";
 
 type Props = {
   delayRequest: DelayRequest;

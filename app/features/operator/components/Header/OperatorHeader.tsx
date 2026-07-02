@@ -1,7 +1,7 @@
 import React, { type ReactNode } from "react";
+import type { Operator } from "~/features/operator";
 import { OperatorFin } from "~/features/operator/components/OperatorFin";
 import { VerifiedOperatorBadge } from "~/features/operator/components/VerifiedOperatorBadge";
-import type { Operator } from "~/models";
 import { BadgeValueDisplay } from "~/shared/ui/Display/BadgeValueDisplay";
 
 type Props = {

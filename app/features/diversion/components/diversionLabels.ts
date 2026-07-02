@@ -3,7 +3,7 @@ import {
   type DiversionSeverity,
   diversionReasonOptions,
   diversionSeverityOptions,
-} from "~/models";
+} from "~/features/diversion";
 import { buildEnumLookup } from "~/shared/lib/buildEnumLookup";
 
 export const diversionSeverityLabel = buildEnumLookup<DiversionSeverity>(diversionSeverityOptions);

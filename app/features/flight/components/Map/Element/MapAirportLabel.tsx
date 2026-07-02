@@ -1,9 +1,9 @@
 import L, { type LatLngExpression } from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { Marker } from "react-leaflet";
+import type { Airport } from "~/features/airport";
 import { AirportExtendedLabel } from "~/features/flight/components/Map/Element/AirportExtendedLabel";
 import { AirportShortLabel } from "~/features/flight/components/Map/Element/AirportShortLabel";
-import type { Airport } from "~/models";
 
 type MapAirportLabelProps = {
   airport: Airport;

@@ -1,12 +1,12 @@
 import React from "react";
-import { DangerousGoodsCheckboxes } from "~/features/emergency/components/DangerousGoodsCheckboxes";
 import {
   emergencyCategoryOptions,
   emergencyIntentionOptions,
   emergencySquawkOptions,
   emergencyThreatLevelOptions,
   emergencyUrgencyOptions,
-} from "~/models";
+} from "~/features/emergency";
+import { DangerousGoodsCheckboxes } from "~/features/emergency/components/DangerousGoodsCheckboxes";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";

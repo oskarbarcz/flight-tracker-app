@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 
 import React from "react";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { Link } from "react-router";
+import type { Aircraft } from "~/features/aircraft";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import {
   formatCruiseSpeed,
@@ -9,7 +10,6 @@ import {
   formatServiceCeiling,
   formatWeightCategory,
 } from "~/features/airframe/lib/formatAirframe";
-import type { Aircraft } from "~/models";
 
 type Props = {
   operatorId: string;

@@ -1,9 +1,9 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
+import type { DelayReport } from "~/features/delay";
 import { translateDelayReasonCode } from "~/features/delay/i18n";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import type { DelayReport } from "~/models";
 
 type Props = {
   report: DelayReport;

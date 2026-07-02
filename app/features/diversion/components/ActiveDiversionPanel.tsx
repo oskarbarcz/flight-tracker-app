@@ -1,9 +1,9 @@
 import { Badge, Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaPencil, FaPlaneCircleExclamation } from "react-icons/fa6";
+import { type Diversion, DiversionSeverity } from "~/features/diversion";
 import { diversionReasonLabel, diversionSeverityLabel } from "~/features/diversion/components/diversionLabels";
 import { UpdateDiversionModal } from "~/features/diversion/components/UpdateDiversionModal";
-import { type Diversion, DiversionSeverity } from "~/models";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 

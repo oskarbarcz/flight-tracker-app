@@ -1,6 +1,6 @@
+import { NoiseSensitivity } from "~/features/parking-position";
 import type { CreateParkingPositionFormData } from "~/features/parking-position/form";
 import type { CreateParkingPositionRequest, GetParkingPositionResponse } from "~/features/parking-position/request";
-import { NoiseSensitivity } from "~/models";
 
 function nullable(value: string): string | null {
   const trimmed = value.trim();

@@ -1,6 +1,6 @@
 import React from "react";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
-import type { Terminal } from "~/models";
+import type { Terminal } from "~/features/terminal";
 
 type Props = {
   terminal: Terminal;

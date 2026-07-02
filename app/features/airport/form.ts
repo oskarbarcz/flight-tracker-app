@@ -1,5 +1,5 @@
+import { Continent } from "~/features/airport";
 import type { Coordinates } from "~/features/runway/model";
-import { Continent } from "~/models";
 
 export type CreateAirportFormData = {
   icaoCode: string;

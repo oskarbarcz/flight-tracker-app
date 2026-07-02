@@ -1,5 +1,5 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useReducer } from "react";
-import type { FlightPathElement } from "~/models";
+import type { FlightPathElement } from "~/features/flight";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 
 type State = {

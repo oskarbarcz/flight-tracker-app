@@ -1,6 +1,6 @@
 import { date, number, type ObjectSchema, object, ref, string } from "yup";
+import type { FilledSchedule } from "~/features/flight";
 import type { CreateFlightFormData } from "~/features/flight/form";
-import type { FilledSchedule } from "~/models";
 
 export const newFlightIdentitySchema: ObjectSchema<CreateFlightFormData["identity"]> = object({
   flightNumber: string().required("Flight number is required"),

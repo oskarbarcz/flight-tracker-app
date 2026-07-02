@@ -1,7 +1,7 @@
 import { FaArrowRight } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
+import { type Flight, FlightStatus, isFilledSchedule } from "~/features/flight";
 import { toHuman } from "~/i18n/translate";
-import { type Flight, FlightStatus, isFilledSchedule } from "~/models";
 
 type Props = {
   flight: Flight;

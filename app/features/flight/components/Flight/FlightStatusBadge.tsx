@@ -1,7 +1,7 @@
 import { Badge } from "flowbite-react";
 import React from "react";
+import { FlightStatus } from "~/features/flight";
 import { translateStatus } from "~/features/flight/i18n";
-import { FlightStatus } from "~/models";
 
 type BadgeColor = "success" | "info" | "indigo" | "gray";
 

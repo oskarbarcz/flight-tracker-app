@@ -1,5 +1,5 @@
 import type { LatLngTuple } from "leaflet";
-import type { FlightPathElement } from "~/models";
+import type { FlightPathElement } from "~/features/flight";
 import type { Position } from "~/shared/models/geo";
 
 export type SmoothedFlightPoint = {

@@ -2,7 +2,7 @@ import React from "react";
 import type { IconType } from "react-icons";
 import { FaCheckCircle, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
 import { FaPlane, FaStopwatch } from "react-icons/fa6";
-import type { FilledSchedule, Flight } from "~/models";
+import type { FilledSchedule, Flight } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

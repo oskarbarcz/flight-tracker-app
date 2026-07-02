@@ -1,4 +1,4 @@
-import { FlightEventType, FlightStatus } from "~/models";
+import { FlightEventType, FlightStatus } from "~/features/flight";
 
 export function translateEventType(eventType: FlightEventType): string {
   const eventNames: Record<FlightEventType, string> = {

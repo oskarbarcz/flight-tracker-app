@@ -1,8 +1,8 @@
 import React from "react";
 import { HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
+import { type Runway, surfaceTypeOptions } from "~/features/runway";
 import { groupRunwaysByPair } from "~/features/runway/lib/runwayPairs";
-import { type Runway, surfaceTypeOptions } from "~/models";
 import { formatDegrees } from "~/shared/lib/geo";
 
 type Props = {

@@ -1,11 +1,11 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
+import type { FilledSchedule } from "~/features/flight";
 import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { CheckInFlightModal } from "~/features/flight/components/Modal/CheckInFlightModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
-import type { FilledSchedule } from "~/models";
 
 export function CheckInButton({ disabled }: FlightProgressButtonProps) {
   const { flight, checkIn } = useTrackedFlight();

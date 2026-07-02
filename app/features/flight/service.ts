@@ -1,4 +1,3 @@
-import type { ApiFlightResponse, CreateFlightRequest } from "~/features/flight/request";
 import {
   type FilledSchedule,
   Flight,
@@ -9,7 +8,8 @@ import {
   type Loadsheet,
   type Schedule,
   type Tracking,
-} from "~/models";
+} from "~/features/flight";
+import type { ApiFlightResponse, CreateFlightRequest } from "~/features/flight/request";
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type FlightListFilters = {

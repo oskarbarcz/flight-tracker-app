@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import { useDataRefresh } from "~/app-state/useDataRefresh";
+import type { Operator } from "~/features/operator";
 import { OperatorList } from "~/features/operator/components/List/OperatorList";
 import { OperatorService } from "~/features/operator/service";
-import type { Operator } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { SectionHeaderWithButton } from "~/shared/ui/Section/SectionHeaderWithButton";
 

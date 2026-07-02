@@ -1,9 +1,8 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { FaCheck, FaTrash, FaXmark } from "react-icons/fa6";
+import { type DelayReport, DelayReportStatus } from "~/features/delay";
 import { translateDelayReasonCode } from "~/features/delay/i18n";
-import type { DelayReport } from "~/models";
-import { DelayReportStatus } from "~/models";
 
 const STATUS_STYLES: Record<DelayReportStatus, string> = {
   [DelayReportStatus.Pending]: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-400",

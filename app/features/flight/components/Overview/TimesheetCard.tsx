@@ -1,7 +1,7 @@
 import React from "react";
 import { FaClock } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
-import type { Schedule } from "~/models";
+import type { Schedule } from "~/features/flight";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { Container } from "~/shared/ui/Layout/Container";

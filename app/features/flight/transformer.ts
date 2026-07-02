@@ -1,6 +1,6 @@
+import { Tracking } from "~/features/flight";
 import type { CreateFlightFormData } from "~/features/flight/form";
 import type { CreateFlightRequest } from "~/features/flight/request";
-import { Tracking } from "~/models";
 
 export function formDataToApiFormat(input: CreateFlightFormData): CreateFlightRequest {
   return {

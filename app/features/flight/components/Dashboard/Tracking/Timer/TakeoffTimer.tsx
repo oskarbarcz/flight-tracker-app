@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { FilledSchedule } from "~/models";
+import type { FilledSchedule } from "~/features/flight";
 import { formatTimeInterval, secondsToNow } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 

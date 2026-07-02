@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
+import { Tracking } from "~/features/flight";
 import { FlightIdentityFormSection } from "~/features/flight/components/FormSection/FlightIdentityFormSection";
 import { FlightRouteFormSection } from "~/features/flight/components/FormSection/FlightRouteFormSection";
 import { FlightScheduleFormSection } from "~/features/flight/components/FormSection/FlightScheduleFormSection";
@@ -7,7 +8,6 @@ import { type CreateFlightFormData, initCreateFlightData } from "~/features/flig
 import type { CreateFlightRequest } from "~/features/flight/request";
 import { FlightService } from "~/features/flight/service";
 import { formDataToApiFormat } from "~/features/flight/transformer";
-import { Tracking } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";

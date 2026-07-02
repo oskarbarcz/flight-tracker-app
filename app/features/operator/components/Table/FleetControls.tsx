@@ -2,7 +2,7 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
-import type { Operator } from "~/models";
+import type { Operator } from "~/features/operator";
 
 type Props = {
   operator: Operator;

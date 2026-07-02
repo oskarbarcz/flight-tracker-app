@@ -1,5 +1,6 @@
 import { number, type ObjectSchema, object, string } from "yup";
-import { Continent, type CreateOperatorFormData, OperatorType } from "~/models";
+import { Continent } from "~/features/airport";
+import { type CreateOperatorFormData, OperatorType } from "~/features/operator";
 
 const optionalUrl = string()
   .ensure()

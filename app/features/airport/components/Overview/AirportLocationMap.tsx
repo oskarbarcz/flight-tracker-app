@@ -1,14 +1,17 @@
 import L from "leaflet";
 import React, { useMemo } from "react";
 import { MapContainer, ZoomControl } from "react-leaflet";
+import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
+import type { ParkingPosition } from "~/features/parking-position";
+import type { Runway } from "~/features/runway";
 import { computeRunwayLines } from "~/features/runway/lib/runwayPairs";
-import type { Airport, ParkingPosition, Runway, Terminal } from "~/models";
+import type { Terminal } from "~/features/terminal";
 import { formatCoordinates } from "~/shared/lib/formatGeo";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 

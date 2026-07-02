@@ -2,7 +2,6 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
-import { groupParkingPositionsByTerminal } from "~/features/parking-position/lib/parkingPositionGroups";
 import {
   bridgeOptions,
   deicingOptions,
@@ -16,8 +15,9 @@ import {
   parkingPositionTypeOptions,
   parkingSpotTypeOptions,
   stairsOptions,
-  type Terminal,
-} from "~/models";
+} from "~/features/parking-position";
+import { groupParkingPositionsByTerminal } from "~/features/parking-position/lib/parkingPositionGroups";
+import type { Terminal } from "~/features/terminal";
 
 type Props = {
   airportId: string;

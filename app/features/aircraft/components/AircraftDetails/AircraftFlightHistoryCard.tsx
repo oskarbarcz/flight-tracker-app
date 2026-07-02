@@ -2,9 +2,9 @@ import { Pagination, Table, TableBody, TableCell, TableHead, TableHeadCell, Tabl
 import React, { useState } from "react";
 import { HiOutlineClock } from "react-icons/hi";
 import { Link } from "react-router";
+import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/features/aircraft";
 import { entryTime } from "~/features/aircraft/lib/aircraftStatus";
 import { FlightStatusBadge } from "~/features/flight/components/Flight/FlightStatusBadge";
-import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/models";
 import { formatDate } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";

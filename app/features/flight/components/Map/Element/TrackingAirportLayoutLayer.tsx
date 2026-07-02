@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import { type DisplayMode, useMapSettings } from "~/app-state/useMapSettings";
+import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
 import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
-import type { Airport, ParkingPosition, Terminal } from "~/models";
+import type { ParkingPosition } from "~/features/parking-position";
+import type { Terminal } from "~/features/terminal";
 
 type TerminalSource = {
   fetchAll: (airportId: string) => Promise<Terminal[]>;

@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
-import type { ParkingPosition } from "~/models";
+import type { ParkingPosition } from "~/features/parking-position";
 
 type Props = {
   parkingPosition: ParkingPosition;

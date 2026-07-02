@@ -1,13 +1,13 @@
 import { useCallback, useEffect } from "react";
 import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
+import { shouldPollForAdsbData, Tracking } from "~/features/flight";
 import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
 import { MapLinkOverlay } from "~/features/flight/components/Map/Box/Overlay/MapLinkOverlay";
 import { MapPreviewStatusOverlay } from "~/features/flight/components/Map/Box/Overlay/PreviewStatusOverlay";
 import { TrackingFlightMap } from "~/features/flight/components/Map/Box/TrackingFlightMap";
 import { MapBottomDrawer } from "~/features/flight/components/Map/Element/MapBottomDrawer";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { shouldPollForAdsbData, Tracking } from "~/models";
 import type { ContainerClassProps } from "~/shared/ui/Layout/Container";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 

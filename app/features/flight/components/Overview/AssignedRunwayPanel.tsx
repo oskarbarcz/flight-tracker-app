@@ -1,6 +1,6 @@
 import React from "react";
 import { LuArrowDownToLine } from "react-icons/lu";
-import { lightingTypeOptions, type Runway, surfaceTypeOptions } from "~/models";
+import { lightingTypeOptions, type Runway, surfaceTypeOptions } from "~/features/runway";
 import { formatDegrees } from "~/shared/lib/geo";
 
 type Props = {

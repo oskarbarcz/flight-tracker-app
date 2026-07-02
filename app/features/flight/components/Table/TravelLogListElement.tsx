@@ -1,7 +1,7 @@
 import { Badge, TableCell, TableRow } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { TravelStatus, TravelType, type UserTravel } from "~/models";
+import { TravelStatus, TravelType, type UserTravel } from "~/features/travel";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 
 type Props = {

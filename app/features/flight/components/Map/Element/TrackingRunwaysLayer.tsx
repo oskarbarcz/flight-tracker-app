@@ -3,7 +3,7 @@ import { useMap, useMapEvents } from "react-leaflet";
 import { type DisplayMode, useMapSettings } from "~/app-state/useMapSettings";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
 import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
-import type { Runway } from "~/models";
+import type { Runway } from "~/features/runway";
 
 type RunwaySource = {
   fetchAll: (airportId: string) => Promise<Runway[]>;

@@ -1,15 +1,11 @@
 import { Checkbox, Label } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
+import type { Airport } from "~/features/airport";
 import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
+import { diversionReasonOptions, diversionSeverityOptions } from "~/features/diversion";
+import { type AirportOnFlight, AirportOnFlightType } from "~/features/flight";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import {
-  type Airport,
-  type AirportOnFlight,
-  AirportOnFlightType,
-  diversionReasonOptions,
-  diversionSeverityOptions,
-} from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect, type AdvancedSelectOption } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { ManagedDateTimeInputBlock } from "~/shared/ui/Form/Managed/ManagedDateTimeInputBlock";

@@ -1,4 +1,4 @@
-import { Alliance } from "~/models";
+import { Alliance } from "~/features/operator";
 
 const ALLIANCE_DOT: Record<Alliance, string> = {
   [Alliance.StarAlliance]: "bg-amber-500",

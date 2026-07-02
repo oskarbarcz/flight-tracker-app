@@ -1,6 +1,6 @@
 import { type ObjectSchema, object, string } from "yup";
+import { GateCategory } from "~/features/gate";
 import type { CreateGateFormData } from "~/features/gate/form";
-import { GateCategory } from "~/models";
 
 export const createGateSchema: ObjectSchema<CreateGateFormData> = object().shape({
   terminalId: string().required("Terminal is required").uuid("Terminal selection is invalid"),
