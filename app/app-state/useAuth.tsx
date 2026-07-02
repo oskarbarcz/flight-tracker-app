@@ -1,5 +1,5 @@
 import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
-import type { User } from "~/models/user.model";
+import type { User } from "~/features/user/model";
 import { useApi } from "~/shared/api/useApi";
 import { clearTokens, readAccessToken, readRefreshToken, saveTokens } from "~/shared/lib/tokenStorage";
 

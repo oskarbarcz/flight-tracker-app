@@ -5,10 +5,10 @@ import { MapLinkOverlay } from "~/components/flight/Map/Box/Overlay/MapLinkOverl
 import { MapPreviewStatusOverlay } from "~/components/flight/Map/Box/Overlay/PreviewStatusOverlay";
 import { TrackingFlightMap } from "~/components/flight/Map/Box/TrackingFlightMap";
 import { MapBottomDrawer } from "~/components/flight/Map/Element/MapBottomDrawer";
+import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { shouldPollForAdsbData, Tracking } from "~/models";
 import type { ContainerClassProps } from "~/shared/ui/Layout/Container";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
-import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 type MapBoxProps = ContainerClassProps;

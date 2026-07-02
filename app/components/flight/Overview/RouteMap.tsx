@@ -8,9 +8,9 @@ import { GreatCirclePath } from "~/components/flight/Map/Element/GreatCirclePath
 import { MapAircraftMarker } from "~/components/flight/Map/Element/MapAircraftMarker";
 import { MapAirportLabel } from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { AdsbProvider, useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { type Flight, shouldPollForAdsbData } from "~/models";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
-import { AdsbProvider, useAdsbData } from "~/state/api/context/useAdsbData";
 
 type Props = {
   flight: Flight;

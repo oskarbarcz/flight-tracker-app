@@ -1,4 +1,4 @@
-import { AdsbService } from "~/state/api/adsb.service";
+import { AdsbService } from "~/features/adsb/service";
 import { PublicFlightService } from "~/state/api/flight.service";
 import { PublicParkingPositionService } from "~/state/api/parking-position.service";
 import { PublicRunwayService } from "~/state/api/runway.service";

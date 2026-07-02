@@ -1,7 +1,7 @@
 import React, { type JSX, type ReactNode, useContext } from "react";
 import { Navigate } from "react-router";
 import { UseAuth } from "~/app-state/useAuth";
-import type { UserRole } from "~/models/user.model";
+import type { UserRole } from "~/features/user/model";
 import Splash from "~/routes/common/Splash";
 
 type Props = {

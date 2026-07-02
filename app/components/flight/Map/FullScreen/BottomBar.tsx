@@ -1,7 +1,7 @@
 import { VerticalSeparator } from "~/components/flight/Map/FullScreen/Element/VerticalSeparator";
+import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 import { FormattedLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
-import { useAdsbData } from "~/state/api/context/useAdsbData";
 
 function getMessage(count: number) {
   if (count === 0) return "No segments";

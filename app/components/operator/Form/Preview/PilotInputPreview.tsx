@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import React from "react";
-import type { GetUserResponse } from "~/state/api/request/user.request";
+import type { GetUserResponse } from "~/features/user/request";
 
 type Props = {
   user: GetUserResponse;

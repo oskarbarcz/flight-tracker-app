@@ -12,13 +12,13 @@ import { PilotStatsBox } from "~/components/flight/Dashboard/Main/Box/PilotStats
 import { UserHeader } from "~/components/flight/Dashboard/Main/UserHeader";
 import { CurrentLocationBox } from "~/components/flight/Dashboard/Travel/CurrentLocationBox";
 import { CurrentLocationBoxLoader } from "~/components/flight/Dashboard/Travel/CurrentLocationBoxLoader";
+import { useUserTravels } from "~/features/user/hooks/useUserTravels";
 import { type Flight, FlightStatus } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useCurrentFlight } from "~/state/api/hooks/useCurrentFlight";
 import { useLastFlight } from "~/state/api/hooks/useLastFlight";
-import { useUserTravels } from "~/state/api/hooks/useUserTravels";
 
 export default function PilotDashboardRoute() {
   const { flightService } = useApi();

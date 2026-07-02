@@ -1,7 +1,7 @@
 import React from "react";
 import { FlightInfoBox } from "~/components/flight/Dashboard/Tracking/Box/FlightInfoBox";
 import { MapBox } from "~/components/flight/Dashboard/Tracking/Map/MapBox";
-import { AdsbProvider } from "~/state/api/context/useAdsbData";
+import { AdsbProvider } from "~/features/adsb/hooks/useAdsbData";
 
 export function FlightHeader() {
   return (

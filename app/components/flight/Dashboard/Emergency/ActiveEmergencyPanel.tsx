@@ -11,7 +11,7 @@ import {
 } from "~/components/flight/Dashboard/Emergency/emergencyLabels";
 import { ResolveEmergencyConfirmModal } from "~/components/flight/Dashboard/Emergency/ResolveEmergencyConfirmModal";
 import { UpdateEmergencyModal } from "~/components/flight/Dashboard/Emergency/UpdateEmergencyModal";
-import { UserName } from "~/components/shared/User/UserName";
+import { UserName } from "~/features/user/components/UserName";
 import type { Emergency } from "~/models";
 import { EmergencyThreatLevel } from "~/models";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";

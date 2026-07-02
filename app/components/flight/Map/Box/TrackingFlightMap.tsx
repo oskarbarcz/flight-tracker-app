@@ -10,9 +10,9 @@ import { MapEventsHandler } from "~/components/flight/Map/Element/MapEventsHandl
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { TrackingAirportLayoutLayer } from "~/components/flight/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/components/flight/Map/Element/TrackingRunwaysLayer";
+import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { flightMapPositions } from "~/functions/flightMapBounds";
 import { useApi } from "~/shared/api/useApi";
-import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export function TrackingFlightMap() {
