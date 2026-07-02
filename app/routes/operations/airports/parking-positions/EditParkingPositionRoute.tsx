@@ -2,21 +2,18 @@ import type { Route } from ".react-router/types/app/routes/operations/airports/p
 import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import type { CreateParkingPositionFormData } from "~/models";
+import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
+import type { CreateParkingPositionFormData } from "~/features/parking-position";
+import { createParkingPositionSchema } from "~/features/parking-position/schema";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { parkingPositionFormDataToRequest, parkingPositionToFormData } from "~/features/parking-position/transformer";
+import { TerminalService } from "~/features/terminal/service";
 import { ParkingPositionFormBody } from "~/routes/operations/airports/parking-positions/CreateParkingPositionRoute";
-import { AirportService } from "~/state/api/airport.service";
-import { useApi } from "~/state/api/context/useApi";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import {
-  parkingPositionFormDataToRequest,
-  parkingPositionToFormData,
-} from "~/state/api/transformer/parking-position.transformer";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-import { createParkingPositionSchema } from "~/validator/form/parking-position.schema";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, parkingPosition, terminals] = await Promise.all([

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { FaRegClock } from "react-icons/fa6";
-import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";
-import { RejectDelayReportModal } from "~/components/flight/Dashboard/Delay/RejectDelayReportModal";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import type { DelayReport } from "~/models";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
-import { useToast } from "~/state/app/context/useToast";
+import { useToast } from "~/app-state/useToast";
+import type { DelayReport } from "~/features/delay";
+import { DelaySummary } from "~/features/delay/components/DelaySummary";
+import { RejectDelayReportModal } from "~/features/delay/components/RejectDelayReportModal";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export default function FlightDelaysRoute() {
   const { delayRequest, acceptDelayReport } = useTrackedFlight();

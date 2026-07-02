@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useSearchParams } from "react-router";
-import { AirportListEmptyState } from "~/components/airport/Table/AirportListEmptyState";
-import { AirportListTable } from "~/components/airport/Table/AirportListTable";
-import { ContinentFilterTabs } from "~/components/airport/Table/Tabs/ContinentFilterTabs";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
-import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
-import { type Airport, Continent } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
+import { type Airport, Continent } from "~/features/airport";
+import { AirportListEmptyState } from "~/features/airport/components/Table/AirportListEmptyState";
+import { AirportListTable } from "~/features/airport/components/Table/AirportListTable";
+import { ContinentFilterTabs } from "~/features/airport/components/Table/Tabs/ContinentFilterTabs";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
+import { SectionHeaderWithButton } from "~/shared/ui/Section/SectionHeaderWithButton";
+import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");

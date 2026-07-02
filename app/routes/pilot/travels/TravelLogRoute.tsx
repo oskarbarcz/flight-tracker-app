@@ -1,8 +1,8 @@
 import React from "react";
-import { TravelLogTable } from "~/components/flight/Table/TravelLogTable";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { TravelLogTable } from "~/features/flight/components/Table/TravelLogTable";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export default function TravelLogRoute() {
   usePageTitle("Travel log");

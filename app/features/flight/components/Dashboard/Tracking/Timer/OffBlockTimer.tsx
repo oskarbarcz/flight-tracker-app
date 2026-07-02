@@ -1,0 +1,49 @@
+import { useEffect, useState } from "react";
+import type { FilledSchedule } from "~/features/flight";
+import { formatTimeInterval, secondsToNow } from "~/shared/lib/time";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+
+type Props = {
+  schedule: FilledSchedule;
+};
+
+function timeToColor(time: number): string {
+  if (time > 5 * 60) {
+    return "text-green-500";
+  }
+
+  if (time > 0) {
+    return "text-yellow-500";
+  }
+
+  return "text-red-500";
+}
+
+export function OffBlockTimer({ schedule }: Props) {
+  const timeToOffBlock = secondsToNow(schedule.offBlockTime);
+  const [timeLeft, setTimeLeft] = useState<number>(timeToOffBlock);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(secondsToNow(schedule.offBlockTime));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [schedule.offBlockTime]);
+
+  return (
+    <>
+      <div className="mb-4 text-center">
+        <span className={`block text-4xl font-bold ${timeToColor(timeLeft)}`}>{formatTimeInterval(timeLeft)}</span>
+        <span className="block text-sm">time to off-block</span>
+      </div>
+      <div className="text-center">
+        <span className="block text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <FormattedIcaoDate date={schedule.onBlockTime} /> <FormattedIcaoTime date={schedule.onBlockTime} />
+        </span>
+        <span className="block text-sm">scheduled off-block time</span>
+      </div>
+    </>
+  );
+}

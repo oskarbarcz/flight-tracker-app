@@ -1,10 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
-import { Sidebar, SidebarDrawerProvider, SidebarMobileTrigger } from "~/components/shared/Sidebar/Sidebar";
-import { TopBarLogo } from "~/components/shared/TopBar/TopBarLogo";
+import { DataRefreshProvider } from "~/app-state/useDataRefresh";
 import { AuthGuard } from "~/routes/auth/AuthGuard";
-import { DataRefreshProvider } from "~/state/app/context/useDataRefresh";
+import { Sidebar, SidebarDrawerProvider, SidebarMobileTrigger } from "~/shared/ui/Sidebar/Sidebar";
+import { TopBarLogo } from "~/shared/ui/TopBar/TopBarLogo";
 
 export default function AppLayout() {
   return (

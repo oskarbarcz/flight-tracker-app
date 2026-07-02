@@ -2,30 +2,32 @@ import type { Route } from ".react-router/types/app/routes/operations/airports/g
 import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import type { CreateGateFormData } from "~/models";
+import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
+import type { CreateGateFormData } from "~/features/gate";
+import { createGateSchema } from "~/features/gate/schema";
+import { GateService } from "~/features/gate/service";
+import { gateFormDataToRequest, gateToFormData } from "~/features/gate/transformer";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { TerminalService } from "~/features/terminal/service";
 import { GateFormBody } from "~/routes/operations/airports/gates/CreateGateRoute";
-import { useApi } from "~/state/api/context/useApi";
-import { GateService } from "~/state/api/gate.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import { gateFormDataToRequest, gateToFormData } from "~/state/api/transformer/gate.transformer";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-import { createGateSchema } from "~/validator/form/gate.schema";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [gate, terminals, parkingPositions] = await Promise.all([
+  const [airport, gate, terminals, parkingPositions] = await Promise.all([
+    new AirportService().fetchById(params.id),
     new GateService().fetchById(params.id, params.gateId),
     new TerminalService().fetchAll(params.id),
     new ParkingPositionService().fetchAll(params.id),
   ]);
-  return { gate, terminals, parkingPositions };
+  return { airport, gate, terminals, parkingPositions };
 }
 
 export default function EditGateRoute({ params, loaderData }: Route.ComponentProps) {
-  const { gate, terminals, parkingPositions } = loaderData;
+  const { airport, gate, terminals, parkingPositions } = loaderData;
   usePageTitle(`Edit gate ${gate.name}`);
 
   const { gateService } = useApi();
@@ -58,6 +60,7 @@ export default function EditGateRoute({ params, loaderData }: Route.ComponentPro
       >
         {({ isSubmitting }) => (
           <GateFormBody
+            airport={airport}
             terminals={terminals}
             parkingPositions={parkingPositions}
             isSubmitting={isSubmitting}

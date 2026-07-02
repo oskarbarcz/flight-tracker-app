@@ -1,11 +1,11 @@
 import React from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import { ActiveEmergencyPanel } from "~/components/flight/Dashboard/Emergency/ActiveEmergencyPanel";
-import { EmergencyEmptyState } from "~/components/flight/Dashboard/Emergency/EmergencyEmptyState";
-import { ResolvedEmergenciesHistory } from "~/components/flight/Dashboard/Emergency/ResolvedEmergenciesHistory";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
+import { ActiveEmergencyPanel } from "~/features/emergency/components/ActiveEmergencyPanel";
+import { EmergencyEmptyState } from "~/features/emergency/components/EmergencyEmptyState";
+import { ResolvedEmergenciesHistory } from "~/features/emergency/components/ResolvedEmergenciesHistory";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export default function FlightEmergenciesRoute() {
   const { emergencies, activeEmergency } = useTrackedFlight();

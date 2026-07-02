@@ -12,15 +12,16 @@ import {
 import React, { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate, useSearchParams } from "react-router";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import type { DelayRequest, Flight } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import type { DelayRequestStatusFilter } from "~/state/api/request/delay.request";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
+import type { DelayRequest } from "~/features/delay";
+import type { DelayRequestStatusFilter } from "~/features/delay/request";
+import type { Flight } from "~/features/flight";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 const TABS: { status: DelayRequestStatusFilter; label: string }[] = [
   { status: "pending", label: "To review" },

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
-import { FlightIdentityFormSection } from "~/components/flight/FormSection/FlightIdentityFormSection";
-import { FlightRouteFormSection } from "~/components/flight/FormSection/FlightRouteFormSection";
-import { FlightScheduleFormSection } from "~/components/flight/FormSection/FlightScheduleFormSection";
-import { FormSubmit } from "~/components/shared/Form/FormSubmit";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { getFormData } from "~/functions/getFormData";
-import { Tracking } from "~/models";
-import { type CreateFlightFormData, initCreateFlightData } from "~/models/form/flight.form";
-import { useApi } from "~/state/api/context/useApi";
-import { FlightService } from "~/state/api/flight.service";
-import type { CreateFlightRequest } from "~/state/api/request/flight.request";
-import { formDataToApiFormat } from "~/state/api/transformer/flight.transformer";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { Tracking } from "~/features/flight";
+import { FlightIdentityFormSection } from "~/features/flight/components/FormSection/FlightIdentityFormSection";
+import { FlightRouteFormSection } from "~/features/flight/components/FormSection/FlightRouteFormSection";
+import { FlightScheduleFormSection } from "~/features/flight/components/FormSection/FlightScheduleFormSection";
+import { type CreateFlightFormData, initCreateFlightData } from "~/features/flight/form";
+import type { CreateFlightRequest } from "~/features/flight/request";
+import { FlightService } from "~/features/flight/service";
+import { formDataToApiFormat } from "~/features/flight/transformer";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { getFormData } from "~/shared/lib/getFormData";
+import { FormSubmit } from "~/shared/ui/Form/FormSubmit";
+import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
 import type { Route } from "../../../../.react-router/types/app/routes/operations/flights/+types/CreateFlightRoute";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {

@@ -1,10 +1,10 @@
-import { translateContinent } from "~/models/i18n/airport.i18n";
+import { translateContinent } from "~/features/airport/i18n";
 import {
   translateEventType,
   translateShortStatus,
   translateStatus,
   translateStatusNextAction,
-} from "~/models/i18n/flight.i18n";
+} from "~/features/flight/i18n";
 
 export const toHuman = {
   flight: {

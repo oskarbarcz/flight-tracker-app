@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router";
-import { AdsbProvider } from "~/state/api/context/useAdsbData";
+import { AdsbProvider } from "~/features/adsb/hooks/useAdsbData";
 
 export default function MapLayout() {
   return (

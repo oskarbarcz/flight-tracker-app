@@ -3,7 +3,7 @@ import React from "react";
 import { FaDiscord, FaGithub } from "react-icons/fa6";
 import { Link } from "react-router";
 import logo from "~/assets/logo.svg";
-import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
+import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 
 export function LandingFooter() {
   const { discordInvitationHash } = useAppEnvironment();

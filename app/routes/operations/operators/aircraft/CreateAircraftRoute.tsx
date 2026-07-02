@@ -3,20 +3,20 @@ import { Button } from "flowbite-react";
 import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
 import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
-import { InputBlock } from "~/components/shared/Form/InputBlock";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { getFormData } from "~/functions/getFormData";
-import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
-import type { Airframe } from "~/models";
-import { AircraftService } from "~/state/api/aircraft.service";
-import { AirframeService } from "~/state/api/airframe.service";
-import { OperatorService } from "~/state/api/operator.service";
-import type { CreateAircraftRequest } from "~/state/api/request/operator.request";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-import { aircraftSchema } from "~/validator/form/aircraft.schema";
+import { useToast } from "~/app-state/useToast";
+import { aircraftSchema } from "~/features/aircraft/schema";
+import { AircraftService } from "~/features/aircraft/service";
+import type { Airframe } from "~/features/airframe";
+import { AirframeService } from "~/features/airframe/service";
+import type { CreateAircraftRequest } from "~/features/operator/request";
+import { OperatorService } from "~/features/operator/service";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { getFormData } from "~/shared/lib/getFormData";
+import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
+import { InputBlock } from "~/shared/ui/Form/InputBlock";
+import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { Container } from "~/shared/ui/Layout/Container";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [operator, airframes] = await Promise.all([

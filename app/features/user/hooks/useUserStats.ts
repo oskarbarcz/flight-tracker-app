@@ -1,0 +1,32 @@
+import { useCallback, useEffect, useState } from "react";
+import type { UserStats } from "~/features/user";
+import { useApi } from "~/shared/api/useApi";
+
+type Response = {
+  stats: UserStats | null;
+  loading: boolean;
+};
+
+export function useUserStats(): Response {
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { userService } = useApi();
+
+  const fetchStats = useCallback(async () => {
+    setLoading(true);
+    userService
+      .fetchUserStats()
+      .then(setStats)
+      .catch((err) => {
+        console.error("Cannot fetch user stats", err);
+        setStats(null);
+      })
+      .finally(() => setLoading(false));
+  }, [userService]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  return { stats, loading };
+}

@@ -3,12 +3,12 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { useLoaderData, useRevalidator } from "react-router";
-import { UpdatePreliminaryLoadsheetModal } from "~/components/flight/Modal/UpdatePreliminaryLoadsheetModal";
-import { LoadsheetCard } from "~/components/flight/Overview/LoadsheetCard";
-import { FlightStatus, type Loadsheet } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { FlightService } from "~/state/api/flight.service";
-import { useToast } from "~/state/app/context/useToast";
+import { useToast } from "~/app-state/useToast";
+import { FlightStatus, type Loadsheet } from "~/features/flight";
+import { UpdatePreliminaryLoadsheetModal } from "~/features/flight/components/Modal/UpdatePreliminaryLoadsheetModal";
+import { LoadsheetCard } from "~/features/flight/components/Overview/LoadsheetCard";
+import { FlightService } from "~/features/flight/service";
+import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const flight = await new FlightService().fetchById(params.id);

@@ -3,20 +3,20 @@ import { Button, Label, Textarea } from "flowbite-react";
 import { Field, Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
-import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
-import { PolygonShapePicker } from "~/components/shared/Form/MapPicker/PolygonShapePicker";
-import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import type { CreateTerminalFormData } from "~/models";
-import { AirportService } from "~/state/api/airport.service";
-import { useApi } from "~/state/api/context/useApi";
-import { TerminalService } from "~/state/api/terminal.service";
-import { terminalFormDataToRequest, terminalToFormData } from "~/state/api/transformer/terminal.transformer";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-import { createTerminalSchema } from "~/validator/form/terminal.schema";
+import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
+import type { CreateTerminalFormData } from "~/features/terminal";
+import { createTerminalSchema } from "~/features/terminal/schema";
+import { TerminalService } from "~/features/terminal/service";
+import { terminalFormDataToRequest, terminalToFormData } from "~/features/terminal/transformer";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
+import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { PolygonShapePicker } from "~/shared/ui/Form/MapPicker/PolygonShapePicker";
+import { Container } from "~/shared/ui/Layout/Container";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, terminal] = await Promise.all([

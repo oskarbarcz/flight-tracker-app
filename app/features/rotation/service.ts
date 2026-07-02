@@ -1,0 +1,44 @@
+import type { CreateRotationRequest, EditRotationRequest, GetRotationResponse } from "~/features/operator/request";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
+
+export class RotationService extends AbstractAuthorizedApiService {
+  async fetchAll(operatorId: string) {
+    return this.fetchWithAuth<GetRotationResponse[]>(`/api/v1/operator/${operatorId}/rotation`);
+  }
+
+  async fetchById(operatorId: string, rotationId: string) {
+    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation/${rotationId}`);
+  }
+
+  async create(operatorId: string, data: CreateRotationRequest) {
+    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation`, {
+      body: JSON.stringify(data),
+      method: "POST",
+    });
+  }
+
+  async update(operatorId: string, rotationId: string, data: EditRotationRequest) {
+    return this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation/${rotationId}`, {
+      body: JSON.stringify(data),
+      method: "PATCH",
+    });
+  }
+
+  async remove(operatorId: string, rotationId: string) {
+    await this.fetchWithAuth<GetRotationResponse>(`/api/v1/operator/${operatorId}/rotation/${rotationId}`, {
+      method: "DELETE",
+    });
+  }
+
+  async addFlight(rotationId: string, flightId: string) {
+    await this.fetchWithAuth<GetRotationResponse>(`/api/v1/rotation/${rotationId}/flight/${flightId}`, {
+      method: "POST",
+    });
+  }
+
+  async removeFlight(rotationId: string, flightId: string) {
+    await this.fetchWithAuth<GetRotationResponse>(`/api/v1/rotation/${rotationId}/flight/${flightId}`, {
+      method: "DELETE",
+    });
+  }
+}

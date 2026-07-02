@@ -3,15 +3,15 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
-import { GateList } from "~/components/airport/Gate/GateList";
-import { GateListEmptyState } from "~/components/airport/Gate/GateListEmptyState";
-import { RemoveGateModal } from "~/components/airport/Gate/RemoveGateModal";
-import type { Gate } from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { GateService } from "~/state/api/gate.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import { useToast } from "~/state/app/context/useToast";
+import { useToast } from "~/app-state/useToast";
+import type { Gate } from "~/features/gate";
+import { GateList } from "~/features/gate/components/GateList";
+import { GateListEmptyState } from "~/features/gate/components/GateListEmptyState";
+import { RemoveGateModal } from "~/features/gate/components/RemoveGateModal";
+import { GateService } from "~/features/gate/service";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { TerminalService } from "~/features/terminal/service";
+import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [gates, terminals, parkingPositions] = await Promise.all([

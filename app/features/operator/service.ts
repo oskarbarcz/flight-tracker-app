@@ -1,0 +1,27 @@
+import type { Operator } from "~/features/operator";
+import type { CreateOperatorRequest, EditOperatorRequest } from "~/features/operator/request";
+import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
+
+export class OperatorService extends AbstractAuthorizedApiService {
+  async fetchAll() {
+    return this.fetchWithAuth<Operator[]>("/api/v1/operator");
+  }
+
+  async fetchById(id: string) {
+    return this.fetchWithAuth<Operator>(`/api/v1/operator/${id}`);
+  }
+
+  async createNew(operator: CreateOperatorRequest) {
+    return this.fetchWithAuth<Operator>("/api/v1/operator", {
+      body: JSON.stringify(operator),
+      method: "POST",
+    });
+  }
+
+  async update(id: string, data: EditOperatorRequest) {
+    return this.fetchWithAuth<Operator>(`/api/v1/operator/${id}`, {
+      body: JSON.stringify(data),
+      method: "PATCH",
+    });
+  }
+}

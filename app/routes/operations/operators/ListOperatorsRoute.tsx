@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useLoaderData } from "react-router";
-import { OperatorList } from "~/components/operator/List/OperatorList";
-import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
-import type { Operator } from "~/models";
-import { OperatorService } from "~/state/api/operator.service";
-import { useDataRefresh } from "~/state/app/context/useDataRefresh";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { useDataRefresh } from "~/app-state/useDataRefresh";
+import type { Operator } from "~/features/operator";
+import { OperatorList } from "~/features/operator/components/List/OperatorList";
+import { OperatorService } from "~/features/operator/service";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { SectionHeaderWithButton } from "~/shared/ui/Section/SectionHeaderWithButton";
 
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();

@@ -3,30 +3,32 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
-import { AirportRunwaysMap } from "~/components/airport/Runway/AirportRunwaysMap";
-import { RemoveRunwayModal } from "~/components/airport/Runway/RemoveRunwayModal";
-import { RunwayList } from "~/components/airport/Runway/RunwayList";
-import { RunwayListEmptyState } from "~/components/airport/Runway/RunwayListEmptyState";
-import type { Runway } from "~/models";
-import { AirportService } from "~/state/api/airport.service";
-import { useApi } from "~/state/api/context/useApi";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { RunwayService } from "~/state/api/runway.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import { useToast } from "~/state/app/context/useToast";
+import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
+import { GateService } from "~/features/gate/service";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import type { Runway } from "~/features/runway";
+import { AirportRunwaysMap } from "~/features/runway/components/AirportRunwaysMap";
+import { RemoveRunwayModal } from "~/features/runway/components/RemoveRunwayModal";
+import { RunwayList } from "~/features/runway/components/RunwayList";
+import { RunwayListEmptyState } from "~/features/runway/components/RunwayListEmptyState";
+import { RunwayService } from "~/features/runway/service";
+import { TerminalService } from "~/features/terminal/service";
+import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, runways, terminals, parkingPositions] = await Promise.all([
+  const [airport, runways, terminals, parkingPositions, gates] = await Promise.all([
     new AirportService().fetchById(params.id),
     new RunwayService().fetchAll(params.id),
     new TerminalService().fetchAll(params.id),
     new ParkingPositionService().fetchAll(params.id),
+    new GateService().fetchAll(params.id),
   ]);
-  return { airport, runways, terminals, parkingPositions };
+  return { airport, runways, terminals, parkingPositions, gates };
 }
 
 export default function AirportRunwaysRoute({ params, loaderData }: Route.ComponentProps) {
-  const { airport, runways: initialRunways, terminals, parkingPositions } = loaderData;
+  const { airport, runways: initialRunways, terminals, parkingPositions, gates } = loaderData;
   const [runways, setRunways] = useState<Runway[]>(initialRunways);
   const [pendingRemove, setPendingRemove] = useState<Runway | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -64,6 +66,7 @@ export default function AirportRunwaysRoute({ params, loaderData }: Route.Compon
               runways={runways}
               terminals={terminals}
               parkingPositions={parkingPositions}
+              gates={gates}
               fallbackCenter={airport.location}
             />
           </div>

@@ -2,10 +2,10 @@ import { Button, FloatingLabel, Spinner } from "flowbite-react";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router";
-import { Container } from "~/components/shared/Layout/Container";
-import { Logo } from "~/components/shared/Layout/Logo";
-import { useAuth } from "~/state/api/context/useAuth";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { useAuth } from "~/app-state/useAuth";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { Container } from "~/shared/ui/Layout/Container";
+import { Logo } from "~/shared/ui/Layout/Logo";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");

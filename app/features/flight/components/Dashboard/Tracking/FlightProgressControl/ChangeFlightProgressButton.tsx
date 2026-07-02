@@ -1,0 +1,86 @@
+import { Button } from "flowbite-react";
+import React, { type ReactElement, useEffect } from "react";
+import { FaUnlock } from "react-icons/fa";
+import { FaLock } from "react-icons/fa6";
+import { FlightStatus } from "~/features/flight";
+import { CheckInButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CheckInButton";
+import { CloseFlightButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CloseFlightButton";
+import { FinishBoardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/FinishBoardingButton";
+import { FinishOffboardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/FinishOffboardingButton";
+import { ReportArrivalButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/ReportArrivalButton";
+import { ReportOffBlockButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/ReportOffBlockButton";
+import { ReportOnBlockButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/ReportOnBlockButton";
+import { ReportTakeoffButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/ReportTakeoffButton";
+import { StartBoardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/StartBoardingButton";
+import { StartOffboardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/StartOffboardingButton";
+import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+
+function mapStatusToButton(status: FlightStatus, disabled: boolean): ReactElement<typeof StartBoardingButton> | null {
+  switch (status) {
+    case FlightStatus.Ready:
+      return <CheckInButton disabled={disabled} />;
+    case FlightStatus.CheckedIn:
+      return <StartBoardingButton disabled={disabled} />;
+    case FlightStatus.BoardingStarted:
+      return <FinishBoardingButton disabled={disabled} />;
+    case FlightStatus.BoardingFinished:
+      return <ReportOffBlockButton disabled={disabled} />;
+    case FlightStatus.TaxiingOut:
+      return <ReportTakeoffButton disabled={disabled} />;
+    case FlightStatus.InCruise:
+      return <ReportArrivalButton disabled={disabled} />;
+    case FlightStatus.TaxiingIn:
+      return <ReportOnBlockButton disabled={disabled} />;
+    case FlightStatus.OnBlock:
+      return <StartOffboardingButton disabled={disabled} />;
+    case FlightStatus.OffboardingStarted:
+      return <FinishOffboardingButton disabled={disabled} />;
+    case FlightStatus.OffboardingFinished:
+      return <CloseFlightButton disabled={disabled} />;
+    default:
+      return null;
+  }
+}
+
+export type FlightProgressButtonProps = {
+  disabled: boolean;
+};
+
+export function ChangeFlightProgressButton() {
+  const [disabled, setDisabled] = React.useState(true);
+  const { flight } = useTrackedFlight();
+
+  useEffect(() => {
+    setDisabled(true);
+  }, []);
+
+  useEffect(() => {
+    if (!disabled) {
+      const timeout = setTimeout(() => setDisabled(true), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [disabled]);
+
+  function onClick(): void {
+    if (disabled) {
+      setDisabled(false);
+      return;
+    }
+
+    setDisabled(true);
+  }
+
+  if (!flight) {
+    return;
+  }
+
+  return (
+    <div className="mt-4 flex w-full justify-end gap-3">
+      <Button color="indigo" outline onClick={onClick}>
+        {disabled && <FaUnlock />}
+        {!disabled && <FaLock />}
+      </Button>
+      {mapStatusToButton(flight.status, disabled)}
+    </div>
+  );
+}

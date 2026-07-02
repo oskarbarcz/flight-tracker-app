@@ -1,0 +1,125 @@
+import React from "react";
+import { FaArrowRight } from "react-icons/fa";
+import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
+import type { Airport } from "~/features/airport";
+import type { FilledSchedule } from "~/features/flight";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
+
+type Props = {
+  airport: Airport;
+  kind: "departure" | "arrival";
+  schedule: FilledSchedule;
+  details?: React.ReactNode;
+  actions?: React.ReactNode;
+};
+
+export function AirportEndpointCard({ airport, kind, schedule, details, actions }: Props) {
+  const isDeparture = kind === "departure";
+  const label = isDeparture ? "Departure" : "Arrival";
+  const Icon = isDeparture ? FaPlaneDeparture : FaPlaneArrival;
+
+  const date = isDeparture ? schedule.offBlockTime : schedule.onBlockTime;
+  const gateTime = isDeparture ? schedule.offBlockTime : schedule.onBlockTime;
+  const runwayTime = isDeparture ? schedule.takeoffTime : schedule.arrivalTime;
+  const gateLabel = isDeparture ? "OFF" : "IN";
+  const runwayLabel = isDeparture ? "OUT" : "ON";
+
+  const taxiMinutes = Math.round(Math.abs(runwayTime.getTime() - gateTime.getTime()) / 60_000);
+
+  const [leftBlock, rightBlock] = isDeparture
+    ? [
+        { label: gateLabel, time: gateTime, primary: false },
+        { label: runwayLabel, time: runwayTime, primary: true },
+      ]
+    : [
+        { label: runwayLabel, time: runwayTime, primary: true },
+        { label: gateLabel, time: gateTime, primary: false },
+      ];
+
+  return (
+    <Container>
+      <ContainerTitle
+        icon={Icon}
+        title={label}
+        actions={
+          <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
+            <FormattedIcaoDate date={date} />
+          </span>
+        }
+      />
+
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+        <div className="min-w-0 sm:flex-1">
+          <div className="flex items-baseline gap-2">
+            <span className="font-mono text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+              {airport.iataCode}
+            </span>
+            <span className="font-mono text-xs text-gray-400 dark:text-gray-500">{airport.icaoCode}</span>
+          </div>
+          <div className="mt-1 truncate text-sm font-medium text-gray-800 dark:text-gray-100">{airport.name}</div>
+          <div className="truncate text-xs text-gray-500 dark:text-gray-400">
+            {airport.city}, {airport.country}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-[auto_1fr_auto] items-stretch gap-3 sm:shrink-0">
+          <TimeBlock label={leftBlock.label} time={leftBlock.time} primary={leftBlock.primary} />
+          <TaxiSeparator minutes={taxiMinutes} />
+          <TimeBlock label={rightBlock.label} time={rightBlock.time} primary={rightBlock.primary} />
+        </div>
+      </div>
+
+      {details && <div className="space-y-3">{details}</div>}
+
+      {actions && (
+        <div className="flex flex-wrap gap-2 border-t border-gray-200 dark:border-gray-800 pt-3">{actions}</div>
+      )}
+    </Container>
+  );
+}
+
+function TimeBlock({ label, time, primary }: { label: string; time: Date; primary: boolean }) {
+  return (
+    <div
+      className={`rounded-lg border px-3 py-2 text-center min-w-22 ${
+        primary
+          ? "border-indigo-200 bg-indigo-50 dark:border-indigo-900 dark:bg-indigo-950"
+          : "border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950"
+      }`}
+    >
+      <span
+        className={`block text-[10px] font-bold uppercase tracking-wider ${
+          primary ? "text-indigo-500" : "text-gray-500"
+        }`}
+      >
+        {label}
+      </span>
+      <span
+        className={`mt-0.5 block font-mono text-base font-bold ${
+          primary ? "text-indigo-700 dark:text-indigo-300" : "text-gray-800 dark:text-gray-100"
+        }`}
+      >
+        <FormattedIcaoTime date={time} />
+      </span>
+    </div>
+  );
+}
+
+function TaxiSeparator({ minutes }: { minutes: number }) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-1.5">
+      <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+        Taxi · <span className="font-mono text-gray-600 dark:text-gray-300">{minutes}m</span>
+      </span>
+      <div className="relative h-px w-full bg-linear-to-r from-gray-300 to-indigo-400 dark:from-gray-700 dark:to-indigo-500">
+        <FaArrowRight
+          className="absolute right-0 top-1/2 -translate-y-1/2 text-indigo-400 dark:text-indigo-500"
+          size={10}
+        />
+      </div>
+    </div>
+  );
+}

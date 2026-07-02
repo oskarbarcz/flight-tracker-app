@@ -1,9 +1,9 @@
 import React from "react";
-import { FlightListView } from "~/components/flight/Table/FlightListView";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { FlightPhase } from "~/models";
-import { FlightListProvider } from "~/state/api/context/useFlightList";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { FlightPhase } from "~/features/flight";
+import { FlightListView } from "~/features/flight/components/Table/FlightListView";
+import { FlightListProvider } from "~/features/flight/hooks/useFlightList";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 const PHASES = [FlightPhase.Finished];
 

@@ -3,11 +3,7 @@ import { Button } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router";
-import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
+import { useToast } from "~/app-state/useToast";
 import {
   type CreateOperatorFormData,
   continentOptions,
@@ -15,12 +11,16 @@ import {
   operatorFormDataToRequest,
   operatorToFormData,
   operatorTypeOptions,
-} from "~/models";
-import { useApi } from "~/state/api/context/useApi";
-import { OperatorService } from "~/state/api/operator.service";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-import { createOperatorSchema } from "~/validator/form/operator.schema";
+} from "~/features/operator";
+import { createOperatorSchema } from "~/features/operator/schema";
+import { OperatorService } from "~/features/operator/service";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { Container } from "~/shared/ui/Layout/Container";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return new OperatorService().fetchById(params.operatorId);

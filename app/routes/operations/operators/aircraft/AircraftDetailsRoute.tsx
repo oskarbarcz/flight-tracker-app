@@ -1,17 +1,17 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/AircraftDetailsRoute";
 import React, { useState } from "react";
 import { useLoaderData, useRevalidator } from "react-router";
-import { AircraftBaseAirportCard } from "~/components/operator/AircraftDetails/AircraftBaseAirportCard";
-import { AircraftCurrentStatusCard } from "~/components/operator/AircraftDetails/AircraftCurrentStatusCard";
-import { AircraftDetailsHeader } from "~/components/operator/AircraftDetails/AircraftDetailsHeader";
-import { AircraftFlightHistoryCard } from "~/components/operator/AircraftDetails/AircraftFlightHistoryCard";
-import { AircraftTechnicalStatusCard } from "~/components/operator/AircraftDetails/AircraftTechnicalStatusCard";
-import { RepositionAircraftModal } from "~/components/operator/AircraftDetails/RepositionAircraftModal";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { AircraftService } from "~/state/api/aircraft.service";
-import { useApi } from "~/state/api/context/useApi";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { useToast } from "~/app-state/useToast";
+import { AircraftBaseAirportCard } from "~/features/aircraft/components/AircraftDetails/AircraftBaseAirportCard";
+import { AircraftCurrentStatusCard } from "~/features/aircraft/components/AircraftDetails/AircraftCurrentStatusCard";
+import { AircraftDetailsHeader } from "~/features/aircraft/components/AircraftDetails/AircraftDetailsHeader";
+import { AircraftFlightHistoryCard } from "~/features/aircraft/components/AircraftDetails/AircraftFlightHistoryCard";
+import { AircraftTechnicalStatusCard } from "~/features/aircraft/components/AircraftDetails/AircraftTechnicalStatusCard";
+import { RepositionAircraftModal } from "~/features/aircraft/components/AircraftDetails/RepositionAircraftModal";
+import { AircraftService } from "~/features/aircraft/service";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const aircraftService = new AircraftService();

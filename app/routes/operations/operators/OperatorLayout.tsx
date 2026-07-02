@@ -3,11 +3,11 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { HiPencil } from "react-icons/hi";
 import { Link, Outlet, useLoaderData } from "react-router";
-import { OperatorHeader } from "~/components/operator/Header/OperatorHeader";
-import { OperatorInsights } from "~/components/operator/Header/OperatorInsights";
-import { OperatorTabs } from "~/components/operator/Table/Tabs/OperatorTabs";
-import { OperatorService } from "~/state/api/operator.service";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { OperatorHeader } from "~/features/operator/components/Header/OperatorHeader";
+import { OperatorInsights } from "~/features/operator/components/Header/OperatorInsights";
+import { OperatorTabs } from "~/features/operator/components/Table/Tabs/OperatorTabs";
+import { OperatorService } from "~/features/operator/service";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const operator = await new OperatorService().fetchById(params.operatorId);

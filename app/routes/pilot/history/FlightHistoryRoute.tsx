@@ -1,9 +1,9 @@
 import type { Route } from ".react-router/types/app/routes/pilot/history/+types/FlightHistoryRoute";
 import React from "react";
-import { FlightHistoryDashboard } from "~/components/flight/Dashboard/History/FlightHistoryDashboard";
-import { HistoryFlightProvider } from "~/state/api/context/useHistoryFlight";
-import { FlightService } from "~/state/api/flight.service";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
+import { FlightHistoryDashboard } from "~/features/flight/components/Dashboard/History/FlightHistoryDashboard";
+import { HistoryFlightProvider } from "~/features/flight/hooks/useHistoryFlight";
+import { FlightService } from "~/features/flight/service";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const flight = await new FlightService().fetchById(params.id);

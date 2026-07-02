@@ -1,12 +1,12 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/OperatorFleetRoute";
 import React, { useMemo, useState } from "react";
 import { useLoaderData } from "react-router";
-import { AircraftListTable } from "~/components/operator/Table/AircraftListTable";
-import { FleetListEmptyState } from "~/components/operator/Table/EmptyState/FleetListEmptyState";
-import { FleetControls } from "~/components/operator/Table/FleetControls";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { AircraftService } from "~/state/api/aircraft.service";
-import { OperatorService } from "~/state/api/operator.service";
+import { AircraftService } from "~/features/aircraft/service";
+import { AircraftListTable } from "~/features/operator/components/Table/AircraftListTable";
+import { FleetListEmptyState } from "~/features/operator/components/Table/EmptyState/FleetListEmptyState";
+import { FleetControls } from "~/features/operator/components/Table/FleetControls";
+import { OperatorService } from "~/features/operator/service";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [aircrafts, operator] = await Promise.all([

@@ -1,29 +1,27 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/gates/+types/CreateGateRoute";
 import { Button } from "flowbite-react";
-import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
+import { Formik, Form as FormikForm, type FormikHelpers, useFormikContext } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
-import {
-  type CreateGateFormData,
-  gateCategoryOptions,
-  initCreateGateData,
-  type ParkingPosition,
-  type Terminal,
-} from "~/models";
-import { AirportService } from "~/state/api/airport.service";
-import { useApi } from "~/state/api/context/useApi";
-import { GateService } from "~/state/api/gate.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import { gateFormDataToRequest } from "~/state/api/transformer/gate.transformer";
-import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
-import { createGateSchema } from "~/validator/form/gate.schema";
+import { useToast } from "~/app-state/useToast";
+import type { Airport } from "~/features/airport";
+import { AirportService } from "~/features/airport/service";
+import { type CreateGateFormData, gateCategoryOptions, initCreateGateData } from "~/features/gate";
+import { createGateSchema } from "~/features/gate/schema";
+import { GateService } from "~/features/gate/service";
+import { gateFormDataToRequest } from "~/features/gate/transformer";
+import type { ParkingPosition } from "~/features/parking-position";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import type { Terminal } from "~/features/terminal";
+import { TerminalService } from "~/features/terminal/service";
+import { useApi } from "~/shared/api/useApi";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { PointCoordinatesPicker } from "~/shared/ui/Form/MapPicker/PointCoordinatesPicker";
+import { Container } from "~/shared/ui/Layout/Container";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, terminals, parkingPositions] = await Promise.all([
@@ -36,7 +34,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function CreateGateRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new gate");
-  const { terminals, parkingPositions } = loaderData;
+  const { airport, terminals, parkingPositions } = loaderData;
 
   const { gateService } = useApi();
   const navigate = useNavigate();
@@ -69,6 +67,7 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
       >
         {({ isSubmitting }) => (
           <GateFormBody
+            airport={airport}
             terminals={terminals}
             parkingPositions={parkingPositions}
             isSubmitting={isSubmitting}
@@ -81,13 +80,15 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
 }
 
 type FormBodyProps = {
+  airport: Airport;
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
   isSubmitting: boolean;
   submitLabel: string;
 };
 
-export function GateFormBody({ terminals, parkingPositions, isSubmitting, submitLabel }: FormBodyProps) {
+export function GateFormBody({ airport, terminals, parkingPositions, isSubmitting, submitLabel }: FormBodyProps) {
+  const { values } = useFormikContext<CreateGateFormData>();
   const terminalOptions = terminals.map((t) => ({ value: t.id, label: `${t.shortName} · ${t.fullName}` }));
   const parkingPositionOptions = [
     { value: "", label: "— No parking position —" },
@@ -113,6 +114,14 @@ export function GateFormBody({ terminals, parkingPositions, isSubmitting, submit
             label="Served parking position"
             required={false}
             options={parkingPositionOptions}
+          />
+
+          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Location</h3>
+          <PointCoordinatesPicker
+            field="coordinates"
+            airportLocation={airport.location}
+            label="Click on the map to pick the gate location (optional)"
+            pinLabel={values.name}
           />
         </div>
       </Container>
