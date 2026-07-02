@@ -1,5 +1,5 @@
 import React from "react";
-import { padZero } from "~/functions/time";
+import { padZero } from "~/shared/lib/time";
 
 export function dateToIcaoTime(date: Date): string {
   const hours = padZero(date.getUTCHours());

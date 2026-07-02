@@ -4,7 +4,7 @@ import React, { type HTMLInputAutoCompleteAttribute, useEffect, useState } from 
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { RequiredMark } from "~/components/shared/Form/RequiredMark";
-import { formatDate } from "~/functions/time";
+import { formatDate } from "~/shared/lib/time";
 
 type Props = {
   className?: string;

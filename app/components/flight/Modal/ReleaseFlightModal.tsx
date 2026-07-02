@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
-import { formatDate } from "~/functions/time";
 import type { Flight } from "~/models";
+import { formatDate } from "~/shared/lib/time";
 
 type Props = {
   flight: Flight;

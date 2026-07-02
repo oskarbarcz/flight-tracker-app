@@ -8,10 +8,10 @@ import { AircraftFlightHistoryCard } from "~/components/operator/AircraftDetails
 import { AircraftTechnicalStatusCard } from "~/components/operator/AircraftDetails/AircraftTechnicalStatusCard";
 import { RepositionAircraftModal } from "~/components/operator/AircraftDetails/RepositionAircraftModal";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { useApi } from "~/state/api/context/useApi";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const aircraftService = new AircraftService();

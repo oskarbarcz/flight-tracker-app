@@ -3,9 +3,10 @@ import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import type { CreateParkingPositionFormData } from "~/models";
 import { ParkingPositionFormBody } from "~/routes/operations/airports/parking-positions/CreateParkingPositionRoute";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { ParkingPositionService } from "~/state/api/parking-position.service";
@@ -15,7 +16,6 @@ import {
   parkingPositionToFormData,
 } from "~/state/api/transformer/parking-position.transformer";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createParkingPositionSchema } from "~/validator/form/parking-position.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

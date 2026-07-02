@@ -8,12 +8,12 @@ import { ReleaseFlightModal } from "~/components/flight/Modal/ReleaseFlightModal
 import { RemoveFlightModal } from "~/components/flight/Modal/RemoveFlightModal";
 import { UpdateTrackingModal } from "~/components/flight/Modal/UpdateTrackingModal";
 import { FlightSource, type Tracking } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useApi } from "~/state/api/context/useApi";
 import { TrackedFlightProvider, useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { FlightService } from "~/state/api/flight.service";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const flight = await new FlightService().fetchById(params.id);

@@ -1,5 +1,5 @@
-import { MONTHS_SHORT_UPPER } from "~/functions/date";
-import { padZero } from "~/functions/time";
+import { MONTHS_SHORT_UPPER } from "~/shared/lib/date";
+import { padZero } from "~/shared/lib/time";
 
 export function dateToIcaoDate(date: Date): string {
   const day = padZero(date.getUTCDate());

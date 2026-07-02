@@ -6,8 +6,8 @@ import { Link, Outlet, useLoaderData } from "react-router";
 import { OperatorHeader } from "~/components/operator/Header/OperatorHeader";
 import { OperatorInsights } from "~/components/operator/Header/OperatorInsights";
 import { OperatorTabs } from "~/components/operator/Table/Tabs/OperatorTabs";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { OperatorService } from "~/state/api/operator.service";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const operator = await new OperatorService().fetchById(params.operatorId);

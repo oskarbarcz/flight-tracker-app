@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HiX } from "react-icons/hi";
-import { MONTHS_SHORT_UPPER } from "~/functions/date";
 import type { Flight, Schedule } from "~/models";
+import { MONTHS_SHORT_UPPER } from "~/shared/lib/date";
 
 type Props = {
   flight: Flight;

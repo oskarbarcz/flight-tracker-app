@@ -8,12 +8,12 @@ import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSele
 import { AirportShapePickerSection } from "~/components/shared/Form/MapPicker/AirportShapePickerSection";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type CreateAirportFormData, continentOptions, initCreateAirportData } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { useApi } from "~/state/api/context/useApi";
 import { formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createAirportSchema } from "~/validator/form/create-airport.schema";
 
 export default function CreateAirportRoute() {

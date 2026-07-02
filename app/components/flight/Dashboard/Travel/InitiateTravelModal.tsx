@@ -2,8 +2,8 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-rea
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { TravelDestinationField } from "~/components/flight/Dashboard/Travel/TravelDestinationField";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type InitiateTravelFormData, initInitiateTravelData } from "~/models";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { useApi } from "~/state/api/context/useApi";
 import { useAuth } from "~/state/api/context/useAuth";
 import { useToast } from "~/state/app/context/useToast";

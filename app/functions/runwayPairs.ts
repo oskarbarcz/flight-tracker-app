@@ -1,5 +1,5 @@
-import { padZero } from "~/functions/time";
 import type { Runway } from "~/models";
+import { padZero } from "~/shared/lib/time";
 
 export type RunwayPair = {
   key: string;

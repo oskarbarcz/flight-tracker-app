@@ -9,8 +9,8 @@ import { FlightProgressTab } from "~/components/flight/Dashboard/Tabs/Tab/Flight
 import { FlightRunwayAnalysisTab } from "~/components/flight/Dashboard/Tabs/Tab/FlightRunwayAnalysisTab";
 import { FlightHeader } from "~/components/flight/Dashboard/Tracking/FlightHeader";
 import { FlightSource, FlightStatus } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 type Props = {
   flightId: string;

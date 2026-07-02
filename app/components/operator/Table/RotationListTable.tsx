@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
-import { formatDateToLocal } from "~/functions/time";
+import { formatDateToLocal } from "~/shared/lib/time";
 import type { GetRotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {

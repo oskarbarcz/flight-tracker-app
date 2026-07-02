@@ -7,8 +7,8 @@ import { HistoryMapTab } from "~/components/flight/Dashboard/History/Tabs/Tab/Hi
 import { HistoryOfpTab } from "~/components/flight/Dashboard/History/Tabs/Tab/HistoryOfpTab";
 import { HistoryOverviewTab } from "~/components/flight/Dashboard/History/Tabs/Tab/HistoryOverviewTab";
 import { FlightSource } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useHistoryFlight } from "~/state/api/context/useHistoryFlight";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export function FlightHistoryDashboard() {
   const { flight, loading } = useHistoryFlight();

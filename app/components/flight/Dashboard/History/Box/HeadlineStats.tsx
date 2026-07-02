@@ -4,8 +4,8 @@ import { FaCheckCircle, FaExclamationCircle, FaQuestionCircle } from "react-icon
 import { FaPlane, FaStopwatch } from "react-icons/fa6";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { durationMinutes, formatDuration } from "~/functions/time";
 import type { FilledSchedule, Flight } from "~/models";
+import { durationMinutes, formatDuration } from "~/shared/lib/time";
 
 type Props = {
   flight: Flight;

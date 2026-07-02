@@ -4,8 +4,8 @@ import L, { type LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polygon, Polyline, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/functions/polygon";
 import type { Coordinates } from "~/models/runway.model";
+import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/shared/lib/polygon";
 
 type Props = {
   field: string;

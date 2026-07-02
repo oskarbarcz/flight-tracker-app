@@ -4,10 +4,10 @@ import { FullScreenMap } from "~/components/flight/Map/FullScreen/FullScreenMap"
 import { TopBar } from "~/components/flight/Map/FullScreen/TopBar";
 import type { Flight } from "~/models";
 import MapSplash from "~/routes/public/MapSplash";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useAdsbData } from "~/state/api/context/useAdsbData";
 import { usePublicApi } from "~/state/api/context/usePublicApi";
 import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import type { Route } from "../../../.react-router/types/app/routes/public/+types/MapRoute";
 
 export default function MapRoute({ params }: Route.ClientLoaderArgs) {

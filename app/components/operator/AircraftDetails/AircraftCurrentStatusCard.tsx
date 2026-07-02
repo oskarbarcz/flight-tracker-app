@@ -5,8 +5,8 @@ import { LocationMap, MapPill, type MapTone } from "~/components/operator/Aircra
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { type AircraftStatusView, deriveAircraftStatus } from "~/functions/aircraftStatus";
-import { formatDate } from "~/functions/time";
 import type { Aircraft, FlightHistoryEntry } from "~/models";
+import { formatDate } from "~/shared/lib/time";
 
 type Props = {
   aircraft: Aircraft;

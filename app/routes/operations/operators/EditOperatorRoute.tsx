@@ -7,7 +7,6 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type CreateOperatorFormData,
   continentOptions,
@@ -16,10 +15,11 @@ import {
   operatorToFormData,
   operatorTypeOptions,
 } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { useApi } from "~/state/api/context/useApi";
 import { OperatorService } from "~/state/api/operator.service";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createOperatorSchema } from "~/validator/form/operator.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

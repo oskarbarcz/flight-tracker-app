@@ -1,5 +1,5 @@
 import React, { createContext, type ReactNode, useContext } from "react";
-import { useLocalStorage } from "~/state/app/hooks/useLocalStorage";
+import { useLocalStorage } from "~/shared/hooks/useLocalStorage";
 
 export type DisplayMode = "all" | "assigned" | "none";
 

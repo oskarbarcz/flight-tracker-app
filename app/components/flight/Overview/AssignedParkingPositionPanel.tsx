@@ -1,7 +1,6 @@
 import { Badge } from "flowbite-react";
 import React from "react";
 import { HiLocationMarker } from "react-icons/hi";
-import { formatCoordinates } from "~/functions/formatGeo";
 import {
   bridgeOptions,
   deicingOptions,
@@ -14,6 +13,7 @@ import {
   stairsOptions,
   type Terminal,
 } from "~/models";
+import { formatCoordinates } from "~/shared/lib/formatGeo";
 
 type Props = {
   parkingPosition: ParkingPosition;

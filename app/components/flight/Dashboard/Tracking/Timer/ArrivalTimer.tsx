@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { formatTimeInterval, secondsToNow, timeDiff } from "~/functions/time";
 import type { FilledSchedule } from "~/models";
+import { formatTimeInterval, secondsToNow, timeDiff } from "~/shared/lib/time";
 
 type Props = {
   schedule: FilledSchedule;

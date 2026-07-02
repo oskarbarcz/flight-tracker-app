@@ -8,9 +8,9 @@ import { ParkingPositionMarkers } from "~/components/flight/Map/Element/ParkingP
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/components/flight/Map/Element/TerminalPolygons";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { formatCoordinates } from "~/functions/formatGeo";
 import { computeRunwayLines } from "~/functions/runwayPairs";
 import type { Airport, ParkingPosition, Runway, Terminal } from "~/models";
+import { formatCoordinates } from "~/shared/lib/formatGeo";
 
 type Props = {
   airport: Airport;

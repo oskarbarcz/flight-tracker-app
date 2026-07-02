@@ -4,9 +4,9 @@ import { useLoaderData } from "react-router";
 import { OperatorList } from "~/components/operator/List/OperatorList";
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import type { Operator } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { OperatorService } from "~/state/api/operator.service";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader(): Promise<Operator[]> {
   return new OperatorService().fetchAll();

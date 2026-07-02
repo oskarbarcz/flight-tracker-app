@@ -4,8 +4,8 @@ import { FaArrowRight } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router";
 import { Container } from "~/components/shared/Layout/Container";
 import { Logo } from "~/components/shared/Layout/Logo";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useAuth } from "~/state/api/context/useAuth";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export default function SignInRoute() {
   usePageTitle("Sign in");

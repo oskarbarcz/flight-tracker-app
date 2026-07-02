@@ -8,12 +8,12 @@ import { RotationFlightsInputBlock } from "~/components/operator/Form/RotationFl
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
-import { getFormData } from "~/functions/getFormData";
-import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { getFormData } from "~/shared/lib/getFormData";
+import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
 import type { EditRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createRotationSchema } from "~/validator/form/rotation.schema";
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {

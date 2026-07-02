@@ -1,4 +1,3 @@
-import { buildEnumLookup } from "~/functions/buildEnumLookup";
 import {
   type DangerousGoodsClass,
   dangerousGoodsOptions,
@@ -13,6 +12,7 @@ import {
   emergencyThreatLevelOptions,
   emergencyUrgencyOptions,
 } from "~/models";
+import { buildEnumLookup } from "~/shared/lib/buildEnumLookup";
 
 export const urgencyLabel = buildEnumLookup<EmergencyUrgency>(emergencyUrgencyOptions);
 export const threatLevelLabel = buildEnumLookup<EmergencyThreatLevel>(emergencyThreatLevelOptions);

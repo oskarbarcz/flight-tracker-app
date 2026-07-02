@@ -2,8 +2,8 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-rea
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { DiversionFormFields } from "~/components/flight/Dashboard/Diversion/DiversionFormFields";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type Diversion, diversionToFormData, type ReportDiversionFormData, reportFormDataToRequest } from "~/models";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { usePublicApi } from "~/state/api/context/usePublicApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";

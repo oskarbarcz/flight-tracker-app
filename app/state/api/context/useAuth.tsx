@@ -1,6 +1,6 @@
 import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
-import { clearTokens, readAccessToken, readRefreshToken, saveTokens } from "~/functions/tokenStorage";
 import type { User } from "~/models/user.model";
+import { clearTokens, readAccessToken, readRefreshToken, saveTokens } from "~/shared/lib/tokenStorage";
 import { useApi } from "~/state/api/context/useApi";
 
 export interface AuthContextType {

@@ -3,8 +3,8 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { durationMinutes, formatDuration } from "~/functions/time";
 import { type FilledSchedule, type Flight, isFilledSchedule } from "~/models";
+import { durationMinutes, formatDuration } from "~/shared/lib/time";
 
 type Props = {
   flight: Flight;

@@ -7,7 +7,6 @@ import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInput
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type CreateGateFormData,
   gateCategoryOptions,
@@ -15,6 +14,8 @@ import {
   type ParkingPosition,
   type Terminal,
 } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
@@ -22,7 +23,6 @@ import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { gateFormDataToRequest } from "~/state/api/transformer/gate.transformer";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createGateSchema } from "~/validator/form/gate.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

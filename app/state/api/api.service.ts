@@ -1,11 +1,11 @@
-import { getFlightTrackerApiHost } from "~/functions/getFlightTrackerApiHost";
+import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
 import {
   clearTokens,
   isAccessTokenExpired,
   readAccessToken,
   readRefreshToken,
   saveTokens,
-} from "~/functions/tokenStorage";
+} from "~/shared/lib/tokenStorage";
 
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 

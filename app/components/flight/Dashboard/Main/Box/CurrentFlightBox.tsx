@@ -7,10 +7,10 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Container } from "~/components/shared/Layout/Container";
 
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { dateDiffToReadable } from "~/functions/time";
 import { toHuman } from "~/i18n/translate";
 import { type Flight, FlightStatus } from "~/models";
-import { useDateProgress } from "~/state/static/hooks/useDateProgress";
+import { useDateProgress } from "~/shared/hooks/useDateProgress";
+import { dateDiffToReadable } from "~/shared/lib/time";
 
 type Props = {
   flight: Flight;

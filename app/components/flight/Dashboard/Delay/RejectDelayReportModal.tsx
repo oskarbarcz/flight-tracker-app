@@ -2,7 +2,6 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-rea
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { ManagedTextareaBlock } from "~/components/shared/Form/Managed/ManagedTextareaBlock";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import type { DelayReport } from "~/models";
 import {
   initRejectDelayReportData,
@@ -10,6 +9,7 @@ import {
   rejectDelayReportFormDataToRequest,
 } from "~/models";
 import { translateDelayReasonCode } from "~/models/i18n/delay.i18n";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";
 import { rejectDelayReportSchema } from "~/validator/form/delay.schema";

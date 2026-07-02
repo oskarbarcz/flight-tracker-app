@@ -3,16 +3,16 @@ import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import type { CreateGateFormData } from "~/models";
 import { GateFormBody } from "~/routes/operations/airports/gates/CreateGateRoute";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
 import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { gateFormDataToRequest, gateToFormData } from "~/state/api/transformer/gate.transformer";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createGateSchema } from "~/validator/form/gate.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

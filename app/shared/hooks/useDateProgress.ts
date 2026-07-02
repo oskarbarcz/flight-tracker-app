@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { dateDiffToProgress } from "~/functions/time";
+import { dateDiffToProgress } from "~/shared/lib/time";
 
 export function useDateProgress(a: Date, b: Date): number {
   const [now, setNow] = useState(new Date());

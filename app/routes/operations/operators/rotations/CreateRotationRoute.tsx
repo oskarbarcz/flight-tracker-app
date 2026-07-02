@@ -7,13 +7,13 @@ import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseI
 import { InputBlock } from "~/components/shared/Form/InputBlock";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { getFormData } from "~/functions/getFormData";
-import { handleRequestError, handleRequestSuccess } from "~/functions/handleRequest";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { getFormData } from "~/shared/lib/getFormData";
+import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
 import { OperatorService } from "~/state/api/operator.service";
 import type { CreateRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createRotationSchema } from "~/validator/form/rotation.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {

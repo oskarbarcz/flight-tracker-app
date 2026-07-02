@@ -6,8 +6,8 @@ import { Link } from "react-router";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { dateDiffToReadable } from "~/functions/time";
 import type { Flight } from "~/models";
+import { dateDiffToReadable } from "~/shared/lib/time";
 
 type Props = {
   flight: Flight | null;

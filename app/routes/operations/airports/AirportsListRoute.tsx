@@ -8,9 +8,9 @@ import { TransparentContainer } from "~/components/shared/Layout/TransparentCont
 import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
 import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
 import { type Airport, Continent } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useApi } from "~/state/api/context/useApi";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export default function AirportsListRoute() {
   usePageTitle("Airport list");

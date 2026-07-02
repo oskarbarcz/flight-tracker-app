@@ -1,5 +1,5 @@
-import { formatDegrees } from "~/functions/geo";
 import type { FlightPathElement } from "~/models";
+import { formatDegrees } from "~/shared/lib/geo";
 
 type Props = {
   point: FlightPathElement | undefined;

@@ -6,8 +6,8 @@ import { Link } from "react-router";
 import { dateToTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
 import { DataField } from "~/components/shared/Display/DataField";
 import { DataSection } from "~/components/shared/Display/DataSection";
-import { formatLatitude, formatLongitude, getUtcOffset } from "~/functions/formatGeo";
 import type { Airport } from "~/models";
+import { formatLatitude, formatLongitude, getUtcOffset } from "~/shared/lib/formatGeo";
 
 type Props = {
   airport: Airport;

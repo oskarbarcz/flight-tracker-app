@@ -1,7 +1,7 @@
 import { io, type Socket } from "socket.io-client";
-import { getFlightTrackerApiHost } from "~/functions/getFlightTrackerApiHost";
-import { readAccessToken } from "~/functions/tokenStorage";
 import type { FlightEvent } from "~/models";
+import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
+import { readAccessToken } from "~/shared/lib/tokenStorage";
 
 const FLIGHT_EVENTS_NAMESPACE = "/flight-events";
 

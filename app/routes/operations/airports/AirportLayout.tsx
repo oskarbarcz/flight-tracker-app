@@ -3,8 +3,8 @@ import React from "react";
 import { Outlet, useLoaderData } from "react-router";
 import { AirportHeader } from "~/components/airport/Header/AirportHeader";
 import { AirportTabs } from "~/components/airport/Table/Tabs/AirportTabs";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { AirportService } from "~/state/api/airport.service";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const airport = await new AirportService().fetchById(params.id);

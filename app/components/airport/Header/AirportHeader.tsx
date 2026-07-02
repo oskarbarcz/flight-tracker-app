@@ -1,7 +1,7 @@
 import React from "react";
-import { getUtcOffset } from "~/functions/formatGeo";
 import { toHuman } from "~/i18n/translate";
 import type { Airport } from "~/models";
+import { getUtcOffset } from "~/shared/lib/formatGeo";
 
 type Props = {
   airport: Airport;

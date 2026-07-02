@@ -1,7 +1,7 @@
 import { Button, Tooltip } from "flowbite-react";
 import { FaDiscord } from "react-icons/fa6";
 import { Link } from "react-router";
-import { useAppEnvironment } from "~/state/app/hooks/useAppEnvironment";
+import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 
 export function DiscordButton() {
   const { discordInvitationHash } = useAppEnvironment();

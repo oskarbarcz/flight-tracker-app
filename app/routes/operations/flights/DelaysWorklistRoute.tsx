@@ -17,10 +17,10 @@ import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { DelayRequest, Flight } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { useApi } from "~/state/api/context/useApi";
 import type { DelayRequestStatusFilter } from "~/state/api/request/delay.request";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 
 const TABS: { status: DelayRequestStatusFilter; label: string }[] = [
   { status: "pending", label: "To review" },

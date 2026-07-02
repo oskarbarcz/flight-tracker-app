@@ -7,8 +7,8 @@ import { Container } from "~/components/shared/Layout/Container";
 import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { entryTime } from "~/functions/aircraftStatus";
-import { formatDate } from "~/functions/time";
 import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/models";
+import { formatDate } from "~/shared/lib/time";
 
 const PAGE_SIZE = 8;
 

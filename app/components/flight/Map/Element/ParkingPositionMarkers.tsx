@@ -1,7 +1,7 @@
 import L from "leaflet";
 import { Marker, Tooltip } from "react-leaflet";
-import { PIN_COLOR, TERMINAL_COLOR } from "~/functions/mapColors";
 import { GateLocation, type ParkingPosition } from "~/models";
+import { PIN_COLOR, TERMINAL_COLOR } from "~/shared/lib/mapColors";
 
 type Props = {
   parkingPositions: ParkingPosition[];

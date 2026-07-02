@@ -9,7 +9,6 @@ import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSele
 import { PointCoordinatesPicker } from "~/components/shared/Form/MapPicker/PointCoordinatesPicker";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
   type Airport,
   bridgeOptions,
@@ -28,6 +27,8 @@ import {
   stairsOptions,
   type Terminal,
 } from "~/models";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { ParkingPositionService } from "~/state/api/parking-position.service";
@@ -37,7 +38,6 @@ import {
   parkingPositionToFormData,
 } from "~/state/api/transformer/parking-position.transformer";
 import { useToast } from "~/state/app/context/useToast";
-import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createParkingPositionSchema } from "~/validator/form/parking-position.schema";
 
 export async function clientLoader({ params, request }: Route.ClientLoaderArgs) {

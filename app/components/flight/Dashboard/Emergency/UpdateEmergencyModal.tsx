@@ -2,8 +2,8 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-rea
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { EmergencyFormFields } from "~/components/flight/Dashboard/Emergency/EmergencyFormFields";
-import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import { type DeclareEmergencyFormData, type Emergency, emergencyToFormData, updateFormDataToRequest } from "~/models";
+import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";
 import { declareEmergencySchema } from "~/validator/form/emergency.schema";

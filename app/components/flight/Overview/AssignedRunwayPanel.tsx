@@ -1,7 +1,7 @@
 import React from "react";
 import { LuArrowDownToLine } from "react-icons/lu";
-import { formatDegrees } from "~/functions/geo";
 import { lightingTypeOptions, type Runway, surfaceTypeOptions } from "~/models";
+import { formatDegrees } from "~/shared/lib/geo";
 
 type Props = {
   runway: Runway;
