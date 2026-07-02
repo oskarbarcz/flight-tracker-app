@@ -2,10 +2,10 @@ import React from "react";
 import type { IconType } from "react-icons";
 import { FaCheckCircle, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
 import { FaPlane, FaStopwatch } from "react-icons/fa6";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { FilledSchedule, Flight } from "~/models";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;

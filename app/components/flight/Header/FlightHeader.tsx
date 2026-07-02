@@ -4,11 +4,11 @@ import { FaArrowRight } from "react-icons/fa";
 import { HiEye, HiOutlineTrash } from "react-icons/hi";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Container } from "~/components/shared/Layout/Container";
 import { toHuman } from "~/i18n/translate";
 import { type Flight, FlightSource, FlightStatus, Tracking } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { Container } from "~/shared/ui/Layout/Container";
 import { useToast } from "~/state/app/context/useToast";
 
 type Props = {

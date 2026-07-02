@@ -4,10 +4,10 @@ import { FaCircleInfo, FaMagnifyingGlass } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import { allianceDot } from "~/components/operator/List/allianceStyle";
 import { OperatorCard } from "~/components/operator/List/OperatorCard";
-import { EmptyStateIcon } from "~/components/shared/Table/LoadingStates/EmptyStateIcon";
-import { EmptyStateText } from "~/components/shared/Table/LoadingStates/EmptyStateText";
-import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
 import { Alliance, allContinents, type Continent, continentLabel, type Operator } from "~/models";
+import { EmptyStateIcon } from "~/shared/ui/Table/LoadingStates/EmptyStateIcon";
+import { EmptyStateText } from "~/shared/ui/Table/LoadingStates/EmptyStateText";
+import { TableEmptyState } from "~/shared/ui/Table/LoadingStates/TableEmptyState";
 
 const PAGE_SIZE = 24;
 

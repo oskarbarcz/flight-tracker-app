@@ -11,11 +11,11 @@ import {
 } from "~/components/flight/Dashboard/Emergency/emergencyLabels";
 import { ResolveEmergencyConfirmModal } from "~/components/flight/Dashboard/Emergency/ResolveEmergencyConfirmModal";
 import { UpdateEmergencyModal } from "~/components/flight/Dashboard/Emergency/UpdateEmergencyModal";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { UserName } from "~/components/shared/User/UserName";
 import type { Emergency } from "~/models";
 import { EmergencyThreatLevel } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 type Props = {
   emergency: Emergency;

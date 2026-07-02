@@ -3,9 +3,9 @@ import React from "react";
 import { FaCircleInfo, FaFileImport } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
-import { EmptyStateIcon } from "~/components/shared/Table/LoadingStates/EmptyStateIcon";
-import { EmptyStateText } from "~/components/shared/Table/LoadingStates/EmptyStateText";
-import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
+import { EmptyStateIcon } from "~/shared/ui/Table/LoadingStates/EmptyStateIcon";
+import { EmptyStateText } from "~/shared/ui/Table/LoadingStates/EmptyStateText";
+import { TableEmptyState } from "~/shared/ui/Table/LoadingStates/TableEmptyState";
 
 type FlightListEmptyStateProps = {
   message: string;

@@ -2,8 +2,8 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import type { IconType } from "react-icons";
 import type { ObjectSchema } from "yup";
-import { FormSectionHeader } from "~/components/shared/Form/Partial/FormSectionHeader";
-import { Container } from "~/components/shared/Layout/Container";
+import { FormSectionHeader } from "~/shared/ui/Form/Partial/FormSectionHeader";
+import { Container } from "~/shared/ui/Layout/Container";
 
 type Props<T extends object> = {
   initialValues: T;

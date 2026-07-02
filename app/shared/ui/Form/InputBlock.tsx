@@ -1,6 +1,6 @@
 import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 
 type Props = {
   htmlName: string;

@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { FaIdCard } from "react-icons/fa6";
 import { OperatorFin } from "~/components/operator/OperatorFin";
 import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
-import { AdvancedSelect, type AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
-import { OptionAvatarFrame } from "~/components/shared/Form/AdvancedSelect/OptionAvatarFrame";
-import { FormSection } from "~/components/shared/Form/FormSection";
-import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
 import { type Aircraft, allianceLabel, type Operator } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
+import { AdvancedSelect, type AdvancedSelectOption } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
+import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
+import { FormSection } from "~/shared/ui/Form/FormSection";
+import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 import { useApi } from "~/state/api/context/useApi";
 import { newFlightIdentitySchema } from "~/validator/form/flight.schema";
 

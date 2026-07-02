@@ -1,9 +1,9 @@
 import React from "react";
 import type { IconType } from "react-icons";
-import { FormSectionEdit } from "~/components/shared/Form/Partial/FormSectionEdit";
-import { FormSectionSave } from "~/components/shared/Form/Partial/FormSectionSave";
-import { FormSectionSaveConfirmation } from "~/components/shared/Form/Partial/FormSectionSaveConfirmation";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { FormSectionEdit } from "~/shared/ui/Form/Partial/FormSectionEdit";
+import { FormSectionSave } from "~/shared/ui/Form/Partial/FormSectionSave";
+import { FormSectionSaveConfirmation } from "~/shared/ui/Form/Partial/FormSectionSaveConfirmation";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   icon: IconType;

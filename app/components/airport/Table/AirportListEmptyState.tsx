@@ -3,11 +3,11 @@ import React from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link } from "react-router";
-import { EmptyStateIcon } from "~/components/shared/Table/LoadingStates/EmptyStateIcon";
-import { EmptyStateText } from "~/components/shared/Table/LoadingStates/EmptyStateText";
-import { TableEmptyState } from "~/components/shared/Table/LoadingStates/TableEmptyState";
 import { toHuman } from "~/i18n/translate";
 import type { Continent } from "~/models";
+import { EmptyStateIcon } from "~/shared/ui/Table/LoadingStates/EmptyStateIcon";
+import { EmptyStateText } from "~/shared/ui/Table/LoadingStates/EmptyStateText";
+import { TableEmptyState } from "~/shared/ui/Table/LoadingStates/TableEmptyState";
 
 type Props = {
   continent: Continent;

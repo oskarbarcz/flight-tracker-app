@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
-import { PolygonShapePicker } from "~/components/shared/Form/MapPicker/PolygonShapePicker";
 import type { CreateAirportFormData } from "~/models/form/airport.form";
+import { PolygonShapePicker } from "~/shared/ui/Form/MapPicker/PolygonShapePicker";
 
 export function AirportShapePickerSection() {
   const { values } = useFormikContext<CreateAirportFormData>();

@@ -3,12 +3,6 @@ import { Button, Label, Textarea } from "flowbite-react";
 import { Field, Formik, Form as FormikForm, type FormikHelpers, useFormikContext } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
-import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { PointCoordinatesPicker } from "~/components/shared/Form/MapPicker/PointCoordinatesPicker";
-import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import {
   type Airport,
   bridgeOptions,
@@ -29,6 +23,12 @@ import {
 } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
+import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { PointCoordinatesPicker } from "~/shared/ui/Form/MapPicker/PointCoordinatesPicker";
+import { Container } from "~/shared/ui/Layout/Container";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { ParkingPositionService } from "~/state/api/parking-position.service";

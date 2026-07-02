@@ -1,8 +1,8 @@
 import { Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputTypeAttribute } from "react";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
-import { RequiredMark } from "~/components/shared/Form/RequiredMark";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
+import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
 type Props = {
   field: string;

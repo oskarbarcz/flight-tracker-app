@@ -3,11 +3,11 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo, FaPlaneDeparture } from "react-icons/fa6";
 import { Link } from "react-router";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Flight } from "~/models";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight | undefined;

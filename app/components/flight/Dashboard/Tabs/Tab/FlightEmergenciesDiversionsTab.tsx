@@ -7,9 +7,9 @@ import { ActiveEmergencyPanel } from "~/components/flight/Dashboard/Emergency/Ac
 import { DeclareEmergencyModal } from "~/components/flight/Dashboard/Emergency/DeclareEmergencyModal";
 import { EmergencyEmptyState } from "~/components/flight/Dashboard/Emergency/EmergencyEmptyState";
 import { ResolvedEmergenciesHistory } from "~/components/flight/Dashboard/Emergency/ResolvedEmergenciesHistory";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { FlightStatus } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 const STATUSES_VALID_FOR_EMERGENCY: ReadonlySet<FlightStatus> = new Set([

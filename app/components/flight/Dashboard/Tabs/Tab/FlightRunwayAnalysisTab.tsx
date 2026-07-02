@@ -1,6 +1,6 @@
 import React from "react";
-import { Container } from "~/components/shared/Layout/Container";
-import { RawHtml } from "~/components/shared/RawHtml";
+import { Container } from "~/shared/ui/Layout/Container";
+import { RawHtml } from "~/shared/ui/RawHtml";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useFlightOfp } from "~/state/api/hooks/useFlightOfp";
 

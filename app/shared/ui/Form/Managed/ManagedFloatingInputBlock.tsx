@@ -3,8 +3,8 @@ import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
-import { RequiredMark } from "~/components/shared/Form/RequiredMark";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
+import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
 type ManagedFloatingInputBlock = {
   field: string;

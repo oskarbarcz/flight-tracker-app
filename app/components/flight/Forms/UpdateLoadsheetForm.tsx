@@ -1,5 +1,5 @@
 import React from "react";
-import { ManagedFloatingInputBlock } from "~/components/shared/Form/Managed/ManagedFloatingInputBlock";
+import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 
 export function UpdateLoadsheetForm() {
   return (

@@ -2,9 +2,9 @@ import { Button, Label, TextInput } from "flowbite-react";
 import { useFormikContext } from "formik";
 import React, { useState } from "react";
 import { FaCloudArrowDown } from "react-icons/fa6";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { CreateAirportFormData } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { useApi } from "~/state/api/context/useApi";
 import { skyLinkToFormData } from "~/state/api/transformer/skylink.transformer";
 

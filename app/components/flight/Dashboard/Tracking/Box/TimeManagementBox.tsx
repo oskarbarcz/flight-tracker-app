@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaCircleInfo, FaClock, FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { FormattedLocalTime } from "~/components/shared/Date/FormattedLocalTime";
-import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { FormattedLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
+import { FormattedTimezoneTime } from "~/shared/ui/Date/FormattedTimezoneTime";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 export function TimeManagementBox() {

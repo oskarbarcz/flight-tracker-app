@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { HiOutlineClock } from "react-icons/hi";
 import { Link } from "react-router";
 import { FlightStatusBadge } from "~/components/shared/Flight/FlightStatusBadge";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { entryTime } from "~/functions/aircraftStatus";
 import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/models";
 import { formatDate } from "~/shared/lib/time";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const PAGE_SIZE = 8;
 

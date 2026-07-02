@@ -7,8 +7,8 @@ import { AircraftDetailsHeader } from "~/components/operator/AircraftDetails/Air
 import { AircraftFlightHistoryCard } from "~/components/operator/AircraftDetails/AircraftFlightHistoryCard";
 import { AircraftTechnicalStatusCard } from "~/components/operator/AircraftDetails/AircraftTechnicalStatusCard";
 import { RepositionAircraftModal } from "~/components/operator/AircraftDetails/RepositionAircraftModal";
-import { SectionHeaderWithBackButton } from "~/components/shared/Section/SectionHeaderWithBackButton";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { useApi } from "~/state/api/context/useApi";
 import { useToast } from "~/state/app/context/useToast";

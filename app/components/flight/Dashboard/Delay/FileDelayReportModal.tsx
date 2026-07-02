@@ -1,12 +1,12 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
-import { ManagedGroupedSelectBlock } from "~/components/shared/Form/Managed/ManagedGroupedSelectBlock";
-import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
-import { ManagedTextareaBlock } from "~/components/shared/Form/Managed/ManagedTextareaBlock";
 import { type FileDelayReportFormData, fileDelayReportFormDataToRequest, initFileDelayReportData } from "~/models";
 import { delayReasonOptionGroups } from "~/models/i18n/delay.i18n";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ManagedGroupedSelectBlock } from "~/shared/ui/Form/Managed/ManagedGroupedSelectBlock";
+import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";
 import { fileDelayReportSchema } from "~/validator/form/delay.schema";

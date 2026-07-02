@@ -3,14 +3,13 @@ import React from "react";
 import { FaArrowRight, FaPlane } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import { Link } from "react-router";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Container } from "~/components/shared/Layout/Container";
-
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { toHuman } from "~/i18n/translate";
 import { type Flight, FlightStatus } from "~/models";
 import { useDateProgress } from "~/shared/hooks/useDateProgress";
 import { dateDiffToReadable } from "~/shared/lib/time";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;

@@ -1,8 +1,8 @@
 import React from "react";
 import { AirportShape } from "~/components/shared/Airport/AirportShape";
-import type { AdvancedSelectOption } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
-import { OptionAvatarFrame } from "~/components/shared/Form/AdvancedSelect/OptionAvatarFrame";
 import type { Airport } from "~/models";
+import type { AdvancedSelectOption } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
+import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
 
 export function airportSelectOptions(airports: Airport[]): AdvancedSelectOption[] {
   return airports.map((airport) => ({

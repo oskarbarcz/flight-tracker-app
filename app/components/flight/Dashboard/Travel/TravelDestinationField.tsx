@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
-import { AdvancedSelect } from "~/components/shared/Form/AdvancedSelect/AdvancedSelect";
 import type { Airport } from "~/models";
+import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { useApi } from "~/state/api/context/useApi";
 
 type Props = {

@@ -1,7 +1,7 @@
 import { Label, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { PilotInputPreview } from "~/components/operator/Form/Preview/PilotInputPreview";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { useApi } from "~/state/api/context/useApi";
 import type { GetUserResponse } from "~/state/api/request/user.request";
 

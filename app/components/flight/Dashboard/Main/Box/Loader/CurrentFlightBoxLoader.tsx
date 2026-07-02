@@ -1,7 +1,7 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function CurrentFlightBoxLoader() {
   return (

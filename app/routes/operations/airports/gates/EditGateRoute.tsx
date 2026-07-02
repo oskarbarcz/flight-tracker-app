@@ -2,11 +2,11 @@ import type { Route } from ".react-router/types/app/routes/operations/airports/g
 import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { CreateGateFormData } from "~/models";
 import { GateFormBody } from "~/routes/operations/airports/gates/CreateGateRoute";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
 import { ParkingPositionService } from "~/state/api/parking-position.service";

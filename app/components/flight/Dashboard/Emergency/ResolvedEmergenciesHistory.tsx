@@ -1,10 +1,10 @@
 import { Badge } from "flowbite-react";
 import React from "react";
 import { categoryLabel, threatLevelLabel, urgencyLabel } from "~/components/flight/Dashboard/Emergency/emergencyLabels";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { UserName } from "~/components/shared/User/UserName";
 import type { Emergency } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 type Props = {
   emergencies: Emergency[];

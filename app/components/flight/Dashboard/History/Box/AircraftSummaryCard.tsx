@@ -1,10 +1,10 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa6";
 import { AircraftImage } from "~/components/shared/Aircraft/AircraftImage";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { formatWeightCategory } from "~/functions/formatAirframe";
 import type { Flight } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;

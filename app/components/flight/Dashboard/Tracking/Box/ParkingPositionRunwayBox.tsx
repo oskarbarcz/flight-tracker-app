@@ -14,11 +14,11 @@ import { AssignedTerminalPanel } from "~/components/flight/Overview/AssignedTerm
 import { ParkingPositionEmptyPanel } from "~/components/flight/Overview/ParkingPositionEmptyPanel";
 import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
 import { TerminalEmptyPanel } from "~/components/flight/Overview/TerminalEmptyPanel";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { type Airport, type Diversion, FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";

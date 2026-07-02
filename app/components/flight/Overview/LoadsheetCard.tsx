@@ -1,9 +1,9 @@
 import React from "react";
 import { FaFileInvoice } from "react-icons/fa6";
 import { HiExclamationTriangle, HiInformationCircle } from "react-icons/hi2";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Loadsheet } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   title: string;

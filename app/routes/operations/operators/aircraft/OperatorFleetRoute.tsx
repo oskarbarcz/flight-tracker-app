@@ -4,7 +4,7 @@ import { useLoaderData } from "react-router";
 import { AircraftListTable } from "~/components/operator/Table/AircraftListTable";
 import { FleetListEmptyState } from "~/components/operator/Table/EmptyState/FleetListEmptyState";
 import { FleetControls } from "~/components/operator/Table/FleetControls";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 import { AircraftService } from "~/state/api/aircraft.service";
 import { OperatorService } from "~/state/api/operator.service";
 

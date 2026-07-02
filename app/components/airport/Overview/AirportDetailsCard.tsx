@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { LuClock, LuMapPin, LuTag } from "react-icons/lu";
 import { Link } from "react-router";
-import { dateToTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
-import { DataField } from "~/components/shared/Display/DataField";
-import { DataSection } from "~/components/shared/Display/DataSection";
 import type { Airport } from "~/models";
 import { formatLatitude, formatLongitude, getUtcOffset } from "~/shared/lib/formatGeo";
+import { dateToTimezoneTime } from "~/shared/ui/Date/FormattedTimezoneTime";
+import { DataField } from "~/shared/ui/Display/DataField";
+import { DataSection } from "~/shared/ui/Display/DataSection";
 
 type Props = {
   airport: Airport;

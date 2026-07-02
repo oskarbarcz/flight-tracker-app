@@ -1,9 +1,9 @@
 import React from "react";
 import { FaGlobe, FaPlane, FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineHub } from "react-icons/md";
-import { RichStatDisplay } from "~/components/shared/Display/RichStatDisplay";
 import { toHuman } from "~/i18n/translate";
 import type { Operator } from "~/models";
+import { RichStatDisplay } from "~/shared/ui/Display/RichStatDisplay";
 
 type Props = {
   operator: Operator;

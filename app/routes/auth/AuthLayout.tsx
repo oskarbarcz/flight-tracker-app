@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router";
-import { AnimatedBlobs } from "~/components/shared/Blob/AnimatedBlobs";
-import { Footer } from "~/components/shared/Layout/Footer";
+import { AnimatedBlobs } from "~/shared/ui/Blob/AnimatedBlobs";
+import { Footer } from "~/shared/ui/Layout/Footer";
 
 export default function AuthLayout() {
   return (

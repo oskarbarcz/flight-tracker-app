@@ -2,11 +2,11 @@ import type { Route } from ".react-router/types/app/routes/operations/airports/p
 import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import type { CreateParkingPositionFormData } from "~/models";
 import { ParkingPositionFormBody } from "~/routes/operations/airports/parking-positions/CreateParkingPositionRoute";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { ParkingPositionService } from "~/state/api/parking-position.service";

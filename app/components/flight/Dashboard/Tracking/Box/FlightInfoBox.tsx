@@ -1,8 +1,8 @@
 import React from "react";
 import { FaPlane, FaPlaneCircleExclamation } from "react-icons/fa6";
 import { PiUserSoundBold } from "react-icons/pi";
-import { Container, type ContainerClassProps } from "~/components/shared/Layout/Container";
 import { type Diversion, FlightStatus, isFilledSchedule } from "~/models";
+import { Container, type ContainerClassProps } from "~/shared/ui/Layout/Container";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 function calculateBlockTime(offBlockTime: Date, onBlockTime: Date): string {

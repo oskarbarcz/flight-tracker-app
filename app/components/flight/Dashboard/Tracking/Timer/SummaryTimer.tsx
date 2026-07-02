@@ -1,6 +1,6 @@
 import React from "react";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import type { FilledSchedule } from "~/models";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 type Props = {
   schedule: FilledSchedule;

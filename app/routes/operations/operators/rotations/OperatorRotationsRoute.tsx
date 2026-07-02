@@ -5,7 +5,7 @@ import { RemoveRotationModal } from "~/components/operator/Modal/RemoveRotationM
 import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
 import { RotationControls } from "~/components/operator/Table/RotationControls";
 import { RotationListTable } from "~/components/operator/Table/RotationListTable";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 import { useApi } from "~/state/api/context/useApi";
 import type { GetRotationResponse } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";

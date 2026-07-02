@@ -2,7 +2,7 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome } from "react-icons/hi";
 import { useLocation } from "react-router";
-import { SidebarElement } from "~/components/shared/Sidebar/Elements/SidebarElement";
+import { SidebarElement } from "~/shared/ui/Sidebar/Elements/SidebarElement";
 
 export function CabinCrewSidebarItems() {
   const path = useLocation().pathname;

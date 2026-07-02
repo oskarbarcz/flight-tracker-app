@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaRegCalendar } from "react-icons/fa6";
-import { FormSection } from "~/components/shared/Form/FormSection";
-import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
+import { FormSection } from "~/shared/ui/Form/FormSection";
+import { ManagedDateTimeInputBlock } from "~/shared/ui/Form/Managed/ManagedDateTimeInputBlock";
 import { newFlightScheduleSchema } from "~/validator/form/flight.schema";
 
 type ScheduleFormData = CreateFlightFormData["schedule"];

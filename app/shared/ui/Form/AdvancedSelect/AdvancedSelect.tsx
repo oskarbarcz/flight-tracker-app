@@ -3,8 +3,8 @@ import { useField } from "formik";
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { twMerge } from "tailwind-merge";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
-import { RequiredMark } from "~/components/shared/Form/RequiredMark";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
+import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
 export type AdvancedSelectOption = {
   value: string;

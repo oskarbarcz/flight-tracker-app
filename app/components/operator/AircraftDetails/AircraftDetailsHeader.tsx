@@ -4,10 +4,10 @@ import { HiPencil } from "react-icons/hi";
 import { LuPlane, LuTag } from "react-icons/lu";
 import { Link } from "react-router";
 import { AircraftImage } from "~/components/shared/Aircraft/AircraftImage";
-import { DataField } from "~/components/shared/Display/DataField";
-import { DataSection } from "~/components/shared/Display/DataSection";
 import { formatCruiseSpeed, formatServiceCeiling, formatWeightCategory } from "~/functions/formatAirframe";
 import type { Aircraft } from "~/models";
+import { DataField } from "~/shared/ui/Display/DataField";
+import { DataSection } from "~/shared/ui/Display/DataSection";
 
 type Props = {
   aircraft: Aircraft;

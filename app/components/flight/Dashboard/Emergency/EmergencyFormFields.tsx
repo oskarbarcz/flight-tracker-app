@@ -1,8 +1,5 @@
 import React from "react";
 import { DangerousGoodsCheckboxes } from "~/components/flight/Dashboard/Emergency/DangerousGoodsCheckboxes";
-import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
-import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { ManagedTextareaBlock } from "~/components/shared/Form/Managed/ManagedTextareaBlock";
 import {
   emergencyCategoryOptions,
   emergencyIntentionOptions,
@@ -10,6 +7,9 @@ import {
   emergencyThreatLevelOptions,
   emergencyUrgencyOptions,
 } from "~/models";
+import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
 
 export function EmergencyFormFields() {
   return (

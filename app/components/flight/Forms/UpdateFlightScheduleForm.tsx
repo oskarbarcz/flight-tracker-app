@@ -1,7 +1,7 @@
 import { useFormikContext } from "formik";
-import { ManagedDateTimeInputBlock } from "~/components/shared/Form/Managed/ManagedDateTimeInputBlock";
 import type { FilledSchedule } from "~/models";
 import { getTimeDifferenceInHours, getTimeDifferenceInMinutes } from "~/shared/lib/time";
+import { ManagedDateTimeInputBlock } from "~/shared/ui/Form/Managed/ManagedDateTimeInputBlock";
 
 export function UpdateFlightScheduleForm() {
   const { values } = useFormikContext<FilledSchedule>();

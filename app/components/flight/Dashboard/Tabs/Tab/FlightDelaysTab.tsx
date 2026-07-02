@@ -4,9 +4,9 @@ import { FaClock, FaPlus } from "react-icons/fa6";
 import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";
 import { FileDelayReportModal } from "~/components/flight/Dashboard/Delay/FileDelayReportModal";
 import { RemoveDelayReportConfirmModal } from "~/components/flight/Dashboard/Delay/RemoveDelayReportConfirmModal";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { type DelayReport, FlightStatus } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 
 const DEPARTED_STATUSES: ReadonlySet<FlightStatus> = new Set([

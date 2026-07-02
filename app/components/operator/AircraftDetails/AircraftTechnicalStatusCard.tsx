@@ -2,8 +2,8 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import type { IconType } from "react-icons";
 import { HiOutlineCheckCircle, HiOutlineClipboardCheck, HiOutlineCog, HiOutlineShieldCheck } from "react-icons/hi";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type StatusRow = {
   icon: IconType;

@@ -2,9 +2,9 @@ import { FloatingLabel } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
-import { RequiredMark } from "~/components/shared/Form/RequiredMark";
 import { formatDate } from "~/shared/lib/time";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
+import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
 type Props = {
   className?: string;

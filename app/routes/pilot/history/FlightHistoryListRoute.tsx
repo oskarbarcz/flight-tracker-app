@@ -1,8 +1,8 @@
 import React from "react";
 import { FlightHistoryListTable } from "~/components/flight/Table/FlightHistoryListTable";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
 export default function FlightHistoryListRoute() {
   usePageTitle("Flight history");

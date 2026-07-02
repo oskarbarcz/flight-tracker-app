@@ -1,9 +1,9 @@
 import React from "react";
 import { HiOutlineHome } from "react-icons/hi";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { AircraftAirport } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   baseAirport: AircraftAirport | null;

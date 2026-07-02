@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router";
-import { FormattedTimezoneTime } from "~/components/shared/Date/FormattedTimezoneTime";
 import type { Airport } from "~/models";
+import { FormattedTimezoneTime } from "~/shared/ui/Date/FormattedTimezoneTime";
 
 type Props = {
   airports: Airport[];

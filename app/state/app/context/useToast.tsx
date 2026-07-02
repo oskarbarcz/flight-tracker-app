@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext } from "react";
 import { type ToastOptions, toast } from "react-toastify";
-import { FlowbiteToast } from "~/components/shared/Toasts/FlowbiteToast";
+import { FlowbiteToast } from "~/shared/ui/Toasts/FlowbiteToast";
 
 type ToastType = "success" | "error" | "warning" | "info";
 

@@ -4,10 +4,10 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaCircleCheck, FaCircleInfo, FaForward, FaLocationDot } from "react-icons/fa6";
 import { Link } from "react-router";
 import { InitiateTravelModal } from "~/components/flight/Dashboard/Travel/InitiateTravelModal";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerEmptyState } from "~/components/shared/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import { TravelType, type UserTravel, type UserTravelAirport } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   currentLocation: UserTravelAirport | null;

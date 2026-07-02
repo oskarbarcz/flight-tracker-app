@@ -1,8 +1,8 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { UpdateFlightScheduleForm } from "~/components/flight/Forms/UpdateFlightScheduleForm";
-import { Form } from "~/components/shared/Form/Form";
 import type { FilledSchedule, Flight } from "~/models";
+import { Form } from "~/shared/ui/Form/Form";
 import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
 type Props = {

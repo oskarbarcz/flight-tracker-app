@@ -1,10 +1,10 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React from "react";
 import { UpdateFlightScheduleForm } from "~/components/flight/Forms/UpdateFlightScheduleForm";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
-import { Form } from "~/components/shared/Form/Form";
 import type { FilledSchedule, Flight } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { Form } from "~/shared/ui/Form/Form";
 import { updateScheduleSchema } from "~/validator/form/flight.schema";
 
 type Props = {

@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { FaPencil, FaPlaneCircleExclamation } from "react-icons/fa6";
 import { diversionReasonLabel, diversionSeverityLabel } from "~/components/flight/Dashboard/Diversion/diversionLabels";
 import { UpdateDiversionModal } from "~/components/flight/Dashboard/Diversion/UpdateDiversionModal";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { type Diversion, DiversionSeverity } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 type Props = {
   diversion: Diversion;

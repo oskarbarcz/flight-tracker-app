@@ -1,6 +1,6 @@
 import React from "react";
 import { HistoryFlightMap } from "~/components/flight/Map/Box/HistoryFlightMap";
-import { Container } from "~/components/shared/Layout/Container";
+import { Container } from "~/shared/ui/Layout/Container";
 import { useHistoryFlight } from "~/state/api/context/useHistoryFlight";
 import { MapSettingsProvider } from "~/state/app/context/useMapSettings";
 

@@ -4,12 +4,12 @@ import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } fro
 import React, { useEffect } from "react";
 import { useActionData, useNavigate, useSubmit } from "react-router";
 import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseInputBlock";
-import { InputBlock } from "~/components/shared/Form/InputBlock";
-import { Container } from "~/components/shared/Layout/Container";
-import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
+import { InputBlock } from "~/shared/ui/Form/InputBlock";
+import { Container } from "~/shared/ui/Layout/Container";
+import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { OperatorService } from "~/state/api/operator.service";
 import type { CreateRotationRequest } from "~/state/api/request/operator.request";
 import { RotationService } from "~/state/api/rotation.service";

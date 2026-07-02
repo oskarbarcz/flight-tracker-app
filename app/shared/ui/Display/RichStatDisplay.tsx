@@ -1,6 +1,6 @@
 import React from "react";
 import type { IconType } from "react-icons";
-import { Container } from "~/components/shared/Layout/Container";
+import { Container } from "~/shared/ui/Layout/Container";
 
 type Props = {
   icon: IconType;

@@ -4,11 +4,11 @@ import { useSearchParams } from "react-router";
 import { AirportListEmptyState } from "~/components/airport/Table/AirportListEmptyState";
 import { AirportListTable } from "~/components/airport/Table/AirportListTable";
 import { ContinentFilterTabs } from "~/components/airport/Table/Tabs/ContinentFilterTabs";
-import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
-import { SectionHeaderWithButton } from "~/components/shared/Section/SectionHeaderWithButton";
-import { LoadingData } from "~/components/shared/Table/LoadingStates/LoadingData";
 import { type Airport, Continent } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
+import { SectionHeaderWithButton } from "~/shared/ui/Section/SectionHeaderWithButton";
+import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
 import { useApi } from "~/state/api/context/useApi";
 import { useDataRefresh } from "~/state/app/context/useDataRefresh";
 

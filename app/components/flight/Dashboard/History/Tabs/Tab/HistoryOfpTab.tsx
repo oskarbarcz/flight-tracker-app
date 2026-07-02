@@ -1,7 +1,7 @@
 import React from "react";
 import { FaFileLines } from "react-icons/fa6";
-import { Container } from "~/components/shared/Layout/Container";
-import { RawHtml } from "~/components/shared/RawHtml";
+import { Container } from "~/shared/ui/Layout/Container";
+import { RawHtml } from "~/shared/ui/RawHtml";
 import { useHistoryFlight } from "~/state/api/context/useHistoryFlight";
 import { useFlightOfp } from "~/state/api/hooks/useFlightOfp";
 

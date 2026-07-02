@@ -4,10 +4,10 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
 import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
-import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { FlightStatusBadge } from "~/components/shared/Flight/FlightStatusBadge";
 import type { Flight } from "~/models";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 type Props = {
   flight: Flight;

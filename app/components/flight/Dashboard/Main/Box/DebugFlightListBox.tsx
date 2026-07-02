@@ -1,9 +1,9 @@
 import React from "react";
 import { FaBug } from "react-icons/fa6";
 import { Link } from "react-router";
-import { Container } from "~/components/shared/Layout/Container";
-import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
 import type { Flight } from "~/models";
+import { Container } from "~/shared/ui/Layout/Container";
+import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type DebugFlightListBoxProps = {
   flights: Flight[];
