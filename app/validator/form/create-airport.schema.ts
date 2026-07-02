@@ -1,7 +1,7 @@
 import { number, type ObjectSchema, object, string } from "yup";
 import { Continent } from "~/models";
 import type { CreateAirportFormData } from "~/models/form/airport.form";
-import { polygonSchema } from "~/validator/form/coordinates.schema";
+import { polygonSchema } from "~/shared/validator/coordinates.schema";
 
 const timezoneSchema = string().test("is-valid-timezone", "Invalid timezone", (value) => {
   try {

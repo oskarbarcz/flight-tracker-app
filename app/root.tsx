@@ -5,7 +5,7 @@ import { AuthProvider } from "~/app-state/useAuth";
 import { ToastProvider } from "~/app-state/useToast";
 import { ApiProvider } from "~/shared/api/useApi";
 import theme from "~/styles/theme";
-import "~/validator/yup-locale";
+import "~/shared/validator/yup-locale";
 import type { Route } from "./+types/root";
 import stylesheet from "./styles/index.css?url";
 

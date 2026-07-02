@@ -12,7 +12,7 @@ import {
   StairsBoarding,
 } from "~/models";
 import type { CreateParkingPositionFormData } from "~/models/form/parking-position.form";
-import { coordinatesSchema } from "~/validator/form/coordinates.schema";
+import { coordinatesSchema } from "~/shared/validator/coordinates.schema";
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 

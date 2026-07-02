@@ -1,3 +1,7 @@
+import type { Coordinates } from "~/shared/models/coordinates";
+
+export type { Coordinates };
+
 export enum SurfaceType {
   Asphalt = "asphalt",
   Concrete = "concrete",
@@ -13,11 +17,6 @@ export enum LightingType {
   ALS = "ALS",
   Unknown = "unknown",
 }
-
-export type Coordinates = {
-  longitude: number;
-  latitude: number;
-};
 
 export type Runway = {
   id: string;
