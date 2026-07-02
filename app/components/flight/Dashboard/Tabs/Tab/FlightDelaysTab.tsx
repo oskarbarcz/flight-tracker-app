@@ -1,9 +1,9 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaClock, FaPlus } from "react-icons/fa6";
-import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";
-import { FileDelayReportModal } from "~/components/flight/Dashboard/Delay/FileDelayReportModal";
-import { RemoveDelayReportConfirmModal } from "~/components/flight/Dashboard/Delay/RemoveDelayReportConfirmModal";
+import { DelaySummary } from "~/features/delay/components/DelaySummary";
+import { FileDelayReportModal } from "~/features/delay/components/FileDelayReportModal";
+import { RemoveDelayReportConfirmModal } from "~/features/delay/components/RemoveDelayReportConfirmModal";
 import { type DelayReport, FlightStatus } from "~/models";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

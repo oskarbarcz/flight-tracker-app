@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FaRegClock } from "react-icons/fa6";
 import { useToast } from "~/app-state/useToast";
-import { DelaySummary } from "~/components/flight/Dashboard/Delay/DelaySummary";
-import { RejectDelayReportModal } from "~/components/flight/Dashboard/Delay/RejectDelayReportModal";
+import { DelaySummary } from "~/features/delay/components/DelaySummary";
+import { RejectDelayReportModal } from "~/features/delay/components/RejectDelayReportModal";
 import type { DelayReport } from "~/models";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";

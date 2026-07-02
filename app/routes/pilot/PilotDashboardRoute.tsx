@@ -10,8 +10,8 @@ import { NextScheduledFlightBox } from "~/components/flight/Dashboard/Main/Box/N
 import { NoCurrentFlightBox } from "~/components/flight/Dashboard/Main/Box/NoCurrentFlightBox";
 import { PilotStatsBox } from "~/components/flight/Dashboard/Main/Box/PilotStatsBox";
 import { UserHeader } from "~/components/flight/Dashboard/Main/UserHeader";
-import { CurrentLocationBox } from "~/components/flight/Dashboard/Travel/CurrentLocationBox";
-import { CurrentLocationBoxLoader } from "~/components/flight/Dashboard/Travel/CurrentLocationBoxLoader";
+import { CurrentLocationBox } from "~/features/travel/components/CurrentLocationBox";
+import { CurrentLocationBoxLoader } from "~/features/travel/components/CurrentLocationBoxLoader";
 import { useUserTravels } from "~/features/user/hooks/useUserTravels";
 import { type Flight, FlightStatus } from "~/models";
 import { useApi } from "~/shared/api/useApi";

@@ -1,12 +1,12 @@
 import { Button, Tooltip } from "flowbite-react";
 import React, { useState } from "react";
 import { FaPlaneCircleExclamation, FaTriangleExclamation } from "react-icons/fa6";
-import { ActiveDiversionPanel } from "~/components/flight/Dashboard/Diversion/ActiveDiversionPanel";
-import { ReportDiversionModal } from "~/components/flight/Dashboard/Diversion/ReportDiversionModal";
-import { ActiveEmergencyPanel } from "~/components/flight/Dashboard/Emergency/ActiveEmergencyPanel";
-import { DeclareEmergencyModal } from "~/components/flight/Dashboard/Emergency/DeclareEmergencyModal";
-import { EmergencyEmptyState } from "~/components/flight/Dashboard/Emergency/EmergencyEmptyState";
-import { ResolvedEmergenciesHistory } from "~/components/flight/Dashboard/Emergency/ResolvedEmergenciesHistory";
+import { ActiveDiversionPanel } from "~/features/diversion/components/ActiveDiversionPanel";
+import { ReportDiversionModal } from "~/features/diversion/components/ReportDiversionModal";
+import { ActiveEmergencyPanel } from "~/features/emergency/components/ActiveEmergencyPanel";
+import { DeclareEmergencyModal } from "~/features/emergency/components/DeclareEmergencyModal";
+import { EmergencyEmptyState } from "~/features/emergency/components/EmergencyEmptyState";
+import { ResolvedEmergenciesHistory } from "~/features/emergency/components/ResolvedEmergenciesHistory";
 import { FlightStatus } from "~/models";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
