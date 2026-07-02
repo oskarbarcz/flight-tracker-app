@@ -7,7 +7,7 @@ import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
 import { ParkingPositionMarkers } from "~/components/flight/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/components/flight/Map/Element/TerminalPolygons";
-import { computeRunwayLines } from "~/functions/runwayPairs";
+import { computeRunwayLines } from "~/features/runway/lib/runwayPairs";
 import type { Airport, ParkingPosition, Runway, Terminal } from "~/models";
 import { formatCoordinates } from "~/shared/lib/formatGeo";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";

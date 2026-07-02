@@ -3,17 +3,17 @@ import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { createGateSchema } from "~/features/gate/schema";
+import { GateService } from "~/features/gate/service";
+import { gateFormDataToRequest, gateToFormData } from "~/features/gate/transformer";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { TerminalService } from "~/features/terminal/service";
 import type { CreateGateFormData } from "~/models";
 import { GateFormBody } from "~/routes/operations/airports/gates/CreateGateRoute";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
-import { GateService } from "~/state/api/gate.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import { gateFormDataToRequest, gateToFormData } from "~/state/api/transformer/gate.transformer";
-import { createGateSchema } from "~/validator/form/gate.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [gate, terminals, parkingPositions] = await Promise.all([

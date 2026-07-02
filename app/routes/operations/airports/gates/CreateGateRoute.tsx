@@ -4,6 +4,11 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { createGateSchema } from "~/features/gate/schema";
+import { GateService } from "~/features/gate/service";
+import { gateFormDataToRequest } from "~/features/gate/transformer";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { TerminalService } from "~/features/terminal/service";
 import {
   type CreateGateFormData,
   gateCategoryOptions,
@@ -19,11 +24,6 @@ import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock"
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
-import { GateService } from "~/state/api/gate.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import { gateFormDataToRequest } from "~/state/api/transformer/gate.transformer";
-import { createGateSchema } from "~/validator/form/gate.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, terminals, parkingPositions] = await Promise.all([

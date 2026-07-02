@@ -1,8 +1,8 @@
 import { AdsbService } from "~/features/adsb/service";
+import { PublicParkingPositionService } from "~/features/parking-position/service";
+import { PublicRunwayService } from "~/features/runway/service";
+import { PublicTerminalService } from "~/features/terminal/service";
 import { PublicFlightService } from "~/state/api/flight.service";
-import { PublicParkingPositionService } from "~/state/api/parking-position.service";
-import { PublicRunwayService } from "~/state/api/runway.service";
-import { PublicTerminalService } from "~/state/api/terminal.service";
 
 const services = {
   publicFlightService: new PublicFlightService(),

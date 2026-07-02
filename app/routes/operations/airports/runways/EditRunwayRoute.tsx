@@ -4,7 +4,10 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { RunwayLocationPicker } from "~/components/airport/Runway/RunwayLocationPicker";
+import { RunwayLocationPicker } from "~/features/runway/components/RunwayLocationPicker";
+import { createRunwaySchema } from "~/features/runway/schema";
+import { RunwayService } from "~/features/runway/service";
+import { runwayFormDataToRequest, runwayToFormData } from "~/features/runway/transformer";
 import { type CreateRunwayFormData, lightingTypeOptions, surfaceTypeOptions } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -14,9 +17,6 @@ import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock"
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
-import { RunwayService } from "~/state/api/runway.service";
-import { runwayFormDataToRequest, runwayToFormData } from "~/state/api/transformer/runway.transformer";
-import { createRunwaySchema } from "~/validator/form/runway.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runway] = await Promise.all([

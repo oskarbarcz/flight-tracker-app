@@ -15,12 +15,12 @@ import { LoadsheetCard } from "~/components/flight/Overview/LoadsheetCard";
 import { ParkingPositionEmptyPanel } from "~/components/flight/Overview/ParkingPositionEmptyPanel";
 import { RouteMap } from "~/components/flight/Overview/RouteMap";
 import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { RunwayService } from "~/features/runway/service";
+import { TerminalService } from "~/features/terminal/service";
 import { FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { FlightService } from "~/state/api/flight.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { RunwayService } from "~/state/api/runway.service";
-import { TerminalService } from "~/state/api/terminal.service";
 
 const DEPARTURE_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.Created,

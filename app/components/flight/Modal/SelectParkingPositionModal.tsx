@@ -1,7 +1,7 @@
 import { Alert, Badge, Button, Modal, ModalBody, ModalFooter, ModalHeader, Radio, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
-import { groupParkingPositionsByTerminal } from "~/functions/parkingPositionGroups";
+import { groupParkingPositionsByTerminal } from "~/features/parking-position/lib/parkingPositionGroups";
 import { gateLocationOptions, NoiseSensitivity, type ParkingPosition, type Terminal } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 

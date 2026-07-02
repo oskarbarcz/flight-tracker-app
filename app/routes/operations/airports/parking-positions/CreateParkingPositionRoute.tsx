@@ -4,6 +4,10 @@ import { Field, Formik, Form as FormikForm, type FormikHelpers, useFormikContext
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { createParkingPositionSchema } from "~/features/parking-position/schema";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { parkingPositionFormDataToRequest, parkingPositionToFormData } from "~/features/parking-position/transformer";
+import { TerminalService } from "~/features/terminal/service";
 import {
   type Airport,
   bridgeOptions,
@@ -32,13 +36,6 @@ import { PointCoordinatesPicker } from "~/shared/ui/Form/MapPicker/PointCoordina
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 import { AirportService } from "~/state/api/airport.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { TerminalService } from "~/state/api/terminal.service";
-import {
-  parkingPositionFormDataToRequest,
-  parkingPositionToFormData,
-} from "~/state/api/transformer/parking-position.transformer";
-import { createParkingPositionSchema } from "~/validator/form/parking-position.schema";
 
 export async function clientLoader({ params, request }: Route.ClientLoaderArgs) {
   const duplicateFrom = new URL(request.url).searchParams.get("duplicateFrom");

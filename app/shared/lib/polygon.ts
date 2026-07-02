@@ -1,4 +1,4 @@
-import type { Coordinates } from "~/models/runway.model";
+import type { Coordinates } from "~/features/runway/model";
 
 type Point = { x: number; y: number };
 

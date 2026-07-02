@@ -4,7 +4,7 @@ import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Tooltip, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
-import type { Coordinates } from "~/models/runway.model";
+import type { Coordinates } from "~/features/runway/model";
 import { PIN_COLOR } from "~/shared/lib/mapColors";
 
 type Props = {

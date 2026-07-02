@@ -1,7 +1,7 @@
 import L from "leaflet";
 import { useMemo } from "react";
 import { Marker, Polyline } from "react-leaflet";
-import { computeRunwayLines } from "~/functions/runwayPairs";
+import { computeRunwayLines } from "~/features/runway/lib/runwayPairs";
 import type { Runway } from "~/models";
 
 type Props = {

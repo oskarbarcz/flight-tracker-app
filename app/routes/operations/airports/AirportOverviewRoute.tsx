@@ -3,10 +3,10 @@ import React from "react";
 import { useLoaderData } from "react-router";
 import { AirportDetailsCard } from "~/components/airport/Overview/AirportDetailsCard";
 import { AirportLocationMap } from "~/components/airport/Overview/AirportLocationMap";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { RunwayService } from "~/features/runway/service";
+import { TerminalService } from "~/features/terminal/service";
 import { AirportService } from "~/state/api/airport.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { RunwayService } from "~/state/api/runway.service";
-import { TerminalService } from "~/state/api/terminal.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runways, terminals, parkingPositions] = await Promise.all([

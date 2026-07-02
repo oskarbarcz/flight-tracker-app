@@ -4,16 +4,16 @@ import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { AirportRunwaysMap } from "~/components/airport/Runway/AirportRunwaysMap";
-import { RemoveRunwayModal } from "~/components/airport/Runway/RemoveRunwayModal";
-import { RunwayList } from "~/components/airport/Runway/RunwayList";
-import { RunwayListEmptyState } from "~/components/airport/Runway/RunwayListEmptyState";
+import { ParkingPositionService } from "~/features/parking-position/service";
+import { AirportRunwaysMap } from "~/features/runway/components/AirportRunwaysMap";
+import { RemoveRunwayModal } from "~/features/runway/components/RemoveRunwayModal";
+import { RunwayList } from "~/features/runway/components/RunwayList";
+import { RunwayListEmptyState } from "~/features/runway/components/RunwayListEmptyState";
+import { RunwayService } from "~/features/runway/service";
+import { TerminalService } from "~/features/terminal/service";
 import type { Runway } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { AirportService } from "~/state/api/airport.service";
-import { ParkingPositionService } from "~/state/api/parking-position.service";
-import { RunwayService } from "~/state/api/runway.service";
-import { TerminalService } from "~/state/api/terminal.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runways, terminals, parkingPositions] = await Promise.all([
