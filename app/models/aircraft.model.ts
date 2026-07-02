@@ -18,7 +18,7 @@ export type AircraftAirport = {
   location: Coordinates;
 };
 
-export type AircraftGate = {
+export type AircraftParkingPosition = {
   id: string;
   name: string;
   coordinates: Coordinates | null;
@@ -34,7 +34,7 @@ export type Aircraft = {
   baseAirport: AircraftAirport | null;
   lastAirport: AircraftAirport | null;
   lastAirportUpdatedAt: string | null;
-  lastGate: AircraftGate | null;
+  lastParkingPosition: AircraftParkingPosition | null;
 };
 
 export type FlightHistoryAirport = {

@@ -4,27 +4,32 @@ import { useLoaderData } from "react-router";
 import { AirportDetailsCard } from "~/components/airport/Overview/AirportDetailsCard";
 import { AirportLocationMap } from "~/components/airport/Overview/AirportLocationMap";
 import { AirportService } from "~/state/api/airport.service";
-import { GateService } from "~/state/api/gate.service";
+import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { RunwayService } from "~/state/api/runway.service";
 import { TerminalService } from "~/state/api/terminal.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, runways, terminals, gates] = await Promise.all([
+  const [airport, runways, terminals, parkingPositions] = await Promise.all([
     new AirportService().fetchById(params.id),
     new RunwayService().fetchAll(params.id),
     new TerminalService().fetchAll(params.id),
-    new GateService().fetchAll(params.id),
+    new ParkingPositionService().fetchAll(params.id),
   ]);
-  return { airport, runways, terminals, gates };
+  return { airport, runways, terminals, parkingPositions };
 }
 
 export default function AirportOverviewRoute() {
-  const { airport, runways, terminals, gates } = useLoaderData<typeof clientLoader>();
+  const { airport, runways, terminals, parkingPositions } = useLoaderData<typeof clientLoader>();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
       <AirportDetailsCard airport={airport} />
-      <AirportLocationMap airport={airport} runways={runways} terminals={terminals} gates={gates} />
+      <AirportLocationMap
+        airport={airport}
+        runways={runways}
+        terminals={terminals}
+        parkingPositions={parkingPositions}
+      />
     </div>
   );
 }

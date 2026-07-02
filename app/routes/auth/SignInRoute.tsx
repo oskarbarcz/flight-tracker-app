@@ -22,8 +22,7 @@ export default function SignInRoute() {
     setLoading(true);
 
     signIn(email, password)
-      .then(() => new Promise((resolve) => setTimeout(resolve, 1000)))
-      .then(() => navigate("/dashboard", { replace: true, viewTransition: true }))
+      .then(() => navigate("/dashboard", { replace: true }))
       .catch(() => setError("Incorrect credentials"))
       .finally(() => setLoading(false));
   }

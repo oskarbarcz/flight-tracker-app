@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { GateDisplaySettings } from "~/components/flight/Map/Element/GateDisplaySettings";
 import { MapCenteringSettings } from "~/components/flight/Map/Element/MapCenteringSettings";
+import { ParkingPositionDisplaySettings } from "~/components/flight/Map/Element/ParkingPositionDisplaySettings";
 import { RunwayDisplaySettings } from "~/components/flight/Map/Element/RunwayDisplaySettings";
 import { TerminalDisplaySettings } from "~/components/flight/Map/Element/TerminalDisplaySettings";
 
@@ -8,7 +8,7 @@ type Props = {
   size?: "sm" | "md";
 };
 
-type PanelId = "centering" | "runway" | "terminal" | "gate";
+type PanelId = "centering" | "runway" | "terminal" | "parkingPosition";
 
 export function MapBottomDrawer({ size = "md" }: Props) {
   const [openPanel, setOpenPanel] = useState<PanelId | null>(null);
@@ -19,7 +19,11 @@ export function MapBottomDrawer({ size = "md" }: Props) {
       <MapCenteringSettings size={size} expanded={openPanel === "centering"} onToggleExpanded={toggle("centering")} />
       <RunwayDisplaySettings size={size} expanded={openPanel === "runway"} onToggleExpanded={toggle("runway")} />
       <TerminalDisplaySettings size={size} expanded={openPanel === "terminal"} onToggleExpanded={toggle("terminal")} />
-      <GateDisplaySettings size={size} expanded={openPanel === "gate"} onToggleExpanded={toggle("gate")} />
+      <ParkingPositionDisplaySettings
+        size={size}
+        expanded={openPanel === "parkingPosition"}
+        onToggleExpanded={toggle("parkingPosition")}
+      />
     </div>
   );
 }

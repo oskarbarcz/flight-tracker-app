@@ -9,25 +9,25 @@ type Props = {
   onToggleExpanded: () => void;
 };
 
-export function GateDisplaySettings({ size, expanded, onToggleExpanded }: Props) {
+export function ParkingPositionDisplaySettings({ size, expanded, onToggleExpanded }: Props) {
   const { mapSettings, updateMapSettings } = useMapSettings();
 
   return (
     <DisplayModeToggle
       size={size}
-      value={mapSettings.gateDisplay}
-      onChange={(gateDisplay) => updateMapSettings({ ...mapSettings, gateDisplay })}
+      value={mapSettings.parkingPositionDisplay}
+      onChange={(parkingPositionDisplay) => updateMapSettings({ ...mapSettings, parkingPositionDisplay })}
       expanded={expanded}
       onToggleExpanded={onToggleExpanded}
       masterIcon={<HiLocationMarker />}
       assignedIcon={<FaLocationDot />}
-      labels={{ all: "All gates", assigned: "Assigned only", none: "Hide" }}
+      labels={{ all: "All parking positions", assigned: "Assigned only", none: "Hide" }}
       tooltips={{
-        masterExpand: "Show gate display options",
-        masterCollapse: "Hide gate display options",
-        all: "Show every gate at this airport",
-        assigned: "Show only the gate assigned to this flight",
-        none: "Hide all gates",
+        masterExpand: "Show parking position display options",
+        masterCollapse: "Hide parking position display options",
+        all: "Show every parking position at this airport",
+        assigned: "Show only the parking position assigned to this flight",
+        none: "Hide all parking positions",
       }}
     />
   );

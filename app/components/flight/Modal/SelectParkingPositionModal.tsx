@@ -1,15 +1,15 @@
 import { Alert, Badge, Button, Modal, ModalBody, ModalFooter, ModalHeader, Radio, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
-import { groupGatesByTerminal } from "~/functions/gateGroups";
-import { type Gate, gateLocationOptions, NoiseSensitivity, type Terminal } from "~/models";
+import { groupParkingPositionsByTerminal } from "~/functions/parkingPositionGroups";
+import { gateLocationOptions, NoiseSensitivity, type ParkingPosition, type Terminal } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 
 type Props = {
   airportId: string;
   kind: "departure" | "arrival";
   currentSelectionId?: string | null;
-  select: (gateId: string) => void;
+  select: (parkingPositionId: string) => void;
   cancel: () => void;
 };
 
@@ -17,37 +17,39 @@ function labelOf(options: { value: string; label: string }[], value: string): st
   return options.find((o) => o.value === value)?.label ?? value;
 }
 
-export function SelectGateModal({ airportId, kind, currentSelectionId, select, cancel }: Props) {
-  const { gateService, terminalService } = useApi();
-  const [gates, setGates] = useState<Gate[] | null>(null);
+export function SelectParkingPositionModal({ airportId, kind, currentSelectionId, select, cancel }: Props) {
+  const { parkingPositionService, terminalService } = useApi();
+  const [parkingPositions, setParkingPositions] = useState<ParkingPosition[] | null>(null);
   const [terminals, setTerminals] = useState<Terminal[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(currentSelectionId ?? null);
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all([gateService.fetchAll(airportId), terminalService.fetchAll(airportId)]).then(([g, t]) => {
+    Promise.all([parkingPositionService.fetchAll(airportId), terminalService.fetchAll(airportId)]).then(([p, t]) => {
       if (cancelled) return;
-      setGates(g);
+      setParkingPositions(p);
       setTerminals(t);
     });
     return () => {
       cancelled = true;
     };
-  }, [airportId, gateService, terminalService]);
+  }, [airportId, parkingPositionService, terminalService]);
 
-  const groups = gates ? groupGatesByTerminal(gates, terminals) : [];
+  const groups = parkingPositions ? groupParkingPositionsByTerminal(parkingPositions, terminals) : [];
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>{kind === "departure" ? "Select departure gate" : "Select arrival gate"}</ModalHeader>
+      <ModalHeader>
+        {kind === "departure" ? "Select departure parking position" : "Select arrival parking position"}
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
-        {gates === null ? (
+        {parkingPositions === null ? (
           <div className="flex justify-center py-6">
             <Spinner color="indigo" />
           </div>
-        ) : gates.length === 0 ? (
+        ) : parkingPositions.length === 0 ? (
           <Alert color="warning" icon={HiInformationCircle}>
-            No gates are configured for this airport.
+            No parking positions are configured for this airport.
           </Alert>
         ) : (
           <div className="max-h-[28rem] space-y-4 overflow-y-auto">
@@ -62,45 +64,51 @@ export function SelectGateModal({ airportId, kind, currentSelectionId, select, c
                   )}
                 </header>
                 <div className="space-y-2">
-                  {group.gates.map((gate) => (
+                  {group.parkingPositions.map((parkingPosition) => (
                     <button
                       type="button"
-                      key={gate.id}
+                      key={parkingPosition.id}
                       className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border p-3 text-start transition-colors ${
-                        selectedId === gate.id
+                        selectedId === parkingPosition.id
                           ? "border-indigo-300 bg-indigo-50 dark:border-indigo-800 dark:bg-indigo-950"
                           : "border-gray-200 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800"
                       }`}
-                      onClick={() => setSelectedId(gate.id)}
+                      onClick={() => setSelectedId(parkingPosition.id)}
                     >
                       <Radio
-                        id={`gate-${gate.id}`}
-                        name="gate"
-                        value={gate.id}
-                        checked={selectedId === gate.id}
-                        onChange={() => setSelectedId(gate.id)}
+                        id={`parking-position-${parkingPosition.id}`}
+                        name="parking-position"
+                        value={parkingPosition.id}
+                        checked={selectedId === parkingPosition.id}
+                        onChange={() => setSelectedId(parkingPosition.id)}
                         className="cursor-pointer"
                       />
                       <div className="grid flex-1 grid-cols-[auto_1fr] items-center gap-x-4 min-w-0">
                         <div>
-                          <div className="font-mono text-base font-bold text-gray-900 dark:text-white">{gate.name}</div>
+                          <div className="font-mono text-base font-bold text-gray-900 dark:text-white">
+                            {parkingPosition.name}
+                          </div>
                           <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                            {labelOf(gateLocationOptions, gate.location)}
+                            {labelOf(gateLocationOptions, parkingPosition.location)}
                           </div>
                         </div>
                         <div>
-                          {gate.noiseSensitivity === NoiseSensitivity.Yes ? (
+                          {parkingPosition.noiseSensitivity === NoiseSensitivity.Yes ? (
                             <div className="space-y-1">
                               <div className="flex flex-wrap items-center gap-2">
                                 <Badge color="yellow">Noise sensitive</Badge>
-                                {gate.noiseSensitivityStartTime && gate.noiseSensitivityEndTime && (
-                                  <span className="font-mono text-xs text-gray-700 dark:text-gray-300">
-                                    {gate.noiseSensitivityStartTime}–{gate.noiseSensitivityEndTime} UTC
-                                  </span>
-                                )}
+                                {parkingPosition.noiseSensitivityStartTime &&
+                                  parkingPosition.noiseSensitivityEndTime && (
+                                    <span className="font-mono text-xs text-gray-700 dark:text-gray-300">
+                                      {parkingPosition.noiseSensitivityStartTime}–
+                                      {parkingPosition.noiseSensitivityEndTime} UTC
+                                    </span>
+                                  )}
                               </div>
-                              {gate.noiseSensitivityText && (
-                                <p className="text-xs text-gray-600 dark:text-gray-300">{gate.noiseSensitivityText}</p>
+                              {parkingPosition.noiseSensitivityText && (
+                                <p className="text-xs text-gray-600 dark:text-gray-300">
+                                  {parkingPosition.noiseSensitivityText}
+                                </p>
                               )}
                             </div>
                           ) : (
@@ -124,7 +132,7 @@ export function SelectGateModal({ airportId, kind, currentSelectionId, select, c
           <Button
             color="indigo"
             outline
-            disabled={!selectedId || gates === null || gates.length === 0}
+            disabled={!selectedId || parkingPositions === null || parkingPositions.length === 0}
             onClick={() => selectedId && select(selectedId)}
           >
             Confirm

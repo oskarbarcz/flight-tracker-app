@@ -2,24 +2,24 @@ import L from "leaflet";
 import React, { useMemo } from "react";
 import { MapContainer, ZoomControl } from "react-leaflet";
 import { AirportShapePolygon } from "~/components/flight/Map/Element/AirportShapePolygon";
-import { GateMarkers } from "~/components/flight/Map/Element/GateMarkers";
 import { MapAirportLabel } from "~/components/flight/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/components/flight/Map/Element/MapTileLayer";
+import { ParkingPositionMarkers } from "~/components/flight/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/components/flight/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/components/flight/Map/Element/TerminalPolygons";
 import { TransparentContainer } from "~/components/shared/Layout/TransparentContainer";
 import { formatCoordinates } from "~/functions/formatGeo";
 import { computeRunwayLines } from "~/functions/runwayPairs";
-import type { Airport, Gate, Runway, Terminal } from "~/models";
+import type { Airport, ParkingPosition, Runway, Terminal } from "~/models";
 
 type Props = {
   airport: Airport;
   runways: Runway[];
   terminals: Terminal[];
-  gates: Gate[];
+  parkingPositions: ParkingPosition[];
 };
 
-export function AirportLocationMap({ airport, runways, terminals, gates }: Props) {
+export function AirportLocationMap({ airport, runways, terminals, parkingPositions }: Props) {
   const coordinates = formatCoordinates(airport.location.latitude, airport.location.longitude);
 
   const bounds = useMemo(() => {
@@ -40,16 +40,16 @@ export function AirportLocationMap({ airport, runways, terminals, gates }: Props
         points.push([p.latitude, p.longitude]);
       }
     }
-    for (const g of gates) {
-      if (!g.coordinates) continue;
-      points.push([g.coordinates.latitude, g.coordinates.longitude]);
+    for (const p of parkingPositions) {
+      if (!p.coordinates) continue;
+      points.push([p.coordinates.latitude, p.coordinates.longitude]);
     }
 
     if (points.length === 0) {
       return L.latLng(airport.location.latitude, airport.location.longitude).toBounds(4000);
     }
     return L.latLngBounds(points);
-  }, [runways, airport.shape, airport.location.latitude, airport.location.longitude, terminals, gates]);
+  }, [runways, airport.shape, airport.location.latitude, airport.location.longitude, terminals, parkingPositions]);
 
   return (
     <TransparentContainer className="h-full">
@@ -66,7 +66,7 @@ export function AirportLocationMap({ airport, runways, terminals, gates }: Props
           <MapTileLayer />
           <AirportShapePolygon airport={airport} />
           <TerminalPolygons terminals={terminals} />
-          <GateMarkers gates={gates} />
+          <ParkingPositionMarkers parkingPositions={parkingPositions} />
           <RunwayLines runways={runways} />
           <MapAirportLabel airport={airport} />
         </MapContainer>

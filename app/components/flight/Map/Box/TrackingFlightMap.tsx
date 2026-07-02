@@ -18,10 +18,10 @@ import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 export function TrackingFlightMap() {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
-  const { runwayService, terminalService, gateService } = useApi();
-  const cachedGateService = useMemo(
-    () => ({ fetchAll: (airportId: string) => gateService.fetchAllCached(airportId) }),
-    [gateService],
+  const { runwayService, terminalService, parkingPositionService } = useApi();
+  const cachedParkingPositionService = useMemo(
+    () => ({ fetchAll: (airportId: string) => parkingPositionService.fetchAllCached(airportId) }),
+    [parkingPositionService],
   );
   const leafletMapOptions = {
     padding: [80, 80],
@@ -65,11 +65,11 @@ export function TrackingFlightMap() {
 
       <TrackingAirportLayoutLayer
         terminalService={terminalService}
-        gateService={cachedGateService}
+        parkingPositionService={cachedParkingPositionService}
         departureAirport={flight.departureAirport}
         destinationAirport={flight.destinationAirport}
-        departureGateId={flight.departureGateId}
-        arrivalGateId={flight.arrivalGateId}
+        departureParkingPositionId={flight.departureParkingPositionId}
+        arrivalParkingPositionId={flight.arrivalParkingPositionId}
       />
 
       {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
