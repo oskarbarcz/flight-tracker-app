@@ -175,9 +175,9 @@ export class FlightService extends AbstractAuthorizedApiService {
     });
   }
 
-  async assignDepartureGate(id: string, departureGateId: string): Promise<void> {
-    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/departure-gate`, {
-      body: JSON.stringify({ departureGateId }),
+  async assignDepartureParkingPosition(id: string, departureParkingPositionId: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/departure-parking-position`, {
+      body: JSON.stringify({ departureParkingPositionId }),
       method: "PATCH",
     });
   }
@@ -189,9 +189,9 @@ export class FlightService extends AbstractAuthorizedApiService {
     });
   }
 
-  async assignArrivalGate(id: string, arrivalGateId: string): Promise<void> {
-    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/arrival-gate`, {
-      body: JSON.stringify({ arrivalGateId }),
+  async assignArrivalParkingPosition(id: string, arrivalParkingPositionId: string): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/arrival-parking-position`, {
+      body: JSON.stringify({ arrivalParkingPositionId }),
       method: "PATCH",
     });
   }

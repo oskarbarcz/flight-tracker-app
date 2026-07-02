@@ -6,7 +6,7 @@ export type DisplayMode = "all" | "assigned" | "none";
 export type MapSettings = {
   centerOn: "aircraft" | "route" | "departure" | "destination";
   autoCenter: boolean;
-  gateDisplay: DisplayMode;
+  parkingPositionDisplay: DisplayMode;
   terminalDisplay: DisplayMode;
   runwayDisplay: DisplayMode;
 };
@@ -14,16 +14,16 @@ export type MapSettings = {
 const defaultMapSettings: MapSettings = {
   centerOn: "route",
   autoCenter: true,
-  gateDisplay: "assigned",
+  parkingPositionDisplay: "assigned",
   terminalDisplay: "all",
   runwayDisplay: "all",
 };
 
 function migrate(raw: Partial<MapSettings> & Record<string, unknown>): MapSettings {
   const merged = { ...defaultMapSettings, ...raw };
-  if ((raw.gateDisplay as unknown) === "selected") {
-    merged.gateDisplay = "assigned";
-  }
+  const legacyDisplay = raw.parkingPositionDisplay ?? (raw.gateDisplay as DisplayMode | "selected" | undefined);
+  merged.parkingPositionDisplay =
+    legacyDisplay === "selected" || legacyDisplay === undefined ? "assigned" : legacyDisplay;
   return merged;
 }
 

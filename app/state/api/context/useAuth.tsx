@@ -56,12 +56,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
   }, [userService]);
 
-  function saveAuthData(accessToken: string, refreshToken: string) {
+  function saveAuthData(accessToken: string, refreshToken: string): Promise<void> {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     saveTokens(accessToken, refreshToken);
 
-    userService.fetchCurrent().then(setUser);
+    return userService.fetchCurrent().then(setUser);
   }
 
   function clearAuthData() {
@@ -72,9 +72,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const signIn = async (email: string, password: string): Promise<void> => {
-    return authService.signIn({ email, password }).then(({ accessToken, refreshToken }) => {
-      saveAuthData(accessToken, refreshToken);
-    });
+    const { accessToken, refreshToken } = await authService.signIn({ email, password });
+    await saveAuthData(accessToken, refreshToken);
   };
 
   const signOut = async () => {

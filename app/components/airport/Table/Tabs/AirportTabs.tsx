@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 const tabs = [
   { title: "Overview", path: "overview" },
   { title: "Terminals", path: "terminals" },
+  { title: "Parking positions", path: "parking-positions" },
   { title: "Gates", path: "gates" },
   { title: "Runways", path: "runways" },
 ];

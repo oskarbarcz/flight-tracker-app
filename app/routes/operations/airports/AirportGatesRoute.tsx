@@ -9,19 +9,21 @@ import { RemoveGateModal } from "~/components/airport/Gate/RemoveGateModal";
 import type { Gate } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
+import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { useToast } from "~/state/app/context/useToast";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [gates, terminals] = await Promise.all([
+  const [gates, terminals, parkingPositions] = await Promise.all([
     new GateService().fetchAll(params.id),
     new TerminalService().fetchAll(params.id),
+    new ParkingPositionService().fetchAll(params.id),
   ]);
-  return { gates, terminals };
+  return { gates, terminals, parkingPositions };
 }
 
 export default function AirportGatesRoute({ params, loaderData }: Route.ComponentProps) {
-  const { gates: initialGates, terminals } = loaderData;
+  const { gates: initialGates, terminals, parkingPositions } = loaderData;
   const [gates, setGates] = useState<Gate[]>(initialGates);
   const [pendingRemove, setPendingRemove] = useState<Gate | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -59,7 +61,13 @@ export default function AirportGatesRoute({ params, loaderData }: Route.Componen
               <span>Add gate</span>
             </Button>
           </div>
-          <GateList airportId={params.id} gates={gates} terminals={terminals} onDelete={setPendingRemove} />
+          <GateList
+            airportId={params.id}
+            gates={gates}
+            terminals={terminals}
+            parkingPositions={parkingPositions}
+            onDelete={setPendingRemove}
+          />
         </div>
       )}
       {pendingRemove && (

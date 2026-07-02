@@ -5,42 +5,42 @@ import { FaChevronDown, FaPlaneArrival, FaPlaneCircleExclamation, FaPlaneDepartu
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
 import { diversionReasonLabel, diversionSeverityLabel } from "~/components/flight/Dashboard/Diversion/diversionLabels";
-import { SelectGateModal } from "~/components/flight/Modal/SelectGateModal";
+import { SelectParkingPositionModal } from "~/components/flight/Modal/SelectParkingPositionModal";
 import { SelectRunwayModal } from "~/components/flight/Modal/SelectRunwayModal";
 import { AirportPreviewPanel } from "~/components/flight/Overview/AirportPreviewPanel";
-import { AssignedGatePanel } from "~/components/flight/Overview/AssignedGatePanel";
+import { AssignedParkingPositionPanel } from "~/components/flight/Overview/AssignedParkingPositionPanel";
 import { AssignedRunwayPanel } from "~/components/flight/Overview/AssignedRunwayPanel";
 import { AssignedTerminalPanel } from "~/components/flight/Overview/AssignedTerminalPanel";
-import { GateEmptyPanel } from "~/components/flight/Overview/GateEmptyPanel";
+import { ParkingPositionEmptyPanel } from "~/components/flight/Overview/ParkingPositionEmptyPanel";
 import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
 import { TerminalEmptyPanel } from "~/components/flight/Overview/TerminalEmptyPanel";
 import { FormattedIcaoDate } from "~/components/shared/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/components/shared/Date/FormattedIcaoTime";
 import { Container } from "~/components/shared/Layout/Container";
 import { ContainerTitle } from "~/components/shared/Layout/ContainerTitle";
-import { type Airport, type Diversion, FlightStatus, type Gate, type Runway, type Terminal } from "~/models";
+import { type Airport, type Diversion, FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { useTrackedFlight } from "~/state/api/context/useTrackedFlight";
 import { useToast } from "~/state/app/context/useToast";
 
-type ModalKind = "departureGate" | "departureRunway" | "arrivalRunway" | "arrivalGate" | null;
+type ModalKind = "departureParkingPosition" | "departureRunway" | "arrivalRunway" | "arrivalParkingPosition" | null;
 
 type AssignmentState = {
-  departureGate: Gate | null;
-  departureGateTerminal: Terminal | null;
+  departureParkingPosition: ParkingPosition | null;
+  departureParkingPositionTerminal: Terminal | null;
   departureRunway: Runway | null;
   arrivalRunway: Runway | null;
-  arrivalGate: Gate | null;
-  arrivalGateTerminal: Terminal | null;
+  arrivalParkingPosition: ParkingPosition | null;
+  arrivalParkingPositionTerminal: Terminal | null;
 };
 
 const EMPTY_ASSIGNMENT: AssignmentState = {
-  departureGate: null,
-  departureGateTerminal: null,
+  departureParkingPosition: null,
+  departureParkingPositionTerminal: null,
   departureRunway: null,
   arrivalRunway: null,
-  arrivalGate: null,
-  arrivalGateTerminal: null,
+  arrivalParkingPosition: null,
+  arrivalParkingPositionTerminal: null,
 };
 
 const DEPARTURE_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
@@ -51,7 +51,7 @@ const DEPARTURE_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.BoardingFinished,
 ]);
 
-const DEPARTURE_GATE_CHANGEABLE = new Set<FlightStatus>([FlightStatus.Created, FlightStatus.Ready]);
+const DEPARTURE_PARKING_POSITION_CHANGEABLE = new Set<FlightStatus>([FlightStatus.Created, FlightStatus.Ready]);
 
 const ARRIVAL_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.Created,
@@ -63,7 +63,7 @@ const ARRIVAL_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.InCruise,
 ]);
 
-const ARRIVAL_GATE_CHANGEABLE = new Set<FlightStatus>([
+const ARRIVAL_PARKING_POSITION_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.Created,
   FlightStatus.Ready,
   FlightStatus.CheckedIn,
@@ -83,19 +83,19 @@ const AFTER_TAKEOFF = new Set<FlightStatus>([
   FlightStatus.Closed,
 ]);
 
-export function GateRunwayBox() {
+export function ParkingPositionRunwayBox() {
   const { flight, diversion, reload } = useTrackedFlight();
-  const { flightService, gateService, runwayService, terminalService } = useApi();
+  const { flightService, parkingPositionService, runwayService, terminalService } = useApi();
   const { success, error } = useToast();
   const [assignments, setAssignments] = useState<AssignmentState>(EMPTY_ASSIGNMENT);
   const [openModal, setOpenModal] = useState<ModalKind>(null);
 
   const departureAirportId = flight?.departureAirport.id;
   const destinationAirportId = flight?.destinationAirport.id;
-  const departureGateId = flight?.departureGateId ?? null;
+  const departureParkingPositionId = flight?.departureParkingPositionId ?? null;
   const departureRunwayId = flight?.departureRunwayId ?? null;
   const arrivalRunwayId = flight?.arrivalRunwayId ?? null;
-  const arrivalGateId = flight?.arrivalGateId ?? null;
+  const arrivalParkingPositionId = flight?.arrivalParkingPositionId ?? null;
 
   const afterTakeoff = flight ? AFTER_TAKEOFF.has(flight.status) : false;
   const [departureOpen, setDepartureOpen] = useState(!afterTakeoff);
@@ -110,27 +110,31 @@ export function GateRunwayBox() {
     if (!departureAirportId || !destinationAirportId) return;
     let cancelled = false;
     Promise.all([
-      departureGateId ? gateService.fetchById(departureAirportId, departureGateId) : Promise.resolve(null),
+      departureParkingPositionId
+        ? parkingPositionService.fetchById(departureAirportId, departureParkingPositionId)
+        : Promise.resolve(null),
       departureRunwayId ? runwayService.fetchById(departureAirportId, departureRunwayId) : Promise.resolve(null),
       arrivalRunwayId ? runwayService.fetchById(destinationAirportId, arrivalRunwayId) : Promise.resolve(null),
-      arrivalGateId ? gateService.fetchById(destinationAirportId, arrivalGateId) : Promise.resolve(null),
-    ]).then(async ([departureGate, departureRunway, arrivalRunway, arrivalGate]) => {
+      arrivalParkingPositionId
+        ? parkingPositionService.fetchById(destinationAirportId, arrivalParkingPositionId)
+        : Promise.resolve(null),
+    ]).then(async ([departureParkingPosition, departureRunway, arrivalRunway, arrivalParkingPosition]) => {
       if (cancelled) return;
       const [departureTerminals, arrivalTerminals] = await Promise.all([
-        departureGate ? terminalService.fetchAll(departureAirportId) : Promise.resolve([] as Terminal[]),
-        arrivalGate ? terminalService.fetchAll(destinationAirportId) : Promise.resolve([] as Terminal[]),
+        departureParkingPosition ? terminalService.fetchAll(departureAirportId) : Promise.resolve([] as Terminal[]),
+        arrivalParkingPosition ? terminalService.fetchAll(destinationAirportId) : Promise.resolve([] as Terminal[]),
       ]);
       if (cancelled) return;
       setAssignments({
-        departureGate: departureGate as Gate | null,
-        departureGateTerminal: departureGate
-          ? (departureTerminals.find((t) => t.id === (departureGate as Gate).terminalId) ?? null)
+        departureParkingPosition: departureParkingPosition as ParkingPosition | null,
+        departureParkingPositionTerminal: departureParkingPosition
+          ? (departureTerminals.find((t) => t.id === (departureParkingPosition as ParkingPosition).terminalId) ?? null)
           : null,
         departureRunway: departureRunway as Runway | null,
         arrivalRunway: arrivalRunway as Runway | null,
-        arrivalGate: arrivalGate as Gate | null,
-        arrivalGateTerminal: arrivalGate
-          ? (arrivalTerminals.find((t) => t.id === (arrivalGate as Gate).terminalId) ?? null)
+        arrivalParkingPosition: arrivalParkingPosition as ParkingPosition | null,
+        arrivalParkingPositionTerminal: arrivalParkingPosition
+          ? (arrivalTerminals.find((t) => t.id === (arrivalParkingPosition as ParkingPosition).terminalId) ?? null)
           : null,
       });
     });
@@ -140,21 +144,21 @@ export function GateRunwayBox() {
   }, [
     departureAirportId,
     destinationAirportId,
-    departureGateId,
+    departureParkingPositionId,
     departureRunwayId,
     arrivalRunwayId,
-    arrivalGateId,
-    gateService,
+    arrivalParkingPositionId,
+    parkingPositionService,
     runwayService,
     terminalService,
   ]);
 
   if (!flight) return null;
 
-  const canChangeDepartureGate = DEPARTURE_GATE_CHANGEABLE.has(flight.status);
+  const canChangeDepartureParkingPosition = DEPARTURE_PARKING_POSITION_CHANGEABLE.has(flight.status);
   const canChangeDepartureRunway = DEPARTURE_RUNWAY_CHANGEABLE.has(flight.status);
   const canChangeArrivalRunway = ARRIVAL_RUNWAY_CHANGEABLE.has(flight.status);
-  const canChangeArrivalGate = ARRIVAL_GATE_CHANGEABLE.has(flight.status);
+  const canChangeArrivalParkingPosition = ARRIVAL_PARKING_POSITION_CHANGEABLE.has(flight.status);
 
   const handleAssign = async (call: () => Promise<void>, successText: string, failureText: string) => {
     try {
@@ -179,15 +183,18 @@ export function GateRunwayBox() {
         onToggle={() => setDepartureOpen((v) => !v)}
       >
         <AirportPreviewPanel airport={flight.departureAirport} />
-        {assignments.departureGateTerminal ? (
-          <AssignedTerminalPanel terminal={assignments.departureGateTerminal} />
+        {assignments.departureParkingPositionTerminal ? (
+          <AssignedTerminalPanel terminal={assignments.departureParkingPositionTerminal} />
         ) : (
           <TerminalEmptyPanel />
         )}
-        {assignments.departureGate ? (
-          <AssignedGatePanel gate={assignments.departureGate} terminal={assignments.departureGateTerminal} />
+        {assignments.departureParkingPosition ? (
+          <AssignedParkingPositionPanel
+            parkingPosition={assignments.departureParkingPosition}
+            terminal={assignments.departureParkingPositionTerminal}
+          />
         ) : (
-          <GateEmptyPanel />
+          <ParkingPositionEmptyPanel />
         )}
         {assignments.departureRunway ? (
           <AssignedRunwayPanel runway={assignments.departureRunway} />
@@ -195,12 +202,12 @@ export function GateRunwayBox() {
           <RunwayEmptyPanel />
         )}
         <EndpointActions>
-          {canChangeDepartureGate && (
+          {canChangeDepartureParkingPosition && (
             <ChangeButton
               icon={HiOutlineLocationMarker}
-              onClick={() => setOpenModal("departureGate")}
-              hasValue={!!assignments.departureGate}
-              kind="gate"
+              onClick={() => setOpenModal("departureParkingPosition")}
+              hasValue={!!assignments.departureParkingPosition}
+              kind="parking position"
             />
           )}
           {canChangeDepartureRunway && (
@@ -225,15 +232,18 @@ export function GateRunwayBox() {
       >
         <AirportPreviewPanel airport={flight.destinationAirport} />
         {assignments.arrivalRunway ? <AssignedRunwayPanel runway={assignments.arrivalRunway} /> : <RunwayEmptyPanel />}
-        {assignments.arrivalGateTerminal ? (
-          <AssignedTerminalPanel terminal={assignments.arrivalGateTerminal} />
+        {assignments.arrivalParkingPositionTerminal ? (
+          <AssignedTerminalPanel terminal={assignments.arrivalParkingPositionTerminal} />
         ) : (
           <TerminalEmptyPanel />
         )}
-        {assignments.arrivalGate ? (
-          <AssignedGatePanel gate={assignments.arrivalGate} terminal={assignments.arrivalGateTerminal} />
+        {assignments.arrivalParkingPosition ? (
+          <AssignedParkingPositionPanel
+            parkingPosition={assignments.arrivalParkingPosition}
+            terminal={assignments.arrivalParkingPositionTerminal}
+          />
         ) : (
-          <GateEmptyPanel />
+          <ParkingPositionEmptyPanel />
         )}
         {!diversion && (
           <EndpointActions>
@@ -245,12 +255,12 @@ export function GateRunwayBox() {
                 kind="runway"
               />
             )}
-            {canChangeArrivalGate && (
+            {canChangeArrivalParkingPosition && (
               <ChangeButton
                 icon={HiOutlineLocationMarker}
-                onClick={() => setOpenModal("arrivalGate")}
-                hasValue={!!assignments.arrivalGate}
-                kind="gate"
+                onClick={() => setOpenModal("arrivalParkingPosition")}
+                hasValue={!!assignments.arrivalParkingPosition}
+                kind="parking position"
               />
             )}
           </EndpointActions>
@@ -259,16 +269,16 @@ export function GateRunwayBox() {
 
       {diversion && <DiversionEndpointSection diversion={diversion} />}
 
-      {openModal === "departureGate" && canChangeDepartureGate && (
-        <SelectGateModal
+      {openModal === "departureParkingPosition" && canChangeDepartureParkingPosition && (
+        <SelectParkingPositionModal
           airportId={flight.departureAirport.id}
           kind="departure"
-          currentSelectionId={flight.departureGateId}
-          select={(gateId) =>
+          currentSelectionId={flight.departureParkingPositionId}
+          select={(parkingPositionId) =>
             handleAssign(
-              () => flightService.assignDepartureGate(flight.id, gateId),
-              "Departure gate updated.",
-              "Failed to update departure gate.",
+              () => flightService.assignDepartureParkingPosition(flight.id, parkingPositionId),
+              "Departure parking position updated.",
+              "Failed to update departure parking position.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -304,16 +314,16 @@ export function GateRunwayBox() {
           cancel={() => setOpenModal(null)}
         />
       )}
-      {openModal === "arrivalGate" && canChangeArrivalGate && (
-        <SelectGateModal
+      {openModal === "arrivalParkingPosition" && canChangeArrivalParkingPosition && (
+        <SelectParkingPositionModal
           airportId={flight.destinationAirport.id}
           kind="arrival"
-          currentSelectionId={flight.arrivalGateId}
-          select={(gateId) =>
+          currentSelectionId={flight.arrivalParkingPositionId}
+          select={(parkingPositionId) =>
             handleAssign(
-              () => flightService.assignArrivalGate(flight.id, gateId),
-              "Arrival gate updated.",
-              "Failed to update arrival gate.",
+              () => flightService.assignArrivalParkingPosition(flight.id, parkingPositionId),
+              "Arrival parking position updated.",
+              "Failed to update arrival parking position.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -415,7 +425,7 @@ type ChangeButtonProps = {
   iconClassName?: string;
   onClick: () => void;
   hasValue: boolean;
-  kind: "gate" | "runway";
+  kind: "parking position" | "runway";
 };
 
 function ChangeButton({ icon: Icon, iconClassName, onClick, hasValue, kind }: ChangeButtonProps) {

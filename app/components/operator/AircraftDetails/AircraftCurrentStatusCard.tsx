@@ -107,8 +107,8 @@ function ParkedView({
 }) {
   const { since, flight } = status;
   const airport = aircraft.lastAirport;
-  const gate = aircraft.lastGate;
-  const point = gate?.coordinates ?? airport?.location ?? null;
+  const parkingPosition = aircraft.lastParkingPosition;
+  const point = parkingPosition?.coordinates ?? airport?.location ?? null;
 
   const steps: TimelineStep[] = [];
 
@@ -137,9 +137,10 @@ function ParkedView({
     title: airport ? <>Parked at {airport.name}</> : "Parked",
     sub: airport ? (
       <>
-        {gate && (
+        {parkingPosition && (
           <>
-            Gate <span className="font-semibold text-gray-700 dark:text-gray-300">{gate.name}</span> ·{" "}
+            Parking position{" "}
+            <span className="font-semibold text-gray-700 dark:text-gray-300">{parkingPosition.name}</span> ·{" "}
           </>
         )}
         {airport.city}, {airport.country}
@@ -239,10 +240,13 @@ export function AircraftCurrentStatusCard({ aircraft, history, onReposition }: P
               ),
               sub: (
                 <>
-                  {aircraft.lastGate && (
+                  {aircraft.lastParkingPosition && (
                     <>
-                      Gate{" "}
-                      <span className="font-semibold text-gray-700 dark:text-gray-300">{aircraft.lastGate.name}</span> ·{" "}
+                      Parking position{" "}
+                      <span className="font-semibold text-gray-700 dark:text-gray-300">
+                        {aircraft.lastParkingPosition.name}
+                      </span>{" "}
+                      ·{" "}
                     </>
                   )}
                   {status.flight.departureAirport.name}

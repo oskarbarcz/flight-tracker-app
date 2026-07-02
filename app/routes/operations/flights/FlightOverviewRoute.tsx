@@ -5,19 +5,19 @@ import { FaArrowRight } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuArrowDownToLine } from "react-icons/lu";
 import { Link, useLoaderData, useRevalidator } from "react-router";
-import { SelectGateModal } from "~/components/flight/Modal/SelectGateModal";
+import { SelectParkingPositionModal } from "~/components/flight/Modal/SelectParkingPositionModal";
 import { SelectRunwayModal } from "~/components/flight/Modal/SelectRunwayModal";
 import { AirportEndpointCard } from "~/components/flight/Overview/AirportEndpointCard";
-import { AssignedGatePanel } from "~/components/flight/Overview/AssignedGatePanel";
+import { AssignedParkingPositionPanel } from "~/components/flight/Overview/AssignedParkingPositionPanel";
 import { AssignedRunwayPanel } from "~/components/flight/Overview/AssignedRunwayPanel";
-import { GateEmptyPanel } from "~/components/flight/Overview/GateEmptyPanel";
 import { LoadsheetCard } from "~/components/flight/Overview/LoadsheetCard";
+import { ParkingPositionEmptyPanel } from "~/components/flight/Overview/ParkingPositionEmptyPanel";
 import { RouteMap } from "~/components/flight/Overview/RouteMap";
 import { RunwayEmptyPanel } from "~/components/flight/Overview/RunwayEmptyPanel";
-import { FlightStatus, type Gate, type Runway, type Terminal } from "~/models";
+import { FlightStatus, type ParkingPosition, type Runway, type Terminal } from "~/models";
 import { useApi } from "~/state/api/context/useApi";
 import { FlightService } from "~/state/api/flight.service";
-import { GateService } from "~/state/api/gate.service";
+import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { RunwayService } from "~/state/api/runway.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { useToast } from "~/state/app/context/useToast";
@@ -30,7 +30,7 @@ const DEPARTURE_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.BoardingFinished,
 ]);
 
-const DEPARTURE_GATE_CHANGEABLE = new Set<FlightStatus>([FlightStatus.Created, FlightStatus.Ready]);
+const DEPARTURE_PARKING_POSITION_CHANGEABLE = new Set<FlightStatus>([FlightStatus.Created, FlightStatus.Ready]);
 
 const ARRIVAL_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.Created,
@@ -42,7 +42,7 @@ const ARRIVAL_RUNWAY_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.InCruise,
 ]);
 
-const ARRIVAL_GATE_CHANGEABLE = new Set<FlightStatus>([
+const ARRIVAL_PARKING_POSITION_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.Created,
   FlightStatus.Ready,
   FlightStatus.CheckedIn,
@@ -56,48 +56,52 @@ const ARRIVAL_GATE_CHANGEABLE = new Set<FlightStatus>([
 async function fetchAssignment(
   airportId: string,
   runwayId: string | null,
-  gateId: string | null,
-): Promise<{ runway: Runway | null; gate: Gate | null; gateTerminal: Terminal | null }> {
-  const [runway, gate] = await Promise.all([
+  parkingPositionId: string | null,
+): Promise<{
+  runway: Runway | null;
+  parkingPosition: ParkingPosition | null;
+  parkingPositionTerminal: Terminal | null;
+}> {
+  const [runway, parkingPosition] = await Promise.all([
     runwayId ? new RunwayService().fetchById(airportId, runwayId) : null,
-    gateId ? new GateService().fetchById(airportId, gateId) : null,
+    parkingPositionId ? new ParkingPositionService().fetchById(airportId, parkingPositionId) : null,
   ]);
-  const gateTerminal = gate
-    ? ((await new TerminalService().fetchAll(airportId)).find((t) => t.id === gate.terminalId) ?? null)
+  const parkingPositionTerminal = parkingPosition
+    ? ((await new TerminalService().fetchAll(airportId)).find((t) => t.id === parkingPosition.terminalId) ?? null)
     : null;
-  return { runway, gate, gateTerminal };
+  return { runway, parkingPosition, parkingPositionTerminal };
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const flight = await new FlightService().fetchById(params.id);
 
   const [departure, arrival] = await Promise.all([
-    fetchAssignment(flight.departureAirport.id, flight.departureRunwayId, flight.departureGateId),
-    fetchAssignment(flight.destinationAirport.id, flight.arrivalRunwayId, flight.arrivalGateId),
+    fetchAssignment(flight.departureAirport.id, flight.departureRunwayId, flight.departureParkingPositionId),
+    fetchAssignment(flight.destinationAirport.id, flight.arrivalRunwayId, flight.arrivalParkingPositionId),
   ]);
 
   return {
     flight,
     departureRunway: departure.runway,
-    departureGate: departure.gate,
-    departureGateTerminal: departure.gateTerminal,
+    departureParkingPosition: departure.parkingPosition,
+    departureParkingPositionTerminal: departure.parkingPositionTerminal,
     arrivalRunway: arrival.runway,
-    arrivalGate: arrival.gate,
-    arrivalGateTerminal: arrival.gateTerminal,
+    arrivalParkingPosition: arrival.parkingPosition,
+    arrivalParkingPositionTerminal: arrival.parkingPositionTerminal,
   };
 }
 
-type ModalKind = "departureRunway" | "departureGate" | "arrivalRunway" | "arrivalGate" | null;
+type ModalKind = "departureRunway" | "departureParkingPosition" | "arrivalRunway" | "arrivalParkingPosition" | null;
 
 export default function FlightOverviewRoute() {
   const {
     flight,
     departureRunway,
-    departureGate,
-    departureGateTerminal,
+    departureParkingPosition,
+    departureParkingPositionTerminal,
     arrivalRunway,
-    arrivalGate,
-    arrivalGateTerminal,
+    arrivalParkingPosition,
+    arrivalParkingPositionTerminal,
   } = useLoaderData<typeof clientLoader>();
   const { flightService } = useApi();
   const { success, error } = useToast();
@@ -105,9 +109,9 @@ export default function FlightOverviewRoute() {
   const [openModal, setOpenModal] = useState<ModalKind>(null);
 
   const canChangeDepartureRunway = DEPARTURE_RUNWAY_CHANGEABLE.has(flight.status);
-  const canChangeDepartureGate = DEPARTURE_GATE_CHANGEABLE.has(flight.status);
+  const canChangeDepartureParkingPosition = DEPARTURE_PARKING_POSITION_CHANGEABLE.has(flight.status);
   const canChangeArrivalRunway = ARRIVAL_RUNWAY_CHANGEABLE.has(flight.status);
-  const canChangeArrivalGate = ARRIVAL_GATE_CHANGEABLE.has(flight.status);
+  const canChangeArrivalParkingPosition = ARRIVAL_PARKING_POSITION_CHANGEABLE.has(flight.status);
 
   const handleSelect = async (action: () => Promise<void>, successText: string, failureText: string) => {
     try {
@@ -128,20 +132,23 @@ export default function FlightOverviewRoute() {
         schedule={flight.timesheet.scheduled}
         details={
           <>
-            {departureGate ? (
-              <AssignedGatePanel gate={departureGate} terminal={departureGateTerminal} />
+            {departureParkingPosition ? (
+              <AssignedParkingPositionPanel
+                parkingPosition={departureParkingPosition}
+                terminal={departureParkingPositionTerminal}
+              />
             ) : (
-              <GateEmptyPanel />
+              <ParkingPositionEmptyPanel />
             )}
             {departureRunway ? <AssignedRunwayPanel runway={departureRunway} /> : <RunwayEmptyPanel />}
           </>
         }
         actions={
           <>
-            {canChangeDepartureGate && (
-              <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureGate")}>
+            {canChangeDepartureParkingPosition && (
+              <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureParkingPosition")}>
                 <HiOutlineLocationMarker className="me-1.5" />
-                {departureGate ? "Change gate" : "Set gate"}
+                {departureParkingPosition ? "Change parking position" : "Set parking position"}
               </Button>
             )}
             {canChangeDepartureRunway && (
@@ -167,16 +174,23 @@ export default function FlightOverviewRoute() {
         schedule={flight.timesheet.scheduled}
         details={
           <>
-            {arrivalGate ? <AssignedGatePanel gate={arrivalGate} terminal={arrivalGateTerminal} /> : <GateEmptyPanel />}
+            {arrivalParkingPosition ? (
+              <AssignedParkingPositionPanel
+                parkingPosition={arrivalParkingPosition}
+                terminal={arrivalParkingPositionTerminal}
+              />
+            ) : (
+              <ParkingPositionEmptyPanel />
+            )}
             {arrivalRunway ? <AssignedRunwayPanel runway={arrivalRunway} /> : <RunwayEmptyPanel />}
           </>
         }
         actions={
           <>
-            {canChangeArrivalGate && (
-              <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalGate")}>
+            {canChangeArrivalParkingPosition && (
+              <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalParkingPosition")}>
                 <HiOutlineLocationMarker className="me-1.5" />
-                {arrivalGate ? "Change gate" : "Set gate"}
+                {arrivalParkingPosition ? "Change parking position" : "Set parking position"}
               </Button>
             )}
             {canChangeArrivalRunway && (
@@ -230,16 +244,16 @@ export default function FlightOverviewRoute() {
           cancel={() => setOpenModal(null)}
         />
       )}
-      {openModal === "departureGate" && canChangeDepartureGate && (
-        <SelectGateModal
+      {openModal === "departureParkingPosition" && canChangeDepartureParkingPosition && (
+        <SelectParkingPositionModal
           airportId={flight.departureAirport.id}
           kind="departure"
-          currentSelectionId={flight.departureGateId}
-          select={(gateId) =>
+          currentSelectionId={flight.departureParkingPositionId}
+          select={(parkingPositionId) =>
             handleSelect(
-              () => flightService.assignDepartureGate(flight.id, gateId),
-              "Departure gate updated.",
-              "Failed to update departure gate.",
+              () => flightService.assignDepartureParkingPosition(flight.id, parkingPositionId),
+              "Departure parking position updated.",
+              "Failed to update departure parking position.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -260,16 +274,16 @@ export default function FlightOverviewRoute() {
           cancel={() => setOpenModal(null)}
         />
       )}
-      {openModal === "arrivalGate" && canChangeArrivalGate && (
-        <SelectGateModal
+      {openModal === "arrivalParkingPosition" && canChangeArrivalParkingPosition && (
+        <SelectParkingPositionModal
           airportId={flight.destinationAirport.id}
           kind="arrival"
-          currentSelectionId={flight.arrivalGateId}
-          select={(gateId) =>
+          currentSelectionId={flight.arrivalParkingPositionId}
+          select={(parkingPositionId) =>
             handleSelect(
-              () => flightService.assignArrivalGate(flight.id, gateId),
-              "Arrival gate updated.",
-              "Failed to update arrival gate.",
+              () => flightService.assignArrivalParkingPosition(flight.id, parkingPositionId),
+              "Arrival parking position updated.",
+              "Failed to update arrival parking position.",
             )
           }
           cancel={() => setOpenModal(null)}

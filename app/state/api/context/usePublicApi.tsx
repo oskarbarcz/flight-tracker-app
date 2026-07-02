@@ -1,6 +1,6 @@
 import { AdsbService } from "~/state/api/adsb.service";
 import { PublicFlightService } from "~/state/api/flight.service";
-import { PublicGateService } from "~/state/api/gate.service";
+import { PublicParkingPositionService } from "~/state/api/parking-position.service";
 import { PublicRunwayService } from "~/state/api/runway.service";
 import { PublicTerminalService } from "~/state/api/terminal.service";
 
@@ -8,7 +8,7 @@ const services = {
   publicFlightService: new PublicFlightService(),
   publicRunwayService: new PublicRunwayService(),
   publicTerminalService: new PublicTerminalService(),
-  publicGateService: new PublicGateService(),
+  publicParkingPositionService: new PublicParkingPositionService(),
   adsbService: new AdsbService(),
 };
 

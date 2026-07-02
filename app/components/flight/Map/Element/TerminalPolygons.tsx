@@ -1,13 +1,13 @@
 import type { LeafletMouseEvent } from "leaflet";
 import { useMemo } from "react";
 import { Polygon, Tooltip } from "react-leaflet";
+import { TERMINAL_COLOR } from "~/functions/mapColors";
 import type { Terminal } from "~/models";
 
 type Props = {
   terminals: Terminal[];
 };
 
-const STROKE_COLOR = "#eab308";
 const HOVER_CLASS = "terminal-label--hover";
 
 function toggleTooltipHover(event: LeafletMouseEvent, on: boolean) {
@@ -40,7 +40,7 @@ function TerminalPolygon({ terminal }: { terminal: Terminal }) {
       positions={positions}
       pathOptions={{
         className: "terminal-polygon",
-        color: STROKE_COLOR,
+        color: TERMINAL_COLOR,
         weight: 1.5,
         fillOpacity: 0.2,
       }}

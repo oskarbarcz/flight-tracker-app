@@ -12,14 +12,14 @@ type Props = {
   hasTerminals: boolean;
 };
 
-export function GateListEmptyState({ airportId, hasTerminals }: Props) {
+export function ParkingPositionListEmptyState({ airportId, hasTerminals }: Props) {
   if (!hasTerminals) {
     return (
       <TableEmptyState>
         <EmptyStateIcon icon={FaCircleInfo} color="blue" />
         <EmptyStateText
           title="Define terminals first."
-          paragraph="Gates must belong to a terminal. Add at least one terminal before creating gates."
+          paragraph="Parking positions must belong to a terminal. Add at least one terminal before creating parking positions."
         />
         <Button className="space-x-1.5 w-fit mx-auto" color="indigo" as={Link} to={`/airports/${airportId}/terminals`}>
           <HiPlus />
@@ -33,12 +33,17 @@ export function GateListEmptyState({ airportId, hasTerminals }: Props) {
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color="blue" />
       <EmptyStateText
-        title="No gates defined yet."
-        paragraph="Add boarding gates and link each one to the parking position it serves."
+        title="No parking positions defined yet."
+        paragraph="Add parking positions to record stand capabilities, boarding options, and noise restrictions."
       />
-      <Button className="space-x-1.5 w-fit mx-auto" color="indigo" as={Link} to={`/airports/${airportId}/gates/new`}>
+      <Button
+        className="space-x-1.5 w-fit mx-auto"
+        color="indigo"
+        as={Link}
+        to={`/airports/${airportId}/parking-positions/new`}
+      >
         <HiPlus />
-        <span>Add gate</span>
+        <span>Add parking position</span>
       </Button>
     </TableEmptyState>
   );

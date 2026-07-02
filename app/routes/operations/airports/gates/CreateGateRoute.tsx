@@ -1,55 +1,42 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/gates/+types/CreateGateRoute";
-import { Button, Label, Textarea } from "flowbite-react";
-import { Field, Formik, Form as FormikForm, type FormikHelpers, useFormikContext } from "formik";
+import { Button } from "flowbite-react";
+import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
-import { InputErrorList } from "~/components/shared/Form/InputErrorList";
 import { ManagedInputBlock } from "~/components/shared/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/components/shared/Form/Managed/ManagedSelectBlock";
-import { PointCoordinatesPicker } from "~/components/shared/Form/MapPicker/PointCoordinatesPicker";
 import { Container } from "~/components/shared/Layout/Container";
 import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import {
-  type Airport,
-  bridgeOptions,
   type CreateGateFormData,
-  DeicingCapability,
-  deicingOptions,
-  fuelingOptionsList,
-  gateLocationOptions,
-  groundUnitOptions,
+  gateCategoryOptions,
   initCreateGateData,
-  NoiseSensitivity,
-  noiseSensitivityOptions,
-  parkingAssistanceOptions,
-  parkingPositionTypeOptions,
-  parkingSpotTypeOptions,
-  stairsOptions,
+  type ParkingPosition,
   type Terminal,
 } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
+import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
-import { gateFormDataToRequest, gateToFormData } from "~/state/api/transformer/gate.transformer";
+import { gateFormDataToRequest } from "~/state/api/transformer/gate.transformer";
 import { useToast } from "~/state/app/context/useToast";
 import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createGateSchema } from "~/validator/form/gate.schema";
 
-export async function clientLoader({ params, request }: Route.ClientLoaderArgs) {
-  const duplicateFrom = new URL(request.url).searchParams.get("duplicateFrom");
-  const [airport, terminals, source] = await Promise.all([
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  const [airport, terminals, parkingPositions] = await Promise.all([
     new AirportService().fetchById(params.id),
     new TerminalService().fetchAll(params.id),
-    duplicateFrom ? new GateService().fetchById(params.id, duplicateFrom) : Promise.resolve(null),
+    new ParkingPositionService().fetchAll(params.id),
   ]);
-  return { airport, terminals, source };
+  return { airport, terminals, parkingPositions };
 }
 
 export default function CreateGateRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new gate");
-  const { airport, terminals, source } = loaderData;
+  const { terminals, parkingPositions } = loaderData;
 
   const { gateService } = useApi();
   const navigate = useNavigate();
@@ -69,8 +56,7 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
     }
   };
 
-  const initialTerminalId = terminals[0]?.id ?? "";
-  const initialValues = source ? { ...gateToFormData(source), name: "" } : initCreateGateData(initialTerminalId);
+  const initialValues = initCreateGateData(terminals[0]?.id ?? "");
 
   return (
     <div className="mx-auto max-w-2xl pb-4">
@@ -82,7 +68,12 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <GateFormBody airport={airport} terminals={terminals} isSubmitting={isSubmitting} submitLabel="Create gate" />
+          <GateFormBody
+            terminals={terminals}
+            parkingPositions={parkingPositions}
+            isSubmitting={isSubmitting}
+            submitLabel="Create gate"
+          />
         )}
       </Formik>
     </div>
@@ -90,18 +81,18 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
 }
 
 type FormBodyProps = {
-  airport: Airport;
   terminals: Terminal[];
+  parkingPositions: ParkingPosition[];
   isSubmitting: boolean;
   submitLabel: string;
 };
 
-export function GateFormBody({ airport, terminals, isSubmitting, submitLabel }: FormBodyProps) {
-  const { values, errors, touched } = useFormikContext<CreateGateFormData>();
-  const noiseActive = values.noiseSensitivity === NoiseSensitivity.Yes;
-  const deicingActive = values.deicing !== DeicingCapability.No;
-
+export function GateFormBody({ terminals, parkingPositions, isSubmitting, submitLabel }: FormBodyProps) {
   const terminalOptions = terminals.map((t) => ({ value: t.id, label: `${t.shortName} · ${t.fullName}` }));
+  const parkingPositionOptions = [
+    { value: "", label: "— No parking position —" },
+    ...parkingPositions.map((p) => ({ value: p.id, label: p.name })),
+  ];
 
   return (
     <FormikForm noValidate>
@@ -116,102 +107,12 @@ export function GateFormBody({ airport, terminals, isSubmitting, submitLabel }: 
               <ManagedInputBlock field="name" label="Gate name" />
             </div>
           </div>
-          <ManagedSelectBlock field="location" label="Parking location" options={gateLocationOptions} />
-
-          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Boarding</h3>
-          <div className="flex gap-4">
-            <ManagedSelectBlock className="basis-1/2" field="bridge" label="Jet bridge" options={bridgeOptions} />
-            <ManagedSelectBlock className="basis-1/2" field="stairs" label="Stairs boarding" options={stairsOptions} />
-          </div>
-
-          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Parking</h3>
-          <div className="flex gap-4">
-            <ManagedSelectBlock
-              className="basis-1/2"
-              field="parkingPositionType"
-              label="Position"
-              options={parkingPositionTypeOptions}
-            />
-            <ManagedSelectBlock
-              className="basis-1/2"
-              field="parkingSpotType"
-              label="Spot type"
-              options={parkingSpotTypeOptions}
-            />
-          </div>
-          <ManagedSelectBlock field="parkingAssistance" label="Parking assistance" options={parkingAssistanceOptions} />
-
-          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Services</h3>
-          <div className="flex gap-4">
-            <ManagedSelectBlock className="basis-1/2" field="gpu" label="GPU" options={groundUnitOptions} />
-            <ManagedSelectBlock className="basis-1/2" field="pca" label="PCA" options={groundUnitOptions} />
-          </div>
-          <ManagedSelectBlock field="fuelingOptions" label="Fueling" options={fuelingOptionsList} />
-
-          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Deicing</h3>
-          <ManagedSelectBlock field="deicing" label="Deicing capability" options={deicingOptions} />
-          {deicingActive ? (
-            <div className="mb-4 w-full">
-              <div className="mb-2 block">
-                <Label htmlFor="deicingDescription">Deicing notes</Label>
-              </div>
-              <Field
-                as={Textarea}
-                id="deicingDescription"
-                name="deicingDescription"
-                rows={3}
-                placeholder="Free-text notes about deicing logistics."
-              />
-              <InputErrorList
-                errorFocus={Boolean(touched.deicingDescription && errors.deicingDescription)}
-                errors={touched.deicingDescription && errors.deicingDescription ? [errors.deicingDescription] : []}
-              />
-            </div>
-          ) : null}
-
-          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Noise sensitivity</h3>
+          <ManagedSelectBlock field="category" label="Category" options={gateCategoryOptions} />
           <ManagedSelectBlock
-            field="noiseSensitivity"
-            label="Noise-sensitive area?"
-            options={noiseSensitivityOptions}
-          />
-          {noiseActive ? (
-            <>
-              <div className="flex gap-4">
-                <ManagedInputBlock
-                  field="noiseSensitivityStartTime"
-                  label="Curfew start (UTC HH:mm)"
-                  required={false}
-                />
-                <ManagedInputBlock field="noiseSensitivityEndTime" label="Curfew end (UTC HH:mm)" required={false} />
-              </div>
-              <div className="mb-4 w-full">
-                <div className="mb-2 block">
-                  <Label htmlFor="noiseSensitivityText">Noise restrictions notes</Label>
-                </div>
-                <Field
-                  as={Textarea}
-                  id="noiseSensitivityText"
-                  name="noiseSensitivityText"
-                  rows={3}
-                  placeholder="Free-text notes about noise restrictions."
-                />
-                <InputErrorList
-                  errorFocus={Boolean(touched.noiseSensitivityText && errors.noiseSensitivityText)}
-                  errors={
-                    touched.noiseSensitivityText && errors.noiseSensitivityText ? [errors.noiseSensitivityText] : []
-                  }
-                />
-              </div>
-            </>
-          ) : null}
-
-          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Parking position</h3>
-          <PointCoordinatesPicker
-            field="coordinates"
-            airportLocation={airport.location}
-            label="Click on the map to pick the parking position"
-            pinLabel={values.name}
+            field="parkingPositionId"
+            label="Served parking position"
+            required={false}
+            options={parkingPositionOptions}
           />
         </div>
       </Container>

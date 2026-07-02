@@ -6,9 +6,9 @@ import { SectionHeader } from "~/components/shared/Section/SectionHeader";
 import { handleFormikApiError } from "~/functions/handleFormikApiError";
 import type { CreateGateFormData } from "~/models";
 import { GateFormBody } from "~/routes/operations/airports/gates/CreateGateRoute";
-import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
 import { GateService } from "~/state/api/gate.service";
+import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { gateFormDataToRequest, gateToFormData } from "~/state/api/transformer/gate.transformer";
 import { useToast } from "~/state/app/context/useToast";
@@ -16,16 +16,16 @@ import { usePageTitle } from "~/state/app/hooks/usePageTitle";
 import { createGateSchema } from "~/validator/form/gate.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, gate, terminals] = await Promise.all([
-    new AirportService().fetchById(params.id),
+  const [gate, terminals, parkingPositions] = await Promise.all([
     new GateService().fetchById(params.id, params.gateId),
     new TerminalService().fetchAll(params.id),
+    new ParkingPositionService().fetchAll(params.id),
   ]);
-  return { airport, gate, terminals };
+  return { gate, terminals, parkingPositions };
 }
 
 export default function EditGateRoute({ params, loaderData }: Route.ComponentProps) {
-  const { airport, gate, terminals } = loaderData;
+  const { gate, terminals, parkingPositions } = loaderData;
   usePageTitle(`Edit gate ${gate.name}`);
 
   const { gateService } = useApi();
@@ -58,8 +58,8 @@ export default function EditGateRoute({ params, loaderData }: Route.ComponentPro
       >
         {({ isSubmitting }) => (
           <GateFormBody
-            airport={airport}
             terminals={terminals}
+            parkingPositions={parkingPositions}
             isSubmitting={isSubmitting}
             submitLabel="Save changes"
           />

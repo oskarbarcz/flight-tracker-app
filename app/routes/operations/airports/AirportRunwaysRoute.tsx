@@ -10,23 +10,23 @@ import { RunwayListEmptyState } from "~/components/airport/Runway/RunwayListEmpt
 import type { Runway } from "~/models";
 import { AirportService } from "~/state/api/airport.service";
 import { useApi } from "~/state/api/context/useApi";
-import { GateService } from "~/state/api/gate.service";
+import { ParkingPositionService } from "~/state/api/parking-position.service";
 import { RunwayService } from "~/state/api/runway.service";
 import { TerminalService } from "~/state/api/terminal.service";
 import { useToast } from "~/state/app/context/useToast";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, runways, terminals, gates] = await Promise.all([
+  const [airport, runways, terminals, parkingPositions] = await Promise.all([
     new AirportService().fetchById(params.id),
     new RunwayService().fetchAll(params.id),
     new TerminalService().fetchAll(params.id),
-    new GateService().fetchAll(params.id),
+    new ParkingPositionService().fetchAll(params.id),
   ]);
-  return { airport, runways, terminals, gates };
+  return { airport, runways, terminals, parkingPositions };
 }
 
 export default function AirportRunwaysRoute({ params, loaderData }: Route.ComponentProps) {
-  const { airport, runways: initialRunways, terminals, gates } = loaderData;
+  const { airport, runways: initialRunways, terminals, parkingPositions } = loaderData;
   const [runways, setRunways] = useState<Runway[]>(initialRunways);
   const [pendingRemove, setPendingRemove] = useState<Runway | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -63,7 +63,7 @@ export default function AirportRunwaysRoute({ params, loaderData }: Route.Compon
               airport={airport}
               runways={runways}
               terminals={terminals}
-              gates={gates}
+              parkingPositions={parkingPositions}
               fallbackCenter={airport.location}
             />
           </div>
