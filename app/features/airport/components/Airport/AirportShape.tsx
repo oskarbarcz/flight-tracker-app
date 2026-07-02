@@ -1,6 +1,6 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import type { Coordinates } from "~/features/runway/model";
+import type { Coordinates } from "~/shared/models/coordinates";
 
 type Props = {
   shape: Coordinates[] | null;

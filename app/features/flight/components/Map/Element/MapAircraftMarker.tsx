@@ -2,7 +2,7 @@ import L from "leaflet";
 import { useMemo } from "react";
 import { Marker } from "react-leaflet";
 import type { FlightPathElement } from "~/features/flight";
-import { calculateLastBearing } from "~/shared/lib/smooth";
+import { calculateLastBearing } from "~/features/flight/lib/smooth";
 import type { Position } from "~/shared/models/geo";
 
 type MapAircraftMarkerProps = {

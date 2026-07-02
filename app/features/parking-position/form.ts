@@ -10,7 +10,7 @@ import {
   ParkingSpotType,
   StairsBoarding,
 } from "~/features/parking-position/model";
-import type { Coordinates } from "~/features/runway/model";
+import type { Coordinates } from "~/shared/models/coordinates";
 
 export type CreateParkingPositionFormData = {
   terminalId: string;

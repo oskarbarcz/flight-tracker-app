@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Polyline } from "react-leaflet";
 import type { FlightPathElement } from "~/features/flight";
 import { altitudeToColor, quantizeAltitude } from "~/shared/lib/altitudeColor";
-import { smoothFlightPath } from "~/shared/lib/smooth";
+import { smoothFlightPath } from "~/features/flight/lib/smooth";
 
 type Props = {
   path: FlightPathElement[];

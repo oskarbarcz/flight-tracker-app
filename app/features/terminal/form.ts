@@ -1,4 +1,4 @@
-import type { Coordinates } from "~/features/runway/model";
+import type { Coordinates } from "~/shared/models/coordinates";
 
 export type CreateTerminalFormData = {
   shortName: string;

@@ -1,4 +1,4 @@
-import type { Coordinates } from "~/features/runway/model";
+import type { Coordinates } from "~/shared/models/coordinates";
 import type { Terminal } from "~/features/terminal";
 
 export type CreateTerminalRequest = Omit<Terminal, "id" | "airportId" | "shape"> & {
