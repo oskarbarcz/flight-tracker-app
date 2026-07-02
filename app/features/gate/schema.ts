@@ -1,6 +1,7 @@
 import { type ObjectSchema, object, string } from "yup";
 import { GateCategory } from "~/features/gate";
 import type { CreateGateFormData } from "~/features/gate/form";
+import { coordinatesSchema } from "~/shared/validator/coordinates.schema";
 
 export const createGateSchema: ObjectSchema<CreateGateFormData> = object().shape({
   terminalId: string().required("Terminal is required").uuid("Terminal selection is invalid"),
@@ -12,4 +13,5 @@ export const createGateSchema: ObjectSchema<CreateGateFormData> = object().shape
       if (!value) return true;
       return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
     }),
+  coordinates: coordinatesSchema,
 });

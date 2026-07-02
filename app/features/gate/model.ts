@@ -1,3 +1,5 @@
+import type { Coordinates } from "~/shared/models/coordinates";
+
 export enum GateCategory {
   Schengen = "schengen",
   NonSchengen = "non-schengen",
@@ -12,6 +14,7 @@ export type Gate = {
   name: string;
   category: GateCategory;
   parkingPositionId: string | null;
+  coordinates: Coordinates | null;
 };
 
 export const gateCategoryOptions = [

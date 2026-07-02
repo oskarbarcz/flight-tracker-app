@@ -1,9 +1,10 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/gates/+types/CreateGateRoute";
 import { Button } from "flowbite-react";
-import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
+import { Formik, Form as FormikForm, type FormikHelpers, useFormikContext } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import type { Airport } from "~/features/airport";
 import { AirportService } from "~/features/airport/service";
 import { type CreateGateFormData, gateCategoryOptions, initCreateGateData } from "~/features/gate";
 import { createGateSchema } from "~/features/gate/schema";
@@ -18,6 +19,7 @@ import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { PointCoordinatesPicker } from "~/shared/ui/Form/MapPicker/PointCoordinatesPicker";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
@@ -32,7 +34,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function CreateGateRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new gate");
-  const { terminals, parkingPositions } = loaderData;
+  const { airport, terminals, parkingPositions } = loaderData;
 
   const { gateService } = useApi();
   const navigate = useNavigate();
@@ -65,6 +67,7 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
       >
         {({ isSubmitting }) => (
           <GateFormBody
+            airport={airport}
             terminals={terminals}
             parkingPositions={parkingPositions}
             isSubmitting={isSubmitting}
@@ -77,13 +80,15 @@ export default function CreateGateRoute({ params, loaderData }: Route.ComponentP
 }
 
 type FormBodyProps = {
+  airport: Airport;
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
   isSubmitting: boolean;
   submitLabel: string;
 };
 
-export function GateFormBody({ terminals, parkingPositions, isSubmitting, submitLabel }: FormBodyProps) {
+export function GateFormBody({ airport, terminals, parkingPositions, isSubmitting, submitLabel }: FormBodyProps) {
+  const { values } = useFormikContext<CreateGateFormData>();
   const terminalOptions = terminals.map((t) => ({ value: t.id, label: `${t.shortName} · ${t.fullName}` }));
   const parkingPositionOptions = [
     { value: "", label: "— No parking position —" },
@@ -109,6 +114,14 @@ export function GateFormBody({ terminals, parkingPositions, isSubmitting, submit
             label="Served parking position"
             required={false}
             options={parkingPositionOptions}
+          />
+
+          <h3 className="font-bold text-gray-900 dark:text-white mt-2 mb-3">Location</h3>
+          <PointCoordinatesPicker
+            field="coordinates"
+            airportLocation={airport.location}
+            label="Click on the map to pick the gate location (optional)"
+            pinLabel={values.name}
           />
         </div>
       </Container>

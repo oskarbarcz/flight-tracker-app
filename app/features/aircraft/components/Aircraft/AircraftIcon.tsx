@@ -1,16 +1,16 @@
 import React from "react";
 
-const avifIcons = import.meta.glob("../../../assets/aircraft/*/*-icon-128x72.avif", {
+const avifIcons = import.meta.glob("../../../../assets/aircraft/*/*-icon-128x72.avif", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const webpIcons = import.meta.glob("../../../assets/aircraft/*/*-icon-128x72.webp", {
+const webpIcons = import.meta.glob("../../../../assets/aircraft/*/*-icon-128x72.webp", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const pngIcons = import.meta.glob("../../../assets/aircraft/*/*-icon-128x72.png", {
+const pngIcons = import.meta.glob("../../../../assets/aircraft/*/*-icon-128x72.png", {
   eager: true,
   import: "default",
   query: "?url",

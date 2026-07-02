@@ -1,10 +1,12 @@
 import { GateCategory } from "~/features/gate/model";
+import type { Coordinates } from "~/shared/models/coordinates";
 
 export type CreateGateFormData = {
   terminalId: string;
   name: string;
   category: GateCategory;
   parkingPositionId: string;
+  coordinates: Coordinates | null;
 };
 
 export function initCreateGateData(terminalId = ""): CreateGateFormData {
@@ -13,5 +15,6 @@ export function initCreateGateData(terminalId = ""): CreateGateFormData {
     name: "",
     category: GateCategory.Schengen,
     parkingPositionId: "",
+    coordinates: null,
   };
 }

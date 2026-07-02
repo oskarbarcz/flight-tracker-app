@@ -6,6 +6,7 @@ import { type Gate, gateCategoryOptions } from "~/features/gate";
 import { groupGatesByTerminal } from "~/features/gate/lib/gateGroups";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
+import { formatCoordinates } from "~/shared/lib/formatGeo";
 
 type Props = {
   airportId: string;
@@ -67,11 +68,20 @@ export function GateList({ airportId, gates, terminals, parkingPositions, onDele
                       </button>
                     </div>
                   </header>
-                  <dl className="grid grid-cols-1 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
+                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
                     <Row
                       label="Parking position"
                       value={parkingPosition ? parkingPosition.name : "Not linked"}
                       mono={Boolean(parkingPosition)}
+                    />
+                    <Row
+                      label="Coordinates"
+                      value={
+                        gate.coordinates
+                          ? formatCoordinates(gate.coordinates.latitude, gate.coordinates.longitude)
+                          : "—"
+                      }
+                      mono={Boolean(gate.coordinates)}
                     />
                   </dl>
                 </article>

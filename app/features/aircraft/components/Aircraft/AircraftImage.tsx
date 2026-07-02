@@ -1,32 +1,32 @@
 import React from "react";
 
-const cardAvif = import.meta.glob("../../../assets/aircraft/*/*-600x338.avif", {
+const cardAvif = import.meta.glob("../../../../assets/aircraft/*/*-600x338.avif", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const cardWebp = import.meta.glob("../../../assets/aircraft/*/*-600x338.webp", {
+const cardWebp = import.meta.glob("../../../../assets/aircraft/*/*-600x338.webp", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const cardPng = import.meta.glob("../../../assets/aircraft/*/*-600x338.png", {
+const cardPng = import.meta.glob("../../../../assets/aircraft/*/*-600x338.png", {
   eager: true,
   import: "default",
   query: "?url",
 });
 
-const heroAvif = import.meta.glob("../../../assets/aircraft/*/*-1200x675.avif", {
+const heroAvif = import.meta.glob("../../../../assets/aircraft/*/*-1200x675.avif", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const heroWebp = import.meta.glob("../../../assets/aircraft/*/*-1200x675.webp", {
+const heroWebp = import.meta.glob("../../../../assets/aircraft/*/*-1200x675.webp", {
   eager: true,
   import: "default",
   query: "?url",
 });
-const heroPng = import.meta.glob("../../../assets/aircraft/*/*-1200x675.png", {
+const heroPng = import.meta.glob("../../../../assets/aircraft/*/*-1200x675.png", {
   eager: true,
   import: "default",
   query: "?url",

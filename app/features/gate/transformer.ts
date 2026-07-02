@@ -7,6 +7,7 @@ export function gateFormDataToRequest(input: CreateGateFormData): CreateGateRequ
     name: input.name.trim(),
     category: input.category,
     parkingPositionId: input.parkingPositionId === "" ? null : input.parkingPositionId,
+    coordinates: input.coordinates,
   };
 }
 
@@ -16,5 +17,6 @@ export function gateToFormData(input: GetGateResponse): CreateGateFormData {
     name: input.name,
     category: input.category,
     parkingPositionId: input.parkingPositionId ?? "",
+    coordinates: input.coordinates ?? null,
   };
 }

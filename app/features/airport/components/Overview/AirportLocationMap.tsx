@@ -4,11 +4,13 @@ import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 import { MapContainer, ZoomControl } from "react-leaflet";
 import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
+import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
+import type { Gate } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Runway } from "~/features/runway";
 import { computeRunwayLines } from "~/features/runway/lib/runwayPairs";
@@ -21,9 +23,10 @@ type Props = {
   runways: Runway[];
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
+  gates: Gate[];
 };
 
-export function AirportLocationMap({ airport, runways, terminals, parkingPositions }: Props) {
+export function AirportLocationMap({ airport, runways, terminals, parkingPositions, gates }: Props) {
   const coordinates = formatCoordinates(airport.location.latitude, airport.location.longitude);
   const mapRef = useRef<L.Map | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -50,12 +53,24 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
       if (!p.coordinates) continue;
       points.push([p.coordinates.latitude, p.coordinates.longitude]);
     }
+    for (const g of gates) {
+      if (!g.coordinates) continue;
+      points.push([g.coordinates.latitude, g.coordinates.longitude]);
+    }
 
     if (points.length === 0) {
       return L.latLng(airport.location.latitude, airport.location.longitude).toBounds(4000);
     }
     return L.latLngBounds(points);
-  }, [runways, airport.shape, airport.location.latitude, airport.location.longitude, terminals, parkingPositions]);
+  }, [
+    runways,
+    airport.shape,
+    airport.location.latitude,
+    airport.location.longitude,
+    terminals,
+    parkingPositions,
+    gates,
+  ]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -101,6 +116,7 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
           <AirportShapePolygon airport={airport} />
           <TerminalPolygons terminals={terminals} />
           <ParkingPositionMarkers parkingPositions={parkingPositions} />
+          <GateMarkers gates={gates} />
           <RunwayLines runways={runways} />
           <MapAirportLabel airport={airport} />
         </MapContainer>
