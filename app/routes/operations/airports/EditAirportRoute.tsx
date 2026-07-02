@@ -4,7 +4,10 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { SkyLinkAutofillPanel } from "~/components/airport/Forms/SkyLinkAutofillPanel";
+import { SkyLinkAutofillPanel } from "~/features/airport/components/Forms/SkyLinkAutofillPanel";
+import { createAirportSchema } from "~/features/airport/schema";
+import { AirportService } from "~/features/airport/service";
+import { airportToFormData, formDataToApiFormat } from "~/features/airport/transformer";
 import { type Airport, type CreateAirportFormData, continentOptions } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -14,9 +17,6 @@ import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock"
 import { AirportShapePickerSection } from "~/shared/ui/Form/MapPicker/AirportShapePickerSection";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
-import { AirportService } from "~/state/api/airport.service";
-import { airportToFormData, formDataToApiFormat } from "~/state/api/transformer/airport.transformer";
-import { createAirportSchema } from "~/validator/form/create-airport.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return new AirportService().fetchById(params.id);

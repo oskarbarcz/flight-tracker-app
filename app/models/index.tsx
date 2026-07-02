@@ -1,5 +1,7 @@
 export * from "~/features/aircraft/model";
 export * from "~/features/airframe/model";
+export * from "~/features/airport/form";
+export * from "~/features/airport/model";
 export * from "~/features/auth/model";
 export * from "~/features/delay/form";
 export * from "~/features/delay/model";
@@ -22,6 +24,4 @@ export * from "~/features/travel/form";
 export * from "~/features/travel/model";
 export * from "~/features/user/model";
 export * from "~/shared/models/geo";
-export * from "./airport.model";
 export * from "./flight.model";
-export * from "./form/airport.form";

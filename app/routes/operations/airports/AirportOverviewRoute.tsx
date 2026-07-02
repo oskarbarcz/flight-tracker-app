@@ -1,12 +1,12 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportOverviewRoute";
 import React from "react";
 import { useLoaderData } from "react-router";
-import { AirportDetailsCard } from "~/components/airport/Overview/AirportDetailsCard";
-import { AirportLocationMap } from "~/components/airport/Overview/AirportLocationMap";
+import { AirportDetailsCard } from "~/features/airport/components/Overview/AirportDetailsCard";
+import { AirportLocationMap } from "~/features/airport/components/Overview/AirportLocationMap";
+import { AirportService } from "~/features/airport/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
-import { AirportService } from "~/state/api/airport.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runways, terminals, parkingPositions] = await Promise.all([

@@ -1,6 +1,6 @@
+import type { Airport } from "~/features/airport/model";
 import type { ApiDiversionResponse } from "~/features/diversion/request";
 import type { ApiCoordinates } from "~/features/emergency/request";
-import type { Airport } from "~/models/airport.model";
 
 export enum DiversionSeverity {
   Advisory = "advisory",

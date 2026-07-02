@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaRoute } from "react-icons/fa6";
-import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
+import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
 import type { Airport } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/shared/api/useApi";

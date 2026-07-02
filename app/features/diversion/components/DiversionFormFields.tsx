@@ -1,7 +1,7 @@
 import { Checkbox, Label } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
-import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
+import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
 import {
   type Airport,
   type AirportOnFlight,

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { HiPlus } from "react-icons/hi";
 import { Link, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { AirportRunwaysMap } from "~/features/runway/components/AirportRunwaysMap";
 import { RemoveRunwayModal } from "~/features/runway/components/RemoveRunwayModal";
@@ -13,7 +14,6 @@ import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
 import type { Runway } from "~/models";
 import { useApi } from "~/shared/api/useApi";
-import { AirportService } from "~/state/api/airport.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runways, terminals, parkingPositions] = await Promise.all([

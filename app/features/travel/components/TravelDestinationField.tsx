@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
+import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
 import type { Airport } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";

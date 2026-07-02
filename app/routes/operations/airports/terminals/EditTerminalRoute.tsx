@@ -4,6 +4,7 @@ import { Field, Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
 import { createTerminalSchema } from "~/features/terminal/schema";
 import { TerminalService } from "~/features/terminal/service";
 import { terminalFormDataToRequest, terminalToFormData } from "~/features/terminal/transformer";
@@ -16,7 +17,6 @@ import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { PolygonShapePicker } from "~/shared/ui/Form/MapPicker/PolygonShapePicker";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
-import { AirportService } from "~/state/api/airport.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, terminal] = await Promise.all([

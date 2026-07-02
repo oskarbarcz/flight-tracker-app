@@ -1,5 +1,5 @@
-import type { CreateAirportFormData } from "~/models/form/airport.form";
-import type { CreateAirportRequest, GetAirportResponse } from "~/state/api/request/airport.request";
+import type { CreateAirportFormData } from "~/features/airport/form";
+import type { CreateAirportRequest, GetAirportResponse } from "~/features/airport/request";
 
 export function formDataToApiFormat(input: CreateAirportFormData): CreateAirportRequest {
   return {

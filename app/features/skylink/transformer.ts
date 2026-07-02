@@ -1,6 +1,6 @@
+import type { CreateAirportFormData } from "~/features/airport/form";
+import type { SkyLinkAirportResponse } from "~/features/skylink/request";
 import { Continent } from "~/models";
-import type { CreateAirportFormData } from "~/models/form/airport.form";
-import type { SkyLinkAirportResponse } from "~/state/api/request/skylink.request";
 
 export function skyLinkToFormData(input: SkyLinkAirportResponse): CreateAirportFormData {
   return {

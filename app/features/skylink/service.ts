@@ -1,5 +1,5 @@
+import type { SkyLinkAirportResponse } from "~/features/skylink/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
-import type { SkyLinkAirportResponse } from "~/state/api/request/skylink.request";
 
 export class SkyLinkService extends AbstractAuthorizedApiService {
   async fetchAirportByIataCode(iataCode: string) {

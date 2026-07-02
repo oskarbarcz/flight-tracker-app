@@ -1,4 +1,4 @@
-import { translateContinent } from "~/models/i18n/airport.i18n";
+import { translateContinent } from "~/features/airport/i18n";
 import {
   translateEventType,
   translateShortStatus,

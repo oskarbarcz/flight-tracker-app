@@ -3,6 +3,7 @@ import { Formik, type FormikHelpers } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { AirportService } from "~/features/airport/service";
 import { createParkingPositionSchema } from "~/features/parking-position/schema";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { parkingPositionFormDataToRequest, parkingPositionToFormData } from "~/features/parking-position/transformer";
@@ -13,7 +14,6 @@ import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
-import { AirportService } from "~/state/api/airport.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, parkingPosition, terminals] = await Promise.all([
