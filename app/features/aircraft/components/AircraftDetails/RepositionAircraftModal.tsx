@@ -1,12 +1,12 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { airportSelectOptions } from "~/components/shared/Airport/airportSelectOptions";
+import { repositionSchema } from "~/features/aircraft/schema";
+import type { CreateRepositionRequest } from "~/features/operator/request";
 import type { Aircraft, Airport } from "~/models";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { Form } from "~/shared/ui/Form/Form";
-import type { CreateRepositionRequest } from "~/state/api/request/operator.request";
-import { repositionSchema } from "~/validator/form/aircraft.schema";
 
 type Props = {
   aircraft: Aircraft;

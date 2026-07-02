@@ -1,5 +1,5 @@
 import { type ObjectSchema, object, string } from "yup";
-import type { CreateAircraftRequest, CreateRepositionRequest } from "~/state/api/request/operator.request";
+import type { CreateAircraftRequest, CreateRepositionRequest } from "~/features/operator/request";
 
 export const aircraftSchema: ObjectSchema<CreateAircraftRequest> = object().shape({
   type: string().required("Aircraft type is required"),

@@ -2,7 +2,7 @@ import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
 import { FaIdCard } from "react-icons/fa6";
 import { OperatorFin } from "~/components/operator/OperatorFin";
-import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
+import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import { type Aircraft, allianceLabel, type Operator } from "~/models";
 import type { CreateFlightFormData } from "~/models/form/flight.form";
 import { useApi } from "~/shared/api/useApi";

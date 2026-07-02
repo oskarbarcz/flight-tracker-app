@@ -4,17 +4,17 @@ import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } fro
 import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
 import { useToast } from "~/app-state/useToast";
-import { PilotLicenseInputBlock } from "~/components/operator/Form/PilotLicenseInputBlock";
-import { RotationFlightsInputBlock } from "~/components/operator/Form/RotationFlightsInputBlock";
+import { PilotLicenseInputBlock } from "~/features/operator/components/Form/PilotLicenseInputBlock";
+import { RotationFlightsInputBlock } from "~/features/operator/components/Form/RotationFlightsInputBlock";
+import type { EditRotationRequest } from "~/features/operator/request";
+import { createRotationSchema } from "~/features/rotation/schema";
+import { RotationService } from "~/features/rotation/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";
 import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
 import { InputBlock } from "~/shared/ui/Form/InputBlock";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
-import type { EditRotationRequest } from "~/state/api/request/operator.request";
-import { RotationService } from "~/state/api/rotation.service";
-import { createRotationSchema } from "~/validator/form/rotation.schema";
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
   const rotationService = new RotationService();

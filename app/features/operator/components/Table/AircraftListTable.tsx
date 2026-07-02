@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 
 import React from "react";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { Link } from "react-router";
-import { AircraftIcon } from "~/components/shared/Aircraft/AircraftIcon";
+import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import {
   formatCruiseSpeed,
   formatPerformanceCode,

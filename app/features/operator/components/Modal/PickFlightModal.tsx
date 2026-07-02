@@ -1,10 +1,10 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
-import { LegPreview } from "~/components/operator/Form/Preview/LegPreview";
+import { LegPreview } from "~/features/operator/components/Form/Preview/LegPreview";
+import type { GetRotationResponse } from "~/features/operator/request";
 import { type Flight, FlightPhase, FlightStatus } from "~/models";
 import { useApi } from "~/shared/api/useApi";
-import type { GetRotationResponse } from "~/state/api/request/operator.request";
 
 type Props = {
   rotation: GetRotationResponse;

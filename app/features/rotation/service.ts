@@ -1,9 +1,5 @@
+import type { CreateRotationRequest, EditRotationRequest, GetRotationResponse } from "~/features/operator/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
-import type {
-  CreateRotationRequest,
-  EditRotationRequest,
-  GetRotationResponse,
-} from "~/state/api/request/operator.request";
 
 export class RotationService extends AbstractAuthorizedApiService {
   async fetchAll(operatorId: string) {

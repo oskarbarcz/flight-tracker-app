@@ -1,9 +1,9 @@
 import { Button } from "flowbite-react";
 import React from "react";
-import { PickFlightModal } from "~/components/operator/Modal/PickFlightModal";
+import { PickFlightModal } from "~/features/operator/components/Modal/PickFlightModal";
+import type { GetRotationResponse } from "~/features/operator/request";
 import type { Flight, RotationFlight } from "~/models";
 import { useApi } from "~/shared/api/useApi";
-import type { GetRotationResponse } from "~/state/api/request/operator.request";
 import { LegPreview } from "./Preview/LegPreview";
 
 type Props = {

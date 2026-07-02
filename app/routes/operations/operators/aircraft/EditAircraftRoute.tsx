@@ -4,7 +4,10 @@ import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } fro
 import React, { useEffect } from "react";
 import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { aircraftSchema } from "~/features/aircraft/schema";
+import { AircraftService } from "~/features/aircraft/service";
 import { AirframeService } from "~/features/airframe/service";
+import type { EditAircraftRequest } from "~/features/operator/request";
 import type { Airframe } from "~/models";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { getFormData } from "~/shared/lib/getFormData";
@@ -13,9 +16,6 @@ import { InputBlock } from "~/shared/ui/Form/InputBlock";
 import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
-import { AircraftService } from "~/state/api/aircraft.service";
-import type { EditAircraftRequest } from "~/state/api/request/operator.request";
-import { aircraftSchema } from "~/validator/form/aircraft.schema";
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
   const aircraftService = new AircraftService();

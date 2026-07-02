@@ -1,6 +1,6 @@
+import { Alliance, type Operator, OperatorType } from "~/features/operator/model";
+import type { CreateOperatorRequest } from "~/features/operator/request";
 import { Continent } from "~/models/airport.model";
-import { Alliance, type Operator, OperatorType } from "~/models/operator.model";
-import type { CreateOperatorRequest } from "~/state/api/request/operator.request";
 
 export type CreateOperatorFormData = {
   icaoCode: string;

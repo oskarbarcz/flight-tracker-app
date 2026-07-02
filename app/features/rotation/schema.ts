@@ -1,5 +1,5 @@
 import { type ObjectSchema, object, string } from "yup";
-import type { CreateRotationRequest } from "~/state/api/request/operator.request";
+import type { CreateRotationRequest } from "~/features/operator/request";
 
 export const createRotationSchema: ObjectSchema<CreateRotationRequest> = object().shape({
   name: string()

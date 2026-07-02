@@ -1,14 +1,14 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/rotations/+types/OperatorRotationsRoute";
 import React, { useState } from "react";
 import { useLoaderData } from "react-router";
-import { RemoveRotationModal } from "~/components/operator/Modal/RemoveRotationModal";
-import { RotationListEmptyState } from "~/components/operator/Table/EmptyState/RotationListEmptyState";
-import { RotationControls } from "~/components/operator/Table/RotationControls";
-import { RotationListTable } from "~/components/operator/Table/RotationListTable";
+import { RemoveRotationModal } from "~/features/operator/components/Modal/RemoveRotationModal";
+import { RotationListEmptyState } from "~/features/operator/components/Table/EmptyState/RotationListEmptyState";
+import { RotationControls } from "~/features/operator/components/Table/RotationControls";
+import { RotationListTable } from "~/features/operator/components/Table/RotationListTable";
+import type { GetRotationResponse } from "~/features/operator/request";
+import { RotationService } from "~/features/rotation/service";
 import { useApi } from "~/shared/api/useApi";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
-import type { GetRotationResponse } from "~/state/api/request/operator.request";
-import { RotationService } from "~/state/api/rotation.service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const rotations = await new RotationService().fetchAll(params.operatorId);

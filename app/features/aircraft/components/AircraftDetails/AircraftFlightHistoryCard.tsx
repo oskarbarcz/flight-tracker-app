@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { HiOutlineClock } from "react-icons/hi";
 import { Link } from "react-router";
 import { FlightStatusBadge } from "~/components/shared/Flight/FlightStatusBadge";
-import { entryTime } from "~/functions/aircraftStatus";
+import { entryTime } from "~/features/aircraft/lib/aircraftStatus";
 import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/models";
 import { formatDate } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";

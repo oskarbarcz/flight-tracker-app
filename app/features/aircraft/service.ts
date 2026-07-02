@@ -1,10 +1,6 @@
+import type { CreateAircraftRequest, CreateRepositionRequest, EditAircraftRequest } from "~/features/operator/request";
 import type { Aircraft, AircraftReposition, FlightHistoryEntry } from "~/models";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
-import type {
-  CreateAircraftRequest,
-  CreateRepositionRequest,
-  EditAircraftRequest,
-} from "~/state/api/request/operator.request";
 
 export class AircraftService extends AbstractAuthorizedApiService {
   async fetchAll(operatorId: string): Promise<Aircraft[]> {

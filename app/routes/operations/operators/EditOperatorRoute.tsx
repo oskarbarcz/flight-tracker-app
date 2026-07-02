@@ -4,6 +4,8 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { createOperatorSchema } from "~/features/operator/schema";
+import { OperatorService } from "~/features/operator/service";
 import {
   type CreateOperatorFormData,
   continentOptions,
@@ -19,8 +21,6 @@ import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
-import { OperatorService } from "~/state/api/operator.service";
-import { createOperatorSchema } from "~/validator/form/operator.schema";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return new OperatorService().fetchById(params.operatorId);

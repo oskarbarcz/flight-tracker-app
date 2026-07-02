@@ -1,5 +1,5 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
-import type { GetRotationResponse } from "~/state/api/request/operator.request";
+import type { GetRotationResponse } from "~/features/operator/request";
 
 type Props = {
   rotation: GetRotationResponse;

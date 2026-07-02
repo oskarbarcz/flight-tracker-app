@@ -3,7 +3,7 @@ import React from "react";
 import { HiPencil } from "react-icons/hi";
 import { LuPlane, LuTag } from "react-icons/lu";
 import { Link } from "react-router";
-import { AircraftImage } from "~/components/shared/Aircraft/AircraftImage";
+import { AircraftImage } from "~/features/aircraft/components/Aircraft/AircraftImage";
 import { formatCruiseSpeed, formatServiceCeiling, formatWeightCategory } from "~/features/airframe/lib/formatAirframe";
 import type { Aircraft } from "~/models";
 import { DataField } from "~/shared/ui/Display/DataField";
