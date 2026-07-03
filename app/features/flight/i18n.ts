@@ -1,4 +1,17 @@
-import { FlightEventType, FlightStatus } from "~/features/flight";
+import { AirportOnFlightType, FlightEventType, FlightStatus } from "~/features/flight";
+
+export function translateAirportOnFlightType(type: AirportOnFlightType): string {
+  const labels: Record<AirportOnFlightType, string> = {
+    [AirportOnFlightType.Departure]: "Departure",
+    [AirportOnFlightType.Destination]: "Destination",
+    [AirportOnFlightType.DestinationAlternate]: "Destination alternate",
+    [AirportOnFlightType.EnrouteAlternate]: "Enroute alternate",
+    [AirportOnFlightType.EtopsEntry]: "ETOPS entry",
+    [AirportOnFlightType.EtopsExit]: "ETOPS exit",
+  };
+
+  return labels[type];
+}
 
 export function translateEventType(eventType: FlightEventType): string {
   const eventNames: Record<FlightEventType, string> = {

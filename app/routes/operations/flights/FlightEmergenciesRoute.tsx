@@ -3,17 +3,20 @@ import { FaTriangleExclamation } from "react-icons/fa6";
 import { ActiveEmergencyPanel } from "~/features/emergency/components/ActiveEmergencyPanel";
 import { EmergencyEmptyState } from "~/features/emergency/components/EmergencyEmptyState";
 import { ResolvedEmergenciesHistory } from "~/features/emergency/components/ResolvedEmergenciesHistory";
+import { FlightAlternateAirportsCard } from "~/features/flight/components/Airports/FlightAlternateAirportsCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export default function FlightEmergenciesRoute() {
-  const { emergencies, activeEmergency } = useTrackedFlight();
+  const { flight, emergencies, activeEmergency } = useTrackedFlight();
   const resolved = emergencies.filter((e) => !e.isActive);
 
   return (
-    <div className="mt-4 flex flex-col gap-4">
-      <Container padding="condensed">
+    <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <FlightAlternateAirportsCard airports={flight?.airports ?? []} />
+
+      <Container padding="condensed" className="lg:col-span-2">
         <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" />
 
         {activeEmergency ? (

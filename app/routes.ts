@@ -5,7 +5,10 @@ export default [
     route("sign-in", "routes/auth/SignInRoute.tsx"),
     route("sign-out", "routes/auth/SignOutRoute.tsx"),
   ]),
-  layout("routes/public/MapLayout.tsx", [route("map/:id", "routes/public/MapRoute.tsx")]),
+  layout("routes/public/MapLayout.tsx", [
+    route("map", "routes/public/MapIndexRoute.tsx"),
+    route("map/:id", "routes/public/MapRoute.tsx"),
+  ]),
   index("routes/public/LandingRoute.tsx"),
   layout("routes/AppLayout.tsx", [
     route("dashboard", "routes/common/DashboardRoute.tsx"),

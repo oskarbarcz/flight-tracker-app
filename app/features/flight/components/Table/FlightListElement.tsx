@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import type { Flight } from "~/features/flight";
 import { FlightStatusBadge } from "~/features/flight/components/Flight/FlightStatusBadge";
+import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
@@ -16,7 +17,7 @@ type Props = {
 export function FlightListElement({ flight }: Props) {
   return (
     <TableRow key={flight.id}>
-      <TableCell className="text-base text-gray-900 font-bold font-mono dark:text-white">
+      <TableCell className="text-lg text-gray-900 font-bold font-mono dark:text-white">
         <Link to={`/flights/${flight.id}/overview`} viewTransition className="hover:text-primary-500">
           {flight.flightNumberWithoutSpaces}
         </Link>
@@ -43,8 +44,20 @@ export function FlightListElement({ flight }: Props) {
       <TableCell>
         {flight.timesheet.scheduled.offBlockTime && (
           <>
-            <FormattedIcaoDate date={flight.timesheet.scheduled.takeoffTime} />{" "}
-            <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
+            <div>
+              <FormattedIcaoDate date={flight.timesheet.scheduled.takeoffTime} />{" "}
+              <span className="font-bold">
+                <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
+              </span>
+            </div>
+            <div className="mt-0.5 font-mono text-xs text-gray-500 dark:text-gray-400">
+              <span className="uppercase tracking-wide">Block:</span>{" "}
+              <span className="font-bold">
+                {formatDuration(
+                  durationMinutes(flight.timesheet.scheduled.offBlockTime, flight.timesheet.scheduled.onBlockTime),
+                )}
+              </span>
+            </div>
           </>
         )}
       </TableCell>

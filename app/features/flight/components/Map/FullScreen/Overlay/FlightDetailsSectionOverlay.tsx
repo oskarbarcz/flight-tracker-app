@@ -1,18 +1,19 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaPlane, FaRegClock } from "react-icons/fa";
-import { FaFileInvoice, FaMapLocationDot, FaUserGroup } from "react-icons/fa6";
+import { FaFileInvoice, FaMapLocationDot, FaUser, FaUserGroup } from "react-icons/fa6";
 import type { Flight } from "~/features/flight";
 import { BasicFlightInfoOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/BasicFlightInfoOverlay";
 import { DocumentsOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/DocumentsOverlay";
 import { FlightPlanOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/FlightPlanOverlay";
+import { PilotOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/PilotOverlay";
 import { TimelineOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/TimelineOverlay";
 
 type Props = {
   flight: Flight;
 };
 
-type Panel = "info" | "documents" | "timeline" | "flightPlan";
+type Panel = "info" | "documents" | "timeline" | "flightPlan" | "pilot";
 
 function colorFor(isActive: boolean): string {
   return isActive ? "indigo" : "alternative";
@@ -59,6 +60,9 @@ export function FlightDetailsSectionOverlay({ flight }: Props) {
         >
           <FaMapLocationDot size={18} />
         </Button>
+        <Button color={colorFor(openPanel === "pilot")} size="sm" onClick={() => toggle("pilot")} aria-label="Pilot">
+          <FaUser size={18} />
+        </Button>
         <Button disabled color="alternative" size="sm" className="bg-gray-100" aria-label="Passengers">
           <FaUserGroup size={18} />
         </Button>
@@ -68,6 +72,7 @@ export function FlightDetailsSectionOverlay({ flight }: Props) {
         {openPanel === "documents" && <DocumentsOverlay flight={flight} onClose={close} />}
         {openPanel === "timeline" && <TimelineOverlay flight={flight} onClose={close} />}
         {openPanel === "flightPlan" && <FlightPlanOverlay flight={flight} onClose={close} />}
+        {openPanel === "pilot" && <PilotOverlay flight={flight} onClose={close} />}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import {
   type FlightEvent,
   type FlightOfp,
   type FlightPathElement,
-  type FlightPhase,
+  FlightPhase,
   type Loadsheet,
   type Schedule,
   type Tracking,
@@ -205,6 +205,13 @@ export class FlightService extends AbstractAuthorizedApiService {
 }
 
 export class PublicFlightService extends AbstractApiService {
+  async fetchOngoingFlights(): Promise<Flight[]> {
+    const params = new URLSearchParams({ phase: FlightPhase.Ongoing });
+    const response = await this.request<ApiFlightResponse[]>(`/api/v1/flight?${params.toString()}`);
+
+    return response.map((flight) => new Flight(flight));
+  }
+
   async fetchById(id: string): Promise<Flight> {
     const response = await this.request<ApiFlightResponse>(`/api/v1/flight/${id}`);
 

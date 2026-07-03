@@ -2,6 +2,7 @@ import { Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { FaXmark } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
@@ -117,6 +118,15 @@ export function AdvancedSelect({
     setIsOpen(false);
   }
 
+  function clearSelection() {
+    helpers.setValue("");
+    helpers.setTouched(true, false);
+    setSearch("");
+    setIsOpen(false);
+  }
+
+  const isClearable = !required && !disabled && selected !== null;
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
       event.preventDefault();
@@ -144,7 +154,7 @@ export function AdvancedSelect({
           {required && <RequiredMark />}
         </Label>
       </div>
-      <div ref={anchorRef}>
+      <div ref={anchorRef} className="relative">
         {showSearch ? (
           <TextInput
             id={field}
@@ -183,6 +193,7 @@ export function AdvancedSelect({
             onClick={openForSearch}
             className={twMerge(
               "flex w-full cursor-pointer items-center gap-3 rounded-lg border bg-gray-50 p-2.5 text-left hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-gray-700 dark:hover:bg-gray-600",
+              isClearable && "pr-10",
               isError ? "border-red-500" : "border-gray-300 dark:border-gray-600",
             )}
           >
@@ -197,6 +208,16 @@ export function AdvancedSelect({
                 </span>
               )}
             </span>
+          </button>
+        )}
+        {isClearable && !showSearch && (
+          <button
+            type="button"
+            aria-label="Clear selection"
+            onClick={clearSelection}
+            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:hover:text-gray-200"
+          >
+            <FaXmark className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
