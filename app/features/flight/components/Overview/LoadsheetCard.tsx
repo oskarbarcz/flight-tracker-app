@@ -39,7 +39,7 @@ export function LoadsheetCard({ title, loadsheet, emptyMessage, emptySeverity = 
           </Section>
 
           <Section title="Goods on board">
-            <StatBlock label="Zero-fuel" value={loadsheet.zeroFuelWeight.toString()} unit="t" />
+            <StatBlock label="Zero-fuel weight" value={loadsheet.zeroFuelWeight.toString()} unit="t" />
             <StatBlock label="Cargo" value={loadsheet.cargo.toString()} unit="t" />
             <StatBlock label="Payload" value={loadsheet.payload.toString()} unit="t" />
             <StatBlock label="Block Fuel" value={loadsheet.blockFuel.toString()} unit="t" />

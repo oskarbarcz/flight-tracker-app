@@ -34,6 +34,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const flight: CreateFlightRequest = {
     departureAirportId: rawFormData.departureAirportId,
     destinationAirportId: rawFormData.destinationAirportId,
+    alternateAirports: [],
     aircraftId: rawFormData.aircraftId,
     operatorId: rawFormData.operatorId,
     callsign: rawFormData.callsign,

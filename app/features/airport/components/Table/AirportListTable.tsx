@@ -24,7 +24,9 @@ export function AirportListTable({ airports }: Props) {
       <TableBody className="divide-y">
         {airports.map((airport: Airport) => (
           <TableRow key={airport.id}>
-            <TableCell className="font-bold text-gray-900 dark:text-white">{airport.iataCode}</TableCell>
+            <TableCell className="text-lg font-bold font-mono text-gray-900 dark:text-white">
+              {airport.iataCode}
+            </TableCell>
             <TableCell>
               <span className="font-bold">{airport.name}</span>
               <span className="block">

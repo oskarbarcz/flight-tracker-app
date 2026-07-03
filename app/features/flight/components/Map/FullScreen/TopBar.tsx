@@ -2,6 +2,7 @@ import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
+import { Link } from "react-router";
 import logo from "~/assets/logo.svg";
 import { DiscordButton } from "~/features/flight/components/Map/FullScreen/Element/DiscordButton";
 import { GitHubButton } from "~/features/flight/components/Map/FullScreen/Element/GitHubButton";
@@ -18,10 +19,10 @@ export function TopBar() {
   return (
     <nav className="mb-2 py-1 px-3 w-full">
       <div className="flex justify-between items-center">
-        <a href="/public" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img src={logo} className="h-6 mr-2" alt="Flight Tracker app logo" />
           <span className="text-xl font-bold text-indigo-500">Flight Tracker</span>
-        </a>
+        </Link>
 
         <div className="md:hidden">
           <Button color="alternative" size="sm" onClick={toggleMenu}>

@@ -1,3 +1,8 @@
+export type DestinationAlternateEntry = {
+  id: string;
+  airportId: string;
+};
+
 export type CreateFlightFormData = {
   isIdentitySubmitted: boolean;
   isRouteSubmitted: boolean;
@@ -11,6 +16,10 @@ export type CreateFlightFormData = {
   route: {
     departureAirportId: string;
     destinationAirportId: string;
+    destinationAlternates: DestinationAlternateEntry[];
+    etopsEntryAirportId: string;
+    etopsExitAirportId: string;
+    enrouteAlternateAirportId: string;
   };
   schedule: {
     offBlockTime: Date;
@@ -37,6 +46,10 @@ export function initCreateFlightData(): CreateFlightFormData {
     route: {
       departureAirportId: "",
       destinationAirportId: "",
+      destinationAlternates: [],
+      etopsEntryAirportId: "",
+      etopsExitAirportId: "",
+      enrouteAlternateAirportId: "",
     },
     schedule: {
       offBlockTime: currentDate,

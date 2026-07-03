@@ -21,8 +21,10 @@ export enum FlightStatus {
 export enum AirportOnFlightType {
   Departure = "departure",
   Destination = "destination",
-  EtopsAlternate = "etops_alternate",
   DestinationAlternate = "destination_alternate",
+  EtopsEntry = "etops_entry",
+  EtopsExit = "etops_exit",
+  EnrouteAlternate = "enroute_alternate",
 }
 
 export enum FlightPhase {
@@ -54,6 +56,13 @@ export type FlightCrew = {
   cabinCrew: number;
 };
 
+export type Pilot = {
+  id: string;
+  name: string;
+  pilotLicenseId: string;
+  totalFlightTime: number;
+};
+
 export type Loadsheet = {
   flightCrew: FlightCrew;
   passengers: number;
@@ -82,6 +91,7 @@ export class Flight {
   airports: AirportOnFlight[];
   aircraft: Aircraft;
   operator: Operator;
+  pilot: Pilot | null;
   timesheet: Timesheet;
   status: FlightStatus;
   loadsheets: Loadsheets;
@@ -104,6 +114,7 @@ export class Flight {
     this.tracking = flight.tracking;
     this.aircraft = flight.aircraft;
     this.operator = flight.operator;
+    this.pilot = flight.pilot ?? null;
     this.rotationId = flight.rotationId;
     this.timesheet = parseTimesheet(flight.timesheet);
     this.status = flight.status;

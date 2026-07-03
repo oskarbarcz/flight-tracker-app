@@ -19,9 +19,9 @@ type Props = {
 
 export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmergency, hasUnsettledDelay }: Props) {
   const emergencyTitle = hasActiveEmergency ? (
-    <span className="text-red-600 dark:text-red-500 font-semibold">Emergencies &amp; diversions</span>
+    <span className="text-red-600 dark:text-red-500 font-semibold">Alternates, Emergencies &amp; diversions</span>
   ) : (
-    "Emergencies & diversions"
+    "Alternates, Emergencies & diversions"
   );
 
   const delaysTitle = hasUnsettledDelay ? (

@@ -61,7 +61,7 @@ export function LoadsheetSummaryCard({ preliminary, final }: Props) {
       <div className="border-t border-dashed border-gray-200 dark:border-gray-800" />
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-        <Row icon={FaScaleBalanced} label="Zero-fuel" value={loadsheet.zeroFuelWeight} unit="t" />
+        <Row icon={FaScaleBalanced} label="Zero-fuel weight" value={loadsheet.zeroFuelWeight} unit="t" />
         <Row icon={FaBox} label="Cargo" value={loadsheet.cargo} unit="t" />
         <Row icon={FaScaleBalanced} label="Payload" value={loadsheet.payload} unit="t" />
         <Row icon={FaGasPump} label="Block fuel" value={loadsheet.blockFuel} unit="t" emphasis />
