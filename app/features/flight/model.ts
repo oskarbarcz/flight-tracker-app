@@ -21,8 +21,10 @@ export enum FlightStatus {
 export enum AirportOnFlightType {
   Departure = "departure",
   Destination = "destination",
-  EtopsAlternate = "etops_alternate",
   DestinationAlternate = "destination_alternate",
+  EtopsEntry = "etops_entry",
+  EtopsExit = "etops_exit",
+  EnrouteAlternate = "enroute_alternate",
 }
 
 export enum FlightPhase {

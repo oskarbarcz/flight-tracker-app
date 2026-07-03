@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaRoute } from "react-icons/fa6";
 import type { Airport } from "~/features/airport";
 import { airportSelectOptions } from "~/features/airport/components/Airport/airportSelectOptions";
+import { FlightAlternateAirportsFields } from "~/features/flight/components/FormSection/FlightAlternateAirportsFields";
 import type { CreateFlightFormData } from "~/features/flight/form";
 import { newFlightRouteSchema } from "~/features/flight/schema";
 import { useApi } from "~/shared/api/useApi";
@@ -59,6 +60,7 @@ export function FlightRouteFormSection({ data, onSubmit }: Props) {
           options={options}
         />
       </div>
+      <FlightAlternateAirportsFields options={options} disabled={!isEditable} />
     </FormSection>
   );
 }

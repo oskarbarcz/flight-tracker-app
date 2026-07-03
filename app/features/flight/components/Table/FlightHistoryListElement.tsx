@@ -29,7 +29,7 @@ export function FlightHistoryListElement({ flight }: Props) {
         <FormattedIcaoDate date={flight.timesheet.scheduled.offBlockTime} />
       </TableCell>
       <TableCell>
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1 items-center text-base font-bold font-mono">
           {flight.departureAirport.iataCode}
           <FaArrowRight size="12" className="text-gray-800 dark:text-white" />
           {flight.destinationAirport.iataCode}

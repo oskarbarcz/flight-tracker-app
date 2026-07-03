@@ -42,15 +42,19 @@ function NotificationCheckboxes() {
 const FLIGHT_AIRPORT_LABEL: Record<AirportOnFlightType, string> = {
   [AirportOnFlightType.Departure]: "Departure",
   [AirportOnFlightType.Destination]: "Destination",
-  [AirportOnFlightType.EtopsAlternate]: "ETOPS alternate",
   [AirportOnFlightType.DestinationAlternate]: "Destination alternate",
+  [AirportOnFlightType.EnrouteAlternate]: "Enroute alternate",
+  [AirportOnFlightType.EtopsEntry]: "ETOPS entry alternate",
+  [AirportOnFlightType.EtopsExit]: "ETOPS exit alternate",
 };
 
 const FLIGHT_AIRPORT_ORDER: AirportOnFlightType[] = [
   AirportOnFlightType.Departure,
   AirportOnFlightType.Destination,
   AirportOnFlightType.DestinationAlternate,
-  AirportOnFlightType.EtopsAlternate,
+  AirportOnFlightType.EnrouteAlternate,
+  AirportOnFlightType.EtopsEntry,
+  AirportOnFlightType.EtopsExit,
 ];
 
 function flightAirportOptions(flightAirports: AirportOnFlight[]): AdvancedSelectOption[] {

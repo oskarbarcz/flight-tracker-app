@@ -1,4 +1,4 @@
-import { date, number, type ObjectSchema, object, ref, string } from "yup";
+import { array, date, number, type ObjectSchema, object, ref, string } from "yup";
 import type { FilledSchedule } from "~/features/flight";
 import type { CreateFlightFormData } from "~/features/flight/form";
 
@@ -16,6 +16,25 @@ export const newFlightRouteSchema: ObjectSchema<CreateFlightFormData["route"]> =
     .uuid("Invalid destination airport")
     .required("Destination airport is required")
     .notOneOf([ref("departureAirportId")], "Departure and destination must be different"),
+
+  destinationAlternates: array()
+    .of(
+      object({
+        id: string().defined(),
+        airportId: string().uuid("Invalid alternate airport").required("Select an alternate airport"),
+      }),
+    )
+    .defined()
+    .default([]),
+
+  etopsEntryAirportId: string().defined().default(""),
+  etopsExitAirportId: string()
+    .defined()
+    .default("")
+    .when("etopsEntryAirportId", ([etopsEntryAirportId], schema) =>
+      etopsEntryAirportId ? schema.required("ETOPS exit is required when ETOPS entry is set") : schema,
+    ),
+  enrouteAlternateAirportId: string().defined().default(""),
 });
 
 export const newFlightScheduleSchema: ObjectSchema<CreateFlightFormData["schedule"]> = object({

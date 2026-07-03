@@ -1,6 +1,11 @@
 import type { Aircraft } from "~/features/aircraft";
-import type { AirportOnFlight, FlightCrew, FlightStatus, Tracking } from "~/features/flight";
+import type { AirportOnFlight, AirportOnFlightType, FlightCrew, FlightStatus, Tracking } from "~/features/flight";
 import type { Operator } from "~/features/operator";
+
+export type AlternateAirportRequest = {
+  airportId: string;
+  type: AirportOnFlightType;
+};
 
 export type CreateFlightRequest = Omit<
   ApiFlightResponse,
@@ -17,7 +22,9 @@ export type CreateFlightRequest = Omit<
   | "arrivalParkingPositionId"
   | "arrivalRunwayId"
   | "hasFlightPath"
->;
+> & {
+  alternateAirports: AlternateAirportRequest[];
+};
 
 export type ApiLoadsheetResponse = {
   flightCrew: FlightCrew;
