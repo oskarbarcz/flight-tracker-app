@@ -25,7 +25,9 @@ export function AirportListTable({ airports }: Props) {
         {airports.map((airport: Airport) => (
           <TableRow key={airport.id}>
             <TableCell className="text-lg font-bold font-mono text-gray-900 dark:text-white">
-              {airport.iataCode}
+              <Link to={`/airports/${airport.id}/overview`} viewTransition className="hover:text-primary-500">
+                {airport.iataCode}
+              </Link>
             </TableCell>
             <TableCell>
               <span className="font-bold">{airport.name}</span>

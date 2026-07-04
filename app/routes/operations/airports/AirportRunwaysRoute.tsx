@@ -60,16 +60,6 @@ export default function AirportRunwaysRoute({ params, loaderData }: Route.Compon
         <RunwayListEmptyState airportId={params.id} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-3">
-          <div className="h-[400px] lg:h-full lg:min-h-[400px]">
-            <AirportRunwaysMap
-              airport={airport}
-              runways={runways}
-              terminals={terminals}
-              parkingPositions={parkingPositions}
-              gates={gates}
-              fallbackCenter={airport.location}
-            />
-          </div>
           <div>
             <div className="flex justify-end mb-3">
               <Button
@@ -84,6 +74,16 @@ export default function AirportRunwaysRoute({ params, loaderData }: Route.Compon
               </Button>
             </div>
             <RunwayList airportId={params.id} runways={runways} onDelete={setPendingRemove} />
+          </div>
+          <div className="h-[400px] lg:h-full lg:min-h-[400px]">
+            <AirportRunwaysMap
+              airport={airport}
+              runways={runways}
+              terminals={terminals}
+              parkingPositions={parkingPositions}
+              gates={gates}
+              fallbackCenter={airport.location}
+            />
           </div>
         </div>
       )}
