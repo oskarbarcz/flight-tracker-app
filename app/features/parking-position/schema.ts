@@ -16,6 +16,10 @@ import { coordinatesSchema } from "~/shared/validator/coordinates.schema";
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 
+export const selectParkingPositionSchema: ObjectSchema<{ parkingPositionId: string }> = object().shape({
+  parkingPositionId: string().required("Parking position is required").uuid("Parking position selection is invalid"),
+});
+
 export const createParkingPositionSchema: ObjectSchema<CreateParkingPositionFormData> = object().shape({
   terminalId: string().required("Terminal is required").uuid("Terminal selection is invalid"),
   name: string().required("Name is required").max(16, "Name must be at most 16 characters"),
