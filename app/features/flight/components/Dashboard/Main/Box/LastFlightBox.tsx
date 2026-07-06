@@ -30,7 +30,7 @@ export function LastFlightBox({ flight }: Props) {
     <Container padding="condensed">
       <ContainerTitle icon={FaPlaneCircleCheck} title="Last flight" />
 
-      <article className=" mt-2 mb-6 rounded-xl">
+      <article className="mt-2 rounded-xl">
         <div className="w-1/2 mb-2 inline-block">
           <span className="font-bold text-sm uppercase text-gray-500">Route</span>
           <span className="flex text-lg font-bold items-center gap-1">
@@ -60,9 +60,13 @@ export function LastFlightBox({ flight }: Props) {
         </div>
       </article>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2 border-t border-dashed border-gray-200 pt-4 dark:border-gray-800">
         <Button color="alternative" size="xs" as={Link} to={`/flight-history/${flight.id}`} viewTransition>
           See details
+          <FaArrowRight className="inline ml-2" aria-hidden="true" />
+        </Button>
+        <Button color="alternative" size="xs" as={Link} to="/flight-history" viewTransition>
+          See flight history
           <FaArrowRight className="inline ml-2" aria-hidden="true" />
         </Button>
       </div>

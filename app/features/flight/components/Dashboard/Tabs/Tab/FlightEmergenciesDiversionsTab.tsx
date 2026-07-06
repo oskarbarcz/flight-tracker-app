@@ -73,7 +73,7 @@ export function FlightEmergenciesDiversionsTab() {
 
         <div className="flex flex-col gap-4 lg:col-span-2">
           <Container padding="condensed">
-            <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" actions={emergencyActions} />
+            <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" />
 
             {activeEmergency ? (
               <ActiveEmergencyPanel emergency={activeEmergency} />
@@ -86,20 +86,20 @@ export function FlightEmergenciesDiversionsTab() {
               </EmergencyEmptyState>
             )}
 
-            <div className="flex flex-col gap-2">
-              <h4 className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                Past declarations
-              </h4>
-              {resolved.length === 0 ? (
-                <EmergencyEmptyState>No past emergency declarations for this flight.</EmergencyEmptyState>
-              ) : (
+            {resolved.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  Past declarations
+                </h4>
                 <ResolvedEmergenciesHistory emergencies={resolved} />
-              )}
-            </div>
+              </div>
+            )}
+
+            {emergencyActions && <div className="flex justify-end">{emergencyActions}</div>}
           </Container>
 
           <Container padding="condensed">
-            <ContainerTitle icon={FaPlaneCircleExclamation} title="Diversions" actions={diversionActions} />
+            <ContainerTitle icon={FaPlaneCircleExclamation} title="Diversions" />
 
             {diversion ? (
               <ActiveDiversionPanel diversion={diversion} />
@@ -111,6 +111,8 @@ export function FlightEmergenciesDiversionsTab() {
                   : " Diversions can be reported once the flight is off-block and before landing."}
               </EmergencyEmptyState>
             )}
+
+            {diversionActions && <div className="flex justify-end">{diversionActions}</div>}
           </Container>
         </div>
       </div>
