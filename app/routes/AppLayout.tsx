@@ -19,7 +19,7 @@ export default function AppLayout() {
             <div className="flex-1 flex flex-col md:flex-row min-h-0">
               <Sidebar />
               <main className="flex-1 min-h-0 min-w-0 overflow-y-auto">
-                <div className="mx-auto w-full max-w-7xl p-4 md:p-6">
+                <div className="mx-auto w-full max-w-7xl p-2 sm:p-4 md:p-6">
                   <Outlet />
                 </div>
               </main>

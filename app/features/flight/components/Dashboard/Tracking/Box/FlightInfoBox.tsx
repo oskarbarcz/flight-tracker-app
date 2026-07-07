@@ -1,6 +1,7 @@
 import React from "react";
 import { FaPlane, FaPlaneCircleExclamation } from "react-icons/fa6";
 import { PiUserSoundBold } from "react-icons/pi";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import type { Diversion } from "~/features/diversion";
 import { FlightStatus, isFilledSchedule } from "~/features/flight";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
@@ -40,6 +41,7 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
       />
 
       <AircraftRow
+        aircraftId={flight.aircraft.id}
         airframeName={flight.aircraft.airframe.name}
         registration={flight.aircraft.registration}
         selcal={flight.aircraft.selcal}
@@ -93,11 +95,13 @@ function Header({
 }
 
 function AircraftRow({
+  aircraftId,
   airframeName,
   registration,
   selcal,
   operatorName,
 }: {
+  aircraftId: string;
   airframeName: string;
   registration: string;
   selcal: string;
@@ -107,7 +111,9 @@ function AircraftRow({
     <div className="flex flex-col gap-2 text-sm text-gray-700 dark:text-gray-300">
       <div className="flex flex-wrap items-center gap-2">
         <span>{airframeName}</span>
-        <Chip>{registration}</Chip>
+        <Chip>
+          <AircraftRegistrationLink aircraftId={aircraftId} registration={registration} />
+        </Chip>
         <Chip>{selcal}</Chip>
       </div>
       <div className="text-xs text-gray-500 dark:text-gray-400">

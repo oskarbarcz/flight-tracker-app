@@ -11,7 +11,7 @@ import { DataSection } from "~/shared/ui/Display/DataSection";
 
 type Props = {
   aircraft: Aircraft;
-  editUrl: string;
+  editUrl?: string;
 };
 
 export function AircraftDetailsHeader({ aircraft, editUrl }: Props) {
@@ -47,17 +47,19 @@ export function AircraftDetailsHeader({ aircraft, editUrl }: Props) {
       </div>
 
       <div className="relative flex items-center justify-center lg:col-span-2">
-        <Button
-          as={Link}
-          to={editUrl}
-          viewTransition
-          size="sm"
-          color="indigo"
-          className="absolute right-0 top-0 space-x-1.5"
-        >
-          <HiPencil />
-          <span>Update airframe data</span>
-        </Button>
+        {editUrl && (
+          <Button
+            as={Link}
+            to={editUrl}
+            viewTransition
+            size="sm"
+            color="indigo"
+            className="absolute right-0 top-0 space-x-1.5"
+          >
+            <HiPencil />
+            <span>Update airframe data</span>
+          </Button>
+        )}
         <AircraftImage type={airframe.type} name={airframe.name} size="hero" className="max-h-80 dark:brightness-75" />
       </div>
     </div>

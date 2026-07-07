@@ -97,15 +97,17 @@ export function FlightEventsTimeline({ events }: Props) {
               >
                 {toHuman.flight.eventType(event.type)}
               </div>
-              <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-xs text-gray-500 dark:text-gray-400">
+              <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-xs text-gray-500 dark:text-gray-400">
                 <span className="font-mono">
                   <FormattedIcaoDate date={event.createdAt} /> <FormattedIcaoTime date={event.createdAt} />
                 </span>
                 {event.actor?.name && (
-                  <>
-                    <span aria-hidden>·</span>
+                  <span className="flex basis-full items-baseline gap-x-2 sm:basis-auto">
+                    <span aria-hidden className="hidden sm:inline">
+                      ·
+                    </span>
                     <UserName user={event.actor} />
-                  </>
+                  </span>
                 )}
               </div>
             </li>

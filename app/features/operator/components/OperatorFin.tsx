@@ -17,7 +17,7 @@ for (const [path, url] of Object.entries(finThumbnails)) {
 }
 
 type Props = {
-  operator: Operator;
+  operator: Pick<Operator, "icaoCode" | "iataCode" | "shortName"> & { logoUrl?: string | null };
   className?: string;
 };
 

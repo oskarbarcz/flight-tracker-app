@@ -1,6 +1,7 @@
 import React from "react";
 import { FaPlane } from "react-icons/fa6";
 import { AircraftImage } from "~/features/aircraft/components/Aircraft/AircraftImage";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { formatWeightCategory } from "~/features/airframe/lib/formatAirframe";
 import type { Flight } from "~/features/flight";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -19,7 +20,7 @@ export function AircraftSummaryCard({ flight }: Props) {
 
       <div>
         <h3 className="font-mono text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {flight.aircraft.registration}
+          <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} />
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           <span className="font-bold">{airframe.type}</span> · <span className="italic">{airframe.name}</span>

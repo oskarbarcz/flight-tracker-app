@@ -1,4 +1,4 @@
-import type { Aircraft, AircraftReposition, FlightHistoryEntry } from "~/features/aircraft";
+import type { Aircraft, AircraftReposition, FlightHistoryEntry, UserAircraftEntry } from "~/features/aircraft";
 import type { CreateAircraftRequest, CreateRepositionRequest, EditAircraftRequest } from "~/features/operator/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
@@ -13,6 +13,10 @@ export class AircraftService extends AbstractAuthorizedApiService {
 
   async fetchFlightHistory(operatorId: string, aircraftId: string): Promise<FlightHistoryEntry[]> {
     return this.fetchWithAuth<FlightHistoryEntry[]>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}/flights`);
+  }
+
+  async fetchFlownByCurrentUser(): Promise<UserAircraftEntry[]> {
+    return this.fetchWithAuth<UserAircraftEntry[]>("/api/v1/user/me/aircraft");
   }
 
   async fetchRepositionHistory(operatorId: string, aircraftId: string): Promise<AircraftReposition[]> {

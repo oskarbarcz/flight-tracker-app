@@ -2,6 +2,8 @@ import { TableCell, TableRow } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
+import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { type FilledSchedule, type Flight, isFilledSchedule } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
@@ -29,17 +31,30 @@ export function FlightHistoryListElement({ flight }: Props) {
         <FormattedIcaoDate date={flight.timesheet.scheduled.offBlockTime} />
       </TableCell>
       <TableCell>
-        <div className="flex gap-1 items-center text-base font-bold font-mono">
+        <div className="flex items-center gap-2 font-mono text-lg font-bold text-gray-900 dark:text-white">
           {flight.departureAirport.iataCode}
-          <FaArrowRight size="12" className="text-gray-800 dark:text-white" />
+          <FaArrowRight size="14" className="text-gray-500" />
           {flight.destinationAirport.iataCode}
         </div>
       </TableCell>
       <TableCell>
-        <div className="mb-1 text-sm">{flight.aircraft.airframe.name}</div>
-        <span className="inline-flex min-w-16 justify-center rounded-md border border-gray-500 px-2 py-0.5 text-xs">
-          {flight.aircraft.registration}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="flex shrink-0">
+            <AircraftIcon
+              type={flight.aircraft.airframe.type}
+              name={flight.aircraft.airframe.name}
+              className="rounded-md"
+            />
+          </span>
+          <span className="whitespace-nowrap">
+            <AircraftRegistrationLink
+              aircraftId={flight.aircraft.id}
+              registration={flight.aircraft.registration}
+              className="block font-mono text-lg font-bold text-gray-900 dark:text-white"
+            />
+            <span className="block text-xs text-gray-500 dark:text-gray-400">{flight.aircraft.airframe.name}</span>
+          </span>
+        </div>
       </TableCell>
       <TableCell className="font-mono">{formatBlockTime(actual)}</TableCell>
       <TableCell>

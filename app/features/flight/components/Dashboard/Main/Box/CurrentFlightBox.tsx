@@ -3,6 +3,7 @@ import React from "react";
 import { FaArrowRight, FaPlane } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import { Link } from "react-router";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { type Flight, FlightStatus } from "~/features/flight";
 import { toHuman } from "~/i18n/translate";
 import { useDateProgress } from "~/shared/hooks/useDateProgress";
@@ -54,7 +55,8 @@ export function CurrentFlightBox({ flight }: Props) {
             {flight.operator.shortName}
           </span>
           <span className="block text-sm text-gray-500">
-            {flight.aircraft.registration} · {flight.aircraft.airframe.name}
+            <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> ·{" "}
+            {flight.aircraft.airframe.name}
           </span>
         </div>
 
@@ -114,7 +116,7 @@ export function CurrentFlightBox({ flight }: Props) {
       </article>
 
       {loadsheet && (
-        <div className="mt-5 grid grid-cols-4 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+        <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-100 sm:grid-cols-4 dark:border-gray-800 dark:bg-gray-800">
           <Stat label="Passengers" value={loadsheet.passengers.toString()} />
           <Stat label="Cargo" value={loadsheet.cargo.toString()} unit="t" />
           <Stat label="Crew" value={`${loadsheet.flightCrew.pilots} + ${loadsheet.flightCrew.cabinCrew}`} />
@@ -139,7 +141,7 @@ export function CurrentFlightBox({ flight }: Props) {
 
 function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
-    <div className="border-l border-gray-100 px-3 py-2.5 first:border-l-0 dark:border-gray-800">
+    <div className="bg-white px-3 py-2.5 dark:bg-gray-900">
       <div className="text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</div>
       <div className="mt-0.5 font-mono text-base font-bold text-gray-900 dark:text-gray-100">
         {value}
