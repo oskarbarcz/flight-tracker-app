@@ -3,6 +3,7 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { type FilledSchedule, type Flight, isFilledSchedule } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
@@ -46,9 +47,11 @@ export function FlightHistoryListElement({ flight }: Props) {
             />
           </span>
           <span className="whitespace-nowrap">
-            <span className="block font-mono text-lg font-bold text-gray-900 dark:text-white">
-              {flight.aircraft.registration}
-            </span>
+            <AircraftRegistrationLink
+              aircraftId={flight.aircraft.id}
+              registration={flight.aircraft.registration}
+              className="block font-mono text-lg font-bold text-gray-900 dark:text-white"
+            />
             <span className="block text-xs text-gray-500 dark:text-gray-400">{flight.aircraft.airframe.name}</span>
           </span>
         </div>

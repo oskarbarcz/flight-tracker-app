@@ -3,6 +3,7 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo, FaPlaneCircleCheck } from "react-icons/fa6";
 import { Link } from "react-router";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import type { Flight } from "~/features/flight";
 import { dateDiffToReadable } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -42,7 +43,8 @@ export function LastFlightBox({ flight }: Props) {
         <div className="w-1/2 inline-block">
           <span className="font-bold text-sm uppercase text-gray-500">Airframe</span>
           <span className="flex text-lg font-bold items-center gap-1">
-            {flight.aircraft.registration} ({flight.aircraft.airframe.type})
+            <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> (
+            {flight.aircraft.airframe.type})
           </span>
         </div>
         <div className="w-1/2 inline-block">

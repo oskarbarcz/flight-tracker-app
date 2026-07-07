@@ -37,6 +37,36 @@ export type Aircraft = {
   lastParkingPosition: AircraftParkingPosition | null;
 };
 
+export type UserAircraftEntryOperator = {
+  id: string;
+  icaoCode: string;
+  iataCode: string;
+  shortName: string;
+  fullName: string;
+  callsign: string;
+};
+
+export type UserAircraftEntryAirport = {
+  id: string;
+  iataCode: string;
+};
+
+export type UserAircraftEntryFlight = {
+  id: string;
+  flightNumber: string;
+  departureAirport: UserAircraftEntryAirport;
+  arrivalAirport: UserAircraftEntryAirport;
+};
+
+export type UserAircraftEntry = {
+  id: string;
+  registration: string;
+  airframe: Airframe;
+  livery: string;
+  operator: UserAircraftEntryOperator;
+  flight: UserAircraftEntryFlight;
+};
+
 export type FlightHistoryAirport = {
   id: string;
   name: string;

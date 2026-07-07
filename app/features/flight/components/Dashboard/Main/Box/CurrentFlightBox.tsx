@@ -3,6 +3,7 @@ import React from "react";
 import { FaArrowRight, FaPlane } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import { Link } from "react-router";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { type Flight, FlightStatus } from "~/features/flight";
 import { toHuman } from "~/i18n/translate";
 import { useDateProgress } from "~/shared/hooks/useDateProgress";
@@ -54,7 +55,8 @@ export function CurrentFlightBox({ flight }: Props) {
             {flight.operator.shortName}
           </span>
           <span className="block text-sm text-gray-500">
-            {flight.aircraft.registration} · {flight.aircraft.airframe.name}
+            <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> ·{" "}
+            {flight.aircraft.airframe.name}
           </span>
         </div>
 
