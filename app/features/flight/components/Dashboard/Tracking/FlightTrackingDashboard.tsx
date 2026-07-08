@@ -4,6 +4,7 @@ import { FlightSource, FlightStatus } from "~/features/flight";
 import { FlightDataTab, FlightDataTabs } from "~/features/flight/components/Dashboard/Tabs/FlightDataTabs";
 import { FlightDelaysTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightDelaysTab";
 import { FlightEmergenciesDiversionsTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightEmergenciesDiversionsTab";
+import { FlightFuelAndLoadTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightFuelAndLoadTab";
 import { FlightOfpTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightOfpTab";
 import { FlightOverviewTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightOverviewTab";
 import { FlightProgressTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightProgressTab";
@@ -52,6 +53,7 @@ export function FlightTrackingDashboard({ flightId }: Props) {
       />
 
       {tab === FlightDataTab.Overview && <FlightOverviewTab />}
+      {tab === FlightDataTab.FuelAndLoad && <FlightFuelAndLoadTab />}
       {tab === FlightDataTab.FlightProgress && <FlightProgressTab />}
       {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
       {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}

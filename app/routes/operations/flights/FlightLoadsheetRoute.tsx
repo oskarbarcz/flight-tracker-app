@@ -1,12 +1,10 @@
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightLoadsheetRoute";
-import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { HiPencil } from "react-icons/hi";
 import { useLoaderData, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { FlightStatus, type Loadsheet } from "~/features/flight";
+import { FuelAndLoadsheetPanel } from "~/features/flight/components/FuelAndLoadsheet/FuelAndLoadsheetPanel";
 import { UpdatePreliminaryLoadsheetModal } from "~/features/flight/components/Modal/UpdatePreliminaryLoadsheetModal";
-import { LoadsheetCard } from "~/features/flight/components/Overview/LoadsheetCard";
 import { FlightService } from "~/features/flight/service";
 import { useApi } from "~/shared/api/useApi";
 
@@ -36,25 +34,12 @@ export default function FlightLoadsheetRoute() {
   };
 
   return (
-    <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-2">
-      <LoadsheetCard
-        title="Preliminary loadsheet"
-        loadsheet={flight.loadsheets.preliminary}
-        emptyMessage="No preliminary loadsheet has been filled yet."
-        emptySeverity="warning"
-        footer={
-          canEditPreliminary && (
-            <Button color="gray" outline size="xs" onClick={() => setEditing(true)}>
-              <HiPencil className="me-1.5" />
-              {flight.loadsheets.preliminary ? "Update" : "Fill"}
-            </Button>
-          )
-        }
-      />
-      <LoadsheetCard
-        title="Final loadsheet"
-        loadsheet={flight.loadsheets.final}
-        emptyMessage="Waiting for pilot to report final loadsheet."
+    <div className="mt-3">
+      <FuelAndLoadsheetPanel
+        preliminary={flight.loadsheets.preliminary}
+        final={flight.loadsheets.final}
+        canEditPreliminary={canEditPreliminary}
+        onEditPreliminary={() => setEditing(true)}
       />
 
       {editing && (

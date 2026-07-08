@@ -23,6 +23,7 @@ export function flatLoadsheetToLoadsheet(data: FlatLoadsheetFormData): Loadsheet
     payload: data.payload,
     zeroFuelWeight: data.zeroFuelWeight,
     blockFuel: data.blockFuel,
+    fuel: null,
   };
 }
 

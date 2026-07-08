@@ -63,6 +63,27 @@ export type Pilot = {
   totalFlightTime: number;
 };
 
+export type FuelBreakdown = {
+  block: number;
+  taxi: number;
+  trip: number;
+  alternate: number;
+  reserve: number;
+  contingencyType: string | null;
+  contingencyAmount: number;
+  mel: number;
+  atc: number;
+  wxx: number;
+  extra: number;
+  tankering: number;
+  etops?: number;
+  minTakeoff?: number;
+  planTakeoff?: number;
+  planLanding?: number;
+  averageFuelFlow?: number;
+  maxTanks?: number;
+};
+
 export type Loadsheet = {
   flightCrew: FlightCrew;
   passengers: number;
@@ -70,6 +91,7 @@ export type Loadsheet = {
   payload: number;
   zeroFuelWeight: number;
   blockFuel: number;
+  fuel: FuelBreakdown | null;
 };
 
 export type Loadsheets = {

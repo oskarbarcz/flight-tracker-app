@@ -2,6 +2,7 @@ import { TabItem, Tabs } from "flowbite-react";
 
 export enum HistoryDataTab {
   Overview,
+  FuelAndLoad,
   Events,
   Map,
   OperationalFlightPlan,
@@ -18,6 +19,7 @@ export function HistoryDataTabs({ tab, setTab, isSimbriefAvailable }: Props) {
   return (
     <Tabs variant="underline" onActiveTabChange={setTab}>
       <TabItem active={tab === HistoryDataTab.Overview} title="Overview" />
+      <TabItem active={tab === HistoryDataTab.FuelAndLoad} title="Fuel & load" />
       <TabItem active={tab === HistoryDataTab.Events} title="Events" />
       <TabItem active={tab === HistoryDataTab.Map} title="Map" />
       <TabItem active={tab === HistoryDataTab.OperationalFlightPlan} title="OFP" disabled={!isSimbriefAvailable} />

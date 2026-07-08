@@ -24,6 +24,7 @@ export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Prop
     cargo: 0,
     payload: 0,
     blockFuel: 0,
+    fuel: null,
   };
 
   const handleSubmit = (loadsheet: FlatLoadsheetFormData) => {
