@@ -4,6 +4,7 @@ import type {
   AirportOnFlightType,
   FlightCrew,
   FlightStatus,
+  FuelBreakdown,
   Pilot,
   Tracking,
 } from "~/features/flight";
@@ -41,6 +42,7 @@ export type ApiLoadsheetResponse = {
   payload: number;
   zeroFuelWeight: number;
   blockFuel: number;
+  fuel: FuelBreakdown | null;
 };
 
 export type ApiLoadsheetsResponse = {

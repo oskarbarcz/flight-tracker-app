@@ -1,5 +1,17 @@
 schema: spec-driven
 
+context: |
+  Workflow — publishing ideas to the tracker:
+  After an idea/change drafted via `explore` or `propose` has been reviewed and
+  approved by the user (do NOT do this automatically — wait for explicit approval),
+  create a corresponding item in the GitHub project
+  https://github.com/users/oskarbarcz/projects/12.
+  - Create it as a real issue in the correct repository — for this project that is
+    `oskarbarcz/flight-tracker-app` — then add that issue to project 12 (not a draft item).
+  - Use the `gh` CLI (`gh issue create` then `gh project item-add 12 --owner oskarbarcz --url <issue-url>`).
+  - Title the issue after the change name; summarize the proposal's Why / What Changes in the body
+    and link back to the `openspec/changes/<name>/` artifacts.
+
 # Project context (optional)
 # This is shown to AI when creating artifacts.
 # Add your tech stack, conventions, style guides, domain knowledge, etc.

@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 const ALL_TABS = [
   { title: "Overview", path: "overview" },
   { title: "Timesheet", path: "timesheet" },
-  { title: "Loadsheet", path: "loadsheet" },
+  { title: "Fuel & load", path: "loadsheet" },
   { title: "OFP", path: "ofp" },
   { title: "Alternates & Emergencies", path: "emergencies" },
   { title: "Delays", path: "delays" },
