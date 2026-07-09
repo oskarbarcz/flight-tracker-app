@@ -32,7 +32,7 @@ export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Prop
   };
 
   return (
-    <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
+    <Modal size="5xl" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>Update preliminary loadsheet</ModalHeader>
       <ModalBody>
         <Form<FlatLoadsheetFormData>

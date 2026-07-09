@@ -57,6 +57,7 @@ export function FuelPlan({ fuel }: { fuel: FuelBreakdown | null }) {
         {typeof fuel.averageFuelFlow === "number" && (
           <Line label="Average fuel flow" value={fuel.averageFuelFlow} unit="t/h" />
         )}
+        {typeof fuel.maxTanks === "number" && <Line label="Max tank capacity" value={fuel.maxTanks} />}
       </div>
 
       {typeof fuel.maxTanks === "number" && fuel.maxTanks > 0 && (
@@ -103,7 +104,7 @@ function Line({
       <span
         className={twMerge(
           "flex items-baseline gap-1.5 text-xs text-gray-500 dark:text-gray-400",
-          addition && "text-gray-400 dark:text-gray-500",
+          addition && "text-gray-500 dark:text-gray-400",
           (subtotal || total) && "font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300",
         )}
       >
@@ -118,7 +119,7 @@ function Line({
       <span
         className={twMerge(
           "font-mono tabular-nums text-sm text-gray-700 dark:text-gray-300",
-          addition && "text-gray-400 dark:text-gray-500",
+          addition && "text-gray-500 dark:text-gray-400",
           subtotal && "font-bold text-gray-800 dark:text-gray-100",
           total && "text-lg font-bold text-gray-900 dark:text-white",
         )}

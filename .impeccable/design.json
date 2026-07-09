@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-09T00:00:00.000Z",
+  "title": "Design System: Flight Tracker",
+  "extensions": {
+    "colorMeta": {
+      "indigo-primary": { "role": "primary", "displayName": "Instrument Indigo", "canonical": "#6366f1", "tonalRamp": ["#312e81", "#3730a3", "#4338ca", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1f2937", "tonalRamp": ["#111827", "#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#d1d5db", "#f3f4f6"] },
+      "success": { "role": "semantic", "displayName": "Clearance Green", "canonical": "#15803d", "tonalRamp": ["#14532d", "#166534", "#15803d", "#16a34a", "#22c55e", "#4ade80", "#86efac", "#dcfce7"] },
+      "warning": { "role": "semantic", "displayName": "Caution Amber", "canonical": "#b45309", "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fef3c7"] },
+      "danger": { "role": "semantic", "displayName": "Alert Red", "canonical": "#dc2626", "tonalRamp": ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5", "#fee2e2"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Flight / page titles only." },
+      "label": { "displayName": "Micro-Caps Label", "purpose": "Field labels and column keys; uppercase, tracked." },
+      "data": { "displayName": "Data (Mono)", "purpose": "Every comparable figure: tonnages, fuel, times, subtotals." }
+    },
+    "shadows": [
+      { "name": "modal-ambient", "value": "0 10px 15px -3px rgb(15 23 42 / 0.10), 0 4px 6px -4px rgb(15 23 42 / 0.10)", "purpose": "The only sanctioned shadow: lifts a modal off its backdrop." },
+      { "name": "card-legacy", "value": "0 1px 2px rgb(15 23 42 / 0.04), 0 6px 16px -8px rgb(15 23 42 / 0.12)", "purpose": "Legacy light-mode card shadow. Prefer border-based separation (The Flat Surface Rule)." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for state transitions." },
+      { "name": "duration-state", "value": "200ms", "purpose": "State-change transition duration; keep in the 150-250ms band." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action on a view.",
+      "html": "<button class=\"ds-btn-primary\">Update loadsheet</button>",
+      "css": ".ds-btn-primary { background: #6366f1; color: #fff; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border: 0; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-primary:hover { background: #4f46e5; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px #a5b4fc; } .ds-btn-primary:active { background: #4338ca; } .ds-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Subtle Button",
+      "kind": "button",
+      "refersTo": "button-subtle",
+      "description": "Secondary indigo action; quiet at rest.",
+      "html": "<button class=\"ds-btn-subtle\">Cancel</button>",
+      "css": ".ds-btn-subtle { background: transparent; color: #4f46e5; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border: 0; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-subtle:hover { background: #eef2ff; color: #4338ca; } .ds-btn-subtle:focus-visible { outline: none; box-shadow: 0 0 0 3px #c7d2fe; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-status",
+      "description": "Status / limit pill; always carries a word, never color alone.",
+      "html": "<span class=\"ds-badge ds-badge--success\">Within limits</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 0.375rem; border-radius: 9999px; padding: 0.125rem 0.625rem; font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; } .ds-badge--success { background: #dcfce7; color: #15803d; } .ds-badge--warning { background: #fef3c7; color: #b45309; } .ds-badge--danger { background: #fee2e2; color: #b91c1c; }"
+    },
+    {
+      "name": "Data Panel Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat surface separated by a border, not a shadow.",
+      "html": "<section class=\"ds-card\"><h3 class=\"ds-card__title\">Fuel plan</h3><div class=\"ds-card__body\">Panel content</div></section>",
+      "css": ".ds-card { background: #fff; color: #1f2937; border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 1rem; } .ds-card__title { font-family: Inter, sans-serif; font-size: 1rem; font-weight: 600; margin: 0; } .ds-card__body { font-family: Inter, sans-serif; font-size: 0.875rem; line-height: 1.5; }"
+    },
+    {
+      "name": "Floating-Label Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Label rests inside, floats up on focus/value.",
+      "html": "<label class=\"ds-field\"><input class=\"ds-field__input\" placeholder=\" \" /><span class=\"ds-field__label\">Block fuel</span></label>",
+      "css": ".ds-field { position: relative; display: block; } .ds-field__input { width: 100%; box-sizing: border-box; font-family: Inter, sans-serif; font-size: 0.875rem; color: #1f2937; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem 0.75rem 0.5rem; transition: border-color 200ms, box-shadow 200ms; } .ds-field__input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px #c7d2fe; } .ds-field__label { position: absolute; left: 0.75rem; top: 0.9rem; color: #6b7280; font-family: Inter, sans-serif; font-size: 0.875rem; pointer-events: none; transition: transform 200ms, color 200ms, font-size 200ms; transform-origin: left top; } .ds-field__input:focus + .ds-field__label, .ds-field__input:not(:placeholder-shown) + .ds-field__label { transform: translateY(-0.65rem) scale(0.8); color: #4f46e5; }"
+    },
+    {
+      "name": "Underline Tab (active)",
+      "kind": "nav",
+      "refersTo": "tab-underline",
+      "description": "Active tab: indigo text + indigo underline; tablist scrolls when it overflows.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab--active\">Fuel &amp; load</button><button class=\"ds-tab\">Timesheet</button></div>",
+      "css": ".ds-tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; border-bottom: 1px solid #e5e7eb; } .ds-tab { flex: 0 0 auto; background: none; border: 0; border-bottom: 2px solid transparent; padding: 0.5rem 1rem; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 500; color: #6b7280; cursor: pointer; white-space: nowrap; } .ds-tab:hover { color: #1f2937; } .ds-tab--active { color: #6366f1; border-bottom-color: #6366f1; }"
+    },
+    {
+      "name": "Fuel Build-up Line",
+      "kind": "custom",
+      "refersTo": "fuel-buildup",
+      "description": "Signature pattern: a mono figure ladder with rule-lined subtotals and running totals.",
+      "html": "<div class=\"ds-fuel\"><div class=\"ds-fuel__row\"><span class=\"ds-fuel__label\">Trip</span><span class=\"ds-fuel__val\">10.4<span class=\"ds-fuel__unit\">t</span></span></div><div class=\"ds-fuel__row ds-fuel__row--subtotal\"><span class=\"ds-fuel__label\">Min takeoff</span><span class=\"ds-fuel__val\">12.4<span class=\"ds-fuel__unit\">t</span></span></div></div>",
+      "css": ".ds-fuel { display: flex; flex-direction: column; } .ds-fuel__row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; padding: 0.375rem 0; } .ds-fuel__label { font-family: Inter, sans-serif; font-size: 0.75rem; color: #6b7280; } .ds-fuel__val { font-family: 'Roboto Mono', monospace; font-variant-numeric: tabular-nums; font-size: 0.875rem; font-weight: 500; color: #374151; } .ds-fuel__unit { margin-left: 0.125rem; font-size: 10px; opacity: 0.6; } .ds-fuel__row--subtotal { margin-top: 0.25rem; border-top: 1px solid #e5e7eb; padding-top: 0.5rem; } .ds-fuel__row--subtotal .ds-fuel__label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4b5563; } .ds-fuel__row--subtotal .ds-fuel__val { font-weight: 700; color: #1f2937; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Flight Plan",
+    "overview": "Flight Tracker is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface reads like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document is the interface; authority comes from being correct and legible under density, not from chrome. A single indigo carries action and current selection; everything else is a disciplined gray scale that lets tabular data be the loudest thing on screen.",
+    "keyCharacteristics": [
+      "Document-grade: figures are the product; present them exactly, unit-labeled, with derivations shown.",
+      "Restrained color: indigo for action and selection only; gray does the structural work.",
+      "Flat and honest: borders and tone convey depth, not shadow.",
+      "Dense but legible: built for scanning many values at once.",
+      "Dual-theme: light and dark ship together and both hold WCAG 2.1 AA."
+    ],
+    "rules": [
+      { "name": "The Rare Accent Rule", "body": "Instrument Indigo appears on ≤10% of any screen — actions and the one current selection. If two things on a panel are indigo, one is wrong.", "section": "colors" },
+      { "name": "The Signal-Not-Decoration Rule", "body": "Color only ever means something. Never encode meaning in hue alone — a limit breach or emergency needs a word or icon beside the color.", "section": "colors" },
+      { "name": "The Tabular Figures Rule", "body": "Any number a user compares or sums is set in Roboto Mono with tabular-nums, right-aligned, unit-suffixed. Never set comparable figures in the proportional body font.", "section": "typography" },
+      { "name": "The Micro-Caps Rule", "body": "Uppercase tracked labels are the connective tissue; keep tracking ≥ 0.06em and never use them for reading-length text.", "section": "typography" },
+      { "name": "The Flat Surface Rule", "body": "Surfaces are flat at rest. Separate them with a 1px border and a one-step tonal change, never a drop shadow. The only exception is a modal lifting off its backdrop.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do set every comparable figure in Roboto Mono with tabular-nums, unit-suffixed and column-aligned.",
+      "Do keep Instrument Indigo to ≤10% of a screen — action and current selection only.",
+      "Do separate surfaces with a 1px border and a tonal step; keep them flat.",
+      "Do show the derivation of computed values (subtotals, running totals, build-ups) so numbers are verifiable.",
+      "Do pair every status color with a word or icon, and hold 4.5:1 body-text contrast in both light and dark.",
+      "Do honor prefers-reduced-motion; keep transitions in the 150-250ms state-change band."
+    ],
+    "donts": [
+      "Don't build a flashy gamer / sci-fi HUD — no neon, no glows, no aggressive dark-mode theatrics, no fake-cockpit skeuomorphism.",
+      "Don't add drop shadows to separate panels; use borders and tone (modals lifting off the backdrop are the sole exception).",
+      "Don't use muted gray (gray-400 or lighter) for body-length text on tinted near-white surfaces — it fails contrast.",
+      "Don't set numbers a user compares or sums in the proportional body font.",
+      "Don't reach for a modal by reflex — exhaust inline and progressive-disclosure alternatives first.",
+      "Don't encode meaning in color alone (a red border with no label is not a message).",
+      "Don't let a second element compete with the primary indigo action on a view."
+    ]
+  }
+}

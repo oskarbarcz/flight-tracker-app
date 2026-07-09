@@ -92,3 +92,7 @@ VITE_DISCORD_INVITATION_HASH=your-hash
 - **PR** (`integrity.yaml`): version check → install → lint → typecheck → build
 - **Push to main** (`release.yaml`): build → git tag from `package.json` version → GitHub release → deploy to GitHub Pages (`./build/client`)
 - Version must be bumped in `package.json` before merging (enforced by `bin/check_version_is_free`)
+
+## Design Context
+
+Strategic design context lives in `PRODUCT.md` (root) — read it before design work. Register is **product**, platform **web**. Guiding principles: trust the numbers (exact, unit-labeled figures with visible derivation), earned familiarity over novelty, density with legibility, role-appropriate surfaces, procedural realism not theater. Accessibility bar is WCAG 2.1 AA across both light and dark themes. Visual system is documented in `DESIGN.md`. The impeccable design skill reads both.
