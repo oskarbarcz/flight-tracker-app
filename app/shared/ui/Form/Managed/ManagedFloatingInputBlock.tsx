@@ -1,10 +1,9 @@
 import { FloatingLabel, HelperText } from "flowbite-react";
 import { useField } from "formik";
-import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute } from "react";
+import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute, type ReactNode } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
-import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
 type ManagedFloatingInputBlock = {
   field: string;
@@ -15,7 +14,11 @@ type ManagedFloatingInputBlock = {
   autoComplete?: HTMLInputAutoCompleteAttribute;
   disabled?: boolean;
   className?: string;
+  unit?: string;
 };
+
+const hideSpinnerClasses =
+  "[&_input]:[appearance:textfield] [&_input::-webkit-outer-spin-button]:appearance-none [&_input::-webkit-inner-spin-button]:appearance-none [&_input::-webkit-inner-spin-button]:m-0";
 
 export function ManagedFloatingInputBlock({
   field,
@@ -26,27 +29,39 @@ export function ManagedFloatingInputBlock({
   helperText,
   disabled = false,
   className = "",
+  unit,
 }: ManagedFloatingInputBlock) {
   const [fieldProps, meta] = useField(field);
   const isError = meta.touched && meta.error;
 
+  const labelContent: ReactNode = required ? (
+    <>
+      {label}
+      <span className="text-red-500"> *</span>
+    </>
+  ) : (
+    label
+  );
+
   return (
     <div className={twMerge("w-full", className)}>
-      <div className="relative">
+      <div className={twMerge("relative", unit && "[&_input]:pe-9", unit && hideSpinnerClasses)}>
         <FloatingLabel
           variant="outlined"
-          label={label}
+          label={labelContent as unknown as string}
           id={field}
           autoComplete={autoComplete}
           type={type}
           required={required}
-          className="dark:bg-gray-800"
+          className="whitespace-nowrap dark:bg-gray-800"
           color={isError ? "error" : undefined}
           disabled={disabled}
           {...fieldProps}
         />
-        {required && (
-          <RequiredMark className="text-red-500 absolute top-2.5 right-3 pointer-events-none z-10 text-sm" />
+        {unit && (
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-500 dark:text-gray-400">
+            {unit}
+          </span>
         )}
       </div>
       <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />

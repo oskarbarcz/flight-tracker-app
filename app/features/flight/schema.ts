@@ -51,6 +51,22 @@ export const updateScheduleSchema: ObjectSchema<FilledSchedule> = object().shape
   onBlockTime: date().required("On-block time is required").min(ref("arrivalTime"), "On-block must be after landing"),
 });
 
+const maxThreeDecimals = (value: number | undefined): boolean =>
+  value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value);
+
+const nonNegativeTons = (label: string) =>
+  number()
+    .required(`${label} is required`)
+    .min(0, "Cannot be negative")
+    .test("max-decimals", "Maximum 3 decimal places allowed", maxThreeDecimals);
+
+const optionalNonNegativeTons = () =>
+  number()
+    .transform((value, original) => (original === "" ? undefined : value))
+    .default(0)
+    .min(0, "Cannot be negative")
+    .test("max-decimals", "Maximum 3 decimal places allowed", maxThreeDecimals);
+
 export const updatePreliminaryLoadsheetSchema = object().shape({
   pilots: number()
     .required("Number of pilots is required")
@@ -111,4 +127,19 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
       "Maximum 3 decimal places allowed",
       (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
+
+  trip: nonNegativeTons("Trip fuel"),
+  taxi: nonNegativeTons("Taxi fuel"),
+  alternate: nonNegativeTons("Alternate fuel"),
+  reserve: nonNegativeTons("Final reserve"),
+  contingencyAmount: nonNegativeTons("Contingency fuel"),
+  contingencyType: string().defined(),
+  mel: nonNegativeTons("MEL fuel"),
+  atc: nonNegativeTons("ATC fuel"),
+  wxx: nonNegativeTons("Weather fuel"),
+  extra: nonNegativeTons("Extra fuel"),
+  etops: optionalNonNegativeTons(),
+  tankering: nonNegativeTons("Tankering fuel"),
+  averageFuelFlow: optionalNonNegativeTons(),
+  maxTanks: optionalNonNegativeTons(),
 });
