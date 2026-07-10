@@ -105,7 +105,7 @@ export function Sidebar() {
         </DrawerItems>
       </Drawer>
 
-      <aside className="hidden md:flex h-full w-60 shrink-0 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-e border-gray-200 dark:border-gray-800 px-3 py-4 md:px-4">
+      <aside className="hidden md:flex h-full w-72 shrink-0 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-e border-gray-200 dark:border-gray-800 px-3 py-4 md:px-4">
         <div className="mb-4 px-2">
           <TopBarLogo />
         </div>

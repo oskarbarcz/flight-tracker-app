@@ -133,7 +133,7 @@ function VariantTab({
       disabled={disabled}
       className={`cursor-pointer rounded-md px-3 py-1 text-[11px] font-bold uppercase tracking-widest transition ${
         active
-          ? "bg-white text-indigo-600 shadow-sm dark:bg-gray-800 dark:text-indigo-300"
+          ? "bg-white text-indigo-600 dark:bg-gray-800 dark:text-indigo-300"
           : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
       } disabled:cursor-not-allowed disabled:text-gray-300 dark:disabled:text-gray-600`}
     >

@@ -12,7 +12,7 @@ type Props = {
 
 export function RotationListTable({ operatorId, rotations, removeRotation }: Props) {
   return (
-    <Table className="shadow">
+    <Table>
       <TableHead>
         <TableRow>
           <TableHeadCell>Rotation name</TableHeadCell>

@@ -1,5 +1,6 @@
 import { translateContinent } from "~/features/airport/i18n";
 import {
+  translateAirportOnFlightType,
   translateEventType,
   translateShortStatus,
   translateStatus,
@@ -17,5 +18,6 @@ export const toHuman = {
   },
   airport: {
     continent: translateContinent,
+    onFlightType: translateAirportOnFlightType,
   },
 };

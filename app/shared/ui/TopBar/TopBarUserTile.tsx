@@ -51,7 +51,7 @@ export function TopBarUserTile() {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-3 px-3 py-2">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-[11px] font-bold text-white shadow-sm">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-[11px] font-bold text-white">
           {getInitials(user.name)}
         </span>
         <span className="min-w-0">

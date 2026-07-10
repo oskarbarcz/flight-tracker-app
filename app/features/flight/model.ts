@@ -162,6 +162,17 @@ export class Flight {
     return this.airports.find((airport) => airport.type === AirportOnFlightType.Destination) as AirportOnFlight;
   }
 
+  get orderedAirports(): AirportOnFlight[] {
+    const isDeparture = (airport: AirportOnFlight) => airport.type === AirportOnFlightType.Departure;
+    const isDestination = (airport: AirportOnFlight) => airport.type === AirportOnFlightType.Destination;
+
+    return [
+      ...this.airports.filter(isDeparture),
+      ...this.airports.filter((airport) => !isDeparture(airport) && !isDestination(airport)),
+      ...this.airports.filter(isDestination),
+    ];
+  }
+
   get flightNumberWithoutSpaces(): string {
     return this.flightNumber.replace(/\s+/g, "");
   }

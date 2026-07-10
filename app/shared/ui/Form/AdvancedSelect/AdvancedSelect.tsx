@@ -222,7 +222,7 @@ export function AdvancedSelect({
               minWidth: menuMinWidth,
               zIndex: 50,
             }}
-            className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
+            className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
           >
             {results.length === 0 ? (
               <div className="bg-gray-50 px-3 py-3 text-sm text-gray-500 dark:bg-gray-900 dark:text-gray-400">

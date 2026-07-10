@@ -11,7 +11,7 @@ type Props = {
 
 export function FlightTrackerLauncher({ flights, loading }: Props) {
   return (
-    <section className="flex max-h-full w-full max-w-md flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900">
+    <section className="flex max-h-full w-full max-w-md flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
       <header className="flex items-center gap-3 border-b border-gray-200 p-5 dark:border-gray-800">
         <img src={logo} alt="Flight Tracker logo" className="size-8 dark:hidden" />
         <img src={logoWhite} alt="Flight Tracker logo" className="hidden size-8 dark:block" />

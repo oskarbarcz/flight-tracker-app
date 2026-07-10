@@ -58,7 +58,7 @@ export function UserHeader() {
           <span>. Clear skies ahead!</span>
         </div>
       </div>
-      <div className="hidden items-center divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white px-4 py-2 shadow-[0_1px_2px_rgb(15_23_42/0.04),0_6px_16px_-8px_rgb(15_23_42/0.12)] sm:flex dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900 dark:shadow-none">
+      <div className="hidden items-center divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white px-4 py-2 sm:flex dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900">
         {loading || stats === null ? (
           <>
             <SimpleStatDisplayLoader />
