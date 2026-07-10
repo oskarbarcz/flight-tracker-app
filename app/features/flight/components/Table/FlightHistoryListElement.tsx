@@ -1,9 +1,9 @@
 import { TableCell, TableRow } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
+import { AirportRoute } from "~/features/airport/components/Airport/AirportRoute";
 import { type FilledSchedule, type Flight, isFilledSchedule } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
@@ -31,11 +31,7 @@ export function FlightHistoryListElement({ flight }: Props) {
         <FormattedIcaoDate date={flight.timesheet.scheduled.offBlockTime} />
       </TableCell>
       <TableCell>
-        <div className="flex items-center gap-2 font-mono text-lg font-bold text-gray-900 dark:text-white">
-          {flight.departureAirport.iataCode}
-          <FaArrowRight size="14" className="text-gray-500" />
-          {flight.destinationAirport.iataCode}
-        </div>
+        <AirportRoute departure={flight.departureAirport} destination={flight.destinationAirport} />
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-3">

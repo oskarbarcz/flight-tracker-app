@@ -1,6 +1,6 @@
 import { Badge, TableCell, TableRow } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { AirportRoute } from "~/features/airport/components/Airport/AirportRoute";
 import { TravelStatus, TravelType, type UserTravel } from "~/features/travel";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 
@@ -26,11 +26,7 @@ export function TravelLogListElement({ travel }: Props) {
         <FormattedIcaoDate date={travel.createdAt} />
       </TableCell>
       <TableCell>
-        <div className="flex gap-1 items-center font-mono">
-          {travel.departureAirport.iataCode}
-          <FaArrowRight size="12" className="text-gray-800 dark:text-white" />
-          {travel.destinationAirport.iataCode}
-        </div>
+        <AirportRoute departure={travel.departureAirport} destination={travel.destinationAirport} />
       </TableCell>
       <TableCell>
         <Badge color={TYPE_COLOR[travel.type]}>{travel.typeLabel}</Badge>

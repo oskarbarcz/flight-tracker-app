@@ -1,10 +1,10 @@
 import { TableCell, TableRow } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 import type { UserAircraftEntry } from "~/features/aircraft";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
+import { AirportRoute } from "~/features/airport/components/Airport/AirportRoute";
 import { OperatorFin } from "~/features/operator/components/OperatorFin";
 import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
 
@@ -32,11 +32,7 @@ export function UserAircraftHistoryElement({ entry }: Props) {
       </TableCell>
       <TableCell className="font-mono">{entry.airframe.type}</TableCell>
       <TableCell>
-        <div className="flex items-center gap-2 font-mono text-lg font-bold text-gray-900 dark:text-white">
-          {entry.flight.departureAirport.iataCode}
-          <FaArrowRight size="12" className="text-gray-500" />
-          {entry.flight.arrivalAirport.iataCode}
-        </div>
+        <AirportRoute departure={entry.flight.departureAirport} destination={entry.flight.arrivalAirport} />
         <span className="block font-mono text-xs text-gray-500 dark:text-gray-400">{entry.flight.flightNumber}</span>
       </TableCell>
       <TableCell>
