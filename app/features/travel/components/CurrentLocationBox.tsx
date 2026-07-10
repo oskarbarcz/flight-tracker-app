@@ -5,6 +5,9 @@ import { FaCircleCheck, FaCircleInfo, FaForward, FaLocationDot } from "react-ico
 import { Link } from "react-router";
 import { TravelType, type UserTravel, type UserTravelAirport } from "~/features/travel";
 import { InitiateTravelModal } from "~/features/travel/components/InitiateTravelModal";
+import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
+import { MetaRow } from "~/shared/ui/Display/MetaRow";
+import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
@@ -22,15 +25,6 @@ const ARRIVAL_VERB: Record<TravelType, string> = {
   [TravelType.DeadHeadAutomatic]: "Repositioned from",
 };
 
-function MetaRow({ label, value }: { label: string; value: React.ReactNode }) {
-  return (
-    <div className="flex items-baseline justify-between gap-3">
-      <span className="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500">{label}</span>
-      <span className="truncate font-medium text-gray-700 dark:text-gray-200">{value}</span>
-    </div>
-  );
-}
-
 export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber, onTravelCreated }: Props) {
   const [showModal, setShowModal] = useState(false);
   const inTransit = latestTravel?.isPending ?? false;
@@ -44,13 +38,10 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
       {airport && latestTravel ? (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex size-12 flex-none items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-indigo-400 text-white dark:from-indigo-600 dark:to-indigo-500">
+            <span className="flex size-12 flex-none items-center justify-center rounded-2xl bg-indigo-500 text-white dark:bg-indigo-600">
               <Pin size={20} />
             </span>
-            <div className="min-w-0">
-              <span className="block text-2xl font-bold leading-none">{airport.iataCode}</span>
-              <span className="mt-1 block truncate text-sm text-gray-500 dark:text-gray-400">{airport.name}</span>
-            </div>
+            <AirportEndpoint iataCode={airport.iataCode} name={airport.name} />
             {!inTransit && (
               <span className="ms-auto flex flex-none items-center gap-1.5 self-start text-xs font-semibold text-green-600 dark:text-green-400">
                 <FaCircleCheck size={11} />
@@ -59,7 +50,7 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
             )}
           </div>
 
-          <div className="flex flex-col gap-1.5 border-t border-gray-100 pt-3 text-sm dark:border-gray-800">
+          <div className="flex flex-col gap-1.5 border-t border-gray-100 pt-3 dark:border-gray-800">
             {inTransit ? (
               <>
                 <MetaRow
@@ -91,7 +82,7 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
         </ContainerEmptyState>
       )}
 
-      <div className="flex justify-end gap-2">
+      <BoxFooter>
         <Button color="alternative" as={Link} to="/travels" viewTransition>
           History
         </Button>
@@ -99,7 +90,7 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
           New travel
           <FaArrowRight className="inline ml-2" aria-hidden="true" />
         </Button>
-      </div>
+      </BoxFooter>
 
       {showModal && (
         <InitiateTravelModal
