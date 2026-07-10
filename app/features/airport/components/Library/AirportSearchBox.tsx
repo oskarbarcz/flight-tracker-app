@@ -32,7 +32,7 @@ export function AirportSearchBox({ airports }: Props) {
       />
 
       {hasQuery ? (
-        <div className="absolute inset-x-0 top-full z-20 mt-2 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900">
+        <div className="absolute inset-x-0 top-full z-20 mt-2 overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
           {results.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
               No airports match “{query.trim()}”.

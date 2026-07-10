@@ -1,9 +1,7 @@
 import React from "react";
 import { LuPin, LuPinOff } from "react-icons/lu";
-import { Link } from "react-router";
-import { AirportShape } from "~/features/airport/components/Airport/AirportShape";
+import { AirportTile } from "~/features/airport/components/Library/AirportTile";
 import { usePinnedAirports } from "~/features/airport/lib/usePinnedAirports";
-import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
 
 export function PinnedAirportTiles() {
   const { pinned, unpin } = usePinnedAirports();
@@ -23,27 +21,7 @@ export function PinnedAirportTiles() {
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {pinned.map((airport) => (
         <div key={airport.id} className="group relative">
-          <Link
-            to={`/airports-library/${airport.id}`}
-            viewTransition
-            className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 pr-14 transition-colors hover:border-indigo-300 hover:bg-indigo-50 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-700 dark:hover:bg-gray-800"
-          >
-            <OptionAvatarFrame>
-              <AirportShape shape={airport.shape} />
-            </OptionAvatarFrame>
-            <span className="min-w-0">
-              <span className="flex min-w-0 items-baseline gap-2">
-                <span className="shrink-0 font-mono text-lg font-bold text-gray-900 dark:text-white">
-                  {airport.iataCode}
-                </span>
-                <span className="shrink-0 text-gray-300 dark:text-gray-600">|</span>
-                <span className="truncate text-sm font-medium text-gray-700 dark:text-gray-200">{airport.name}</span>
-              </span>
-              <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-                {airport.city}, {airport.country}
-              </span>
-            </span>
-          </Link>
+          <AirportTile airport={airport} className="pr-14" />
           <button
             type="button"
             onClick={() => unpin(airport.id)}

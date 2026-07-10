@@ -45,6 +45,9 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       },
     },
     table: {
+      root: {
+        shadow: "hidden",
+      },
       head: {
         base: "border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200",
         cell: {
@@ -63,7 +66,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     card: {
       root: {
-        base: "flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04),0_6px_16px_-8px_rgb(15_23_42/0.12)] dark:border-gray-800 dark:bg-gray-900 dark:shadow-none",
+        base: "flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900",
         children: "flex flex-col gap-4 p-5",
       },
     },

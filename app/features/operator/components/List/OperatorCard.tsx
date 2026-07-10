@@ -18,7 +18,7 @@ export function OperatorCard({ operator }: Props) {
     <Link
       to={`/operators/${operator.id}/rotations`}
       viewTransition
-      className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+      className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors dark:border-gray-700 dark:bg-gray-800"
     >
       <div className="flex aspect-16/9 items-center justify-center bg-gray-50 px-10 py-8">
         <OperatorFin operator={operator} className="mix-blend-multiply" />

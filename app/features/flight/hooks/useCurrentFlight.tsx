@@ -1,15 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useAuth } from "~/app-state/useAuth";
 import type { Flight } from "~/features/flight";
 import type { User } from "~/features/user";
 import { useApi } from "~/shared/api/useApi";
 
-type Response = {
+type CurrentFlightContextValue = {
   currentFlight: Flight | null;
   loading: boolean;
 };
 
-export function useCurrentFlight(): Response {
+const CurrentFlightContext = createContext<CurrentFlightContextValue | null>(null);
+
+export function CurrentFlightProvider({ children }: { children: ReactNode }) {
   const [currentFlight, setCurrentFlight] = useState<Flight | null>(null);
   const [loading, setLoading] = useState(true);
   const { flightService } = useApi();
@@ -39,5 +41,15 @@ export function useCurrentFlight(): Response {
     fetchCurrentFlight();
   }, [fetchCurrentFlight]);
 
-  return { currentFlight, loading };
+  const value = useMemo(() => ({ currentFlight, loading }), [currentFlight, loading]);
+
+  return <CurrentFlightContext.Provider value={value}>{children}</CurrentFlightContext.Provider>;
+}
+
+export function useCurrentFlight(): CurrentFlightContextValue {
+  const context = useContext(CurrentFlightContext);
+  if (!context) {
+    throw new Error("useCurrentFlight must be used within a CurrentFlightProvider");
+  }
+  return context;
 }

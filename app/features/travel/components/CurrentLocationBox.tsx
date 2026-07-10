@@ -44,7 +44,7 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
       {airport && latestTravel ? (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex size-12 flex-none items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-indigo-400 text-white shadow-sm shadow-indigo-500/30 dark:from-indigo-600 dark:to-indigo-500">
+            <span className="flex size-12 flex-none items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-indigo-400 text-white dark:from-indigo-600 dark:to-indigo-500">
               <Pin size={20} />
             </span>
             <div className="min-w-0">
