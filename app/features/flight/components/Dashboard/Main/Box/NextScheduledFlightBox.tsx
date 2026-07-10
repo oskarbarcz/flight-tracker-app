@@ -1,20 +1,20 @@
-import { Button } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
 import { FaCircleInfo, FaPlaneDeparture } from "react-icons/fa6";
-import { Link } from "react-router";
+import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import type { Flight } from "~/features/flight";
+import { DetailLinkButton } from "~/shared/ui/Button/DetailLinkButton";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
+import { StatBlock } from "~/shared/ui/Display/StatBlock";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight | undefined;
-  isCurrentFlight: boolean;
 };
 
-export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
+export function NextScheduledFlightBox({ flight }: Props) {
   if (!flight) {
     return (
       <Container padding="condensed">
@@ -31,42 +31,46 @@ export function NextScheduledFlightBox({ flight, isCurrentFlight }: Props) {
     <Container padding="condensed">
       <ContainerTitle icon={FaPlaneDeparture} title="Next scheduled flight" />
 
-      <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
-        <div className="w-full">
-          <span className="block text-3xl font-bold">{flight.flightNumber}</span>
-          <span className="text-sm text-gray-500 mb-2">{flight.aircraft.airframe.name}</span>
-        </div>
-        <div className="w-full text-right">
-          <span className="text-right text-xl font-bold ">
-            <FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />
+      <article className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">
+            {flight.flightNumber}
           </span>
-          <span className="block text-sm text-gray-500 mb-2 leading-5">Departure</span>
+          <span className="mt-1.5 block truncate text-sm font-semibold text-gray-700 dark:text-gray-300">
+            {flight.operator.shortName}
+          </span>
+          <span className="block truncate text-sm text-gray-500">
+            <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> ·{" "}
+            {flight.aircraft.airframe.name}
+          </span>
         </div>
+        <StatBlock
+          label="Departure"
+          align="right"
+          value={<FormattedIcaoTime date={flight.timesheet.scheduled.takeoffTime} />}
+        />
       </article>
 
-      <article className="flex items-center bg-gray-50 dark:bg-gray-950 justify-evenly border border-dashed border-gray-200 dark:border-gray-800 mb-6 rounded-xl p-3">
-        <div className="basis-64 text-center p-3">
-          <span className="font-bold text-2xl">{flight.departureAirport.icaoCode}</span>
-          <span className="block text-sm text-gray-500 leading-4">{flight.departureAirport.city}</span>
-        </div>
-        <FaPlaneDeparture className="text-gray-300 text-3xl" />
-        <div className="basis-64 text-center p-3">
-          <span className="font-bold text-2xl">{flight.destinationAirport.icaoCode}</span>
-          <span className="block text-sm text-gray-500 leading-4">{flight.destinationAirport.city}</span>
-        </div>
-      </article>
+      <div className="flex flex-col gap-3">
+        <article className="grid grid-cols-[1fr_1.3fr_1fr] items-center gap-3">
+          <AirportEndpoint iataCode={flight.departureAirport.iataCode} subtitle={flight.departureAirport.city} />
+          <div className="flex items-center gap-1.5 text-gray-300 dark:text-gray-600">
+            <span className="size-1.5 flex-none rounded-full bg-current" />
+            <span className="flex-1 border-t border-dashed border-current" />
+            <FaPlaneDeparture className="flex-none text-gray-400 dark:text-gray-500" size={15} aria-hidden={true} />
+            <span className="flex-1 border-t border-dashed border-current" />
+            <span className="size-1.5 flex-none rounded-full bg-current" />
+          </div>
+          <AirportEndpoint
+            iataCode={flight.destinationAirport.iataCode}
+            subtitle={flight.destinationAirport.city}
+            align="right"
+          />
+        </article>
 
-      <div className="flex justify-end">
-        <Button
-          color={isCurrentFlight ? "alternative" : "indigo"}
-          size={isCurrentFlight ? "xs" : undefined}
-          as={Link}
-          to={`/track/${flight.id}`}
-          viewTransition
-        >
-          See details
-          <FaArrowRight className="inline ml-2" aria-hidden="true" />
-        </Button>
+        <div className="flex justify-end">
+          <DetailLinkButton to={`/track/${flight.id}`}>See flight details</DetailLinkButton>
+        </div>
       </div>
     </Container>
   );

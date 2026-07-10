@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaFileInvoice, FaGasPump } from "react-icons/fa6";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
 import type { Loadsheet } from "~/features/flight";
+import { CrewColumn } from "~/features/flight/components/FuelAndLoadsheet/CrewColumn";
 import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
 import { LoadsheetFigures } from "~/features/flight/components/FuelAndLoadsheet/LoadsheetFigures";
 import { type LoadsheetVariant, VariantSwitch } from "~/features/flight/components/FuelAndLoadsheet/VariantSwitch";
@@ -10,13 +11,14 @@ import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
+  flightId: string;
   preliminary: Loadsheet | null;
   final: Loadsheet | null;
   canEditPreliminary?: boolean;
   onEditPreliminary?: () => void;
 };
 
-export function FuelAndLoadsheetPanel({ preliminary, final, canEditPreliminary, onEditPreliminary }: Props) {
+export function FuelAndLoadsheetPanel({ flightId, preliminary, final, canEditPreliminary, onEditPreliminary }: Props) {
   const hasPreliminary = preliminary !== null;
   const hasFinal = final !== null;
   const defaultVariant: LoadsheetVariant = hasFinal ? "final" : "preliminary";
@@ -31,7 +33,7 @@ export function FuelAndLoadsheetPanel({ preliminary, final, canEditPreliminary, 
     loadVariant === "preliminary" && Boolean(canEditPreliminary) && Boolean(onEditPreliminary);
 
   return (
-    <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
       <Container className="lg:col-span-1">
         <ContainerTitle
           icon={FaGasPump}
@@ -76,6 +78,8 @@ export function FuelAndLoadsheetPanel({ preliminary, final, canEditPreliminary, 
           </div>
         )}
       </Container>
+
+      <CrewColumn flightId={flightId} />
     </div>
   );
 }

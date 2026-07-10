@@ -1,17 +1,17 @@
 import React from "react";
-import { FaChartLine, FaCircleInfo } from "react-icons/fa6";
+import { FaChartLine } from "react-icons/fa6";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
+import { TilePlaceholder } from "~/shared/ui/Layout/TilePlaceholder";
 
 export function PilotStatsBox() {
   return (
-    <Container>
+    <Container padding="condensed">
       <ContainerTitle icon={FaChartLine} title="Last month summary" />
-      <ContainerEmptyState>
-        <FaCircleInfo className="inline mr-2" />
-        <span>Summary is not available right now.</span>
-      </ContainerEmptyState>
+      <TilePlaceholder
+        icon={FaChartLine}
+        hint="Flight time, fuel and distance for the past month will summarise here."
+      />
     </Container>
   );
 }

@@ -9,6 +9,9 @@ import { toHuman } from "~/i18n/translate";
 import { useDateProgress } from "~/shared/hooks/useDateProgress";
 import { dateDiffToReadable } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
+import { StatBlock } from "~/shared/ui/Display/StatBlock";
+import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
@@ -31,10 +34,22 @@ export function CurrentFlightBox({ flight }: Props) {
   const estimatedReference = (showDeparture ? estimated?.takeoffTime : estimated?.arrivalTime) ?? scheduledReference;
   const delayMinutes = Math.round((estimatedReference.getTime() - scheduledReference.getTime()) / 60000);
 
+  const referenceHasPassed = estimatedReference.getTime() <= Date.now();
+  const countdownLabel = showDeparture ? "Time to departure: " : "Time remaining: ";
+  const overdueLabel = showDeparture ? "Departing now" : "Arriving now";
   const timeRemaining = dateDiffToReadable(new Date(), estimatedReference);
   const timeProgress = useDateProgress(estimated?.offBlockTime ?? scheduled.offBlockTime, scheduled.onBlockTime);
 
   const loadsheet = flight.loadsheets.final ?? flight.loadsheets.preliminary;
+
+  const stats = loadsheet
+    ? [
+        { label: "Passengers", value: loadsheet.passengers.toString() },
+        { label: "Cargo", value: loadsheet.cargo.toString(), unit: "t" },
+        { label: "Crew", value: `${loadsheet.flightCrew.pilots} + ${loadsheet.flightCrew.cabinCrew}` },
+        { label: "Block fuel", value: loadsheet.blockFuel.toString(), unit: "t" },
+      ]
+    : [];
 
   return (
     <Container padding="condensed">
@@ -76,17 +91,12 @@ export function CurrentFlightBox({ flight }: Props) {
       </article>
 
       <article className="mt-5 grid grid-cols-[1fr_1.5fr_1fr] items-center gap-4">
-        <div className="min-w-0">
-          <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">
-            {flight.departureAirport.iataCode}
-          </span>
-          <span className="mt-1 block truncate text-sm font-bold text-gray-700 dark:text-gray-200">
-            {flight.departureAirport.name}
-          </span>
-          <span className="block truncate text-xs text-gray-400">
-            {flight.departureAirport.city}, {flight.departureAirport.country}
-          </span>
-        </div>
+        <AirportEndpoint
+          iataCode={flight.departureAirport.iataCode}
+          name={flight.departureAirport.name}
+          subtitle={`${flight.departureAirport.city}, ${flight.departureAirport.country}`}
+          size="lg"
+        />
 
         <div className="relative h-5">
           <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded bg-gray-200 dark:bg-gray-700" />
@@ -102,51 +112,38 @@ export function CurrentFlightBox({ flight }: Props) {
           />
         </div>
 
-        <div className="min-w-0 text-right">
-          <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">
-            {flight.destinationAirport.iataCode}
-          </span>
-          <span className="mt-1 block truncate text-sm font-bold text-gray-700 dark:text-gray-200">
-            {flight.destinationAirport.name}
-          </span>
-          <span className="block truncate text-xs text-gray-400">
-            {flight.destinationAirport.city}, {flight.destinationAirport.country}
-          </span>
-        </div>
+        <AirportEndpoint
+          iataCode={flight.destinationAirport.iataCode}
+          name={flight.destinationAirport.name}
+          subtitle={`${flight.destinationAirport.city}, ${flight.destinationAirport.country}`}
+          align="right"
+          size="lg"
+        />
       </article>
 
       {loadsheet && (
         <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-100 sm:grid-cols-4 dark:border-gray-800 dark:bg-gray-800">
-          <Stat label="Passengers" value={loadsheet.passengers.toString()} />
-          <Stat label="Cargo" value={loadsheet.cargo.toString()} unit="t" />
-          <Stat label="Crew" value={`${loadsheet.flightCrew.pilots} + ${loadsheet.flightCrew.cabinCrew}`} />
-          <Stat label="Block fuel" value={loadsheet.blockFuel.toString()} unit="t" />
+          {stats.map((stat) => (
+            <div key={stat.label} className="bg-white px-3 py-2.5 dark:bg-gray-900">
+              <StatBlock label={stat.label} value={stat.value} unit={stat.unit} />
+            </div>
+          ))}
         </div>
       )}
 
-      <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-800">
-        <div className="flex items-center text-xs text-gray-500">
-          <FaClock className="mr-1.5 inline" />
-          {showDeparture ? "Time to departure: " : "Time remaining: "}
-          {timeRemaining}
-        </div>
+      <BoxFooter
+        leading={
+          <div className="flex items-center text-xs text-gray-500">
+            <FaClock className="mr-1.5 inline" aria-hidden={true} />
+            {referenceHasPassed ? overdueLabel : `${countdownLabel}${timeRemaining}`}
+          </div>
+        }
+      >
         <Button color="indigo" as={Link} to={`/track/${flight.id}`} viewTransition>
           Manage
           <FaArrowRight className="ml-2 inline" aria-hidden="true" />
         </Button>
-      </div>
+      </BoxFooter>
     </Container>
-  );
-}
-
-function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
-  return (
-    <div className="bg-white px-3 py-2.5 dark:bg-gray-900">
-      <div className="text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</div>
-      <div className="mt-0.5 font-mono text-base font-bold text-gray-900 dark:text-gray-100">
-        {value}
-        {unit && <span className="ms-0.5 text-xs font-normal text-gray-400">{unit}</span>}
-      </div>
-    </div>
   );
 }

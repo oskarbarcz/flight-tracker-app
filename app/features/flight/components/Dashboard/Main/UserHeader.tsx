@@ -18,9 +18,9 @@ function getStatus(user: User): Status {
 function getStatusBox(status: Status): React.ReactNode {
   switch (status) {
     case Status.ReadyForDuty:
-      return <span className="text-green-400 font-bold">Ready for Duty</span>;
+      return <span className="text-green-700 dark:text-green-400 font-bold">Ready for Duty</span>;
     case Status.OnDuty:
-      return <span className="text-green-600 font-bold">On Duty</span>;
+      return <span className="text-green-700 dark:text-green-400 font-bold">On Duty</span>;
   }
 }
 
@@ -50,12 +50,11 @@ export function UserHeader() {
     >
       <div className="flex min-h-32 w-full flex-col items-center justify-center text-center sm:block sm:min-h-0 sm:w-auto sm:text-left">
         <h2 className="md:mt-4 text-2xl sm:text-4xl text-gray-700 dark:text-gray-300 font-bold">
-          Welcome back, <span className="block sm:inline">Captain {name}</span>
+          Welcome back, <span className="block sm:inline">{name}</span>
         </h2>
         <div className="hidden text-lg text-gray-500 pt-2 sm:block">
           <span>Operational status: </span>
           {getStatusBox(getStatus(user))}
-          <span>. Clear skies ahead!</span>
         </div>
       </div>
       <div className="hidden items-center divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white px-4 py-2 sm:flex dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900">

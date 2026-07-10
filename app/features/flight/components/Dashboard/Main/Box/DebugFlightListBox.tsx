@@ -13,21 +13,23 @@ export function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
   return (
     <Container padding="condensed">
       <ContainerTitle icon={FaBug} title="Flight list [debug]" />
-      <div>
+      <div className="flex flex-col gap-1">
         {flights.map((flight) => {
           const tags: string[] = [flight.status, flight.tracking];
           if (flight.hasActiveEmergency) tags.push("emergency");
           if (flight.isFlightDiverted) tags.push("diverted");
           return (
-            <div key={flight.id}>
-              <Link to={`/track/${flight.id}`} className="block text-teal-500 underline" viewTransition>
-                {flight.flightNumber} [{tags.join(", ")}]
-              </Link>
-            </div>
+            <Link
+              key={flight.id}
+              to={`/track/${flight.id}`}
+              className="block font-mono text-xs text-gray-500 hover:text-indigo-500"
+              viewTransition
+            >
+              {flight.flightNumber} [{tags.join(", ")}]
+            </Link>
           );
         })}
       </div>
-      <div></div>
     </Container>
   );
 }

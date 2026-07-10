@@ -63,6 +63,45 @@ export type Pilot = {
   totalFlightTime: number;
 };
 
+export type CrewMember = {
+  id: string;
+  name: string;
+  email: string;
+  operatorId: string;
+  role: string;
+  createdAt: string;
+};
+
+const FLIGHT_DECK_ROLES = new Set(["cpt", "capt", "fo", "so", "fe", "rp"]);
+
+const CREW_ROLE_LABELS: Record<string, string> = {
+  cpt: "Captain",
+  capt: "Captain",
+  fo: "First Officer",
+  so: "Second Officer",
+  fe: "Flight Engineer",
+  rp: "Relief Pilot",
+  pu: "Purser",
+  sfa: "Senior Flight Attendant",
+  fa: "Flight Attendant",
+};
+
+export function crewRoleLabel(role: string): string {
+  return CREW_ROLE_LABELS[role] ?? role.toUpperCase();
+}
+
+export function isPurser(member: CrewMember): boolean {
+  return member.role === "pu";
+}
+
+export function isFlightDeckCrew(member: CrewMember): boolean {
+  return FLIGHT_DECK_ROLES.has(member.role);
+}
+
+export function isCaptain(member: CrewMember): boolean {
+  return member.role === "cpt" || member.role === "capt";
+}
+
 export type FuelBreakdown = {
   block: number;
   taxi: number;

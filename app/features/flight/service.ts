@@ -1,4 +1,5 @@
 import {
+  type CrewMember,
   type FilledSchedule,
   Flight,
   type FlightEvent,
@@ -55,6 +56,10 @@ export class FlightService extends AbstractAuthorizedApiService {
 
   async fetchOfpByFlightId(id: string): Promise<FlightOfp> {
     return this.fetchWithAuth<FlightOfp>(`/api/v1/flight/${id}/ofp`);
+  }
+
+  async fetchCrewByFlightId(id: string): Promise<CrewMember[]> {
+    return this.fetchWithAuth<CrewMember[]>(`/api/v1/flight/${id}/crew`);
   }
 
   async fetchEventsByFlightId(id: string): Promise<FlightEvent[]> {

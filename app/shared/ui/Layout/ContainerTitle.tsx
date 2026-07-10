@@ -11,8 +11,8 @@ export function ContainerTitle({ icon: Icon, title, actions }: Props) {
   return (
     <div className="flex items-start justify-between gap-2">
       <div className="flex items-center gap-2 text-indigo-500">
-        <Icon size={13} />
-        <span className="text-xs font-bold uppercase tracking-widest">{title}</span>
+        <Icon size={13} aria-hidden={true} />
+        <h2 className="text-xs font-bold uppercase tracking-widest">{title}</h2>
       </div>
       {actions && <div className="shrink-0">{actions}</div>}
     </div>

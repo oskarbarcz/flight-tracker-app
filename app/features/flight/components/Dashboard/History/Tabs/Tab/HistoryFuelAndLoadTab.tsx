@@ -9,7 +9,11 @@ export function HistoryFuelAndLoadTab() {
 
   return (
     <div className="mt-4">
-      <FuelAndLoadsheetPanel preliminary={flight.loadsheets.preliminary} final={flight.loadsheets.final} />
+      <FuelAndLoadsheetPanel
+        flightId={flight.id}
+        preliminary={flight.loadsheets.preliminary}
+        final={flight.loadsheets.final}
+      />
     </div>
   );
 }

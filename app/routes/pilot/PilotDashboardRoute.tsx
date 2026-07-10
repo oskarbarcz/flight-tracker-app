@@ -56,13 +56,9 @@ export default function PilotDashboardRoute() {
           ) : (
             <NoCurrentFlightBox />
           )}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2">
             {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
-            {loadingAll ? (
-              <NextScheduledFlightBoxLoader />
-            ) : (
-              <NextScheduledFlightBox flight={nextFlight} isCurrentFlight={currentFlight !== null} />
-            )}
+            {loadingAll ? <NextScheduledFlightBoxLoader /> : <NextScheduledFlightBox flight={nextFlight} />}
           </div>
         </div>
         <div className="flex flex-col gap-4">
