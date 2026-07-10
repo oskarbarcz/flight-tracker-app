@@ -10,7 +10,7 @@ import {
   type Schedule,
   type Tracking,
 } from "~/features/flight";
-import type { ApiFlightResponse, CreateFlightRequest } from "~/features/flight/request";
+import type { ApiFlightResponse, CloseFlightRequest, CreateFlightRequest } from "~/features/flight/request";
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type FlightListFilters = {
@@ -153,8 +153,10 @@ export class FlightService extends AbstractAuthorizedApiService {
     });
   }
 
-  async close(id: string): Promise<void> {
+  async close(id: string, actualFuelBurned: number): Promise<void> {
+    const body: CloseFlightRequest = { actualFuelBurned: Math.round(actualFuelBurned * 1000) / 1000 };
     return this.fetchWithAuth<void>(`/api/v1/flight/${id}/close`, {
+      body: JSON.stringify(body),
       method: "POST",
     });
   }
