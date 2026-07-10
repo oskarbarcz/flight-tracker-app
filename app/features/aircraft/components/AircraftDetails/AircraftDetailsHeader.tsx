@@ -27,7 +27,7 @@ export function AircraftDetailsHeader({ aircraft, editUrl }: Props) {
           <span className="mt-1 block text-lg font-semibold text-gray-500 dark:text-gray-400">{airframe.name}</span>
         </div>
 
-        <DataSection icon={LuPlane} color="indigo" title="Airframe">
+        <DataSection icon={LuPlane} title="Airframe">
           <div className="grid grid-cols-2 gap-2">
             <DataField label="Type code" value={airframe.type} mono />
             <DataField label="Cruise speed" value={formatCruiseSpeed(airframe.cruiseSpeed)} mono />
@@ -36,7 +36,7 @@ export function AircraftDetailsHeader({ aircraft, editUrl }: Props) {
           </div>
         </DataSection>
 
-        <DataSection icon={LuTag} color="green" title="Identity">
+        <DataSection icon={LuTag} title="Identity">
           <div className="grid grid-cols-2 gap-2">
             <DataField label="SELCAL" value={aircraft.selcal} mono />
             <div className="col-span-2">

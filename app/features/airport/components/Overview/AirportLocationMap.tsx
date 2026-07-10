@@ -1,7 +1,8 @@
 import L from "leaflet";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
-import { MapContainer, ZoomControl } from "react-leaflet";
+import { MapContainer, useMap, ZoomControl } from "react-leaflet";
 import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
 import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
@@ -18,18 +19,48 @@ import type { Terminal } from "~/features/terminal";
 import { formatCoordinates } from "~/shared/lib/formatGeo";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
+export type AirportMapLayer = "shape" | "terminals" | "parkingPositions" | "gates" | "runways";
+
+const ALL_LAYERS: AirportMapLayer[] = ["shape", "terminals", "parkingPositions", "gates", "runways"];
+
 type Props = {
   airport: Airport;
   runways: Runway[];
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
   gates: Gate[];
+  visibleLayers?: AirportMapLayer[];
 };
 
-export function AirportLocationMap({ airport, runways, terminals, parkingPositions, gates }: Props) {
+export function AirportLocationMap({
+  airport,
+  runways,
+  terminals,
+  parkingPositions,
+  gates,
+  visibleLayers = ALL_LAYERS,
+}: Props) {
+  const shows = (layer: AirportMapLayer) => visibleLayers.includes(layer);
   const coordinates = formatCoordinates(airport.location.latitude, airport.location.longitude);
   const mapRef = useRef<L.Map | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMorphing, setIsMorphing] = useState(false);
+
+  const setFullscreen = useCallback((next: boolean) => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const doc = document as Document & { startViewTransition?: (callback: () => void) => { finished: Promise<void> } };
+
+    if (!doc.startViewTransition || reduceMotion) {
+      setIsFullscreen(next);
+      return;
+    }
+
+    flushSync(() => setIsMorphing(true));
+    const transition = doc.startViewTransition(() => {
+      flushSync(() => setIsFullscreen(next));
+    });
+    transition.finished.finally(() => setIsMorphing(false));
+  }, []);
 
   const bounds = useMemo(() => {
     const points: L.LatLngTuple[] = [];
@@ -87,15 +118,16 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
   useEffect(() => {
     if (!isFullscreen) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsFullscreen(false);
+      if (event.key === "Escape") setFullscreen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isFullscreen]);
+  }, [isFullscreen, setFullscreen]);
 
   return (
-    <TransparentContainer className="h-full">
+    <TransparentContainer className="h-full shadow-none">
       <div
+        style={isMorphing ? { viewTransitionName: "airport-map" } : undefined}
         className={
           isFullscreen
             ? "fixed inset-0 z-[1000] h-screen w-screen bg-gray-100 dark:bg-gray-950"
@@ -112,44 +144,52 @@ export function AirportLocationMap({ airport, runways, terminals, parkingPositio
           attributionControl={false}
         >
           <ZoomControl position="bottomright" />
+          <FlyToBounds bounds={bounds} />
           <MapTileLayer />
-          <AirportShapePolygon airport={airport} />
-          <TerminalPolygons terminals={terminals} />
-          <ParkingPositionMarkers parkingPositions={parkingPositions} />
-          <GateMarkers gates={gates} />
-          <RunwayLines runways={runways} />
+          {shows("shape") && <AirportShapePolygon airport={airport} />}
+          {shows("terminals") && <TerminalPolygons terminals={terminals} />}
+          {shows("parkingPositions") && <ParkingPositionMarkers parkingPositions={parkingPositions} />}
+          {shows("gates") && <GateMarkers gates={gates} />}
+          {shows("runways") && <RunwayLines runways={runways} />}
           <MapAirportLabel airport={airport} />
         </MapContainer>
 
         <button
           type="button"
-          onClick={() => setIsFullscreen((value) => !value)}
+          onClick={() => setFullscreen(!isFullscreen)}
           aria-label={isFullscreen ? "Exit fullscreen" : "View map fullscreen"}
-          className="absolute top-3 right-3 z-[1001] flex cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white/95 p-2 text-gray-700 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/95 dark:text-gray-200 dark:hover:bg-gray-800"
+          className="absolute top-3 right-3 z-[1001] flex cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white/95 p-2 text-gray-700 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/95 dark:text-gray-200 dark:hover:bg-gray-800"
         >
           {isFullscreen ? <MdFullscreenExit size={20} /> : <MdFullscreen size={20} />}
         </button>
 
-        <div className="absolute top-3 left-3 z-10 bg-white/95 dark:bg-gray-900/95 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 text-sm font-mono font-bold text-gray-900 dark:text-gray-100 shadow-sm pointer-events-none">
+        <div className="absolute top-3 left-3 z-10 bg-white/95 dark:bg-gray-900/95 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-800 text-sm font-mono font-bold text-gray-900 dark:text-gray-100 pointer-events-none">
           {airport.icaoCode} · {airport.iataCode}
         </div>
 
-        <div className="absolute bottom-3 left-3 z-10 bg-white/90 dark:bg-gray-900/90 px-2.5 py-1 rounded text-xs font-mono text-gray-700 dark:text-gray-300 pointer-events-none">
+        <div className="absolute bottom-3 left-3 z-10 bg-white/95 dark:bg-gray-900/95 px-2.5 py-1 rounded-md border border-gray-200 dark:border-gray-800 text-xs font-mono text-gray-700 dark:text-gray-300 pointer-events-none">
           {coordinates}
-        </div>
-
-        <div className="absolute bottom-1 right-1 z-10 bg-white/80 dark:bg-gray-900/80 px-1.5 py-0.5 rounded text-[10px] text-gray-500 dark:text-gray-400">
-          ©{" "}
-          <a
-            href="https://www.openstreetmap.org/copyright"
-            target="_blank"
-            rel="noreferrer"
-            className="hover:underline"
-          >
-            OpenStreetMap
-          </a>
         </div>
       </div>
     </TransparentContainer>
   );
+}
+
+function FlyToBounds({ bounds }: { bounds: L.LatLngBounds }) {
+  const map = useMap();
+  const isFirstFit = useRef(true);
+
+  useEffect(() => {
+    if (isFirstFit.current) {
+      isFirstFit.current = false;
+      return;
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      map.fitBounds(bounds, { padding: [40, 40] });
+    } else {
+      map.flyToBounds(bounds, { padding: [40, 40], duration: 1.1 });
+    }
+  }, [bounds, map]);
+
+  return null;
 }

@@ -35,3 +35,11 @@ export type Airport = {
   };
   shape: Coordinates[] | null;
 };
+
+export type AirportWeather = {
+  metar: string | null;
+  metarLastUpdate: string | null;
+  taf: string | null;
+  tafLastUpdate: string | null;
+  watch: boolean;
+};

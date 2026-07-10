@@ -14,19 +14,20 @@ type Props = {
   gates: Gate[];
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
-  onDelete: (gate: Gate) => void;
+  onDelete?: (gate: Gate) => void;
+  readOnly?: boolean;
 };
 
 function labelOf(options: { value: string; label: string }[], value: string): string {
   return options.find((o) => o.value === value)?.label ?? value;
 }
 
-export function GateList({ airportId, gates, terminals, parkingPositions, onDelete }: Props) {
+export function GateList({ airportId, gates, terminals, parkingPositions, onDelete, readOnly }: Props) {
   const groups = groupGatesByTerminal(gates, terminals);
   const parkingPositionsById = new Map(parkingPositions.map((p) => [p.id, p]));
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {groups.map((group) => (
         <CollapsibleTerminalSection key={group.terminal?.id ?? "orphan"} terminal={group.terminal}>
           {group.gates.map((gate) => {
@@ -41,26 +42,28 @@ export function GateList({ airportId, gates, terminals, parkingPositions, onDele
                 <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
                   <div className="flex items-baseline gap-2">
                     <h4 className="font-mono font-bold text-gray-900 dark:text-white">{gate.name}</h4>
-                    <Badge color="indigo">{labelOf(gateCategoryOptions, gate.category)}</Badge>
+                    <Badge color="gray">{labelOf(gateCategoryOptions, gate.category)}</Badge>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Link
-                      to={`/airports/${airportId}/gates/${gate.id}/edit`}
-                      viewTransition
-                      aria-label={`Edit gate ${gate.name}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    >
-                      <HiPencil className="size-4" />
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => onDelete(gate)}
-                      aria-label={`Delete gate ${gate.name}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-                    >
-                      <HiOutlineTrash className="size-4" />
-                    </button>
-                  </div>
+                  {!readOnly && (
+                    <div className="flex items-center gap-1">
+                      <Link
+                        to={`/airports/${airportId}/gates/${gate.id}/edit`}
+                        viewTransition
+                        aria-label={`Edit gate ${gate.name}`}
+                        className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        <HiPencil className="size-4" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => onDelete?.(gate)}
+                        aria-label={`Delete gate ${gate.name}`}
+                        className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                      >
+                        <HiOutlineTrash className="size-4" />
+                      </button>
+                    </div>
+                  )}
                 </header>
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
                   <Row

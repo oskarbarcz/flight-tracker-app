@@ -7,7 +7,6 @@ import {
   bridgeOptions,
   deicingOptions,
   fuelingOptionsList,
-  GateLocation,
   gateLocationOptions,
   groundUnitOptions,
   NoiseSensitivity,
@@ -28,7 +27,8 @@ type Props = {
   airportId: string;
   parkingPositions: ParkingPosition[];
   terminals: Terminal[];
-  onDelete: (parkingPosition: ParkingPosition) => void;
+  onDelete?: (parkingPosition: ParkingPosition) => void;
+  readOnly?: boolean;
 };
 
 function labelOf(options: { value: string; label: string }[], value: string): string {
@@ -41,7 +41,7 @@ function matchesSearch(parkingPosition: ParkingPosition, terminal: Terminal | un
   );
 }
 
-export function ParkingPositionList({ airportId, parkingPositions, terminals, onDelete }: Props) {
+export function ParkingPositionList({ airportId, parkingPositions, terminals, onDelete, readOnly }: Props) {
   const [search, setSearch] = useState("");
 
   const terminalsById = useMemo(() => new Map(terminals.map((terminal) => [terminal.id, terminal])), [terminals]);
@@ -59,8 +59,8 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
   const groups = groupParkingPositionsByTerminal(filtered, terminals);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-2.5">
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div className="w-full sm:w-72">
           <TextInput
             icon={FaMagnifyingGlass}
@@ -97,36 +97,36 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
               <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-baseline gap-2">
                   <h4 className="font-mono font-bold text-gray-900 dark:text-white">{parkingPosition.name}</h4>
-                  <Badge color={parkingPosition.location === GateLocation.Gate ? "indigo" : "gray"}>
-                    {labelOf(gateLocationOptions, parkingPosition.location)}
-                  </Badge>
+                  <Badge color="gray">{labelOf(gateLocationOptions, parkingPosition.location)}</Badge>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Link
-                    to={`/airports/${airportId}/parking-positions/new?duplicateFrom=${parkingPosition.id}`}
-                    viewTransition
-                    aria-label={`Duplicate parking position ${parkingPosition.name}`}
-                    className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <HiOutlineDuplicate className="size-4" />
-                  </Link>
-                  <Link
-                    to={`/airports/${airportId}/parking-positions/${parkingPosition.id}/edit`}
-                    viewTransition
-                    aria-label={`Edit parking position ${parkingPosition.name}`}
-                    className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <HiPencil className="size-4" />
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => onDelete(parkingPosition)}
-                    aria-label={`Delete parking position ${parkingPosition.name}`}
-                    className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-                  >
-                    <HiOutlineTrash className="size-4" />
-                  </button>
-                </div>
+                {!readOnly && (
+                  <div className="flex items-center gap-1">
+                    <Link
+                      to={`/airports/${airportId}/parking-positions/new?duplicateFrom=${parkingPosition.id}`}
+                      viewTransition
+                      aria-label={`Duplicate parking position ${parkingPosition.name}`}
+                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <HiOutlineDuplicate className="size-4" />
+                    </Link>
+                    <Link
+                      to={`/airports/${airportId}/parking-positions/${parkingPosition.id}/edit`}
+                      viewTransition
+                      aria-label={`Edit parking position ${parkingPosition.name}`}
+                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <HiPencil className="size-4" />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => onDelete?.(parkingPosition)}
+                      aria-label={`Delete parking position ${parkingPosition.name}`}
+                      className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                    >
+                      <HiOutlineTrash className="size-4" />
+                    </button>
+                  </div>
+                )}
               </header>
               <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
                 <Row label="Bridge" value={labelOf(bridgeOptions, parkingPosition.bridge)} />
