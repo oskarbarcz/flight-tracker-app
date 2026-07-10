@@ -67,6 +67,15 @@ const optionalNonNegativeTons = () =>
     .min(0, "Cannot be negative")
     .test("max-decimals", "Maximum 3 decimal places allowed", maxThreeDecimals);
 
+export const closeFlightSchema = object({
+  actualFuelBurned: number()
+    .transform((value, original) => (original === "" ? undefined : value))
+    .typeError("Actual fuel burned must be a number")
+    .required("Actual fuel burned is required")
+    .moreThan(0, "Must be greater than zero")
+    .test("max-decimals", "Maximum 3 decimal places allowed", maxThreeDecimals),
+});
+
 export const updatePreliminaryLoadsheetSchema = object().shape({
   pilots: number()
     .required("Number of pilots is required")

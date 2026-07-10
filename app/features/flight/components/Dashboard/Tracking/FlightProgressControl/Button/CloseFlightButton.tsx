@@ -1,32 +1,43 @@
 import { Button, Tooltip } from "flowbite-react";
+import React, { useState } from "react";
 import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
+import { CloseFlightModal } from "~/features/flight/components/Modal/CloseFlightModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
 
 export function CloseFlightButton({ disabled }: FlightProgressButtonProps) {
-  const { flight, activeEmergency, close } = useTrackedFlight();
+  const { flight, activeEmergency, delayRequest } = useTrackedFlight();
+  const [showModal, setShowModal] = useState(false);
 
   if (!flight) {
     return null;
   }
 
-  const onClick = async () => {
-    await close();
-  };
+  const hasUnsettledDelay = delayRequest !== null && !delayRequest.isSettled;
+  const isBlocked = Boolean(activeEmergency) || hasUnsettledDelay;
 
   const button = (
-    <Button color="indigo" outline onClick={onClick} disabled={disabled || Boolean(activeEmergency)}>
+    <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled || isBlocked}>
       {toHuman.flight.status.next(flight.status)}
     </Button>
   );
 
-  if (activeEmergency) {
-    return (
-      <Tooltip content="Resolve the active emergency before closing this flight.">
-        <span>{button}</span>
-      </Tooltip>
-    );
-  }
+  const blockedReason = activeEmergency
+    ? "Resolve the active emergency before closing this flight."
+    : hasUnsettledDelay
+      ? "Settle the delay before closing this flight."
+      : null;
 
-  return button;
+  return (
+    <>
+      {blockedReason ? (
+        <Tooltip content={blockedReason}>
+          <span>{button}</span>
+        </Tooltip>
+      ) : (
+        button
+      )}
+      {showModal && <CloseFlightModal flight={flight} onClose={() => setShowModal(false)} />}
+    </>
+  );
 }

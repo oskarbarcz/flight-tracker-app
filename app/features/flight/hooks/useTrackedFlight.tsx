@@ -93,7 +93,7 @@ type TrackedFlightContextType = {
   reportOnBlock: () => Promise<void>;
   startOffboarding: () => Promise<void>;
   finishOffboarding: () => Promise<void>;
-  close: () => Promise<void>;
+  close: (actualFuelBurned: number) => Promise<void>;
   declareEmergency: (body: DeclareEmergencyRequest) => Promise<void>;
   updateEmergency: (emergencyId: string, body: UpdateEmergencyRequest) => Promise<void>;
   resolveEmergency: (emergencyId: string) => Promise<void>;
@@ -260,11 +260,14 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     await loadFlight();
   }, [flightService, state.flightId, loadFlight]);
 
-  const close = useCallback(async () => {
-    if (!state.flightId) return;
-    await flightService.close(state.flightId);
-    await loadFlight();
-  }, [flightService, state.flightId, loadFlight]);
+  const close = useCallback(
+    async (actualFuelBurned: number) => {
+      if (!state.flightId) return;
+      await flightService.close(state.flightId, actualFuelBurned);
+      await loadFlight();
+    },
+    [flightService, state.flightId, loadFlight],
+  );
 
   const declareEmergency = useCallback(
     async (body: DeclareEmergencyRequest) => {

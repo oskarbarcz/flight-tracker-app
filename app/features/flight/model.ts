@@ -164,6 +164,7 @@ export class Flight {
   hasActiveEmergency: boolean;
   isFlightDiverted: boolean;
   hasFlightPath: boolean;
+  actualFuelBurned: number | null;
   createdAt: Date;
 
   constructor(flight: ApiFlightResponse) {
@@ -190,6 +191,7 @@ export class Flight {
     this.hasActiveEmergency = flight.hasActiveEmergency ?? false;
     this.isFlightDiverted = flight.isFlightDiverted ?? false;
     this.hasFlightPath = flight.hasFlightPath;
+    this.actualFuelBurned = flight.actualFuelBurned ?? null;
     this.createdAt = new Date(flight.createdAt);
   }
 

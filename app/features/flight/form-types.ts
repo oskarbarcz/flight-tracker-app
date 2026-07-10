@@ -25,6 +25,18 @@ export type FlatLoadsheetFormData = {
   maxTanks: number;
 };
 
+export type FlatCloseFlightFormData = {
+  actualFuelBurned: number | "";
+};
+
+export function initCloseFlightData(): FlatCloseFlightFormData {
+  return { actualFuelBurned: "" };
+}
+
+export function closeFlightFormDataToActualFuelBurned(data: FlatCloseFlightFormData): number {
+  return Number(data.actualFuelBurned);
+}
+
 function roundTons(value: number): number {
   return Math.round(value * 1000) / 1000;
 }

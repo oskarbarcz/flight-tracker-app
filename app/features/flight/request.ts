@@ -31,8 +31,13 @@ export type CreateFlightRequest = Omit<
   | "arrivalParkingPositionId"
   | "arrivalRunwayId"
   | "hasFlightPath"
+  | "actualFuelBurned"
 > & {
   alternateAirports: AlternateAirportRequest[];
+};
+
+export type CloseFlightRequest = {
+  actualFuelBurned: number;
 };
 
 export type ApiLoadsheetResponse = {
@@ -94,5 +99,6 @@ export type ApiFlightResponse = {
   hasActiveEmergency?: boolean;
   isFlightDiverted?: boolean;
   hasFlightPath: boolean;
+  actualFuelBurned: number | null;
   createdAt: string;
 };
