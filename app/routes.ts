@@ -19,6 +19,15 @@ export default [
       route("aircraft-history", "routes/pilot/history/AircraftHistoryListRoute.tsx"),
       route("aircraft-history/:id", "routes/pilot/history/AircraftHistoryDetailsRoute.tsx"),
       route("travels", "routes/pilot/travels/TravelLogRoute.tsx"),
+      route("airports-library", "routes/pilot/airports/AirportLibraryRoute.tsx"),
+      route("airports-library/:id", "routes/pilot/airports/AirportPreviewLayout.tsx", [
+        index("routes/pilot/airports/AirportDetailsTab.tsx"),
+        route("parking-positions", "routes/pilot/airports/AirportParkingTab.tsx"),
+        route("terminals", "routes/pilot/airports/AirportTerminalsTab.tsx"),
+        route("gates", "routes/pilot/airports/AirportGatesTab.tsx"),
+        route("runways", "routes/pilot/airports/AirportRunwaysTab.tsx"),
+        route("weather", "routes/pilot/airports/AirportWeatherTab.tsx"),
+      ]),
     ]),
     layout("routes/operations/OperationsLayout.tsx", [
       route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),

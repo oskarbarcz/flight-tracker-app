@@ -5,7 +5,29 @@
 }
 
 .leaflet-control-zoom.leaflet-bar {
-  @apply shadow-sm;
+  @apply overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800;
+  box-shadow: none;
+}
+.leaflet-control-zoom a.leaflet-control-zoom-in,
+.leaflet-control-zoom a.leaflet-control-zoom-out {
+  @apply flex items-center justify-center bg-white/95 text-gray-700 dark:bg-gray-900/95 dark:text-gray-200;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: 500;
+  transition: background-color 150ms ease;
+}
+.leaflet-control-zoom a.leaflet-control-zoom-in {
+  @apply border-b border-gray-200 dark:border-gray-800;
+}
+.leaflet-control-zoom a.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom a.leaflet-control-zoom-out:hover {
+  @apply bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white;
+}
+.leaflet-control-zoom a.leaflet-disabled {
+  @apply cursor-not-allowed opacity-40;
 }
 
 .leaflet-div-icon.custom-airport-marker {
@@ -88,6 +110,21 @@
 }
 .leaflet-tooltip.gate-label::before {
   display: none;
+}
+
+/* Airport map fullscreen morph (View Transitions) */
+::view-transition-group(airport-map),
+::view-transition-old(airport-map),
+::view-transition-new(airport-map) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(airport-map),
+  ::view-transition-old(airport-map),
+  ::view-transition-new(airport-map) {
+    animation-duration: 0.01ms;
+  }
 }
 
 .location-map {

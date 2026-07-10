@@ -21,7 +21,7 @@ export function AuthGuard({ allowOnly, children }: Props) {
   }
 
   if (allowOnly && user.role !== allowOnly) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children as JSX.Element;

@@ -7,14 +7,15 @@ import type { Terminal } from "~/features/terminal";
 type Props = {
   airportId: string;
   terminals: Terminal[];
-  onDelete: (terminal: Terminal) => void;
+  onDelete?: (terminal: Terminal) => void;
+  readOnly?: boolean;
 };
 
 function sortByShortName(terminals: Terminal[]): Terminal[] {
   return [...terminals].sort((a, b) => a.shortName.localeCompare(b.shortName, undefined, { numeric: true }));
 }
 
-export function TerminalList({ airportId, terminals, onDelete }: Props) {
+export function TerminalList({ airportId, terminals, onDelete, readOnly }: Props) {
   const sorted = sortByShortName(terminals);
 
   return (
@@ -29,24 +30,26 @@ export function TerminalList({ airportId, terminals, onDelete }: Props) {
               <h3 className="font-mono font-bold text-gray-900 dark:text-white">{terminal.shortName}</h3>
               <span className="text-sm text-gray-500">{terminal.fullName}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Link
-                to={`/airports/${airportId}/terminals/${terminal.id}/edit`}
-                viewTransition
-                aria-label={`Edit terminal ${terminal.shortName}`}
-                className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <HiPencil className="size-4" />
-              </Link>
-              <button
-                type="button"
-                onClick={() => onDelete(terminal)}
-                aria-label={`Delete terminal ${terminal.shortName}`}
-                className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-              >
-                <HiOutlineTrash className="size-4" />
-              </button>
-            </div>
+            {!readOnly && (
+              <div className="flex items-center gap-1">
+                <Link
+                  to={`/airports/${airportId}/terminals/${terminal.id}/edit`}
+                  viewTransition
+                  aria-label={`Edit terminal ${terminal.shortName}`}
+                  className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <HiPencil className="size-4" />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => onDelete?.(terminal)}
+                  aria-label={`Delete terminal ${terminal.shortName}`}
+                  className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                >
+                  <HiOutlineTrash className="size-4" />
+                </button>
+              </div>
+            )}
           </header>
           <div className="flex flex-col gap-2 px-4 py-2.5 text-sm">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-gray-800 dark:text-gray-200">

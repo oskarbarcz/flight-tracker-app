@@ -4,6 +4,7 @@ import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "re
 import { createPortal } from "react-dom";
 import { FaXmark } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
+import { keywordRank, matchesKeywords } from "~/shared/lib/keywordSearch";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
@@ -27,21 +28,6 @@ type Props = {
   maxResults?: number;
   menuMinWidth?: number;
 };
-
-function matchesQuery(option: AdvancedSelectOption, query: string): boolean {
-  return option.keywords.some((keyword) => keyword.toLowerCase().includes(query));
-}
-
-function matchRank(option: AdvancedSelectOption, query: string): number {
-  const keywords = option.keywords.map((keyword) => keyword.toLowerCase());
-  if (keywords.some((keyword) => keyword === query)) {
-    return 0;
-  }
-  if (keywords.some((keyword) => keyword.startsWith(query))) {
-    return 1;
-  }
-  return 2;
-}
 
 export function AdvancedSelect({
   className,
@@ -98,8 +84,8 @@ export function AdvancedSelect({
 
   const { results, totalMatches } = useMemo(() => {
     const query = search.trim().toLowerCase();
-    const matched = query === "" ? options : options.filter((option) => matchesQuery(option, query));
-    const ranked = [...matched].sort((a, b) => matchRank(a, query) - matchRank(b, query));
+    const matched = query === "" ? options : options.filter((option) => matchesKeywords(option.keywords, query));
+    const ranked = [...matched].sort((a, b) => keywordRank(a.keywords, query) - keywordRank(b.keywords, query));
     return { results: ranked.slice(0, maxResults), totalMatches: matched.length };
   }, [options, search, maxResults]);
 

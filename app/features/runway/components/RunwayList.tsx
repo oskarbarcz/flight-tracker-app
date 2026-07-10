@@ -8,7 +8,8 @@ import { formatDegrees } from "~/shared/lib/geo";
 type Props = {
   airportId: string;
   runways: Runway[];
-  onDelete: (runway: Runway) => void;
+  onDelete?: (runway: Runway) => void;
+  readOnly?: boolean;
 };
 
 function surfaceLabel(value: string): string {
@@ -20,7 +21,7 @@ function formatHeading(value: number | null): string {
   return formatDegrees(value);
 }
 
-export function RunwayList({ airportId, runways, onDelete }: Props) {
+export function RunwayList({ airportId, runways, onDelete, readOnly }: Props) {
   const pairs = groupRunwaysByPair(runways);
 
   return (
@@ -65,24 +66,26 @@ export function RunwayList({ airportId, runways, onDelete }: Props) {
                       <span className="text-gray-500">· elev {end.elevation}m</span>
                     ) : null}
                   </div>
-                  <div className="ms-auto flex items-center gap-1">
-                    <Link
-                      to={`/airports/${airportId}/runways/${end.id}/edit`}
-                      viewTransition
-                      aria-label={`Edit runway ${end.designator}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    >
-                      <HiPencil className="size-4" />
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => onDelete(end)}
-                      aria-label={`Delete runway ${end.designator}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
-                    >
-                      <HiOutlineTrash className="size-4" />
-                    </button>
-                  </div>
+                  {!readOnly && (
+                    <div className="ms-auto flex items-center gap-1">
+                      <Link
+                        to={`/airports/${airportId}/runways/${end.id}/edit`}
+                        viewTransition
+                        aria-label={`Edit runway ${end.designator}`}
+                        className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      >
+                        <HiPencil className="size-4" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => onDelete?.(end)}
+                        aria-label={`Delete runway ${end.designator}`}
+                        className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                      >
+                        <HiOutlineTrash className="size-4" />
+                      </button>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
