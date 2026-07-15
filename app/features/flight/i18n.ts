@@ -28,6 +28,7 @@ export function translateEventType(eventType: FlightEventType): string {
     [FlightEventType.PilotCheckedIn]: "Pilot checked in",
     [FlightEventType.BoardingWasStarted]: "Boarding started",
     [FlightEventType.BoardingWasFinished]: "Boarding finished",
+    [FlightEventType.LivePositionReceived]: "Live position received",
     [FlightEventType.OffBlockWasReported]: "Off-block reported",
     [FlightEventType.TakeoffWasReported]: "Takeoff reported",
     [FlightEventType.ArrivalWasReported]: "Arrival reported",

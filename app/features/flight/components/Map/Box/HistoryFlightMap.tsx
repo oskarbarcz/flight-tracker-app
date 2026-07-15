@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { MapContainer } from "react-leaflet";
 import type { Diversion } from "~/features/diversion";
-import type { Flight, FlightPathElement } from "~/features/flight";
-import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
+import { type Flight, type FlightPathElement, Tracking } from "~/features/flight";
+import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
 import { DiversionRoute } from "~/features/flight/components/Map/Element/DiversionRoute";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -67,11 +67,12 @@ export function HistoryFlightMap({ flight, diversion = null }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
-      <div className="absolute top-3 left-3 bg-white w-fit flex items-center gap-2 rounded-lg px-3 py-1.5 z-10 dark:bg-gray-900">
-        <FaClockRotateLeft className="text-gray-500" />
-        <span className="uppercase font-bold text-xs">Historic data</span>
-      </div>
-      <LiveTelemetryOverlay point={lastPathPoint} />
+      <MapTopBar flightId={flight.id} canShare={flight.tracking !== Tracking.Disabled}>
+        <span className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
+          <FaClockRotateLeft className="size-3" />
+          Historic flight path
+        </span>
+      </MapTopBar>
     </div>
   );
 }

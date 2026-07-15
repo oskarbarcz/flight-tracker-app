@@ -8,6 +8,7 @@ import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatC
 import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
+import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
@@ -18,7 +19,7 @@ import { useApi } from "~/shared/api/useApi";
 export function TrackingFlightMap() {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
-  const { runwayService, terminalService, parkingPositionService } = useApi();
+  const { runwayService, terminalService, parkingPositionService, gateService } = useApi();
   const cachedParkingPositionService = useMemo(
     () => ({ fetchAll: (airportId: string) => parkingPositionService.fetchAllCached(airportId) }),
     [parkingPositionService],
@@ -66,6 +67,7 @@ export function TrackingFlightMap() {
       <TrackingAirportLayoutLayer
         terminalService={terminalService}
         parkingPositionService={cachedParkingPositionService}
+        gateService={gateService}
         departureAirport={flight.departureAirport}
         destinationAirport={flight.destinationAirport}
         departureParkingPositionId={flight.departureParkingPositionId}
@@ -81,6 +83,8 @@ export function TrackingFlightMap() {
         departurePosition={departurePosition}
         destinationPosition={destinationPosition}
       />
+
+      <MapResizeHandler />
     </MapContainer>
   );
 }

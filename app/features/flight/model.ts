@@ -40,10 +40,21 @@ export enum Tracking {
   Public = "public",
 }
 
-export function shouldPollForAdsbData(status: FlightStatus): boolean {
-  const trackableStatuses = [FlightStatus.TaxiingOut, FlightStatus.InCruise, FlightStatus.TaxiingIn];
+const inFlightStatuses = [FlightStatus.TaxiingOut, FlightStatus.InCruise, FlightStatus.TaxiingIn];
 
-  return trackableStatuses.includes(status);
+const liveTrackableStatuses = [
+  FlightStatus.CheckedIn,
+  FlightStatus.BoardingStarted,
+  FlightStatus.BoardingFinished,
+  ...inFlightStatuses,
+];
+
+export function isInFlightStatus(status: FlightStatus): boolean {
+  return inFlightStatuses.includes(status);
+}
+
+export function shouldPollForAdsbData(status: FlightStatus, hasLivePosition = false): boolean {
+  return hasLivePosition && liveTrackableStatuses.includes(status);
 }
 
 export type AirportOnFlight = Airport & {
@@ -245,6 +256,7 @@ export enum FlightEventType {
   PilotCheckedIn = "flight.pilot-checked-in",
   BoardingWasStarted = "flight.boarding-started",
   BoardingWasFinished = "flight.boarding-finished",
+  LivePositionReceived = "flight.live-position-received",
   OffBlockWasReported = "flight.off-block-reported",
   TakeoffWasReported = "flight.takeoff-reported",
   ArrivalWasReported = "flight.arrival-reported",
