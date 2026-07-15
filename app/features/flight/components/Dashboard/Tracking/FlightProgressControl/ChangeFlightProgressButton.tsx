@@ -75,12 +75,12 @@ export function ChangeFlightProgressButton() {
   }
 
   return (
-    <div className="mt-4 flex w-full justify-end gap-3">
+    <>
       <Button color="indigo" outline onClick={onClick}>
         {disabled && <FaUnlock />}
         {!disabled && <FaLock />}
       </Button>
       {mapStatusToButton(flight.status, disabled)}
-    </div>
+    </>
   );
 }
