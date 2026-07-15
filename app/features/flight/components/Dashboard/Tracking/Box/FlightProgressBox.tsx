@@ -1,6 +1,7 @@
 import { FaGaugeHigh } from "react-icons/fa6";
 import { FlightStatus } from "~/features/flight";
 import { ChangeFlightProgressButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
+import { AutoArrivalNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/AutoArrivalNotice";
 import { AutoOffBlockNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/AutoOffBlockNotice";
 import { AutoTakeoffNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/AutoTakeoffNotice";
 import { DelayNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/DelayNotice";
@@ -36,6 +37,7 @@ export function FlightProgressBox() {
       <PhaseMetrics flight={flight} />
       <AutoOffBlockNotice />
       <AutoTakeoffNotice />
+      <AutoArrivalNotice />
       <DelayNotice />
       {showAction && (
         <div className="mt-auto">
