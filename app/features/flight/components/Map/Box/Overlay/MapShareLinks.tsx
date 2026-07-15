@@ -2,26 +2,22 @@ import { Button } from "flowbite-react";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router";
-import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 
-export function MapLinkOverlay() {
-  const { flight } = useTrackedFlight();
+type Props = {
+  flightId: string;
+};
 
-  if (!flight) {
-    return null;
-  }
-
+export function MapShareLinks({ flightId }: Props) {
   const handleCopy = () => {
-    const baseUrl = window.location.origin;
-    const trackingUrl = `${baseUrl}/map/${flight.id}`;
+    const trackingUrl = `${window.location.origin}/map/${flightId}`;
     navigator.clipboard.writeText(trackingUrl).then();
   };
 
   return (
-    <div className="absolute top-3 right-3 flex gap-3">
+    <div className="flex gap-2">
       <Button
         as={Link}
-        to={`/map/${flight.id}`}
+        to={`/map/${flightId}`}
         title="Open full-screen tracking in new tab"
         target="_blank"
         size="xs"

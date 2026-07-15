@@ -1,8 +1,10 @@
+import { twMerge } from "tailwind-merge";
 import type { FlightPathElement } from "~/features/flight";
 import { formatDegrees } from "~/shared/lib/geo";
 
 type Props = {
   point: FlightPathElement | undefined;
+  className?: string;
 };
 
 function formatAltitude(altitude: number | undefined): string {
@@ -27,11 +29,11 @@ function formatVerticalRate(verticalRate: number | undefined): string {
   return `${sign}${rounded.toLocaleString("en-US")} fpm`;
 }
 
-export function LiveTelemetryOverlay({ point }: Props) {
+export function LiveTelemetryOverlay({ point, className }: Props) {
   if (!point) return null;
 
   return (
-    <div className="absolute top-3 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+    <div className={twMerge("absolute top-3 left-1/2 -translate-x-1/2 pointer-events-none z-10", className)}>
       <dl className="grid grid-cols-4 gap-3 rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-900">
         <Stat label="ALT" value={formatAltitude(point.altitude)} />
         <Stat label="GS" value={formatGroundSpeed(point.groundSpeed)} />

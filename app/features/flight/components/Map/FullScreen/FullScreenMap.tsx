@@ -2,11 +2,11 @@ import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
 import type { Flight, FlightPathElement } from "~/features/flight";
 import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
+import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
-import { MapBottomDrawer } from "~/features/flight/components/Map/Element/MapBottomDrawer";
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
@@ -21,7 +21,8 @@ type Props = {
 };
 
 export function FullScreenMap({ flight, path }: Props) {
-  const { publicRunwayService, publicTerminalService, publicParkingPositionService } = usePublicApi();
+  const { publicRunwayService, publicTerminalService, publicParkingPositionService, publicGateService } =
+    usePublicApi();
   const mapOptions = {
     padding: [100, 100],
     duration: 1,
@@ -70,6 +71,7 @@ export function FullScreenMap({ flight, path }: Props) {
         <TrackingAirportLayoutLayer
           terminalService={publicTerminalService}
           parkingPositionService={publicParkingPositionService}
+          gateService={publicGateService}
           departureAirport={flight.departureAirport}
           destinationAirport={flight.destinationAirport}
           departureParkingPositionId={flight.departureParkingPositionId}
@@ -86,7 +88,7 @@ export function FullScreenMap({ flight, path }: Props) {
       </MapContainer>
       <LiveTelemetryOverlay point={lastPosition} />
       <FlightDetailsSectionOverlay flight={flight} />
-      <MapBottomDrawer />
+      <MapOptionsControl />
     </div>
   );
 }

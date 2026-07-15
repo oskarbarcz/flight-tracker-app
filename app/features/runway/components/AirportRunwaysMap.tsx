@@ -1,10 +1,12 @@
 import L from "leaflet";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
-import { MapContainer, ZoomControl } from "react-leaflet";
+import { useMemo } from "react";
+import { MapContainer } from "react-leaflet";
+import { twMerge } from "tailwind-merge";
 import type { Airport } from "~/features/airport";
+import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
 import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
+import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
@@ -14,6 +16,7 @@ import type { ParkingPosition } from "~/features/parking-position";
 import type { Runway } from "~/features/runway";
 import { computeRunwayLines } from "~/features/runway/lib/runwayPairs";
 import type { Terminal } from "~/features/terminal";
+import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
 type Props = {
@@ -26,8 +29,7 @@ type Props = {
 };
 
 export function AirportRunwaysMap({ airport, runways, terminals, parkingPositions, gates, fallbackCenter }: Props) {
-  const mapRef = useRef<L.Map | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
   const lines = useMemo(() => computeRunwayLines(runways), [runways]);
 
   const bounds = useMemo(() => {
@@ -61,62 +63,31 @@ export function AirportRunwaysMap({ airport, runways, terminals, parkingPosition
     return L.latLngBounds(points);
   }, [lines, airport.shape, terminals, parkingPositions, gates, fallbackCenter.latitude, fallbackCenter.longitude]);
 
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-    if (isFullscreen) {
-      map.scrollWheelZoom.enable();
-    } else {
-      map.scrollWheelZoom.disable();
-    }
-    const id = window.setTimeout(() => map.invalidateSize(), 120);
-    return () => window.clearTimeout(id);
-  }, [isFullscreen]);
-
-  useEffect(() => {
-    if (!isFullscreen) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsFullscreen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isFullscreen]);
-
   return (
     <TransparentContainer className="h-full">
-      <div
-        className={
-          isFullscreen
-            ? "fixed inset-0 z-[1000] h-screen w-screen bg-gray-100 dark:bg-gray-950"
-            : "relative h-full min-h-72 w-full"
-        }
-      >
+      <div ref={containerRef} className={twMerge("relative h-full min-h-72 w-full", containerClassName)}>
         <MapContainer
-          ref={mapRef}
           bounds={bounds}
           boundsOptions={{ padding: [40, 40] }}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
           className="h-full w-full z-0"
           zoomControl={false}
           attributionControl={false}
         >
-          <ZoomControl position="bottomright" />
           <MapTileLayer />
           <AirportShapePolygon airport={airport} />
           <TerminalPolygons terminals={terminals} />
           <ParkingPositionMarkers parkingPositions={parkingPositions} />
           <GateMarkers gates={gates} />
           <RunwayLines runways={runways} />
+          <MapResizeHandler />
         </MapContainer>
 
-        <button
-          type="button"
-          onClick={() => setIsFullscreen((value) => !value)}
-          aria-label={isFullscreen ? "Exit fullscreen" : "View map fullscreen"}
-          className="absolute top-3 right-3 z-[1001] flex cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-white/95 p-2 text-gray-700 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/95 dark:text-gray-200 dark:hover:bg-gray-800"
-        >
-          {isFullscreen ? <MdFullscreenExit size={20} /> : <MdFullscreen size={20} />}
-        </button>
+        <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
+          <span className="font-mono text-sm font-bold text-gray-900 dark:text-gray-100">
+            {airport.icaoCode} · {airport.iataCode}
+          </span>
+        </MapTopBar>
       </div>
     </TransparentContainer>
   );

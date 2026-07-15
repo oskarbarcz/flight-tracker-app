@@ -8,6 +8,7 @@ export type MapSettings = {
   autoCenter: boolean;
   parkingPositionDisplay: DisplayMode;
   terminalDisplay: DisplayMode;
+  gateDisplay: DisplayMode;
   runwayDisplay: DisplayMode;
 };
 
@@ -15,7 +16,8 @@ const defaultMapSettings: MapSettings = {
   centerOn: "route",
   autoCenter: true,
   parkingPositionDisplay: "assigned",
-  terminalDisplay: "all",
+  terminalDisplay: "assigned",
+  gateDisplay: "none",
   runwayDisplay: "all",
 };
 

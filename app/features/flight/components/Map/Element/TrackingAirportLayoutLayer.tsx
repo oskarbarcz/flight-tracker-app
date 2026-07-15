@@ -3,9 +3,11 @@ import { useMap, useMapEvents } from "react-leaflet";
 import { type DisplayMode, useMapSettings } from "~/app-state/useMapSettings";
 import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
+import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
 import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
+import type { Gate } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
 
@@ -17,9 +19,14 @@ type ParkingPositionSource = {
   fetchAll: (airportId: string) => Promise<ParkingPosition[]>;
 };
 
+type GateSource = {
+  fetchAll: (airportId: string) => Promise<Gate[]>;
+};
+
 type Props = {
   terminalService: TerminalSource;
   parkingPositionService: ParkingPositionSource;
+  gateService: GateSource;
   departureAirport: Airport;
   destinationAirport: Airport;
   departureParkingPositionId: string | null;
@@ -29,6 +36,7 @@ type Props = {
 export function TrackingAirportLayoutLayer({
   terminalService,
   parkingPositionService,
+  gateService,
   departureAirport,
   destinationAirport,
   departureParkingPositionId,
@@ -41,6 +49,8 @@ export function TrackingAirportLayoutLayer({
   const [destinationTerminals, setDestinationTerminals] = useState<Terminal[]>([]);
   const [departureParkingPositions, setDepartureParkingPositions] = useState<ParkingPosition[]>([]);
   const [destinationParkingPositions, setDestinationParkingPositions] = useState<ParkingPosition[]>([]);
+  const [departureGates, setDepartureGates] = useState<Gate[]>([]);
+  const [destinationGates, setDestinationGates] = useState<Gate[]>([]);
 
   useMapEvents({
     zoomend: () => setZoom(map.getZoom()),
@@ -74,6 +84,20 @@ export function TrackingAirportLayoutLayer({
       .catch(() => setDestinationParkingPositions([]));
   }, [parkingPositionService, destinationAirport.id]);
 
+  useEffect(() => {
+    gateService
+      .fetchAll(departureAirport.id)
+      .then(setDepartureGates)
+      .catch(() => setDepartureGates([]));
+  }, [gateService, departureAirport.id]);
+
+  useEffect(() => {
+    gateService
+      .fetchAll(destinationAirport.id)
+      .then(setDestinationGates)
+      .catch(() => setDestinationGates([]));
+  }, [gateService, destinationAirport.id]);
+
   if (zoom < AIRPORT_DETAIL_ZOOM_THRESHOLD) return null;
 
   const visibleDepartureParkingPositions = pickParkingPositions(
@@ -100,6 +124,9 @@ export function TrackingAirportLayoutLayer({
     mapSettings.terminalDisplay,
   );
 
+  const visibleDepartureGates = pickGates(departureGates, departureParkingPositionId, mapSettings.gateDisplay);
+  const visibleArrivalGates = pickGates(destinationGates, arrivalParkingPositionId, mapSettings.gateDisplay);
+
   return (
     <>
       <AirportShapePolygon airport={departureAirport} />
@@ -108,6 +135,8 @@ export function TrackingAirportLayoutLayer({
       <TerminalPolygons terminals={visibleArrivalTerminals} />
       <ParkingPositionMarkers parkingPositions={visibleDepartureParkingPositions} />
       <ParkingPositionMarkers parkingPositions={visibleArrivalParkingPositions} />
+      <GateMarkers gates={visibleDepartureGates} />
+      <GateMarkers gates={visibleArrivalGates} />
     </>
   );
 }
@@ -134,4 +163,11 @@ function pickTerminals(
   const assignedTerminalId = parkingPositions.find((p) => p.id === assignedParkingPositionId)?.terminalId;
   if (!assignedTerminalId) return [];
   return terminals.filter((t) => t.id === assignedTerminalId);
+}
+
+function pickGates(gates: Gate[], assignedParkingPositionId: string | null, mode: DisplayMode): Gate[] {
+  if (mode === "none") return [];
+  if (mode === "all") return gates;
+  if (assignedParkingPositionId === null) return [];
+  return gates.filter((gate) => gate.parkingPositionId === assignedParkingPositionId);
 }
