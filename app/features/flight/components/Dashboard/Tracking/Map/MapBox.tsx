@@ -4,7 +4,7 @@ import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { FlightEventType, shouldPollForAdsbData, Tracking } from "~/features/flight";
 import { AdsbStatusIndicator } from "~/features/flight/components/Map/Box/Overlay/AdsbStatusIndicator";
-import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
+import { LiveTelemetry } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetry";
 import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
 import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
 import { TrackingFlightMap } from "~/features/flight/components/Map/Box/TrackingFlightMap";
@@ -61,10 +61,10 @@ export function MapBox({ className }: MapBoxProps) {
             canShare={flight.tracking !== Tracking.Disabled}
             isMaximized={isMaximized}
             onToggleMaximize={toggle}
+            center={<LiveTelemetry point={flightPath[flightPath.length - 1]} />}
           >
             <AdsbStatusIndicator status={flight.status} isOnline={flightPath.length > 0} />
           </MapTopBar>
-          <LiveTelemetryOverlay point={flightPath[flightPath.length - 1]} className="top-14" />
           <MapOptionsControl size="sm" />
         </MapSettingsProvider>
       </div>

@@ -38,5 +38,5 @@ export function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
     return null;
   }
 
-  return <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={planeIcon} />;
+  return <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={planeIcon} zIndexOffset={10000} />;
 }

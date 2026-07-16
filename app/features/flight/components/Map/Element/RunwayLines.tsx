@@ -1,49 +1,68 @@
 import L from "leaflet";
 import { useMemo } from "react";
-import { Marker, Polyline } from "react-leaflet";
+import { Marker, Polygon } from "react-leaflet";
 import type { Runway } from "~/features/runway";
-import { computeRunwayLines } from "~/features/runway/lib/runwayPairs";
+import { computeRunwayRibbons, type RunwayRibbon } from "~/features/runway/lib/runwayPairs";
+import { escapeHtml } from "~/shared/lib/escapeHtml";
+import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
 
 type Props = {
   runways: Runway[];
   selectedRunwayId?: string | null;
 };
 
-const SELECTED_COLOR = "#4338ca";
-const UNSELECTED_LABEL_COLOR = "#9ca3af";
-const UNSELECTED_LINE_COLOR = "#d1d5db";
+function labelRotation([start, end]: RunwayRibbon["centerline"]): number {
+  const meanLatitude = (((start[0] + end[0]) / 2) * Math.PI) / 180;
+  const dx = (end[1] - start[1]) * Math.cos(meanLatitude);
+  const dy = -(end[0] - start[0]);
+  let degrees = (Math.atan2(dy, dx) * 180) / Math.PI;
+  if (degrees > 90) degrees -= 180;
+  if (degrees < -90) degrees += 180;
+  return degrees;
+}
 
-function endLabelIcon(designator: string, color: string) {
+function designatorIcon(designator: string, selected: boolean, rotation: number) {
+  const labelClass = `map-runway-label${selected ? " map-runway-label--selected" : ""}`;
   return new L.DivIcon({
-    html: `<span class="rounded text-white font-mono font-bold text-xs px-1.5 py-0.5 shadow" style="background-color: ${color}">${designator}</span>`,
-    className: "",
+    html: `<div class="map-runway-anchor"><span class="${labelClass}" style="transform: rotate(${rotation}deg)">${escapeHtml(designator)}</span></div>`,
+    className: "map-marker",
     iconSize: [0, 0],
-    iconAnchor: [-4, 6],
+    iconAnchor: [0, 0],
   });
 }
 
 export function RunwayLines({ runways, selectedRunwayId }: Props) {
-  const lines = useMemo(() => computeRunwayLines(runways), [runways]);
+  const ribbons = useMemo(() => computeRunwayRibbons(runways), [runways]);
 
   return (
     <>
-      {lines.map((line) => {
-        const isSelectedPair = line.ends.some((end) => end.id === selectedRunwayId);
-        const color = isSelectedPair ? SELECTED_COLOR : UNSELECTED_LINE_COLOR;
-        return <Polyline key={line.key} positions={line.positions} pathOptions={{ color, weight: 6, opacity: 0.85 }} />;
+      {ribbons.map((ribbon) => {
+        const selected = ribbon.ends.some((end) => end.id === selectedRunwayId);
+        const color = selected ? FLIGHT_COLOR : RUNWAY_COLOR;
+        return (
+          <Polygon
+            key={ribbon.key}
+            positions={ribbon.polygon}
+            pathOptions={{
+              color,
+              weight: 0.75,
+              opacity: selected ? 0.9 : 0.55,
+              fillColor: color,
+              fillOpacity: selected ? 0.85 : 0.45,
+            }}
+          />
+        );
       })}
-      {lines.flatMap((line) =>
-        line.ends.map((end) => {
-          const color = end.id === selectedRunwayId ? SELECTED_COLOR : UNSELECTED_LABEL_COLOR;
-          return (
-            <Marker
-              key={end.id}
-              position={[end.coordinates.latitude, end.coordinates.longitude]}
-              icon={endLabelIcon(end.designator, color)}
-            />
-          );
-        }),
-      )}
+      {ribbons.flatMap((ribbon) => {
+        const rotation = labelRotation(ribbon.centerline);
+        return ribbon.ends.map((end) => (
+          <Marker
+            key={end.id}
+            position={[end.coordinates.latitude, end.coordinates.longitude]}
+            icon={designatorIcon(end.designator, end.id === selectedRunwayId, rotation)}
+          />
+        ));
+      })}
     </>
   );
 }

@@ -1,38 +1,37 @@
 import L from "leaflet";
-import { Marker, Tooltip } from "react-leaflet";
+import { Marker } from "react-leaflet";
 import type { ParkingPosition } from "~/features/parking-position";
-import { PIN_COLOR } from "~/shared/lib/mapColors";
+import { escapeHtml } from "~/shared/lib/escapeHtml";
 
 type Props = {
   parkingPositions: ParkingPosition[];
+  assignedParkingPositionId?: string | null;
 };
 
-const pinIcon = new L.DivIcon({
-  html: `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${PIN_COLOR}" width="22px" height="22px">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
-    </svg>
-  `,
-  className: "",
-  iconSize: [22, 22],
-  iconAnchor: [11, 22],
-});
+function parkingIcon(name: string, filled: boolean, assigned: boolean) {
+  const dotClass = `map-parking__dot ${filled ? "map-parking__dot--filled" : "map-parking__dot--hollow"}`;
+  const labelClass = `map-parking__label${assigned ? " map-parking__label--assigned" : ""}`;
+  return new L.DivIcon({
+    html: `<span class="map-parking"><span class="${dotClass}"></span><span class="${labelClass}">${escapeHtml(name)}</span></span>`,
+    className: "map-marker",
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  });
+}
 
-export function ParkingPositionMarkers({ parkingPositions }: Props) {
+export function ParkingPositionMarkers({ parkingPositions, assignedParkingPositionId }: Props) {
   return (
     <>
       {parkingPositions.map((parkingPosition) => {
         if (!parkingPosition.coordinates) return null;
+        const assigned = Boolean(assignedParkingPositionId) && parkingPosition.id === assignedParkingPositionId;
+        const filled = !assignedParkingPositionId || assigned;
         return (
           <Marker
             key={parkingPosition.id}
             position={[parkingPosition.coordinates.latitude, parkingPosition.coordinates.longitude]}
-            icon={pinIcon}
-          >
-            <Tooltip permanent direction="top" offset={[0, -18]} className="gate-label">
-              {parkingPosition.name}
-            </Tooltip>
-          </Marker>
+            icon={parkingIcon(parkingPosition.name, filled, assigned)}
+          />
         );
       })}
     </>
