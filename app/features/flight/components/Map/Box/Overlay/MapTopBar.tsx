@@ -11,7 +11,14 @@ type Props = {
   onToggleMaximize?: () => void;
 };
 
-export function MapTopBar({ children, center, flightId, canShare = false, isMaximized = false, onToggleMaximize }: Props) {
+export function MapTopBar({
+  children,
+  center,
+  flightId,
+  canShare = false,
+  isMaximized = false,
+  onToggleMaximize,
+}: Props) {
   return (
     <div className="absolute inset-x-0 top-0 z-20 flex items-center gap-3 border-b border-gray-200 bg-white px-3 py-2 dark:border-gray-700 dark:bg-gray-900">
       <div className="flex shrink-0 items-center">{children}</div>

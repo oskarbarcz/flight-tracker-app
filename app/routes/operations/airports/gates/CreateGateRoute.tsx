@@ -8,7 +8,6 @@ import type { Airport } from "~/features/airport";
 import { AirportService } from "~/features/airport/service";
 import { type CreateGateFormData, gateCategoryOptions, initCreateGateData } from "~/features/gate";
 import { createGateSchema } from "~/features/gate/schema";
-import { GateService } from "~/features/gate/service";
 import { gateFormDataToRequest } from "~/features/gate/transformer";
 import type { ParkingPosition } from "~/features/parking-position";
 import { ParkingPositionService } from "~/features/parking-position/service";
