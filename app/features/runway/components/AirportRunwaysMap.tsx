@@ -1,6 +1,6 @@
 import L from "leaflet";
-import { useMemo } from "react";
-import { MapContainer } from "react-leaflet";
+import { useMemo, useState } from "react";
+import { MapContainer, useMap, useMapEvents } from "react-leaflet";
 import { twMerge } from "tailwind-merge";
 import type { Airport } from "~/features/airport";
 import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
@@ -11,6 +11,11 @@ import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLa
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
+import {
+  AIRPORT_LABELS_ZOOM_THRESHOLD,
+  AIRPORT_SHAPE_ZOOM_THRESHOLD,
+  AIRPORT_STRUCTURE_ZOOM_THRESHOLD,
+} from "~/features/flight/components/Map/Element/zoomThresholds";
 import type { Gate } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Runway } from "~/features/runway";
@@ -27,6 +32,38 @@ type Props = {
   gates: Gate[];
   fallbackCenter: { latitude: number; longitude: number };
 };
+
+type LayerProps = {
+  airport: Airport;
+  runways: Runway[];
+  terminals: Terminal[];
+  parkingPositions: ParkingPosition[];
+  gates: Gate[];
+};
+
+function ZoomedAirportLayers({ airport, runways, terminals, parkingPositions, gates }: LayerProps) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(map.getZoom());
+
+  useMapEvents({
+    zoomend: () => setZoom(map.getZoom()),
+  });
+
+  if (zoom < AIRPORT_SHAPE_ZOOM_THRESHOLD) return null;
+
+  const showStructure = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD;
+  const showLabels = zoom >= AIRPORT_LABELS_ZOOM_THRESHOLD;
+
+  return (
+    <>
+      <AirportShapePolygon airport={airport} />
+      {showStructure && <TerminalPolygons terminals={terminals} />}
+      {showStructure && <RunwayLines runways={runways} />}
+      {showLabels && <ParkingPositionMarkers parkingPositions={parkingPositions} />}
+      {showLabels && <GateMarkers gates={gates} />}
+    </>
+  );
+}
 
 export function AirportRunwaysMap({ airport, runways, terminals, parkingPositions, gates, fallbackCenter }: Props) {
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
@@ -75,11 +112,13 @@ export function AirportRunwaysMap({ airport, runways, terminals, parkingPosition
           attributionControl={false}
         >
           <MapTileLayer />
-          <AirportShapePolygon airport={airport} />
-          <TerminalPolygons terminals={terminals} />
-          <ParkingPositionMarkers parkingPositions={parkingPositions} />
-          <GateMarkers gates={gates} />
-          <RunwayLines runways={runways} />
+          <ZoomedAirportLayers
+            airport={airport}
+            runways={runways}
+            terminals={terminals}
+            parkingPositions={parkingPositions}
+            gates={gates}
+          />
           <MapResizeHandler />
         </MapContainer>
 

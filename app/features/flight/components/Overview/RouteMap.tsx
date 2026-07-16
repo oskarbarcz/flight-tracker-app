@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { AdsbProvider, useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { type Flight, isInFlightStatus } from "~/features/flight";
 import { AdsbStatusIndicator } from "~/features/flight/components/Map/Box/Overlay/AdsbStatusIndicator";
-import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
+import { LiveTelemetry } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetry";
 import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -77,11 +77,9 @@ function RouteMapContent({ flight }: Props) {
           <MapResizeHandler />
         </MapContainer>
 
-        <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
+        <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle} center={<LiveTelemetry point={lastPathPoint} />}>
           <AdsbStatusIndicator status={flight.status} isOnline={flightPath.length > 0} />
         </MapTopBar>
-
-        <LiveTelemetryOverlay point={lastPathPoint} className="top-14" />
 
         <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-[10px] text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
           ©{" "}

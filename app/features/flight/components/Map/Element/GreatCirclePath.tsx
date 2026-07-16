@@ -24,8 +24,8 @@ function generateGreatCirclePath(from: MapPoint, to: MapPoint): LatLngTuple[] {
 }
 
 const VARIANT_STYLE = {
-  primary: { color: "#6875F5", weight: 4, dashArray: "10 10", opacity: 0.5 },
-  diversion: { color: "#dc2626", weight: 4, dashArray: "6 8", opacity: 0.85 },
+  primary: { color: "#6366f1", weight: 2, dashArray: "6 6", opacity: 0.8 },
+  diversion: { color: "#dc2626", weight: 2, dashArray: "6 6", opacity: 0.9 },
 } as const;
 
 export function GreatCirclePath({ start, end, variant = "primary" }: GreatCirclePathType) {

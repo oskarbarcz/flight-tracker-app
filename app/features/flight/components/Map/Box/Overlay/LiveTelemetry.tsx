@@ -1,10 +1,8 @@
-import { twMerge } from "tailwind-merge";
 import type { FlightPathElement } from "~/features/flight";
 import { formatDegrees } from "~/shared/lib/geo";
 
 type Props = {
   point: FlightPathElement | undefined;
-  className?: string;
 };
 
 function formatAltitude(altitude: number | undefined): string {
@@ -29,26 +27,26 @@ function formatVerticalRate(verticalRate: number | undefined): string {
   return `${sign}${rounded.toLocaleString("en-US")} fpm`;
 }
 
-export function LiveTelemetryOverlay({ point, className }: Props) {
+export function LiveTelemetry({ point }: Props) {
   if (!point) return null;
 
   return (
-    <div className={twMerge("absolute top-3 left-1/2 -translate-x-1/2 pointer-events-none z-10", className)}>
-      <dl className="grid grid-cols-4 gap-3 rounded-lg bg-gray-100 px-3 py-2 dark:bg-gray-900">
-        <Stat label="ALT" value={formatAltitude(point.altitude)} />
-        <Stat label="GS" value={formatGroundSpeed(point.groundSpeed)} />
-        <Stat label="TRK" value={formatTrack(point.track)} />
-        <Stat label="V/S" value={formatVerticalRate(point.verticalRate)} />
-      </dl>
+    <div className="flex items-center gap-3">
+      <Stat label="ALT" value={formatAltitude(point.altitude)} />
+      <Stat label="GS" value={formatGroundSpeed(point.groundSpeed)} />
+      <Stat label="TRK" value={formatTrack(point.track)} />
+      <Stat label="V/S" value={formatVerticalRate(point.verticalRate)} />
     </div>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-[4.5rem] text-center">
-      <dt className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</dt>
-      <dd className="mt-0.5 font-mono text-sm font-semibold tabular-nums text-gray-800 dark:text-gray-100">{value}</dd>
-    </div>
+    <span className="flex items-baseline gap-1 whitespace-nowrap">
+      <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-gray-400 dark:text-gray-500">
+        {label}
+      </span>
+      <span className="font-mono text-xs font-semibold tabular-nums text-gray-800 dark:text-gray-100">{value}</span>
+    </span>
   );
 }

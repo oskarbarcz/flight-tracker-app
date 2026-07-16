@@ -1,7 +1,7 @@
 import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
 import type { Flight, FlightPathElement } from "~/features/flight";
-import { LiveTelemetryOverlay } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetryOverlay";
+import { LiveTelemetry } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetry";
 import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -57,8 +57,8 @@ export function FullScreenMap({ flight, path }: Props) {
 
         {path.length > 0 && <MapAircraftMarker path={path} />}
 
-        <MapAirportLabel airport={flight.departureAirport} extended />
-        <MapAirportLabel airport={flight.destinationAirport} extended />
+        <MapAirportLabel airport={flight.departureAirport} />
+        <MapAirportLabel airport={flight.destinationAirport} />
 
         <TrackingRunwaysLayer
           runwayService={publicRunwayService}
@@ -86,7 +86,11 @@ export function FullScreenMap({ flight, path }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
-      <LiveTelemetryOverlay point={lastPosition} />
+      {lastPosition && (
+        <div className="absolute left-1/2 top-3 z-20 -translate-x-1/2 rounded-lg border border-gray-200 bg-white/95 px-3 py-1.5 dark:border-gray-700 dark:bg-gray-900/95">
+          <LiveTelemetry point={lastPosition} />
+        </div>
+      )}
       <FlightDetailsSectionOverlay flight={flight} />
       <MapOptionsControl />
     </div>

@@ -30,38 +30,50 @@
   @apply cursor-not-allowed opacity-40;
 }
 
-.leaflet-div-icon.custom-airport-marker {
+.leaflet-div-icon.map-marker {
   background: transparent;
   border: none;
 }
 
-.airport-marker {
-  @apply max-w-fit text-xs flex font-sans gap-5 items-center bg-gray-100 dark:bg-gray-900 px-4 py-3 rounded-xl;
+.map-airport-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff,
+    0 0 5px #fff;
+}
+.dark .map-airport-label {
+  text-shadow:
+    0 0 2px #0b0e14,
+    0 0 3px #0b0e14,
+    0 0 5px #0b0e14;
+}
+.map-airport-label__code {
+  @apply font-mono font-extrabold text-[13px] text-indigo-600 dark:text-indigo-300;
+}
+.map-airport-label__sep {
+  @apply text-[13px] text-indigo-300 dark:text-indigo-500;
+}
+.map-airport-label__name {
+  @apply font-semibold text-[13px] text-indigo-600 dark:text-indigo-300;
+}
+.map-airport-label--diversion .map-airport-label__code,
+.map-airport-label--diversion .map-airport-label__name {
+  @apply text-red-600 dark:text-red-300;
+}
+.map-airport-label--diversion .map-airport-label__sep {
+  @apply text-red-300 dark:text-red-500;
 }
 
-.airport-marker__code {
-  @apply text-indigo-500 font-mono font-bold rounded-lg text-lg;
+.airport-shape-polygon {
+  fill-opacity: 0.07 !important;
 }
-
-.airport-marker__name {
-  @apply font-bold block text-gray-800 dark:text-gray-300 text-sm;
-}
-
-.airport-marker__location {
-  @apply text-gray-500 block;
-}
-
-.airport-marker--diversion {
-  @apply border border-red-400 bg-red-50 dark:bg-red-950/60;
-}
-.airport-marker--diversion .airport-marker__code {
-  @apply text-red-600;
-}
-.airport-marker--diversion .airport-marker__name {
-  @apply text-red-700 dark:text-red-300;
-}
-.airport-marker--diversion .airport-marker__location {
-  @apply text-red-500 dark:text-red-400;
+.dark .airport-shape-polygon {
+  fill-opacity: 0.12 !important;
 }
 
 .shape-picker-map.shape-picker-map--adding,
@@ -70,46 +82,150 @@
   cursor: crosshair;
 }
 
-.leaflet-tooltip.terminal-label {
-  @apply bg-yellow-50 text-yellow-700 border border-yellow-300 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded shadow-none;
-  background-color: rgba(254, 252, 232, 0.92);
-  transition:
-    background-color 200ms ease,
-    color 200ms ease,
-    border-color 200ms ease;
+.leaflet-tooltip.map-terminal-label {
+  @apply font-bold text-[10px] text-amber-700 dark:text-amber-300;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff;
 }
-.leaflet-tooltip.terminal-label::before {
+.dark .leaflet-tooltip.map-terminal-label {
+  text-shadow:
+    0 0 2px #0b0e14,
+    0 0 3px #0b0e14;
+}
+.leaflet-tooltip.map-terminal-label::before {
   display: none;
-}
-.leaflet-tooltip.terminal-label--hover {
-  @apply text-yellow-900 border-yellow-500;
-  background-color: rgba(254, 240, 138, 0.98);
 }
 
 .terminal-polygon {
-  fill: #fef08a !important;
-  fill-opacity: 0.05 !important;
+  fill: #eab308 !important;
+  fill-opacity: 0.12 !important;
   transition:
     stroke-width 200ms ease,
     fill-opacity 200ms ease;
 }
 .terminal-polygon:hover {
-  fill-opacity: 0.25 !important;
+  fill-opacity: 0.22 !important;
 }
 .dark .terminal-polygon {
-  fill: #eab308 !important;
   fill-opacity: 0.2 !important;
 }
 .dark .terminal-polygon:hover {
-  fill-opacity: 0.4 !important;
+  fill-opacity: 0.38 !important;
 }
 
-.leaflet-tooltip.gate-label {
-  @apply bg-emerald-50 text-emerald-700 border border-emerald-300 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded shadow-none;
-  background-color: rgba(236, 253, 245, 0.95);
+.map-gate-chip {
+  @apply font-mono font-bold text-[10px];
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border: 1px solid rgba(217, 119, 6, 0.5);
+  color: #a16207;
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.12);
 }
-.leaflet-tooltip.gate-label::before {
-  display: none;
+.dark .map-gate-chip {
+  background: #1b212b;
+  border-color: rgba(234, 179, 8, 0.5);
+  color: #fbbf24;
+}
+.map-gate-chip__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #eab308;
+  flex: none;
+}
+
+.map-parking {
+  position: relative;
+}
+.map-parking__dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+.map-parking__dot--filled {
+  width: 11px;
+  height: 11px;
+  background: #10b981;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+.dark .map-parking__dot--filled {
+  box-shadow:
+    0 0 0 2px #111827,
+    0 0 0 3px rgba(16, 185, 129, 0.4);
+}
+.map-parking__dot--hollow {
+  width: 9px;
+  height: 9px;
+  background: transparent;
+  box-shadow:
+    inset 0 0 0 2px #10b981,
+    0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+.dark .map-parking__dot--hollow {
+  box-shadow:
+    inset 0 0 0 2px #10b981,
+    0 0 0 2px rgba(17, 24, 39, 0.85);
+}
+.map-parking__label {
+  position: absolute;
+  left: 0;
+  top: 9px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  @apply font-mono font-bold text-[10px];
+  color: #047857;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff;
+}
+.dark .map-parking__label {
+  color: #34d399;
+  text-shadow:
+    0 0 2px #0b0e14,
+    0 0 3px #0b0e14;
+}
+.map-parking__label--assigned {
+  font-weight: 800;
+}
+
+.map-runway-anchor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+.map-runway-label {
+  @apply font-mono font-bold text-[12px] text-gray-700 dark:text-gray-200;
+  display: inline-block;
+  white-space: nowrap;
+  text-shadow:
+    0 0 3px #fff,
+    0 0 3px #fff;
+}
+.dark .map-runway-label {
+  text-shadow:
+    0 0 3px #0b0e14,
+    0 0 3px #0b0e14;
+}
+.map-runway-label--selected {
+  @apply text-indigo-700 dark:text-indigo-300;
 }
 
 /* Airport map fullscreen morph (View Transitions) */

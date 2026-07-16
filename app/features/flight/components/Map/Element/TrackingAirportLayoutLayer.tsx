@@ -6,7 +6,11 @@ import { AirportShapePolygon } from "~/features/flight/components/Map/Element/Ai
 import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
-import { AIRPORT_DETAIL_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
+import {
+  AIRPORT_LABELS_ZOOM_THRESHOLD,
+  AIRPORT_SHAPE_ZOOM_THRESHOLD,
+  AIRPORT_STRUCTURE_ZOOM_THRESHOLD,
+} from "~/features/flight/components/Map/Element/zoomThresholds";
 import type { Gate } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
@@ -98,7 +102,10 @@ export function TrackingAirportLayoutLayer({
       .catch(() => setDestinationGates([]));
   }, [gateService, destinationAirport.id]);
 
-  if (zoom < AIRPORT_DETAIL_ZOOM_THRESHOLD) return null;
+  if (zoom < AIRPORT_SHAPE_ZOOM_THRESHOLD) return null;
+
+  const showStructure = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD;
+  const showLabels = zoom >= AIRPORT_LABELS_ZOOM_THRESHOLD;
 
   const visibleDepartureParkingPositions = pickParkingPositions(
     departureParkingPositions,
@@ -131,12 +138,22 @@ export function TrackingAirportLayoutLayer({
     <>
       <AirportShapePolygon airport={departureAirport} />
       <AirportShapePolygon airport={destinationAirport} />
-      <TerminalPolygons terminals={visibleDepartureTerminals} />
-      <TerminalPolygons terminals={visibleArrivalTerminals} />
-      <ParkingPositionMarkers parkingPositions={visibleDepartureParkingPositions} />
-      <ParkingPositionMarkers parkingPositions={visibleArrivalParkingPositions} />
-      <GateMarkers gates={visibleDepartureGates} />
-      <GateMarkers gates={visibleArrivalGates} />
+      {showStructure && <TerminalPolygons terminals={visibleDepartureTerminals} />}
+      {showStructure && <TerminalPolygons terminals={visibleArrivalTerminals} />}
+      {showLabels && (
+        <ParkingPositionMarkers
+          parkingPositions={visibleDepartureParkingPositions}
+          assignedParkingPositionId={departureParkingPositionId}
+        />
+      )}
+      {showLabels && (
+        <ParkingPositionMarkers
+          parkingPositions={visibleArrivalParkingPositions}
+          assignedParkingPositionId={arrivalParkingPositionId}
+        />
+      )}
+      {showLabels && <GateMarkers gates={visibleDepartureGates} />}
+      {showLabels && <GateMarkers gates={visibleArrivalGates} />}
     </>
   );
 }

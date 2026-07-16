@@ -1,41 +1,45 @@
 import L, { type LatLngExpression } from "leaflet";
+import { useState } from "react";
 import ReactDOMServer from "react-dom/server";
-import { Marker } from "react-leaflet";
+import { Marker, useMap, useMapEvents } from "react-leaflet";
 import type { Airport } from "~/features/airport";
-import { AirportExtendedLabel } from "~/features/flight/components/Map/Element/AirportExtendedLabel";
-import { AirportShortLabel } from "~/features/flight/components/Map/Element/AirportShortLabel";
+import { AirportHaloLabel } from "~/features/flight/components/Map/Element/AirportHaloLabel";
+import { AIRPORT_STRUCTURE_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
 
 type MapAirportLabelProps = {
   airport: Airport;
-  extended?: boolean;
   variant?: "primary" | "diversion";
 };
 
-const shortLabel = (airport: Airport, variant: "primary" | "diversion") => {
-  const content = ReactDOMServer.renderToString(<AirportShortLabel airport={airport} variant={variant} />);
+function labelIcon(airport: Airport, variant: "primary" | "diversion", expanded: boolean) {
+  const content = ReactDOMServer.renderToString(
+    <AirportHaloLabel airport={airport} variant={variant} expanded={expanded} />,
+  );
 
   return new L.DivIcon({
     html: content,
+    className: "map-marker",
     iconSize: [0, 0],
-    iconAnchor: [-10, 0],
+    iconAnchor: [0, 0],
   });
-};
+}
 
-const extendedLabel = (airport: Airport, variant: "primary" | "diversion") => {
-  const content = ReactDOMServer.renderToString(<AirportExtendedLabel airport={airport} variant={variant} />);
+export function MapAirportLabel({ airport, variant = "primary" }: MapAirportLabelProps) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(map.getZoom());
 
-  return new L.DivIcon({
-    html: content,
-    className: "custom-airport-marker",
-    iconSize: [300, 300],
-    iconAnchor: [-15, 30],
+  useMapEvents({
+    zoomend: () => setZoom(map.getZoom()),
   });
-};
 
-export function MapAirportLabel({ airport, extended = false, variant = "primary" }: MapAirportLabelProps) {
+  const expanded = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD;
   const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
 
-  const label = extended ? extendedLabel(airport, variant) : shortLabel(airport, variant);
-
-  return <Marker position={position} icon={label} zIndexOffset={variant === "diversion" ? 1100 : 1000} />;
+  return (
+    <Marker
+      position={position}
+      icon={labelIcon(airport, variant, expanded)}
+      zIndexOffset={variant === "diversion" ? 1100 : 1000}
+    />
+  );
 }

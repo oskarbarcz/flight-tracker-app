@@ -1,5 +1,5 @@
-import React from "react";
 import { twMerge } from "tailwind-merge";
+import { type Point2D, roundedPolygonPath } from "~/shared/lib/roundedPolygon";
 import type { Coordinates } from "~/shared/models/coordinates";
 
 type Props = {
@@ -9,8 +9,9 @@ type Props = {
 
 const VIEWBOX_SIZE = 100;
 const PADDING = 12;
+const CORNER_RADIUS = 2.5;
 
-function toPolygonPoints(shape: Coordinates[]): string | null {
+function toScaledPoints(shape: Coordinates[]): Point2D[] | null {
   if (shape.length < 3) {
     return null;
   }
@@ -36,17 +37,14 @@ function toPolygonPoints(shape: Coordinates[]): string | null {
   const offsetX = PADDING + (drawable - spanX * scale) / 2;
   const offsetY = PADDING + (drawable - spanY * scale) / 2;
 
-  return projected
-    .map((point) => {
-      const x = offsetX + (point.x - bounds.minX) * scale;
-      const y = offsetY + (bounds.maxY - point.y) * scale;
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(" ");
+  return projected.map((point) => ({
+    x: offsetX + (point.x - bounds.minX) * scale,
+    y: offsetY + (bounds.maxY - point.y) * scale,
+  }));
 }
 
 export function AirportShape({ shape, className }: Props) {
-  const points = shape ? toPolygonPoints(shape) : null;
+  const points = shape ? toScaledPoints(shape) : null;
 
   if (!points) {
     return null;
@@ -55,9 +53,9 @@ export function AirportShape({ shape, className }: Props) {
   return (
     <svg viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`} className={twMerge("h-full w-full", className)} aria-hidden>
       <title>Airport shape</title>
-      <polygon
-        points={points}
-        className="fill-blue-500 stroke-blue-500"
+      <path
+        d={roundedPolygonPath(points, CORNER_RADIUS)}
+        className="fill-indigo-500 stroke-indigo-500"
         fillOpacity={0.12}
         strokeWidth={1.5}
         strokeLinejoin="round"
