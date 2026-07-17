@@ -12,6 +12,8 @@ import { SegmentedControl } from "~/features/flight/components/Map/Element/Segme
 
 type Props = {
   size?: "sm" | "md";
+  triggerClassName?: string;
+  placement?: "above" | "below";
 };
 
 type FollowValue = MapSettings["centerOn"] | "off";
@@ -44,11 +46,11 @@ const displayOptions: { value: DisplayMode; label: string }[] = [
 const sectionLabel =
   "px-2 pb-0.5 pt-1 text-[10px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400";
 
-export function MapOptionsControl({ size = "md" }: Props) {
+export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 left-3", placement = "above" }: Props) {
   const { mapSettings, updateMapSettings } = useMapSettings();
   const [open, setOpen] = useState(false);
   const [portalTarget, setPortalTarget] = useState<Element | null>(null);
-  const [position, setPosition] = useState({ left: 0, bottom: 0 });
+  const [position, setPosition] = useState<{ left: number; top?: number; bottom?: number }>({ left: 0, bottom: 0 });
   const triggerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -57,8 +59,12 @@ export function MapOptionsControl({ size = "md" }: Props) {
     if (!trigger) return;
     const rect = trigger.getBoundingClientRect();
     const left = Math.max(GAP, Math.min(rect.left, window.innerWidth - POPOVER_WIDTH - GAP));
-    setPosition({ left, bottom: window.innerHeight - rect.top + GAP });
-  }, []);
+    if (placement === "below") {
+      setPosition({ left, top: rect.bottom + GAP });
+    } else {
+      setPosition({ left, bottom: window.innerHeight - rect.top + GAP });
+    }
+  }, [placement]);
 
   useEffect(() => {
     if (!open) return;
@@ -108,7 +114,7 @@ export function MapOptionsControl({ size = "md" }: Props) {
   };
 
   return (
-    <div ref={triggerRef} className="absolute bottom-3 left-3 z-20">
+    <div ref={triggerRef} className={twMerge("absolute z-20", triggerClassName)}>
       <Button
         color="light"
         size={size === "sm" ? "xs" : "sm"}
@@ -126,8 +132,11 @@ export function MapOptionsControl({ size = "md" }: Props) {
         createPortal(
           <div
             ref={popoverRef}
-            style={{ position: "fixed", left: position.left, bottom: position.bottom }}
-            className="z-[1000] w-72 max-w-[calc(100vw-1rem)] rounded-xl border border-gray-200 bg-white p-1.5 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-1 motion-safe:duration-150 dark:border-gray-700 dark:bg-gray-900"
+            style={{ position: "fixed", left: position.left, top: position.top, bottom: position.bottom }}
+            className={twMerge(
+              "z-[1000] w-72 max-w-[calc(100vw-1rem)] rounded-xl border border-gray-200 bg-white p-1.5 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 dark:border-gray-700 dark:bg-gray-900",
+              placement === "below" ? "motion-safe:slide-in-from-top-1" : "motion-safe:slide-in-from-bottom-1",
+            )}
           >
             <div className="px-1">
               <p className={sectionLabel}>Follow</p>
