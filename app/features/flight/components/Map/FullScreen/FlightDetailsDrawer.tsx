@@ -7,10 +7,6 @@ type Props = {
   flight: Flight;
 };
 
-function totalFlightHours(minutes: number): string {
-  return `${Math.floor(minutes / 60).toLocaleString("en-US")} h`;
-}
-
 function DetailBlock({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
@@ -35,11 +31,10 @@ function Endpoint({ label, time, code, align }: { label: string; time: string; c
 export function FlightDetailsDrawer({ flight }: Props) {
   const { aircraft, operator, pilot } = flight;
   const loadsheet = flight.loadsheets.final ?? flight.loadsheets.preliminary;
-  const souls = loadsheet
+  const crew = loadsheet
     ? loadsheet.flightCrew.pilots +
       loadsheet.flightCrew.reliefPilots +
-      loadsheet.flightCrew.cabinCrew +
-      loadsheet.passengers
+      loadsheet.flightCrew.cabinCrew
     : null;
 
   const departure = flight.timesheet.estimated?.offBlockTime ?? flight.timesheet.scheduled.offBlockTime;
@@ -50,41 +45,41 @@ export function FlightDetailsDrawer({ flight }: Props) {
     <div className="flex max-h-[50vh] flex-col gap-5 overflow-y-auto border-t border-gray-100 pt-4 dark:border-gray-800">
       <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
         <DetailBlock label="Operated by">
-          <div className="font-semibold text-gray-900 dark:text-white">{operator.fullName}</div>
+          <div className="font-semibold text-gray-900 dark:text-white">{operator.shortName}</div>
           <div className="font-mono text-xs text-gray-500 dark:text-gray-400">
-            {operator.iataCode} · {operator.callsign}
+            {operator.iataCode} {operator.alliance && <span>· {operator.alliance}</span>}
           </div>
-        </DetailBlock>
-
-        <DetailBlock label="Aircraft">
-          <div className="font-semibold text-gray-900 dark:text-white">{aircraft.airframe.name}</div>
-          <div className="font-mono text-xs text-gray-500 dark:text-gray-400">{aircraft.registration}</div>
         </DetailBlock>
 
         <DetailBlock label="Pilot in command">
           {pilot ? (
-            <div className="flex items-baseline justify-between gap-3">
-              <div>
-                <div className="font-semibold text-gray-900 dark:text-white">{pilot.name}</div>
-                <div className="font-mono text-xs text-gray-500 dark:text-gray-400">{pilot.pilotLicenseId}</div>
-              </div>
-              <div className="whitespace-nowrap font-mono text-sm font-semibold tabular-nums text-gray-700 dark:text-gray-200">
-                {totalFlightHours(pilot.totalFlightTime)}
-              </div>
-            </div>
+            <>
+              <span className="font-semibold text-gray-900 dark:text-white">{pilot.name}</span>
+              <span className="block font-mono text-xs text-gray-500 dark:text-gray-400">{pilot.pilotLicenseId}</span>
+            </>
           ) : (
             <div className="text-sm text-gray-500 dark:text-gray-400">Not assigned</div>
           )}
         </DetailBlock>
 
+        <DetailBlock label="Aircraft">
+          <div className="font-semibold text-gray-900 dark:text-white">{aircraft.airframe.name}</div>
+          <div className="font-mono text-xs text-gray-500 dark:text-gray-400">{aircraft.registration} · {aircraft.selcal}</div>
+          <div className="font-mono text-xs text-gray-500 dark:text-gray-400">Livery: {aircraft.livery}</div>
+        </DetailBlock>
+
         <DetailBlock label="On board">
-          {loadsheet && souls !== null ? (
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">{souls}</span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                souls · {loadsheet.passengers} passengers
-              </span>
-            </div>
+          {loadsheet && crew !== null ? (
+            <>
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">{loadsheet.passengers}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">passengers</span>
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="block font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">{crew}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">cabin crew</span>
+              </div>
+            </>
           ) : (
             <div className="text-sm text-gray-500 dark:text-gray-400">Not available yet</div>
           )}

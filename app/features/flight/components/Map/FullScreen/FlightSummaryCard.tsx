@@ -133,7 +133,7 @@ export function FlightSummaryCard({ flight, path }: Props) {
           <EtaLine flight={flight} progress={progress} />
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-4 dark:border-gray-800">
+        <div className="flex flex-col items-start gap-3 border-t border-gray-100 pt-4 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between">
           {isLive ? (
             <div className="flex items-center gap-4">
               <Stat label="ALT" value={formatAltitude(lastPosition?.altitude)} />

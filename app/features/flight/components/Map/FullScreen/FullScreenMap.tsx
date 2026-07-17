@@ -85,7 +85,7 @@ export function FullScreenMap({ flight, path }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
-      <MapOptionsControl triggerClassName="top-16 left-4" placement="below" />
+      <MapOptionsControl triggerClassName="top-16 left-4 hidden sm:block" placement="below" />
       <FlightSummaryCard flight={flight} path={path} />
     </div>
   );
