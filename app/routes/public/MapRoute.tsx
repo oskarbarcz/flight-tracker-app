@@ -3,9 +3,8 @@ import { Link } from "react-router";
 import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import type { Flight } from "~/features/flight";
-import { BottomBar } from "~/features/flight/components/Map/FullScreen/BottomBar";
 import { FullScreenMap } from "~/features/flight/components/Map/FullScreen/FullScreenMap";
-import { TopBar } from "~/features/flight/components/Map/FullScreen/TopBar";
+import { MapHeader } from "~/features/flight/components/Map/FullScreen/MapHeader";
 import MapSplash from "~/routes/public/MapSplash";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -13,7 +12,7 @@ import type { Route } from "../../../.react-router/types/app/routes/public/+type
 
 export default function MapRoute({ params }: Route.ClientLoaderArgs) {
   const { publicFlightService } = usePublicApi();
-  const { setCallsign, flightPath, loadFlightPath } = useAdsbData();
+  const { setCallsign, flightPath, loadFlightPath, lastRequestedAt } = useAdsbData();
 
   const [flight, setFlight] = useState<Flight | null>(null);
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -80,12 +79,11 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
   }
 
   return (
-    <div className="h-dvh-safe flex flex-col items-stretch size-full p-2">
-      <TopBar />
+    <div className="relative h-dvh-safe w-full overflow-hidden bg-gray-200 dark:bg-gray-950">
       <MapSettingsProvider>
         <FullScreenMap flight={flight} path={flightPath} />
       </MapSettingsProvider>
-      <BottomBar />
+      <MapHeader lastUpdatedAt={lastRequestedAt} />
     </div>
   );
 }

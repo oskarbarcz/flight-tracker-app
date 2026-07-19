@@ -1,7 +1,6 @@
 import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
 import type { Flight, FlightPathElement } from "~/features/flight";
-import { LiveTelemetry } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetry";
 import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -11,7 +10,7 @@ import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEv
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
-import { FlightDetailsSectionOverlay } from "~/features/flight/components/Map/FullScreen/Overlay/FlightDetailsSectionOverlay";
+import { FlightSummaryCard } from "~/features/flight/components/Map/FullScreen/FlightSummaryCard";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import type { Position } from "~/shared/models/geo";
 
@@ -42,12 +41,12 @@ export function FullScreenMap({ flight, path }: Props) {
   const mapBounds = latLngBounds([departurePosition, destinationPosition]);
 
   return (
-    <div className="grow relative rounded-2xl">
+    <div className="absolute inset-0 overflow-hidden">
       <MapContainer
         bounds={mapBounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
-        className="rounded-2xl bg-gray-800 size-full z-10"
+        className="bg-gray-800 size-full z-10"
         zoomControl={false}
         attributionControl={false}
       >
@@ -86,13 +85,8 @@ export function FullScreenMap({ flight, path }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
-      {lastPosition && (
-        <div className="absolute left-1/2 top-3 z-20 -translate-x-1/2 rounded-lg border border-gray-200 bg-white/95 px-3 py-1.5 dark:border-gray-700 dark:bg-gray-900/95">
-          <LiveTelemetry point={lastPosition} />
-        </div>
-      )}
-      <FlightDetailsSectionOverlay flight={flight} />
-      <MapOptionsControl />
+      <MapOptionsControl triggerClassName="top-16 left-4 hidden sm:block" placement="below" />
+      <FlightSummaryCard flight={flight} path={path} />
     </div>
   );
 }
