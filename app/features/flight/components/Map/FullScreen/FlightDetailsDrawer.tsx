@@ -32,9 +32,7 @@ export function FlightDetailsDrawer({ flight }: Props) {
   const { aircraft, operator, pilot } = flight;
   const loadsheet = flight.loadsheets.final ?? flight.loadsheets.preliminary;
   const crew = loadsheet
-    ? loadsheet.flightCrew.pilots +
-      loadsheet.flightCrew.reliefPilots +
-      loadsheet.flightCrew.cabinCrew
+    ? loadsheet.flightCrew.pilots + loadsheet.flightCrew.reliefPilots + loadsheet.flightCrew.cabinCrew
     : null;
 
   const departure = flight.timesheet.estimated?.offBlockTime ?? flight.timesheet.scheduled.offBlockTime;
@@ -64,7 +62,9 @@ export function FlightDetailsDrawer({ flight }: Props) {
 
         <DetailBlock label="Aircraft">
           <div className="font-semibold text-gray-900 dark:text-white">{aircraft.airframe.name}</div>
-          <div className="font-mono text-xs text-gray-500 dark:text-gray-400">{aircraft.registration} · {aircraft.selcal}</div>
+          <div className="font-mono text-xs text-gray-500 dark:text-gray-400">
+            {aircraft.registration} · {aircraft.selcal}
+          </div>
           <div className="font-mono text-xs text-gray-500 dark:text-gray-400">Livery: {aircraft.livery}</div>
         </DetailBlock>
 
@@ -72,11 +72,15 @@ export function FlightDetailsDrawer({ flight }: Props) {
           {loadsheet && crew !== null ? (
             <>
               <div className="flex items-baseline gap-1.5">
-                <span className="font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">{loadsheet.passengers}</span>
+                <span className="font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">
+                  {loadsheet.passengers}
+                </span>
                 <span className="text-xs text-gray-500 dark:text-gray-400">passengers</span>
               </div>
               <div className="flex items-baseline gap-1.5">
-                <span className="block font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">{crew}</span>
+                <span className="block font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">
+                  {crew}
+                </span>
                 <span className="text-xs text-gray-500 dark:text-gray-400">cabin crew</span>
               </div>
             </>
