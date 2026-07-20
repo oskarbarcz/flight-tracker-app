@@ -3,6 +3,16 @@ import type { DeepPartial, FlowbiteTheme } from "flowbite-react/types";
 
 export default function theme(): DeepPartial<FlowbiteTheme> {
   return createTheme({
+    drawer: {
+      root: {
+        position: {
+          left: {
+            on: "left-0 top-0 h-dvh w-80 transform-none",
+            off: "left-0 top-0 h-dvh w-80 -translate-x-full",
+          },
+        },
+      },
+    },
     alert: {
       wrapper: "flex items-center w-full [&>div]:flex-1",
     },
