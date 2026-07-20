@@ -1,11 +1,6 @@
 import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
-import {
-  clearTokens,
-  isAccessTokenExpired,
-  readAccessToken,
-  readRefreshToken,
-  saveTokens,
-} from "~/shared/lib/tokenStorage";
+import { refreshAccessToken } from "~/shared/lib/refreshAccessToken";
+import { isAccessTokenExpired, readAccessToken } from "~/shared/lib/tokenStorage";
 
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 
@@ -62,12 +57,12 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
   protected async requestWithAuthAndHeaders<T>(endpoint: string, options: RequestInit = {}) {
     let token = this.getAccessToken();
     if (isAccessTokenExpired()) {
-      token = await this.refreshAccessToken();
+      token = await refreshAccessToken();
     }
     let response = await super.doRequest(endpoint, options, token);
 
     if (response.status === 401) {
-      token = await this.refreshAccessToken();
+      token = await refreshAccessToken();
       response = await super.doRequest(endpoint, options, token);
     }
 
@@ -90,34 +85,5 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
       throw new Error("Unauthorized");
     }
     return token;
-  }
-
-  private getRefreshToken() {
-    const refreshToken = readRefreshToken();
-    if (!refreshToken) {
-      throw new Error("Refresh token not found");
-    }
-    return refreshToken;
-  }
-
-  private async refreshAccessToken() {
-    const response = await fetch(`${this.host}/api/v1/auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getRefreshToken()}`,
-      },
-    });
-
-    if (!response.ok) {
-      clearTokens();
-      window.location.replace("/sign-in");
-      throw new Error("Failed to refresh access token");
-    }
-
-    const { accessToken, refreshToken } = await response.json();
-    saveTokens(accessToken, refreshToken);
-
-    return accessToken as string;
   }
 }
