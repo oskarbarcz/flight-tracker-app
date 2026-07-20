@@ -21,8 +21,8 @@ export function SidebarAirportRow({ id, iataCode, name }: Props) {
           : "text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
       }`}
     >
-      <span className="font-mono font-semibold">{iataCode}</span>
-      <span className="truncate">{name}</span>
+      <span className="shrink-0 font-mono font-semibold">{iataCode}</span>
+      <span className="min-w-0 truncate">{name}</span>
     </Link>
   );
 }

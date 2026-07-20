@@ -154,7 +154,7 @@ function RouteRow({
   return (
     <div className="mt-2 flex items-center justify-between gap-3">
       <AirportColumn iata={departureIata} city={departureCity} align="start" />
-      <div className="flex flex-col items-center">
+      <div className="flex shrink-0 flex-col items-center">
         <FaPlane className="text-gray-500 dark:text-gray-400" />
         {estimatedBlockTime && (
           <span className="mt-1 font-mono text-sm font-semibold text-green-500">{estimatedBlockTime}</span>
@@ -179,9 +179,15 @@ function AirportColumn({
 }) {
   const baseTextColor = struck ? "text-gray-400 dark:text-gray-500 line-through decoration-2" : undefined;
   return (
-    <div className={`flex flex-col font-bold ${align === "end" ? "items-end text-end" : "items-start text-start"}`}>
-      <span className={`text-4xl tracking-tight ${baseTextColor ?? ""}`}>{iata}</span>
-      <span className={`text-sm font-medium ${baseTextColor ?? "text-gray-600 dark:text-gray-300"}`}>{city}</span>
+    <div
+      className={`flex min-w-0 flex-col font-bold ${align === "end" ? "items-end text-end" : "items-start text-start"}`}
+    >
+      <span className={`text-3xl tracking-tight sm:text-4xl ${baseTextColor ?? ""}`}>{iata}</span>
+      <span
+        className={`max-w-full truncate text-sm font-medium ${baseTextColor ?? "text-gray-600 dark:text-gray-300"}`}
+      >
+        {city}
+      </span>
     </div>
   );
 }

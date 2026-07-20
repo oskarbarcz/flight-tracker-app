@@ -15,15 +15,21 @@ export default function AppLayout() {
         <DataRefreshProvider>
           <PinnedAirportsProvider>
             <SidebarDrawerProvider>
-              <div className="h-screen flex flex-col overflow-hidden dark:bg-gray-950">
-                <div className="md:hidden shrink-0 flex items-center gap-3 border-b border-gray-200 bg-white px-3 py-2.5 dark:border-gray-800 dark:bg-gray-900">
-                  <SidebarMobileTrigger />
-                  <TopBarLogo />
+              <div className="relative h-screen flex flex-col overflow-hidden dark:bg-gray-950">
+                <div className="md:hidden pointer-events-none absolute inset-x-0 top-0 z-30 bg-gradient-to-b from-gray-200/95 via-gray-200/60 to-transparent px-3 pb-10 pt-3 dark:from-gray-950/95 dark:via-gray-950/50">
+                  <div className="relative flex items-center justify-center">
+                    <div className="pointer-events-auto absolute inset-y-0 left-0 flex items-center">
+                      <SidebarMobileTrigger />
+                    </div>
+                    <div className="pointer-events-auto">
+                      <TopBarLogo />
+                    </div>
+                  </div>
                 </div>
                 <div className="flex-1 flex flex-col md:flex-row min-h-0">
                   <Sidebar />
                   <main className="flex-1 min-h-0 min-w-0 overflow-y-auto">
-                    <div className="mx-auto w-full max-w-7xl p-2 sm:p-4 md:p-6">
+                    <div className="mx-auto w-full max-w-7xl p-2 pt-14 sm:p-4 sm:pt-14 md:p-6 md:pt-6">
                       <Outlet />
                     </div>
                   </main>

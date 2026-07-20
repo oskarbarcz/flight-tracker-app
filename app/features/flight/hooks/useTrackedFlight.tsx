@@ -23,6 +23,7 @@ import {
   type Loadsheet,
 } from "~/features/flight";
 import { type FlightConnectionStatus, subscribeToFlightEvents } from "~/features/flight/events.socket";
+import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useApi } from "~/shared/api/useApi";
 
 function sortNewestFirst(events: FlightEvent[]): FlightEvent[] {
@@ -162,7 +163,9 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
   const [state, dispatch] = useReducer(reducer, initialState);
   const { flightService, emergencyService, diversionService, delayService } = useApi();
   const { markRefreshed } = useDataRefresh();
+  const { refresh: refreshCurrentFlight } = useCurrentFlight();
   const teardownSubscription = useRef<(() => void) | null>(null);
+  const initialLoadDone = useRef(false);
 
   const setFlightId = useCallback((flightId: string) => {
     dispatch({ type: "SET_FLIGHT_ID", payload: flightId });
@@ -179,9 +182,13 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
       dispatch({ type: "SET_TRACKED_FLIGHT_DELAY", payload: delayRequest });
       markRefreshed();
-      if (!silent) dispatch({ type: "SET_LOADING", payload: false });
+      if (!silent) {
+        if (initialLoadDone.current) refreshCurrentFlight();
+        initialLoadDone.current = true;
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
     },
-    [flightService, diversionService, delayService, state.flightId, markRefreshed],
+    [flightService, diversionService, delayService, state.flightId, markRefreshed, refreshCurrentFlight],
   );
 
   const openSubscription = useCallback(() => {
