@@ -1,4 +1,4 @@
-import React, { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import type { User } from "~/features/user/model";
 import { useApi } from "~/shared/api/useApi";
 import { clearTokens, readAccessToken, readRefreshToken, saveTokens } from "~/shared/lib/tokenStorage";
@@ -9,6 +9,7 @@ export interface AuthContextType {
   refreshToken: string | null;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
+  refreshUser: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -18,6 +19,7 @@ export const UseAuth = createContext<AuthContextType>({
   refreshToken: null,
   signIn: async () => {},
   signOut: () => {},
+  refreshUser: async () => {},
   isLoading: true,
 });
 
@@ -56,6 +58,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
   }, [userService]);
 
+  const refreshUser = useCallback((): Promise<void> => {
+    return userService.fetchCurrent().then(setUser);
+  }, [userService]);
+
   function saveAuthData(accessToken: string, refreshToken: string): Promise<void> {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
@@ -83,7 +89,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   return (
-    <UseAuth.Provider value={{ user, accessToken, refreshToken, signIn, signOut, isLoading }}>
+    <UseAuth.Provider value={{ user, accessToken, refreshToken, signIn, signOut, refreshUser, isLoading }}>
       {children}
     </UseAuth.Provider>
   );

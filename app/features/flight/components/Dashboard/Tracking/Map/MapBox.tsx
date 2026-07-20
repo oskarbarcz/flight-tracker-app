@@ -65,7 +65,11 @@ export function MapBox({ className }: MapBoxProps) {
           >
             <AdsbStatusIndicator status={flight.status} isOnline={flightPath.length > 0} />
           </MapTopBar>
-          <MapOptionsControl size="sm" />
+          <MapOptionsControl
+            size="sm"
+            triggerClassName={isMaximized ? "top-16 left-3" : "bottom-3 left-3"}
+            placement={isMaximized ? "below" : "above"}
+          />
         </MapSettingsProvider>
       </div>
     </TransparentContainer>

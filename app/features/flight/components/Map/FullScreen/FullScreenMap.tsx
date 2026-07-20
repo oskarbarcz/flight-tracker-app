@@ -8,6 +8,7 @@ import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapA
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
 import { FlightSummaryCard } from "~/features/flight/components/Map/FullScreen/FlightSummaryCard";
@@ -51,6 +52,7 @@ export function FullScreenMap({ flight, path }: Props) {
         attributionControl={false}
       >
         <MapTileLayer />
+        <MapWorldConstraint />
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <FlightPath path={path} />
 

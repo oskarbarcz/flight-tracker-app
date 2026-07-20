@@ -30,7 +30,7 @@ export const links: Route.LinksFunction = () => [
   },
   { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
   { rel: "shortcut icon", type: "shortcut icon", href: "/favicon.ico" },
-  { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+  { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
 ];
 
