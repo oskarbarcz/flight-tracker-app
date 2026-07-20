@@ -18,7 +18,7 @@ export default function AppLayout() {
           <PinnedAirportsProvider>
             <PendingDelaysProvider>
               <div className="relative h-dvh flex flex-col overflow-hidden dark:bg-gray-950">
-                <div className="md:hidden pointer-events-none absolute inset-x-0 top-0 z-30 flex justify-center bg-gradient-to-b from-gray-200/95 via-gray-200/60 to-transparent px-3 pb-6 pt-3 dark:from-gray-950/95 dark:via-gray-950/50">
+                <div className="md:hidden pointer-events-none absolute inset-x-0 top-0 z-30 flex justify-center bg-gradient-to-b from-white/95 via-white/60 to-transparent px-3 pb-6 pt-3 dark:from-gray-950/95 dark:via-gray-950/50">
                   <div className="pointer-events-auto inline-flex">
                     <TopBarLogo size="lg" />
                   </div>
