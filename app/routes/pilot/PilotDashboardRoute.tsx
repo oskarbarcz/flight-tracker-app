@@ -47,7 +47,7 @@ export default function PilotDashboardRoute() {
   return (
     <>
       <UserHeader />
-      <div className="grid grid-cols-1 gap-4 pt-12 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 pt-6 lg:grid-cols-3 lg:pt-12">
         <div className="flex flex-col gap-4 lg:col-span-2">
           {loadingCurrent ? (
             <CurrentFlightBoxLoader />

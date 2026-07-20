@@ -1,4 +1,13 @@
-import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
+import React, {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from "react";
 import { useDataRefresh } from "~/app-state/useDataRefresh";
 import type { DelayRequest } from "~/features/delay";
 import type { RejectDelayReportRequest, ReportDelayRequest } from "~/features/delay/request";
@@ -13,7 +22,8 @@ import {
   isEmergencyEvent,
   type Loadsheet,
 } from "~/features/flight";
-import { subscribeToFlightEvents } from "~/features/flight/events.socket";
+import { type FlightConnectionStatus, subscribeToFlightEvents } from "~/features/flight/events.socket";
+import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useApi } from "~/shared/api/useApi";
 
 function sortNewestFirst(events: FlightEvent[]): FlightEvent[] {
@@ -28,6 +38,7 @@ type State = {
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
   loading: boolean;
+  connectionStatus: FlightConnectionStatus;
 };
 
 const initialState: State = {
@@ -38,6 +49,7 @@ const initialState: State = {
   diversion: null,
   delayRequest: null,
   loading: false,
+  connectionStatus: "connecting",
 };
 
 type Action =
@@ -48,6 +60,7 @@ type Action =
   | { type: "SET_TRACKED_FLIGHT_DIVERSION"; payload: Diversion | null }
   | { type: "SET_TRACKED_FLIGHT_DELAY"; payload: DelayRequest | null }
   | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_CONNECTION_STATUS"; payload: FlightConnectionStatus }
   | { type: "SET_FLIGHT_ID"; payload: string | null };
 
 const reducer = (state: State, action: Action): State => {
@@ -67,6 +80,8 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, delayRequest: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
+    case "SET_CONNECTION_STATUS":
+      return { ...state, connectionStatus: action.payload };
     case "SET_FLIGHT_ID":
       return { ...state, flightId: action.payload };
     default:
@@ -82,7 +97,9 @@ type TrackedFlightContextType = {
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
   loading: boolean;
+  connectionStatus: FlightConnectionStatus;
   setFlightId: (flightId: string) => void;
+  reconnect: () => void;
   reload: () => Promise<void>;
   checkIn: (schedule: FilledSchedule) => Promise<void>;
   startBoarding: () => Promise<void>;
@@ -113,7 +130,9 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   diversion: null,
   delayRequest: null,
   loading: false,
+  connectionStatus: "connecting",
   setFlightId: () => {},
+  reconnect: () => {},
   reload: async () => {},
   checkIn: async () => {},
   startBoarding: async () => {},
@@ -144,6 +163,9 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
   const [state, dispatch] = useReducer(reducer, initialState);
   const { flightService, emergencyService, diversionService, delayService } = useApi();
   const { markRefreshed } = useDataRefresh();
+  const { refresh: refreshCurrentFlight } = useCurrentFlight();
+  const teardownSubscription = useRef<(() => void) | null>(null);
+  const initialLoadDone = useRef(false);
 
   const setFlightId = useCallback((flightId: string) => {
     dispatch({ type: "SET_FLIGHT_ID", payload: flightId });
@@ -160,15 +182,19 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
       dispatch({ type: "SET_TRACKED_FLIGHT_DELAY", payload: delayRequest });
       markRefreshed();
-      if (!silent) dispatch({ type: "SET_LOADING", payload: false });
+      if (!silent) {
+        if (initialLoadDone.current) refreshCurrentFlight();
+        initialLoadDone.current = true;
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
     },
-    [flightService, diversionService, delayService, state.flightId, markRefreshed],
+    [flightService, diversionService, delayService, state.flightId, markRefreshed, refreshCurrentFlight],
   );
 
-  useEffect(() => {
+  const openSubscription = useCallback(() => {
     if (!state.flightId) return;
-    loadFlight();
-    return subscribeToFlightEvents(state.flightId, {
+    teardownSubscription.current?.();
+    teardownSubscription.current = subscribeToFlightEvents(state.flightId, {
       onHistory: (events) => {
         dispatch({ type: "SET_TRACKED_FLIGHT_EVENTS", payload: sortNewestFirst(events) });
         markRefreshed();
@@ -178,9 +204,25 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         markRefreshed();
         loadFlight({ silent: true });
       },
+      onStatus: (status) => dispatch({ type: "SET_CONNECTION_STATUS", payload: status }),
       onError: (error) => console.error("Flight events subscription failed", error),
     });
-  }, [loadFlight, state.flightId, markRefreshed]);
+  }, [state.flightId, markRefreshed, loadFlight]);
+
+  const reconnect = useCallback(() => {
+    loadFlight({ silent: true });
+    openSubscription();
+  }, [loadFlight, openSubscription]);
+
+  useEffect(() => {
+    if (!state.flightId) return;
+    loadFlight();
+    openSubscription();
+    return () => {
+      teardownSubscription.current?.();
+      teardownSubscription.current = null;
+    };
+  }, [state.flightId, loadFlight, openSubscription]);
 
   const emergencyEventIds = state.events
     .filter((event) => isEmergencyEvent(event.type))
@@ -361,7 +403,9 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       diversion: state.diversion,
       delayRequest: state.delayRequest,
       loading: state.loading,
+      connectionStatus: state.connectionStatus,
       setFlightId,
+      reconnect,
       reload: () => loadFlight({ silent: true }),
       checkIn,
       startBoarding,
@@ -391,7 +435,9 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       state.diversion,
       state.delayRequest,
       state.loading,
+      state.connectionStatus,
       setFlightId,
+      reconnect,
       loadFlight,
       checkIn,
       startBoarding,

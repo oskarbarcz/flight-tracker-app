@@ -1,12 +1,11 @@
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useAuth } from "~/app-state/useAuth";
-import type { Flight } from "~/features/flight";
-import type { User } from "~/features/user";
+import { type Flight, FlightStatus } from "~/features/flight";
 import { useApi } from "~/shared/api/useApi";
 
 type CurrentFlightContextValue = {
   currentFlight: Flight | null;
   loading: boolean;
+  refresh: () => void;
 };
 
 const CurrentFlightContext = createContext<CurrentFlightContextValue | null>(null);
@@ -14,34 +13,38 @@ const CurrentFlightContext = createContext<CurrentFlightContextValue | null>(nul
 export function CurrentFlightProvider({ children }: { children: ReactNode }) {
   const [currentFlight, setCurrentFlight] = useState<Flight | null>(null);
   const [loading, setLoading] = useState(true);
-  const { flightService } = useApi();
-  const { user } = useAuth() as { user: User };
+  const { flightService, userService } = useApi();
 
-  const fetchCurrentFlight = useCallback(async () => {
-    setLoading(true);
-
-    if (!user.currentFlightId) {
-      setCurrentFlight(null);
-      setLoading(false);
-
-      return;
-    }
-
-    flightService
-      .fetchById(user.currentFlightId)
-      .then(setCurrentFlight)
-      .catch((err) => {
-        console.error("Cannot fetch current flight", err);
+  const loadCurrentFlight = useCallback(
+    async ({ silent = false }: { silent?: boolean } = {}) => {
+      if (!silent) setLoading(true);
+      try {
+        const user = await userService.fetchCurrent();
+        if (!user.currentFlightId) {
+          setCurrentFlight(null);
+          return;
+        }
+        const flight = await flightService.fetchById(user.currentFlightId);
+        setCurrentFlight(flight.status === FlightStatus.Closed ? null : flight);
+      } catch (error) {
+        console.error("Cannot fetch current flight", error);
         setCurrentFlight(null);
-      })
-      .finally(() => setLoading(false));
-  }, [flightService, user.currentFlightId]);
+      } finally {
+        if (!silent) setLoading(false);
+      }
+    },
+    [flightService, userService],
+  );
 
   useEffect(() => {
-    fetchCurrentFlight();
-  }, [fetchCurrentFlight]);
+    loadCurrentFlight();
+  }, [loadCurrentFlight]);
 
-  const value = useMemo(() => ({ currentFlight, loading }), [currentFlight, loading]);
+  const refresh = useCallback(() => {
+    loadCurrentFlight({ silent: true });
+  }, [loadCurrentFlight]);
+
+  const value = useMemo(() => ({ currentFlight, loading, refresh }), [currentFlight, loading, refresh]);
 
   return <CurrentFlightContext.Provider value={value}>{children}</CurrentFlightContext.Provider>;
 }

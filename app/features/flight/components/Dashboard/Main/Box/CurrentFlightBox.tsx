@@ -64,18 +64,18 @@ export function CurrentFlightBox({ flight }: Props) {
       />
 
       <article className="mt-2 flex flex-row justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <span className="block font-mono text-4xl font-bold leading-none text-indigo-500">{flight.flightNumber}</span>
-          <span className="mt-1.5 block font-semibold text-gray-700 text-sm dark:text-gray-300">
+          <span className="mt-1.5 block truncate font-semibold text-gray-700 text-sm dark:text-gray-300">
             {flight.operator.shortName}
           </span>
-          <span className="block text-sm text-gray-500">
+          <span className="block truncate text-sm text-gray-500">
             <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> ·{" "}
             {flight.aircraft.airframe.name}
           </span>
         </div>
 
-        <div className="text-right">
+        <div className="shrink-0 text-right">
           <span className="font-mono text-xl font-bold tabular-nums text-gray-900 dark:text-white">
             <FormattedIcaoTime date={estimatedReference} />
           </span>
@@ -90,7 +90,7 @@ export function CurrentFlightBox({ flight }: Props) {
         </div>
       </article>
 
-      <article className="mt-5 grid grid-cols-[1fr_1.5fr_1fr] items-center gap-4">
+      <article className="mt-5 grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)] items-center gap-4">
         <AirportEndpoint
           iataCode={flight.departureAirport.iataCode}
           name={flight.departureAirport.name}

@@ -52,7 +52,7 @@ export function NextScheduledFlightBox({ flight }: Props) {
       </article>
 
       <div className="flex flex-col gap-3">
-        <article className="grid grid-cols-[1fr_1.3fr_1fr] items-center gap-3">
+        <article className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1fr)] items-center gap-3">
           <AirportEndpoint iataCode={flight.departureAirport.iataCode} subtitle={flight.departureAirport.city} />
           <div className="flex items-center gap-1.5 text-gray-300 dark:text-gray-600">
             <span className="size-1.5 flex-none rounded-full bg-current" />
