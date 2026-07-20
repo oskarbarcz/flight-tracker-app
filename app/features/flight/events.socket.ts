@@ -9,11 +9,14 @@ const MAX_REAUTH_ATTEMPTS = 3;
 
 type FlightEventResponse = Omit<FlightEvent, "createdAt"> & { createdAt: string };
 
+export type FlightConnectionStatus = "connecting" | "live" | "reconnecting" | "lost";
+
 export type FlightSubscribeError = { flightId: string; message: string };
 
 export type FlightEventsListeners = {
   onHistory: (events: FlightEvent[]) => void;
   onEvent: (event: FlightEvent) => void;
+  onStatus?: (status: FlightConnectionStatus) => void;
   onError?: (error: FlightSubscribeError) => void;
 };
 
@@ -26,12 +29,14 @@ export function subscribeToFlightEvents(flightId: string, listeners: FlightEvent
   let reauthAttempts = 0;
   let reauthInFlight = false;
 
+  const report = (message: string) => listeners.onError?.({ flightId, message });
+  const setStatus = (status: FlightConnectionStatus) => listeners.onStatus?.(status);
+
   const socket: Socket = io(`${getFlightTrackerApiHost()}${FLIGHT_EVENTS_NAMESPACE}`, {
     auth: (cb) => cb({ token: readAccessToken() ?? "" }),
     transports: ["websocket"],
   });
-
-  const report = (message: string) => listeners.onError?.({ flightId, message });
+  setStatus("connecting");
 
   const reauthenticate = async (): Promise<boolean> => {
     if (disposed || reauthInFlight || reauthAttempts >= MAX_REAUTH_ATTEMPTS) return false;
@@ -50,6 +55,7 @@ export function subscribeToFlightEvents(flightId: string, listeners: FlightEvent
 
   socket.on("connect", () => {
     reauthAttempts = 0;
+    setStatus("live");
     socket.emit("subscribe", { flightId });
   });
   socket.on("flight.events", (history: FlightEventResponse[]) => listeners.onHistory(history.map(parseEvent)));
@@ -58,8 +64,12 @@ export function subscribeToFlightEvents(flightId: string, listeners: FlightEvent
 
   socket.on("connect_error", (error: Error) => {
     report(`connection error: ${error.message}`);
+    setStatus("reconnecting");
+    if (socket.active) return;
     void reauthenticate().then((refreshed) => {
-      if (refreshed && !disposed && !socket.active) socket.connect();
+      if (disposed) return;
+      if (refreshed) socket.connect();
+      else setStatus("lost");
     });
   });
 
@@ -67,9 +77,11 @@ export function subscribeToFlightEvents(flightId: string, listeners: FlightEvent
     if (disposed || reason === "io client disconnect") return;
     if (reason === "io server disconnect") {
       report("subscription closed by server");
+      setStatus("lost");
       return;
     }
     report(`connection lost: ${reason}`);
+    setStatus("reconnecting");
   });
 
   return () => {

@@ -4,6 +4,7 @@ import { PiUserSoundBold } from "react-icons/pi";
 import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import type { Diversion } from "~/features/diversion";
 import { FlightStatus, isFilledSchedule } from "~/features/flight";
+import { FlightConnectionFooter } from "~/features/flight/components/Dashboard/Tracking/Box/FlightConnectionFooter";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { Container, type ContainerClassProps } from "~/shared/ui/Layout/Container";
 
@@ -66,6 +67,8 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
         estimatedOffBlock={estimated?.offBlockTime ?? null}
         estimatedOnBlock={estimated?.onBlockTime ?? null}
       />
+
+      <FlightConnectionFooter />
     </Container>
   );
 }
