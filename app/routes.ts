@@ -12,6 +12,7 @@ export default [
   index("routes/public/LandingRoute.tsx"),
   layout("routes/AppLayout.tsx", [
     route("dashboard", "routes/common/DashboardRoute.tsx"),
+    route("me", "routes/common/MeRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
       route("flight-history", "routes/pilot/history/FlightHistoryListRoute.tsx"),

@@ -5,7 +5,8 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { MdBrightnessAuto, MdBrightnessHigh, MdBrightnessLow } from "react-icons/md";
 import { Link } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
-import { type User, UserRole } from "~/features/user/model";
+import { roleToLabel } from "~/features/user/lib/roleToLabel";
+import type { User } from "~/features/user/model";
 import { getInitials } from "~/shared/lib/getInitials";
 
 type ThemeMode = "light" | "dark" | "auto";
@@ -29,17 +30,6 @@ function getIconForMode(mode: ThemeMode): IconType {
       return MdBrightnessLow;
     case "auto":
       return MdBrightnessAuto;
-  }
-}
-
-function roleToLabel(role: UserRole): string {
-  switch (role) {
-    case UserRole.Operations:
-      return "Dispatcher · OCC";
-    case UserRole.Admin:
-      return "Administrator";
-    case UserRole.CabinCrew:
-      return "Cabin crew";
   }
 }
 
