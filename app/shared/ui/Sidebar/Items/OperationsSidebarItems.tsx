@@ -1,38 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { LuTowerControl } from "react-icons/lu";
 import { MdHistory } from "react-icons/md";
 import { useLocation } from "react-router";
-import { useApi } from "~/shared/api/useApi";
+import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
 import { SidebarElement } from "~/shared/ui/Sidebar/Elements/SidebarElement";
 
 export function OperatorSidebarItems() {
   const path = useLocation().pathname;
-  const { delayService } = useApi();
-  const [pendingDelays, setPendingDelays] = useState(0);
-  const lastCountedPath = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (lastCountedPath.current === path) {
-      return;
-    }
-    lastCountedPath.current = path;
-
-    let cancelled = false;
-    delayService
-      .list("pending")
-      .then((delayRequests) => {
-        if (!cancelled) {
-          setPendingDelays(delayRequests.filter((request) => request.hasPendingReports).length);
-        }
-      })
-      .catch((error) => console.error("Failed to load pending delay count", error));
-    return () => {
-      cancelled = true;
-    };
-  }, [delayService, path]);
+  const pendingDelays = usePendingDelayCount();
 
   return (
     <nav className="flex flex-col gap-y-1">

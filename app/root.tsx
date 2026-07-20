@@ -4,6 +4,7 @@ import { isRouteErrorResponse, Link, Links, Meta, Outlet, Scripts, ScrollRestora
 import { AuthProvider } from "~/app-state/useAuth";
 import { ToastProvider } from "~/app-state/useToast";
 import { ApiProvider } from "~/shared/api/useApi";
+import { UpdatePrompt } from "~/shared/pwa/UpdatePrompt";
 import theme from "~/styles/theme";
 import "~/shared/validator/yup-locale";
 import type { Route } from "./+types/root";
@@ -41,6 +42,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ThemeModeScript />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#6875F5" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Flight Tracker" />
         <Meta />
         <Links />
@@ -60,6 +65,7 @@ export default function App() {
       <ApiProvider>
         <AuthProvider>
           <ThemeProvider theme={theme()}>
+            <UpdatePrompt />
             <Outlet />
           </ThemeProvider>
         </AuthProvider>

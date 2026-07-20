@@ -81,7 +81,7 @@ export function UserHeader() {
   return (
     <TransparentContainer
       chromeless
-      className="relative flex flex-col items-start justify-between gap-4 pt-8 md:pt-0 lg:flex-row lg:items-center"
+      className="relative flex flex-col items-start justify-between gap-4 pt-4 md:pt-0 lg:flex-row lg:items-center"
     >
       <HeroBackdrop />
       <div className="relative flex w-full items-center justify-between gap-4 sm:w-auto sm:gap-6">
