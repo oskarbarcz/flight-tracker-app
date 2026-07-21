@@ -81,7 +81,7 @@ export default function AircraftHistoryDetailsRoute() {
           <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-3">
             <AircraftBaseAirportSummaryCard airport={baseAirport} />
             <AircraftStatusSummaryCard aircraft={aircraft} lastAirport={lastAirport} />
-            <AircraftTechnicalStatusCard />
+            <AircraftTechnicalStatusCard etopsThresholdMinutes={aircraft.etopsThresholdMinutes} />
           </div>
         </>
       )}

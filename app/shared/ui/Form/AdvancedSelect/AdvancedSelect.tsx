@@ -24,6 +24,7 @@ type Props = {
   options: AdvancedSelectOption[];
   placeholder?: string;
   required?: boolean;
+  clearable?: boolean;
   disabled?: boolean;
   maxResults?: number;
   menuMinWidth?: number;
@@ -36,6 +37,7 @@ export function AdvancedSelect({
   options,
   placeholder = "Select…",
   required = true,
+  clearable,
   disabled = false,
   maxResults = 5,
   menuMinWidth = 320,
@@ -111,7 +113,7 @@ export function AdvancedSelect({
     setIsOpen(false);
   }
 
-  const isClearable = !required && !disabled && selected !== null;
+  const isClearable = (clearable ?? !required) && !disabled && selected !== null;
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
@@ -178,7 +180,8 @@ export function AdvancedSelect({
             aria-haspopup="listbox"
             onClick={openForSearch}
             className={twMerge(
-              "flex w-full cursor-pointer items-center gap-3 rounded-lg border bg-gray-50 p-2.5 text-left hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-gray-700 dark:hover:bg-gray-600",
+              "flex w-full items-center gap-3 rounded-lg border bg-gray-50 p-2.5 text-left focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-gray-700",
+              disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600",
               isClearable && "pr-10",
               isError ? "border-red-500" : "border-gray-300 dark:border-gray-600",
             )}

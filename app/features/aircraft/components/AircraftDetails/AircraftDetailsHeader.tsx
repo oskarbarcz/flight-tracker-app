@@ -38,7 +38,7 @@ export function AircraftDetailsHeader({ aircraft, editUrl }: Props) {
 
         <DataSection icon={LuTag} title="Identity">
           <div className="grid grid-cols-2 gap-2">
-            <DataField label="SELCAL" value={aircraft.selcal} mono />
+            <DataField label="SELCAL" value={aircraft.selcal || "—"} mono />
             <div className="col-span-2">
               <DataField label="Livery" value={aircraft.livery} />
             </div>

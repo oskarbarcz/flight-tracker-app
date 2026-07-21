@@ -63,7 +63,7 @@ export function FlightDetailsDrawer({ flight }: Props) {
         <DetailBlock label="Aircraft">
           <div className="font-semibold text-gray-900 dark:text-white">{aircraft.airframe.name}</div>
           <div className="font-mono text-xs text-gray-500 dark:text-gray-400">
-            {aircraft.registration} · {aircraft.selcal}
+            {aircraft.registration} · {aircraft.selcal || "—"}
           </div>
           <div className="font-mono text-xs text-gray-500 dark:text-gray-400">Livery: {aircraft.livery}</div>
         </DetailBlock>

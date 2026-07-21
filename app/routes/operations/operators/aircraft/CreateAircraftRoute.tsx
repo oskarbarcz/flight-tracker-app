@@ -1,146 +1,81 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/CreateAircraftRoute";
-import { Button } from "flowbite-react";
-import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
-import React, { useEffect } from "react";
-import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
-import { useToast } from "~/app-state/useToast";
-import { aircraftSchema } from "~/features/aircraft/schema";
-import { AircraftService } from "~/features/aircraft/service";
-import type { Airframe } from "~/features/airframe";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { AircraftIdentificationFormSection } from "~/features/aircraft/components/Form/AircraftIdentificationFormSection";
+import { AircraftLifecycleFormSection } from "~/features/aircraft/components/Form/AircraftLifecycleFormSection";
+import {
+  type AircraftFormData,
+  aircraftFormDataToRequest,
+  aircraftRequestError,
+  initAircraftFormData,
+} from "~/features/aircraft/form";
+import type { AircraftIdentityFormValues, AircraftLifecycleFormValues } from "~/features/aircraft/schema";
 import { AirframeService } from "~/features/airframe/service";
-import type { CreateAircraftRequest } from "~/features/operator/request";
+import { AirportService } from "~/features/airport/service";
 import { OperatorService } from "~/features/operator/service";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
-import { getFormData } from "~/shared/lib/getFormData";
-import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
-import { InputBlock } from "~/shared/ui/Form/InputBlock";
-import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
-import { Container } from "~/shared/ui/Layout/Container";
-import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
+import { FormSubmit } from "~/shared/ui/Form/FormSubmit";
+import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [operator, airframes] = await Promise.all([
+  const [operator, airframes, airports] = await Promise.all([
     new OperatorService().fetchById(params.operatorId),
     new AirframeService().fetchAll(),
+    new AirportService().fetchAll(),
   ]);
-  return { operator, airframes };
+  return { operator, airframes, airports };
 }
 
-export async function clientAction({ params, request }: Route.ClientActionArgs) {
-  const aircraftService = new AircraftService();
-
-  const form = await request.formData();
-  const aircraft: CreateAircraftRequest = getFormData<CreateAircraftRequest>(form, [
-    "type",
-    "selcal",
-    "registration",
-    "livery",
-  ]);
-
-  return aircraftService.createNew(params.operatorId, aircraft).then(handleRequestSuccess).catch(handleRequestError);
-}
-
-export default function CreateAircraftRoute({ params }: Route.ComponentProps) {
+export default function CreateAircraftRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Create new aircraft");
 
+  const { airframes, airports } = loaderData;
+  const { aircraftService } = useApi();
   const navigate = useNavigate();
-  const submit = useSubmit();
-  const { error } = useToast();
-  const { airframes } = useLoaderData<typeof clientLoader>();
-  const response = useActionData<typeof clientAction>();
+
+  const [formData, setFormData] = useState<AircraftFormData>(initAircraftFormData());
+  const [formMessage, setFormMessage] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | undefined>();
 
   useEffect(() => {
-    if (!response) return;
+    const allSubmitted = formData.isIdentitySubmitted && formData.isLifecycleSubmitted;
+    setFormMessage(allSubmitted ? undefined : "Save all sections first.");
+  }, [formData.isIdentitySubmitted, formData.isLifecycleSubmitted]);
 
-    if (response.isSuccessful) {
-      navigate(`/operators/${params.operatorId}/fleet`, {
-        viewTransition: true,
-        replace: true,
-        preventScrollReset: true,
+  function onIdentitySubmit(identity: AircraftIdentityFormValues) {
+    setFormData((prev) => ({ ...prev, identity, isIdentitySubmitted: true }));
+    setFormError(undefined);
+  }
+
+  function onLifecycleSubmit(lifecycle: AircraftLifecycleFormValues) {
+    setFormData((prev) => ({ ...prev, lifecycle, isLifecycleSubmitted: true }));
+    setFormError(undefined);
+  }
+
+  function handleSubmit() {
+    aircraftService
+      .createNew(params.operatorId, aircraftFormDataToRequest(formData))
+      .then(() => navigate(`/operators/${params.operatorId}/fleet`, { viewTransition: true, replace: true }))
+      .catch((error: unknown) => {
+        setFormError(aircraftRequestError(error));
+        setFormMessage(undefined);
       });
-    }
-    if (response.isError && response.oneGeneralError) {
-      error(response.oneGeneralError);
-    }
-  }, [response, params.operatorId, navigate, error]);
-
-  const handleSubmit = (values: CreateAircraftRequest) => {
-    const formData = new FormData();
-    for (const [key, value] of Object.entries(values)) {
-      formData.append(key, value as string);
-    }
-    submit(formData, { method: "post" });
-  };
-
-  const getErrors = (
-    name: keyof CreateAircraftRequest,
-    formikErrors: FormikErrors<CreateAircraftRequest>,
-    formikTouched: FormikTouched<CreateAircraftRequest>,
-  ) => {
-    const serverErrors = response?.isError ? response.errorsForKey(name) : [];
-    const clientError = formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
-    return [...new Set([...clientError, ...serverErrors])];
-  };
-
-  const airframeOptions = airframes
-    .slice()
-    .sort((a: Airframe, b: Airframe) => a.name.localeCompare(b.name))
-    .map((a: Airframe) => ({ value: a.type, label: `${a.type} — ${a.name}` }));
+  }
 
   return (
-    <div className="mx-auto max-w-md pb-4">
-      <SectionHeader title="Create new aircraft" />
+    <div className="mx-auto max-w-lg pb-4">
+      <SectionHeaderWithBackButton
+        sectionTitle="Create new aircraft"
+        backText="Back to fleet"
+        backUrl={`/operators/${params.operatorId}/fleet`}
+      />
+      <div className="space-y-4">
+        <AircraftIdentificationFormSection data={formData.identity} airframes={airframes} onSubmit={onIdentitySubmit} />
+        <AircraftLifecycleFormSection data={formData.lifecycle} airports={airports} onSubmit={onLifecycleSubmit} />
 
-      <Formik<CreateAircraftRequest>
-        initialValues={{
-          type: "",
-          registration: "",
-          selcal: "",
-          livery: "",
-        }}
-        validationSchema={aircraftSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ errors: formikErrors, touched, handleChange, handleBlur, values }) => (
-          <FormikForm noValidate>
-            <Container>
-              <div className="flex flex-col gap-4">
-                <ManagedSelectBlock field="type" label="Airframe" options={airframeOptions} />
-                <InputBlock
-                  htmlName="registration"
-                  label="Registration"
-                  value={values.registration}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("registration", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="selcal"
-                  label="SELCAL"
-                  value={values.selcal}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("selcal", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="livery"
-                  label="Livery name"
-                  value={values.livery}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("livery", formikErrors, touched)}
-                />
-              </div>
-            </Container>
-
-            <div className="flex justify-end pt-4">
-              <Button type="submit" color="indigo">
-                Create new aircraft
-              </Button>
-            </div>
-          </FormikForm>
-        )}
-      </Formik>
+        <FormSubmit message={formMessage} error={formError} onSubmit={handleSubmit} button="Create new aircraft" />
+      </div>
     </div>
   );
 }

@@ -15,6 +15,7 @@ type ManagedFloatingInputBlock = {
   disabled?: boolean;
   className?: string;
   unit?: string;
+  errors?: string[];
 };
 
 const hideSpinnerClasses =
@@ -30,9 +31,12 @@ export function ManagedFloatingInputBlock({
   disabled = false,
   className = "",
   unit,
+  errors = [],
 }: ManagedFloatingInputBlock) {
   const [fieldProps, meta] = useField(field);
-  const isError = meta.touched && meta.error;
+  const clientError = meta.touched && meta.error ? [meta.error] : [];
+  const displayedErrors = [...new Set([...clientError, ...errors])];
+  const isError = displayedErrors.length > 0;
 
   const labelContent: ReactNode = required ? (
     <>
@@ -64,7 +68,7 @@ export function ManagedFloatingInputBlock({
           </span>
         )}
       </div>
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList errorFocus={isError} errors={displayedErrors} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">
           <FaInfoCircle />

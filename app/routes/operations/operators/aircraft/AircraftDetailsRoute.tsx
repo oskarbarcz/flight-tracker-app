@@ -65,7 +65,7 @@ export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
             history={history}
             onReposition={() => setIsRepositionOpen(true)}
           />
-          <AircraftTechnicalStatusCard />
+          <AircraftTechnicalStatusCard etopsThresholdMinutes={aircraft.etopsThresholdMinutes} />
         </div>
       </div>
 
