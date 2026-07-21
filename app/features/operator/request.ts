@@ -7,8 +7,10 @@ export type EditOperatorRequest = CreateOperatorRequest;
 export type CreateAircraftRequest = {
   type: string;
   registration: string;
-  selcal: string;
-  livery: string;
+  selcal: string | null;
+  livery?: string;
+  baseAirportId: string | null;
+  etopsThresholdMinutes: number | null;
 };
 export type EditAircraftRequest = CreateAircraftRequest;
 

@@ -107,7 +107,7 @@ function AircraftRow({
   aircraftId: string;
   airframeName: string;
   registration: string;
-  selcal: string;
+  selcal: string | null;
   operatorName: string;
 }) {
   return (
@@ -117,7 +117,7 @@ function AircraftRow({
         <Chip>
           <AircraftRegistrationLink aircraftId={aircraftId} registration={registration} />
         </Chip>
-        <Chip>{selcal}</Chip>
+        <Chip>{selcal || "—"}</Chip>
       </div>
       <div className="text-xs text-gray-500 dark:text-gray-400">
         Operated by <span className="font-semibold text-gray-800 dark:text-gray-100">{operatorName}</span>

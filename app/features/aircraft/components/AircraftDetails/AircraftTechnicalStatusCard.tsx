@@ -1,7 +1,13 @@
 import { Badge } from "flowbite-react";
 import React from "react";
 import type { IconType } from "react-icons";
-import { HiOutlineCheckCircle, HiOutlineClipboardCheck, HiOutlineCog, HiOutlineShieldCheck } from "react-icons/hi";
+import {
+  HiOutlineCheckCircle,
+  HiOutlineClipboardCheck,
+  HiOutlineClock,
+  HiOutlineCog,
+  HiOutlineShieldCheck,
+} from "react-icons/hi";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
@@ -11,13 +17,22 @@ type StatusRow = {
   value: string;
 };
 
-const rows: StatusRow[] = [
-  { icon: HiOutlineClipboardCheck, label: "Open MEL items", value: "None" },
-  { icon: HiOutlineCog, label: "Deferred defects (CDL)", value: "None" },
-  { icon: HiOutlineCheckCircle, label: "General condition", value: "Good" },
-];
+type Props = {
+  etopsThresholdMinutes: number | null;
+};
 
-export function AircraftTechnicalStatusCard() {
+export function AircraftTechnicalStatusCard({ etopsThresholdMinutes }: Props) {
+  const rows: StatusRow[] = [
+    { icon: HiOutlineClipboardCheck, label: "Open MEL items", value: "None" },
+    { icon: HiOutlineCog, label: "Deferred defects (CDL)", value: "None" },
+    { icon: HiOutlineCheckCircle, label: "General condition", value: "Good" },
+    {
+      icon: HiOutlineClock,
+      label: "ETOPS threshold",
+      value: etopsThresholdMinutes ? `${etopsThresholdMinutes} minutes` : "Not ETOPS-certified",
+    },
+  ];
+
   return (
     <Container>
       <ContainerTitle icon={HiOutlineShieldCheck} title="Technical status" />

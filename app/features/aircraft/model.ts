@@ -28,10 +28,11 @@ export type Aircraft = {
   id: string;
   airframe: Airframe;
   registration: string;
-  selcal: string;
+  selcal: string | null;
   livery: string;
   currentState: AircraftState;
   baseAirport: AircraftAirport | null;
+  etopsThresholdMinutes: number | null;
   lastAirport: AircraftAirport | null;
   lastAirportUpdatedAt: string | null;
   lastParkingPosition: AircraftParkingPosition | null;

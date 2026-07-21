@@ -40,7 +40,7 @@ export function LegPreview({ flight, actionButton }: Props) {
               {flight.aircraft.registration}
             </span>
             <span className="flex min-w-16 items-center justify-center border border-gray-600 px-2 text-xs dark:border-gray-400">
-              {flight.aircraft.selcal}
+              {flight.aircraft.selcal || "—"}
             </span>
           </div>
           <div className="mt-3 flex gap-4">

@@ -1,148 +1,91 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/EditAircraftRoute";
-import { Button } from "flowbite-react";
-import { Formik, type FormikErrors, Form as FormikForm, type FormikTouched } from "formik";
-import React, { useEffect } from "react";
-import { useActionData, useLoaderData, useNavigate, useSubmit } from "react-router";
-import { useToast } from "~/app-state/useToast";
-import { aircraftSchema } from "~/features/aircraft/schema";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { AircraftIdentificationFormSection } from "~/features/aircraft/components/Form/AircraftIdentificationFormSection";
+import { AircraftLifecycleFormSection } from "~/features/aircraft/components/Form/AircraftLifecycleFormSection";
+import {
+  type AircraftFormData,
+  aircraftFormDataToRequest,
+  aircraftRequestError,
+  initAircraftFormData,
+} from "~/features/aircraft/form";
+import type { AircraftIdentityFormValues, AircraftLifecycleFormValues } from "~/features/aircraft/schema";
 import { AircraftService } from "~/features/aircraft/service";
-import type { Airframe } from "~/features/airframe";
 import { AirframeService } from "~/features/airframe/service";
-import type { EditAircraftRequest } from "~/features/operator/request";
+import { AirportService } from "~/features/airport/service";
+import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
-import { getFormData } from "~/shared/lib/getFormData";
-import { handleRequestError, handleRequestSuccess } from "~/shared/lib/handleRequest";
-import { InputBlock } from "~/shared/ui/Form/InputBlock";
-import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
-import { Container } from "~/shared/ui/Layout/Container";
+import { FormSubmit } from "~/shared/ui/Form/FormSubmit";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
 
-export async function clientAction({ request, params }: Route.ClientActionArgs) {
-  const aircraftService = new AircraftService();
-
-  const form = await request.formData();
-  const aircraft = getFormData<EditAircraftRequest>(form, ["type", "selcal", "registration", "livery"]);
-
-  return aircraftService
-    .update(params.operatorId, params.aircraftId, aircraft)
-    .then(handleRequestSuccess)
-    .catch(handleRequestError);
-}
-
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [aircraft, airframes] = await Promise.all([
+  const [aircraft, airframes, airports] = await Promise.all([
     new AircraftService().fetchById(params.operatorId, params.aircraftId),
     new AirframeService().fetchAll(),
+    new AirportService().fetchAll(),
   ]);
-  return { aircraft, airframes };
+  return { aircraft, airframes, airports };
 }
 
-export default function EditAircraftRoute({ params }: Route.ComponentProps) {
+export default function EditAircraftRoute({ params, loaderData }: Route.ComponentProps) {
   usePageTitle("Edit aircraft");
 
+  const { aircraft, airframes, airports } = loaderData;
+  const { aircraftService } = useApi();
   const navigate = useNavigate();
-  const submit = useSubmit();
-  const { error } = useToast();
-  const { aircraft, airframes } = useLoaderData<typeof clientLoader>();
-  const response = useActionData<typeof clientAction>();
+
+  const [formData, setFormData] = useState<AircraftFormData>(initAircraftFormData(aircraft));
+  const [formMessage, setFormMessage] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | undefined>();
 
   useEffect(() => {
-    if (!response) return;
+    const allSubmitted = formData.isIdentitySubmitted && formData.isLifecycleSubmitted;
+    setFormMessage(allSubmitted ? undefined : "Save all sections first.");
+  }, [formData.isIdentitySubmitted, formData.isLifecycleSubmitted]);
 
-    if (response.isSuccessful) {
-      navigate(`/operators/${params.operatorId}/fleet`, {
-        viewTransition: true,
-        replace: true,
-        preventScrollReset: true,
+  function onIdentitySubmit(identity: AircraftIdentityFormValues) {
+    setFormData((prev) => ({ ...prev, identity, isIdentitySubmitted: true }));
+    setFormError(undefined);
+  }
+
+  function onLifecycleSubmit(lifecycle: AircraftLifecycleFormValues) {
+    setFormData((prev) => ({ ...prev, lifecycle, isLifecycleSubmitted: true }));
+    setFormError(undefined);
+  }
+
+  function handleSubmit() {
+    aircraftService
+      .update(params.operatorId, params.aircraftId, aircraftFormDataToRequest(formData))
+      .then(() => navigate(`/operators/${params.operatorId}/fleet`, { viewTransition: true, replace: true }))
+      .catch((error: unknown) => {
+        setFormError(aircraftRequestError(error));
+        setFormMessage(undefined);
       });
-    }
-    if (response.isError && response.oneGeneralError) {
-      error(response.oneGeneralError);
-    }
-  }, [response, params.operatorId, navigate, error]);
-
-  const handleSubmit = (values: EditAircraftRequest) => {
-    const formData = new FormData();
-    for (const [key, value] of Object.entries(values)) {
-      formData.append(key, value as string);
-    }
-    submit(formData, { method: "post" });
-  };
-
-  const getErrors = (
-    name: keyof EditAircraftRequest,
-    formikErrors: FormikErrors<EditAircraftRequest>,
-    formikTouched: FormikTouched<EditAircraftRequest>,
-  ) => {
-    const serverErrors = response?.isError ? response.errorsForKey(name) : [];
-    const clientError = formikTouched[name] && formikErrors[name] ? [formikErrors[name]] : [];
-    return [...new Set([...clientError, ...serverErrors])];
-  };
-
-  const airframeOptions = airframes
-    .slice()
-    .sort((a: Airframe, b: Airframe) => a.name.localeCompare(b.name))
-    .map((a: Airframe) => ({ value: a.type, label: `${a.type} — ${a.name}` }));
+  }
 
   return (
-    <div className="mx-auto max-w-md pb-4">
+    <div className="mx-auto max-w-lg pb-4">
       <SectionHeaderWithBackButton
         sectionTitle="Edit aircraft"
-        backText="Back to operator"
+        backText="Back to fleet"
         backUrl={`/operators/${params.operatorId}/fleet`}
       />
+      <div className="space-y-4">
+        <AircraftIdentificationFormSection
+          data={formData.identity}
+          airframes={airframes}
+          defaultEditable={false}
+          onSubmit={onIdentitySubmit}
+        />
+        <AircraftLifecycleFormSection
+          data={formData.lifecycle}
+          airports={airports}
+          defaultEditable={false}
+          onSubmit={onLifecycleSubmit}
+        />
 
-      <Formik<EditAircraftRequest>
-        initialValues={{
-          type: aircraft.airframe.type,
-          registration: aircraft.registration,
-          selcal: aircraft.selcal,
-          livery: aircraft.livery,
-        }}
-        validationSchema={aircraftSchema}
-        onSubmit={handleSubmit}
-        enableReinitialize
-      >
-        {({ errors: formikErrors, touched, handleChange, handleBlur, values }) => (
-          <FormikForm noValidate>
-            <Container>
-              <div className="flex flex-col gap-4">
-                <ManagedSelectBlock field="type" label="Airframe" options={airframeOptions} />
-                <InputBlock
-                  htmlName="registration"
-                  label="Registration"
-                  value={values.registration}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("registration", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="selcal"
-                  label="SELCAL"
-                  value={values.selcal}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("selcal", formikErrors, touched)}
-                />
-                <InputBlock
-                  htmlName="livery"
-                  label="Livery name"
-                  value={values.livery}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  errors={getErrors("livery", formikErrors, touched)}
-                />
-              </div>
-            </Container>
-
-            <div className="flex justify-end pt-4">
-              <Button type="submit" color="indigo">
-                Save changes
-              </Button>
-            </div>
-          </FormikForm>
-        )}
-      </Formik>
+        <FormSubmit message={formMessage} error={formError} onSubmit={handleSubmit} button="Save changes" />
+      </div>
     </div>
   );
 }
