@@ -14,7 +14,7 @@ const operatorFeatures = [
   {
     title: "Live Fleet Management.",
     description:
-      "See exactly where every aircraft is parked or flying. Track real-time fleet age and effortlessly manage complex daily crew rotations—all from a single, unified view.",
+      "See exactly where every aircraft is parked or flying. Track real-time fleet age and readiness—all from a single, unified view.",
     imageUrl: "https://placehold.co/800x600/e2e8f0/475569?text=Live+Fleet+Tracker",
     imageAlt: "Fleet Tracker Map",
   },

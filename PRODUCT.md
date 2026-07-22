@@ -12,7 +12,7 @@ web
 
 Virtual-aviation enthusiasts running a simulated airline, in three authenticated roles, each in a distinct task context:
 
-- **Operations / dispatchers** ("Dispatcher · OCC") — plan and schedule flights, build preliminary loadsheets and fuel figures, manage the fleet and rotations, airports, parking positions, gates and runways, and review delays and emergencies. At a desk, often multi-monitor, treating the app like a real operations control center.
+- **Operations / dispatchers** ("Dispatcher · OCC") — plan and schedule flights, build preliminary loadsheets and fuel figures, manage the fleet, airports, parking positions, gates and runways, and review delays and emergencies. At a desk, often multi-monitor, treating the app like a real operations control center.
 - **Pilots** — check into a flight through an EFB-style flow, review the operator's briefing and loadsheet, fill the final loadsheet at finish-boarding, report live telemetry, and follow the route on the map.
 - **Cabin crew** — review crew and passenger manifests and aircraft history.
 

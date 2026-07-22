@@ -50,7 +50,7 @@ System font stack (the app's default). Hierarchy comes from weight and letter-sp
 ### Card chrome — shared `Container`
 `app/components/shared/Layout/Container.tsx`
 
-Drops the top gradient bar; applies hairline + soft shadow + `rounded-2xl`. Keeps the `padding="condensed | normal | spacious"` prop. Every tile that already uses `Container` (Next scheduled flight, Current rotation, Pilot stats, etc.) inherits the new look automatically.
+Drops the top gradient bar; applies hairline + soft shadow + `rounded-2xl`. Keeps the `padding="condensed | normal | spacious"` prop. Every tile that already uses `Container` (Next scheduled flight, Current flight, Pilot stats, etc.) inherits the new look automatically.
 
 The same chrome is mirrored onto Flowbite's `Card` in `theme.ts` (`card.root.base` / `card.root.children`) so any direct `<Card>` usage matches.
 

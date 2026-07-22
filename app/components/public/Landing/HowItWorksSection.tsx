@@ -38,7 +38,7 @@ export function HowItWorksSection() {
       role: "operator",
       title: "Manage Fleet",
       description:
-        "Operator manages the airline fleet dynamically. Oversee complex rotations, aircraft readiness, maintenance windows, and ensure every tail number is optimally assigned to daily schedules without conflict.",
+        "Operator manages the airline fleet dynamically. Oversee aircraft readiness, maintenance windows, and ensure every tail number is optimally assigned to daily schedules without conflict.",
       icon: FaPlane,
     },
     {

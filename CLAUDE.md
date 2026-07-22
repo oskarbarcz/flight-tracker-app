@@ -48,7 +48,7 @@ const flight = await flightService.fetchFlightById(id);
 
 All state is React Context — no Redux/Zustand:
 - **`useAuth()`** — user, tokens, sign-in/out
-- **`useApi()`** — singleton service instances (flight, airport, operator, aircraft, rotation, skylink, user, auth)
+- **`useApi()`** — singleton service instances (flight, airport, operator, aircraft, skylink, user, auth)
 - **`useToast()`** — toast notifications
 - **`useMapSettings()` / `useLocalStorage()`** — local app state
 
