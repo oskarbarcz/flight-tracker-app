@@ -28,8 +28,8 @@ export function LandingHero() {
             </h1>
 
             <p className="mt-8 text-xl leading-relaxed text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-medium drop-shadow-sm dark:drop-shadow-xl">
-              From complex fleet rotation and continuous loadsheet calculations to live airborne telemetry. Master the
-              flight levels natively from cold-and-dark setup to engines off.
+              From continuous loadsheet calculations to live airborne telemetry. Master the flight levels natively from
+              cold-and-dark setup to engines off.
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">

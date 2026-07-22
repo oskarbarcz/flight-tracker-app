@@ -2,10 +2,7 @@ import { TabItem, Tabs } from "flowbite-react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router";
 
-const tabs = [
-  { title: "Rotations", path: "rotations" },
-  { title: "Fleet", path: "fleet" },
-];
+const tabs = [{ title: "Fleet", path: "fleet" }];
 
 type Props = {
   id: string;

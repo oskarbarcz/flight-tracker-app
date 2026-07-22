@@ -167,7 +167,6 @@ export class Flight {
   timesheet: Timesheet;
   status: FlightStatus;
   loadsheets: Loadsheets;
-  rotationId: string | null;
   departureParkingPositionId: string | null;
   departureRunwayId: string | null;
   arrivalParkingPositionId: string | null;
@@ -188,7 +187,6 @@ export class Flight {
     this.aircraft = flight.aircraft;
     this.operator = flight.operator;
     this.pilot = flight.pilot ?? null;
-    this.rotationId = flight.rotationId;
     this.timesheet = parseTimesheet(flight.timesheet);
     this.status = flight.status;
     this.loadsheets = {
@@ -250,8 +248,6 @@ export enum FlightEventType {
   DepartureRunwayWasChanged = "flight.departure-runway-changed",
   ArrivalParkingPositionWasChanged = "flight.arrival-parking-position-changed",
   ArrivalRunwayWasChanged = "flight.arrival-runway-changed",
-  FlightWasAddedToRotation = "flight.added-to-rotation",
-  FlightWasRemovedFromRotation = "flight.removed-from-rotation",
   FlightWasReleased = "flight.released",
   PilotCheckedIn = "flight.pilot-checked-in",
   BoardingWasStarted = "flight.boarding-started",

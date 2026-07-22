@@ -36,7 +36,6 @@ export default [
       route("operators/:operatorId/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
       layout("routes/operations/operators/OperatorLayout.tsx", [
         route("operators/:operatorId/fleet", "routes/operations/operators/aircraft/OperatorFleetRoute.tsx"),
-        route("operators/:operatorId/rotations", "routes/operations/operators/rotations/OperatorRotationsRoute.tsx"),
       ]),
       route("operators/:operatorId/aircraft/add", "routes/operations/operators/aircraft/CreateAircraftRoute.tsx"),
       route(
@@ -46,11 +45,6 @@ export default [
       route(
         "operators/:operatorId/aircraft/:aircraftId/edit",
         "routes/operations/operators/aircraft/EditAircraftRoute.tsx",
-      ),
-      route("operators/:operatorId/rotations/new", "routes/operations/operators/rotations/CreateRotationRoute.tsx"),
-      route(
-        "operators/:operatorId/rotations/:rotationId/edit",
-        "routes/operations/operators/rotations/EditRotationRoute.tsx",
       ),
       route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
       route("current-flights", "routes/operations/flights/CurrentFlightsRoute.tsx"),

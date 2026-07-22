@@ -22,8 +22,6 @@ export function translateEventType(eventType: FlightEventType): string {
     [FlightEventType.DepartureRunwayWasChanged]: "Departure runway changed",
     [FlightEventType.ArrivalParkingPositionWasChanged]: "Arrival parking position changed",
     [FlightEventType.ArrivalRunwayWasChanged]: "Arrival runway changed",
-    [FlightEventType.FlightWasAddedToRotation]: "Added to rotation",
-    [FlightEventType.FlightWasRemovedFromRotation]: "Removed from rotation",
     [FlightEventType.FlightWasReleased]: "Flight released",
     [FlightEventType.PilotCheckedIn]: "Pilot checked in",
     [FlightEventType.BoardingWasStarted]: "Boarding started",

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { type Flight, FlightStatus } from "~/features/flight";
 import { CurrentFlightBox } from "~/features/flight/components/Dashboard/Main/Box/CurrentFlightBox";
-import { CurrentRotationBox } from "~/features/flight/components/Dashboard/Main/Box/CurrentRotationBox";
 import { DebugFlightListBox } from "~/features/flight/components/Dashboard/Main/Box/DebugFlightListBox";
 import { LastFlightBox } from "~/features/flight/components/Dashboard/Main/Box/LastFlightBox";
 import { CurrentFlightBoxLoader } from "~/features/flight/components/Dashboard/Main/Box/Loader/CurrentFlightBoxLoader";
@@ -73,7 +72,6 @@ export default function PilotDashboardRoute() {
             />
           )}
           <PilotStatsBox />
-          <CurrentRotationBox />
         </div>
       </div>
       {isDebug && (

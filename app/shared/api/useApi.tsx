@@ -10,7 +10,6 @@ import { FlightService } from "~/features/flight/service";
 import { GateService } from "~/features/gate/service";
 import { OperatorService } from "~/features/operator/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
-import { RotationService } from "~/features/rotation/service";
 import { RunwayService } from "~/features/runway/service";
 import { SkyLinkService } from "~/features/skylink/service";
 import { TerminalService } from "~/features/terminal/service";
@@ -18,7 +17,6 @@ import { TravelService } from "~/features/travel/service";
 import { UserService } from "~/features/user/service";
 
 type ApiServices = {
-  rotationService: RotationService;
   aircraftService: AircraftService;
   airframeService: AirframeService;
   operatorService: OperatorService;
@@ -46,7 +44,6 @@ const UseApi = createContext<ApiServices | null>(null);
 export function ApiProvider({ children }: ApiProviderProps) {
   const services = useMemo<ApiServices>(
     () => ({
-      rotationService: new RotationService(),
       aircraftService: new AircraftService(),
       airframeService: new AirframeService(),
       operatorService: new OperatorService(),

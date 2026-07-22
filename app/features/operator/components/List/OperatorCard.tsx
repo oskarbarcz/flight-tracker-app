@@ -16,7 +16,7 @@ export function OperatorCard({ operator }: Props) {
 
   return (
     <Link
-      to={`/operators/${operator.id}/rotations`}
+      to={`/operators/${operator.id}/fleet`}
       viewTransition
       className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors dark:border-gray-700 dark:bg-gray-800"
     >
