@@ -2,6 +2,7 @@ import L from "leaflet";
 import React from "react";
 import { MapContainer, Marker } from "react-leaflet";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 
 export type MapTone = "parked" | "cruise" | "assigned" | "base";
 
@@ -54,6 +55,7 @@ export function LocationMap({ center, label, pill }: Props) {
         keyboard={false}
       >
         <MapTileLayer />
+        <MapWorldConstraint />
         <Marker position={center} icon={locationIcon} interactive={false} />
       </MapContainer>
       <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-gray-200 bg-white/95 px-2.5 py-1 font-mono text-sm font-bold text-gray-900 shadow-sm dark:border-gray-800 dark:bg-gray-900/95 dark:text-gray-100">

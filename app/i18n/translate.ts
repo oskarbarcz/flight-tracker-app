@@ -6,6 +6,7 @@ import {
   translateStatus,
   translateStatusNextAction,
 } from "~/features/flight/i18n";
+import { translateRotationStatus } from "~/features/rotation/i18n";
 
 export const toHuman = {
   flight: {
@@ -15,6 +16,9 @@ export const toHuman = {
       short: translateShortStatus,
       standard: translateStatus,
     },
+  },
+  rotation: {
+    status: translateRotationStatus,
   },
   airport: {
     continent: translateContinent,

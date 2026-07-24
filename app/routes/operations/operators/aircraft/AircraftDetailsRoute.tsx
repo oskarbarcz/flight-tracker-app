@@ -11,13 +11,18 @@ import { RepositionAircraftModal } from "~/features/aircraft/components/Aircraft
 import { AircraftService } from "~/features/aircraft/service";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const aircraftService = new AircraftService();
+  const aircraft = await aircraftService.fetchById(params.operatorId, params.aircraftId).catch(() => null);
 
-  const [aircraft, history, repositions] = await Promise.all([
-    aircraftService.fetchById(params.operatorId, params.aircraftId),
+  if (!aircraft) {
+    return { aircraft: null, history: [], repositions: [] };
+  }
+
+  const [history, repositions] = await Promise.all([
     aircraftService.fetchFlightHistory(params.operatorId, params.aircraftId),
     aircraftService.fetchRepositionHistory(params.operatorId, params.aircraftId),
   ]);
@@ -32,9 +37,12 @@ export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
   const revalidator = useRevalidator();
   const [isRepositionOpen, setIsRepositionOpen] = useState(false);
 
-  usePageTitle(`Aircraft ${aircraft.registration}`);
+  usePageTitle(aircraft ? `Aircraft ${aircraft.registration}` : "Aircraft not found");
 
   async function handleReposition(destinationAirportId: string) {
+    if (!aircraft) {
+      return;
+    }
     try {
       await aircraftService.createReposition(params.operatorId, aircraft.id, { destinationAirportId });
       success("Aircraft reposition scheduled.");
@@ -43,6 +51,17 @@ export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
     } catch {
       error("Failed to reposition aircraft.");
     }
+  }
+
+  if (!aircraft) {
+    return (
+      <div className="pb-8">
+        <SectionHeaderWithBackButton backText="Back to fleet" backUrl={`/operators/${params.operatorId}/fleet`} />
+        <ContainerEmptyState>
+          This aircraft could not be found. It may have been removed from the fleet.
+        </ContainerEmptyState>
+      </div>
+    );
   }
 
   return (

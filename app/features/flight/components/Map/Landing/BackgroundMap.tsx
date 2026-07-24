@@ -1,5 +1,6 @@
 import { MapContainer } from "react-leaflet";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 
 export function BackgroundMap() {
   return (
@@ -17,6 +18,7 @@ export function BackgroundMap() {
       keyboard={false}
     >
       <MapTileLayer />
+      <MapWorldConstraint />
     </MapContainer>
   );
 }

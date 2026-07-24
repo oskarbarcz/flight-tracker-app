@@ -4,6 +4,7 @@ import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 
 type Props = {
   airportLocation: { latitude: number; longitude: number };
@@ -69,6 +70,7 @@ export function RunwayLocationPicker({
         attributionControl={false}
       >
         <MapTileLayer />
+        <MapWorldConstraint />
         <ClickHandler
           onPick={(lat, lng) => {
             latHelpers.setValue(lat);

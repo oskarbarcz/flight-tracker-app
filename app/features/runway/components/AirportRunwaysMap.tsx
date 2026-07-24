@@ -8,6 +8,7 @@ import { AirportShapePolygon } from "~/features/flight/components/Map/Element/Ai
 import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { ParkingPositionMarkers } from "~/features/flight/components/Map/Element/ParkingPositionMarkers";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
 import { TerminalPolygons } from "~/features/flight/components/Map/Element/TerminalPolygons";
@@ -112,6 +113,7 @@ export function AirportRunwaysMap({ airport, runways, terminals, parkingPosition
           attributionControl={false}
         >
           <MapTileLayer />
+          <MapWorldConstraint />
           <ZoomedAirportLayers
             airport={airport}
             runways={runways}
