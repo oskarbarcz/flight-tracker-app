@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React from "react";
+import { HiOutlineArrowRight } from "react-icons/hi";
 import { Link } from "react-router";
 import type { Rotation } from "~/features/rotation";
 import { RotationStatusBadge } from "~/features/rotation/components/RotationStatusBadge";
@@ -26,6 +27,7 @@ export function RotationListTable({ operatorId, rotations, pilotNames }: Props) 
           <TableHeadCell>Departure date</TableHeadCell>
           <TableHeadCell>Captain</TableHeadCell>
           <TableHeadCell>Status</TableHeadCell>
+          <TableHeadCell>Actions</TableHeadCell>
         </TableRow>
       </TableHead>
       <TableBody className="divide-y">
@@ -65,6 +67,16 @@ export function RotationListTable({ operatorId, rotations, pilotNames }: Props) 
               <TableCell className="text-gray-700 dark:text-gray-300">{pilotNames[rotation.pilotId] ?? "—"}</TableCell>
               <TableCell>
                 <RotationStatusBadge status={rotation.status} />
+              </TableCell>
+              <TableCell>
+                <Link
+                  className="inline-flex items-center gap-1.5 font-bold text-primary-500"
+                  to={detailsPath}
+                  viewTransition
+                >
+                  <span>View details</span>
+                  <HiOutlineArrowRight className="size-4" />
+                </Link>
               </TableCell>
             </TableRow>
           );

@@ -65,13 +65,14 @@ export default function OperatorRotationsRoute() {
           <TextInput
             type="search"
             icon={HiSearch}
+            sizing="sm"
             placeholder="Search by name"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
         </div>
         <RotationStatusFilter active={status} />
-        <Button color="indigo" className="ms-auto w-fit" onClick={() => setCreating(true)}>
+        <Button color="indigo" size="xs" className="ms-auto w-fit" onClick={() => setCreating(true)}>
           <HiPlus />
           <span className="ml-2">Create rotation</span>
         </Button>

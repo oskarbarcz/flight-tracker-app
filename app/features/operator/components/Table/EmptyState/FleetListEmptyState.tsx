@@ -23,7 +23,7 @@ export function FleetListEmptyState({ operatorId }: Props) {
         className="space-x-1.5 w-fit mx-auto"
         color="indigo"
         as={Link}
-        to={`/operators/${operatorId}/aircraft/new`}
+        to={`/operators/${operatorId}/aircraft/add`}
       >
         <HiPlus />
         <span>Add aircraft</span>

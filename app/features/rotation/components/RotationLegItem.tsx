@@ -37,6 +37,9 @@ function dayOffset(from: Date, to: Date): number {
   return Math.round((end - start) / 86_400_000);
 }
 
+const legActionClass =
+  "-my-2.5 cursor-pointer rounded py-2.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:focus-visible:ring-indigo-800";
+
 function ScheduleItem({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-baseline gap-1.5">
@@ -94,28 +97,16 @@ export function RotationLegItem({
             )}
             {canEdit && (
               <>
-                <button
-                  type="button"
-                  onClick={onEdit}
-                  className="cursor-pointer text-sm font-medium text-indigo-500 hover:underline"
-                >
+                <button type="button" onClick={onEdit} className={`${legActionClass} text-indigo-500`}>
                   Edit
                 </button>
-                <button
-                  type="button"
-                  onClick={onRemove}
-                  className="cursor-pointer text-sm font-medium text-red-500 hover:underline"
-                >
+                <button type="button" onClick={onRemove} className={`${legActionClass} text-red-500`}>
                   Remove
                 </button>
               </>
             )}
             {canDetach && (
-              <button
-                type="button"
-                onClick={onDetach}
-                className="cursor-pointer text-sm font-medium text-gray-500 hover:underline"
-              >
+              <button type="button" onClick={onDetach} className={`${legActionClass} text-gray-500`}>
                 Detach
               </button>
             )}
