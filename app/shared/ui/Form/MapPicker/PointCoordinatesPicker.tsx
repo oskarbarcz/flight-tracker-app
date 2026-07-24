@@ -4,6 +4,7 @@ import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Tooltip, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { PIN_COLOR } from "~/shared/lib/mapColors";
 import type { Coordinates } from "~/shared/models/coordinates";
 
@@ -81,6 +82,7 @@ export function PointCoordinatesPicker({ field, airportLocation, label, pinLabel
         attributionControl={false}
       >
         <MapTileLayer />
+        <MapWorldConstraint />
         <ClickHandler onPick={onPick} />
         {value && (
           <Marker position={[value.latitude, value.longitude]} icon={pinIcon}>

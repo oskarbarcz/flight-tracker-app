@@ -4,6 +4,7 @@ import L, { type LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Polygon, Polyline, useMapEvents } from "react-leaflet";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/shared/lib/polygon";
 import type { Coordinates } from "~/shared/models/coordinates";
 
@@ -159,6 +160,7 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
         attributionControl={false}
       >
         <MapTileLayer />
+        <MapWorldConstraint />
         <ClickHandler onPick={onMapClick} />
 
         {closed && positions.length >= 3 && (

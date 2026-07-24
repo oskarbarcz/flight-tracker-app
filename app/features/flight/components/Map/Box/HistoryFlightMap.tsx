@@ -12,6 +12,7 @@ import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapA
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { useApi } from "~/shared/api/useApi";
 
@@ -49,6 +50,7 @@ export function HistoryFlightMap({ flight, diversion = null }: Props) {
         attributionControl={false}
       >
         <MapTileLayer />
+        <MapWorldConstraint />
 
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <DiversionRoute origin={flight.departureAirport} diversion={diversion} />

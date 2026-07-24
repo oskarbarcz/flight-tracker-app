@@ -15,6 +15,7 @@ import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapA
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
 import { useApi } from "~/shared/api/useApi";
@@ -80,6 +81,7 @@ function RouteMapContent({ flight }: Props) {
             attributionControl={false}
           >
             <MapTileLayer />
+            <MapWorldConstraint />
             <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
             <FlightPath path={flightPath} />
             <TrackingRunwaysLayer
