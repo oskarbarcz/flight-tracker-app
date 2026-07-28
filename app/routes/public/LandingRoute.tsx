@@ -7,9 +7,11 @@ import { LandingHero } from "~/components/public/Landing/LandingHero";
 import { LandingNavbar } from "~/components/public/Landing/LandingNavbar";
 import { OperatorDeepDiveSection } from "~/components/public/Landing/OperatorDeepDiveSection";
 import { PilotDeepDiveSection } from "~/components/public/Landing/PilotDeepDiveSection";
+import { useInstalledApp } from "~/shared/hooks/useInstalledApp";
 
 export default function LandingRoute() {
   const { user, isLoading } = useAuth();
+  const isInstalledApp = useInstalledApp();
 
   if (isLoading) {
     return null;
@@ -17,6 +19,10 @@ export default function LandingRoute() {
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
+  }
+
+  if (isInstalledApp) {
+    return <Navigate to="/sign-in" replace />;
   }
 
   return (
