@@ -150,7 +150,7 @@ export function RotationDetails({ initialRotation, airports, operatorId, pilotNa
 
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <RotationCaptainCard name={pilotName} onEdit={() => setEditing(true)} />
+          <RotationCaptainCard name={pilotName} onEdit={current.isDraft ? () => setEditing(true) : undefined} />
           <RotationLegsEditor
             rotation={current}
             operatorId={operatorId}

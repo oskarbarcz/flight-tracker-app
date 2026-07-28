@@ -2,7 +2,7 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import type { RotationLeg } from "~/features/rotation";
 
-export type LegPlanState = "flown" | "current" | "ready" | "missing";
+type LegPlanState = "flown" | "current" | "ready" | "missing";
 
 export function legPlanState(leg: RotationLeg, currentFlightId: string | null): LegPlanState {
   if (leg.isFlown) {
