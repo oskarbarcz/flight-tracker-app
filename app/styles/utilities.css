@@ -1,3 +1,28 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #111827;
+  caret-color: #111827;
+  -webkit-box-shadow: 0 0 0 1000px #f9fafb inset;
+}
+input:-webkit-autofill:focus {
+  -webkit-box-shadow:
+    0 0 0 1000px #f9fafb inset,
+    0 0 0 1px #6875f5;
+}
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  -webkit-box-shadow: 0 0 0 1000px #374151 inset;
+}
+.dark input:-webkit-autofill:focus {
+  -webkit-box-shadow:
+    0 0 0 1000px #374151 inset,
+    0 0 0 1px #6875f5;
+}
+
 /* Leaflet map styling */
 .leaflet-container {
   /* Prevent rounded corners dithering */
@@ -226,6 +251,55 @@
 }
 .map-runway-label--selected {
   @apply text-indigo-700 dark:text-indigo-300;
+}
+
+/* Sign-in morph into the app shell (View Transitions) */
+@keyframes app-entry-open {
+  from {
+    clip-path: inset(
+      var(--app-entry-top, 50%) var(--app-entry-right, 50%) var(--app-entry-bottom, 50%) var(--app-entry-left, 50%)
+        round var(--app-entry-radius, 8px)
+    );
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+
+html[data-app-entry]::view-transition-group(*) {
+  animation-duration: 620ms;
+}
+html[data-app-entry]::view-transition-old(*) {
+  animation: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+html[data-app-entry]::view-transition-new(*) {
+  animation: app-entry-open 620ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  mix-blend-mode: normal;
+}
+@keyframes app-entry-content {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html[data-app-entry] [data-app-entry-content] {
+  animation: app-entry-content 480ms cubic-bezier(0.16, 1, 0.3, 1) 620ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-app-entry]::view-transition-new(*) {
+    animation-duration: 0.01ms;
+  }
+  html[data-app-entry] [data-app-entry-content] {
+    animation: none;
+  }
 }
 
 /* Airport map fullscreen morph (View Transitions) */

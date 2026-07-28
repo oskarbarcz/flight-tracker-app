@@ -1,10 +1,28 @@
-import logo from "~/assets/logo.svg";
+import brandLogo from "~/assets/logo.svg";
+import inverseLogo from "~/assets/logo.white.svg";
 
-export function Logo() {
+type LogoTone = "brand" | "inverse";
+type LogoLayout = "inline" | "panel";
+
+type LogoProps = {
+  tone?: LogoTone;
+  layout?: LogoLayout;
+};
+
+export function Logo({ tone = "brand", layout = "inline" }: LogoProps) {
+  const isInverse = tone === "inverse";
+  const isPanel = layout === "panel";
+
   return (
-    <>
-      <img src={logo} className="h-6 mr-1 sm:h-9 sm:mr-2" alt="Flight Tracker app logo" />
-      <span className="text-xl sm:text-3xl font-bold text-indigo-500">Flight Tracker</span>
-    </>
+    <div className={isPanel ? "flex items-center gap-2 md:flex-col md:gap-4" : "flex items-center gap-2"}>
+      <img src={isInverse ? inverseLogo : brandLogo} alt="" className={isPanel ? "h-7 md:h-16" : "h-6 sm:h-9"} />
+      <span
+        className={`font-bold ${isPanel ? "text-lg md:text-2xl" : "text-xl sm:text-3xl"} ${
+          isInverse ? "text-white" : "text-indigo-500"
+        }`}
+      >
+        Flight Tracker
+      </span>
+    </div>
   );
 }

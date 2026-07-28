@@ -6,7 +6,6 @@
 @import "leaflet/dist/leaflet.css";
 @import "flowbite-react/plugin/tailwindcss";
 @import "./base.css";
-@import "./animations.css";
 @import "./utilities.css";
 @import "./scrollbars.css";
 

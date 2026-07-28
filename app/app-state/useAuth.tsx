@@ -7,7 +7,7 @@ export interface AuthContextType {
   user: User | null;
   accessToken: string | null;
   refreshToken: string | null;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<User>;
   signOut: () => void;
   refreshUser: () => Promise<void>;
   isLoading: boolean;
@@ -17,7 +17,7 @@ export const UseAuth = createContext<AuthContextType>({
   user: null,
   accessToken: null,
   refreshToken: null,
-  signIn: async () => {},
+  signIn: () => Promise.reject(new Error("AuthProvider is missing")),
   signOut: () => {},
   refreshUser: async () => {},
   isLoading: true,
@@ -62,12 +62,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return userService.fetchCurrent().then(setUser);
   }, [userService]);
 
-  function saveAuthData(accessToken: string, refreshToken: string): Promise<void> {
+  function saveAuthData(accessToken: string, refreshToken: string): Promise<User> {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     saveTokens(accessToken, refreshToken);
 
-    return userService.fetchCurrent().then(setUser);
+    return userService.fetchCurrent().then((currentUser) => {
+      setUser(currentUser);
+      return currentUser;
+    });
   }
 
   function clearAuthData() {
@@ -77,9 +80,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     clearTokens();
   }
 
-  const signIn = async (email: string, password: string): Promise<void> => {
+  const signIn = async (email: string, password: string): Promise<User> => {
     const { accessToken, refreshToken } = await authService.signIn({ email, password });
-    await saveAuthData(accessToken, refreshToken);
+    return saveAuthData(accessToken, refreshToken);
   };
 
   const signOut = async () => {

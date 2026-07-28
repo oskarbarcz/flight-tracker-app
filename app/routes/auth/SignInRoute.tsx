@@ -1,84 +1,155 @@
-import { Button, FloatingLabel, Spinner } from "flowbite-react";
-import React, { useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { Button, Spinner } from "flowbite-react";
+import React, { useEffect, useRef, useState } from "react";
+import { FaCircleExclamation } from "react-icons/fa6";
 import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
+import { CredentialField } from "~/features/auth/components/CredentialField";
+import { landingPathForRole } from "~/features/user/lib/landingPath";
+import type { User } from "~/features/user/model";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
-import { Container } from "~/shared/ui/Layout/Container";
+import { canAnimateAppEntry, markAppEntryOrigin } from "~/shared/lib/appEntryTransition";
 import { Logo } from "~/shared/ui/Layout/Logo";
+
+const missingCredentialsMessage = "Enter your email and password.";
+const rejectedCredentialsMessage = "Email or password is incorrect. Check both and try again.";
+const unreachableServiceMessage = "Can't reach Flight Tracker. Check your connection and try again.";
+const failedServiceMessage = "Sign-in failed on our side. Try again in a moment.";
+
+function describeFailure(reason: unknown): string {
+  const statusCode = (reason as { statusCode?: number } | null)?.statusCode;
+
+  if (statusCode === 400 || statusCode === 401 || statusCode === 403) {
+    return rejectedCredentialsMessage;
+  }
+
+  return statusCode === undefined ? unreachableServiceMessage : failedServiceMessage;
+}
 
 export default function SignInRoute() {
   usePageTitle("Sign in");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
+  const enteringRef = useRef<boolean>(false);
 
   const navigate = useNavigate();
-  const { signIn, user } = useAuth();
+  const { signIn, user, isLoading } = useAuth();
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
+  useEffect(() => {
+    if (!isLoading) {
+      emailRef.current?.focus();
+    }
+  }, [isLoading]);
 
-    signIn(email, password)
-      .then(() => navigate("/dashboard", { replace: true }))
-      .catch(() => setError("Incorrect credentials"))
-      .finally(() => setLoading(false));
+  function enterApp(signedInUser: User) {
+    enteringRef.current = true;
+    const destination = landingPathForRole(signedInUser.role);
+
+    if (submitRef.current && canAnimateAppEntry()) {
+      markAppEntryOrigin(submitRef.current);
+      navigate(destination, { replace: true, viewTransition: true });
+      return;
+    }
+
+    navigate(destination, { replace: true });
   }
 
-  if (!loading && user) {
-    return <Navigate to="/dashboard" replace />;
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (submitting) {
+      return;
+    }
+
+    if (!email || !password) {
+      setError(missingCredentialsMessage);
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+
+    signIn(email, password)
+      .then((signedInUser) => enterApp(signedInUser))
+      .catch((reason) => setError(describeFailure(reason)))
+      .finally(() => setSubmitting(false));
+  }
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (user && !enteringRef.current) {
+    return <Navigate to={landingPathForRole(user.role)} replace />;
   }
 
   return (
-    <div className="z-10 flex min-h-full flex-col justify-center md:-mt-25 gap-4 sm:gap-6 md:gap-8 p-3 items-center">
-      <aside className="flex items-center justify-center">
-        <Logo />
-      </aside>
-      <Container className="w-full  max-w-87.5 shadow-none">
-        <h1 className="text-center mb-4 sm:mb-8 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
-          Sign in
-        </h1>
-        <form onSubmit={handleSubmit} className="w-full space-y-2 rounded-4xl">
-          <FloatingLabel
-            variant="outlined"
-            label="Email"
-            id="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="dark:bg-gray-800"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <FloatingLabel
-            variant="outlined"
-            label="Password"
-            id="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            className="dark:bg-gray-800"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {error && <p className="pb-2 pt-1 text-center text-sm text-red-500">{error}</p>}
+    <section className="flex w-full max-w-2xl flex-col gap-3 rounded-3xl border border-gray-200 bg-white p-3 md:flex-row dark:border-gray-800 dark:bg-gray-900">
+      <div className="flex items-center justify-center rounded-xl bg-linear-to-br from-indigo-600 to-indigo-700 px-8 py-6 md:w-1/2 md:py-0">
+        <Logo tone="inverse" layout="panel" />
+      </div>
 
-          <div className="flex items-center justify-end pt-2">
-            {loading ? (
-              <Button type="submit" color="indigo">
-                <Spinner color="purple" size="md" />
-              </Button>
-            ) : (
-              <Button type="submit" color="indigo">
-                <span className="font-bold">Sign in</span>
-                <FaArrowRight className="ms-2 inline-block" />
-              </Button>
-            )}
-          </div>
-        </form>
-      </Container>
-    </div>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col justify-center gap-5 p-3 sm:p-5 md:w-1/2 md:p-7"
+        aria-busy={submitting}
+        noValidate
+      >
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Sign in</h1>
+
+        <CredentialField
+          id="email"
+          label="Email"
+          type="email"
+          autoComplete="email"
+          value={email}
+          readOnly={submitting}
+          inputRef={emailRef}
+          onChange={setEmail}
+        />
+        <CredentialField
+          id="password"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+          value={password}
+          readOnly={submitting}
+          onChange={setPassword}
+        />
+
+        {error && (
+          <p
+            role="alert"
+            className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-pretty text-sm text-red-700 dark:border-red-900 dark:bg-red-900/40 dark:text-red-300"
+          >
+            <FaCircleExclamation aria-hidden className="mt-0.5 shrink-0" />
+            <span>{error}</span>
+          </p>
+        )}
+
+        <Button
+          ref={submitRef}
+          type="submit"
+          color="indigo"
+          aria-disabled={submitting}
+          className="mt-1 min-h-11 w-full font-bold"
+        >
+          {submitting ? (
+            <>
+              <Spinner
+                size="sm"
+                className="me-2 fill-white text-indigo-300 motion-reduce:animate-none dark:text-indigo-300"
+              />
+              Signing in
+            </>
+          ) : (
+            "Sign in"
+          )}
+        </Button>
+      </form>
+    </section>
   );
 }
