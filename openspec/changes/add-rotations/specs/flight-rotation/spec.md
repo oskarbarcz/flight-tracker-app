@@ -124,9 +124,89 @@ When a rotation mutation is rejected by a server-side guard — a lifecycle conf
 - **WHEN** a rotation mutation responds with HTTP 422 (e.g. invalid leg, broken chain, flight not attachable, rotation not readyable)
 - **THEN** the system MUST show an error toast carrying the server's explanation, and MUST leave the locally displayed rotation unchanged
 
+### Requirement: The pilot's rotation surface is read-only
+
+The pilot SHALL have no action anywhere on the rotation surface that changes a rotation, its legs, or its flight attachments. All rotation state changes belong to Operations or to backend flight events.
+
+#### Scenario: No mutating controls are offered to the pilot
+
+- **WHEN** a pilot views the rotation card, the rotations list, or a rotation's detail page
+- **THEN** the system MUST NOT offer add/edit/remove leg, attach/detach flight, mark-ready, cancel, or delete actions, and MUST NOT call any rotation mutation endpoint
+
+### Requirement: Pilots see only released rotations
+
+Rotations in `draft` SHALL NOT be presented to the pilot on any surface, because a draft's legs are still mutable and carry no attached flights. The pilot surface admits `ready`, `in_progress`, `finished`, and `canceled`.
+
+#### Scenario: Draft rotations are excluded from the list
+
+- **WHEN** `GET /api/v1/user/me/rotations` returns rotations including one in `draft` assigned to the pilot
+- **THEN** the list MUST NOT show the `draft` rotation, and MUST show the pilot's `ready`, `in_progress`, `finished`, and `canceled` rotations
+
+#### Scenario: Draft rotation opened directly by id
+
+- **WHEN** the pilot navigates to the detail route for a `draft` rotation
+- **THEN** the system MUST NOT render the itinerary, and MUST show a state explaining the rotation is not yet released
+
+### Requirement: Canceled rotations are a recognized terminal state
+
+The system SHALL model `canceled` as a rotation status alongside `draft`, `ready`, `in_progress`, and `finished`, and SHALL carry the cancellation metadata (`canceledBy`, `cancellationReason`, `canceledAt`) from the API. A canceled rotation is neither active nor finished.
+
+#### Scenario: Canceled rotation is labelled and explained
+
+- **WHEN** the pilot opens a `canceled` rotation's detail page
+- **THEN** the system shows a canceled status label, the cancellation reason, and who canceled it, and MUST NOT present the rotation as flyable
+
+#### Scenario: Canceled rotation is not the active rotation
+
+- **WHEN** the pilot's only rotation is `canceled`
+- **THEN** the dashboard MUST NOT render the rotation card, and the rotation appears among completed rotations in the list
+
+### Requirement: Pilot lists their assigned rotations
+
+The pilot SHALL be able to view the rotations assigned to them, retrieved from `GET /api/v1/user/me/rotations`, grouped into active (`ready`, `in_progress`) and completed (`finished`, `canceled`). Each entry identifies the rotation and summarizes its shape — name, status, route span, leg count, first off-block date, and how many legs have been flown — and opens that rotation's detail page.
+
+#### Scenario: View assigned rotations
+
+- **WHEN** the pilot opens the Rotations list
+- **THEN** the system lists their non-`draft` rotations grouped into active and completed, each entry showing name, status, route span, leg count, first off-block date, and flown-leg count, and each entry linking to its detail page
+
+#### Scenario: No assigned rotations
+
+- **WHEN** the pilot has no rotation in `ready`, `in_progress`, `finished`, or `canceled`
+- **THEN** the system shows an empty state explaining that assigned rotations will appear here
+
+#### Scenario: Rotations list is reachable from navigation
+
+- **WHEN** a pilot is signed in
+- **THEN** the sidebar offers a Rotations entry linking to the list
+
+### Requirement: Pilot views a rotation's full itinerary
+
+The pilot SHALL be able to open one of their rotations and see its complete itinerary: the rotation's identity and status, its route across all legs, and for each leg the flight number, departure and arrival, off-block and on-block times, planned block time, and the state of the attached flight. Legs MUST be presented in the order returned by the API.
+
+#### Scenario: View an assigned rotation's detail
+
+- **WHEN** the pilot opens the detail page for a rotation assigned to them in `ready`, `in_progress`, `finished`, or `canceled`
+- **THEN** the system shows the rotation name, status, operator, route across legs, and every leg with its flight number, `departure → arrival`, off-block and on-block times, planned block time, and attached-flight status
+
+#### Scenario: Leg awaiting its flight
+
+- **WHEN** a leg on the pilot's rotation has no attached flight
+- **THEN** the leg MUST be shown as awaiting its flight rather than as an empty or broken row, and MUST offer no action to the pilot
+
+#### Scenario: Rotation not assigned to this pilot
+
+- **WHEN** the pilot navigates to the detail route for a rotation whose `pilotId` is not their own
+- **THEN** the system MUST NOT render the itinerary, and MUST show a state explaining the rotation is not assigned to them
+
+#### Scenario: Open a leg's flight from the itinerary
+
+- **WHEN** a leg on the pilot's rotation has an attached flight and the pilot activates it
+- **THEN** the system navigates to `/flight-history/{flightId}` if that flight is closed, and to `/track/{flightId}` otherwise
+
 ### Requirement: Pilot sees their current rotation on the dashboard
 
-The pilot dashboard SHALL show a rotation progress card when the pilot has an active rotation, and SHALL omit the card otherwise. The pilot's rotations are retrieved from `GET /api/v1/user/me/rotations`. The card is additive and MUST NOT replace or alter the existing current, next, or last flight boxes.
+The pilot dashboard SHALL show a rotation progress card when the pilot has an active rotation, and SHALL omit the card otherwise. The pilot's rotations are retrieved from `GET /api/v1/user/me/rotations`. The card is additive and MUST NOT replace or alter the existing current, next, or last flight boxes, nor change how the dashboard picks the next scheduled flight.
 
 #### Scenario: An active rotation exists
 
@@ -145,7 +225,7 @@ The pilot dashboard SHALL show a rotation progress card when the pilot has an ac
 
 ### Requirement: Pilot rotation card shows leg progress and links into tracking
 
-The rotation card SHALL present the rotation's legs as an ordered strip distinguishing completed, active, and upcoming legs, and SHALL let the pilot open the active or next leg's flight in tracking.
+The rotation card SHALL present the rotation's legs as an ordered strip distinguishing completed, active, and upcoming legs, SHALL let the pilot open the active or next leg's flight in tracking, and SHALL link to the rotation's detail page.
 
 #### Scenario: Active leg identified from the current flight
 
@@ -157,7 +237,17 @@ The rotation card SHALL present the rotation's legs as an ordered strip distingu
 - **WHEN** the active or next leg has an attached flight and the pilot activates it
 - **THEN** the system navigates to `/track/{flightId}` for that leg's flight
 
+#### Scenario: Next leg has no attached flight
+
+- **WHEN** the next unflown leg has no attached flight
+- **THEN** the card still presents that leg as the next leg of the itinerary, shows it as awaiting its flight, and offers no tracking link for it
+
 #### Scenario: Card advances after a leg completes
 
 - **WHEN** a rotation-linked flight the pilot was tracking is completed (closed)
 - **THEN** the card advances to present the next unflown leg as the leg to fly next
+
+#### Scenario: Card opens the full itinerary
+
+- **WHEN** the pilot activates the card's link to the rotation
+- **THEN** the system navigates to that rotation's detail page

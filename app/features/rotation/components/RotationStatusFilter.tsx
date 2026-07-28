@@ -11,6 +11,7 @@ const STATUS_ORDER: RotationStatusFilterValue[] = [
   RotationStatus.Ready,
   RotationStatus.InProgress,
   RotationStatus.Finished,
+  RotationStatus.Canceled,
 ];
 
 function label(value: RotationStatusFilterValue): string {

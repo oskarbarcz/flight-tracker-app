@@ -37,9 +37,12 @@ export type ApiRotationResponse = {
   status: RotationStatus;
   createdBy: RotationUserResponse;
   updatedBy: RotationUserResponse | null;
+  canceledBy: RotationUserResponse | null;
+  cancellationReason: string | null;
   legs: RotationLegResponse[];
   createdAt: string;
   updatedAt: string | null;
+  canceledAt: string | null;
 };
 
 export type CreateRotationRequest = {

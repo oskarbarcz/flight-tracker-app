@@ -1,32 +1,49 @@
-import { FaMapLocationDot } from "react-icons/fa6";
+import { FaArrowsSpin, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { LuPlane, LuTowerControl } from "react-icons/lu";
-import { MdHistory } from "react-icons/md";
+import { MdHistory, MdOutlineLocalAirport } from "react-icons/md";
 import { useAuth } from "~/app-state/useAuth";
 import { UserRole } from "~/features/user";
-import { MorePage, type MorePageItem } from "~/shared/ui/MorePage/MorePage";
+import { MorePage, type MorePageSection } from "~/shared/ui/MorePage/MorePage";
 
-const pilotItems: MorePageItem[] = [
-  { label: "Flight history", href: "/flight-history", icon: GrDocumentTime },
-  { label: "Aircraft history", href: "/aircraft-history", icon: LuPlane },
-  { label: "Travel log", href: "/travels", icon: FaMapLocationDot },
+const pilotSections: MorePageSection[] = [
+  {
+    label: "Library",
+    items: [
+      { label: "Airports library", href: "/airports-library", icon: MdOutlineLocalAirport },
+      { label: "Aircraft library", href: "/aircraft-history", icon: LuPlane },
+    ],
+  },
+  {
+    label: "History",
+    items: [
+      { label: "Operations history", href: "/flight-history", icon: GrDocumentTime },
+      { label: "Travel history", href: "/travels", icon: FaMapLocationDot },
+      { label: "Rotations history", href: "/rotations", icon: FaArrowsSpin },
+    ],
+  },
 ];
 
-const operationsItems: MorePageItem[] = [
-  { label: "Flight history", href: "/finished-flights", icon: MdHistory },
-  { label: "Airports", href: "/airports", icon: LuTowerControl },
-  { label: "Operators", href: "/operators", icon: HiOutlineBuildingOffice },
+const operationsSections: MorePageSection[] = [
+  {
+    label: "Manage",
+    items: [
+      { label: "Flight history", href: "/finished-flights", icon: MdHistory },
+      { label: "Airports", href: "/airports", icon: LuTowerControl },
+      { label: "Operators", href: "/operators", icon: HiOutlineBuildingOffice },
+    ],
+  },
 ];
 
-function itemsForRole(role: UserRole): { itemsLabel: string; items: MorePageItem[] } {
+function sectionsForRole(role: UserRole): MorePageSection[] {
   switch (role) {
     case UserRole.Operations:
-      return { itemsLabel: "Manage", items: operationsItems };
+      return operationsSections;
     case UserRole.CabinCrew:
-      return { itemsLabel: "Library", items: pilotItems };
+      return pilotSections;
     case UserRole.Admin:
-      return { itemsLabel: "", items: [] };
+      return [];
   }
 }
 
@@ -37,7 +54,5 @@ export default function MeRoute() {
     return null;
   }
 
-  const { itemsLabel, items } = itemsForRole(user.role);
-
-  return <MorePage itemsLabel={itemsLabel} items={items} />;
+  return <MorePage sections={sectionsForRole(user.role)} />;
 }

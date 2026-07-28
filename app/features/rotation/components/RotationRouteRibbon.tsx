@@ -17,14 +17,17 @@ type ResolvedAirport = {
   shape: Airport["shape"];
 };
 
-type NodeItem = { kind: "node"; key: string; airport: ResolvedAirport; endpoint: boolean; active: boolean };
+type NodeItem = { kind: "node"; key: string; airport: ResolvedAirport };
 type ConnItem = { kind: "conn"; key: string; leg: RotationLeg; state: LegState };
 type GapItem = { kind: "gap"; key: string };
 type RailItem = NodeItem | ConnItem | GapItem;
 
-function legState(rotation: Rotation, leg: RotationLeg): LegState {
+function legState(rotation: Rotation, leg: RotationLeg, activeLegId?: string | null): LegState {
   if (leg.isFlown) {
     return "done";
+  }
+  if (activeLegId) {
+    return leg.id === activeLegId ? "active" : "upcoming";
   }
   if (rotation.status === RotationStatus.InProgress && rotation.legStatus(leg) === "active") {
     return "active";
@@ -43,19 +46,17 @@ function resolveAirport(airport: LegAirportResponse, byId: Map<string, Airport>)
   };
 }
 
-function buildRail(rotation: Rotation, byId: Map<string, Airport>): RailItem[] {
-  const ordered = [...rotation.legs].sort((a, b) => a.offBlockTime.getTime() - b.offBlockTime.getTime());
+function buildRail(rotation: Rotation, byId: Map<string, Airport>, activeLegId?: string | null): RailItem[] {
+  const ordered = rotation.orderedLegs;
   const items: RailItem[] = [];
 
   ordered.forEach((leg, index) => {
-    const state = legState(rotation, leg);
+    const state = legState(rotation, leg, activeLegId);
     if (index === 0) {
       items.push({
         kind: "node",
         key: `n-${leg.id}-dep`,
         airport: resolveAirport(leg.departure, byId),
-        endpoint: false,
-        active: false,
       });
     } else if (ordered[index - 1].arrival.id !== leg.departure.id) {
       items.push({ kind: "gap", key: `g-${leg.id}` });
@@ -63,8 +64,6 @@ function buildRail(rotation: Rotation, byId: Map<string, Airport>): RailItem[] {
         kind: "node",
         key: `n-${leg.id}-dep`,
         airport: resolveAirport(leg.departure, byId),
-        endpoint: false,
-        active: false,
       });
     }
     items.push({ kind: "conn", key: `c-${leg.id}`, leg, state });
@@ -72,30 +71,8 @@ function buildRail(rotation: Rotation, byId: Map<string, Airport>): RailItem[] {
       kind: "node",
       key: `n-${leg.id}-arr`,
       airport: resolveAirport(leg.arrival, byId),
-      endpoint: false,
-      active: false,
     });
   });
-
-  const nodeIndexes = items.reduce<number[]>((acc, item, index) => {
-    if (item.kind === "node") {
-      acc.push(index);
-    }
-    return acc;
-  }, []);
-
-  if (nodeIndexes.length > 0) {
-    (items[nodeIndexes[0]] as NodeItem).endpoint = true;
-    (items[nodeIndexes[nodeIndexes.length - 1]] as NodeItem).endpoint = true;
-  }
-
-  for (const [index, item] of items.entries()) {
-    if (item.kind !== "node") {
-      continue;
-    }
-    const next = items[index + 1];
-    item.active = next?.kind === "conn" && next.state === "active";
-  }
 
   return items;
 }
@@ -115,9 +92,10 @@ function planeClass(state: LegState): string {
 type Props = {
   rotation: Rotation;
   airports: Airport[];
+  activeLegId?: string | null;
 };
 
-export function RotationRouteRibbon({ rotation, airports }: Props) {
+export function RotationRouteRibbon({ rotation, airports, activeLegId }: Props) {
   const [drawn, setDrawn] = useState(false);
 
   useEffect(() => {
@@ -134,7 +112,7 @@ export function RotationRouteRibbon({ rotation, airports }: Props) {
   }
 
   const byId = new Map(airports.map((airport) => [airport.id, airport]));
-  const items = buildRail(rotation, byId);
+  const items = buildRail(rotation, byId, activeLegId);
 
   return (
     <div className="-mx-1 flex flex-col items-center gap-1 px-1 pb-1 sm:flex-row sm:items-center sm:gap-3 sm:overflow-x-auto">
@@ -179,13 +157,7 @@ export function RotationRouteRibbon({ rotation, airports }: Props) {
             className={`flex max-w-64 flex-none items-center gap-2.5 transition duration-500 ease-out sm:max-w-52 ${enter}`}
             style={style}
           >
-            <span
-              className={
-                item.active
-                  ? "shrink-0 rounded-md ring-2 ring-indigo-400 ring-offset-1 dark:ring-indigo-500 dark:ring-offset-gray-900"
-                  : "shrink-0"
-              }
-            >
+            <span className="shrink-0">
               <OptionAvatarFrame>
                 <AirportShape shape={item.airport.shape} />
               </OptionAvatarFrame>
