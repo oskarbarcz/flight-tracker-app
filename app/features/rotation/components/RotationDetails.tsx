@@ -4,8 +4,9 @@ import { FaArrowLeft, FaCircleCheck } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import type { Airport } from "~/features/airport";
-import type { Rotation } from "~/features/rotation";
+import { formatBlockTime, type Rotation } from "~/features/rotation";
 import { EditRotationModal } from "~/features/rotation/components/EditRotationModal";
+import { RotationCancellationNotice } from "~/features/rotation/components/RotationCancellationNotice";
 import { RotationCaptainCard } from "~/features/rotation/components/RotationCaptainCard";
 import { RotationLegsEditor } from "~/features/rotation/components/RotationLegsEditor";
 import { RotationMap } from "~/features/rotation/components/RotationMap";
@@ -27,12 +28,6 @@ function readyHint(rotation: Rotation): string {
     return "Add at least two legs to mark this rotation ready.";
   }
   return "Legs must form a continuous chain (each leg departs where the previous arrived, without overlapping).";
-}
-
-function formatBlockTime(minutes: number): string {
-  const hours = Math.floor(minutes / 60);
-  const remaining = minutes % 60;
-  return hours > 0 ? `${hours}h ${remaining}m` : `${remaining}m`;
 }
 
 function Metric({ label, value }: { label: string; value: string }) {
@@ -155,7 +150,7 @@ export function RotationDetails({ initialRotation, airports, operatorId, pilotNa
 
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <RotationCaptainCard name={pilotName} onEdit={() => setEditing(true)} />
+          <RotationCaptainCard name={pilotName} onEdit={current.isDraft ? () => setEditing(true) : undefined} />
           <RotationLegsEditor
             rotation={current}
             operatorId={operatorId}
@@ -166,6 +161,7 @@ export function RotationDetails({ initialRotation, airports, operatorId, pilotNa
             onAttachFlight={attachFlight}
             onDetachFlight={detachFlight}
           />
+          {current.isCanceled && <RotationCancellationNotice rotation={current} />}
         </div>
         <RotationMap rotation={current} airports={airports} />
       </div>

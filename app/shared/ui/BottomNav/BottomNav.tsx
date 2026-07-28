@@ -49,7 +49,8 @@ function usePilotTabs(path: string): Tab[] {
         path === "/me" ||
         path.startsWith("/flight-history") ||
         path.startsWith("/aircraft-history") ||
-        path.startsWith("/travels"),
+        path.startsWith("/travels") ||
+        path.startsWith("/rotations"),
     },
   ];
 }

@@ -3,13 +3,14 @@ import React from "react";
 import { RotationStatus } from "~/features/rotation";
 import { toHuman } from "~/i18n/translate";
 
-type BadgeColor = "success" | "info" | "indigo" | "gray";
+type BadgeColor = "success" | "info" | "indigo" | "gray" | "failure";
 
 const statusColor: Record<RotationStatus, BadgeColor> = {
   [RotationStatus.Draft]: "gray",
   [RotationStatus.Ready]: "indigo",
   [RotationStatus.InProgress]: "info",
   [RotationStatus.Finished]: "success",
+  [RotationStatus.Canceled]: "failure",
 };
 
 type Props = {

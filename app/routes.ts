@@ -15,6 +15,8 @@ export default [
     route("me", "routes/common/MeRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
+      route("rotations", "routes/pilot/rotations/PilotRotationsRoute.tsx"),
+      route("rotations/:rotationId", "routes/pilot/rotations/PilotRotationDetailsRoute.tsx"),
       route("flight-history", "routes/pilot/history/FlightHistoryListRoute.tsx"),
       route("flight-history/:id", "routes/pilot/history/FlightHistoryRoute.tsx"),
       route("aircraft-history", "routes/pilot/history/AircraftHistoryListRoute.tsx"),

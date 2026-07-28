@@ -1,8 +1,9 @@
-import { Button } from "flowbite-react";
+import { Badge, Button } from "flowbite-react";
 import React from "react";
 import { FaArrowsSpin } from "react-icons/fa6";
 import { FlightStatus } from "~/features/flight";
-import type { RotationLeg } from "~/features/rotation";
+import { formatBlockTime, type RotationLeg } from "~/features/rotation";
+import { LegFlightNumber } from "~/features/rotation/components/LegFlightNumber";
 import { toHuman } from "~/i18n/translate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
@@ -17,19 +18,15 @@ type Props = {
   leg: RotationLeg;
   isLast: boolean;
   turnaround: Turnaround | null;
-  canEdit: boolean;
-  canAttach: boolean;
-  onEdit: () => void;
-  onRemove: () => void;
-  onAttach: () => void;
-  onDetach: () => void;
+  canEdit?: boolean;
+  canAttach?: boolean;
+  onEdit?: () => void;
+  onRemove?: () => void;
+  onAttach?: () => void;
+  onDetach?: () => void;
+  action?: React.ReactNode;
+  linkFlightNumber?: boolean;
 };
-
-function formatBlockTime(minutes: number): string {
-  const hours = Math.floor(minutes / 60);
-  const remaining = minutes % 60;
-  return hours > 0 ? `${hours}h ${remaining}m` : `${remaining}m`;
-}
 
 function dayOffset(from: Date, to: Date): number {
   const start = Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate());
@@ -54,12 +51,14 @@ export function RotationLegItem({
   leg,
   isLast,
   turnaround,
-  canEdit,
-  canAttach,
+  canEdit = false,
+  canAttach = false,
   onEdit,
   onRemove,
   onAttach,
   onDetach,
+  action,
+  linkFlightNumber = false,
 }: Props) {
   const done = leg.isFlown;
   const arrivalDayOffset = dayOffset(leg.offBlockTime, leg.onBlockTime);
@@ -83,18 +82,22 @@ export function RotationLegItem({
 
       <div className={`min-w-0 flex-1 ${isLast ? "" : "pb-5"}`}>
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-          <div className="flex min-w-0 items-baseline gap-2.5">
-            <span className="font-mono text-base font-bold text-gray-900 dark:text-white">{leg.flightNumber}</span>
+          <div className="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1.5">
+            {linkFlightNumber ? (
+              <LegFlightNumber leg={leg} className="text-base" />
+            ) : (
+              <span className="font-mono text-base font-bold text-gray-900 dark:text-white">{leg.flightNumber}</span>
+            )}
             <span className="whitespace-nowrap font-mono text-sm font-bold text-gray-700 dark:text-gray-200">
-              {leg.departure.iataCode} <span className="text-gray-400">→</span> {leg.arrival.iataCode}
+              {leg.departure.iataCode} → {leg.arrival.iataCode}
             </span>
+            {leg.flight && (
+              <Badge color="gray" size="xs">
+                {toHuman.flight.status.short(leg.flight.status as FlightStatus)}
+              </Badge>
+            )}
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            {leg.flight && (
-              <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-                {toHuman.flight.status.short(leg.flight.status as FlightStatus)}
-              </span>
-            )}
             {canEdit && (
               <>
                 <button type="button" onClick={onEdit} className={`${legActionClass} text-indigo-500`}>
@@ -115,6 +118,7 @@ export function RotationLegItem({
                 Attach flight
               </Button>
             )}
+            {action}
           </div>
         </div>
 

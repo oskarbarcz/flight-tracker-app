@@ -1,4 +1,4 @@
-import { FaMapLocationDot } from "react-icons/fa6";
+import { FaArrowsSpin, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome } from "react-icons/hi";
 import { LuPlane } from "react-icons/lu";
@@ -17,7 +17,7 @@ export function CabinCrewSidebarItems() {
   return (
     <nav className="flex flex-col gap-y-5">
       <SidebarSection>
-        <SidebarElement label="Home" href="/" isSelected={path === "/"} icon={HiHome} />
+        <SidebarElement label="Home" href="/" isSelected={path === "/" || path === "/dashboard"} icon={HiHome} />
       </SidebarSection>
 
       <SidebarSection label="Current flight">
@@ -26,28 +26,37 @@ export function CabinCrewSidebarItems() {
 
       <SidebarSection label="Library">
         <SidebarElement
-          label="Flight history"
+          label="Airports library"
+          href="/airports-library"
+          isSelected={path === "/airports-library"}
+          icon={MdOutlineLocalAirport}
+        />
+        <SidebarElement
+          label="Aircraft library"
+          href="/aircraft-history"
+          isSelected={path.startsWith("/aircraft-history")}
+          icon={LuPlane}
+        />
+      </SidebarSection>
+
+      <SidebarSection label="History">
+        <SidebarElement
+          label="Operations history"
           href="/flight-history"
           isSelected={path.startsWith("/flight-history")}
           icon={GrDocumentTime}
         />
         <SidebarElement
-          label="Aircraft history"
-          href="/aircraft-history"
-          isSelected={path.startsWith("/aircraft-history")}
-          icon={LuPlane}
-        />
-        <SidebarElement
-          label="Travel log"
+          label="Travel history"
           href="/travels"
           isSelected={path.startsWith("/travels")}
           icon={FaMapLocationDot}
         />
         <SidebarElement
-          label="Airports database"
-          href="/airports-library"
-          isSelected={path === "/airports-library"}
-          icon={MdOutlineLocalAirport}
+          label="Rotations history"
+          href="/rotations"
+          isSelected={path.startsWith("/rotations")}
+          icon={FaArrowsSpin}
         />
       </SidebarSection>
 

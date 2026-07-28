@@ -16,9 +16,13 @@ export type MorePageItem = {
   badge?: number;
 };
 
-type Props = {
-  itemsLabel: string;
+export type MorePageSection = {
+  label: string;
   items: MorePageItem[];
+};
+
+type Props = {
+  sections: MorePageSection[];
 };
 
 const themeModes = [
@@ -27,7 +31,7 @@ const themeModes = [
   { value: "auto", label: "Auto", icon: MdBrightnessAuto },
 ] as const;
 
-export function MorePage({ itemsLabel, items }: Props) {
+export function MorePage({ sections }: Props) {
   const { user } = useAuth() as { user: User };
   const { mode, setMode } = useThemeMode();
 
@@ -45,30 +49,32 @@ export function MorePage({ itemsLabel, items }: Props) {
         </span>
       </div>
 
-      {items.length > 0 && (
-        <section className="space-y-2">
-          <h2 className="px-1 text-[11px] font-semibold uppercase tracking-wide text-gray-400">{itemsLabel}</h2>
-          <div className="divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900">
-            {items.map(({ label, href, icon: Icon, badge }) => (
-              <Link
-                key={href}
-                to={href}
-                viewTransition
-                className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-indigo-50 active:bg-indigo-100 dark:hover:bg-gray-800 dark:active:bg-gray-700"
-              >
-                <Icon size={18} className="shrink-0 text-gray-500 dark:text-gray-400" aria-hidden />
-                <span className="flex-1 text-sm font-medium text-gray-800 dark:text-gray-100">{label}</span>
-                {typeof badge === "number" && badge > 0 && (
-                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1.5 text-xs font-bold text-white">
-                    {badge}
-                  </span>
-                )}
-                <HiChevronRight size={18} className="shrink-0 text-gray-300 dark:text-gray-600" aria-hidden />
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      {sections
+        .filter(({ items }) => items.length > 0)
+        .map(({ label: sectionLabel, items }) => (
+          <section key={sectionLabel} className="space-y-2">
+            <h2 className="px-1 text-[11px] font-semibold uppercase tracking-wide text-gray-400">{sectionLabel}</h2>
+            <div className="divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200 bg-white dark:divide-gray-800 dark:border-gray-800 dark:bg-gray-900">
+              {items.map(({ label, href, icon: Icon, badge }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  viewTransition
+                  className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-indigo-50 active:bg-indigo-100 dark:hover:bg-gray-800 dark:active:bg-gray-700"
+                >
+                  <Icon size={18} className="shrink-0 text-gray-500 dark:text-gray-400" aria-hidden />
+                  <span className="flex-1 text-sm font-medium text-gray-800 dark:text-gray-100">{label}</span>
+                  {typeof badge === "number" && badge > 0 && (
+                    <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1.5 text-xs font-bold text-white">
+                      {badge}
+                    </span>
+                  )}
+                  <HiChevronRight size={18} className="shrink-0 text-gray-300 dark:text-gray-600" aria-hidden />
+                </Link>
+              ))}
+            </div>
+          </section>
+        ))}
 
       <section className="space-y-2">
         <h2 className="px-1 text-[11px] font-semibold uppercase tracking-wide text-gray-400">Appearance</h2>

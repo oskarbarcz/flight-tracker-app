@@ -12,6 +12,9 @@ import { PilotStatsBox } from "~/features/flight/components/Dashboard/Main/Box/P
 import { UserHeader } from "~/features/flight/components/Dashboard/Main/UserHeader";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useLastFlight } from "~/features/flight/hooks/useLastFlight";
+import { CurrentRotationBox } from "~/features/rotation/components/CurrentRotationBox";
+import { CurrentRotationBoxLoader } from "~/features/rotation/components/CurrentRotationBoxLoader";
+import { useCurrentRotation } from "~/features/rotation/hooks/useCurrentRotation";
 import { CurrentLocationBox } from "~/features/travel/components/CurrentLocationBox";
 import { CurrentLocationBoxLoader } from "~/features/travel/components/CurrentLocationBoxLoader";
 import { useUserTravels } from "~/features/user/hooks/useUserTravels";
@@ -26,6 +29,7 @@ export default function PilotDashboardRoute() {
   const { lastFlight, loading: loadingLast } = useLastFlight();
   const { currentFlight, loading: loadingCurrent } = useCurrentFlight();
   const { currentLocation, latestTravel, loading: loadingTravels, refresh: refreshTravels } = useUserTravels();
+  const { rotation, loading: loadingRotation } = useCurrentRotation();
   usePageTitle("Dashboard");
 
   const [loadingAll, setLoadingAll] = useState(true);
@@ -61,6 +65,7 @@ export default function PilotDashboardRoute() {
           </div>
         </div>
         <div className="flex flex-col gap-4">
+          {loadingRotation ? <CurrentRotationBoxLoader /> : rotation && <CurrentRotationBox rotation={rotation} />}
           {loadingTravels ? (
             <CurrentLocationBoxLoader />
           ) : (

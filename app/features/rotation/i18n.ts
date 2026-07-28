@@ -6,6 +6,7 @@ export function translateRotationStatus(status: RotationStatus): string {
     [RotationStatus.Ready]: "Ready",
     [RotationStatus.InProgress]: "In progress",
     [RotationStatus.Finished]: "Finished",
+    [RotationStatus.Canceled]: "Canceled",
   };
 
   return labels[status];
