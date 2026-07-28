@@ -106,7 +106,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       base: "cursor-pointer transition-colors duration-200",
       color: {
         indigo:
-          "bg-indigo-500 hover:bg-indigo-600 text-white dark:text-gray-100 border-0 focus:ring-indigo-300 dark:focus:ring-indigo-400",
+          "bg-indigo-600 hover:bg-indigo-700 text-white dark:text-gray-100 border-0 focus:ring-indigo-500 dark:focus:ring-indigo-400",
         red: "dark:bg-red-900",
         alternative:
           "border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
@@ -126,6 +126,18 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         selector: {
           active:
             "bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
+        },
+      },
+    },
+    textInput: {
+      field: {
+        input: {
+          sizes: {
+            md: "p-2.5 text-base sm:text-sm",
+          },
+          colors: {
+            gray: "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-indigo-500 dark:focus:ring-indigo-500",
+          },
         },
       },
     },

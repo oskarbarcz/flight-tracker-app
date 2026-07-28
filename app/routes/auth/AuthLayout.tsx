@@ -1,17 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router";
-import { AnimatedBlobs } from "~/shared/ui/Blob/AnimatedBlobs";
 import { Footer } from "~/shared/ui/Layout/Footer";
 
 export default function AuthLayout() {
   return (
-    <div className="relative h-full">
-      <AnimatedBlobs />
-
-      <div className="relative z-10 h-full">
+    <div className="flex min-h-dvh flex-col bg-gray-100 dark:bg-gray-950">
+      <main className="flex flex-1 items-center justify-center px-6 py-12">
         <Outlet />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }
