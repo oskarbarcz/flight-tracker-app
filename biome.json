@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["app/**/*", "!**/*.d.ts"]
+    "includes": ["app/**/*", "!**/*.d.ts", "!**/*.svg"]
   },
   "vcs": {
     "enabled": true,
@@ -15,7 +15,7 @@
   },
   "linter": {
     "rules": {
-      "recommended": true
+      "preset": "recommended"
     }
   },
   "json": {},

@@ -12,6 +12,7 @@ type Props = {
 type ColoredSegment = {
   positions: LatLngTuple[];
   color: string;
+  id: number;
 };
 
 function buildColoredSegments(path: FlightPathElement[]): ColoredSegment[] {
@@ -30,12 +31,12 @@ function buildColoredSegments(path: FlightPathElement[]): ColoredSegment[] {
       continue;
     }
     currentPositions.push(smoothed[i].position);
-    segments.push({ positions: currentPositions, color: currentColor });
+    segments.push({ positions: currentPositions, color: currentColor, id: segments.length });
     currentBucket = bucket;
     currentColor = altitudeToColor(bucket);
     currentPositions = [smoothed[i - 1].position, smoothed[i].position];
   }
-  segments.push({ positions: currentPositions, color: currentColor });
+  segments.push({ positions: currentPositions, color: currentColor, id: segments.length });
   return segments;
 }
 
@@ -44,12 +45,8 @@ export function FlightPath({ path }: Props) {
 
   return (
     <>
-      {segments.map((segment, idx) => (
-        <Polyline
-          key={`${segment.color}-${idx}`}
-          positions={segment.positions}
-          pathOptions={{ color: segment.color, weight: 4 }}
-        />
+      {segments.map((segment) => (
+        <Polyline key={segment.id} positions={segment.positions} pathOptions={{ color: segment.color, weight: 4 }} />
       ))}
     </>
   );
