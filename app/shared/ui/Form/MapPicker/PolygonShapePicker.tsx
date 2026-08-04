@@ -122,6 +122,7 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
   };
 
   const positions = vertices.map((v) => [v.latitude, v.longitude] as [number, number]);
+  const vertexMarkers = positions.map((position, index) => ({ index, position }));
   const canClose = !closed && vertices.length >= 3;
 
   const statusText = error
@@ -174,18 +175,17 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
           <Polyline positions={positions} pathOptions={{ color: tones.stroke, weight: 1.5 }} interactive={false} />
         )}
 
-        {positions.map((pos, idx) => {
-          const isFirst = idx === 0;
-          const highlightFirst = isFirst && canClose;
+        {vertexMarkers.map(({ index, position }) => {
+          const highlightFirst = index === 0 && canClose;
           return (
             <Marker
-              key={`${pos[0]},${pos[1]},${idx}`}
-              position={pos}
+              key={index}
+              position={position}
               icon={vertexIcon(tones.stroke, tones.fill, highlightFirst)}
               draggable
               eventHandlers={{
-                click: () => onVertexClick(idx),
-                dragend: (e) => onVertexDrag(idx, (e.target as L.Marker).getLatLng()),
+                click: () => onVertexClick(index),
+                dragend: (e) => onVertexDrag(index, (e.target as L.Marker).getLatLng()),
               }}
             />
           );
