@@ -4,6 +4,9 @@ import { FaCircleExclamation } from "react-icons/fa6";
 import { Navigate, useNavigate } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { CredentialField } from "~/features/auth/components/CredentialField";
+import { GoogleSignInButton } from "~/features/auth/components/GoogleSignInButton";
+import { describeGoogleSignInFailure } from "~/features/auth/lib/describeGoogleFailure";
+import { failedSignInMessage, unreachableServiceMessage } from "~/features/auth/lib/serviceFailureMessages";
 import { landingPathForRole } from "~/features/user/lib/landingPath";
 import type { User } from "~/features/user/model";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -12,8 +15,6 @@ import { Logo } from "~/shared/ui/Layout/Logo";
 
 const missingCredentialsMessage = "Enter your email and password.";
 const rejectedCredentialsMessage = "Email or password is incorrect. Check both and try again.";
-const unreachableServiceMessage = "Can't reach Flight Tracker. Check your connection and try again.";
-const failedServiceMessage = "Sign-in failed on our side. Try again in a moment.";
 
 function describeFailure(reason: unknown): string {
   const statusCode = (reason as { statusCode?: number } | null)?.statusCode;
@@ -22,7 +23,7 @@ function describeFailure(reason: unknown): string {
     return rejectedCredentialsMessage;
   }
 
-  return statusCode === undefined ? unreachableServiceMessage : failedServiceMessage;
+  return statusCode === undefined ? unreachableServiceMessage : failedSignInMessage;
 }
 
 export default function SignInRoute() {
@@ -36,7 +37,7 @@ export default function SignInRoute() {
   const enteringRef = useRef<boolean>(false);
 
   const navigate = useNavigate();
-  const { signIn, user, isLoading } = useAuth();
+  const { signIn, signInWithGoogle, user, isLoading } = useAuth();
 
   useEffect(() => {
     if (!isLoading) {
@@ -75,6 +76,20 @@ export default function SignInRoute() {
     signIn(email, password)
       .then((signedInUser) => enterApp(signedInUser))
       .catch((reason) => setError(describeFailure(reason)))
+      .finally(() => setSubmitting(false));
+  }
+
+  function handleGoogleCredential(idToken: string) {
+    if (submitting) {
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+
+    signInWithGoogle(idToken)
+      .then((signedInUser) => enterApp(signedInUser))
+      .catch((reason) => setError(describeGoogleSignInFailure(reason)))
       .finally(() => setSubmitting(false));
   }
 
@@ -149,6 +164,13 @@ export default function SignInRoute() {
             "Sign in"
           )}
         </Button>
+
+        <GoogleSignInButton
+          text="signin_with"
+          dividerLabel="or"
+          blocked={submitting}
+          onCredential={handleGoogleCredential}
+        />
       </form>
     </section>
   );

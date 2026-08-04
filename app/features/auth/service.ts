@@ -1,4 +1,4 @@
-import type { SignInRequest, SignInResponse } from "~/features/auth";
+import type { GoogleSignInRequest, SignInRequest, SignInResponse } from "~/features/auth";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class AuthService extends AbstractAuthorizedApiService {
@@ -6,6 +6,15 @@ export class AuthService extends AbstractAuthorizedApiService {
     return this.request<SignInResponse>("/api/v1/auth/sign-in", {
       method: "POST",
       body: JSON.stringify(credentials),
+    });
+  }
+
+  async signInWithGoogle(idToken: string) {
+    const body: GoogleSignInRequest = { idToken };
+
+    return this.request<SignInResponse>("/api/v1/auth/google", {
+      method: "POST",
+      body: JSON.stringify(body),
     });
   }
 
