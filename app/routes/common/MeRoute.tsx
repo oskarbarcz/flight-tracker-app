@@ -1,11 +1,16 @@
 import { FaArrowsSpin, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
-import { HiOutlineBuildingOffice } from "react-icons/hi2";
+import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
 import { LuPlane, LuTowerControl } from "react-icons/lu";
 import { MdHistory, MdOutlineLocalAirport } from "react-icons/md";
 import { useAuth } from "~/app-state/useAuth";
 import { UserRole } from "~/features/user";
 import { MorePage, type MorePageSection } from "~/shared/ui/MorePage/MorePage";
+
+const settingsSection: MorePageSection = {
+  label: "Settings",
+  items: [{ label: "Account", href: "/me/account", icon: HiOutlineUser }],
+};
 
 const pilotSections: MorePageSection[] = [
   {
@@ -54,5 +59,5 @@ export default function MeRoute() {
     return null;
   }
 
-  return <MorePage sections={sectionsForRole(user.role)} />;
+  return <MorePage sections={[settingsSection, ...sectionsForRole(user.role)]} />;
 }

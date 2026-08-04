@@ -83,9 +83,12 @@ VITE_NODE_ENV=development
 VITE_FLIGHT_TRACKER_API_HOST=http://localhost
 VITE_ADSB_API_HOST=http://localhost:1080
 VITE_DISCORD_INVITATION_HASH=your-hash
+VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 ```
 
 `import.meta.env.PACKAGE_VERSION` is injected by Vite config from `package.json`.
+
+`VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client.
 
 ## CI/CD
 

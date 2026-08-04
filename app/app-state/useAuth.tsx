@@ -8,6 +8,7 @@ export interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
   signIn: (email: string, password: string) => Promise<User>;
+  signInWithGoogle: (idToken: string) => Promise<User>;
   signOut: () => void;
   refreshUser: () => Promise<void>;
   isLoading: boolean;
@@ -18,6 +19,7 @@ export const UseAuth = createContext<AuthContextType>({
   accessToken: null,
   refreshToken: null,
   signIn: () => Promise.reject(new Error("AuthProvider is missing")),
+  signInWithGoogle: () => Promise.reject(new Error("AuthProvider is missing")),
   signOut: () => {},
   refreshUser: async () => {},
   isLoading: true,
@@ -85,6 +87,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return saveAuthData(accessToken, refreshToken);
   };
 
+  const signInWithGoogle = async (idToken: string): Promise<User> => {
+    const { accessToken, refreshToken } = await authService.signInWithGoogle(idToken);
+    return saveAuthData(accessToken, refreshToken);
+  };
+
   const signOut = async () => {
     return authService.signOut().then(() => {
       clearAuthData();
@@ -92,7 +99,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   return (
-    <UseAuth.Provider value={{ user, accessToken, refreshToken, signIn, signOut, refreshUser, isLoading }}>
+    <UseAuth.Provider
+      value={{ user, accessToken, refreshToken, signIn, signInWithGoogle, signOut, refreshUser, isLoading }}
+    >
       {children}
     </UseAuth.Provider>
   );
