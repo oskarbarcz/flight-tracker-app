@@ -13,6 +13,7 @@ export default [
   layout("routes/AppLayout.tsx", [
     route("dashboard", "routes/common/DashboardRoute.tsx"),
     route("me", "routes/common/MeRoute.tsx"),
+    route("me/account", "routes/common/AccountRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
       route("rotations", "routes/pilot/rotations/PilotRotationsRoute.tsx"),
