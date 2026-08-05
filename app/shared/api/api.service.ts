@@ -54,6 +54,28 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     return data;
   }
 
+  protected async fetchWithAuthWithoutRetry<T>(endpoint: string, options: RequestInit = {}) {
+    let token = this.getAccessToken();
+    if (isAccessTokenExpired()) {
+      token = await refreshAccessToken();
+    }
+
+    const response = await super.doRequest(endpoint, options, token);
+
+    if (response.status === 204) {
+      return "" as T;
+    }
+
+    if (response.status >= 400 && response.status < 500) {
+      const errorResponse = (await response
+        .json()
+        .catch(() => ({ error: response.statusText, message: response.statusText }))) as ErrorResponse<T>;
+      return Promise.reject({ ...errorResponse, statusCode: response.status });
+    }
+
+    return (await response.json()) as T;
+  }
+
   protected async requestWithAuthAndHeaders<T>(endpoint: string, options: RequestInit = {}) {
     let token = this.getAccessToken();
     if (isAccessTokenExpired()) {
