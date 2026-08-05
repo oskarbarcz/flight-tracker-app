@@ -1,6 +1,6 @@
 import type { GoogleSignInRequest } from "~/features/auth";
 import type { UserStats } from "~/features/user";
-import type { GetUserResponse, ListUsersResponse } from "~/features/user/request";
+import type { ChangePasswordRequest, GetUserResponse, ListUsersResponse } from "~/features/user/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class UserService extends AbstractAuthorizedApiService {
@@ -13,6 +13,15 @@ export class UserService extends AbstractAuthorizedApiService {
 
     await this.fetchWithAuth<void>("/api/v1/user/me/link-google-account", {
       method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
+  async changePassword(currentPassword: string, newPassword: string) {
+    const body: ChangePasswordRequest = { currentPassword, newPassword };
+
+    await this.fetchWithAuthWithoutRetry<void>("/api/v1/user/me/change-password", {
+      method: "PATCH",
       body: JSON.stringify(body),
     });
   }

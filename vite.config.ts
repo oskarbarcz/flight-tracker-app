@@ -3,14 +3,12 @@ import tailwindcss from "@tailwindcss/vite";
 import flowbiteReact from "flowbite-react/plugin/vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import tsconfigPaths from "vite-tsconfig-paths";
-import packageJson from "./package.json";
+import packageJson from "./package.json" with { type: "json" };
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
     reactRouter(),
-    tsconfigPaths(),
     flowbiteReact(),
     VitePWA({
       registerType: "prompt",
@@ -25,6 +23,9 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    tsconfigPaths: true,
+  },
   define: {
     "import.meta.env.PACKAGE_VERSION": JSON.stringify(packageJson.version),
   },

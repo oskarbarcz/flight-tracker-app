@@ -1,4 +1,4 @@
-import { Label, TextInput } from "flowbite-react";
+import { HelperText, Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputTypeAttribute } from "react";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
@@ -10,9 +10,21 @@ type Props = {
   required?: boolean;
   type?: HTMLInputTypeAttribute;
   disabled?: boolean;
+  autoComplete?: string;
+  helperText?: string;
+  autoFocus?: boolean;
 };
 
-export function ManagedInputBlock({ field, label, required = true, type = "text", disabled = false }: Props) {
+export function ManagedInputBlock({
+  field,
+  label,
+  required = true,
+  type = "text",
+  disabled = false,
+  autoComplete,
+  helperText,
+  autoFocus = false,
+}: Props) {
   const [fieldProps, meta] = useField(field);
   const isError = meta.touched && meta.error;
 
@@ -30,8 +42,11 @@ export function ManagedInputBlock({ field, label, required = true, type = "text"
         required={required}
         color={isError ? "failure" : undefined}
         disabled={disabled}
+        autoComplete={autoComplete}
+        autoFocus={autoFocus}
         {...fieldProps}
       />
+      {helperText && !isError && <HelperText>{helperText}</HelperText>}
       <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
