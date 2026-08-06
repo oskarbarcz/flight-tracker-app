@@ -1,6 +1,12 @@
 import type { GoogleSignInRequest } from "~/features/auth";
 import type { UserStats } from "~/features/user";
-import type { ChangePasswordRequest, GetUserResponse, ListUsersResponse } from "~/features/user/request";
+import type {
+  ChangePasswordRequest,
+  ConfirmEmailChangeRequest,
+  GetUserResponse,
+  ListUsersResponse,
+  RequestEmailChangeRequest,
+} from "~/features/user/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class UserService extends AbstractAuthorizedApiService {
@@ -22,6 +28,24 @@ export class UserService extends AbstractAuthorizedApiService {
 
     await this.fetchWithAuthWithoutRetry<void>("/api/v1/user/me/change-password", {
       method: "PATCH",
+      body: JSON.stringify(body),
+    });
+  }
+
+  async requestEmailChange(newEmail: string, currentPassword: string) {
+    const body: RequestEmailChangeRequest = { newEmail, currentPassword };
+
+    await this.fetchWithAuthWithoutRetry<void>("/api/v1/user/me/change-email", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
+  async confirmEmailChange(token: string) {
+    const body: ConfirmEmailChangeRequest = { token };
+
+    await this.request<void>("/api/v1/user/me/change-email/confirm", {
+      method: "POST",
       body: JSON.stringify(body),
     });
   }

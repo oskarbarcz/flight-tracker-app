@@ -1,6 +1,7 @@
 import { HiOutlineUser } from "react-icons/hi2";
 import { useAuth } from "~/app-state/useAuth";
 import { GoogleAccountSection } from "~/features/auth/components/GoogleAccountSection";
+import { EmailSection } from "~/features/user/components/EmailSection";
 import { PasswordSection } from "~/features/user/components/PasswordSection";
 import { roleToLabel } from "~/features/user/lib/roleToLabel";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -27,9 +28,10 @@ export default function AccountRoute() {
         <div className="space-y-2 text-sm">
           <MetaRow label="Name" value={user.name} />
           <MetaRow label="Role" value={roleToLabel(user.role)} />
-          <MetaRow label="Email" value={user.email} />
         </div>
       </Container>
+
+      <EmailSection />
 
       <PasswordSection />
 

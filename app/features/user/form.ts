@@ -11,3 +11,15 @@ export function initChangePasswordData(): ChangePasswordFormData {
     confirmNewPassword: "",
   };
 }
+
+export type ChangeEmailFormData = {
+  newEmail: string;
+  currentPassword: string;
+};
+
+export function initChangeEmailData(): ChangeEmailFormData {
+  return {
+    newEmail: "",
+    currentPassword: "",
+  };
+}

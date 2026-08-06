@@ -11,6 +11,14 @@ export type ErrorResponse<T> = {
   violations?: BadRequestViolations<T>;
 };
 
+function parseErrorBody<T>(body: string, statusText: string): ErrorResponse<T> {
+  try {
+    return JSON.parse(body) as ErrorResponse<T>;
+  } catch {
+    return { error: statusText, message: statusText };
+  }
+}
+
 export abstract class AbstractApiService {
   protected host: string;
 
@@ -61,19 +69,18 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     }
 
     const response = await super.doRequest(endpoint, options, token);
-
-    if (response.status === 204) {
-      return "" as T;
-    }
+    const body = await response.text();
 
     if (response.status >= 400 && response.status < 500) {
-      const errorResponse = (await response
-        .json()
-        .catch(() => ({ error: response.statusText, message: response.statusText }))) as ErrorResponse<T>;
+      const errorResponse = parseErrorBody<T>(body, response.statusText);
       return Promise.reject({ ...errorResponse, statusCode: response.status });
     }
 
-    return (await response.json()) as T;
+    if (body === "") {
+      return "" as T;
+    }
+
+    return JSON.parse(body) as T;
   }
 
   protected async requestWithAuthAndHeaders<T>(endpoint: string, options: RequestInit = {}) {

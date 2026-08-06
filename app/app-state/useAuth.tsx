@@ -10,6 +10,7 @@ export interface AuthContextType {
   signIn: (email: string, password: string) => Promise<User>;
   signInWithGoogle: (idToken: string) => Promise<User>;
   signOut: () => void;
+  clearSession: () => void;
   refreshUser: () => Promise<void>;
   isLoading: boolean;
 }
@@ -21,6 +22,7 @@ export const UseAuth = createContext<AuthContextType>({
   signIn: () => Promise.reject(new Error("AuthProvider is missing")),
   signInWithGoogle: () => Promise.reject(new Error("AuthProvider is missing")),
   signOut: () => {},
+  clearSession: () => {},
   refreshUser: async () => {},
   isLoading: true,
 });
@@ -75,7 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   }
 
-  function clearAuthData() {
+  function clearSession() {
     setAccessToken(null);
     setRefreshToken(null);
     setUser(null);
@@ -94,13 +96,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = async () => {
     return authService.signOut().then(() => {
-      clearAuthData();
+      clearSession();
     });
   };
 
   return (
     <UseAuth.Provider
-      value={{ user, accessToken, refreshToken, signIn, signInWithGoogle, signOut, refreshUser, isLoading }}
+      value={{
+        user,
+        accessToken,
+        refreshToken,
+        signIn,
+        signInWithGoogle,
+        signOut,
+        clearSession,
+        refreshUser,
+        isLoading,
+      }}
     >
       {children}
     </UseAuth.Provider>

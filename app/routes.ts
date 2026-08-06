@@ -4,6 +4,7 @@ export default [
   layout("routes/auth/AuthLayout.tsx", [
     route("sign-in", "routes/auth/SignInRoute.tsx"),
     route("sign-out", "routes/auth/SignOutRoute.tsx"),
+    route("confirm-email", "routes/auth/ConfirmEmailRoute.tsx"),
   ]),
   layout("routes/public/MapLayout.tsx", [
     route("map", "routes/public/MapIndexRoute.tsx"),
