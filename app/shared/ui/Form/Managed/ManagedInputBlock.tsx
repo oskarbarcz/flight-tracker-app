@@ -1,6 +1,7 @@
 import { HelperText, Label, TextInput } from "flowbite-react";
 import { useField } from "formik";
 import React, { type HTMLInputTypeAttribute } from "react";
+import { useFormDensity } from "~/shared/ui/Form/formDensity";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
@@ -27,10 +28,11 @@ export function ManagedInputBlock({
 }: Props) {
   const [fieldProps, meta] = useField(field);
   const isError = meta.touched && meta.error;
+  const density = useFormDensity();
 
   return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 block">
+    <div className={density.fieldClass}>
+      <div className={density.labelClass}>
         <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}
           {required && <RequiredMark />}
@@ -39,6 +41,7 @@ export function ManagedInputBlock({
       <TextInput
         id={field}
         type={type}
+        sizing={density.inputSizing}
         required={required}
         color={isError ? "failure" : undefined}
         disabled={disabled}

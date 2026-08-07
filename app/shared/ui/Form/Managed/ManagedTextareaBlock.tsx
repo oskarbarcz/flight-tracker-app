@@ -1,6 +1,7 @@
 import { Label, Textarea } from "flowbite-react";
 import { useField } from "formik";
 import React from "react";
+import { useFormDensity } from "~/shared/ui/Form/formDensity";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
@@ -23,10 +24,11 @@ export function ManagedTextareaBlock({
 }: Props) {
   const [fieldProps, meta] = useField<string>(field);
   const isError = meta.touched && meta.error;
+  const density = useFormDensity();
 
   return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 block">
+    <div className={density.fieldClass}>
+      <div className={density.labelClass}>
         <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}
           {required && <RequiredMark />}
@@ -34,6 +36,7 @@ export function ManagedTextareaBlock({
       </div>
       <Textarea
         id={field}
+        className={density.textareaClass}
         rows={rows}
         placeholder={placeholder}
         required={required}

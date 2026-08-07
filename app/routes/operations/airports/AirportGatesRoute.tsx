@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRevalidator } from "react-router";
+import { Outlet, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { useAirportManagement } from "~/features/airport/components/Management/airportManagementContext";
 import type { Gate } from "~/features/gate";
@@ -10,7 +10,8 @@ import { useApi } from "~/shared/api/useApi";
 import { NoFilterMatchesState } from "~/shared/ui/Filter/NoFilterMatchesState";
 
 export default function AirportGatesRoute() {
-  const { airport, gates, terminals, parkingPositions, isFiltered, clearFilter } = useAirportManagement();
+  const context = useAirportManagement();
+  const { airport, gates, terminals, parkingPositions, isFiltered, clearFilter } = context;
   const [pendingRemove, setPendingRemove] = useState<Gate | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const { gateService } = useApi();
@@ -31,24 +32,25 @@ export default function AirportGatesRoute() {
     }
   };
 
-  if (gates.length === 0) {
-    return isFiltered ? (
-      <NoFilterMatchesState subject="gates" onClear={clearFilter} />
-    ) : (
-      <GateListEmptyState airportId={airport.id} hasTerminals={terminals.length > 0} />
-    );
-  }
-
   return (
     <>
-      <GateList
-        airportId={airport.id}
-        gates={gates}
-        terminals={terminals}
-        parkingPositions={parkingPositions}
-        onDelete={setPendingRemove}
-        isFiltered={isFiltered}
-      />
+      {gates.length > 0 && (
+        <GateList
+          airportId={airport.id}
+          gates={gates}
+          terminals={terminals}
+          parkingPositions={parkingPositions}
+          onDelete={setPendingRemove}
+          isFiltered={isFiltered}
+        />
+      )}
+      {gates.length === 0 &&
+        (isFiltered ? (
+          <NoFilterMatchesState subject="gates" onClear={clearFilter} />
+        ) : (
+          <GateListEmptyState airportId={airport.id} hasTerminals={terminals.length > 0} />
+        ))}
+
       {pendingRemove && (
         <RemoveGateModal
           gate={pendingRemove}
@@ -57,6 +59,8 @@ export default function AirportGatesRoute() {
           isPending={isRemoving}
         />
       )}
+
+      <Outlet context={context} />
     </>
   );
 }

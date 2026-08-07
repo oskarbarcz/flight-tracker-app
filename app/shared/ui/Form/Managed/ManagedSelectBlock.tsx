@@ -2,6 +2,7 @@ import { Label, Select } from "flowbite-react";
 import { useField } from "formik";
 import React, { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
+import { useFormDensity } from "~/shared/ui/Form/formDensity";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
@@ -29,16 +30,18 @@ export function ManagedSelectBlock({
 }: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const isError = meta.touched && meta.error;
+  const density = useFormDensity();
 
   useEffect(() => {
-    if (!fieldProps.value && options.length > 0) {
+    const isSelectable = options.some((option) => option.value === fieldProps.value);
+    if (!isSelectable && options.length > 0) {
       helpers.setValue(options[0].value);
     }
   }, [options, fieldProps.value, helpers]);
 
   return (
-    <div className={twMerge("w-full mb-4", className)}>
-      <div className="mb-2 block">
+    <div className={twMerge(density.fieldClass, className)}>
+      <div className={density.labelClass}>
         <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}
           {required && <RequiredMark />}
@@ -46,6 +49,7 @@ export function ManagedSelectBlock({
       </div>
       <Select
         id={field}
+        sizing={density.inputSizing}
         required={required}
         disabled={disabled}
         color={isError ? "failure" : undefined}

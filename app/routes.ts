@@ -67,30 +67,29 @@ export default [
         route("flights/:id/emergencies", "routes/operations/flights/FlightEmergenciesRoute.tsx"),
         route("flights/:id/delays", "routes/operations/flights/FlightDelaysRoute.tsx"),
       ]),
-      route("airports", "routes/operations/airports/AirportsListRoute.tsx"),
-      route("airports/new", "routes/operations/airports/CreateAirportRoute.tsx"),
-      route("airports/:id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
-      route("airports/:id", "routes/operations/airports/AirportIndexRoute.tsx"),
-      layout("routes/operations/airports/AirportLayout.tsx", [
-        route("airports/:id/terminals", "routes/operations/airports/AirportTerminalsRoute.tsx"),
-        route("airports/:id/parking-positions", "routes/operations/airports/AirportParkingPositionsRoute.tsx"),
-        route("airports/:id/gates", "routes/operations/airports/AirportGatesRoute.tsx"),
-        route("airports/:id/runways", "routes/operations/airports/AirportRunwaysRoute.tsx"),
+      route("airports", "routes/operations/airports/AirportsListRoute.tsx", [
+        route("new", "routes/operations/airports/CreateAirportRoute.tsx"),
       ]),
-      route("airports/:id/runways/new", "routes/operations/airports/runways/CreateRunwayRoute.tsx"),
-      route("airports/:id/runways/:runwayId/edit", "routes/operations/airports/runways/EditRunwayRoute.tsx"),
-      route("airports/:id/terminals/new", "routes/operations/airports/terminals/CreateTerminalRoute.tsx"),
-      route("airports/:id/terminals/:terminalId/edit", "routes/operations/airports/terminals/EditTerminalRoute.tsx"),
-      route(
-        "airports/:id/parking-positions/new",
-        "routes/operations/airports/parking-positions/CreateParkingPositionRoute.tsx",
-      ),
-      route(
-        "airports/:id/parking-positions/:parkingPositionId/edit",
-        "routes/operations/airports/parking-positions/EditParkingPositionRoute.tsx",
-      ),
-      route("airports/:id/gates/new", "routes/operations/airports/gates/CreateGateRoute.tsx"),
-      route("airports/:id/gates/:gateId/edit", "routes/operations/airports/gates/EditGateRoute.tsx"),
+      route("airports/:id", "routes/operations/airports/AirportIndexRoute.tsx"),
+      route("airports/:id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
+      layout("routes/operations/airports/AirportLayout.tsx", [
+        route("airports/:id/terminals", "routes/operations/airports/AirportTerminalsRoute.tsx", [
+          route("new", "routes/operations/airports/terminals/CreateTerminalRoute.tsx"),
+          route(":terminalId/edit", "routes/operations/airports/terminals/EditTerminalRoute.tsx"),
+        ]),
+        route("airports/:id/parking-positions", "routes/operations/airports/AirportParkingPositionsRoute.tsx", [
+          route("new", "routes/operations/airports/parking-positions/CreateParkingPositionRoute.tsx"),
+          route(":parkingPositionId/edit", "routes/operations/airports/parking-positions/EditParkingPositionRoute.tsx"),
+        ]),
+        route("airports/:id/gates", "routes/operations/airports/AirportGatesRoute.tsx", [
+          route("new", "routes/operations/airports/gates/CreateGateRoute.tsx"),
+          route(":gateId/edit", "routes/operations/airports/gates/EditGateRoute.tsx"),
+        ]),
+        route("airports/:id/runways", "routes/operations/airports/AirportRunwaysRoute.tsx", [
+          route("new", "routes/operations/airports/runways/CreateRunwayRoute.tsx"),
+          route(":runwayId/edit", "routes/operations/airports/runways/EditRunwayRoute.tsx"),
+        ]),
+      ]),
     ]),
   ]),
 ] satisfies RouteConfig;
