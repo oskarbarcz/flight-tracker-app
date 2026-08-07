@@ -19,57 +19,64 @@ export function TerminalList({ airportId, terminals, onDelete, readOnly }: Props
   const sorted = sortByShortName(terminals);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {sorted.map((terminal) => (
         <article
           key={terminal.id}
-          className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+          className="@container overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
         >
-          <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-            <div className="flex items-baseline gap-2">
-              <h3 className="font-mono font-bold text-gray-900 dark:text-white">{terminal.shortName}</h3>
-              <span className="text-sm text-gray-500">{terminal.fullName}</span>
-            </div>
+          <header className="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
+            <h3 className="shrink-0 font-mono text-base font-bold text-gray-900 dark:text-white">
+              {terminal.shortName}
+            </h3>
+            <span className="h-4 w-px shrink-0 bg-gray-300 dark:bg-gray-700" />
+            <span className="min-w-0 flex-1 truncate text-sm text-gray-500 dark:text-gray-400">
+              {terminal.fullName}
+            </span>
             {!readOnly && (
-              <div className="flex items-center gap-1">
+              <div className="flex shrink-0 items-center">
                 <Link
                   to={`/airports/${airportId}/terminals/${terminal.id}/edit`}
                   viewTransition
                   aria-label={`Edit terminal ${terminal.shortName}`}
-                  className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
                 >
-                  <HiPencil className="size-4" />
+                  <HiPencil className="size-3.5" />
                 </Link>
                 <button
                   type="button"
                   onClick={() => onDelete?.(terminal)}
                   aria-label={`Delete terminal ${terminal.shortName}`}
-                  className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                  className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
                 >
-                  <HiOutlineTrash className="size-4" />
+                  <HiOutlineTrash className="size-3.5" />
                 </button>
               </div>
             )}
           </header>
-          <div className="flex flex-col gap-2 px-4 py-2.5 text-sm">
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-gray-800 dark:text-gray-200">
-              <span className="text-gray-500">Average taxi time:</span>
-              <span className="font-mono">{terminal.averageTaxiTime} min</span>
-            </div>
+
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400">
+            <span>
+              Avg taxi time{" "}
+              <span className="font-mono text-gray-800 dark:text-gray-200">{terminal.averageTaxiTime}</span> min
+            </span>
             {terminal.operatorCodes.length > 0 ? (
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="text-gray-500">Operators:</span>
+              <>
+                <span aria-hidden>·</span>
                 {terminal.operatorCodes.map((code) => (
                   <Badge key={code} color="gray" className="font-mono">
                     {code}
                   </Badge>
                 ))}
-              </div>
-            ) : null}
-            {terminal.text ? (
-              <p className="whitespace-pre-line text-gray-600 dark:text-gray-300">{terminal.text}</p>
+              </>
             ) : null}
           </div>
+
+          {terminal.text ? (
+            <p className="whitespace-pre-line border-t border-gray-200 px-3 py-1.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+              {terminal.text}
+            </p>
+          ) : null}
         </article>
       ))}
     </div>

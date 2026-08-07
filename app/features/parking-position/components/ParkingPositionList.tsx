@@ -43,9 +43,11 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
               key={parkingPosition.id}
               className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
             >
-              <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-                <div className="flex items-baseline gap-2">
-                  <h4 className="font-mono font-bold text-gray-900 dark:text-white">{parkingPosition.name}</h4>
+              <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex items-center gap-2">
+                  <h4 className="font-mono text-base font-bold text-gray-900 dark:text-white">
+                    {parkingPosition.name}
+                  </h4>
                   <Badge color="gray">{labelOf(gateLocationOptions, parkingPosition.location)}</Badge>
                 </div>
                 {!readOnly && (
@@ -54,25 +56,25 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
                       to={`/airports/${airportId}/parking-positions/new?duplicateFrom=${parkingPosition.id}`}
                       viewTransition
                       aria-label={`Duplicate parking position ${parkingPosition.name}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
                     >
-                      <HiOutlineDuplicate className="size-4" />
+                      <HiOutlineDuplicate className="size-3.5" />
                     </Link>
                     <Link
                       to={`/airports/${airportId}/parking-positions/${parkingPosition.id}/edit`}
                       viewTransition
                       aria-label={`Edit parking position ${parkingPosition.name}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
                     >
-                      <HiPencil className="size-4" />
+                      <HiPencil className="size-3.5" />
                     </Link>
                     <button
                       type="button"
                       onClick={() => onDelete?.(parkingPosition)}
                       aria-label={`Delete parking position ${parkingPosition.name}`}
-                      className="p-2 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                      className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
                     >
-                      <HiOutlineTrash className="size-4" />
+                      <HiOutlineTrash className="size-3.5" />
                     </button>
                   </div>
                 )}
