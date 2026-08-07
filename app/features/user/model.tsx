@@ -4,6 +4,12 @@ export enum UserRole {
   CabinCrew = "CabinCrew",
 }
 
+export type UserEmail = {
+  email: string;
+  isConfirmed: boolean;
+  active: boolean;
+};
+
 export type User = {
   id: string;
   name: string;
@@ -11,6 +17,7 @@ export type User = {
   role: UserRole;
   currentFlightId: string;
   pilotLicenseId: string;
+  emails: UserEmail[];
 };
 
 export type UserStats = {

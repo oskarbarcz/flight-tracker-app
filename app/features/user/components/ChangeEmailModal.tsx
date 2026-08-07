@@ -2,40 +2,33 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-rea
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { useAuth } from "~/app-state/useAuth";
-import { type ChangePasswordFormData, changePasswordSchema, initChangePasswordData } from "~/features/user";
-import { pendingEmail } from "~/features/user/lib/accountEmails";
-import { describePasswordChangeFailure } from "~/features/user/lib/describePasswordChangeFailure";
-import { passwordPolicyDescription } from "~/features/user/schema";
+import { type ChangeEmailFormData, changeEmailSchema, initChangeEmailData } from "~/features/user";
+import { describeEmailChangeFailure } from "~/features/user/lib/describeEmailChangeFailure";
 import { useApi } from "~/shared/api/useApi";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 
 type Props = {
   close: () => void;
-  onChanged: () => void;
+  onRequested: (newEmail: string) => void;
   onUnavailable: (message: string) => void;
 };
 
-const otherSessionsWarning = "Changing your password signs you out everywhere else. This session stays signed in.";
-const pendingEmailWarning =
-  "It also cancels the email change waiting for confirmation — the link sent to the new address will stop working.";
-
-export function ChangePasswordModal({ close, onChanged, onUnavailable }: Props) {
+export function ChangeEmailModal({ close, onRequested, onUnavailable }: Props) {
   const { userService } = useApi();
   const { user } = useAuth();
-  const hasPendingEmailChange = user !== null && pendingEmail(user) !== null;
 
   async function handleSubmit(
-    values: ChangePasswordFormData,
-    { setFieldError, setStatus, setSubmitting }: FormikHelpers<ChangePasswordFormData>,
+    values: ChangeEmailFormData,
+    { setFieldError, setStatus, setSubmitting }: FormikHelpers<ChangeEmailFormData>,
   ) {
     setStatus(undefined);
 
     try {
-      await userService.changePassword(values.currentPassword, values.newPassword);
-      onChanged();
+      await userService.requestEmailChange(values.newEmail, values.currentPassword);
+      onRequested(values.newEmail);
       return;
     } catch (reason) {
-      const failure = describePasswordChangeFailure(reason);
+      const failure = describeEmailChangeFailure(reason);
 
       if (failure.kind === "field") {
         setFieldError(failure.field, failure.message);
@@ -52,44 +45,52 @@ export function ChangePasswordModal({ close, onChanged, onUnavailable }: Props) 
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Change password</ModalHeader>
-      <Formik<ChangePasswordFormData>
-        initialValues={initChangePasswordData()}
-        validationSchema={changePasswordSchema}
+      <ModalHeader>Change email address</ModalHeader>
+      <Formik<ChangeEmailFormData>
+        initialValues={initChangeEmailData()}
+        validationSchema={changeEmailSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, status }) => (
           <>
             <ModalBody>
-              <FormikForm id="changePasswordForm" noValidate>
-                <div className="mb-4 space-y-2 text-pretty text-sm text-gray-600 dark:text-gray-400">
-                  <p>{otherSessionsWarning}</p>
-                  {hasPendingEmailChange && <p>{pendingEmailWarning}</p>}
-                </div>
+              <FormikForm id="changeEmailForm" noValidate>
+                <ul className="mb-5 list-disc space-y-1.5 pl-4 text-pretty text-sm text-gray-600 marker:text-gray-400 dark:text-gray-400">
+                  <li>
+                    We email a confirmation link to the new address. It works{" "}
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">once</strong> and expires in{" "}
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">24 hours</strong>.
+                  </li>
+                  {user !== null && (
+                    <li>
+                      You keep signing in with{" "}
+                      <span className="font-mono text-gray-900 dark:text-gray-100">{user.email}</span> until you open
+                      it.
+                    </li>
+                  )}
+                  <li>
+                    Opening it signs you out on{" "}
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">
+                      every device, including this one
+                    </strong>
+                    .
+                  </li>
+                </ul>
+
+                <ManagedInputBlock
+                  field="newEmail"
+                  label="New email address"
+                  type="email"
+                  autoComplete="email"
+                  autoFocus
+                  disabled={isSubmitting}
+                />
 
                 <ManagedInputBlock
                   field="currentPassword"
                   label="Current password"
                   type="password"
                   autoComplete="current-password"
-                  autoFocus
-                  disabled={isSubmitting}
-                />
-
-                <ManagedInputBlock
-                  field="newPassword"
-                  label="New password"
-                  type="password"
-                  autoComplete="new-password"
-                  helperText={passwordPolicyDescription}
-                  disabled={isSubmitting}
-                />
-
-                <ManagedInputBlock
-                  field="confirmNewPassword"
-                  label="Confirm new password"
-                  type="password"
-                  autoComplete="new-password"
                   disabled={isSubmitting}
                 />
 
@@ -111,12 +112,12 @@ export function ChangePasswordModal({ close, onChanged, onUnavailable }: Props) 
                 </Button>
                 <Button
                   type="submit"
-                  form="changePasswordForm"
+                  form="changeEmailForm"
                   color="indigo"
                   disabled={isSubmitting}
                   aria-busy={isSubmitting}
                 >
-                  {isSubmitting ? "Changing…" : "Change password"}
+                  {isSubmitting ? "Sending…" : "Send confirmation link"}
                 </Button>
               </div>
             </ModalFooter>

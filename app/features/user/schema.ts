@@ -1,5 +1,5 @@
 import { type ObjectSchema, object, ref, string } from "yup";
-import type { ChangePasswordFormData } from "~/features/user/form";
+import type { ChangeEmailFormData, ChangePasswordFormData } from "~/features/user/form";
 
 export const minimumPasswordLength = 12;
 
@@ -18,4 +18,9 @@ export const changePasswordSchema: ObjectSchema<ChangePasswordFormData> = object
   confirmNewPassword: string()
     .required("Repeat your new password")
     .oneOf([ref("newPassword")], "This does not match your new password"),
+});
+
+export const changeEmailSchema: ObjectSchema<ChangeEmailFormData> = object({
+  newEmail: string().required("Enter the new email address").email("Enter a valid email address"),
+  currentPassword: string().required("Enter your current password"),
 });
