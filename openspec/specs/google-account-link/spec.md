@@ -8,7 +8,7 @@ Give a signed-in user an account page where they can connect their Google accoun
 
 ### Requirement: Account page
 
-The system SHALL provide an account page at `/me/account`, available to every signed-in role, that shows the account's identity — name and role — and hosts account-level actions, each credential owned by exactly one section. The page SHALL be reachable from `/me` through an "Account" entry, and SHALL require an authenticated session. The page SHALL present its sections in a stable order — identity first, then the account's own credential actions, then third-party sign-in connections — so that a section appearing or disappearing does not reorder the others.
+The system SHALL provide an account page at `/me/account`, available to every signed-in role, that shows the account's identity — name and role — and hosts account-level actions, each credential owned by exactly one section. The page SHALL be reachable from `/me` through an "Account" entry, and SHALL require an authenticated session. The page SHALL present itself as a single account record — one panel headed by the account's identity, with each section a divided row inside it — rather than as a stack of separate cards, so that no optional section carries the same visual weight as the credentials the account signs in with. The page SHALL present its sections in a stable order — identity first, then the account's own credential actions, then third-party sign-in connections — so that a section appearing or disappearing does not reorder the others.
 
 #### Scenario: Opening the account page
 
@@ -28,7 +28,7 @@ The system SHALL provide an account page at `/me/account`, available to every si
 #### Scenario: Section order
 
 - **WHEN** a signed-in user opens `/me/account`
-- **THEN** the identity summary appears first, the email section after it, the password section after that, and the Google connection section last
+- **THEN** the identity summary appears first, the email section after it, the password section after that, and the Google connection section last, all within one record panel separated by dividers rather than as detached cards
 
 #### Scenario: Google is not configured
 
@@ -42,12 +42,22 @@ The system SHALL provide an account page at `/me/account`, available to every si
 
 ### Requirement: Google connection section
 
-The account page SHALL contain a Google connection section that explains that connecting a Google account enables signing in with Google, and offers Google's branded control to perform the connection. The section SHALL be omitted entirely when the deployment has no Google client configured.
+The account page SHALL contain a Google connection section that explains that connecting a Google account enables signing in with Google, and offers Google's branded control to perform the connection. The section SHALL be omitted entirely when the deployment has no Google client configured. Because the branded control is loaded from Google and may never arrive, the section SHALL stay invisible until that control is ready, so it never appears as an offer the user cannot act on and never reflows the record by arriving late or being withdrawn.
 
 #### Scenario: Section is offered
 
 - **WHEN** a signed-in user opens `/me/account` on a deployment where Google is configured
 - **THEN** a Google connection section is shown, stating that connecting a Google account lets the user sign in with Google, together with Google's branded control to connect
+
+#### Scenario: Google's control has not loaded yet
+
+- **WHEN** the page has rendered but Google's branded control is still loading
+- **THEN** the section is not visible, so neither its explanation nor an inert control is shown, and the rest of the record holds its position
+
+#### Scenario: Google's control cannot be loaded
+
+- **WHEN** Google's script fails to load, as when a content blocker prevents it
+- **THEN** the account page shows no Google connection section, exactly as when Google is not configured
 
 #### Scenario: Google is not configured
 

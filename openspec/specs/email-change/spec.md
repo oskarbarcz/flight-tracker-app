@@ -27,12 +27,12 @@ The account page SHALL host an email section, available to every signed-in role,
 
 ### Requirement: Requesting a change proves the current password
 
-The request form SHALL collect the new email address and the account's current password, and SHALL NOT submit until the address is syntactically valid and the password field is non-empty. The current password is what authorises the request; the system SHALL NOT offer a path to request a change without it.
+The request form SHALL collect the new email address and the account's current password, and SHALL NOT submit until the address is syntactically valid and the password field is non-empty. The current password is what authorises the request; the system SHALL NOT offer a path to request a change without it. The form SHALL be presented in a modal dialog opened from the email section, matching how the password section presents its own form.
 
 #### Scenario: Form fields
 
-- **WHEN** the user opens the change-email form
-- **THEN** it presents a new-address field and a current-password field, with the new-address field focused, the password field masked, and both marked for their respective password-manager roles
+- **WHEN** the user activates the control to change their email address
+- **THEN** a modal dialog opens presenting a new-address field and a current-password field, with the new-address field focused, the password field masked, and both marked for their respective password-manager roles
 
 #### Scenario: Empty submission is refused
 
@@ -70,12 +70,17 @@ Because the change takes effect only when a link sent to the new address is open
 
 ### Requirement: A pending change is visible on the account page
 
-While the account holds an unconfirmed address, the email section SHALL show that address alongside the active one, labelled as awaiting confirmation, and SHALL make clear that the active address is still the one used to sign in. The pending address SHALL be read from the account profile, so it survives a page reload and appears in any session of the same account.
+While the account holds an unconfirmed address, the email section SHALL show that address alongside the active one, labelled as awaiting confirmation, and SHALL make clear that the active address is still the one used to sign in. A change is a two-step procedure, so the section SHALL present it as one — the step already taken and the step still outstanding, in order — rather than as a paragraph of prose, so the user can see where the change has got to. The pending address SHALL be read from the account profile, so it survives a page reload and appears in any session of the same account.
 
 #### Scenario: Pending address is shown
 
 - **WHEN** the account profile reports an inactive, unconfirmed address in addition to the active one
 - **THEN** the email section shows the pending address, states that a confirmation link was sent to it, and states that sign-in continues to use the active address
+
+#### Scenario: The outstanding step is distinguishable from the completed one
+
+- **WHEN** a change is pending
+- **THEN** the request step and the confirmation step are shown in order, each carrying a word naming its state, so the state is never conveyed by colour or position alone
 
 #### Scenario: Pending state survives a reload
 
@@ -89,12 +94,17 @@ While the account holds an unconfirmed address, the email section SHALL show tha
 
 ### Requirement: A successful request is acknowledged from what the profile reports, not from what was submitted
 
-A request accepted by the API sends no response body and changes nothing the user can see immediately, so the system SHALL acknowledge it in place and SHALL refresh the account profile before doing so. An accepted request is NOT proof that a link was sent: inside the resend window the API accepts the request, sends nothing, and leaves the existing pending address in place. The system SHALL therefore determine what to say by comparing the submitted address with the pending address the refreshed profile reports, and SHALL NOT claim a link was sent to an address the profile does not report as pending.
+A request accepted by the API sends no response body and changes nothing the user can see immediately, so the system SHALL acknowledge it in place and SHALL refresh the account profile before doing so. An accepted request is NOT proof that a link was sent: inside the resend window the API accepts the request, sends nothing, and leaves the existing pending address in place — whether the submitted address differs from the pending one or matches it. The system SHALL therefore compare the submitted address against the pending address the profile reports both **before** and **after** the request, and SHALL claim a link was sent only when the pending address changed to the submitted one. A pending address that was already the submitted one is not evidence of delivery.
 
 #### Scenario: Request is acknowledged against the pending address
 
-- **WHEN** the request is accepted and the refreshed profile reports the submitted address as pending
+- **WHEN** the request is accepted, the refreshed profile reports the submitted address as pending, and that address was not already pending before the request
 - **THEN** the form closes and the email section confirms that a confirmation link was sent, shown with the pending address so the address is named exactly once
+
+#### Scenario: The submitted address was already pending
+
+- **WHEN** the request is accepted and the submitted address was already the pending address before the request
+- **THEN** the section reports the change as requested and still awaiting confirmation, and does NOT claim that a link was just sent, because inside the resend window none was and the system cannot tell from the response whether one was
 
 #### Scenario: Request was suppressed by the resend window
 

@@ -8,27 +8,27 @@ Let a signed-in user replace their own password from the account page without an
 
 ### Requirement: Password section on the account page
 
-The account page SHALL host a password section, available to every signed-in role, that offers changing the account's password. The section SHALL be presented collapsed by default, showing only its purpose and a control to begin, and SHALL expand into the change form when that control is activated. The section SHALL be present regardless of whether the account also signs in with Google, because the profile does not report whether the account has a password.
+The account page SHALL host a password section, available to every signed-in role, that offers changing the account's password. At rest the section SHALL state only the consequence of a change and offer a control to begin; the change form SHALL be presented in a modal dialog opened by that control, so the account record stays readable behind it. The section SHALL be present regardless of whether the account also signs in with Google, because the profile does not report whether the account has a password.
 
 #### Scenario: Section is offered
 
 - **WHEN** a signed-in user opens `/me/account`
-- **THEN** a password section is shown in its collapsed state, describing that the account password can be changed, with a control to begin
+- **THEN** a password section is shown, stating that changing the password signs the account out on every other device, with a control to begin
 
 #### Scenario: Available to all roles
 
 - **WHEN** a CabinCrew, Operations, or Admin user opens `/me/account`
 - **THEN** the password section is present for each of them, in the same place, offering the same action
 
-#### Scenario: Expanding the section
+#### Scenario: Opening the form
 
 - **WHEN** the user activates the control to change their password
-- **THEN** the section expands to show the change form with the current-password field focused, and the collapsed control is replaced by the form's own actions
+- **THEN** a modal dialog opens containing the change form, with the current-password field focused, and the dialog carries its own submit and cancel actions
 
 #### Scenario: Abandoning the change
 
-- **WHEN** the user cancels an expanded form
-- **THEN** the section returns to its collapsed state, every entered value is discarded, and no request is sent
+- **WHEN** the user cancels the open dialog
+- **THEN** the dialog closes, every entered value is discarded, and no request is sent
 
 ### Requirement: Change form fields
 
@@ -36,7 +36,7 @@ The form SHALL collect the current password, the new password, and a confirmatio
 
 #### Scenario: Fields are presented
 
-- **WHEN** the form is expanded
+- **WHEN** the form is opened
 - **THEN** three masked fields are shown — current password, new password, confirm new password — each with a visible label
 
 #### Scenario: Password manager can act
@@ -51,11 +51,11 @@ The form SHALL collect the current password, the new password, and a confirmatio
 
 ### Requirement: New password policy is stated before it is enforced
 
-The system SHALL state the new-password policy — at least 12 characters, including an uppercase letter, a lowercase letter, a number and a symbol — as persistent helper text visible from the moment the form is expanded, not only as an error after a rejected attempt. The system SHALL validate the new password against that policy before sending the request, and SHALL require the confirmation field to match the new password exactly.
+The system SHALL state the new-password policy — at least 12 characters, including an uppercase letter, a lowercase letter, a number and a symbol — as persistent helper text visible from the moment the form is opened, not only as an error after a rejected attempt. The system SHALL validate the new password against that policy before sending the request, and SHALL require the confirmation field to match the new password exactly.
 
 #### Scenario: Policy is visible up front
 
-- **WHEN** the form is expanded and no value has been entered
+- **WHEN** the form is opened and no value has been entered
 - **THEN** the policy is shown as helper text next to the new-password field, in a non-error presentation
 
 #### Scenario: New password does not satisfy the policy
@@ -85,7 +85,7 @@ When the form passes client-side validation, the system SHALL submit the current
 #### Scenario: Successful change
 
 - **WHEN** the request responds `204`
-- **THEN** the section confirms in place that the password was changed, collapses the form, clears every entered value, and keeps the user signed in on the current session
+- **THEN** the dialog closes, discarding every entered value, the password section confirms in place that the password was changed, and the user stays signed in on the current session
 
 #### Scenario: Request in progress
 
@@ -103,7 +103,7 @@ Because the API revokes every other session of the user on a successful change w
 
 #### Scenario: Consequence is stated before submitting
 
-- **WHEN** the form is expanded
+- **WHEN** the form is opened
 - **THEN** it states that changing the password signs the account out everywhere else and keeps this session signed in
 
 #### Scenario: Consequence is restated on success
@@ -113,12 +113,12 @@ Because the API revokes every other session of the user on a successful change w
 
 #### Scenario: Pending email change is mentioned when one exists
 
-- **WHEN** the form is expanded while the account holds a pending, unconfirmed email address
+- **WHEN** the form is opened while the account holds a pending, unconfirmed email address
 - **THEN** it also states that changing the password cancels that pending email change and its confirmation link will stop working
 
 #### Scenario: Pending email change is not mentioned when none exists
 
-- **WHEN** the form is expanded while the account holds no pending email address
+- **WHEN** the form is opened while the account holds no pending email address
 - **THEN** no statement about email changes is shown
 
 ### Requirement: Failures are explained where the user can act on them

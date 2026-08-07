@@ -1,6 +1,7 @@
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import { FaCircleExclamation } from "react-icons/fa6";
+import { useAuth } from "~/app-state/useAuth";
 import { type ChangeEmailFormData, changeEmailSchema, initChangeEmailData } from "~/features/user";
 import { describeEmailChangeFailure } from "~/features/user/lib/describeEmailChangeFailure";
 import { useApi } from "~/shared/api/useApi";
@@ -12,13 +13,9 @@ type Props = {
   onUnavailable: (message: string) => void;
 };
 
-const confirmationNotice =
-  "The new address becomes active only once you open the link we send to it. Until then you keep signing in with your current address.";
-const sessionNotice =
-  "Confirming signs you out on every device, including this one. The link works once and expires in 24 hours.";
-
 export function ChangeEmailModal({ close, onRequested, onUnavailable }: Props) {
   const { userService } = useApi();
+  const { user } = useAuth();
 
   async function handleSubmit(
     values: ChangeEmailFormData,
@@ -58,8 +55,27 @@ export function ChangeEmailModal({ close, onRequested, onUnavailable }: Props) {
           <>
             <ModalBody>
               <FormikForm id="changeEmailForm" noValidate>
-                <p className="mb-2 text-pretty text-sm text-gray-600 dark:text-gray-400">{confirmationNotice}</p>
-                <p className="mb-4 text-pretty text-sm text-gray-600 dark:text-gray-400">{sessionNotice}</p>
+                <ul className="mb-5 list-disc space-y-1.5 pl-4 text-pretty text-sm text-gray-600 marker:text-gray-400 dark:text-gray-400">
+                  <li>
+                    We email a confirmation link to the new address. It works{" "}
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">once</strong> and expires in{" "}
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">24 hours</strong>.
+                  </li>
+                  {user !== null && (
+                    <li>
+                      You keep signing in with{" "}
+                      <span className="font-mono text-gray-900 dark:text-gray-100">{user.email}</span> until you open
+                      it.
+                    </li>
+                  )}
+                  <li>
+                    Opening it signs you out on{" "}
+                    <strong className="font-semibold text-gray-900 dark:text-gray-100">
+                      every device, including this one
+                    </strong>
+                    .
+                  </li>
+                </ul>
 
                 <ManagedInputBlock
                   field="newEmail"
