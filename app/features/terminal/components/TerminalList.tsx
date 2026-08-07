@@ -3,6 +3,7 @@ import React from "react";
 import { HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
 import type { Terminal } from "~/features/terminal";
+import { FactRow } from "~/shared/ui/Fact/FactRow";
 
 type Props = {
   airportId: string;
@@ -55,28 +56,27 @@ export function TerminalList({ airportId, terminals, onDelete, readOnly }: Props
             )}
           </header>
 
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400">
-            <span>
-              Avg taxi time{" "}
-              <span className="font-mono text-gray-800 dark:text-gray-200">{terminal.averageTaxiTime}</span> min
-            </span>
+          <dl className="divide-y divide-gray-100 dark:divide-gray-800/60">
+            <FactRow label="Taxi time">
+              <span className="font-mono">{terminal.averageTaxiTime}</span> min
+            </FactRow>
             {terminal.operatorCodes.length > 0 ? (
-              <>
-                <span aria-hidden>·</span>
-                {terminal.operatorCodes.map((code) => (
-                  <Badge key={code} color="gray" className="font-mono">
-                    {code}
-                  </Badge>
-                ))}
-              </>
+              <FactRow label="Operators">
+                <span className="flex flex-wrap items-center gap-1.5">
+                  {terminal.operatorCodes.map((code) => (
+                    <Badge key={code} color="gray" className="font-mono">
+                      {code}
+                    </Badge>
+                  ))}
+                </span>
+              </FactRow>
             ) : null}
-          </div>
-
-          {terminal.text ? (
-            <p className="whitespace-pre-line border-t border-gray-200 px-3 py-1.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
-              {terminal.text}
-            </p>
-          ) : null}
+            {terminal.text ? (
+              <FactRow label="Notes">
+                <span className="whitespace-pre-line text-gray-500 dark:text-gray-400">{terminal.text}</span>
+              </FactRow>
+            ) : null}
+          </dl>
         </article>
       ))}
     </div>

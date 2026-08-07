@@ -47,6 +47,7 @@ export default function AirportGatesRoute() {
         terminals={terminals}
         parkingPositions={parkingPositions}
         onDelete={setPendingRemove}
+        isFiltered={isFiltered}
       />
       {pendingRemove && (
         <RemoveGateModal

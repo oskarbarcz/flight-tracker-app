@@ -1,13 +1,12 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportLayout";
 import React, { useMemo, useState } from "react";
 import { Outlet, useLoaderData, useLocation } from "react-router";
-import { AirportHeader } from "~/features/airport/components/Header/AirportHeader";
+import { AirportHeadline } from "~/features/airport/components/Header/AirportHeadline";
 import { AirportManagementTabs } from "~/features/airport/components/Management/AirportManagementTabs";
 import { AirportSectionToolbar } from "~/features/airport/components/Management/AirportSectionToolbar";
 import type { AirportManagementContext } from "~/features/airport/components/Management/airportManagementContext";
 import { filterAirportSection } from "~/features/airport/components/Management/airportSectionFilters";
 import { resolveActiveSection, sectionMapTitle } from "~/features/airport/components/Management/airportSections";
-import { AirportDetailsCard } from "~/features/airport/components/Overview/AirportDetailsCard";
 import { AirportLocationMap } from "~/features/airport/components/Overview/AirportLocationMap";
 import { AirportService } from "~/features/airport/service";
 import { GateService } from "~/features/gate/service";
@@ -45,9 +44,8 @@ export default function AirportLayout() {
   };
 
   return (
-    <div className="space-y-4">
-      <AirportHeader airport={data.airport} />
-      <AirportDetailsCard airport={data.airport} />
+    <div className="space-y-6">
+      <AirportHeadline airport={data.airport} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="min-w-0 space-y-4">

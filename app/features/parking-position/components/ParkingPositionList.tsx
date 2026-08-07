@@ -2,22 +2,12 @@ import { Badge } from "flowbite-react";
 import React from "react";
 import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
-import {
-  bridgeOptions,
-  deicingOptions,
-  fuelingOptionsList,
-  gateLocationOptions,
-  groundUnitOptions,
-  NoiseSensitivity,
-  type ParkingPosition,
-  parkingAssistanceOptions,
-  parkingPositionTypeOptions,
-  parkingSpotTypeOptions,
-  stairsOptions,
-} from "~/features/parking-position";
+import { gateLocationOptions, NoiseSensitivity, type ParkingPosition } from "~/features/parking-position";
 import { groupParkingPositionsByTerminal } from "~/features/parking-position/lib/parkingPositionGroups";
+import { standFactGroups } from "~/features/parking-position/lib/standFacts";
 import type { Terminal } from "~/features/terminal";
 import { CollapsibleTerminalSection } from "~/features/terminal/components/CollapsibleTerminalSection";
+import { FactRow } from "~/shared/ui/Fact/FactRow";
 
 type Props = {
   airportId: string;
@@ -25,38 +15,57 @@ type Props = {
   terminals: Terminal[];
   onDelete?: (parkingPosition: ParkingPosition) => void;
   readOnly?: boolean;
+  isFiltered?: boolean;
 };
 
-function labelOf(options: { value: string; label: string }[], value: string): string {
-  return options.find((o) => o.value === value)?.label ?? value;
+function locationLabel(value: string): string {
+  return gateLocationOptions.find((o) => o.value === value)?.label ?? value;
 }
 
-export function ParkingPositionList({ airportId, parkingPositions, terminals, onDelete, readOnly }: Props) {
+function standCountLabel(count: number): string {
+  return `${count} ${count === 1 ? "stand" : "stands"}`;
+}
+
+export function ParkingPositionList({
+  airportId,
+  parkingPositions,
+  terminals,
+  onDelete,
+  readOnly,
+  isFiltered = false,
+}: Props) {
   const groups = groupParkingPositionsByTerminal(parkingPositions, terminals);
 
   return (
-    <div className="space-y-6">
-      {groups.map((group) => (
-        <CollapsibleTerminalSection key={group.terminal?.id ?? "orphan"} terminal={group.terminal}>
+    <div className="space-y-4">
+      {groups.map((group, index) => (
+        <CollapsibleTerminalSection
+          key={`${group.terminal?.id ?? "orphan"}-${isFiltered}`}
+          terminal={group.terminal}
+          countLabel={standCountLabel(group.parkingPositions.length)}
+          defaultCollapsed={!isFiltered && index > 0}
+        >
           {group.parkingPositions.map((parkingPosition) => (
             <article
               key={parkingPosition.id}
-              className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+              className="@container overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
             >
-              <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-                <div className="flex items-center gap-2">
-                  <h4 className="font-mono text-base font-bold text-gray-900 dark:text-white">
+              <header className="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
+                <h4 className="flex min-w-0 flex-1 items-baseline gap-1.5">
+                  <span className="shrink-0 text-sm text-gray-500 dark:text-gray-400">
+                    {locationLabel(parkingPosition.location)}
+                  </span>
+                  <span className="truncate font-mono text-base font-bold text-gray-900 dark:text-white">
                     {parkingPosition.name}
-                  </h4>
-                  <Badge color="gray">{labelOf(gateLocationOptions, parkingPosition.location)}</Badge>
-                </div>
+                  </span>
+                </h4>
                 {!readOnly && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex shrink-0 items-center">
                     <Link
                       to={`/airports/${airportId}/parking-positions/new?duplicateFrom=${parkingPosition.id}`}
                       viewTransition
                       aria-label={`Duplicate parking position ${parkingPosition.name}`}
-                      className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                      className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
                     >
                       <HiOutlineDuplicate className="size-3.5" />
                     </Link>
@@ -64,7 +73,7 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
                       to={`/airports/${airportId}/parking-positions/${parkingPosition.id}/edit`}
                       viewTransition
                       aria-label={`Edit parking position ${parkingPosition.name}`}
-                      className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                      className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
                     >
                       <HiPencil className="size-3.5" />
                     </Link>
@@ -72,56 +81,52 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
                       type="button"
                       onClick={() => onDelete?.(parkingPosition)}
                       aria-label={`Delete parking position ${parkingPosition.name}`}
-                      className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                      className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
                     >
                       <HiOutlineTrash className="size-3.5" />
                     </button>
                   </div>
                 )}
               </header>
-              <dl className="grid grid-cols-1 @sm:grid-cols-2 @xl:grid-cols-3 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
-                <Row label="Bridge" value={labelOf(bridgeOptions, parkingPosition.bridge)} />
-                <Row label="Stairs" value={labelOf(stairsOptions, parkingPosition.stairs)} />
-                <Row label="Spot" value={labelOf(parkingSpotTypeOptions, parkingPosition.spotType)} />
-                <Row label="Position" value={labelOf(parkingPositionTypeOptions, parkingPosition.type)} />
-                <Row label="Assistance" value={labelOf(parkingAssistanceOptions, parkingPosition.assistance)} />
-                <Row label="GPU" value={labelOf(groundUnitOptions, parkingPosition.gpu)} />
-                <Row label="PCA" value={labelOf(groundUnitOptions, parkingPosition.pca)} />
-                <Row label="Fuel" value={labelOf(fuelingOptionsList, parkingPosition.fuelingOptions)} />
-                <Row label="Deicing" value={labelOf(deicingOptions, parkingPosition.deicing)} />
+
+              <dl className="divide-y divide-gray-100 dark:divide-gray-800/60">
+                {standFactGroups(parkingPosition).map((factGroup) => (
+                  <FactRow key={factGroup.label} label={factGroup.label}>
+                    <span className="flex flex-wrap items-baseline gap-x-1.5">
+                      {factGroup.facts.map((fact, factIndex) => (
+                        <React.Fragment key={fact.text}>
+                          {factIndex > 0 ? <span className="text-gray-300 dark:text-gray-700">·</span> : null}
+                          <span className={fact.available ? undefined : "text-gray-400 dark:text-gray-600"}>
+                            {fact.text}
+                          </span>
+                        </React.Fragment>
+                      ))}
+                    </span>
+                  </FactRow>
+                ))}
               </dl>
+
               {parkingPosition.deicingDescription ? (
-                <div className="px-4 pb-2.5 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="text-gray-500">Deicing notes: </span>
+                <p className="border-t border-gray-200 px-3 py-1.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
                   {parkingPosition.deicingDescription}
-                </div>
+                </p>
               ) : null}
+
               {parkingPosition.noiseSensitivity === NoiseSensitivity.Yes ? (
-                <div className="px-4 pb-3 text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Badge color="yellow">Noise sensitive</Badge>
-                    {parkingPosition.noiseSensitivityStartTime && parkingPosition.noiseSensitivityEndTime ? (
-                      <span className="font-mono text-xs">
-                        {parkingPosition.noiseSensitivityStartTime}–{parkingPosition.noiseSensitivityEndTime} UTC
-                      </span>
-                    ) : null}
-                  </div>
-                  {parkingPosition.noiseSensitivityText ? <p>{parkingPosition.noiseSensitivityText}</p> : null}
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-gray-200 px-3 py-1.5 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                  <Badge color="yellow">Noise sensitive</Badge>
+                  {parkingPosition.noiseSensitivityStartTime && parkingPosition.noiseSensitivityEndTime ? (
+                    <span className="font-mono text-gray-800 dark:text-gray-200">
+                      {parkingPosition.noiseSensitivityStartTime}–{parkingPosition.noiseSensitivityEndTime} UTC
+                    </span>
+                  ) : null}
+                  {parkingPosition.noiseSensitivityText ? <span>{parkingPosition.noiseSensitivityText}</span> : null}
                 </div>
               ) : null}
             </article>
           ))}
         </CollapsibleTerminalSection>
       ))}
-    </div>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-baseline gap-1.5">
-      <dt className="text-gray-500">{label}:</dt>
-      <dd className="text-gray-800 dark:text-gray-200">{value}</dd>
     </div>
   );
 }

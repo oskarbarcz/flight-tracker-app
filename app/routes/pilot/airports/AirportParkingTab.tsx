@@ -29,7 +29,13 @@ export default function AirportParkingTab() {
       {visible.length === 0 ? (
         <NoFilterMatchesState subject="parking positions" onClear={() => setFilter("")} />
       ) : (
-        <ParkingPositionList airportId={airport.id} parkingPositions={visible} terminals={terminals} readOnly />
+        <ParkingPositionList
+          airportId={airport.id}
+          parkingPositions={visible}
+          terminals={terminals}
+          readOnly
+          isFiltered={query !== ""}
+        />
       )}
     </div>
   );

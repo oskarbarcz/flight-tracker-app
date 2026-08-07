@@ -1,4 +1,3 @@
-import { Badge } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
@@ -7,7 +6,7 @@ import { groupGatesByTerminal } from "~/features/gate/lib/gateGroups";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
 import { CollapsibleTerminalSection } from "~/features/terminal/components/CollapsibleTerminalSection";
-import { formatCoordinates } from "~/shared/lib/formatGeo";
+import { FactRow } from "~/shared/ui/Fact/FactRow";
 
 type Props = {
   airportId: string;
@@ -16,41 +15,64 @@ type Props = {
   parkingPositions: ParkingPosition[];
   onDelete?: (gate: Gate) => void;
   readOnly?: boolean;
+  isFiltered?: boolean;
 };
 
-function labelOf(options: { value: string; label: string }[], value: string): string {
-  return options.find((o) => o.value === value)?.label ?? value;
+function categoryLabel(value: string): string {
+  return gateCategoryOptions.find((o) => o.value === value)?.label ?? value;
 }
 
-export function GateList({ airportId, gates, terminals, parkingPositions, onDelete, readOnly }: Props) {
+function gateCountLabel(count: number): string {
+  return `${count} ${count === 1 ? "gate" : "gates"}`;
+}
+
+export function GateList({
+  airportId,
+  gates,
+  terminals,
+  parkingPositions,
+  onDelete,
+  readOnly,
+  isFiltered = false,
+}: Props) {
   const groups = groupGatesByTerminal(gates, terminals);
   const parkingPositionsById = new Map(parkingPositions.map((p) => [p.id, p]));
 
   return (
-    <div className="space-y-6">
-      {groups.map((group) => (
-        <CollapsibleTerminalSection key={group.terminal?.id ?? "orphan"} terminal={group.terminal}>
+    <div className="space-y-4">
+      {groups.map((group, index) => (
+        <CollapsibleTerminalSection
+          key={`${group.terminal?.id ?? "orphan"}-${isFiltered}`}
+          terminal={group.terminal}
+          countLabel={gateCountLabel(group.gates.length)}
+          defaultCollapsed={!isFiltered && index > 0}
+        >
           {group.gates.map((gate) => {
             const parkingPosition = gate.parkingPositionId
               ? (parkingPositionsById.get(gate.parkingPositionId) ?? null)
               : null;
+
             return (
               <article
                 key={gate.id}
-                className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+                className="@container overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
               >
-                <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-mono text-base font-bold text-gray-900 dark:text-white">{gate.name}</h4>
-                    <Badge color="gray">{labelOf(gateCategoryOptions, gate.category)}</Badge>
-                  </div>
+                <header className="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
+                  <h4 className="flex min-w-0 flex-1 items-baseline gap-1.5">
+                    <span className="shrink-0 text-sm text-gray-500 dark:text-gray-400">
+                      {categoryLabel(gate.category)}
+                    </span>
+                    <span className="truncate font-mono text-base font-bold text-gray-900 dark:text-white">
+                      {gate.name}
+                    </span>
+                  </h4>
                   {!readOnly && (
-                    <div className="flex items-center gap-1">
+                    <div className="flex shrink-0 items-center">
                       <Link
                         to={`/airports/${airportId}/gates/${gate.id}/edit`}
                         viewTransition
                         aria-label={`Edit gate ${gate.name}`}
-                        className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-indigo-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                        className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
                       >
                         <HiPencil className="size-3.5" />
                       </Link>
@@ -58,41 +80,28 @@ export function GateList({ airportId, gates, terminals, parkingPositions, onDele
                         type="button"
                         onClick={() => onDelete?.(gate)}
                         aria-label={`Delete gate ${gate.name}`}
-                        className="p-2 @lg:p-1 rounded-md text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                        className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
                       >
                         <HiOutlineTrash className="size-3.5" />
                       </button>
                     </div>
                   )}
                 </header>
-                <dl className="grid grid-cols-1 @md:grid-cols-2 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
-                  <Row
-                    label="Parking position"
-                    value={parkingPosition ? parkingPosition.name : "Not linked"}
-                    mono={Boolean(parkingPosition)}
-                  />
-                  <Row
-                    label="Coordinates"
-                    value={
-                      gate.coordinates ? formatCoordinates(gate.coordinates.latitude, gate.coordinates.longitude) : "—"
-                    }
-                    mono={Boolean(gate.coordinates)}
-                  />
+
+                <dl>
+                  <FactRow label="Stand">
+                    {parkingPosition ? (
+                      <span className="font-mono">{parkingPosition.name}</span>
+                    ) : (
+                      <span className="text-gray-400 dark:text-gray-600">Not linked</span>
+                    )}
+                  </FactRow>
                 </dl>
               </article>
             );
           })}
         </CollapsibleTerminalSection>
       ))}
-    </div>
-  );
-}
-
-function Row({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
-  return (
-    <div className="flex items-baseline gap-1.5">
-      <dt className="text-gray-500">{label}:</dt>
-      <dd className={`text-gray-800 dark:text-gray-200 ${mono ? "font-mono" : ""}`}>{value}</dd>
     </div>
   );
 }
