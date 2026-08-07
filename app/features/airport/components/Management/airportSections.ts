@@ -47,8 +47,8 @@ export const airportSections: AirportSection[] = [
 ];
 
 export function resolveActiveSection(pathname: string): AirportSection {
-  const segment = pathname.split("/").filter(Boolean).at(-1) ?? "";
-  return airportSections.find((section) => section.path === segment) ?? airportSections[0];
+  const segments = pathname.split("/").filter(Boolean);
+  return airportSections.find((section) => segments.includes(section.path)) ?? airportSections[0];
 }
 
 export const AIRPORT_MANAGEMENT_BASE = "/airports";
@@ -64,4 +64,15 @@ export function sectionCreatePath(airportId: string, section: AirportSection): s
 
 export function sectionMapTitle(section: AirportSection): string {
   return `Airport area and ${section.title.toLowerCase()}`;
+}
+
+const AIRPORT_EDIT_PARAM = "edit";
+const AIRPORT_EDIT_VALUE = "airport";
+
+export function airportEditPath(pathname: string): string {
+  return `${pathname}?${AIRPORT_EDIT_PARAM}=${AIRPORT_EDIT_VALUE}`;
+}
+
+export function isAirportEditRequested(searchParams: URLSearchParams): boolean {
+  return searchParams.get(AIRPORT_EDIT_PARAM) === AIRPORT_EDIT_VALUE;
 }

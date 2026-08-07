@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRevalidator } from "react-router";
+import { Outlet, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { useAirportManagement } from "~/features/airport/components/Management/airportManagementContext";
 import type { Terminal } from "~/features/terminal";
@@ -10,7 +10,8 @@ import { useApi } from "~/shared/api/useApi";
 import { NoFilterMatchesState } from "~/shared/ui/Filter/NoFilterMatchesState";
 
 export default function AirportTerminalsRoute() {
-  const { airport, terminals, isFiltered, clearFilter } = useAirportManagement();
+  const context = useAirportManagement();
+  const { airport, terminals, isFiltered, clearFilter } = context;
   const [pendingRemove, setPendingRemove] = useState<Terminal | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const { terminalService } = useApi();
@@ -31,17 +32,18 @@ export default function AirportTerminalsRoute() {
     }
   };
 
-  if (terminals.length === 0) {
-    return isFiltered ? (
-      <NoFilterMatchesState subject="terminals" onClear={clearFilter} />
-    ) : (
-      <TerminalListEmptyState airportId={airport.id} />
-    );
-  }
-
   return (
     <>
-      <TerminalList airportId={airport.id} terminals={terminals} onDelete={setPendingRemove} />
+      {terminals.length > 0 && (
+        <TerminalList airportId={airport.id} terminals={terminals} onDelete={setPendingRemove} />
+      )}
+      {terminals.length === 0 &&
+        (isFiltered ? (
+          <NoFilterMatchesState subject="terminals" onClear={clearFilter} />
+        ) : (
+          <TerminalListEmptyState airportId={airport.id} />
+        ))}
+
       {pendingRemove && (
         <RemoveTerminalModal
           terminal={pendingRemove}
@@ -50,6 +52,8 @@ export default function AirportTerminalsRoute() {
           isPending={isRemoving}
         />
       )}
+
+      <Outlet context={context} />
     </>
   );
 }

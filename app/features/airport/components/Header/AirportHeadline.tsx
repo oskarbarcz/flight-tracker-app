@@ -1,8 +1,9 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { HiPencil } from "react-icons/hi";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import type { Airport } from "~/features/airport";
+import { airportEditPath } from "~/features/airport/components/Management/airportSections";
 import { getUtcOffset } from "~/shared/lib/formatGeo";
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 
 export function AirportHeadline({ airport, readOnly }: Props) {
   const utcOffset = getUtcOffset(airport.timezone);
+  const { pathname } = useLocation();
 
   return (
     <header className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
@@ -37,7 +39,7 @@ export function AirportHeadline({ airport, readOnly }: Props) {
       {!readOnly && (
         <Button
           as={Link}
-          to={`/airports/${airport.id}/edit`}
+          to={airportEditPath(pathname)}
           viewTransition
           color="indigo"
           size="sm"

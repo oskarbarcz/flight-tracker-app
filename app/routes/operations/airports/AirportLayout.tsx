@@ -1,6 +1,7 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportLayout";
 import React, { useMemo, useState } from "react";
-import { Outlet, useLoaderData, useLocation } from "react-router";
+import { Outlet, useLoaderData, useLocation, useNavigate, useSearchParams } from "react-router";
+import { UpdateAirportModal } from "~/features/airport/components/Forms/UpdateAirportModal";
 import { AirportHeadline } from "~/features/airport/components/Header/AirportHeadline";
 import { AirportSectionTabs } from "~/features/airport/components/Management/AirportSectionTabs";
 import { AirportSectionToolbar } from "~/features/airport/components/Management/AirportSectionToolbar";
@@ -8,6 +9,7 @@ import type { AirportManagementContext } from "~/features/airport/components/Man
 import { filterAirportSection } from "~/features/airport/components/Management/airportSectionFilters";
 import {
   AIRPORT_MANAGEMENT_BASE,
+  isAirportEditRequested,
   resolveActiveSection,
   sectionMapTitle,
 } from "~/features/airport/components/Management/airportSections";
@@ -33,6 +35,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 export default function AirportLayout() {
   const data = useLoaderData<typeof clientLoader>();
   const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   usePageTitle(`${data.airport.iataCode} | Airport`);
 
   const section = resolveActiveSection(pathname);
@@ -77,6 +81,10 @@ export default function AirportLayout() {
           />
         </div>
       </div>
+
+      {isAirportEditRequested(searchParams) && (
+        <UpdateAirportModal airport={data.airport} close={() => navigate(pathname, { viewTransition: true })} />
+      )}
     </div>
   );
 }

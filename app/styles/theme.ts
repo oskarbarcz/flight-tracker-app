@@ -22,6 +22,11 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       },
     },
     modal: {
+      root: {
+        show: {
+          on: "flex bg-gray-900/50 backdrop-blur-xs dark:bg-gray-900/80",
+        },
+      },
       content: {
         inner:
           "rounded-xl bg-white shadow-lg dark:bg-gray-800 border-indigo-500 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-gray-500 dark:shadow-gray-900",

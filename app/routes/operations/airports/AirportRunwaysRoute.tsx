@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRevalidator } from "react-router";
+import { Outlet, useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { useAirportManagement } from "~/features/airport/components/Management/airportManagementContext";
 import type { Runway } from "~/features/runway";
@@ -10,7 +10,8 @@ import { useApi } from "~/shared/api/useApi";
 import { NoFilterMatchesState } from "~/shared/ui/Filter/NoFilterMatchesState";
 
 export default function AirportRunwaysRoute() {
-  const { airport, runways, isFiltered, clearFilter } = useAirportManagement();
+  const context = useAirportManagement();
+  const { airport, runways, isFiltered, clearFilter } = context;
   const [pendingRemove, setPendingRemove] = useState<Runway | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const { runwayService } = useApi();
@@ -31,17 +32,16 @@ export default function AirportRunwaysRoute() {
     }
   };
 
-  if (runways.length === 0) {
-    return isFiltered ? (
-      <NoFilterMatchesState subject="runways" onClear={clearFilter} />
-    ) : (
-      <RunwayListEmptyState airportId={airport.id} />
-    );
-  }
-
   return (
     <>
-      <RunwayList airportId={airport.id} runways={runways} onDelete={setPendingRemove} />
+      {runways.length > 0 && <RunwayList airportId={airport.id} runways={runways} onDelete={setPendingRemove} />}
+      {runways.length === 0 &&
+        (isFiltered ? (
+          <NoFilterMatchesState subject="runways" onClear={clearFilter} />
+        ) : (
+          <RunwayListEmptyState airportId={airport.id} />
+        ))}
+
       {pendingRemove && (
         <RemoveRunwayModal
           runway={pendingRemove}
@@ -50,6 +50,8 @@ export default function AirportRunwaysRoute() {
           isPending={isRemoving}
         />
       )}
+
+      <Outlet context={context} />
     </>
   );
 }
