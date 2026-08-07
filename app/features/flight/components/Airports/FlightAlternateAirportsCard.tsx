@@ -37,11 +37,7 @@ function AlternateAirportRow({ airport, canOpenAirport }: { airport: AirportOnFl
         <div className="min-w-0">
           <div className="flex min-w-0 items-baseline gap-2">
             {canOpenAirport ? (
-              <Link
-                to={`/airports/${airport.id}/overview`}
-                viewTransition
-                className={`${iataClassName} hover:text-primary-500`}
-              >
+              <Link to={`/airports/${airport.id}`} viewTransition className={`${iataClassName} hover:text-primary-500`}>
                 {airport.iataCode}
               </Link>
             ) : (

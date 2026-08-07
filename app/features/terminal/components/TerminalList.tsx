@@ -23,9 +23,9 @@ export function TerminalList({ airportId, terminals, onDelete, readOnly }: Props
       {sorted.map((terminal) => (
         <article
           key={terminal.id}
-          className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+          className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
         >
-          <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+          <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
             <div className="flex items-baseline gap-2">
               <h3 className="font-mono font-bold text-gray-900 dark:text-white">{terminal.shortName}</h3>
               <span className="text-sm text-gray-500">{terminal.fullName}</span>

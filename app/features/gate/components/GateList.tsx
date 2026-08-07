@@ -37,9 +37,9 @@ export function GateList({ airportId, gates, terminals, parkingPositions, onDele
             return (
               <article
                 key={gate.id}
-                className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+                className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
               >
-                <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+                <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
                   <div className="flex items-baseline gap-2">
                     <h4 className="font-mono font-bold text-gray-900 dark:text-white">{gate.name}</h4>
                     <Badge color="gray">{labelOf(gateCategoryOptions, gate.category)}</Badge>
@@ -65,7 +65,7 @@ export function GateList({ airportId, gates, terminals, parkingPositions, onDele
                     </div>
                   )}
                 </header>
-                <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
+                <dl className="grid grid-cols-1 @md:grid-cols-2 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
                   <Row
                     label="Parking position"
                     value={parkingPosition ? parkingPosition.name : "Not linked"}

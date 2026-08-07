@@ -1,6 +1,5 @@
-import { Badge, Button, TextInput } from "flowbite-react";
-import React, { useMemo, useState } from "react";
-import { FaCircleInfo, FaMagnifyingGlass } from "react-icons/fa6";
+import { Badge } from "flowbite-react";
+import React from "react";
 import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";
 import { Link } from "react-router";
 import {
@@ -19,9 +18,6 @@ import {
 import { groupParkingPositionsByTerminal } from "~/features/parking-position/lib/parkingPositionGroups";
 import type { Terminal } from "~/features/terminal";
 import { CollapsibleTerminalSection } from "~/features/terminal/components/CollapsibleTerminalSection";
-import { EmptyStateIcon } from "~/shared/ui/Table/LoadingStates/EmptyStateIcon";
-import { EmptyStateText } from "~/shared/ui/Table/LoadingStates/EmptyStateText";
-import { TableEmptyState } from "~/shared/ui/Table/LoadingStates/TableEmptyState";
 
 type Props = {
   airportId: string;
@@ -35,66 +31,19 @@ function labelOf(options: { value: string; label: string }[], value: string): st
   return options.find((o) => o.value === value)?.label ?? value;
 }
 
-function matchesSearch(parkingPosition: ParkingPosition, terminal: Terminal | undefined, query: string): boolean {
-  return [parkingPosition.name, terminal?.shortName, terminal?.fullName].some((value) =>
-    value?.toLowerCase().includes(query),
-  );
-}
-
 export function ParkingPositionList({ airportId, parkingPositions, terminals, onDelete, readOnly }: Props) {
-  const [search, setSearch] = useState("");
-
-  const terminalsById = useMemo(() => new Map(terminals.map((terminal) => [terminal.id, terminal])), [terminals]);
-
-  const filtered = useMemo(() => {
-    const query = search.trim().toLowerCase();
-    if (query === "") {
-      return parkingPositions;
-    }
-    return parkingPositions.filter((parkingPosition) =>
-      matchesSearch(parkingPosition, terminalsById.get(parkingPosition.terminalId), query),
-    );
-  }, [parkingPositions, terminalsById, search]);
-
-  const groups = groupParkingPositionsByTerminal(filtered, terminals);
+  const groups = groupParkingPositionsByTerminal(parkingPositions, terminals);
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-        <div className="w-full sm:w-72">
-          <TextInput
-            icon={FaMagnifyingGlass}
-            placeholder="Search by name or terminal"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-        </div>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
-          {filtered.length} {filtered.length === 1 ? "parking position" : "parking positions"}
-        </span>
-      </div>
-
-      {filtered.length === 0 ? (
-        <TableEmptyState>
-          <EmptyStateIcon icon={FaCircleInfo} color="blue" />
-          <EmptyStateText
-            title="No parking positions match your search."
-            paragraph="Try a different name or terminal."
-          />
-          <Button color="light" className="mx-auto w-fit cursor-pointer" onClick={() => setSearch("")}>
-            Clear search
-          </Button>
-        </TableEmptyState>
-      ) : null}
-
       {groups.map((group) => (
         <CollapsibleTerminalSection key={group.terminal?.id ?? "orphan"} terminal={group.terminal}>
           {group.parkingPositions.map((parkingPosition) => (
             <article
               key={parkingPosition.id}
-              className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+              className="@container overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
             >
-              <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+              <header className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-1.5 px-4 py-2.5 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-baseline gap-2">
                   <h4 className="font-mono font-bold text-gray-900 dark:text-white">{parkingPosition.name}</h4>
                   <Badge color="gray">{labelOf(gateLocationOptions, parkingPosition.location)}</Badge>
@@ -128,7 +77,7 @@ export function ParkingPositionList({ airportId, parkingPositions, terminals, on
                   </div>
                 )}
               </header>
-              <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
+              <dl className="grid grid-cols-1 @sm:grid-cols-2 @xl:grid-cols-3 gap-x-4 gap-y-1.5 px-4 py-3 text-sm">
                 <Row label="Bridge" value={labelOf(bridgeOptions, parkingPosition.bridge)} />
                 <Row label="Stairs" value={labelOf(stairsOptions, parkingPosition.stairs)} />
                 <Row label="Spot" value={labelOf(parkingSpotTypeOptions, parkingPosition.spotType)} />

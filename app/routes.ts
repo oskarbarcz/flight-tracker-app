@@ -71,8 +71,8 @@ export default [
       route("airports", "routes/operations/airports/AirportsListRoute.tsx"),
       route("airports/new", "routes/operations/airports/CreateAirportRoute.tsx"),
       route("airports/:id/edit", "routes/operations/airports/EditAirportRoute.tsx"),
+      route("airports/:id", "routes/operations/airports/AirportIndexRoute.tsx"),
       layout("routes/operations/airports/AirportLayout.tsx", [
-        route("airports/:id/overview", "routes/operations/airports/AirportOverviewRoute.tsx"),
         route("airports/:id/terminals", "routes/operations/airports/AirportTerminalsRoute.tsx"),
         route("airports/:id/parking-positions", "routes/operations/airports/AirportParkingPositionsRoute.tsx"),
         route("airports/:id/gates", "routes/operations/airports/AirportGatesRoute.tsx"),

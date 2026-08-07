@@ -25,6 +25,17 @@ export type AirportMapLayer = "shape" | "terminals" | "parkingPositions" | "gate
 
 const ALL_LAYERS: AirportMapLayer[] = ["shape", "terminals", "parkingPositions", "gates", "runways"];
 
+const NO_LOCATION_EXTENT_METERS = 4000;
+const MIN_FIT_EXTENT_METERS = 700;
+
+function withMinimumExtent(points: L.LatLngTuple[]): L.LatLngBounds {
+  const fitted = L.latLngBounds(points);
+  if (fitted.getNorthEast().distanceTo(fitted.getSouthWest()) >= MIN_FIT_EXTENT_METERS) {
+    return fitted;
+  }
+  return fitted.getCenter().toBounds(MIN_FIT_EXTENT_METERS);
+}
+
 type Props = {
   airport: Airport;
   runways: Runway[];
@@ -32,6 +43,7 @@ type Props = {
   parkingPositions: ParkingPosition[];
   gates: Gate[];
   visibleLayers?: AirportMapLayer[];
+  title?: string;
 };
 
 export function AirportLocationMap({
@@ -41,6 +53,7 @@ export function AirportLocationMap({
   parkingPositions,
   gates,
   visibleLayers = ALL_LAYERS,
+  title,
 }: Props) {
   const shows = (layer: AirportMapLayer) => visibleLayers.includes(layer);
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
@@ -48,35 +61,43 @@ export function AirportLocationMap({
   const bounds = useMemo(() => {
     const points: L.LatLngTuple[] = [];
 
-    const lines = computeRunwayLines(runways);
-    for (const line of lines) {
-      points.push(...line.positions);
+    if (visibleLayers.includes("runways")) {
+      for (const line of computeRunwayLines(runways)) {
+        points.push(...line.positions);
+      }
     }
-    if (airport.shape) {
+    if (visibleLayers.includes("terminals")) {
+      for (const t of terminals) {
+        if (!t.shape) continue;
+        for (const p of t.shape) {
+          points.push([p.latitude, p.longitude]);
+        }
+      }
+    }
+    if (visibleLayers.includes("parkingPositions")) {
+      for (const p of parkingPositions) {
+        if (!p.coordinates) continue;
+        points.push([p.coordinates.latitude, p.coordinates.longitude]);
+      }
+    }
+    if (visibleLayers.includes("gates")) {
+      for (const g of gates) {
+        if (!g.coordinates) continue;
+        points.push([g.coordinates.latitude, g.coordinates.longitude]);
+      }
+    }
+
+    if (points.length === 0 && visibleLayers.includes("shape") && airport.shape) {
       for (const p of airport.shape) {
         points.push([p.latitude, p.longitude]);
       }
     }
-    for (const t of terminals) {
-      if (!t.shape) continue;
-      for (const p of t.shape) {
-        points.push([p.latitude, p.longitude]);
-      }
-    }
-    for (const p of parkingPositions) {
-      if (!p.coordinates) continue;
-      points.push([p.coordinates.latitude, p.coordinates.longitude]);
-    }
-    for (const g of gates) {
-      if (!g.coordinates) continue;
-      points.push([g.coordinates.latitude, g.coordinates.longitude]);
-    }
-
     if (points.length === 0) {
-      return L.latLng(airport.location.latitude, airport.location.longitude).toBounds(4000);
+      return L.latLng(airport.location.latitude, airport.location.longitude).toBounds(NO_LOCATION_EXTENT_METERS);
     }
-    return L.latLngBounds(points);
+    return withMinimumExtent(points);
   }, [
+    visibleLayers,
     runways,
     airport.shape,
     airport.location.latitude,
@@ -110,9 +131,13 @@ export function AirportLocationMap({
         </MapContainer>
 
         <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
-          <span className="font-mono text-sm font-bold text-gray-900 dark:text-gray-100">
-            {airport.icaoCode} · {airport.iataCode}
-          </span>
+          {title ? (
+            <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">{title}</span>
+          ) : (
+            <span className="font-mono text-sm font-bold text-gray-900 dark:text-gray-100">
+              {airport.icaoCode} · {airport.iataCode}
+            </span>
+          )}
         </MapTopBar>
       </div>
     </TransparentContainer>

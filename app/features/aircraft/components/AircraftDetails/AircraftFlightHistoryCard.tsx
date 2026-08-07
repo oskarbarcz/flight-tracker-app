@@ -41,7 +41,7 @@ function buildTimeline(history: FlightHistoryEntry[], repositions: AircraftRepos
 
 function AirportLink({ id, code, className }: { id: string; code: string; className?: string }) {
   return (
-    <Link to={`/airports/${id}/overview`} viewTransition className={`hover:text-primary-500 ${className ?? ""}`}>
+    <Link to={`/airports/${id}`} viewTransition className={`hover:text-primary-500 ${className ?? ""}`}>
       {code}
     </Link>
   );

@@ -24,19 +24,11 @@ export function FlightListElement({ flight }: Props) {
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2 font-mono text-lg font-bold text-gray-900 dark:text-white">
-          <Link
-            to={`/airports/${flight.departureAirport.id}/overview`}
-            viewTransition
-            className="hover:text-primary-500"
-          >
+          <Link to={`/airports/${flight.departureAirport.id}`} viewTransition className="hover:text-primary-500">
             {flight.departureAirport.iataCode}
           </Link>
           <FaArrowRight size="14" className="text-gray-500" />
-          <Link
-            to={`/airports/${flight.destinationAirport.id}/overview`}
-            viewTransition
-            className="hover:text-primary-500"
-          >
+          <Link to={`/airports/${flight.destinationAirport.id}`} viewTransition className="hover:text-primary-500">
             {flight.destinationAirport.iataCode}
           </Link>
         </div>
