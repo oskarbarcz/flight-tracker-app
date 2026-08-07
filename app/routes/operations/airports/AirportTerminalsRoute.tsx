@@ -1,38 +1,26 @@
-import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportTerminalsRoute";
-import { Button } from "flowbite-react";
-import React, { useEffect, useState } from "react";
-import { HiPlus } from "react-icons/hi";
-import { Link, useRevalidator } from "react-router";
+import React, { useState } from "react";
+import { useRevalidator } from "react-router";
 import { useToast } from "~/app-state/useToast";
+import { useAirportManagement } from "~/features/airport/components/Management/airportManagementContext";
 import type { Terminal } from "~/features/terminal";
 import { RemoveTerminalModal } from "~/features/terminal/components/RemoveTerminalModal";
 import { TerminalList } from "~/features/terminal/components/TerminalList";
 import { TerminalListEmptyState } from "~/features/terminal/components/TerminalListEmptyState";
-import { TerminalService } from "~/features/terminal/service";
 import { useApi } from "~/shared/api/useApi";
+import { NoFilterMatchesState } from "~/shared/ui/Filter/NoFilterMatchesState";
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const terminals = await new TerminalService().fetchAll(params.id);
-  return { terminals };
-}
-
-export default function AirportTerminalsRoute({ params, loaderData }: Route.ComponentProps) {
-  const { terminals: initialTerminals } = loaderData;
-  const [terminals, setTerminals] = useState<Terminal[]>(initialTerminals);
+export default function AirportTerminalsRoute() {
+  const { airport, terminals, isFiltered, clearFilter } = useAirportManagement();
   const [pendingRemove, setPendingRemove] = useState<Terminal | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const { terminalService } = useApi();
   const { error, success } = useToast();
   const revalidator = useRevalidator();
 
-  useEffect(() => {
-    setTerminals(initialTerminals);
-  }, [initialTerminals]);
-
   const handleRemove = async (terminal: Terminal) => {
     setIsRemoving(true);
     try {
-      await terminalService.remove(params.id, terminal.id);
+      await terminalService.remove(airport.id, terminal.id);
       success(`Terminal ${terminal.shortName} deleted.`);
       setPendingRemove(null);
       revalidator.revalidate();
@@ -43,27 +31,17 @@ export default function AirportTerminalsRoute({ params, loaderData }: Route.Comp
     }
   };
 
+  if (terminals.length === 0) {
+    return isFiltered ? (
+      <NoFilterMatchesState subject="terminals" onClear={clearFilter} />
+    ) : (
+      <TerminalListEmptyState airportId={airport.id} />
+    );
+  }
+
   return (
     <>
-      {terminals.length === 0 ? (
-        <TerminalListEmptyState airportId={params.id} />
-      ) : (
-        <div>
-          <div className="flex justify-end mb-3">
-            <Button
-              as={Link}
-              color="indigo"
-              size="sm"
-              className="space-x-1.5"
-              to={`/airports/${params.id}/terminals/new`}
-            >
-              <HiPlus />
-              <span>Add terminal</span>
-            </Button>
-          </div>
-          <TerminalList airportId={params.id} terminals={terminals} onDelete={setPendingRemove} />
-        </div>
-      )}
+      <TerminalList airportId={airport.id} terminals={terminals} onDelete={setPendingRemove} />
       {pendingRemove && (
         <RemoveTerminalModal
           terminal={pendingRemove}

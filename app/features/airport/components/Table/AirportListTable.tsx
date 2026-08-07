@@ -25,7 +25,7 @@ export function AirportListTable({ airports }: Props) {
         {airports.map((airport: Airport) => (
           <TableRow key={airport.id}>
             <TableCell className="text-lg font-bold font-mono text-gray-900 dark:text-white">
-              <Link to={`/airports/${airport.id}/overview`} viewTransition className="hover:text-primary-500">
+              <Link to={`/airports/${airport.id}`} viewTransition className="hover:text-primary-500">
                 {airport.iataCode}
               </Link>
             </TableCell>
@@ -39,7 +39,7 @@ export function AirportListTable({ airports }: Props) {
               <FormattedTimezoneTime date={new Date()} timezone={airport.timezone} />
             </TableCell>
             <TableCell>
-              <Link className="block text-primary-500 font-bold" to={`/airports/${airport.id}/overview`} viewTransition>
+              <Link className="block text-primary-500 font-bold" to={`/airports/${airport.id}`} viewTransition>
                 View
               </Link>
             </TableCell>

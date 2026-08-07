@@ -38,7 +38,7 @@ export default function EditAirportRoute() {
     try {
       const updated = formDataToApiFormat(values);
       await airportService.update(airport.id, updated);
-      navigate(`/airports/${airport.id}/overview`, { viewTransition: true });
+      navigate(`/airports/${airport.id}`, { viewTransition: true });
     } catch (err) {
       handleFormikApiError<CreateAirportFormData>(err, setErrors, error, "Failed to update airport.");
     } finally {

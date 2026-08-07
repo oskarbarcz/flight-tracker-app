@@ -133,6 +133,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       field: {
         input: {
           sizes: {
+            sm: "h-9 p-2 sm:text-xs",
             md: "p-2.5 text-base sm:text-sm",
           },
           colors: {

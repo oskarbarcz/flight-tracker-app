@@ -5,11 +5,13 @@ import type { Terminal } from "~/features/terminal";
 
 type Props = {
   terminal: Terminal | null;
+  countLabel?: string;
+  defaultCollapsed?: boolean;
   children: React.ReactNode;
 };
 
-export function CollapsibleTerminalSection({ terminal, children }: Props) {
-  const [collapsed, setCollapsed] = useState(false);
+export function CollapsibleTerminalSection({ terminal, countLabel, defaultCollapsed = false, children }: Props) {
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
 
   return (
     <section className="space-y-2">
@@ -17,7 +19,7 @@ export function CollapsibleTerminalSection({ terminal, children }: Props) {
         type="button"
         onClick={() => setCollapsed((value) => !value)}
         aria-expanded={!collapsed}
-        className="flex w-full items-baseline gap-2 px-1 text-left cursor-pointer"
+        className="flex w-full cursor-pointer items-baseline gap-2 px-1 text-left"
       >
         <HiChevronDown
           className={twMerge(
@@ -25,8 +27,16 @@ export function CollapsibleTerminalSection({ terminal, children }: Props) {
             collapsed && "-rotate-90",
           )}
         />
-        <h3 className="font-mono font-bold text-gray-900 dark:text-white">{terminal?.shortName ?? "Unassigned"}</h3>
-        {terminal ? <span className="text-sm text-gray-500">{terminal.fullName}</span> : null}
+        <h3 className="shrink-0 font-mono text-base font-bold text-gray-900 dark:text-white">
+          {terminal?.shortName ?? "Unassigned"}
+        </h3>
+        {terminal ? (
+          <>
+            <span className="h-4 w-px shrink-0 self-center bg-gray-300 dark:bg-gray-700" />
+            <span className="truncate text-sm text-gray-500">{terminal.fullName}</span>
+          </>
+        ) : null}
+        {countLabel ? <span className="ms-auto shrink-0 text-sm text-gray-500">{countLabel}</span> : null}
       </button>
       {collapsed ? null : <div className="space-y-2">{children}</div>}
     </section>

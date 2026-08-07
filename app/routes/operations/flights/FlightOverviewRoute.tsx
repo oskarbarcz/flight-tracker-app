@@ -161,7 +161,7 @@ export default function FlightOverviewRoute() {
               </Button>
             )}
             <Link
-              to={`/airports/${flight.departureAirport.id}/overview`}
+              to={`/airports/${flight.departureAirport.id}`}
               viewTransition
               className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
             >
@@ -203,7 +203,7 @@ export default function FlightOverviewRoute() {
               </Button>
             )}
             <Link
-              to={`/airports/${flight.destinationAirport.id}/overview`}
+              to={`/airports/${flight.destinationAirport.id}`}
               viewTransition
               className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
             >

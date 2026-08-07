@@ -1,11 +1,18 @@
 import type { Route } from ".react-router/types/app/routes/pilot/airports/+types/AirportPreviewLayout";
-import React from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { LuChevronLeft } from "react-icons/lu";
 import { Link, Outlet, useLoaderData, useLocation } from "react-router";
-import { AirportHeader } from "~/features/airport/components/Header/AirportHeader";
-import { AirportPreviewTabs } from "~/features/airport/components/Library/AirportPreviewTabs";
+import type { AirportWeather } from "~/features/airport";
+import { AirportHeadline } from "~/features/airport/components/Header/AirportHeadline";
+import { AirportWeatherPanel } from "~/features/airport/components/Library/AirportWeatherPanel";
 import type { AirportPreviewContext } from "~/features/airport/components/Library/airportPreviewContext";
-import { resolveActiveTab } from "~/features/airport/components/Library/previewTabs";
+import { AirportSectionTabs } from "~/features/airport/components/Management/AirportSectionTabs";
+import { filterAirportSection } from "~/features/airport/components/Management/airportSectionFilters";
+import {
+  AIRPORT_LIBRARY_BASE,
+  resolveActiveSection,
+  sectionMapTitle,
+} from "~/features/airport/components/Management/airportSections";
 import { AirportLocationMap } from "~/features/airport/components/Overview/AirportLocationMap";
 import { AirportService } from "~/features/airport/service";
 import { GateService } from "~/features/gate/service";
@@ -13,28 +20,44 @@ import { ParkingPositionService } from "~/features/parking-position/service";
 import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { FilterInput } from "~/shared/ui/Filter/FilterInput";
+
+const EMPTY_WEATHER: AirportWeather = {
+  metar: null,
+  metarLastUpdate: null,
+  taf: null,
+  tafLastUpdate: null,
+  watch: false,
+};
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, runways, terminals, parkingPositions, gates] = await Promise.all([
+  const [airport, runways, terminals, parkingPositions, gates, weather] = await Promise.all([
     new AirportService().fetchById(params.id),
     new RunwayService().fetchAll(params.id),
     new TerminalService().fetchAll(params.id),
     new ParkingPositionService().fetchAll(params.id),
     new GateService().fetchAll(params.id),
+    new AirportService().fetchWeather(params.id).catch(() => EMPTY_WEATHER),
   ]);
-  return { airport, runways, terminals, parkingPositions, gates };
+  return { data: { airport, runways, terminals, parkingPositions, gates }, weather };
 }
 
 export default function AirportPreviewLayout() {
-  const { airport, runways, terminals, parkingPositions, gates } = useLoaderData<typeof clientLoader>();
+  const { data, weather } = useLoaderData<typeof clientLoader>();
   const { pathname } = useLocation();
-  usePageTitle(`${airport.iataCode} | Airports library`);
+  usePageTitle(`${data.airport.iataCode} | Airports library`);
 
-  const activeTab = resolveActiveTab(pathname, airport.id);
-  const context: AirportPreviewContext = { airport, runways, terminals, parkingPositions, gates };
+  const section = resolveActiveSection(pathname);
+  const [draft, setDraft] = useState({ section: section.key, filter: "" });
+  const filter = draft.section === section.key ? draft.filter : "";
+  const setFilter = (value: string) => setDraft({ section: section.key, filter: value });
+  const clearFilter = useCallback(() => setDraft((previous) => ({ ...previous, filter: "" })), []);
+
+  const visible = useMemo(() => filterAirportSection(section, data, filter), [section, data, filter]);
+  const context: AirportPreviewContext = { ...visible, isFiltered: filter !== "", clearFilter };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-6">
       <Link
         to="/airports-library"
         viewTransition
@@ -44,25 +67,31 @@ export default function AirportPreviewLayout() {
         Airports library
       </Link>
 
-      <AirportHeader airport={airport} />
+      <AirportHeadline airport={data.airport} readOnly />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
-        <div className="h-80 lg:sticky lg:top-0 lg:h-[36rem]">
-          <AirportLocationMap
-            airport={airport}
-            runways={runways}
-            terminals={terminals}
-            parkingPositions={parkingPositions}
-            gates={gates}
-            visibleLayers={activeTab.layers}
-          />
+      <AirportWeatherPanel weather={weather} />
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="min-w-0 space-y-4">
+          <AirportSectionTabs basePath={AIRPORT_LIBRARY_BASE} airportId={data.airport.id} activeSection={section} />
+          {data[section.key].length > 0 && (
+            <div className="w-full sm:max-w-xs">
+              <FilterInput value={filter} onChange={setFilter} placeholder={section.filterPlaceholder} />
+            </div>
+          )}
+          <Outlet context={context} />
         </div>
 
-        <div className="min-w-0">
-          <AirportPreviewTabs airportId={airport.id} />
-          <div className="mt-6">
-            <Outlet context={context} />
-          </div>
+        <div className="h-80 lg:sticky lg:top-0 lg:h-[36rem]">
+          <AirportLocationMap
+            airport={visible.airport}
+            runways={visible.runways}
+            terminals={visible.terminals}
+            parkingPositions={visible.parkingPositions}
+            gates={visible.gates}
+            visibleLayers={section.layers}
+            title={sectionMapTitle(section)}
+          />
         </div>
       </div>
     </div>
