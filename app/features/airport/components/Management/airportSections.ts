@@ -51,12 +51,15 @@ export function resolveActiveSection(pathname: string): AirportSection {
   return airportSections.find((section) => section.path === segment) ?? airportSections[0];
 }
 
-export function sectionPath(airportId: string, section: AirportSection): string {
-  return `/airports/${airportId}/${section.path}`;
+export const AIRPORT_MANAGEMENT_BASE = "/airports";
+export const AIRPORT_LIBRARY_BASE = "/airports-library";
+
+export function sectionPath(basePath: string, airportId: string, section: AirportSection): string {
+  return `${basePath}/${airportId}/${section.path}`;
 }
 
 export function sectionCreatePath(airportId: string, section: AirportSection): string {
-  return `${sectionPath(airportId, section)}/new`;
+  return `${sectionPath(AIRPORT_MANAGEMENT_BASE, airportId, section)}/new`;
 }
 
 export function sectionMapTitle(section: AirportSection): string {

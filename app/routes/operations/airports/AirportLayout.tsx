@@ -2,11 +2,15 @@ import type { Route } from ".react-router/types/app/routes/operations/airports/+
 import React, { useMemo, useState } from "react";
 import { Outlet, useLoaderData, useLocation } from "react-router";
 import { AirportHeadline } from "~/features/airport/components/Header/AirportHeadline";
-import { AirportManagementTabs } from "~/features/airport/components/Management/AirportManagementTabs";
+import { AirportSectionTabs } from "~/features/airport/components/Management/AirportSectionTabs";
 import { AirportSectionToolbar } from "~/features/airport/components/Management/AirportSectionToolbar";
 import type { AirportManagementContext } from "~/features/airport/components/Management/airportManagementContext";
 import { filterAirportSection } from "~/features/airport/components/Management/airportSectionFilters";
-import { resolveActiveSection, sectionMapTitle } from "~/features/airport/components/Management/airportSections";
+import {
+  AIRPORT_MANAGEMENT_BASE,
+  resolveActiveSection,
+  sectionMapTitle,
+} from "~/features/airport/components/Management/airportSections";
 import { AirportLocationMap } from "~/features/airport/components/Overview/AirportLocationMap";
 import { AirportService } from "~/features/airport/service";
 import { GateService } from "~/features/gate/service";
@@ -49,7 +53,7 @@ export default function AirportLayout() {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="min-w-0 space-y-4">
-          <AirportManagementTabs airportId={data.airport.id} activeSection={section} />
+          <AirportSectionTabs basePath={AIRPORT_MANAGEMENT_BASE} airportId={data.airport.id} activeSection={section} />
           {data[section.key].length > 0 && (
             <AirportSectionToolbar
               airportId={data.airport.id}

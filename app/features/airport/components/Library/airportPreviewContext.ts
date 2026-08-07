@@ -11,6 +11,8 @@ export type AirportPreviewContext = {
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
   gates: Gate[];
+  isFiltered: boolean;
+  clearFilter: () => void;
 };
 
 export function useAirportPreview(): AirportPreviewContext {
