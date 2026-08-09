@@ -212,6 +212,10 @@ export class Flight {
     return this.airports.find((airport) => airport.type === AirportOnFlightType.Destination) as AirportOnFlight;
   }
 
+  airportsOfTypes(types: AirportOnFlightType[]): AirportOnFlight[] {
+    return this.airports.filter((airport) => types.includes(airport.type));
+  }
+
   get orderedAirports(): AirportOnFlight[] {
     const isDeparture = (airport: AirportOnFlight) => airport.type === AirportOnFlightType.Departure;
     const isDestination = (airport: AirportOnFlight) => airport.type === AirportOnFlightType.Destination;
