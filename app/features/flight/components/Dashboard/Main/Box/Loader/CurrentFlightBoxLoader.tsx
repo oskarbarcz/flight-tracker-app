@@ -5,7 +5,7 @@ import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function CurrentFlightBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse">
+    <Container padding="condensed" className="hidden animate-pulse sm:flex">
       <ContainerTitle
         icon={FaPlane}
         title="Current flight"

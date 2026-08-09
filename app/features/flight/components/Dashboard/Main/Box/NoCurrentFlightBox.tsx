@@ -6,7 +6,7 @@ import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function NoCurrentFlightBox() {
   return (
-    <Container padding="condensed">
+    <Container padding="condensed" className="hidden sm:flex">
       <ContainerTitle icon={FaPlane} title="Current flight" />
       <ContainerEmptyState>
         <FaCircleInfo className="inline mr-2" />
