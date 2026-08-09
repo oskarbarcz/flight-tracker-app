@@ -6,6 +6,7 @@ import {
   type FlightOfp,
   type FlightPathElement,
   FlightPhase,
+  type FlightServiceType,
   type Loadsheet,
   type Schedule,
   type Tracking,
@@ -178,6 +179,13 @@ export class FlightService extends AbstractAuthorizedApiService {
   async updateTracking(id: string, tracking: Tracking): Promise<void> {
     return this.fetchWithAuth<void>(`/api/v1/flight/${id}/tracking`, {
       body: JSON.stringify({ tracking }),
+      method: "PATCH",
+    });
+  }
+
+  async updateServiceType(id: string, serviceType: FlightServiceType): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}`, {
+      body: JSON.stringify({ serviceType }),
       method: "PATCH",
     });
   }

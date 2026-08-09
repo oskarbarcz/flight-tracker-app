@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useLoaderData, useNavigate, useRevalidator } from "react-router";
 import { useDataRefresh } from "~/app-state/useDataRefresh";
 import { useToast } from "~/app-state/useToast";
-import { FlightSource, type Tracking } from "~/features/flight";
+import { type FlightServiceType, FlightSource, type Tracking } from "~/features/flight";
 import { EmergencyInProgressAlert } from "~/features/flight/components/Header/EmergencyInProgressAlert";
 import { FlightHeader } from "~/features/flight/components/Header/FlightHeader";
 import { FlightTabs } from "~/features/flight/components/Header/FlightTabs";
 import { ReleaseFlightModal } from "~/features/flight/components/Modal/ReleaseFlightModal";
 import { RemoveFlightModal } from "~/features/flight/components/Modal/RemoveFlightModal";
+import { UpdateServiceTypeModal } from "~/features/flight/components/Modal/UpdateServiceTypeModal";
 import { UpdateTrackingModal } from "~/features/flight/components/Modal/UpdateTrackingModal";
 import { TrackedFlightProvider, useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { FlightService } from "~/features/flight/service";
@@ -32,6 +33,7 @@ function FlightLayoutContent() {
   const [releasePending, setReleasePending] = useState(false);
   const [removePending, setRemovePending] = useState(false);
   const [trackingPending, setTrackingPending] = useState(false);
+  const [serviceTypePending, setServiceTypePending] = useState(false);
 
   usePageTitle(`${flight.flightNumberWithoutSpaces} | Flight`);
 
@@ -75,6 +77,17 @@ function FlightLayoutContent() {
     }
   };
 
+  const handleUpdateServiceType = async (flightId: string, serviceType: FlightServiceType) => {
+    try {
+      await flightService.updateServiceType(flightId, serviceType);
+      success("Flight service type updated.");
+      setServiceTypePending(false);
+      revalidator.revalidate();
+    } catch {
+      error("Failed to update flight service type.");
+    }
+  };
+
   return (
     <>
       {activeEmergency && (
@@ -88,6 +101,7 @@ function FlightLayoutContent() {
           onRelease={() => setReleasePending(true)}
           onRemove={() => setRemovePending(true)}
           onUpdateTracking={() => setTrackingPending(true)}
+          onUpdateServiceType={() => setServiceTypePending(true)}
         />
       </div>
       <FlightTabs
@@ -106,6 +120,13 @@ function FlightLayoutContent() {
       )}
       {trackingPending && (
         <UpdateTrackingModal flight={flight} update={handleUpdateTracking} cancel={() => setTrackingPending(false)} />
+      )}
+      {serviceTypePending && (
+        <UpdateServiceTypeModal
+          flight={flight}
+          update={handleUpdateServiceType}
+          cancel={() => setServiceTypePending(false)}
+        />
       )}
     </>
   );

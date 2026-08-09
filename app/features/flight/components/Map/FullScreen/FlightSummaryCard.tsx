@@ -116,7 +116,7 @@ export function FlightSummaryCard({ flight, path }: Props) {
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="font-mono text-base font-bold text-gray-900 dark:text-white">{flight.flightNumber}</span>
-            <StatusPill live={isLive} label={toHuman.flight.status.standard(flight.status)} />
+            <StatusPill live={isLive} label={toHuman.flight.status.standard(flight.status, flight.serviceType)} />
           </div>
           <div className="hidden sm:block">
             <EtaLine flight={flight} progress={progress} />

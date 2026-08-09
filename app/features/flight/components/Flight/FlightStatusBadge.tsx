@@ -1,6 +1,6 @@
 import { Badge } from "flowbite-react";
 import React from "react";
-import { FlightStatus } from "~/features/flight";
+import { type FlightServiceType, FlightStatus } from "~/features/flight";
 import { translateStatus } from "~/features/flight/i18n";
 
 type BadgeColor = "success" | "info" | "indigo" | "gray";
@@ -22,13 +22,14 @@ const statusColor: Record<FlightStatus, BadgeColor> = {
 
 type Props = {
   status: FlightStatus;
+  serviceType?: FlightServiceType;
   size?: "xs" | "sm";
 };
 
-export function FlightStatusBadge({ status, size = "xs" }: Props) {
+export function FlightStatusBadge({ status, serviceType, size = "xs" }: Props) {
   return (
     <Badge color={statusColor[status]} size={size}>
-      {translateStatus(status)}
+      {translateStatus(status, serviceType)}
     </Badge>
   );
 }

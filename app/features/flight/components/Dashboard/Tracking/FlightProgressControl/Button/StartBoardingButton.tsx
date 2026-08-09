@@ -15,7 +15,7 @@ export function StartBoardingButton({ disabled }: FlightProgressButtonProps) {
 
   return (
     <Button color="indigo" outline onClick={onClick} disabled={disabled}>
-      {toHuman.flight.status.next(flight.status)}
+      {toHuman.flight.status.next(flight.status, flight.serviceType)}
     </Button>
   );
 }

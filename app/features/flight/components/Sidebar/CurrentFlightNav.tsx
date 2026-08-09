@@ -3,11 +3,18 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link, useLocation } from "react-router";
 import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
-import type { Flight } from "~/features/flight";
+import { AirportOnFlightType, type Flight } from "~/features/flight";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useRotationForFlight } from "~/features/rotation/hooks/useRotationForFlight";
 import { toHuman } from "~/i18n/translate";
+import { SidebarAirportGroupLabel } from "~/shared/ui/Sidebar/Elements/SidebarAirportGroupLabel";
 import { SidebarAirportRow } from "~/shared/ui/Sidebar/Elements/SidebarAirportRow";
+
+const ALTERNATE_GROUPS: { label: string; types: AirportOnFlightType[] }[] = [
+  { label: "Enr altn", types: [AirportOnFlightType.EnrouteAlternate] },
+  { label: "Dest altn", types: [AirportOnFlightType.DestinationAlternate] },
+  { label: "Etops altn", types: [AirportOnFlightType.EtopsEntry, AirportOnFlightType.EtopsExit] },
+];
 
 export function CurrentFlightNav() {
   const { currentFlight, loading } = useCurrentFlight();
@@ -40,7 +47,7 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
         <span className="flex items-center justify-between gap-2">
           <span className="font-mono text-base font-bold text-indigo-500">{flight.flightNumber}</span>
           <Badge color="indigo" size="xs">
-            {toHuman.flight.status.short(flight.status)}
+            {toHuman.flight.status.short(flight.status, flight.serviceType)}
           </Badge>
         </span>
         <span className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-gray-700 dark:text-gray-200">
@@ -75,9 +82,30 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
       <div className="border-t border-gray-200 py-2 dark:border-gray-700">
         <span className="mb-1 block px-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Airports</span>
         <div className="flex flex-col gap-0.5">
-          {flight.orderedAirports.map((airport) => (
+          {[flight.departureAirport, flight.destinationAirport].map((airport) => (
             <SidebarAirportRow key={airport.id} id={airport.id} iataCode={airport.iataCode} name={airport.name} />
           ))}
+          {ALTERNATE_GROUPS.map(({ label, types }) => {
+            const alternates = flight.airportsOfTypes(types);
+
+            if (alternates.length === 0) {
+              return null;
+            }
+
+            return (
+              <React.Fragment key={label}>
+                <SidebarAirportGroupLabel label={label} />
+                {alternates.map((airport) => (
+                  <SidebarAirportRow
+                    key={`${airport.type}-${airport.id}`}
+                    id={airport.id}
+                    iataCode={airport.iataCode}
+                    name={airport.name}
+                  />
+                ))}
+              </React.Fragment>
+            );
+          })}
         </div>
       </div>
     </div>

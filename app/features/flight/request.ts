@@ -3,6 +3,7 @@ import type {
   AirportOnFlight,
   AirportOnFlightType,
   FlightCrew,
+  FlightServiceType,
   FlightStatus,
   FuelBreakdown,
   Pilot,
@@ -31,6 +32,7 @@ export type CreateFlightRequest = Omit<
   | "arrivalRunwayId"
   | "hasFlightPath"
   | "actualFuelBurned"
+  | "serviceType"
 > & {
   alternateAirports: AlternateAirportRequest[];
 };
@@ -67,6 +69,7 @@ export type ApiFlightResponse = {
   operator: Operator;
   pilot: Pilot | null;
   source: string;
+  serviceType: FlightServiceType;
   timesheet: {
     scheduled: {
       offBlockTime: string;

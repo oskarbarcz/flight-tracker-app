@@ -3,11 +3,13 @@ import { FlightEventsTimeline } from "~/features/flight/components/Overview/Flig
 import { useHistoryFlight } from "~/features/flight/hooks/useHistoryFlight";
 
 export function HistoryEventsTab() {
-  const { events } = useHistoryFlight();
+  const { flight, events } = useHistoryFlight();
+
+  if (!flight) return null;
 
   return (
     <div className="mt-4">
-      <FlightEventsTimeline events={events} />
+      <FlightEventsTimeline events={events} serviceType={flight.serviceType} />
     </div>
   );
 }

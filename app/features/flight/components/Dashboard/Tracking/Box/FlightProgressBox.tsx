@@ -29,7 +29,7 @@ export function FlightProgressBox() {
       <div>
         <FieldLabel>Phase</FieldLabel>
         <p className="mt-0.5 text-xl font-semibold text-gray-900 dark:text-gray-100">
-          {toHuman.flight.status.standard(flight.status)}
+          {toHuman.flight.status.standard(flight.status, flight.serviceType)}
         </p>
       </div>
       <LifecycleTrack status={flight.status} />
