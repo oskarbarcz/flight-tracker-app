@@ -7,6 +7,10 @@ export class OperatorService extends AbstractAuthorizedApiService {
     return this.fetchWithAuth<Operator[]>("/api/v1/operator");
   }
 
+  async fetchRecent() {
+    return this.fetchWithAuth<Operator[]>("/api/v1/operator?recent-only=true");
+  }
+
   async fetchById(id: string) {
     return this.fetchWithAuth<Operator>(`/api/v1/operator/${id}`);
   }
