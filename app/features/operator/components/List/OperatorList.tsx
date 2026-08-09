@@ -1,11 +1,13 @@
-import { Button, Pagination, Select, TextInput } from "flowbite-react";
+import { Button, Pagination, Select } from "flowbite-react";
 import React, { useMemo, useState } from "react";
-import { FaCircleInfo, FaMagnifyingGlass } from "react-icons/fa6";
-import { twMerge } from "tailwind-merge";
+import { FaCircleInfo } from "react-icons/fa6";
+import { LuX } from "react-icons/lu";
 import { allContinents, type Continent } from "~/features/airport";
 import { Alliance, continentLabel, type Operator } from "~/features/operator";
-import { allianceDot } from "~/features/operator/components/List/allianceStyle";
 import { OperatorCard } from "~/features/operator/components/List/OperatorCard";
+import { OperatorRecentCard } from "~/features/operator/components/List/OperatorRecentCard";
+import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
+import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 import { EmptyStateIcon } from "~/shared/ui/Table/LoadingStates/EmptyStateIcon";
 import { EmptyStateText } from "~/shared/ui/Table/LoadingStates/EmptyStateText";
 import { TableEmptyState } from "~/shared/ui/Table/LoadingStates/TableEmptyState";
@@ -15,13 +17,13 @@ const PAGE_SIZE = 24;
 type AllianceFilter = "all" | "unaligned" | Alliance;
 type ContinentFilter = "all" | Continent;
 
-const ALLIANCE_CHIPS: { value: AllianceFilter; label: string; dot: string | null }[] = [
-  { value: "all", label: "All alliances", dot: null },
-  { value: Alliance.StarAlliance, label: "Star Alliance", dot: allianceDot(Alliance.StarAlliance) },
-  { value: Alliance.SkyTeam, label: "SkyTeam", dot: allianceDot(Alliance.SkyTeam) },
-  { value: Alliance.Oneworld, label: "Oneworld", dot: allianceDot(Alliance.Oneworld) },
-  { value: Alliance.VanillaAlliance, label: "Vanilla Alliance", dot: allianceDot(Alliance.VanillaAlliance) },
-  { value: "unaligned", label: "Unaligned", dot: allianceDot(null) },
+const ALLIANCE_OPTIONS: { value: AllianceFilter; label: string }[] = [
+  { value: "all", label: "All alliances" },
+  { value: Alliance.StarAlliance, label: "Star Alliance" },
+  { value: Alliance.SkyTeam, label: "SkyTeam" },
+  { value: Alliance.Oneworld, label: "Oneworld" },
+  { value: Alliance.VanillaAlliance, label: "Vanilla Alliance" },
+  { value: "unaligned", label: "Unaligned" },
 ];
 
 function matchesSearch(operator: Operator, query: string): boolean {
@@ -32,17 +34,29 @@ function matchesSearch(operator: Operator, query: string): boolean {
 
 type Props = {
   operators: Operator[];
+  recent: Operator[];
 };
 
-export function OperatorList({ operators }: Props) {
+export function OperatorList({ operators, recent }: Props) {
   const [search, setSearch] = useState("");
   const [alliance, setAlliance] = useState<AllianceFilter>("all");
   const [continent, setContinent] = useState<ContinentFilter>("all");
   const [page, setPage] = useState(1);
 
+  const isFiltering = search.trim() !== "" || alliance !== "all" || continent !== "all";
+  const showRecent = recent.length > 0 && !isFiltering;
+
+  const listed = useMemo(() => {
+    if (!showRecent) {
+      return operators;
+    }
+    const recentIds = new Set(recent.map((operator) => operator.id));
+    return operators.filter((operator) => !recentIds.has(operator.id));
+  }, [operators, recent, showRecent]);
+
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return operators.filter((operator) => {
+    return listed.filter((operator) => {
       if (query !== "" && !matchesSearch(operator, query)) {
         return false;
       }
@@ -57,7 +71,7 @@ export function OperatorList({ operators }: Props) {
       }
       return true;
     });
-  }, [operators, search, alliance, continent]);
+  }, [listed, search, alliance, continent]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const currentPage = Math.min(page, Math.max(totalPages, 1));
@@ -80,53 +94,74 @@ export function OperatorList({ operators }: Props) {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-5 flex flex-wrap items-center gap-2.5">
-        <div className="w-full sm:w-72">
-          <TextInput
-            icon={FaMagnifyingGlass}
-            placeholder="Search by name, IATA or ICAO code"
-            value={search}
-            onChange={(event) => resetPage(setSearch)(event.target.value)}
-          />
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="w-full sm:w-64">
+          <FilterInput value={search} onChange={resetPage(setSearch)} placeholder="Search name, IATA or ICAO" />
         </div>
-        {ALLIANCE_CHIPS.map((chip) => (
-          <button
-            key={chip.value}
-            type="button"
-            onClick={() => resetPage(setAlliance)(chip.value)}
-            className={twMerge(
-              "inline-flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-1.5 text-sm transition",
-              alliance === chip.value
-                ? "border-indigo-500 bg-indigo-500 text-white"
-                : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700",
-            )}
+
+        <div className="flex flex-wrap items-center gap-3 sm:ms-auto">
+          <Select
+            sizing="sm"
+            className="w-44"
+            aria-label="Filter by alliance"
+            value={alliance}
+            onChange={(event) => resetPage(setAlliance)(event.target.value as AllianceFilter)}
           >
-            {chip.dot && (
-              <span className={twMerge("size-2 rounded-full", alliance === chip.value ? "bg-white/80" : chip.dot)} />
-            )}
-            {chip.label}
-          </button>
-        ))}
-        <Select
-          className="w-44 sm:ml-auto"
-          value={continent}
-          onChange={(event) => resetPage(setContinent)(event.target.value as ContinentFilter)}
-        >
-          <option value="all">All continents</option>
-          {allContinents().map((value) => (
-            <option key={value} value={value}>
-              {continentLabel(value)}
-            </option>
-          ))}
-        </Select>
+            {ALLIANCE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+
+          <Select
+            sizing="sm"
+            className="w-44"
+            aria-label="Filter by continent"
+            value={continent}
+            onChange={(event) => resetPage(setContinent)(event.target.value as ContinentFilter)}
+          >
+            <option value="all">All continents</option>
+            {allContinents().map((value) => (
+              <option key={value} value={value}>
+                {continentLabel(value)}
+              </option>
+            ))}
+          </Select>
+
+          {isFiltering && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-gray-500 transition-colors hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <LuX className="size-3.5" />
+              Clear
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="mb-3 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-        <span>
-          {filtered.length} {filtered.length === 1 ? "operator" : "operators"}
-        </span>
+      {showRecent && (
+        <section className="mb-6">
+          <FieldLabel className="mb-2">Recently used</FieldLabel>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {recent.map((operator) => (
+              <OperatorRecentCard key={operator.id} operator={operator} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div className="mb-3 flex items-baseline justify-between gap-3">
+        <FieldLabel>
+          {isFiltering ? "Matching operators" : "All operators"}
+          <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-400 dark:text-gray-500">
+            {filtered.length}
+          </span>
+        </FieldLabel>
         {totalPages > 1 && (
-          <span className="font-mono text-xs tabular-nums">
+          <span className="font-mono text-xs tabular-nums text-gray-500 dark:text-gray-400">
             Showing {start + 1}–{Math.min(start + PAGE_SIZE, filtered.length)} of {filtered.length}
           </span>
         )}
