@@ -12,7 +12,7 @@ export function ReportArrivalButton({ disabled }: FlightProgressButtonProps) {
 
   return (
     <Button color="indigo" outline onClick={reportArrival} disabled={disabled}>
-      {toHuman.flight.status.next(flight.status)}
+      {toHuman.flight.status.next(flight.status, flight.serviceType)}
     </Button>
   );
 }

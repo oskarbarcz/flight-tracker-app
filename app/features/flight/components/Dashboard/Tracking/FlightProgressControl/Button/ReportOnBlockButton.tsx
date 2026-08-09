@@ -15,7 +15,7 @@ export function ReportOnBlockButton({ disabled }: FlightProgressButtonProps) {
   };
   return (
     <Button onClick={onClick} outline color="indigo" disabled={disabled}>
-      {toHuman.flight.status.next(flight.status)}
+      {toHuman.flight.status.next(flight.status, flight.serviceType)}
     </Button>
   );
 }

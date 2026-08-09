@@ -47,7 +47,7 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
         <span className="flex items-center justify-between gap-2">
           <span className="font-mono text-base font-bold text-indigo-500">{flight.flightNumber}</span>
           <Badge color="indigo" size="xs">
-            {toHuman.flight.status.short(flight.status)}
+            {toHuman.flight.status.short(flight.status, flight.serviceType)}
           </Badge>
         </span>
         <span className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-gray-700 dark:text-gray-200">

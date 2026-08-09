@@ -26,7 +26,7 @@ export function LiveFlightListItem({ flight }: Props) {
         </div>
       </div>
       <div className="flex shrink-0 flex-col items-end gap-1">
-        <FlightStatusBadge status={flight.status} size="sm" />
+        <FlightStatusBadge status={flight.status} serviceType={flight.serviceType} size="sm" />
         {flight.hasActiveEmergency && (
           <span className="inline-flex items-center gap-1 rounded-md bg-red-600 px-2 py-0.5 text-xs font-bold uppercase tracking-widest text-white">
             <FaTriangleExclamation />

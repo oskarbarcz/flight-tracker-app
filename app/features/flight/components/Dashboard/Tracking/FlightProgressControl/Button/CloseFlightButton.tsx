@@ -18,7 +18,7 @@ export function CloseFlightButton({ disabled }: FlightProgressButtonProps) {
 
   const button = (
     <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled || isBlocked}>
-      {toHuman.flight.status.next(flight.status)}
+      {toHuman.flight.status.next(flight.status, flight.serviceType)}
     </Button>
   );
 

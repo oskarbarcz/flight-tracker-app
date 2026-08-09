@@ -1,11 +1,12 @@
 import { Button, Tooltip } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { FaBox, FaUserGroup } from "react-icons/fa6";
 import { HiEye, HiOutlineTrash } from "react-icons/hi";
 import { IoIosLink } from "react-icons/io";
 import { LuExternalLink } from "react-icons/lu";
 import { useToast } from "~/app-state/useToast";
-import { type Flight, FlightSource, FlightStatus, Tracking } from "~/features/flight";
+import { type Flight, FlightServiceType, FlightSource, FlightStatus, Tracking } from "~/features/flight";
 import { toHuman } from "~/i18n/translate";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
@@ -16,12 +17,15 @@ type Props = {
   onRelease: () => void;
   onRemove: () => void;
   onUpdateTracking: () => void;
+  onUpdateServiceType: () => void;
 };
 
-export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: Props) {
+export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking, onUpdateServiceType }: Props) {
   const { success } = useToast();
   const canRelease = flight.status === FlightStatus.Created && flight.loadsheets.preliminary !== null;
   const canRemove = flight.status === FlightStatus.Created;
+  const canUpdateServiceType = flight.status === FlightStatus.Created;
+  const ServiceTypeIcon = flight.serviceType === FlightServiceType.Cargo ? FaBox : FaUserGroup;
   const isTrackingDisabled = flight.tracking === Tracking.Disabled;
 
   const handleCopyTrackingLink = () => {
@@ -44,7 +48,7 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
               {flight.flightNumberWithoutSpaces}
             </h1>
             <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-              {toHuman.flight.status.standard(flight.status)}
+              {toHuman.flight.status.standard(flight.status, flight.serviceType)}
             </span>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-gray-700 dark:text-gray-300">
@@ -64,6 +68,19 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
             <Button color="indigo" outline size="sm" onClick={onRelease}>
               Release for pilot
             </Button>
+          )}
+          {canUpdateServiceType && (
+            <Tooltip content="Change service type">
+              <Button
+                color="light"
+                size="sm"
+                onClick={onUpdateServiceType}
+                aria-label="Change service type"
+                className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+              >
+                <ServiceTypeIcon className="size-4" />
+              </Button>
+            </Tooltip>
           )}
           <Tooltip content="Change tracking visibility">
             <Button
@@ -116,7 +133,7 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
         </div>
       </div>
 
-      <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-gray-200 pt-4 sm:grid-cols-5 dark:border-gray-800">
+      <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-gray-200 pt-4 sm:grid-cols-3 lg:grid-cols-6 dark:border-gray-800">
         <Stat label="Aircraft" value={flight.aircraft.airframe.name} />
         <Stat label="Registration" value={flight.aircraft.registration} mono />
         <Stat
@@ -129,6 +146,7 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking }: 
             </>
           }
         />
+        <Stat label="Service" value={<span className="capitalize">{flight.serviceType}</span>} />
         <Stat label="Tracking" value={<span className="capitalize">{flight.tracking}</span>} />
         <Stat label="Source" value={flight.source === FlightSource.SimBrief ? "SimBrief" : "Manual"} />
       </dl>

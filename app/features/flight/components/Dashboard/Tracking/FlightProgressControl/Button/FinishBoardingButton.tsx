@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
-import type { Loadsheet } from "~/features/flight";
+import { FlightServiceType, type Loadsheet } from "~/features/flight";
 import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { UpdateFinalLoadsheetModal } from "~/features/flight/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
@@ -11,13 +11,14 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   const { flight, finishBoarding } = useTrackedFlight();
   const { error } = useToast();
   const [showModal, setShowModal] = useState(false);
+  const handlingNoun = flight?.serviceType === FlightServiceType.Cargo ? "loading" : "boarding";
 
   const handleFinishBoarding = async (loadsheet: Loadsheet): Promise<void> => {
     await finishBoarding(loadsheet)
       .then(() => setShowModal(false))
       .catch((err: unknown) => {
         console.error("Failed to finish boarding", err);
-        error("Could not finish boarding. Please try again.");
+        error(`Could not finish ${handlingNoun}. Please try again.`);
       });
   };
 
@@ -28,7 +29,7 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   return (
     <>
       <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
-        {toHuman.flight.status.next(flight.status)}
+        {toHuman.flight.status.next(flight.status, flight.serviceType)}
       </Button>
       {showModal && (
         <UpdateFinalLoadsheetModal flight={flight} update={handleFinishBoarding} cancel={() => setShowModal(false)} />

@@ -58,7 +58,7 @@ export function CurrentFlightBox({ flight }: Props) {
         title="Current flight"
         actions={
           <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs uppercase text-indigo-500 dark:bg-indigo-900 dark:text-indigo-300">
-            {toHuman.flight.status.short(flight.status)}
+            {toHuman.flight.status.short(flight.status, flight.serviceType)}
           </span>
         }
       />

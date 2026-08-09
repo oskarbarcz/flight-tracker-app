@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { FaListCheck } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
-import { type FlightEvent, FlightEventScope, isDiversionEvent, isEmergencyEvent } from "~/features/flight";
+import {
+  type FlightEvent,
+  FlightEventScope,
+  type FlightServiceType,
+  isDiversionEvent,
+  isEmergencyEvent,
+} from "~/features/flight";
 import { UserName } from "~/features/user/components/UserName";
 import { toHuman } from "~/i18n/translate";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
@@ -11,6 +17,7 @@ import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   events: FlightEvent[];
+  serviceType: FlightServiceType;
 };
 
 const SCOPE_FILTERS: { scope: FlightEventScope; label: string }[] = [
@@ -25,7 +32,7 @@ const SCOPE_DOT: Record<FlightEventScope, string> = {
   [FlightEventScope.System]: "bg-gray-400 ring-gray-200 dark:bg-gray-500 dark:ring-gray-700",
 };
 
-export function FlightEventsTimeline({ events }: Props) {
+export function FlightEventsTimeline({ events, serviceType }: Props) {
   const [activeScopes, setActiveScopes] = useState<Set<FlightEventScope>>(
     new Set([FlightEventScope.User, FlightEventScope.Operations, FlightEventScope.System]),
   );
@@ -95,7 +102,7 @@ export function FlightEventsTimeline({ events }: Props) {
                     : "text-sm font-medium text-gray-900 dark:text-white"
                 }
               >
-                {toHuman.flight.eventType(event.type)}
+                {toHuman.flight.eventType(event.type, serviceType)}
               </div>
               <div className="mt-0.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-xs text-gray-500 dark:text-gray-400">
                 <span className="font-mono">

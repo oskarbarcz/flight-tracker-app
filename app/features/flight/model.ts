@@ -154,12 +154,18 @@ export enum FlightSource {
   SimBrief = "simbrief",
 }
 
+export enum FlightServiceType {
+  Passenger = "passenger",
+  Cargo = "cargo",
+}
+
 export class Flight {
   id: string;
   flightNumber: string;
   callsign: string;
   tracking: Tracking;
   source: FlightSource;
+  serviceType: FlightServiceType;
   airports: AirportOnFlight[];
   aircraft: Aircraft;
   operator: Operator;
@@ -181,6 +187,7 @@ export class Flight {
     this.id = flight.id;
     this.flightNumber = flight.flightNumber;
     this.source = flight.source as FlightSource;
+    this.serviceType = flight.serviceType;
     this.callsign = flight.callsign;
     this.airports = flight.airports;
     this.tracking = flight.tracking;

@@ -42,7 +42,7 @@ export default function FlightTimesheetRoute() {
 
   return (
     <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-[22rem_1fr]">
-      <FlightEventsTimeline events={events} />
+      <FlightEventsTimeline events={events} serviceType={flight.serviceType} />
 
       <div className="flex flex-col gap-3">
         <TimesheetCard
