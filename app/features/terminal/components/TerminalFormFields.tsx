@@ -1,6 +1,7 @@
 import React from "react";
 import type { Coordinates } from "~/shared/models/coordinates";
-import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { FormFieldGroup } from "~/shared/ui/Form/FormFieldGroup";
+import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
 import { PolygonShapePicker } from "~/shared/ui/Form/MapPicker/PolygonShapePicker";
 
@@ -10,30 +11,44 @@ type Props = {
 
 export function TerminalFormFields({ airportLocation }: Props) {
   return (
-    <div className="flex flex-col">
-      <div className="flex gap-4">
-        <div className="basis-1/3">
-          <ManagedInputBlock field="shortName" label="Short name" />
-        </div>
-        <div className="basis-2/3">
-          <ManagedInputBlock field="fullName" label="Full name" />
-        </div>
+    <div className="grid gap-6 lg:grid-cols-8">
+      <div className="flex flex-col gap-6 lg:col-span-3">
+        <FormFieldGroup label="Identity">
+          <div className="grid grid-cols-12 gap-4">
+            <ManagedFloatingInputBlock className="col-span-4" field="shortName" label="Short name" />
+            <ManagedFloatingInputBlock className="col-span-8" field="fullName" label="Full name" />
+          </div>
+        </FormFieldGroup>
+
+        <FormFieldGroup label="Operations">
+          <div className="grid grid-cols-12 gap-4">
+            <ManagedFloatingInputBlock
+              className="col-span-12"
+              field="averageTaxiTime"
+              label="Average taxi time"
+              unit="min"
+              type="number"
+            />
+            <ManagedFloatingInputBlock
+              className="col-span-12"
+              field="operatorCodes"
+              label="Operator ICAO codes"
+              required={false}
+            />
+            <ManagedTextareaBlock
+              className="col-span-12 mb-0"
+              field="text"
+              label="Briefing notes"
+              rows={4}
+              required={false}
+              placeholder="Free-text notes shown to crews."
+            />
+          </div>
+        </FormFieldGroup>
       </div>
 
-      <ManagedInputBlock field="averageTaxiTime" label="Average taxi time (min)" type="number" />
-
-      <ManagedInputBlock field="operatorCodes" label="Operator ICAO codes (comma separated)" required={false} />
-
-      <ManagedTextareaBlock
-        field="text"
-        label="Briefing notes"
-        rows={4}
-        required={false}
-        placeholder="Free-text notes shown to crews."
-      />
-
       <PolygonShapePicker
-        className="mb-4"
+        className="lg:col-span-5"
         field="shape"
         airportLocation={airportLocation}
         label="Footprint"

@@ -51,6 +51,7 @@ export function EditGateModal({ airport, gate, terminals, parkingPositions, clos
       validationSchema={createGateSchema}
       onSubmit={handleSubmit}
       close={close}
+      size="4xl"
     >
       <GateFormFields airportLocation={airport.location} terminals={terminals} parkingPositions={parkingPositions} />
     </FormModal>

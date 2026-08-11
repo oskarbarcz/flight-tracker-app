@@ -9,6 +9,7 @@ import { MapWorldConstraint } from "~/features/flight/components/Map/Element/Map
 import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/shared/lib/polygon";
 import type { Coordinates } from "~/shared/models/coordinates";
 import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
+import { MAP_CONTROL_CLASS } from "~/shared/ui/Form/MapPicker/mapControl";
 
 type Props = {
   field: string;
@@ -24,8 +25,6 @@ const TONE_STYLE = {
 };
 
 const ERROR_FLASH_MS = 3000;
-
-const SHAPE_CONTROL_CLASS = "h-6 px-2 py-0 text-[11px]";
 
 function round6(value: number): number {
   return Math.round(value * 1_000_000) / 1_000_000;
@@ -167,7 +166,7 @@ export function PolygonShapePicker({ field, airportLocation, label, tone, classN
         </span>
         <div className="flex items-center gap-2">
           <Button
-            className={SHAPE_CONTROL_CLASS}
+            className={MAP_CONTROL_CLASS}
             color="gray"
             size="xs"
             type="button"
@@ -177,7 +176,7 @@ export function PolygonShapePicker({ field, airportLocation, label, tone, classN
             Undo last
           </Button>
           <Button
-            className={SHAPE_CONTROL_CLASS}
+            className={MAP_CONTROL_CLASS}
             color="gray"
             size="xs"
             type="button"

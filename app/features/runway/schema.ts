@@ -1,29 +1,7 @@
 import { number, type ObjectSchema, object, string } from "yup";
 import { LightingType, SurfaceType } from "~/features/runway";
 import type { CreateRunwayFormData } from "~/features/runway/form";
-
-const optionalIntegerString = (min?: number, max?: number) => {
-  const rangeMessage =
-    min !== undefined && max !== undefined
-      ? `Must be a whole number between ${min} and ${max}`
-      : min !== undefined
-        ? `Must be a whole number ${min} or greater`
-        : "Must be a whole number";
-
-  return string()
-    .ensure()
-    .test("optional-integer", rangeMessage, (value) => {
-      if (value === "") return true;
-      const n = Number(value);
-      if (!Number.isInteger(n)) return false;
-      if (min !== undefined && n < min) return false;
-      if (max !== undefined && n > max) return false;
-      return true;
-    });
-};
-
-const requiredIntegerString = (missingMessage: string, min?: number, max?: number) =>
-  optionalIntegerString(min, max).required(missingMessage);
+import { optionalIntegerString, requiredIntegerString } from "~/shared/validator/integerString.schema";
 
 export const createRunwaySchema: ObjectSchema<CreateRunwayFormData> = object().shape({
   designator: string()

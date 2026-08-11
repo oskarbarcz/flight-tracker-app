@@ -49,6 +49,7 @@ export function EditParkingPositionModal({ airport, parkingPosition, terminals, 
       validationSchema={createParkingPositionSchema}
       onSubmit={handleSubmit}
       close={close}
+      size="5xl"
     >
       <ParkingPositionFormFields airportLocation={airport.location} terminals={terminals} />
     </FormModal>

@@ -47,6 +47,7 @@ export function EditTerminalModal({ airport, terminal, close }: Props) {
       validationSchema={createTerminalSchema}
       onSubmit={handleSubmit}
       close={close}
+      size="4xl"
     >
       <TerminalFormFields airportLocation={airport.location} />
     </FormModal>

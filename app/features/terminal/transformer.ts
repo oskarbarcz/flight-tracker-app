@@ -28,7 +28,7 @@ export function terminalToFormData(input: GetTerminalResponse): CreateTerminalFo
   return {
     shortName: input.shortName,
     fullName: input.fullName,
-    averageTaxiTime: input.averageTaxiTime,
+    averageTaxiTime: String(input.averageTaxiTime),
     operatorCodes: input.operatorCodes.join(", "),
     text: input.text ?? "",
     shape: input.shape ?? null,
