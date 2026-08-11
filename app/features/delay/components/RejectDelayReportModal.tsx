@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useToast } from "~/app-state/useToast";
@@ -13,6 +13,8 @@ import { rejectDelayReportSchema } from "~/features/delay/schema";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   report: DelayReport;
@@ -40,7 +42,9 @@ export function RejectDelayReportModal({ report, close }: Props) {
 
   return (
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Reject delay report?</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Delay report" action="Reject" />
+      </ModalHeader>
       <ModalBody>
         <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
           This sends the {report.delayMinutes}-minute allocation for{" "}
@@ -68,16 +72,10 @@ export function RejectDelayReportModal({ report, close }: Props) {
           )}
         </Formik>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close}>
-            Cancel
-          </Button>
-          <Button type="submit" form="rejectDelayReportForm" color="red">
-            Reject report
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: close }}
+        confirm={{ label: "Reject report", type: "submit", form: "rejectDelayReportForm", tone: "danger" }}
+      />
     </Modal>
   );
 }

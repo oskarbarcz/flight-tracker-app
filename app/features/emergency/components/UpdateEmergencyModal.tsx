@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useToast } from "~/app-state/useToast";
@@ -12,6 +12,8 @@ import { EmergencyFormFields } from "~/features/emergency/components/EmergencyFo
 import { declareEmergencySchema } from "~/features/emergency/schema";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   emergency: Emergency;
@@ -39,7 +41,9 @@ export function UpdateEmergencyModal({ emergency, close }: Props) {
 
   return (
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Update emergency</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Emergency" action="Update" />
+      </ModalHeader>
       <ModalBody>
         <Formik<DeclareEmergencyFormData>
           initialValues={emergencyToFormData(emergency)}
@@ -58,16 +62,10 @@ export function UpdateEmergencyModal({ emergency, close }: Props) {
           )}
         </Formik>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close}>
-            Cancel
-          </Button>
-          <Button type="submit" form="updateEmergencyForm" color="indigo">
-            Save changes
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: close }}
+        confirm={{ label: "Save changes", type: "submit", form: "updateEmergencyForm" }}
+      />
     </Modal>
   );
 }

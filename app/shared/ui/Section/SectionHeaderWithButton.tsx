@@ -9,6 +9,7 @@ type ActionButton = {
   color?: string;
   disabled?: boolean;
   icon?: React.ReactNode;
+  viewTransition?: boolean;
 };
 
 type Props = {
@@ -33,7 +34,7 @@ function ActionButton({ button }: { button: ActionButton }) {
 
   if (button.url) {
     return (
-      <Link to={button.url} viewTransition>
+      <Link to={button.url} viewTransition={button.viewTransition ?? true}>
         {content}
       </Link>
     );

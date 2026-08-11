@@ -4,8 +4,8 @@ import { useAuth } from "~/app-state/useAuth";
 import {
   type AirportWeatherReport,
   allWeatherInformationTypes,
+  resolveWeatherSource,
   WeatherInformationType,
-  WeatherSource,
 } from "~/features/airport";
 import { WeatherSourceSwitch } from "~/features/airport/components/Library/WeatherSourceSwitch";
 import { translateWeatherInformationType, translateWeatherSource } from "~/features/airport/i18n";
@@ -17,7 +17,7 @@ type Props = {
 
 export function AirportWeatherPanel({ reports }: Props) {
   const { user } = useAuth();
-  const [source, setSource] = useState(user?.defaultWeatherSource ?? WeatherSource.AviationWeatherGov);
+  const [source, setSource] = useState(resolveWeatherSource(user?.defaultWeatherSource));
 
   if (reports.length === 0) {
     return <NoReports>No weather report available for this airport.</NoReports>;

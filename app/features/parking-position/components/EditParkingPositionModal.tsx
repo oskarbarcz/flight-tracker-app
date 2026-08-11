@@ -42,7 +42,8 @@ export function EditParkingPositionModal({ airport, parkingPosition, terminals, 
 
   return (
     <FormModal<CreateParkingPositionFormData>
-      title={`Edit parking stand ${parkingPosition.name}`}
+      context="Parking stand"
+      title={`Edit ${parkingPosition.name}`}
       submitLabel="Save changes"
       initialValues={parkingPositionToFormData(parkingPosition)}
       validationSchema={createParkingPositionSchema}

@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useToast } from "~/app-state/useToast";
@@ -9,6 +9,8 @@ import type { ApiCoordinates } from "~/features/emergency/request";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   close: () => void;
@@ -55,7 +57,9 @@ export function ReportDiversionModal({ close }: Props) {
 
   return (
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Report diversion</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Diversion" action="Report" />
+      </ModalHeader>
       <ModalBody>
         <Formik<ReportDiversionFormData>
           initialValues={initReportDiversionData()}
@@ -74,16 +78,10 @@ export function ReportDiversionModal({ close }: Props) {
           )}
         </Formik>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close}>
-            Cancel
-          </Button>
-          <Button type="submit" form="reportDiversionForm" color="red">
-            Report diversion
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: close }}
+        confirm={{ label: "Report diversion", type: "submit", form: "reportDiversionForm", tone: "danger" }}
+      />
     </Modal>
   );
 }

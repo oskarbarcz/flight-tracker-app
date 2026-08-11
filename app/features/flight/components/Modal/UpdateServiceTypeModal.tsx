@@ -1,6 +1,8 @@
-import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Radio } from "flowbite-react";
+import { Label, Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
 import React, { useState } from "react";
 import { type Flight, FlightServiceType } from "~/features/flight";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -32,7 +34,9 @@ export function UpdateServiceTypeModal({ flight, update, cancel }: Props) {
 
   return (
     <Modal size="sm" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>Change service type</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Service type" action="Change" />
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <div className="space-y-3">
           {serviceTypeOptions.map((option) => (
@@ -63,16 +67,10 @@ export function UpdateServiceTypeModal({ flight, update, cancel }: Props) {
           ))}
         </div>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button color="indigo" outline onClick={() => update(flight.id, selectedServiceType)}>
-            Save changes
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{ label: "Save changes", onClick: () => update(flight.id, selectedServiceType) }}
+      />
     </Modal>
   );
 }

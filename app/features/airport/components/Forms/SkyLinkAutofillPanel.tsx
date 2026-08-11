@@ -1,12 +1,11 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useFormikContext } from "formik";
 import React, { useState } from "react";
-import { FaCloudArrowDown } from "react-icons/fa6";
 import type { CreateAirportFormData } from "~/features/airport";
 import { skyLinkToFormData } from "~/features/skylink/transformer";
 import { useApi } from "~/shared/api/useApi";
+import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function SkyLinkAutofillPanel() {
   const { skyLinkService } = useApi();
@@ -26,8 +25,8 @@ export function SkyLinkAutofillPanel() {
 
   return (
     <Container>
-      <ContainerTitle icon={FaCloudArrowDown} title="Fill from SkyLink" />
-      <div className="mb-2 block">
+      <FormSectionLabel>Fill from SkyLink</FormSectionLabel>
+      <div className="mt-4 mb-2 block">
         <Label htmlFor="skylinkIataCode">IATA code</Label>
       </div>
       <div className="flex gap-2">

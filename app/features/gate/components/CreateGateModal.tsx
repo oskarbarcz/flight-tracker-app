@@ -43,7 +43,8 @@ export function CreateGateModal({ airport, terminals, parkingPositions, close }:
 
   return (
     <FormModal<CreateGateFormData>
-      title="Add gate"
+      context="Gate"
+      title="Add"
       submitLabel="Create gate"
       initialValues={initCreateGateData(terminals[0]?.id ?? "")}
       validationSchema={createGateSchema}

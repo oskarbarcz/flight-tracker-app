@@ -36,7 +36,8 @@ export function CreateAirportModal({ close, onCreated }: Props) {
 
   return (
     <FormModal<CreateAirportFormData>
-      title="Create new airport"
+      context="Airport"
+      title="Create new"
       submitLabel="Create airport"
       initialValues={initCreateAirportData()}
       validationSchema={createAirportSchema}

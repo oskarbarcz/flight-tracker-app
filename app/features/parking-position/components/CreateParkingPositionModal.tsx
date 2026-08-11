@@ -50,7 +50,8 @@ export function CreateParkingPositionModal({ airport, terminals, duplicateOf, cl
 
   return (
     <FormModal<CreateParkingPositionFormData>
-      title={duplicateOf ? `Duplicate parking stand ${duplicateOf.name}` : "Add parking stand"}
+      context="Parking stand"
+      title={duplicateOf ? `Duplicate ${duplicateOf.name}` : "Add"}
       submitLabel="Create parking stand"
       initialValues={initialValues}
       validationSchema={createParkingPositionSchema}

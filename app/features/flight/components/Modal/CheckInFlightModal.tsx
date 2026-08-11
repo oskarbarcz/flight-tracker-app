@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import type { FilledSchedule, Flight } from "~/features/flight";
 import { UpdateFlightScheduleForm } from "~/features/flight/components/Forms/UpdateFlightScheduleForm";
@@ -6,6 +6,8 @@ import { updateScheduleSchema } from "~/features/flight/schema";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { Form } from "~/shared/ui/Form/Form";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -18,7 +20,9 @@ export function CheckInFlightModal({ flight, checkIn, close }: Props) {
 
   return (
     <Modal size="xl" show onClose={close}>
-      <ModalHeader>Check in for flight</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Flight" action="Check in" />
+      </ModalHeader>
       <ModalBody>
         <h2 className="mb-3 text-xl font-bold">Schedule</h2>
         <div className="space-x-4 text-center font-mono">
@@ -63,17 +67,15 @@ export function CheckInFlightModal({ flight, checkIn, close }: Props) {
           <UpdateFlightScheduleForm />
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close}>
-            Back to preview
-          </Button>
-          <Button type="submit" color="indigo" outline form="checkInFlightForm">
-            Check in for flight
-            <span className="font-mono font-bold ms-2">{flight.flightNumberWithoutSpaces}</span>
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back to preview", onClick: close }}
+        confirm={{
+          label: "Check in for flight",
+          type: "submit",
+          form: "checkInFlightForm",
+          trailing: <span className="font-mono font-bold">{flight.flightNumberWithoutSpaces}</span>,
+        }}
+      />
     </Modal>
   );
 }

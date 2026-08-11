@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import type { Aircraft } from "~/features/aircraft";
 import { repositionSchema } from "~/features/aircraft/schema";
@@ -8,6 +8,8 @@ import type { CreateRepositionRequest } from "~/features/operator/request";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { Form } from "~/shared/ui/Form/Form";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   aircraft: Aircraft;
@@ -28,7 +30,9 @@ export function RepositionAircraftModal({ aircraft, reposition, cancel }: Props)
 
   return (
     <Modal size="sm" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>Reposition aircraft</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Aircraft" action="Reposition" />
+      </ModalHeader>
       <ModalBody>
         {aircraft.lastAirport && (
           <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
@@ -51,16 +55,10 @@ export function RepositionAircraftModal({ aircraft, reposition, cancel }: Props)
           />
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Cancel
-          </Button>
-          <Button color="indigo" type="submit" form="repositionForm" outline>
-            Reposition
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: cancel }}
+        confirm={{ label: "Reposition", type: "submit", form: "repositionForm" }}
+      />
     </Modal>
   );
 }

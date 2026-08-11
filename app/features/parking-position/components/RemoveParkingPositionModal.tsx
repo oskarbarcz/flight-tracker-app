@@ -1,7 +1,9 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import type { ParkingPosition } from "~/features/parking-position";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   parkingPosition: ParkingPosition;
@@ -13,31 +15,27 @@ type Props = {
 export function RemoveParkingPositionModal({ parkingPosition, remove, cancel, isPending = false }: Props) {
   return (
     <Modal size="md" show onClose={cancel}>
-      <ModalHeader>Remove parking position</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Parking stand" action="Remove" />
+      </ModalHeader>
       <ModalBody>
         <p>
-          You are going to remove parking position <span className="font-mono font-bold">{parkingPosition.name}</span>.
+          You are going to remove parking stand <span className="font-mono font-bold">{parkingPosition.name}</span>.
         </p>
         <p className="mt-3">
           <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
         </p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel} disabled={isPending} className="cursor-pointer">
-            Back
-          </Button>
-          <Button
-            onClick={() => remove(parkingPosition)}
-            color="red"
-            disabled={isPending}
-            className="cursor-pointer space-x-1.5"
-          >
-            <HiOutlineTrash />
-            <span>Remove parking position</span>
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{
+          label: "Remove parking stand",
+          onClick: () => remove(parkingPosition),
+          tone: "danger",
+          icon: HiOutlineTrash,
+        }}
+        pending={isPending}
+      />
     </Modal>
   );
 }

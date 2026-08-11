@@ -6,7 +6,7 @@ export default function CreateOperatorRoute() {
   const navigate = useNavigate();
   const revalidator = useRevalidator();
 
-  const closeModal = () => navigate("/operators", { viewTransition: true });
+  const closeModal = () => navigate("/operators");
 
   const handleCreated = async () => {
     await revalidator.revalidate();

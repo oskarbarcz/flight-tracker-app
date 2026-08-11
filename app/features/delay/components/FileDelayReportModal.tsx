@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useToast } from "~/app-state/useToast";
@@ -14,6 +14,8 @@ import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
 import { ManagedGroupedSelectBlock } from "~/shared/ui/Form/Managed/ManagedGroupedSelectBlock";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   maxMinutes: number;
@@ -46,7 +48,9 @@ export function FileDelayReportModal({ maxMinutes, close }: Props) {
 
   return (
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>File delay report</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Delay report" action="File" />
+      </ModalHeader>
       <ModalBody>
         <Formik<FileDelayReportFormData>
           initialValues={initFileDelayReportData()}
@@ -76,16 +80,10 @@ export function FileDelayReportModal({ maxMinutes, close }: Props) {
           )}
         </Formik>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close}>
-            Cancel
-          </Button>
-          <Button type="submit" form="fileDelayReportForm" color="blue">
-            File report
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: close }}
+        confirm={{ label: "File report", type: "submit", form: "fileDelayReportForm" }}
+      />
     </Modal>
   );
 }

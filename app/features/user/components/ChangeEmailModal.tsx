@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { useAuth } from "~/app-state/useAuth";
@@ -6,6 +6,8 @@ import { type ChangeEmailFormData, changeEmailSchema, initChangeEmailData } from
 import { describeEmailChangeFailure } from "~/features/user/lib/describeEmailChangeFailure";
 import { useApi } from "~/shared/api/useApi";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   close: () => void;
@@ -45,7 +47,9 @@ export function ChangeEmailModal({ close, onRequested, onUnavailable }: Props) {
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Change email address</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Account" action="Change email" />
+      </ModalHeader>
       <Formik<ChangeEmailFormData>
         initialValues={initChangeEmailData()}
         validationSchema={changeEmailSchema}
@@ -105,22 +109,12 @@ export function ChangeEmailModal({ close, onRequested, onUnavailable }: Props) {
                 )}
               </FormikForm>
             </ModalBody>
-            <ModalFooter>
-              <div className="ms-auto flex gap-2">
-                <Button color="gray" outline disabled={isSubmitting} onClick={close}>
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  form="changeEmailForm"
-                  color="indigo"
-                  disabled={isSubmitting}
-                  aria-busy={isSubmitting}
-                >
-                  {isSubmitting ? "Sending…" : "Send confirmation link"}
-                </Button>
-              </div>
-            </ModalFooter>
+            <ModalActions
+              cancel={{ onClick: close }}
+              confirm={{ label: "Send confirmation link", type: "submit", form: "changeEmailForm" }}
+              pending={isSubmitting}
+              pendingLabel="Sending…"
+            />
           </>
         )}
       </Formik>

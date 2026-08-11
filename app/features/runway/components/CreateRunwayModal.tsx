@@ -39,7 +39,8 @@ export function CreateRunwayModal({ airport, close }: Props) {
 
   return (
     <FormModal<CreateRunwayFormData>
-      title="Add runway"
+      context="Runway"
+      title="Add"
       submitLabel="Create runway"
       initialValues={initCreateRunwayData()}
       validationSchema={createRunwaySchema}

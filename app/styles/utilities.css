@@ -331,3 +331,143 @@ html[data-app-entry] [data-app-entry-content] {
   -webkit-mask-image: radial-gradient(120% 100% at 38% 62%, #000 30%, transparent 78%);
   mask-image: radial-gradient(120% 100% at 38% 62%, #000 30%, transparent 78%);
 }
+
+/* Modal chrome — slots referenced from app/styles/theme.ts */
+.modal-scrim {
+  --modal-scrim-alpha: 0.5;
+  background-color: rgb(17 24 39 / var(--modal-scrim-alpha));
+  backdrop-filter: blur(4px);
+  animation: modal-scrim-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.dark .modal-scrim {
+  --modal-scrim-alpha: 0.8;
+}
+
+@keyframes modal-scrim-in {
+  from {
+    background-color: rgb(17 24 39 / 0);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    background-color: rgb(17 24 39 / var(--modal-scrim-alpha));
+    backdrop-filter: blur(4px);
+  }
+}
+
+.modal-panel {
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.06);
+  transform-origin: var(--modal-origin-x, 50%) var(--modal-origin-y, 50%);
+  animation: modal-panel-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* The panel is a programmatic focus landing zone, not a control; controls inside keep their rings. */
+.modal-panel:focus,
+.modal-panel:focus-visible {
+  outline: none;
+}
+.dark .modal-panel {
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.5),
+    0 4px 6px -4px rgb(0 0 0 / 0.4);
+}
+
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.modal-body > *,
+.modal-body > :only-child > * {
+  animation: modal-content-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.modal-body > :nth-child(1),
+.modal-body > :only-child > :nth-child(1) {
+  animation-delay: 80ms;
+}
+.modal-body > :nth-child(2),
+.modal-body > :only-child > :nth-child(2) {
+  animation-delay: 100ms;
+}
+.modal-body > :nth-child(3),
+.modal-body > :only-child > :nth-child(3) {
+  animation-delay: 120ms;
+}
+.modal-body > :nth-child(4),
+.modal-body > :only-child > :nth-child(4) {
+  animation-delay: 140ms;
+}
+.modal-body > :nth-child(n + 5),
+.modal-body > :only-child > :nth-child(n + 5) {
+  animation-delay: 160ms;
+}
+
+@keyframes modal-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Dismissal: the panel retreats toward the control that opened it, faster than it arrived. */
+.modal-scrim[data-modal-closing] {
+  pointer-events: none;
+  animation: modal-scrim-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+.modal-scrim[data-modal-closing] .modal-panel {
+  animation: modal-panel-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+.modal-scrim[data-modal-closing] .modal-body > *,
+.modal-scrim[data-modal-closing] .modal-body > :only-child > * {
+  animation: none;
+}
+
+@keyframes modal-scrim-out {
+  from {
+    background-color: rgb(17 24 39 / var(--modal-scrim-alpha));
+    backdrop-filter: blur(4px);
+  }
+  to {
+    background-color: rgb(17 24 39 / 0);
+    backdrop-filter: blur(0px);
+  }
+}
+
+@keyframes modal-panel-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* Compact on a mouse, comfortable under a finger. */
+@media (pointer: coarse) {
+  .modal-actions button {
+    min-height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-scrim,
+  .modal-panel,
+  .modal-body > *,
+  .modal-body > :only-child > *,
+  .modal-scrim[data-modal-closing],
+  .modal-scrim[data-modal-closing] .modal-panel {
+    animation: none;
+  }
+}

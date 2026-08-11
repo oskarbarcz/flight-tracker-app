@@ -1,9 +1,11 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
 import type { DelayReport } from "~/features/delay";
 import { translateDelayReasonCode } from "~/features/delay/i18n";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   report: DelayReport;
@@ -31,7 +33,9 @@ export function RemoveDelayReportConfirmModal({ report, close }: Props) {
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Remove delay report?</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Delay report" action="Remove" />
+      </ModalHeader>
       <ModalBody>
         <p className="text-sm text-gray-700 dark:text-gray-300">
           This removes the {report.delayMinutes}-minute allocation for{" "}
@@ -39,16 +43,11 @@ export function RemoveDelayReportConfirmModal({ report, close }: Props) {
           the unallocated total.
         </p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close} disabled={submitting}>
-            Back
-          </Button>
-          <Button color="red" onClick={handleRemove} disabled={submitting}>
-            Remove report
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: close }}
+        confirm={{ label: "Remove report", onClick: handleRemove, tone: "danger" }}
+        pending={submitting}
+      />
     </Modal>
   );
 }

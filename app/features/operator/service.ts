@@ -1,14 +1,32 @@
-import type { Operator } from "~/features/operator";
+import type { Operator, OperatorServiceType } from "~/features/operator";
 import type { CreateOperatorRequest, EditOperatorRequest } from "~/features/operator/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
-export class OperatorService extends AbstractAuthorizedApiService {
-  async fetchAll() {
-    return this.fetchWithAuth<Operator[]>("/api/v1/operator");
+export type OperatorListFilters = {
+  serviceType?: OperatorServiceType;
+};
+
+function listQuery(filters: OperatorListFilters, recentOnly = false): string {
+  const params = new URLSearchParams();
+
+  if (recentOnly) {
+    params.set("recentOnly", "true");
+  }
+  if (filters.serviceType) {
+    params.set("serviceType", filters.serviceType);
   }
 
-  async fetchRecent() {
-    return this.fetchWithAuth<Operator[]>("/api/v1/operator?recent-only=true");
+  const query = params.toString();
+  return query === "" ? "" : `?${query}`;
+}
+
+export class OperatorService extends AbstractAuthorizedApiService {
+  async fetchAll(filters: OperatorListFilters = {}) {
+    return this.fetchWithAuth<Operator[]>(`/api/v1/operator${listQuery(filters)}`);
+  }
+
+  async fetchRecent(filters: OperatorListFilters = {}) {
+    return this.fetchWithAuth<Operator[]>(`/api/v1/operator${listQuery(filters, true)}`);
   }
 
   async fetchById(id: string) {

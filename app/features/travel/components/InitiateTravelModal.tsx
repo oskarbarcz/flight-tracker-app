@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useAuth } from "~/app-state/useAuth";
@@ -8,6 +8,8 @@ import { TravelDestinationField } from "~/features/travel/components/TravelDesti
 import { initiateTravelSchema } from "~/features/travel/schema";
 import { useApi } from "~/shared/api/useApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   close: () => void;
@@ -39,7 +41,9 @@ export function InitiateTravelModal({ close, onTravelCreated, currentAirportId }
 
   return (
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Initiate company travel</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Travel" action="Initiate" />
+      </ModalHeader>
       <ModalBody>
         <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
           Initiate a company travel when your next flight departs from a different airport than the one where your last
@@ -62,16 +66,10 @@ export function InitiateTravelModal({ close, onTravelCreated, currentAirportId }
           )}
         </Formik>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close}>
-            Cancel
-          </Button>
-          <Button type="submit" form="initiateTravelForm" color="indigo">
-            Initiate travel
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: close }}
+        confirm={{ label: "Initiate travel", type: "submit", form: "initiateTravelForm" }}
+      />
     </Modal>
   );
 }

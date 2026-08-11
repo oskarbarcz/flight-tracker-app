@@ -1,7 +1,9 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import type { Flight } from "~/features/flight";
 import { formatDate } from "~/shared/lib/time";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -12,7 +14,9 @@ type Props = {
 export function ReleaseFlightModal({ flight, release, cancel }: Props) {
   return (
     <Modal show onClose={cancel}>
-      <ModalHeader>Release flight</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Flight" action="Release" />
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <p>
           You are going to release flight <span className="font-bold">{flight.flightNumber} </span>
@@ -35,17 +39,14 @@ export function ReleaseFlightModal({ flight, release, cancel }: Props) {
         </p>
         <p className="my-4">Are you sure to proceed?</p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button outline color="indigo" onClick={() => release(flight.id)}>
-            Release flight
-            <span className="font-mono font-bold ms-2">{flight.flightNumberWithoutSpaces}</span>
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{
+          label: "Release flight",
+          onClick: () => release(flight.id),
+          trailing: <span className="font-mono font-bold">{flight.flightNumberWithoutSpaces}</span>,
+        }}
+      />
     </Modal>
   );
 }

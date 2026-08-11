@@ -40,7 +40,8 @@ export function EditRunwayModal({ airport, runway, close }: Props) {
 
   return (
     <FormModal<CreateRunwayFormData>
-      title={`Edit runway ${runway.designator}`}
+      context="Runway"
+      title={`Edit ${runway.designator}`}
       submitLabel="Save changes"
       initialValues={runwayToFormData(runway)}
       validationSchema={createRunwaySchema}

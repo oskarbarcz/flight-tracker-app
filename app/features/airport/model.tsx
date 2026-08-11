@@ -45,6 +45,12 @@ export function allWeatherSources(): WeatherSource[] {
   return [WeatherSource.AviationWeatherGov, WeatherSource.SayIntentions];
 }
 
+export const DEFAULT_WEATHER_SOURCE = WeatherSource.AviationWeatherGov;
+
+export function resolveWeatherSource(source: WeatherSource | null | undefined): WeatherSource {
+  return source && allWeatherSources().includes(source) ? source : DEFAULT_WEATHER_SOURCE;
+}
+
 export enum WeatherInformationType {
   Atis = "atis",
   Metar = "metar",

@@ -40,7 +40,8 @@ export function EditTerminalModal({ airport, terminal, close }: Props) {
 
   return (
     <FormModal<CreateTerminalFormData>
-      title={`Edit terminal ${terminal.shortName}`}
+      context="Terminal"
+      title={`Edit ${terminal.shortName}`}
       submitLabel="Save changes"
       initialValues={terminalToFormData(terminal)}
       validationSchema={createTerminalSchema}

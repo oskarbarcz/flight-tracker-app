@@ -31,6 +31,7 @@ export default function ListOperatorsRoute() {
           url: "/operators/new",
           icon: <HiPlus />,
           color: "indigo",
+          viewTransition: false,
         }}
       />
       <OperatorList operators={operators} recent={recent} />

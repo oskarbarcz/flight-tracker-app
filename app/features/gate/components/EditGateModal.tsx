@@ -44,7 +44,8 @@ export function EditGateModal({ airport, gate, terminals, parkingPositions, clos
 
   return (
     <FormModal<CreateGateFormData>
-      title={`Edit gate ${gate.name}`}
+      context="Gate"
+      title={`Edit ${gate.name}`}
       submitLabel="Save changes"
       initialValues={gateToFormData(gate)}
       validationSchema={createGateSchema}

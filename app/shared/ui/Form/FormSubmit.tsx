@@ -13,7 +13,7 @@ export function FormSubmit({ message, error, button, onSubmit }: Props) {
   if (!error && !message) {
     return (
       <div className="flex items-center justify-end py-3 px-6">
-        <Button className="cursor-pointer" color="indigo" onClick={onSubmit}>
+        <Button size="sm" color="indigo" onClick={onSubmit}>
           {button}
         </Button>
       </div>
@@ -36,7 +36,7 @@ export function FormSubmit({ message, error, button, onSubmit }: Props) {
         </div>
       )}
 
-      <Button disabled color="indigo" className="cursor-not-allowed" type="submit">
+      <Button size="sm" disabled color="indigo" className="cursor-not-allowed" type="submit">
         {button}
       </Button>
     </div>

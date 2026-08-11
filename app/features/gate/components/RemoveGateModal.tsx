@@ -1,7 +1,9 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import type { Gate } from "~/features/gate";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   gate: Gate;
@@ -13,7 +15,9 @@ type Props = {
 export function RemoveGateModal({ gate, remove, cancel, isPending = false }: Props) {
   return (
     <Modal size="md" show onClose={cancel}>
-      <ModalHeader>Remove gate</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Gate" action="Remove" />
+      </ModalHeader>
       <ModalBody>
         <p>
           You are going to remove gate <span className="font-mono font-bold">{gate.name}</span>.
@@ -22,17 +26,16 @@ export function RemoveGateModal({ gate, remove, cancel, isPending = false }: Pro
           <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
         </p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel} disabled={isPending} className="cursor-pointer">
-            Back
-          </Button>
-          <Button onClick={() => remove(gate)} color="red" disabled={isPending} className="cursor-pointer space-x-1.5">
-            <HiOutlineTrash />
-            <span>Remove gate</span>
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{
+          label: "Remove gate",
+          onClick: () => remove(gate),
+          tone: "danger",
+          icon: HiOutlineTrash,
+        }}
+        pending={isPending}
+      />
     </Modal>
   );
 }

@@ -1,6 +1,6 @@
 import { number, type ObjectSchema, object, string } from "yup";
 import { Continent } from "~/features/airport";
-import { type CreateOperatorFormData, OperatorType } from "~/features/operator";
+import { type CreateOperatorFormData, OperatorServiceType, OperatorType } from "~/features/operator";
 
 const optionalUrl = string()
   .ensure()
@@ -53,6 +53,9 @@ export const createOperatorSchema: ObjectSchema<CreateOperatorFormData> = object
   type: string<OperatorType>()
     .oneOf(Object.values(OperatorType), "Invalid operator type")
     .required("Operator type is required"),
+  serviceType: string<OperatorServiceType>()
+    .oneOf(Object.values(OperatorServiceType), "Invalid service type")
+    .required("Service type is required"),
   continent: string<Continent>().oneOf(Object.values(Continent), "Invalid continent").required("Continent is required"),
   hubs: hubsSchema,
 });

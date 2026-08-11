@@ -1,8 +1,10 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
 import type { Emergency } from "~/features/emergency";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   emergency: Emergency;
@@ -30,23 +32,20 @@ export function ResolveEmergencyConfirmModal({ emergency, close }: Props) {
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Resolve emergency?</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Emergency" action="Resolve" />
+      </ModalHeader>
       <ModalBody>
         <p className="text-sm text-gray-700 dark:text-gray-300">
           This stops the active emergency on the flight. The record stays in history with the time and your name
           attached, but it cannot be edited afterwards.
         </p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={close} disabled={submitting}>
-            Back
-          </Button>
-          <Button color="red" onClick={handleResolve} disabled={submitting}>
-            Mark resolved
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: close }}
+        confirm={{ label: "Mark resolved", onClick: handleResolve, tone: "danger" }}
+        pending={submitting}
+      />
     </Modal>
   );
 }

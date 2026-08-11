@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { type Flight, FlightPhase, FlightStatus } from "~/features/flight";
 import type { RotationLeg } from "~/features/rotation";
 import { useApi } from "~/shared/api/useApi";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   operatorId: string;
@@ -49,7 +50,7 @@ export function AttachFlightModal({ operatorId, leg, onAttach, onClose }: Props)
   return (
     <Modal show onClose={onClose}>
       <ModalHeader>
-        Attach flight to {leg.departure.iataCode} → {leg.arrival.iataCode}
+        <ModalTitle context="Leg" action={`Attach flight to ${leg.departure.iataCode} → ${leg.arrival.iataCode}`} />
       </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         {loading ? (
@@ -84,7 +85,7 @@ export function AttachFlightModal({ operatorId, leg, onAttach, onClose }: Props)
         )}
       </ModalBody>
       <ModalFooter>
-        <Button color="gray" outline onClick={onClose} className="ms-auto">
+        <Button color="alternative" onClick={onClose}>
           Close
         </Button>
       </ModalFooter>

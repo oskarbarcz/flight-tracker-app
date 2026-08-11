@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Button, Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
 import { FaArrowsSpin } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
@@ -12,6 +12,8 @@ import type { LegFormData } from "~/features/rotation/form";
 import { durationMinutes } from "~/shared/lib/time";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   rotation: Rotation;
@@ -127,23 +129,19 @@ export function RotationLegsEditor({
 
       {removingLeg && (
         <Modal size="md" show onClose={() => setRemovingLeg(null)}>
-          <ModalHeader>Remove leg</ModalHeader>
+          <ModalHeader>
+            <ModalTitle context="Leg" action="Remove" />
+          </ModalHeader>
           <ModalBody>
             <p className="text-gray-700 dark:text-gray-200">
               Remove leg <span className="font-semibold">{removingLeg.flightNumber}</span> (
               {removingLeg.departure.iataCode} → {removingLeg.arrival.iataCode})?
             </p>
           </ModalBody>
-          <ModalFooter>
-            <div className="ms-auto flex gap-2">
-              <Button color="gray" outline onClick={() => setRemovingLeg(null)}>
-                Cancel
-              </Button>
-              <Button color="red" onClick={confirmRemoveLeg}>
-                Remove leg
-              </Button>
-            </div>
-          </ModalFooter>
+          <ModalActions
+            cancel={{ onClick: () => setRemovingLeg(null) }}
+            confirm={{ label: "Remove leg", onClick: confirmRemoveLeg, tone: "danger" }}
+          />
         </Modal>
       )}
     </Container>

@@ -1,9 +1,11 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import type { FilledSchedule, Flight } from "~/features/flight";
 import { UpdateFlightScheduleForm } from "~/features/flight/components/Forms/UpdateFlightScheduleForm";
 import { updateScheduleSchema } from "~/features/flight/schema";
 import { Form } from "~/shared/ui/Form/Form";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -14,7 +16,9 @@ type Props = {
 export function UpdateScheduledTimesheetModal({ flight, update, cancel }: Props) {
   return (
     <Modal size="sm" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>Update scheduled timesheet</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Timesheet" action="Update scheduled" />
+      </ModalHeader>
       <ModalBody>
         <Form<FilledSchedule>
           id="updateScheduleForm"
@@ -25,16 +29,10 @@ export function UpdateScheduledTimesheetModal({ flight, update, cancel }: Props)
           <UpdateFlightScheduleForm />
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button color="indigo" type="submit" form="updateScheduleForm" outline>
-            Save changes
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{ label: "Save changes", type: "submit", form: "updateScheduleForm" }}
+      />
     </Modal>
   );
 }

@@ -1,8 +1,10 @@
-import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader, Radio, Spinner } from "flowbite-react";
+import { Alert, Modal, ModalBody, ModalHeader, Radio, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import type { Runway } from "~/features/runway";
 import { useApi } from "~/shared/api/useApi";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   airportId: string;
@@ -29,7 +31,9 @@ export function SelectRunwayModal({ airportId, kind, currentSelectionId, select,
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>{kind === "departure" ? "Select departure runway" : "Select arrival runway"}</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Runway" action={kind === "departure" ? "Select departure" : "Select arrival"} />
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         {runways === null ? (
           <div className="flex justify-center py-6">
@@ -71,21 +75,14 @@ export function SelectRunwayModal({ airportId, kind, currentSelectionId, select,
           </div>
         )}
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button
-            color="indigo"
-            outline
-            disabled={!selectedId || runways === null || runways.length === 0}
-            onClick={() => selectedId && select(selectedId)}
-          >
-            Confirm
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{
+          label: "Confirm",
+          onClick: () => selectedId && select(selectedId),
+          disabled: !selectedId || runways === null || runways.length === 0,
+        }}
+      />
     </Modal>
   );
 }

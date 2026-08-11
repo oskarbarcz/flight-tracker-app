@@ -12,13 +12,8 @@ export default function CreateAirportRoute() {
     if (airport.continent === continent) {
       reload();
     }
-    navigate(airportListPath(airport.continent), { viewTransition: true });
+    navigate(airportListPath(airport.continent));
   };
 
-  return (
-    <CreateAirportModal
-      close={() => navigate(airportListPath(continent), { viewTransition: true })}
-      onCreated={handleCreated}
-    />
-  );
+  return <CreateAirportModal close={() => navigate(airportListPath(continent))} onCreated={handleCreated} />;
 }
