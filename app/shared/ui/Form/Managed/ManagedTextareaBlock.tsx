@@ -1,11 +1,13 @@
 import { Label, Textarea } from "flowbite-react";
 import { useField } from "formik";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 import { useFormDensity } from "~/shared/ui/Form/formDensity";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
 type Props = {
+  className?: string;
   field: string;
   label: string;
   placeholder?: string;
@@ -15,6 +17,7 @@ type Props = {
 };
 
 export function ManagedTextareaBlock({
+  className,
   field,
   label,
   placeholder,
@@ -27,7 +30,7 @@ export function ManagedTextareaBlock({
   const density = useFormDensity();
 
   return (
-    <div className={density.fieldClass}>
+    <div className={twMerge(density.fieldClass, className)}>
       <div className={density.labelClass}>
         <Label htmlFor={field} color={isError ? "failure" : undefined}>
           {label}

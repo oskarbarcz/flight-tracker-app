@@ -1,18 +1,22 @@
-import { Button, Label } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { useField } from "formik";
 import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Tooltip, useMapEvents } from "react-leaflet";
+import { twMerge } from "tailwind-merge";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { PIN_COLOR } from "~/shared/lib/mapColors";
 import type { Coordinates } from "~/shared/models/coordinates";
+import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
+import { MAP_CONTROL_CLASS } from "~/shared/ui/Form/MapPicker/mapControl";
 
 type Props = {
   field: string;
   airportLocation: Coordinates;
   label: string;
   pinLabel?: string;
+  className?: string;
 };
 
 const pinIcon = new L.DivIcon({
@@ -40,7 +44,7 @@ function ClickHandler({ onPick }: { onPick: (lat: number, lng: number) => void }
   return null;
 }
 
-export function PointCoordinatesPicker({ field, airportLocation, label, pinLabel }: Props) {
+export function PointCoordinatesPicker({ field, airportLocation, label, pinLabel, className }: Props) {
   const [, meta, helpers] = useField<Coordinates | null>(field);
   const value = meta.value;
 
@@ -60,25 +64,21 @@ export function PointCoordinatesPicker({ field, airportLocation, label, pinLabel
   };
 
   return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 flex items-center justify-between">
-        <Label>{label}</Label>
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
-            {value
-              ? `${value.latitude.toFixed(5)}, ${value.longitude.toFixed(5)}`
-              : "no point — optional, click the map to set"}
-          </span>
-          <Button color="gray" size="xs" type="button" onClick={onClear} disabled={!value}>
-            Clear
-          </Button>
-        </div>
+    <div className={twMerge("flex w-full flex-col gap-2", className)}>
+      <FormSectionLabel>{label}</FormSectionLabel>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
+          {value ? `${value.latitude}, ${value.longitude}` : "no point — optional, click the map"}
+        </span>
+        <Button className={MAP_CONTROL_CLASS} color="gray" size="xs" type="button" onClick={onClear} disabled={!value}>
+          Clear
+        </Button>
       </div>
       <MapContainer
         center={initialCenter}
         zoom={15}
         scrollWheelZoom
-        className="h-72 w-full rounded-xl z-0"
+        className="min-h-72 w-full flex-1 rounded-xl z-0"
         attributionControl={false}
       >
         <MapTileLayer />

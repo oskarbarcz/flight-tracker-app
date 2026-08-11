@@ -4,8 +4,9 @@ import { type CreateGateFormData, gateCategoryOptions } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
 import type { Coordinates } from "~/shared/models/coordinates";
-import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
-import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
+import { FormFieldGroup } from "~/shared/ui/Form/FormFieldGroup";
+import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
+import { ManagedFloatingSelectBlock } from "~/shared/ui/Form/Managed/ManagedFloatingSelectBlock";
 import { PointCoordinatesPicker } from "~/shared/ui/Form/MapPicker/PointCoordinatesPicker";
 
 type Props = {
@@ -26,29 +27,42 @@ export function GateFormFields({ airportLocation, terminals, parkingPositions }:
   ];
 
   return (
-    <div className="flex flex-col">
-      <h3 className="mb-3 font-bold text-gray-900 dark:text-white">Identification</h3>
-      <div className="flex gap-4">
-        <div className="basis-1/2">
-          <ManagedSelectBlock field="terminalId" label="Terminal" options={terminalOptions} />
-        </div>
-        <div className="basis-1/2">
-          <ManagedInputBlock field="name" label="Gate name" />
-        </div>
-      </div>
-      <ManagedSelectBlock field="category" label="Category" options={gateCategoryOptions} />
-      <ManagedSelectBlock
-        field="parkingPositionId"
-        label="Served parking position"
-        required={false}
-        options={parkingPositionOptions}
-      />
+    <div className="grid gap-6 lg:grid-cols-8">
+      <div className="flex flex-col gap-6 lg:col-span-3">
+        <FormFieldGroup label="Identity">
+          <div className="grid grid-cols-12 gap-4">
+            <ManagedFloatingSelectBlock
+              className="col-span-7"
+              field="terminalId"
+              label="Terminal"
+              options={terminalOptions}
+            />
+            <ManagedFloatingInputBlock className="col-span-5" field="name" label="Gate name" />
 
-      <h3 className="mt-2 mb-3 font-bold text-gray-900 dark:text-white">Location</h3>
+            <ManagedFloatingSelectBlock
+              className="col-span-12"
+              field="category"
+              label="Category"
+              options={gateCategoryOptions}
+            />
+          </div>
+        </FormFieldGroup>
+
+        <FormFieldGroup label="Stand">
+          <ManagedFloatingSelectBlock
+            field="parkingPositionId"
+            label="Served parking position"
+            required={false}
+            options={parkingPositionOptions}
+          />
+        </FormFieldGroup>
+      </div>
+
       <PointCoordinatesPicker
+        className="lg:col-span-5"
         field="coordinates"
         airportLocation={airportLocation}
-        label="Click on the map to pick the gate location (optional)"
+        label="Location"
         pinLabel={values.name}
       />
     </div>

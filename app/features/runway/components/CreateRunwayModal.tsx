@@ -46,6 +46,7 @@ export function CreateRunwayModal({ airport, close }: Props) {
       validationSchema={createRunwaySchema}
       onSubmit={handleSubmit}
       close={close}
+      size="4xl"
     >
       <RunwayFormFields airportLocation={airport.location} />
     </FormModal>

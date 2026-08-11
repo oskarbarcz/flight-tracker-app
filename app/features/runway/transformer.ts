@@ -6,6 +6,10 @@ function toNullableInt(value: string): number | null {
   return Number(value);
 }
 
+function fromNullableInt(value: number | null | undefined): string {
+  return value === null || value === undefined ? "" : String(value);
+}
+
 export function runwayFormDataToRequest(input: CreateRunwayFormData): CreateRunwayRequest {
   return {
     designator: input.designator.trim().toUpperCase(),
@@ -27,12 +31,12 @@ export function runwayFormDataToRequest(input: CreateRunwayFormData): CreateRunw
 export function runwayToFormData(input: GetRunwayResponse): CreateRunwayFormData {
   return {
     designator: input.designator,
-    length: input.length,
-    width: input.width,
-    displace: String(input.displace ?? 0),
-    trueHeading: input.trueHeading === null || input.trueHeading === undefined ? "" : String(input.trueHeading),
-    magneticHeading: input.magneticHeading,
-    elevation: input.elevation === null || input.elevation === undefined ? "" : String(input.elevation),
+    length: String(input.length),
+    width: String(input.width),
+    displace: fromNullableInt(input.displace),
+    trueHeading: fromNullableInt(input.trueHeading),
+    magneticHeading: String(input.magneticHeading),
+    elevation: fromNullableInt(input.elevation),
     surfaceType: input.surfaceType,
     lightingType: input.lightingType,
     latitude: input.coordinates.latitude,

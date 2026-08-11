@@ -1,18 +1,22 @@
-import { Button, Label } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { useField } from "formik";
 import L, { type LatLngExpression } from "leaflet";
-import { useEffect, useState } from "react";
-import { MapContainer, Marker, Polygon, Polyline, useMapEvents } from "react-leaflet";
+import { useEffect, useRef, useState } from "react";
+import { MapContainer, Marker, Polygon, Polyline, useMap, useMapEvents } from "react-leaflet";
+import { twMerge } from "tailwind-merge";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { closingEdgeCrosses, newEdgeCrossesPolyline } from "~/shared/lib/polygon";
 import type { Coordinates } from "~/shared/models/coordinates";
+import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
+import { MAP_CONTROL_CLASS } from "~/shared/ui/Form/MapPicker/mapControl";
 
 type Props = {
   field: string;
   airportLocation: Coordinates;
   label: string;
   tone: "airport" | "terminal";
+  className?: string;
 };
 
 const TONE_STYLE = {
@@ -36,6 +40,22 @@ function ClickHandler({ onPick }: { onPick: (lat: number, lng: number) => void }
   return null;
 }
 
+function CenterSync({ latitude, longitude, frozen }: { latitude: number; longitude: number; frozen: boolean }) {
+  const map = useMap();
+  const frozenRef = useRef(frozen);
+
+  useEffect(() => {
+    frozenRef.current = frozen;
+  }, [frozen]);
+
+  useEffect(() => {
+    if (frozenRef.current) return;
+    map.setView([latitude, longitude], map.getZoom());
+  }, [map, latitude, longitude]);
+
+  return null;
+}
+
 function vertexIcon(stroke: string, fill: string, highlightFirst: boolean): L.DivIcon {
   const size = highlightFirst ? 16 : 10;
   const bg = highlightFirst ? "#ffffff" : fill;
@@ -48,7 +68,7 @@ function vertexIcon(stroke: string, fill: string, highlightFirst: boolean): L.Di
   });
 }
 
-export function PolygonShapePicker({ field, airportLocation, label, tone }: Props) {
+export function PolygonShapePicker({ field, airportLocation, label, tone, className }: Props) {
   const [, meta, helpers] = useField<Coordinates[] | null>(field);
   const vertices = meta.value ?? [];
   const tones = TONE_STYLE[tone];
@@ -136,19 +156,33 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
           : `${vertices.length} ${vertices.length === 1 ? "point" : "points"} — keep clicking`;
 
   return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-        <Label>{label}</Label>
+    <div className={twMerge("flex w-full flex-col gap-2", className)}>
+      <FormSectionLabel>{label}</FormSectionLabel>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span
+          className={`font-mono text-xs ${error ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400"}`}
+        >
+          {statusText}
+        </span>
         <div className="flex items-center gap-2">
-          <span
-            className={`font-mono text-xs ${error ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-gray-400"}`}
+          <Button
+            className={MAP_CONTROL_CLASS}
+            color="gray"
+            size="xs"
+            type="button"
+            onClick={onUndo}
+            disabled={vertices.length === 0}
           >
-            {statusText}
-          </span>
-          <Button color="gray" size="xs" type="button" onClick={onUndo} disabled={vertices.length === 0}>
             Undo last
           </Button>
-          <Button color="gray" size="xs" type="button" onClick={onClear} disabled={vertices.length === 0}>
+          <Button
+            className={MAP_CONTROL_CLASS}
+            color="gray"
+            size="xs"
+            type="button"
+            onClick={onClear}
+            disabled={vertices.length === 0}
+          >
             Clear
           </Button>
         </div>
@@ -157,12 +191,17 @@ export function PolygonShapePicker({ field, airportLocation, label, tone }: Prop
         center={initialCenter}
         zoom={14}
         scrollWheelZoom
-        className={`h-72 w-full rounded-xl z-0 shape-picker-map${closed ? "" : " shape-picker-map--adding"}`}
+        className={`min-h-72 w-full flex-1 rounded-xl z-0 shape-picker-map${closed ? "" : " shape-picker-map--adding"}`}
         attributionControl={false}
       >
         <MapTileLayer />
         <MapWorldConstraint />
         <ClickHandler onPick={onMapClick} />
+        <CenterSync
+          latitude={airportLocation.latitude}
+          longitude={airportLocation.longitude}
+          frozen={vertices.length > 0}
+        />
 
         {closed && positions.length >= 3 && (
           <Polygon

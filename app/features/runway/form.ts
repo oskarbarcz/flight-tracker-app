@@ -2,11 +2,11 @@ import { LightingType, SurfaceType } from "~/features/runway/model";
 
 export type CreateRunwayFormData = {
   designator: string;
-  length: number;
-  width: number;
+  length: string;
+  width: string;
   displace: string;
   trueHeading: string;
-  magneticHeading: number;
+  magneticHeading: string;
   elevation: string;
   surfaceType: SurfaceType;
   lightingType: LightingType;
@@ -17,11 +17,11 @@ export type CreateRunwayFormData = {
 export function initCreateRunwayData(): CreateRunwayFormData {
   return {
     designator: "",
-    length: 0,
-    width: 0,
-    displace: "0",
+    length: "",
+    width: "",
+    displace: "",
     trueHeading: "",
-    magneticHeading: 0,
+    magneticHeading: "",
     elevation: "",
     surfaceType: SurfaceType.Asphalt,
     lightingType: LightingType.Unknown,

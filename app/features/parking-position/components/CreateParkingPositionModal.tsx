@@ -57,6 +57,7 @@ export function CreateParkingPositionModal({ airport, terminals, duplicateOf, cl
       validationSchema={createParkingPositionSchema}
       onSubmit={handleSubmit}
       close={close}
+      size="5xl"
     >
       <ParkingPositionFormFields airportLocation={airport.location} terminals={terminals} />
     </FormModal>
