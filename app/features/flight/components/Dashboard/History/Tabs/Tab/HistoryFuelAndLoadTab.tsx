@@ -13,6 +13,7 @@ export function HistoryFuelAndLoadTab() {
         flightId={flight.id}
         preliminary={flight.loadsheets.preliminary}
         final={flight.loadsheets.final}
+        timesheet={flight.timesheet}
       />
     </div>
   );

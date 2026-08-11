@@ -39,6 +39,7 @@ export default function FlightLoadsheetRoute() {
         flightId={flight.id}
         preliminary={flight.loadsheets.preliminary}
         final={flight.loadsheets.final}
+        timesheet={flight.timesheet}
         canEditPreliminary={canEditPreliminary}
         onEditPreliminary={() => setEditing(true)}
       />

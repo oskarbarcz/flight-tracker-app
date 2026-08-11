@@ -19,12 +19,13 @@ type Props = {
   value: number;
   note?: string;
   unit?: string;
+  duration?: string;
   subtotal?: boolean;
   total?: boolean;
   addition?: boolean;
 };
 
-export function BuildUpLine({ label, value, note, unit = "t", subtotal, total, addition }: Props) {
+export function BuildUpLine({ label, value, note, unit = "t", duration, subtotal, total, addition }: Props) {
   return (
     <div
       className={twMerge(
@@ -48,15 +49,22 @@ export function BuildUpLine({ label, value, note, unit = "t", subtotal, total, a
           </span>
         )}
       </span>
-      <Figure
-        value={value}
-        unit={unit}
-        className={twMerge(
-          addition && "text-gray-500 dark:text-gray-400",
-          subtotal && "font-bold text-gray-800 dark:text-gray-100",
-          total && "text-lg font-bold text-gray-900 dark:text-white",
+      <span className="flex items-baseline gap-3">
+        <Figure
+          value={value}
+          unit={unit}
+          className={twMerge(
+            addition && "text-gray-500 dark:text-gray-400",
+            subtotal && "font-bold text-gray-800 dark:text-gray-100",
+            total && "text-lg font-bold text-gray-900 dark:text-white",
+          )}
+        />
+        {duration && (
+          <span className="min-w-12 text-right font-mono tabular-nums text-xs text-gray-400 dark:text-gray-500">
+            {duration}
+          </span>
         )}
-      />
+      </span>
     </div>
   );
 }
@@ -68,9 +76,9 @@ type SplitEntry = {
 
 export function BuildUpSplitLine({ label, entries }: { label: string; entries: SplitEntry[] }) {
   return (
-    <div className="mt-0.5 flex items-baseline justify-between gap-3 border-t border-gray-200 py-0.5 pt-1.5 dark:border-gray-800">
+    <div className="mt-0.5 flex flex-wrap items-baseline justify-between gap-x-3 border-t border-gray-200 py-0.5 pt-1.5 dark:border-gray-800">
       <span className="text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300">{label}</span>
-      <span className="flex items-baseline gap-4">
+      <span className="flex flex-wrap items-baseline justify-end gap-x-4">
         {entries.map(({ caption, value }) => (
           <span key={caption} className="flex items-baseline gap-1.5">
             <span className="text-[11px] text-gray-500 dark:text-gray-400">{caption}</span>

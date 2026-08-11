@@ -2,12 +2,21 @@ import React from "react";
 import { HiInformationCircle } from "react-icons/hi2";
 import type { FuelBreakdown } from "~/features/flight";
 import { BuildUpLine, BuildUpSplitLine, formatTons } from "~/features/flight/components/FuelAndLoadsheet/BuildUpLine";
+import type { Timesheet } from "~/features/flight/model";
+import { durationMinutes, formatCompactDuration } from "~/shared/lib/time";
+
+const NO_ESTIMATE = "-";
 
 function shortenContingencyRule(rule: string): string {
   return rule.split(" of ")[0].trim();
 }
 
-export function FuelPlan({ fuel }: { fuel: FuelBreakdown | null }) {
+type Props = {
+  fuel: FuelBreakdown | null;
+  timesheet?: Timesheet;
+};
+
+export function FuelPlan({ fuel, timesheet }: Props) {
   if (!fuel) {
     return (
       <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/40 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
@@ -30,13 +39,25 @@ export function FuelPlan({ fuel }: { fuel: FuelBreakdown | null }) {
     typeof fuel.contingencyType === "string" ? shortenContingencyRule(fuel.contingencyType) : undefined;
   const planAlternate = fuel.block - fuel.taxi - fuel.trip - fuel.alternate;
 
+  const schedule = timesheet ? (timesheet.estimated ?? timesheet.scheduled) : undefined;
+  const flow = fuel.averageFuelFlow ?? 0;
+  const burnTime = (tons: number): string | undefined =>
+    timesheet ? (flow > 0 ? formatCompactDuration((tons / flow) * 60) : NO_ESTIMATE) : undefined;
+  const scheduledTime = (end: Date | undefined): string | undefined =>
+    schedule && end ? formatCompactDuration(durationMinutes(schedule.offBlockTime, end)) : undefined;
+
   const enRoute = (
     <Section title="En-route & reserves">
-      <BuildUpLine label="Taxi" value={fuel.taxi} />
-      <BuildUpLine label="Trip" value={fuel.trip} />
-      <BuildUpLine label="Contingency" value={fuel.contingencyAmount} note={contingencyNote} />
-      <BuildUpLine label="Alternate" value={fuel.alternate} />
-      <BuildUpLine label="Final reserve" value={fuel.reserve} />
+      <BuildUpLine label="Taxi" value={fuel.taxi} duration={scheduledTime(schedule?.takeoffTime)} />
+      <BuildUpLine label="Trip" value={fuel.trip} duration={scheduledTime(schedule?.onBlockTime)} />
+      <BuildUpLine
+        label="Contingency"
+        value={fuel.contingencyAmount}
+        note={contingencyNote}
+        duration={burnTime(fuel.contingencyAmount)}
+      />
+      <BuildUpLine label="Alternate" value={fuel.alternate} duration={burnTime(fuel.alternate)} />
+      <BuildUpLine label="Final reserve" value={fuel.reserve} duration={burnTime(fuel.reserve)} />
     </Section>
   );
 
@@ -44,7 +65,7 @@ export function FuelPlan({ fuel }: { fuel: FuelBreakdown | null }) {
     shownAdditions.length > 0 ? (
       <Section title="Additional fuel">
         {shownAdditions.map(([label, value]) => (
-          <BuildUpLine key={label} label={label} value={value} addition />
+          <BuildUpLine key={label} label={label} value={value} duration={burnTime(value)} addition />
         ))}
       </Section>
     ) : null;
@@ -57,11 +78,17 @@ export function FuelPlan({ fuel }: { fuel: FuelBreakdown | null }) {
   const totals = (
     <div>
       {takeoffEntries.length > 0 && <BuildUpSplitLine label="Takeoff fuel" entries={takeoffEntries} />}
-      <BuildUpLine label="Block fuel" value={fuel.block} total />
+      <BuildUpLine label="Block fuel" value={fuel.block} duration={burnTime(fuel.block)} total />
       {typeof fuel.planLanding === "number" && (
-        <BuildUpLine label="Planned fuel at destination" value={fuel.planLanding} />
+        <BuildUpLine
+          label="Planned fuel at destination"
+          value={fuel.planLanding}
+          duration={burnTime(fuel.planLanding)}
+        />
       )}
-      {fuel.alternate > 0 && <BuildUpLine label="Planned fuel at alternate" value={planAlternate} />}
+      {fuel.alternate > 0 && (
+        <BuildUpLine label="Planned fuel at alternate" value={planAlternate} duration={burnTime(planAlternate)} />
+      )}
     </div>
   );
 

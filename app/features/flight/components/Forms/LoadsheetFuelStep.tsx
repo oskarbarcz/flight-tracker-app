@@ -1,16 +1,25 @@
 import { useFormikContext } from "formik";
 import React from "react";
-import { tonsInput } from "~/features/flight/components/Forms/loadsheetFields";
+import { FuelTonsInput } from "~/features/flight/components/Forms/FuelTonsInput";
 import { BuildUpPanel } from "~/features/flight/components/FuelAndLoadsheet/BuildUpPanel";
 import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
 import { type FlatLoadsheetFormData, flatLoadsheetToLoadsheet } from "~/features/flight/form-types";
+import type { Timesheet } from "~/features/flight/model";
+import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormGrid } from "~/shared/ui/Form/FormGrid";
 import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 
-export function LoadsheetFuelStep() {
+type Props = {
+  timesheet: Timesheet;
+};
+
+export function LoadsheetFuelStep({ timesheet }: Props) {
   const { values } = useFormikContext<FlatLoadsheetFormData>();
   const loadsheet = flatLoadsheetToLoadsheet(values);
+  const schedule = timesheet.estimated ?? timesheet.scheduled;
+  const blockTime = formatDuration(durationMinutes(schedule.offBlockTime, schedule.onBlockTime));
+  const taxiTime = formatDuration(durationMinutes(schedule.offBlockTime, schedule.takeoffTime));
 
   return (
     <div className="flex flex-col gap-6">
@@ -18,17 +27,17 @@ export function LoadsheetFuelStep() {
         <FormSectionLabel>Fuel on board</FormSectionLabel>
 
         <FormGrid columns={3}>
-          <ManagedFloatingInputBlock field="trip" label="Trip" {...tonsInput} />
-          <ManagedFloatingInputBlock field="taxi" label="Taxi" {...tonsInput} />
-          <ManagedFloatingInputBlock field="alternate" label="Alternate" {...tonsInput} />
+          <FuelTonsInput field="trip" label="Trip" footnote={`block: ${blockTime}`} />
+          <FuelTonsInput field="taxi" label="Taxi" footnote={`taxi: ${taxiTime}`} />
+          <FuelTonsInput field="alternate" label="Alternate" />
           <ManagedFloatingInputBlock
             field="contingencyType"
             label="Contingency rule"
             autoComplete="off"
             required={false}
           />
-          <ManagedFloatingInputBlock field="contingencyAmount" label="Contingency" {...tonsInput} />
-          <ManagedFloatingInputBlock field="reserve" label="Final reserve" {...tonsInput} />
+          <FuelTonsInput field="contingencyAmount" label="Contingency" />
+          <FuelTonsInput field="reserve" label="Final reserve" />
         </FormGrid>
       </section>
 
@@ -36,12 +45,12 @@ export function LoadsheetFuelStep() {
         <FormSectionLabel>Additional fuel</FormSectionLabel>
 
         <FormGrid columns={3}>
-          <ManagedFloatingInputBlock field="extra" label="Extra" {...tonsInput} />
-          <ManagedFloatingInputBlock field="mel" label="MEL" {...tonsInput} />
-          <ManagedFloatingInputBlock field="atc" label="ATC" {...tonsInput} />
-          <ManagedFloatingInputBlock field="wxx" label="Weather" {...tonsInput} />
-          <ManagedFloatingInputBlock field="etops" label="ETOPS" required={false} {...tonsInput} />
-          <ManagedFloatingInputBlock field="tankering" label="Tankering" {...tonsInput} />
+          <FuelTonsInput field="extra" label="Extra" />
+          <FuelTonsInput field="mel" label="MEL" />
+          <FuelTonsInput field="atc" label="ATC" />
+          <FuelTonsInput field="wxx" label="Weather" />
+          <FuelTonsInput field="etops" label="ETOPS" required={false} />
+          <FuelTonsInput field="tankering" label="Tankering" />
         </FormGrid>
       </section>
 
@@ -57,8 +66,9 @@ export function LoadsheetFuelStep() {
             required={false}
             unit="tons / hour"
             decimals={2}
+            footnote="at 1500ft AGL, 250kt IAS, est. LW"
           />
-          <ManagedFloatingInputBlock field="maxTanks" label="Max tank capacity" required={false} {...tonsInput} />
+          <FuelTonsInput field="maxTanks" label="Max tank capacity" required={false} />
         </FormGrid>
       </section>
 

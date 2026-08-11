@@ -10,6 +10,13 @@ export function formatDuration(minutes: number): string {
   return `${Math.floor(minutes / 60)}h ${padZero(minutes % 60)}m`;
 }
 
+export function formatCompactDuration(minutes: number): string {
+  const total = Math.max(0, Math.round(minutes));
+  const hours = Math.floor(total / 60);
+
+  return hours > 0 ? `${hours}h ${padZero(total % 60)}m` : `${total}m`;
+}
+
 export function formatDate(date: Date): string {
   const day = padZero(date.getUTCDate());
   const month = padZero(date.getUTCMonth() + 1);
