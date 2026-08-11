@@ -4,6 +4,7 @@ type Density = "comfortable" | "compact";
 
 type DensityStyles = {
   inputSizing: "sm" | "md";
+  floatingSizing: "sm" | "md";
   fieldClass: string;
   labelClass: string;
   textareaClass: string;
@@ -12,12 +13,14 @@ type DensityStyles = {
 const styles: Record<Density, DensityStyles> = {
   comfortable: {
     inputSizing: "md",
+    floatingSizing: "md",
     fieldClass: "mb-4 w-full",
     labelClass: "mb-2 block",
     textareaClass: "",
   },
   compact: {
     inputSizing: "sm",
+    floatingSizing: "sm",
     fieldClass: "mb-3 w-full",
     labelClass: "mb-1 block",
     textareaClass: "p-2 sm:text-xs",

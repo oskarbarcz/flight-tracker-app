@@ -34,8 +34,9 @@ export default [
       ]),
     ]),
     layout("routes/operations/OperationsLayout.tsx", [
-      route("operators", "routes/operations/operators/ListOperatorsRoute.tsx"),
-      route("operators/new", "routes/operations/operators/CreateOperatorRoute.tsx"),
+      route("operators", "routes/operations/operators/ListOperatorsRoute.tsx", [
+        route("new", "routes/operations/operators/CreateOperatorRoute.tsx"),
+      ]),
       route("operators/:operatorId/edit", "routes/operations/operators/EditOperatorRoute.tsx"),
       layout("routes/operations/operators/OperatorLayout.tsx", [
         route("operators/:operatorId/fleet", "routes/operations/operators/aircraft/OperatorFleetRoute.tsx"),

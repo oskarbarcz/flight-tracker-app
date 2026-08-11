@@ -151,8 +151,41 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       input: {
         default: {
           outlined: {
-            sm: "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
+            sm: "px-2 pb-2 pt-3.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
             md: "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
+          },
+        },
+        error: {
+          outlined: {
+            sm: "px-2 pb-2 pt-3.5",
+          },
+        },
+      },
+      label: {
+        default: {
+          outlined: {
+            sm: "left-1 px-1 text-sm peer-placeholder-shown:text-xs",
+          },
+        },
+        error: {
+          outlined: {
+            sm: "left-1 px-1 text-sm peer-placeholder-shown:text-xs",
+          },
+        },
+      },
+    },
+    select: {
+      field: {
+        select: {
+          sizes: {
+            floating: "ps-2.5 pb-2.5 pt-4 text-sm",
+            floatingSm: "ps-2 pb-2 pt-3.5 text-xs",
+          },
+          colors: {
+            floating:
+              "border-gray-300 bg-transparent text-gray-900 focus:border-indigo-500 focus:ring-0 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-500",
+            floatingError:
+              "border-red-600 bg-transparent text-gray-900 focus:border-red-600 focus:ring-0 dark:border-red-500 dark:bg-gray-800 dark:text-white dark:focus:border-red-500",
           },
         },
       },

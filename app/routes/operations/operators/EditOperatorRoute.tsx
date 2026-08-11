@@ -6,19 +6,16 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import {
   type CreateOperatorFormData,
-  continentOptions,
   type Operator,
   operatorFormDataToRequest,
   operatorToFormData,
-  operatorTypeOptions,
 } from "~/features/operator";
+import { OperatorFormFields } from "~/features/operator/components/Forms/OperatorFormFields";
 import { createOperatorSchema } from "~/features/operator/schema";
 import { OperatorService } from "~/features/operator/service";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
-import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
-import { ManagedSelectBlock } from "~/shared/ui/Form/Managed/ManagedSelectBlock";
 import { Container } from "~/shared/ui/Layout/Container";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
@@ -61,40 +58,7 @@ export default function EditOperatorRoute() {
         {({ isSubmitting }) => (
           <FormikForm noValidate>
             <Container>
-              <div className="flex flex-col">
-                <div className="flex gap-4">
-                  <div className="basis-1/2">
-                    <ManagedInputBlock field="icaoCode" label="ICAO code" />
-                  </div>
-                  <div className="basis-1/2">
-                    <ManagedInputBlock field="iataCode" label="IATA code" />
-                  </div>
-                </div>
-
-                <ManagedInputBlock field="shortName" label="Short name" />
-                <ManagedInputBlock field="fullName" label="Full name" />
-                <ManagedInputBlock field="callsign" label="Callsign" />
-
-                <div className="flex gap-4">
-                  <ManagedSelectBlock
-                    className="basis-1/2"
-                    field="type"
-                    label="Operator type"
-                    options={operatorTypeOptions}
-                  />
-                  <ManagedSelectBlock
-                    className="basis-1/2"
-                    field="continent"
-                    label="Continent"
-                    options={continentOptions}
-                  />
-                </div>
-
-                <ManagedInputBlock field="avgFleetAge" label="Average fleet age" type="number" />
-                <ManagedInputBlock field="hubs" label="Hubs (comma-separated IATA codes)" required={false} />
-                <ManagedInputBlock field="logoUrl" label="Logo URL" required={false} />
-                <ManagedInputBlock field="backgroundUrl" label="Background URL" required={false} />
-              </div>
+              <OperatorFormFields />
             </Container>
 
             <div className="flex justify-end pt-4">
