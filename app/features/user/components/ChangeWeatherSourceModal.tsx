@@ -15,7 +15,8 @@ type Props = {
 const failureMessage = "Weather source could not be changed. Try again in a moment.";
 
 const sourceDescriptions: Record<WeatherSource, string> = {
-  [WeatherSource.AviationWeatherGov]: "Real-world observations from AviationWeather service. Publishes METAR and TAF data.",
+  [WeatherSource.AviationWeatherGov]:
+    "Real-world observations from AviationWeather service. Publishes METAR and TAF data.",
   [WeatherSource.SayIntentions]: "Weather used by Say Intentions AI service. Publishes ATIS alongside METAR and TAF.",
 };
 
