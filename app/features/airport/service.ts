@@ -1,4 +1,4 @@
-import type { AirportWeather, Continent } from "~/features/airport";
+import type { AirportWeatherReport, Continent } from "~/features/airport";
 import type { CreateAirportRequest, EditAirportRequest, GetAirportResponse } from "~/features/airport/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
@@ -19,7 +19,7 @@ export class AirportService extends AbstractAuthorizedApiService {
   }
 
   async fetchWeather(airportId: string) {
-    return this.fetchWithAuth<AirportWeather>(`/api/v1/airport/${airportId}/weather`);
+    return this.fetchWithAuth<AirportWeatherReport[]>(`/api/v1/airport/${airportId}/weather?source=all`);
   }
 
   async createNew(airport: CreateAirportRequest) {
