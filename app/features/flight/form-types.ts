@@ -8,7 +8,6 @@ export type FlatLoadsheetFormData = {
   cargo: number;
   payload: number;
   zeroFuelWeight: number;
-  blockFuel: number;
   trip: number;
   taxi: number;
   alternate: number;
@@ -41,51 +40,61 @@ function roundTons(value: number): number {
   return Math.round(value * 1000) / 1000;
 }
 
-function toTons(value: number): number {
+function toNumber(value: number): number {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
 export function flatLoadsheetToLoadsheet(data: FlatLoadsheetFormData): Loadsheet {
-  const etops = toTons(data.etops);
-  const averageFuelFlow = toTons(data.averageFuelFlow);
-  const maxTanks = toTons(data.maxTanks);
-  const minTakeoff = roundTons(
-    data.trip + data.contingencyAmount + data.alternate + data.reserve + data.mel + data.atc + data.wxx + etops,
+  const taxi = toNumber(data.taxi);
+  const trip = toNumber(data.trip);
+  const alternate = toNumber(data.alternate);
+  const reserve = toNumber(data.reserve);
+  const contingencyAmount = toNumber(data.contingencyAmount);
+  const mel = toNumber(data.mel);
+  const atc = toNumber(data.atc);
+  const wxx = toNumber(data.wxx);
+  const extra = toNumber(data.extra);
+  const etops = toNumber(data.etops);
+  const tankering = toNumber(data.tankering);
+
+  const block = roundTons(
+    taxi + trip + alternate + reserve + contingencyAmount + mel + atc + wxx + extra + etops + tankering,
   );
-  const planTakeoff = roundTons(data.blockFuel - data.taxi);
-  const planLanding = roundTons(planTakeoff - data.trip);
+  const minTakeoff = roundTons(trip + contingencyAmount + alternate + reserve);
+  const planTakeoff = roundTons(block - taxi);
+  const planLanding = roundTons(planTakeoff - trip);
 
   return {
     flightCrew: {
-      pilots: data.pilots,
-      reliefPilots: data.reliefPilots,
-      cabinCrew: data.cabinCrew,
+      pilots: toNumber(data.pilots),
+      reliefPilots: toNumber(data.reliefPilots),
+      cabinCrew: toNumber(data.cabinCrew),
     },
-    passengers: data.passengers,
-    cargo: data.cargo,
-    payload: data.payload,
-    zeroFuelWeight: data.zeroFuelWeight,
-    blockFuel: data.blockFuel,
+    passengers: toNumber(data.passengers),
+    cargo: roundTons(toNumber(data.cargo)),
+    payload: roundTons(toNumber(data.payload)),
+    zeroFuelWeight: roundTons(toNumber(data.zeroFuelWeight)),
+    blockFuel: block,
     fuel: {
-      block: data.blockFuel,
-      taxi: data.taxi,
-      trip: data.trip,
-      alternate: data.alternate,
-      reserve: data.reserve,
+      block,
+      taxi,
+      trip,
+      alternate,
+      reserve,
       contingencyType: data.contingencyType.trim() === "" ? null : data.contingencyType.trim(),
-      contingencyAmount: data.contingencyAmount,
-      mel: data.mel,
-      atc: data.atc,
-      wxx: data.wxx,
-      extra: data.extra,
-      tankering: data.tankering,
+      contingencyAmount,
+      mel,
+      atc,
+      wxx,
+      extra,
+      tankering,
       etops,
       minTakeoff,
       planTakeoff,
       planLanding,
-      averageFuelFlow,
-      maxTanks,
+      averageFuelFlow: toNumber(data.averageFuelFlow),
+      maxTanks: toNumber(data.maxTanks),
     },
   };
 }
@@ -101,7 +110,6 @@ export function loadsheetToFlatLoadsheet(loadsheet: Loadsheet): FlatLoadsheetFor
     cargo: loadsheet.cargo,
     payload: loadsheet.payload,
     zeroFuelWeight: loadsheet.zeroFuelWeight,
-    blockFuel: loadsheet.blockFuel,
     trip: fuel?.trip ?? 0,
     taxi: fuel?.taxi ?? 0,
     alternate: fuel?.alternate ?? 0,
