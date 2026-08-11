@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Button, Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
 import { FaArrowLeft, FaCircleCheck } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router";
@@ -15,6 +15,8 @@ import { RotationStatusBadge } from "~/features/rotation/components/RotationStat
 import { useRotationEditing } from "~/features/rotation/hooks/useRotationEditing";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { Container } from "~/shared/ui/Layout/Container";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   initialRotation: Rotation;
@@ -177,45 +179,36 @@ export function RotationDetails({ initialRotation, airports, operatorId, pilotNa
 
       {removing && (
         <Modal size="md" show onClose={() => setRemoving(false)}>
-          <ModalHeader>Remove rotation</ModalHeader>
+          <ModalHeader>
+            <ModalTitle context="Rotation" action="Remove" />
+          </ModalHeader>
           <ModalBody>
             <p className="text-gray-700 dark:text-gray-200">
               Remove rotation <span className="font-semibold">{current.name}</span>? This cannot be undone.
             </p>
           </ModalBody>
-          <ModalFooter>
-            <div className="ms-auto flex gap-2">
-              <Button color="gray" outline onClick={() => setRemoving(false)}>
-                Cancel
-              </Button>
-              <Button color="red" onClick={onRemove}>
-                Remove rotation
-              </Button>
-            </div>
-          </ModalFooter>
+          <ModalActions
+            cancel={{ onClick: () => setRemoving(false) }}
+            confirm={{ label: "Remove rotation", onClick: onRemove, tone: "danger" }}
+          />
         </Modal>
       )}
 
       {confirmingReady && (
         <Modal size="md" show onClose={() => setConfirmingReady(false)}>
-          <ModalHeader>Mark rotation ready</ModalHeader>
+          <ModalHeader>
+            <ModalTitle context="Rotation" action="Mark ready" />
+          </ModalHeader>
           <ModalBody>
             <p className="text-gray-700 dark:text-gray-200">
               Mark rotation <span className="font-semibold">{current.name}</span> as ready? Its legs can no longer be
               edited afterwards.
             </p>
           </ModalBody>
-          <ModalFooter>
-            <div className="ms-auto flex gap-2">
-              <Button color="gray" outline onClick={() => setConfirmingReady(false)}>
-                Cancel
-              </Button>
-              <Button color="indigo" onClick={onMarkReady}>
-                <FaCircleCheck className="mr-2" />
-                <span>Mark ready</span>
-              </Button>
-            </div>
-          </ModalFooter>
+          <ModalActions
+            cancel={{ onClick: () => setConfirmingReady(false) }}
+            confirm={{ label: "Mark ready", onClick: onMarkReady, icon: FaCircleCheck }}
+          />
         </Modal>
       )}
     </div>

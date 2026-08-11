@@ -1,7 +1,9 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import type { Terminal } from "~/features/terminal";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   terminal: Terminal;
@@ -13,7 +15,9 @@ type Props = {
 export function RemoveTerminalModal({ terminal, remove, cancel, isPending = false }: Props) {
   return (
     <Modal size="md" show onClose={cancel}>
-      <ModalHeader>Remove terminal</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Terminal" action="Remove" />
+      </ModalHeader>
       <ModalBody>
         <p>
           You are going to remove terminal <span className="font-mono font-bold">{terminal.shortName}</span> (
@@ -23,22 +27,16 @@ export function RemoveTerminalModal({ terminal, remove, cancel, isPending = fals
           <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
         </p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel} disabled={isPending} className="cursor-pointer">
-            Back
-          </Button>
-          <Button
-            onClick={() => remove(terminal)}
-            color="red"
-            disabled={isPending}
-            className="cursor-pointer space-x-1.5"
-          >
-            <HiOutlineTrash />
-            <span>Remove terminal</span>
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{
+          label: "Remove terminal",
+          onClick: () => remove(terminal),
+          tone: "danger",
+          icon: HiOutlineTrash,
+        }}
+        pending={isPending}
+      />
     </Modal>
   );
 }

@@ -38,7 +38,8 @@ export function UpdateAirportModal({ airport, close }: Props) {
 
   return (
     <FormModal<CreateAirportFormData>
-      title="Update airport data"
+      context="Airport"
+      title="Update"
       submitLabel="Save changes"
       initialValues={airportToFormData(airport)}
       validationSchema={createAirportSchema}

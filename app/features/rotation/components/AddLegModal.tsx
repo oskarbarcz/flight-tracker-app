@@ -1,10 +1,12 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Form, Formik } from "formik";
 import React from "react";
 import type { Airport } from "~/features/airport";
 import { LegFormFields } from "~/features/rotation/components/LegFormFields";
 import { initLegFormData, type LegFormData } from "~/features/rotation/form";
 import { legSchema } from "~/features/rotation/schema";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   airports: Airport[];
@@ -22,7 +24,9 @@ export function AddLegModal({ airports, defaultDepartureId, onAdd, onClose }: Pr
 
   return (
     <Modal show onClose={onClose}>
-      <ModalHeader>Add leg</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Leg" action="Add" />
+      </ModalHeader>
       <Formik<LegFormData>
         initialValues={initLegFormData(defaultDepartureId)}
         validationSchema={legSchema}
@@ -32,16 +36,7 @@ export function AddLegModal({ airports, defaultDepartureId, onAdd, onClose }: Pr
           <ModalBody>
             <LegFormFields airports={airports} />
           </ModalBody>
-          <ModalFooter>
-            <div className="ms-auto flex gap-2">
-              <Button color="gray" outline onClick={onClose}>
-                Cancel
-              </Button>
-              <Button type="submit" color="indigo">
-                Add leg
-              </Button>
-            </div>
-          </ModalFooter>
+          <ModalActions cancel={{ onClick: onClose }} confirm={{ label: "Add leg", type: "submit" }} />
         </Form>
       </Formik>
     </Modal>

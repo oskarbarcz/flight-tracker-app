@@ -1,6 +1,8 @@
-import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Radio } from "flowbite-react";
+import { Label, Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
 import React, { useState } from "react";
 import { type Flight, Tracking } from "~/features/flight";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -37,7 +39,9 @@ export function UpdateTrackingModal({ flight, update, cancel }: Props) {
 
   return (
     <Modal size="sm" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>Change flight visibility</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Flight" action="Change visibility" />
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <div className="space-y-3">
           {trackingOptions.map((option) => (
@@ -68,16 +72,10 @@ export function UpdateTrackingModal({ flight, update, cancel }: Props) {
           ))}
         </div>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button color="indigo" outline onClick={() => update(flight.id, selectedTracking)}>
-            Save changes
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{ label: "Save changes", onClick: () => update(flight.id, selectedTracking) }}
+      />
     </Modal>
   );
 }

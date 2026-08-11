@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { useAuth } from "~/app-state/useAuth";
@@ -8,6 +8,8 @@ import { describePasswordChangeFailure } from "~/features/user/lib/describePassw
 import { passwordPolicyDescription } from "~/features/user/schema";
 import { useApi } from "~/shared/api/useApi";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   close: () => void;
@@ -52,7 +54,9 @@ export function ChangePasswordModal({ close, onChanged, onUnavailable }: Props) 
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Change password</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Account" action="Change password" />
+      </ModalHeader>
       <Formik<ChangePasswordFormData>
         initialValues={initChangePasswordData()}
         validationSchema={changePasswordSchema}
@@ -104,22 +108,12 @@ export function ChangePasswordModal({ close, onChanged, onUnavailable }: Props) 
                 )}
               </FormikForm>
             </ModalBody>
-            <ModalFooter>
-              <div className="ms-auto flex gap-2">
-                <Button color="gray" outline disabled={isSubmitting} onClick={close}>
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  form="changePasswordForm"
-                  color="indigo"
-                  disabled={isSubmitting}
-                  aria-busy={isSubmitting}
-                >
-                  {isSubmitting ? "Changing…" : "Change password"}
-                </Button>
-              </div>
-            </ModalFooter>
+            <ModalActions
+              cancel={{ onClick: close }}
+              confirm={{ label: "Change password", type: "submit", form: "changePasswordForm" }}
+              pending={isSubmitting}
+              pendingLabel="Changing…"
+            />
           </>
         )}
       </Formik>

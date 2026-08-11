@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import type { Flight, Loadsheet } from "~/features/flight";
 import { UpdateLoadsheetForm } from "~/features/flight/components/Forms/UpdateLoadsheetForm";
@@ -9,6 +9,8 @@ import {
 } from "~/features/flight/form-types";
 import { updatePreliminaryLoadsheetSchema } from "~/features/flight/schema";
 import { Form } from "~/shared/ui/Form/Form";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -33,7 +35,9 @@ export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Prop
 
   return (
     <Modal size="5xl" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>Update preliminary loadsheet</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Loadsheet" action="Update preliminary" />
+      </ModalHeader>
       <ModalBody>
         <Form<FlatLoadsheetFormData>
           id="updatePreliminaryLoadsheetForm"
@@ -44,17 +48,15 @@ export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Prop
           <UpdateLoadsheetForm />
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button type="submit" form="updatePreliminaryLoadsheetForm" color="indigo" outline>
-            Update loadsheet for flight
-            <span className="font-mono font-bold ms-1">{flight.flightNumberWithoutSpaces}</span>
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{
+          label: "Update loadsheet for flight",
+          type: "submit",
+          form: "updatePreliminaryLoadsheetForm",
+          trailing: <span className="font-mono font-bold">{flight.flightNumberWithoutSpaces}</span>,
+        }}
+      />
     </Modal>
   );
 }

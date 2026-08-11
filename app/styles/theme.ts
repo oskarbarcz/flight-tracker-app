@@ -24,18 +24,25 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     modal: {
       root: {
         show: {
-          on: "flex bg-gray-900/50 backdrop-blur-xs dark:bg-gray-900/80",
+          on: "flex modal-scrim",
         },
       },
       content: {
         inner:
-          "rounded-xl bg-white shadow-lg dark:bg-gray-800 border-indigo-500 dark:border-gray-700 text-gray-800 dark:text-gray-300 shadow-gray-500 dark:shadow-gray-900",
+          "modal-panel rounded-xl border border-gray-200 bg-white text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300",
       },
       header: {
-        base: "border-gray-200 items-center",
+        base: "flex items-center justify-between gap-4 rounded-t-xl border-b border-gray-200 bg-gray-100 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/50",
+        title: "min-w-0 text-base leading-tight text-gray-900 dark:text-white",
+        close: {
+          base: "ms-auto inline-flex cursor-pointer items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:hover:bg-gray-700 dark:hover:text-white",
+        },
       },
       body: {
-        base: "text-gray-800 dark:text-gray-200",
+        base: "modal-body flex-1 overflow-auto px-6 py-5 text-gray-800 dark:text-gray-200",
+      },
+      footer: {
+        base: "modal-actions flex items-center justify-end gap-2 rounded-b-xl border-t border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40",
       },
     },
     tabs: {
@@ -114,9 +121,9 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
           "bg-indigo-600 hover:bg-indigo-700 text-white dark:text-gray-100 border-0 focus:ring-indigo-500 dark:focus:ring-indigo-400",
         red: "dark:bg-red-900",
         alternative:
-          "border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
+          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
         light:
-          "border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
+          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
         subtle:
           "bg-transparent hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:bg-indigo-950 border-0 focus:ring-indigo-200 dark:focus:ring-indigo-800",
       },
@@ -151,8 +158,41 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       input: {
         default: {
           outlined: {
-            sm: "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
+            sm: "px-2 pb-2 pt-3.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
             md: "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
+          },
+        },
+        error: {
+          outlined: {
+            sm: "px-2 pb-2 pt-3.5",
+          },
+        },
+      },
+      label: {
+        default: {
+          outlined: {
+            sm: "left-1 px-1 text-sm peer-placeholder-shown:text-xs",
+          },
+        },
+        error: {
+          outlined: {
+            sm: "left-1 px-1 text-sm peer-placeholder-shown:text-xs",
+          },
+        },
+      },
+    },
+    select: {
+      field: {
+        select: {
+          sizes: {
+            floating: "ps-2.5 pb-2.5 pt-4 text-sm",
+            floatingSm: "ps-2 pb-2 pt-3.5 text-xs",
+          },
+          colors: {
+            floating:
+              "border-gray-300 bg-transparent text-gray-900 focus:border-indigo-500 focus:ring-0 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-indigo-500",
+            floatingError:
+              "border-red-600 bg-transparent text-gray-900 focus:border-red-600 focus:ring-0 dark:border-red-500 dark:bg-gray-800 dark:text-white dark:focus:border-red-500",
           },
         },
       },

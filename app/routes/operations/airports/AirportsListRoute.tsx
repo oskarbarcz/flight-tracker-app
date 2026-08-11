@@ -48,6 +48,7 @@ export default function AirportsListRoute() {
           url: createAirportPath(continent),
           color: "indigo",
           icon: <HiPlus />,
+          viewTransition: false,
         }}
       />
 

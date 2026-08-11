@@ -1,5 +1,5 @@
 import { Continent } from "~/features/airport/model";
-import { Alliance, type Operator, OperatorType } from "~/features/operator/model";
+import { Alliance, type Operator, OperatorServiceType, OperatorType } from "~/features/operator/model";
 import type { CreateOperatorRequest } from "~/features/operator/request";
 
 export type CreateOperatorFormData = {
@@ -12,6 +12,7 @@ export type CreateOperatorFormData = {
   logoUrl: string;
   backgroundUrl: string;
   type: OperatorType;
+  serviceType: OperatorServiceType;
   continent: Continent;
   hubs: string;
 };
@@ -30,6 +31,12 @@ export const operatorTypeOptions = [
   { label: "Charter", value: OperatorType.Charter },
   { label: "Low-cost", value: OperatorType.LowCost },
   { label: "Government / military", value: OperatorType.GovernmentMilitary },
+];
+
+export const serviceTypeOptions = [
+  { label: "Passenger", value: OperatorServiceType.Passenger },
+  { label: "Cargo", value: OperatorServiceType.Cargo },
+  { label: "Passenger & cargo", value: OperatorServiceType.Both },
 ];
 
 export const allianceOptions = [
@@ -58,6 +65,7 @@ export function initCreateOperatorData(): CreateOperatorFormData {
     logoUrl: "",
     backgroundUrl: "",
     type: OperatorType.Legacy,
+    serviceType: OperatorServiceType.Passenger,
     continent: Continent.Europe,
     hubs: "",
   };
@@ -74,6 +82,7 @@ export function operatorToFormData(operator: Operator): CreateOperatorFormData {
     logoUrl: operator.logoUrl ?? "",
     backgroundUrl: operator.backgroundUrl ?? "",
     type: operator.type,
+    serviceType: operator.serviceType,
     continent: operator.continent,
     hubs: operator.hubs.join(", "),
   };
@@ -90,6 +99,7 @@ export function operatorFormDataToRequest(values: CreateOperatorFormData): Creat
     logoUrl: values.logoUrl.trim() === "" ? null : values.logoUrl.trim(),
     backgroundUrl: values.backgroundUrl.trim() === "" ? null : values.backgroundUrl.trim(),
     type: values.type,
+    serviceType: values.serviceType,
     continent: values.continent,
     hubs: values.hubs
       .split(",")

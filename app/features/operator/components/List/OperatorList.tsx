@@ -3,7 +3,7 @@ import React, { useMemo, useState } from "react";
 import { FaCircleInfo } from "react-icons/fa6";
 import { LuX } from "react-icons/lu";
 import { allContinents, type Continent } from "~/features/airport";
-import { Alliance, continentLabel, type Operator } from "~/features/operator";
+import { Alliance, continentLabel, type Operator, OperatorServiceType } from "~/features/operator";
 import { OperatorCard } from "~/features/operator/components/List/OperatorCard";
 import { OperatorRecentCard } from "~/features/operator/components/List/OperatorRecentCard";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
@@ -16,6 +16,20 @@ const PAGE_SIZE = 24;
 
 type AllianceFilter = "all" | "unaligned" | Alliance;
 type ContinentFilter = "all" | Continent;
+type ServiceTypeFilter = "all" | OperatorServiceType.Passenger | OperatorServiceType.Cargo;
+
+const SERVICE_TYPE_OPTIONS: { value: ServiceTypeFilter; label: string }[] = [
+  { value: "all", label: "All service types" },
+  { value: OperatorServiceType.Passenger, label: "Passenger only" },
+  { value: OperatorServiceType.Cargo, label: "Cargo only" },
+];
+
+function matchesServiceType(operator: Operator, traffic: ServiceTypeFilter): boolean {
+  if (traffic === "all") {
+    return true;
+  }
+  return operator.serviceType === traffic;
+}
 
 const ALLIANCE_OPTIONS: { value: AllianceFilter; label: string }[] = [
   { value: "all", label: "All alliances" },
@@ -41,9 +55,10 @@ export function OperatorList({ operators, recent }: Props) {
   const [search, setSearch] = useState("");
   const [alliance, setAlliance] = useState<AllianceFilter>("all");
   const [continent, setContinent] = useState<ContinentFilter>("all");
+  const [serviceType, setServiceType] = useState<ServiceTypeFilter>("all");
   const [page, setPage] = useState(1);
 
-  const isFiltering = search.trim() !== "" || alliance !== "all" || continent !== "all";
+  const isFiltering = search.trim() !== "" || alliance !== "all" || continent !== "all" || serviceType !== "all";
   const showRecent = recent.length > 0 && !isFiltering;
 
   const listed = useMemo(() => {
@@ -69,9 +84,12 @@ export function OperatorList({ operators, recent }: Props) {
       if (continent !== "all" && operator.continent !== continent) {
         return false;
       }
+      if (!matchesServiceType(operator, serviceType)) {
+        return false;
+      }
       return true;
     });
-  }, [listed, search, alliance, continent]);
+  }, [listed, search, alliance, continent, serviceType]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const currentPage = Math.min(page, Math.max(totalPages, 1));
@@ -89,6 +107,7 @@ export function OperatorList({ operators, recent }: Props) {
     setSearch("");
     setAlliance("all");
     setContinent("all");
+    setServiceType("all");
     setPage(1);
   }
 
@@ -100,6 +119,20 @@ export function OperatorList({ operators, recent }: Props) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 sm:ms-auto">
+          <Select
+            sizing="sm"
+            className="w-40"
+            aria-label="Filter by service type"
+            value={serviceType}
+            onChange={(event) => resetPage(setServiceType)(event.target.value as ServiceTypeFilter)}
+          >
+            {SERVICE_TYPE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+
           <Select
             sizing="sm"
             className="w-44"
@@ -172,7 +205,7 @@ export function OperatorList({ operators, recent }: Props) {
           <EmptyStateIcon icon={FaCircleInfo} color="blue" />
           <EmptyStateText
             title="No operators match your filters."
-            paragraph="Try a different search term, alliance, or continent."
+            paragraph="Try a different search term, traffic type, alliance, or continent."
           />
           <Button color="light" className="mx-auto w-fit cursor-pointer" onClick={clearFilters}>
             Clear filters

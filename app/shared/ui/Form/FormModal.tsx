@@ -1,10 +1,13 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers, type FormikValues } from "formik";
 import React from "react";
 import type { ObjectSchema } from "yup";
 import { FormDensityProvider } from "~/shared/ui/Form/formDensity";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props<T extends FormikValues> = {
+  context: string;
   title: string;
   submitLabel: string;
   initialValues: T;
@@ -16,6 +19,7 @@ type Props<T extends FormikValues> = {
 };
 
 export function FormModal<T extends FormikValues>({
+  context,
   title,
   submitLabel,
   initialValues,
@@ -27,7 +31,9 @@ export function FormModal<T extends FormikValues>({
 }: Props<T>) {
   return (
     <Modal size={size} show onClose={close}>
-      <ModalHeader>{title}</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context={context} action={title} />
+      </ModalHeader>
       <Formik<T>
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -39,16 +45,12 @@ export function FormModal<T extends FormikValues>({
             <ModalBody>
               <FormDensityProvider density="compact">{children}</FormDensityProvider>
             </ModalBody>
-            <ModalFooter>
-              <div className="ms-auto flex gap-2">
-                <Button color="gray" outline onClick={close} disabled={isSubmitting} className="cursor-pointer">
-                  Cancel
-                </Button>
-                <Button type="submit" color="indigo" disabled={isSubmitting} className="cursor-pointer">
-                  {submitLabel}
-                </Button>
-              </div>
-            </ModalFooter>
+            <ModalActions
+              cancel={{ onClick: close }}
+              confirm={{ label: submitLabel, type: "submit" }}
+              pending={isSubmitting}
+              pendingLabel="Saving…"
+            />
           </FormikForm>
         )}
       </Formik>

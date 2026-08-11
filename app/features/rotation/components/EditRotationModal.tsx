@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Form, Formik } from "formik";
 import React from "react";
 import { PilotLicenseInputBlock } from "~/features/rotation/components/PilotLicenseInputBlock";
@@ -6,6 +6,8 @@ import { RotationTmi } from "~/features/rotation/components/RotationTmi";
 import type { CreateRotationRequest } from "~/features/rotation/request";
 import { createRotationSchema } from "~/features/rotation/schema";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   name: string;
@@ -23,7 +25,9 @@ export function EditRotationModal({ name, pilotId, onSave, onClose }: Props) {
 
   return (
     <Modal show size="lg" onClose={onClose}>
-      <ModalHeader>Edit rotation</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Rotation" action="Edit" />
+      </ModalHeader>
       <Formik<CreateRotationRequest>
         initialValues={{ name, pilotId }}
         validationSchema={createRotationSchema}
@@ -42,16 +46,7 @@ export function EditRotationModal({ name, pilotId, onSave, onClose }: Props) {
                 errors={touched.pilotId && errors.pilotId ? [errors.pilotId] : []}
               />
             </ModalBody>
-            <ModalFooter>
-              <div className="ms-auto flex gap-2">
-                <Button color="gray" outline onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button type="submit" color="indigo">
-                  Save changes
-                </Button>
-              </div>
-            </ModalFooter>
+            <ModalActions cancel={{ onClick: onClose }} confirm={{ label: "Save changes", type: "submit" }} />
           </Form>
         )}
       </Formik>

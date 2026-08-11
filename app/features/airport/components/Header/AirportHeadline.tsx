@@ -37,14 +37,7 @@ export function AirportHeadline({ airport, readOnly }: Props) {
       </div>
 
       {!readOnly && (
-        <Button
-          as={Link}
-          to={airportEditPath(pathname)}
-          viewTransition
-          color="indigo"
-          size="sm"
-          className="shrink-0 space-x-1.5"
-        >
+        <Button as={Link} to={airportEditPath(pathname)} color="indigo" size="sm" className="shrink-0 space-x-1.5">
           <HiPencil />
           <span>Update airport data</span>
         </Button>

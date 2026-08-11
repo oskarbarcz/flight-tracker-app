@@ -1,6 +1,8 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import type { Flight } from "~/features/flight";
 import { formatDate } from "~/shared/lib/time";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -11,7 +13,9 @@ type Props = {
 export function RemoveFlightModal({ flight, remove, cancel }: Props) {
   return (
     <Modal show onClose={cancel}>
-      <ModalHeader>Remove flight</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Flight" action="Remove" />
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <p>
           You are going to remove flight <span className="font-bold">{flight.flightNumber} </span>
@@ -29,16 +33,10 @@ export function RemoveFlightModal({ flight, remove, cancel }: Props) {
           <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
         </p>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button onClick={() => remove(flight.id)} color="red">
-            Remove flight {flight.flightNumber}
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{ label: `Remove flight ${flight.flightNumber}`, onClick: () => remove(flight.id), tone: "danger" }}
+      />
     </Modal>
   );
 }

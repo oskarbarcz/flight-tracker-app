@@ -3,6 +3,7 @@ import { useField } from "formik";
 import React, { type HTMLInputAutoCompleteAttribute, type HTMLInputTypeAttribute, type ReactNode } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import { useFormDensity } from "~/shared/ui/Form/formDensity";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 
 type ManagedFloatingInputBlock = {
@@ -37,6 +38,7 @@ export function ManagedFloatingInputBlock({
   const clientError = meta.touched && meta.error ? [meta.error] : [];
   const displayedErrors = [...new Set([...clientError, ...errors])];
   const isError = displayedErrors.length > 0;
+  const density = useFormDensity();
 
   const labelContent: ReactNode = required ? (
     <>
@@ -53,7 +55,7 @@ export function ManagedFloatingInputBlock({
         <FloatingLabel
           variant="outlined"
           label={labelContent as unknown as string}
-          id={field}
+          sizing={density.floatingSizing}
           autoComplete={autoComplete}
           type={type}
           required={required}
@@ -68,7 +70,7 @@ export function ManagedFloatingInputBlock({
           </span>
         )}
       </div>
-      <InputErrorList errorFocus={isError} errors={displayedErrors} />
+      <InputErrorList errorFocus={isError} errors={displayedErrors} size={density.floatingSizing} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">
           <FaInfoCircle />

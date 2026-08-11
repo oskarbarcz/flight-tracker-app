@@ -1,10 +1,12 @@
-import { Button, Label, Modal, ModalBody, ModalFooter, ModalHeader, Radio } from "flowbite-react";
+import { Label, Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
 import { useState } from "react";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { useAuth } from "~/app-state/useAuth";
 import { allWeatherSources, WeatherSource } from "~/features/airport";
 import { WeatherSourceLabel } from "~/features/airport/components/Library/WeatherSourceLabel";
 import { useApi } from "~/shared/api/useApi";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   current: WeatherSource;
@@ -45,7 +47,9 @@ export function ChangeWeatherSourceModal({ current, close, onChanged }: Props) {
 
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={close}>
-      <ModalHeader>Change airport weather source</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Weather source" action="Change" />
+      </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <p className="mb-4 text-pretty text-sm text-gray-600 dark:text-gray-400">
           Airport weather opens on the provider you choose here. You can still switch source on any airport without
@@ -93,16 +97,12 @@ export function ChangeWeatherSourceModal({ current, close, onChanged }: Props) {
           </p>
         )}
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline disabled={isSaving} onClick={close}>
-            Cancel
-          </Button>
-          <Button color="indigo" disabled={isSaving || selected === current} aria-busy={isSaving} onClick={save}>
-            {isSaving ? "Saving…" : "Save changes"}
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: close }}
+        confirm={{ label: "Save changes", onClick: save, disabled: selected === current }}
+        pending={isSaving}
+        pendingLabel="Saving…"
+      />
     </Modal>
   );
 }

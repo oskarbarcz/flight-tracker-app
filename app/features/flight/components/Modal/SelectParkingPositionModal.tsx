@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from "flowbite-react";
+import { Alert, Modal, ModalBody, ModalHeader, Spinner } from "flowbite-react";
 import React, { useEffect, useMemo, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import type { ParkingPosition } from "~/features/parking-position";
@@ -8,6 +8,8 @@ import type { Terminal } from "~/features/terminal";
 import { useApi } from "~/shared/api/useApi";
 import { AdvancedSelect } from "~/shared/ui/Form/AdvancedSelect/AdvancedSelect";
 import { Form } from "~/shared/ui/Form/Form";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   airportId: string;
@@ -46,7 +48,7 @@ export function SelectParkingPositionModal({ airportId, kind, currentSelectionId
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>
-        {kind === "departure" ? "Select departure parking position" : "Select arrival parking position"}
+        <ModalTitle context="Parking stand" action={kind === "departure" ? "Select departure" : "Select arrival"} />
       </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         {parkingPositions === null ? (
@@ -74,16 +76,10 @@ export function SelectParkingPositionModal({ airportId, kind, currentSelectionId
           </Form>
         )}
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button color="indigo" outline type="submit" form={FORM_ID} disabled={!hasParkingPositions}>
-            Confirm
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{ label: "Confirm", type: "submit", form: FORM_ID, disabled: !hasParkingPositions }}
+      />
     </Modal>
   );
 }

@@ -1,8 +1,9 @@
+import type { IconType } from "react-icons";
 import { LuBadgeCheck, LuSparkles } from "react-icons/lu";
 import { WeatherSource } from "~/features/airport";
 import { translateWeatherSource } from "~/features/airport/i18n";
 
-const sourceIcons = {
+const sourceIcons: Partial<Record<WeatherSource, IconType>> = {
   [WeatherSource.AviationWeatherGov]: LuBadgeCheck,
   [WeatherSource.SayIntentions]: LuSparkles,
 };
@@ -16,7 +17,7 @@ export function WeatherSourceLabel({ source }: Props) {
 
   return (
     <span className="inline-flex items-center gap-1">
-      <Icon aria-hidden className="size-3.5 shrink-0" />
+      {Icon && <Icon aria-hidden className="size-3.5 shrink-0" />}
       {translateWeatherSource(source)}
     </span>
   );

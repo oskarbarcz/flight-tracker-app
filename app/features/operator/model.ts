@@ -7,6 +7,12 @@ export enum OperatorType {
   GovernmentMilitary = "government_military",
 }
 
+export enum OperatorServiceType {
+  Passenger = "passenger",
+  Cargo = "cargo",
+  Both = "both",
+}
+
 export enum Alliance {
   StarAlliance = "star_alliance",
   SkyTeam = "sky_team",
@@ -28,6 +34,7 @@ export type Operator = {
   logoUrl: string | null;
   backgroundUrl: string | null;
   type: OperatorType;
+  serviceType: OperatorServiceType;
   continent: Continent;
   alliance?: Alliance | null;
 };

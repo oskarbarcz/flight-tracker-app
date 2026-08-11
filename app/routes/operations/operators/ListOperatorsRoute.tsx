@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
-import { useLoaderData } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 import { useDataRefresh } from "~/app-state/useDataRefresh";
 import { OperatorList } from "~/features/operator/components/List/OperatorList";
 import { OperatorService } from "~/features/operator/service";
@@ -31,9 +31,12 @@ export default function ListOperatorsRoute() {
           url: "/operators/new",
           icon: <HiPlus />,
           color: "indigo",
+          viewTransition: false,
         }}
       />
       <OperatorList operators={operators} recent={recent} />
+
+      <Outlet />
     </>
   );
 }

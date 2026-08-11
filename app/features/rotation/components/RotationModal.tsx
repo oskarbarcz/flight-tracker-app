@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router";
@@ -9,6 +9,8 @@ import type { CreateRotationRequest } from "~/features/rotation/request";
 import { createRotationSchema } from "~/features/rotation/schema";
 import { useApi } from "~/shared/api/useApi";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   operatorId: string;
@@ -31,7 +33,9 @@ export function RotationModal({ operatorId, onClose }: Props) {
 
   return (
     <Modal show size="lg" onClose={onClose}>
-      <ModalHeader>New rotation</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Rotation" action="Create new" />
+      </ModalHeader>
       <Formik<CreateRotationRequest>
         initialValues={{ name: "", pilotId: "" }}
         validationSchema={createRotationSchema}
@@ -49,16 +53,7 @@ export function RotationModal({ operatorId, onClose }: Props) {
                 errors={touched.pilotId && errors.pilotId ? [errors.pilotId] : []}
               />
             </ModalBody>
-            <ModalFooter>
-              <div className="ms-auto flex gap-2">
-                <Button color="gray" outline onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button type="submit" color="indigo">
-                  Create rotation
-                </Button>
-              </div>
-            </ModalFooter>
+            <ModalActions cancel={{ onClick: onClose }} confirm={{ label: "Create rotation", type: "submit" }} />
           </Form>
         )}
       </Formik>

@@ -1,9 +1,10 @@
 import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { isRouteErrorResponse, Link, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { AuthProvider } from "~/app-state/useAuth";
 import { ToastProvider } from "~/app-state/useToast";
 import { ApiProvider } from "~/shared/api/useApi";
+import { installModalEntrance } from "~/shared/lib/modalEntrance";
 import { UpdatePrompt } from "~/shared/pwa/UpdatePrompt";
 import theme from "~/styles/theme";
 import "~/shared/validator/yup-locale";
@@ -60,11 +61,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  useEffect(() => installModalEntrance(), []);
+
   return (
     <ToastProvider>
       <ApiProvider>
         <AuthProvider>
-          <ThemeProvider theme={theme()}>
+          <ThemeProvider theme={theme()} props={{ modal: { initialFocus: -1 } }}>
             <UpdatePrompt />
             <Outlet />
           </ThemeProvider>

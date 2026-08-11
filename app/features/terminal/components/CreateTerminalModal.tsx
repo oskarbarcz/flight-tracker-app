@@ -39,7 +39,8 @@ export function CreateTerminalModal({ airport, close }: Props) {
 
   return (
     <FormModal<CreateTerminalFormData>
-      title="Add terminal"
+      context="Terminal"
+      title="Add"
       submitLabel="Create terminal"
       initialValues={initCreateTerminalData()}
       validationSchema={createTerminalSchema}

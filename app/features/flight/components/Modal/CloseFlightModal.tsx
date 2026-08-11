@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useToast } from "~/app-state/useToast";
@@ -12,6 +12,8 @@ import {
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { closeFlightSchema } from "~/features/flight/schema";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
@@ -41,7 +43,9 @@ export function CloseFlightModal({ flight, onClose }: Props) {
 
   return (
     <Modal size="lg" className="text-gray-800 dark:text-white" show onClose={onClose}>
-      <ModalHeader>Close flight</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Flight" action="Close" />
+      </ModalHeader>
       <ModalBody>
         <Formik<FlatCloseFlightFormData>
           initialValues={initCloseFlightData()}
@@ -60,16 +64,10 @@ export function CloseFlightModal({ flight, onClose }: Props) {
           )}
         </Formik>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" form="closeFlightForm" color="indigo" outline>
-            Close flight
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ onClick: onClose }}
+        confirm={{ label: "Close flight", type: "submit", form: "closeFlightForm" }}
+      />
     </Modal>
   );
 }

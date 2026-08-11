@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React from "react";
 import type { Flight, Loadsheet } from "~/features/flight";
 import { UpdateLoadsheetForm } from "~/features/flight/components/Forms/UpdateLoadsheetForm";
@@ -9,6 +9,8 @@ import {
 } from "~/features/flight/form-types";
 import { updatePreliminaryLoadsheetSchema } from "~/features/flight/schema";
 import { Form } from "~/shared/ui/Form/Form";
+import { ModalActions } from "~/shared/ui/Modal/ModalActions";
+import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type UpdateFinalLoadsheetModalProps = {
   flight: Flight;
@@ -25,7 +27,9 @@ export function UpdateFinalLoadsheetModal({ flight, update, cancel }: UpdateFina
 
   return (
     <Modal size="5xl" className="text-gray-800 dark:text-white" show onClose={cancel}>
-      <ModalHeader>Fill final loadsheet</ModalHeader>
+      <ModalHeader>
+        <ModalTitle context="Loadsheet" action="Fill final" />
+      </ModalHeader>
       <ModalBody>
         <Form<FlatLoadsheetFormData>
           id="updateFinalLoadsheetForm"
@@ -36,16 +40,10 @@ export function UpdateFinalLoadsheetModal({ flight, update, cancel }: UpdateFina
           <UpdateLoadsheetForm />
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <div className="ms-auto flex gap-2">
-          <Button color="gray" outline onClick={cancel}>
-            Back
-          </Button>
-          <Button color="indigo" outline type="submit" form="updateFinalLoadsheetForm">
-            Finish boarding
-          </Button>
-        </div>
-      </ModalFooter>
+      <ModalActions
+        cancel={{ label: "Back", onClick: cancel }}
+        confirm={{ label: "Finish boarding", type: "submit", form: "updateFinalLoadsheetForm" }}
+      />
     </Modal>
   );
 }

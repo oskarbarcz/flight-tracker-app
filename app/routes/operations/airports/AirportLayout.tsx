@@ -83,7 +83,7 @@ export default function AirportLayout() {
       </div>
 
       {isAirportEditRequested(searchParams) && (
-        <UpdateAirportModal airport={data.airport} close={() => navigate(pathname, { viewTransition: true })} />
+        <UpdateAirportModal airport={data.airport} close={() => navigate(pathname)} />
       )}
     </div>
   );
