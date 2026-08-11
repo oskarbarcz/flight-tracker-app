@@ -33,9 +33,10 @@ export function TerminalFormFields({ airportLocation }: Props) {
       />
 
       <PolygonShapePicker
+        className="mb-4"
         field="shape"
         airportLocation={airportLocation}
-        label="Footprint — outline the terminal building"
+        label="Footprint"
         tone="terminal"
       />
     </div>

@@ -43,11 +43,9 @@ export function CreateAirportModal({ close, onCreated }: Props) {
       validationSchema={createAirportSchema}
       onSubmit={handleSubmit}
       close={close}
+      size="5xl"
     >
-      <div className="flex flex-col gap-4">
-        <SkyLinkAutofillPanel />
-        <AirportFormFields />
-      </div>
+      <AirportFormFields autofill={<SkyLinkAutofillPanel />} />
     </FormModal>
   );
 }

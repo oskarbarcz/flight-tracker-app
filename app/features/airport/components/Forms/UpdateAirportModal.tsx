@@ -39,12 +39,13 @@ export function UpdateAirportModal({ airport, close }: Props) {
   return (
     <FormModal<CreateAirportFormData>
       context="Airport"
-      title="Update"
+      title="Update details"
       submitLabel="Save changes"
       initialValues={airportToFormData(airport)}
       validationSchema={createAirportSchema}
       onSubmit={handleSubmit}
       close={close}
+      size="5xl"
     >
       <AirportFormFields />
     </FormModal>
