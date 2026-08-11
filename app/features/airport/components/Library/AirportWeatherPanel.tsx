@@ -1,64 +1,83 @@
-import React from "react";
-import { LuCloudOff, LuRefreshCw } from "react-icons/lu";
-import type { AirportWeather } from "~/features/airport";
+import React, { useState } from "react";
+import { LuCloudOff } from "react-icons/lu";
+import { useAuth } from "~/app-state/useAuth";
+import {
+  type AirportWeatherReport,
+  allWeatherInformationTypes,
+  WeatherInformationType,
+  WeatherSource,
+} from "~/features/airport";
+import { WeatherSourceSwitch } from "~/features/airport/components/Library/WeatherSourceSwitch";
+import { translateWeatherInformationType, translateWeatherSource } from "~/features/airport/i18n";
+import { formatDate } from "~/shared/lib/time";
 
 type Props = {
-  weather: AirportWeather;
+  reports: AirportWeatherReport[];
 };
 
-function formatUpdated(iso: string | null): string | null {
-  if (!iso) {
-    return null;
-  }
-  return `${iso.slice(0, 16).replace("T", " ")} UTC`;
-}
+export function AirportWeatherPanel({ reports }: Props) {
+  const { user } = useAuth();
+  const [source, setSource] = useState(user?.defaultWeatherSource ?? WeatherSource.AviationWeatherGov);
 
-export function AirportWeatherPanel({ weather }: Props) {
-  if (!weather.metar && !weather.taf) {
-    return (
-      <p className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-        <LuCloudOff aria-hidden className="size-4 shrink-0" />
-        No weather report available for this airport.
-      </p>
-    );
+  if (reports.length === 0) {
+    return <NoReports>No weather report available for this airport.</NoReports>;
   }
+
+  const visible = orderByInformationType(reports.filter((report) => report.source === source));
 
   return (
-    <div className="space-y-2">
-      {weather.watch ? (
-        <p className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-          <LuRefreshCw aria-hidden className="size-3.5 shrink-0" />
-          Updates automatically
-        </p>
-      ) : null}
+    <div className="space-y-3">
+      <WeatherSourceSwitch selected={source} onSelect={setSource} />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <WeatherReport label="METAR" text={weather.metar} updated={formatUpdated(weather.metarLastUpdate)} />
-        <WeatherReport label="TAF" text={weather.taf} updated={formatUpdated(weather.tafLastUpdate)} />
-      </div>
+      {visible.length === 0 ? (
+        <NoReports>No {translateWeatherSource(source)} report available for this airport.</NoReports>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {visible.map((report) => (
+            <WeatherReport key={report.id} report={report} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function WeatherReport({ label, text, updated }: { label: string; text: string | null; updated: string | null }) {
+function orderByInformationType(reports: AirportWeatherReport[]): AirportWeatherReport[] {
+  const order = allWeatherInformationTypes();
+
+  return reports.sort((left, right) => order.indexOf(left.informationType) - order.indexOf(right.informationType));
+}
+
+function NoReports({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+      <LuCloudOff aria-hidden className="size-4 shrink-0" />
+      {children}
+    </p>
+  );
+}
+
+function WeatherReport({ report }: { report: AirportWeatherReport }) {
+  const isSpoken = report.informationType === WeatherInformationType.Atis;
+
   return (
     <section className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <header className="flex items-center justify-between gap-3 border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
-        <h3 className="font-mono text-base font-bold text-gray-900 dark:text-white">{label}</h3>
-        {updated ? (
-          <span className="shrink-0 text-xs text-gray-500 dark:text-gray-400">
-            Updated <span className="font-mono">{updated}</span>
-          </span>
-        ) : null}
+      <header className="border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
+        <h3 className="font-mono text-base font-bold text-gray-900 dark:text-white">
+          {translateWeatherInformationType(report.informationType)}
+        </h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          Updated <span className="font-mono">{formatDate(new Date(report.lastFetched))} UTC</span>
+        </p>
       </header>
       <p
         className={
-          text
-            ? "break-words px-3 py-2 font-mono text-sm leading-relaxed text-gray-800 dark:text-gray-200"
-            : "px-3 py-2 text-sm text-gray-400 dark:text-gray-600"
+          isSpoken
+            ? "text-pretty px-3 py-2 text-sm leading-relaxed text-gray-800 dark:text-gray-200"
+            : "break-words px-3 py-2 font-mono text-sm leading-relaxed text-gray-800 dark:text-gray-200"
         }
       >
-        {text ?? "Not available"}
+        {report.content}
       </p>
     </section>
   );

@@ -36,10 +36,29 @@ export type Airport = {
   shape: Coordinates[] | null;
 };
 
-export type AirportWeather = {
-  metar: string | null;
-  metarLastUpdate: string | null;
-  taf: string | null;
-  tafLastUpdate: string | null;
-  watch: boolean;
+export enum WeatherSource {
+  AviationWeatherGov = "aviation_weather_gov",
+  SayIntentions = "say_intentions",
+}
+
+export function allWeatherSources(): WeatherSource[] {
+  return [WeatherSource.AviationWeatherGov, WeatherSource.SayIntentions];
+}
+
+export enum WeatherInformationType {
+  Atis = "atis",
+  Metar = "metar",
+  Taf = "taf",
+}
+
+export function allWeatherInformationTypes(): WeatherInformationType[] {
+  return [WeatherInformationType.Metar, WeatherInformationType.Taf, WeatherInformationType.Atis];
+}
+
+export type AirportWeatherReport = {
+  id: string;
+  source: WeatherSource;
+  informationType: WeatherInformationType;
+  content: string;
+  lastFetched: string;
 };

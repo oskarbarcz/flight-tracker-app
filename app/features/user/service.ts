@@ -6,12 +6,20 @@ import type {
   GetUserResponse,
   ListUsersResponse,
   RequestEmailChangeRequest,
+  UpdateOwnProfileRequest,
 } from "~/features/user/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class UserService extends AbstractAuthorizedApiService {
   async fetchCurrent() {
     return this.fetchWithAuth<GetUserResponse>("/api/v1/user/me");
+  }
+
+  async updateOwnProfile(profile: UpdateOwnProfileRequest) {
+    return this.fetchWithAuth<GetUserResponse>("/api/v1/user/me", {
+      method: "PATCH",
+      body: JSON.stringify(profile),
+    });
   }
 
   async linkGoogleAccount(idToken: string) {

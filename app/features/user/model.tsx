@@ -1,3 +1,5 @@
+import type { WeatherSource } from "~/features/airport/model";
+
 export enum UserRole {
   Operations = "Operations",
   Admin = "Admin",
@@ -18,6 +20,7 @@ export type User = {
   currentFlightId: string;
   pilotLicenseId: string;
   emails: UserEmail[];
+  defaultWeatherSource: WeatherSource;
 };
 
 export type UserStats = {

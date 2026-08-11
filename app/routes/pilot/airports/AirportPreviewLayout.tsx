@@ -2,7 +2,7 @@ import type { Route } from ".react-router/types/app/routes/pilot/airports/+types
 import React, { useCallback, useMemo, useState } from "react";
 import { LuChevronLeft } from "react-icons/lu";
 import { Link, Outlet, useLoaderData, useLocation } from "react-router";
-import type { AirportWeather } from "~/features/airport";
+import type { AirportWeatherReport } from "~/features/airport";
 import { AirportHeadline } from "~/features/airport/components/Header/AirportHeadline";
 import { AirportWeatherPanel } from "~/features/airport/components/Library/AirportWeatherPanel";
 import type { AirportPreviewContext } from "~/features/airport/components/Library/airportPreviewContext";
@@ -22,14 +22,6 @@ import { TerminalService } from "~/features/terminal/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 
-const EMPTY_WEATHER: AirportWeather = {
-  metar: null,
-  metarLastUpdate: null,
-  taf: null,
-  tafLastUpdate: null,
-  watch: false,
-};
-
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runways, terminals, parkingPositions, gates, weather] = await Promise.all([
     new AirportService().fetchById(params.id),
@@ -37,7 +29,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     new TerminalService().fetchAll(params.id),
     new ParkingPositionService().fetchAll(params.id),
     new GateService().fetchAll(params.id),
-    new AirportService().fetchWeather(params.id).catch(() => EMPTY_WEATHER),
+    new AirportService().fetchWeather(params.id).catch((): AirportWeatherReport[] => []),
   ]);
   return { data: { airport, runways, terminals, parkingPositions, gates }, weather };
 }
@@ -69,7 +61,7 @@ export default function AirportPreviewLayout() {
 
       <AirportHeadline airport={data.airport} readOnly />
 
-      <AirportWeatherPanel weather={weather} />
+      <AirportWeatherPanel reports={weather} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="min-w-0 space-y-4">

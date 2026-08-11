@@ -197,26 +197,84 @@ Each tab SHALL show the corresponding airport data in the right-hand panel: the 
 - **WHEN** the parking positions, terminals, gates, or runways tab is active
 - **THEN** the panel lists that airport's records of the corresponding type, or an empty state when there are none
 
-### Requirement: Weather tab
+### Requirement: Weather reports
 
-The weather tab SHALL retrieve the airport's latest weather from `GET /api/v1/airport/{airportId}/weather` and display the raw METAR and TAF reports with their last-update timestamps, and SHALL show an informational indicator when the airport's weather updates automatically (`watch` is true). When a report is not available, the tab SHALL show an empty state for that report. Weather SHALL be fetched when the weather tab is opened.
+The preview SHALL retrieve every stored weather report of the airport from `GET /api/v1/airport/{airportId}/weather` across all sources and display the reports of one source at a time, one card per report, each showing the report's information type (ATIS, METAR or TAF), its content exactly as stored, and when it was last fetched. Reports SHALL be shown in a fixed order — METAR, then TAF, then ATIS — whatever order the endpoint returns them in, so the coded reports a pilot reads first stay in the same place from airport to airport. Coded reports SHALL be rendered in a monospace face; ATIS, being spoken text, SHALL be rendered as prose. Cards sharing a row SHALL share a height, so the grid reads as a row of reports rather than a ragged stack. A report the endpoint does not return SHALL have no card of its own, and an airport that holds no report at all SHALL yield a single empty state in place of the panel. Weather SHALL be loaded with the preview, and a failed weather request SHALL leave the rest of the preview usable.
 
-#### Scenario: Weather available
+#### Scenario: Reports available
 
-- **WHEN** the weather tab is opened for an airport whose endpoint returns METAR and/or TAF
-- **THEN** the raw report text is shown for each available report along with its last-update timestamp
+- **WHEN** the preview is opened for an airport whose endpoint returns reports
+- **THEN** each report of the shown source is presented with its information type, last-fetched time, and content
 
-#### Scenario: Automatic weather updates
+#### Scenario: ATIS is present
 
-- **WHEN** the weather response has `watch` set to true
-- **THEN** an informational indicator is shown stating that the airport's weather updates automatically (not styled as a warning)
+- **WHEN** the collection contains an ATIS report
+- **THEN** its spoken text is shown as prose rather than in the monospace face used for METAR and TAF
+
+#### Scenario: Reports arrive in another order
+
+- **WHEN** the endpoint returns the ATIS before the METAR and TAF of the shown source
+- **THEN** the cards are still presented as METAR, then TAF, then ATIS
+
+#### Scenario: Only some information types are stored
+
+- **WHEN** the endpoint returns a METAR but no TAF
+- **THEN** a METAR card is shown and no TAF card is rendered
 
 #### Scenario: No weather available
 
-- **WHEN** the endpoint returns a null METAR and null TAF
-- **THEN** an empty state is shown instead of report text
+- **WHEN** the endpoint returns an empty collection
+- **THEN** a single empty state is shown in place of the cards and no source switch is offered
 
-#### Scenario: Weather fetched on tab open
+#### Scenario: Weather request fails
 
-- **WHEN** the user opens the preview on a non-weather tab
-- **THEN** the weather endpoint is not called until the weather tab is opened
+- **WHEN** the weather request fails while the preview loads
+- **THEN** the empty state is shown and the map, tabs, and airport details still render
+
+### Requirement: Switching weather source in the preview
+
+The preview SHALL let the reader switch which source's reports are shown, offering every known source — AviationWeather and Say Intentions — each named and carrying a mark of its nature: AviationWeather reports real-world observations, Say Intentions reports simulated ones. The switch SHALL open on the reader's own weather source preference and SHALL make clear which source is currently shown. Switching SHALL NOT issue another weather request, because the preview already holds every source's reports. A source the airport holds no report for SHALL remain selectable and SHALL show an empty state naming that source, so the reader can tell an absent report from an unasked question.
+
+#### Scenario: The switch opens on the reader's preference
+
+- **WHEN** a user whose preference is Say Intentions opens the preview of an airport that holds reports from both sources
+- **THEN** the Say Intentions reports are shown and the switch marks Say Intentions as the current source
+
+#### Scenario: Switching source
+
+- **WHEN** the reader selects the other source
+- **THEN** the cards are replaced by that source's reports without a further weather request, and the reader's stored preference is unchanged
+
+#### Scenario: The selected source holds nothing
+
+- **WHEN** the reader selects a source the airport holds no report for
+- **THEN** an empty state naming that source is shown and the switch stays available
+
+### Requirement: Weather source preference
+
+The account page SHALL let a signed-in user of any role choose the provider their airport weather opens on, offering AviationWeather and Say Intentions, with the choice stored on their profile. The section SHALL name the currently stored choice and change it through a modal, alongside the other account settings. The modal SHALL open on the stored choice, present each provider with what it publishes, save only when the user confirms, and offer nothing to confirm while the stored choice is still selected. A saved change SHALL close the modal and be confirmed in the section; a failed save SHALL be reported in the modal, which stays open with the stored choice unchanged.
+
+#### Scenario: Current choice is shown
+
+- **WHEN** a signed-in user opens `/me/account`
+- **THEN** an airport weather source section names their stored provider and offers to change it
+
+#### Scenario: Changing the provider
+
+- **WHEN** the user opens the modal, selects the other provider, and confirms
+- **THEN** the choice is saved for their profile, the modal closes, the section confirms the change, and the choice persists across reloads
+
+#### Scenario: Leaving the modal without confirming
+
+- **WHEN** the user selects the other provider and cancels the modal
+- **THEN** the stored choice is unchanged and the section still names it
+
+#### Scenario: The change is applied to airport weather
+
+- **WHEN** the user opens an airport preview after changing their provider
+- **THEN** the preview opens on the newly chosen provider's reports
+
+#### Scenario: Saving fails
+
+- **WHEN** saving the choice fails
+- **THEN** the failure is reported in the modal, the modal stays open, and the section still names the stored provider
