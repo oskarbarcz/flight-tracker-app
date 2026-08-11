@@ -1,15 +1,17 @@
-import { Label } from "flowbite-react";
 import { useField } from "formik";
 import L, { type LatLngExpression } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, useMapEvents } from "react-leaflet";
+import { twMerge } from "tailwind-merge";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
+import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
 
 type Props = {
   airportLocation: { latitude: number; longitude: number };
   latitudeField?: string;
   longitudeField?: string;
+  className?: string;
 };
 
 const pinIcon = new L.DivIcon({
@@ -41,6 +43,7 @@ export function RunwayLocationPicker({
   airportLocation,
   latitudeField = "latitude",
   longitudeField = "longitude",
+  className,
 }: Props) {
   const [, latMeta, latHelpers] = useField<number>(latitudeField);
   const [, lonMeta, lonHelpers] = useField<number>(longitudeField);
@@ -58,15 +61,16 @@ export function RunwayLocationPicker({
   const hasSelection = latitude !== 0 || longitude !== 0;
 
   return (
-    <div className="mb-4 w-full">
-      <div className="mb-2 block">
-        <Label>Runway start — click on the map to pick</Label>
-      </div>
+    <div className={twMerge("flex w-full flex-col gap-2", className)}>
+      <FormSectionLabel>Threshold</FormSectionLabel>
+      <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
+        {hasSelection ? `${latitude}, ${longitude}` : "no point — click the map"}
+      </span>
       <MapContainer
         center={initialCenter}
         zoom={14}
         scrollWheelZoom
-        className="h-72 w-full rounded-xl z-0"
+        className="min-h-72 w-full flex-1 rounded-xl z-0"
         attributionControl={false}
       >
         <MapTileLayer />

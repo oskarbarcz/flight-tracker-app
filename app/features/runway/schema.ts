@@ -22,22 +22,18 @@ const optionalIntegerString = (min?: number, max?: number) => {
     });
 };
 
+const requiredIntegerString = (missingMessage: string, min?: number, max?: number) =>
+  optionalIntegerString(min, max).required(missingMessage);
+
 export const createRunwaySchema: ObjectSchema<CreateRunwayFormData> = object().shape({
   designator: string()
     .required("Designator is required")
     .matches(/^(0[1-9]|[12]\d|3[0-6])[LCR]?$/, "Designator must be 01–36 with optional L/C/R suffix"),
-  length: number()
-    .required("Length is required")
-    .integer("Must be a whole number")
-    .min(1, "Length must be at least 1m"),
-  width: number().required("Width is required").integer("Must be a whole number").min(1, "Width must be at least 1m"),
+  length: requiredIntegerString("Length is required", 1),
+  width: requiredIntegerString("Width is required", 1),
   displace: optionalIntegerString(0),
   trueHeading: optionalIntegerString(0, 359),
-  magneticHeading: number()
-    .required("Magnetic heading is required")
-    .integer("Must be a whole number")
-    .min(0, "Must be 0–359")
-    .max(359, "Must be 0–359"),
+  magneticHeading: requiredIntegerString("Magnetic heading is required", 0, 359),
   elevation: optionalIntegerString(),
   surfaceType: string<SurfaceType>().required("Surface type is required").oneOf(Object.values(SurfaceType)),
   lightingType: string<LightingType>().required("Lighting type is required").oneOf(Object.values(LightingType)),
