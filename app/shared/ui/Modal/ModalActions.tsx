@@ -6,6 +6,7 @@ import { playModalExit } from "~/shared/lib/modalEntrance";
 type CancelAction = {
   label?: string;
   onClick: () => void;
+  animateExit?: boolean;
 };
 
 type ConfirmAction = {
@@ -28,10 +29,13 @@ type Props = {
 };
 
 export function ModalActions({ cancel, confirm, pending = false, pendingLabel, note }: Props) {
-  const { label: cancelLabel = "Cancel", onClick: onCancel } = cancel;
+  const { label: cancelLabel = "Cancel", onClick: onCancel, animateExit = true } = cancel;
 
   const dismiss = async () => {
-    await playModalExit();
+    if (animateExit) {
+      await playModalExit();
+    }
+
     onCancel();
   };
   const { label, onClick, type = "button", form, tone = "primary", icon: Icon, trailing, disabled = false } = confirm;

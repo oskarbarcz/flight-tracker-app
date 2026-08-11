@@ -128,15 +128,6 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
       (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
     ),
 
-  blockFuel: number()
-    .required("Block fuel is required")
-    .positive("Must be a positive number")
-    .test(
-      "max-decimals",
-      "Maximum 3 decimal places allowed",
-      (value) => value === undefined || Math.round(Number(value) * 1000) / 1000 === Number(value),
-    ),
-
   trip: nonNegativeTons("Trip fuel"),
   taxi: nonNegativeTons("Taxi fuel"),
   alternate: nonNegativeTons("Alternate fuel"),
