@@ -14,6 +14,7 @@ export function UpdateFinalLoadsheetModal({ flight, update, cancel }: UpdateFina
       action={{ fuel: "Confirm final fuel", weights: "Confirm final weights" }}
       formId="updateFinalLoadsheetForm"
       loadsheet={flight.loadsheets.preliminary as Loadsheet}
+      timesheet={flight.timesheet}
       confirmLabel="Confirm weights and continue to pushback"
       submit={update}
       cancel={cancel}

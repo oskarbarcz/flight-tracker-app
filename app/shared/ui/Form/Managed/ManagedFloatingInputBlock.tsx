@@ -24,6 +24,7 @@ type ManagedFloatingInputBlock = {
   className?: string;
   unit?: string;
   decimals?: number;
+  footnote?: string;
   errors?: string[];
 };
 
@@ -68,6 +69,7 @@ export function ManagedFloatingInputBlock({
   className = "",
   unit,
   decimals,
+  footnote,
   errors = [],
 }: ManagedFloatingInputBlock) {
   const [fieldProps, meta] = useField(field);
@@ -76,6 +78,12 @@ export function ManagedFloatingInputBlock({
   const displayedErrors = [...new Set([...clientError, ...errors])];
   const isError = displayedErrors.length > 0;
   const density = useFormDensity();
+
+  const footnoteBlock = footnote ? (
+    <div className="rounded-b-lg border border-t-0 border-gray-300 bg-gray-100 px-2 py-1 text-[11px] leading-tight text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400">
+      {footnote}
+    </div>
+  ) : null;
 
   const labelContent: ReactNode = required ? (
     <>
@@ -110,6 +118,7 @@ export function ManagedFloatingInputBlock({
           type === "number" && numericFontClasses,
           unit && unitPaddingClass(unit),
           unit && hideSpinnerClasses,
+          footnote && "[&_input]:rounded-b-none",
         )}
       >
         <FloatingLabel
@@ -135,6 +144,7 @@ export function ManagedFloatingInputBlock({
           </span>
         )}
       </div>
+      {footnoteBlock}
       <InputErrorList errorFocus={isError} errors={displayedErrors} size={density.floatingSizing} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">

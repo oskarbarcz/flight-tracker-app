@@ -1,7 +1,7 @@
 import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import type { FormikProps } from "formik";
 import React, { useRef, useState } from "react";
-import type { Loadsheet } from "~/features/flight";
+import type { Loadsheet, Timesheet } from "~/features/flight";
 import { LoadsheetFuelStep } from "~/features/flight/components/Forms/LoadsheetFuelStep";
 import { LoadsheetLoadStep } from "~/features/flight/components/Forms/LoadsheetLoadStep";
 import { FUEL_STEP_FIELDS } from "~/features/flight/components/Forms/loadsheetFields";
@@ -25,6 +25,7 @@ type Props = {
   action: StepTitles;
   formId: string;
   loadsheet: Loadsheet;
+  timesheet: Timesheet;
   confirmLabel: string;
   confirmTrailing?: React.ReactNode;
   submit: (loadsheet: Loadsheet) => void;
@@ -41,6 +42,7 @@ export function LoadsheetFormModal({
   action,
   formId,
   loadsheet,
+  timesheet,
   confirmLabel,
   confirmTrailing,
   submit,
@@ -87,7 +89,7 @@ export function LoadsheetFormModal({
             onSubmit={handleSubmit}
             innerRef={formik}
           >
-            {step === "fuel" ? <LoadsheetFuelStep /> : <LoadsheetLoadStep />}
+            {step === "fuel" ? <LoadsheetFuelStep timesheet={timesheet} /> : <LoadsheetLoadStep />}
           </Form>
         </FormDensityProvider>
       </ModalBody>
