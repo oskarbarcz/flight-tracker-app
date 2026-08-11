@@ -2,7 +2,7 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaFileInvoice, FaGasPump } from "react-icons/fa6";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
-import type { Loadsheet } from "~/features/flight";
+import type { Loadsheet, Timesheet } from "~/features/flight";
 import { CrewColumn } from "~/features/flight/components/FuelAndLoadsheet/CrewColumn";
 import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
 import { LoadsheetFigures } from "~/features/flight/components/FuelAndLoadsheet/LoadsheetFigures";
@@ -14,11 +14,19 @@ type Props = {
   flightId: string;
   preliminary: Loadsheet | null;
   final: Loadsheet | null;
+  timesheet: Timesheet;
   canEditPreliminary?: boolean;
   onEditPreliminary?: () => void;
 };
 
-export function FuelAndLoadsheetPanel({ flightId, preliminary, final, canEditPreliminary, onEditPreliminary }: Props) {
+export function FuelAndLoadsheetPanel({
+  flightId,
+  preliminary,
+  final,
+  timesheet,
+  canEditPreliminary,
+  onEditPreliminary,
+}: Props) {
   const hasPreliminary = preliminary !== null;
   const hasFinal = final !== null;
   const defaultVariant: LoadsheetVariant = hasFinal ? "final" : "preliminary";
@@ -49,7 +57,7 @@ export function FuelAndLoadsheetPanel({ flightId, preliminary, final, canEditPre
             )
           }
         />
-        {fuelLoadsheet ? <FuelPlan fuel={fuelLoadsheet.fuel} /> : <EmptyState />}
+        {fuelLoadsheet ? <FuelPlan fuel={fuelLoadsheet.fuel} timesheet={timesheet} /> : <EmptyState />}
       </Container>
 
       <Container className="lg:col-span-2">
