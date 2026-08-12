@@ -3,17 +3,15 @@
 ## Purpose
 
 Let a user who has connected their Google account to Flight Tracker sign in with Google from the sign-in screen instead of typing an email and password, ending in exactly the same authenticated session a password sign-in produces.
-
 ## Requirements
-
 ### Requirement: Google sign-in option on the sign-in screen
 
-The sign-in screen SHALL offer Google as an alternative to the email and password form, presented as Google's own branded sign-in button below the password form and visually separated from it. The email and password form SHALL remain fully functional and SHALL remain the first control a user reaches.
+The sign-in screen SHALL offer Google as one of possibly several alternatives to the email and password form, presented as Google's own branded sign-in button below the password form, grouped with the other third-party sign-in options and visually separated from the form by a single divider that introduces the group. The email and password form SHALL remain fully functional and SHALL remain the first control a user reaches. The divider SHALL be present whenever at least one third-party option is available, and SHALL be absent when none is.
 
 #### Scenario: Google option is shown
 
 - **WHEN** a signed-out user opens the sign-in screen and Google sign-in is configured for the deployment
-- **THEN** Google's branded sign-in button is shown below the email and password form, separated by a divider labelled to indicate an alternative
+- **THEN** Google's branded sign-in button is shown below the email and password form, within the group of third-party options introduced by a divider labelled to indicate an alternative
 
 #### Scenario: Password form keeps precedence
 
@@ -22,8 +20,13 @@ The sign-in screen SHALL offer Google as an alternative to the email and passwor
 
 #### Scenario: Google is not configured
 
-- **WHEN** the deployment has no Google client configured
-- **THEN** no Google button, divider, or Google-related text appears anywhere on the sign-in screen, and the email and password form is presented exactly as it was before this capability existed
+- **WHEN** the deployment has no Google client configured and at least one other third-party sign-in option is configured
+- **THEN** no Google button or Google-related text appears anywhere on the sign-in screen, the divider and the remaining options are shown, and no gap is left where the Google button would have been
+
+#### Scenario: No third-party option is configured
+
+- **WHEN** the deployment has no third-party sign-in configured at all
+- **THEN** no third-party button, divider, or third-party-related text appears anywhere on the sign-in screen, and the email and password form is presented exactly as it was before any third-party sign-in existed
 
 ### Requirement: Google identity is exchanged for a Flight Tracker session
 
@@ -115,3 +118,4 @@ Google sign-in SHALL be reachable only from the signed-out sign-in screen and SH
 
 - **WHEN** the sign-in screen is opened with no network connection, for example from the installed PWA
 - **THEN** the screen renders and the email and password form is presented, and the Google button is either absent or reported as unavailable rather than silently failing on activation
+

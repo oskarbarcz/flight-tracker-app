@@ -1,4 +1,5 @@
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import type { DiscordAuthorizationRequest } from "~/features/auth";
 import type { User } from "~/features/user/model";
 import { useApi } from "~/shared/api/useApi";
 import { clearTokens, readAccessToken, readRefreshToken, saveTokens } from "~/shared/lib/tokenStorage";
@@ -9,6 +10,7 @@ export interface AuthContextType {
   refreshToken: string | null;
   signIn: (email: string, password: string) => Promise<User>;
   signInWithGoogle: (idToken: string) => Promise<User>;
+  signInWithDiscord: (authorization: DiscordAuthorizationRequest) => Promise<User>;
   signOut: () => void;
   clearSession: () => void;
   refreshUser: () => Promise<void>;
@@ -21,6 +23,7 @@ export const UseAuth = createContext<AuthContextType>({
   refreshToken: null,
   signIn: () => Promise.reject(new Error("AuthProvider is missing")),
   signInWithGoogle: () => Promise.reject(new Error("AuthProvider is missing")),
+  signInWithDiscord: () => Promise.reject(new Error("AuthProvider is missing")),
   signOut: () => {},
   clearSession: () => {},
   refreshUser: async () => {},
@@ -94,6 +97,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return saveAuthData(accessToken, refreshToken);
   };
 
+  const signInWithDiscord = async (authorization: DiscordAuthorizationRequest): Promise<User> => {
+    const { accessToken, refreshToken } = await authService.signInWithDiscord(authorization);
+    return saveAuthData(accessToken, refreshToken);
+  };
+
   const signOut = async () => {
     return authService.signOut().then(() => {
       clearSession();
@@ -108,6 +116,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         refreshToken,
         signIn,
         signInWithGoogle,
+        signInWithDiscord,
         signOut,
         clearSession,
         refreshUser,

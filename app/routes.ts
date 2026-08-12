@@ -5,6 +5,7 @@ export default [
     route("sign-in", "routes/auth/SignInRoute.tsx"),
     route("sign-out", "routes/auth/SignOutRoute.tsx"),
     route("confirm-email", "routes/auth/ConfirmEmailRoute.tsx"),
+    route("auth/discord/callback", "routes/auth/DiscordCallbackRoute.tsx"),
   ]),
   layout("routes/public/MapLayout.tsx", [
     route("map", "routes/public/MapIndexRoute.tsx"),

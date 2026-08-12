@@ -12,6 +12,28 @@ export type UserEmail = {
   active: boolean;
 };
 
+export type GoogleIdentity = {
+  linked: boolean;
+  email?: string | null;
+};
+
+export type DiscordIdentity = {
+  linked: boolean;
+  userId?: string;
+  username?: string;
+  globalName?: string | null;
+  avatarUrl?: string | null;
+};
+
+export type UserIdentities = {
+  google: GoogleIdentity;
+  discord: DiscordIdentity;
+};
+
+export type DiscordJoinOutcome = "joined" | "already_member" | "not_requested" | "failed";
+
+export type DiscordServerMembershipStatus = "member" | "not_member" | "unknown";
+
 export type User = {
   id: string;
   name: string;
@@ -20,6 +42,7 @@ export type User = {
   currentFlightId: string;
   pilotLicenseId: string;
   emails: UserEmail[];
+  identities: UserIdentities;
   defaultWeatherSource: WeatherSource;
 };
 

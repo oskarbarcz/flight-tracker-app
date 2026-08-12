@@ -137,6 +137,8 @@ A near-monochrome gray system with one indigo accent and a conventional semantic
 ### Named Rules
 **The Rare Accent Rule.** Instrument Indigo appears on ≤10% of any screen — actions and the one current selection. If two things on a panel are indigo, one of them is wrong.
 
+**The Integration Brand Exception.** A third-party integration may carry its own brand hue, and only on the marks that identify it — its glyph and the ring around its account avatar — never on actions, text, or surfaces. `--color-discord` (`#5865f2`, with `--color-discord-light` `#949cf7` for dark mode, since the base fails 4.5:1 on the dark canvas) is the only such token today. It sits within a few percent of Instrument Indigo, so it reads as tonal rather than as a competing accent; the integration is recognised by its logo shape, not its hue.
+
 **The Signal-Not-Decoration Rule.** Color only ever means something (state, status, action). Never encode meaning in hue alone — a limit breach or emergency needs a word or icon beside the color.
 
 ## 3. Typography

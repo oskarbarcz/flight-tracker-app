@@ -1,11 +1,12 @@
 import { Button, Spinner } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import { FaCircleExclamation } from "react-icons/fa6";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { CredentialField } from "~/features/auth/components/CredentialField";
-import { GoogleSignInButton } from "~/features/auth/components/GoogleSignInButton";
+import { ThirdPartySignIn } from "~/features/auth/components/ThirdPartySignIn";
 import { describeGoogleSignInFailure } from "~/features/auth/lib/describeGoogleFailure";
+import { readDiscordHandoff } from "~/features/auth/lib/discordHandoff";
 import { failedSignInMessage, unreachableServiceMessage } from "~/features/auth/lib/serviceFailureMessages";
 import { landingPathForRole } from "~/features/user/lib/landingPath";
 import type { User } from "~/features/user/model";
@@ -37,6 +38,7 @@ export default function SignInRoute() {
   const enteringRef = useRef<boolean>(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { signIn, signInWithGoogle, user, isLoading } = useAuth();
 
   useEffect(() => {
@@ -44,6 +46,17 @@ export default function SignInRoute() {
       emailRef.current?.focus();
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    const failure = readDiscordHandoff(location.state)?.failure;
+
+    if (failure === undefined) {
+      return;
+    }
+
+    setError(failure);
+    navigate(location.pathname, { replace: true });
+  }, [location.pathname, location.state, navigate]);
 
   function enterApp(signedInUser: User) {
     enteringRef.current = true;
@@ -165,12 +178,7 @@ export default function SignInRoute() {
           )}
         </Button>
 
-        <GoogleSignInButton
-          text="signin_with"
-          dividerLabel="or"
-          blocked={submitting}
-          onCredential={handleGoogleCredential}
-        />
+        <ThirdPartySignIn blocked={submitting} onGoogleCredential={handleGoogleCredential} />
       </form>
     </section>
   );

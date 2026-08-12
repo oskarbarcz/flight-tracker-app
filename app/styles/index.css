@@ -15,4 +15,6 @@
 
 @theme {
   --font-display: "Inter", sans-serif;
+  --color-discord: #5865f2;
+  --color-discord-light: #949cf7;
 }
