@@ -1,4 +1,5 @@
 import { useAuth } from "~/app-state/useAuth";
+import { DiscordAccountSection } from "~/features/auth/components/DiscordAccountSection";
 import { GoogleAccountSection } from "~/features/auth/components/GoogleAccountSection";
 import { AccountIdentity } from "~/features/user/components/AccountIdentity";
 import { EmailSection } from "~/features/user/components/EmailSection";
@@ -17,7 +18,7 @@ export default function AccountRoute() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl">
+    <div className="mx-auto w-full max-w-xl">
       <SectionHeader title="Account" />
 
       <Container className="gap-0" padding="none">
@@ -25,6 +26,7 @@ export default function AccountRoute() {
         <EmailSection />
         <PasswordSection />
         <GoogleAccountSection />
+        <DiscordAccountSection />
         <WeatherSourceSection />
       </Container>
     </div>

@@ -83,12 +83,17 @@ VITE_NODE_ENV=development
 VITE_FLIGHT_TRACKER_API_HOST=http://localhost
 VITE_ADSB_API_HOST=http://localhost:1080
 VITE_DISCORD_INVITATION_HASH=your-hash
+VITE_DISCORD_CLIENT_ID=your-discord-client-id
 VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 ```
 
 `import.meta.env.PACKAGE_VERSION` is injected by Vite config from `package.json`.
 
 `VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client.
+
+`VITE_DISCORD_CLIENT_ID` is optional and enables Discord sign-in and Discord account linking. It is the Discord application's client ID, whose secret lives only on the API — the browser never exchanges the authorization code itself. Leave it unset and every Discord identity surface disappears; `VITE_DISCORD_INVITATION_HASH` is separate and keeps working, because the community invite needs no client. `<origin>/auth/discord/callback` must be registered as a redirect URI on the Discord application for every origin the app runs on, exact match included (`http://localhost:5173/auth/discord/callback` for local dev), and the bot needs the Create Invite permission in the server for the opt-in server join to succeed.
+
+Discord OAuth is a full-page redirect, unlike Google's in-page identity token, so the callback route only behaves like production in a built app. Deep links reach the router through `public/404.html` plus `public/ghspa.js`, which turn `/auth/discord/callback?code=…&state=…` into `/?/auth/discord/callback&code=…~and~state=…` and reverse it before routing. Testing a built app under GitHub Pages semantics showed this rewrite handles the callback whether or not the service worker is active — `navigateFallback` did not intercept navigations — so the rewrite is the path that must keep working, and it does not exist in `npm run dev`.
 
 ## CI/CD
 

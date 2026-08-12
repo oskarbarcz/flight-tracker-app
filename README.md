@@ -50,6 +50,12 @@ cp .env .env.local
 VITE_FLIGHT_TRACKER_API_HOST=http://localhost
 ```
 
+Third-party sign-in is optional and off unless configured. Leave `VITE_GOOGLE_CLIENT_ID` and
+`VITE_DISCORD_CLIENT_ID` unset and the app runs on email and password alone, with no Google or
+Discord surfaces anywhere. To work on Discord sign-in you also need
+`http://localhost:5173/auth/discord/callback` registered as a redirect URI on the Discord
+application, matching exactly.
+
 4. Set up API:
 
 ```shell

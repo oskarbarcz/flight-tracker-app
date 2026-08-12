@@ -3,9 +3,13 @@ import type { UserStats } from "~/features/user";
 import type {
   ChangePasswordRequest,
   ConfirmEmailChangeRequest,
+  DiscordServerMembershipResponse,
   GetUserResponse,
+  LinkDiscordAccountRequest,
+  LinkDiscordAccountResponse,
   ListUsersResponse,
   RequestEmailChangeRequest,
+  UnlinkAccountRequest,
   UpdateOwnProfileRequest,
 } from "~/features/user/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
@@ -29,6 +33,35 @@ export class UserService extends AbstractAuthorizedApiService {
       method: "POST",
       body: JSON.stringify(body),
     });
+  }
+
+  async unlinkGoogleAccount(currentPassword: string) {
+    const body: UnlinkAccountRequest = { currentPassword };
+
+    await this.fetchWithAuthWithoutRetry<void>("/api/v1/user/me/unlink-google-account", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
+  async linkDiscordAccount(authorization: LinkDiscordAccountRequest) {
+    return this.fetchWithAuth<LinkDiscordAccountResponse>("/api/v1/user/me/link-discord-account", {
+      method: "POST",
+      body: JSON.stringify(authorization),
+    });
+  }
+
+  async unlinkDiscordAccount(currentPassword: string) {
+    const body: UnlinkAccountRequest = { currentPassword };
+
+    await this.fetchWithAuthWithoutRetry<void>("/api/v1/user/me/unlink-discord-account", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
+  async fetchDiscordServerMembership() {
+    return this.fetchWithAuth<DiscordServerMembershipResponse>("/api/v1/user/me/discord/server-membership");
   }
 
   async changePassword(currentPassword: string, newPassword: string) {

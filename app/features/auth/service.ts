@@ -1,4 +1,4 @@
-import type { GoogleSignInRequest, SignInRequest, SignInResponse } from "~/features/auth";
+import type { DiscordAuthorizationRequest, GoogleSignInRequest, SignInRequest, SignInResponse } from "~/features/auth";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 export class AuthService extends AbstractAuthorizedApiService {
@@ -15,6 +15,13 @@ export class AuthService extends AbstractAuthorizedApiService {
     return this.request<SignInResponse>("/api/v1/auth/google", {
       method: "POST",
       body: JSON.stringify(body),
+    });
+  }
+
+  async signInWithDiscord(authorization: DiscordAuthorizationRequest) {
+    return this.request<SignInResponse>("/api/v1/auth/discord", {
+      method: "POST",
+      body: JSON.stringify(authorization),
     });
   }
 

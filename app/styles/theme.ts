@@ -114,6 +114,18 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         off: "",
       },
     },
+    toggleSwitch: {
+      root: {
+        label: "ms-3 mt-0.5 text-start text-sm font-medium text-gray-900 dark:text-gray-100",
+      },
+      toggle: {
+        checked: {
+          color: {
+            indigo: "bg-indigo-600 group-focus:ring-indigo-300 dark:bg-indigo-500 dark:group-focus:ring-indigo-800",
+          },
+        },
+      },
+    },
     button: {
       base: "cursor-pointer transition-colors duration-200",
       color: {
