@@ -1,5 +1,6 @@
 import type { AirportWeatherReport, Continent } from "~/features/airport";
 import type { CreateAirportRequest, EditAirportRequest, GetAirportResponse } from "~/features/airport/request";
+import type { Notam } from "~/features/notam";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type AirportListFilters = {
@@ -20,6 +21,10 @@ export class AirportService extends AbstractAuthorizedApiService {
 
   async fetchWeather(airportId: string) {
     return this.fetchWithAuth<AirportWeatherReport[]>(`/api/v1/airport/${airportId}/weather?source=all`);
+  }
+
+  async fetchNotams(airportId: string) {
+    return this.fetchWithAuth<Notam[]>(`/api/v1/airport/${airportId}/notam`);
   }
 
   async createNew(airport: CreateAirportRequest) {

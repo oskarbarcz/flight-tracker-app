@@ -7,6 +7,7 @@ import { AirportHeadline } from "~/features/airport/components/Header/AirportHea
 import { AirportWeatherPanel } from "~/features/airport/components/Library/AirportWeatherPanel";
 import type { AirportPreviewContext } from "~/features/airport/components/Library/airportPreviewContext";
 import { AirportSectionTabs } from "~/features/airport/components/Management/AirportSectionTabs";
+import { sectionItemCount } from "~/features/airport/components/Management/airportManagementContext";
 import { filterAirportSection } from "~/features/airport/components/Management/airportSectionFilters";
 import {
   AIRPORT_LIBRARY_BASE,
@@ -16,6 +17,8 @@ import {
 import { AirportLocationMap } from "~/features/airport/components/Overview/AirportLocationMap";
 import { AirportService } from "~/features/airport/service";
 import { GateService } from "~/features/gate/service";
+import type { Notam } from "~/features/notam";
+import { NotamsImportedAt } from "~/features/notam/components/NotamsImportedAt";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
@@ -23,15 +26,16 @@ import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const [airport, runways, terminals, parkingPositions, gates, weather] = await Promise.all([
+  const [airport, runways, terminals, parkingPositions, gates, notams, weather] = await Promise.all([
     new AirportService().fetchById(params.id),
     new RunwayService().fetchAll(params.id),
     new TerminalService().fetchAll(params.id),
     new ParkingPositionService().fetchAll(params.id),
     new GateService().fetchAll(params.id),
+    new AirportService().fetchNotams(params.id).catch((): Notam[] | null => null),
     new AirportService().fetchWeather(params.id).catch((): AirportWeatherReport[] => []),
   ]);
-  return { data: { airport, runways, terminals, parkingPositions, gates }, weather };
+  return { data: { airport, runways, terminals, parkingPositions, gates, notams }, weather };
 }
 
 export default function AirportPreviewLayout() {
@@ -65,10 +69,18 @@ export default function AirportPreviewLayout() {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="min-w-0 space-y-4">
-          <AirportSectionTabs basePath={AIRPORT_LIBRARY_BASE} airportId={data.airport.id} activeSection={section} />
-          {data[section.key].length > 0 && (
-            <div className="w-full sm:max-w-xs">
-              <FilterInput value={filter} onChange={setFilter} placeholder={section.filterPlaceholder} />
+          <AirportSectionTabs
+            basePath={AIRPORT_LIBRARY_BASE}
+            airportId={data.airport.id}
+            activeSection={section}
+            counts={{ notams: data.notams?.length }}
+          />
+          {sectionItemCount(section, data) > 0 && (
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="w-full sm:max-w-xs">
+                <FilterInput value={filter} onChange={setFilter} placeholder={section.filterPlaceholder} />
+              </div>
+              {section.key === "notams" && <NotamsImportedAt notams={data.notams} />}
             </div>
           )}
           <Outlet context={context} />

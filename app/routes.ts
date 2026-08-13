@@ -32,6 +32,7 @@ export default [
         route("terminals", "routes/pilot/airports/AirportTerminalsTab.tsx"),
         route("parking-positions", "routes/pilot/airports/AirportParkingTab.tsx"),
         route("gates", "routes/pilot/airports/AirportGatesTab.tsx"),
+        route("notams", "routes/pilot/airports/AirportNotamsTab.tsx"),
       ]),
     ]),
     layout("routes/operations/OperationsLayout.tsx", [
@@ -91,6 +92,7 @@ export default [
           route("new", "routes/operations/airports/runways/CreateRunwayRoute.tsx"),
           route(":runwayId/edit", "routes/operations/airports/runways/EditRunwayRoute.tsx"),
         ]),
+        route("airports/:id/notams", "routes/operations/airports/AirportNotamsRoute.tsx"),
       ]),
     ]),
   ]),

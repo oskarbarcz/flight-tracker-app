@@ -1,14 +1,15 @@
 import type { AirportMapLayer } from "~/features/airport/components/Overview/AirportLocationMap";
 
-export type AirportSectionKey = "runways" | "terminals" | "parkingPositions" | "gates";
+export type AirportSectionKey = "runways" | "terminals" | "parkingPositions" | "gates" | "notams";
 
 export type AirportSection = {
   key: AirportSectionKey;
   path: string;
   title: string;
-  addLabel: string;
+  addLabel?: string;
   filterPlaceholder: string;
   layers: AirportMapLayer[];
+  mapTitle?: string;
 };
 
 export const airportSections: AirportSection[] = [
@@ -44,6 +45,14 @@ export const airportSections: AirportSection[] = [
     filterPlaceholder: "Filter by name or terminal",
     layers: ["shape", "gates"],
   },
+  {
+    key: "notams",
+    path: "notams",
+    title: "NOTAMs",
+    filterPlaceholder: "Filter by number, subject or text",
+    layers: ["shape", "runways", "terminals"],
+    mapTitle: "Airport layout",
+  },
 ];
 
 export function resolveActiveSection(pathname: string): AirportSection {
@@ -63,7 +72,7 @@ export function sectionCreatePath(airportId: string, section: AirportSection): s
 }
 
 export function sectionMapTitle(section: AirportSection): string {
-  return `Airport area and ${section.title.toLowerCase()}`;
+  return section.mapTitle ?? `Airport area and ${section.title.toLowerCase()}`;
 }
 
 const AIRPORT_EDIT_PARAM = "edit";

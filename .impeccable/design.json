@@ -1,33 +1,406 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-09T00:00:00.000Z",
+  "generatedAt": "2026-08-13T00:00:00.000Z",
   "title": "Design System: Flight Tracker",
   "extensions": {
     "colorMeta": {
-      "indigo-primary": { "role": "primary", "displayName": "Instrument Indigo", "canonical": "#6366f1", "tonalRamp": ["#312e81", "#3730a3", "#4338ca", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"] },
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1f2937", "tonalRamp": ["#111827", "#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#d1d5db", "#f3f4f6"] },
-      "success": { "role": "semantic", "displayName": "Clearance Green", "canonical": "#15803d", "tonalRamp": ["#14532d", "#166534", "#15803d", "#16a34a", "#22c55e", "#4ade80", "#86efac", "#dcfce7"] },
-      "warning": { "role": "semantic", "displayName": "Caution Amber", "canonical": "#b45309", "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fef3c7"] },
-      "danger": { "role": "semantic", "displayName": "Alert Red", "canonical": "#dc2626", "tonalRamp": ["#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fca5a5", "#fee2e2"] }
+      "indigo-primary": {
+        "role": "primary",
+        "displayName": "Instrument Indigo",
+        "canonical": "#6366f1",
+        "tonalRamp": [
+          "#312e81",
+          "#3730a3",
+          "#4338ca",
+          "#4f46e5",
+          "#6366f1",
+          "#818cf8",
+          "#a5b4fc",
+          "#c7d2fe"
+        ]
+      },
+      "indigo-strong": {
+        "role": "primary",
+        "displayName": "Indigo Deep",
+        "canonical": "#4f46e5",
+        "tonalRamp": [
+          "#312e81",
+          "#3730a3",
+          "#4338ca",
+          "#4f46e5",
+          "#6366f1",
+          "#818cf8",
+          "#a5b4fc",
+          "#c7d2fe"
+        ]
+      },
+      "indigo-tint": {
+        "role": "primary",
+        "displayName": "Indigo Tint",
+        "canonical": "#eef2ff",
+        "tonalRamp": [
+          "#312e81",
+          "#3730a3",
+          "#4338ca",
+          "#4f46e5",
+          "#6366f1",
+          "#818cf8",
+          "#a5b4fc",
+          "#c7d2fe"
+        ]
+      },
+      "indigo-mark": {
+        "role": "brand",
+        "displayName": "Mark Indigo",
+        "canonical": "#6875f5",
+        "tonalRamp": [
+          "#312e81",
+          "#3730a3",
+          "#4338ca",
+          "#4f46e5",
+          "#6875f5",
+          "#818cf8",
+          "#a5b4fc",
+          "#c7d2fe"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1f2937",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "ink-strong": {
+        "role": "neutral",
+        "displayName": "Ink Strong",
+        "canonical": "#111827",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#6b7280",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline Border",
+        "canonical": "#e5e7eb",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "canonical": "#f3f4f6",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "canvas-subtle": {
+        "role": "neutral",
+        "displayName": "Canvas Subtle",
+        "canonical": "#f9fafb",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "dark-canvas": {
+        "role": "neutral",
+        "displayName": "Dark Canvas",
+        "canonical": "#111827",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Dark Surface",
+        "canonical": "#1f2937",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "dark-border": {
+        "role": "neutral",
+        "displayName": "Dark Border",
+        "canonical": "#374151",
+        "tonalRamp": [
+          "#030712",
+          "#111827",
+          "#1f2937",
+          "#374151",
+          "#6b7280",
+          "#d1d5db",
+          "#f3f4f6",
+          "#f9fafb"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Clearance Green",
+        "canonical": "#15803d",
+        "tonalRamp": [
+          "#14532d",
+          "#166534",
+          "#15803d",
+          "#16a34a",
+          "#22c55e",
+          "#4ade80",
+          "#86efac",
+          "#dcfce7"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Caution Amber",
+        "canonical": "#b45309",
+        "tonalRamp": [
+          "#78350f",
+          "#92400e",
+          "#b45309",
+          "#d97706",
+          "#f59e0b",
+          "#fbbf24",
+          "#fcd34d",
+          "#fef3c7"
+        ]
+      },
+      "info": {
+        "role": "semantic",
+        "displayName": "Advisory Sky",
+        "canonical": "#0369a1",
+        "tonalRamp": [
+          "#0c4a6e",
+          "#075985",
+          "#0369a1",
+          "#0284c7",
+          "#0ea5e9",
+          "#38bdf8",
+          "#7dd3fc",
+          "#e0f2fe"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Alert Red",
+        "canonical": "#dc2626",
+        "tonalRamp": [
+          "#7f1d1d",
+          "#991b1b",
+          "#b91c1c",
+          "#dc2626",
+          "#ef4444",
+          "#f87171",
+          "#fca5a5",
+          "#fee2e2"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Flight / page titles only." },
-      "label": { "displayName": "Micro-Caps Label", "purpose": "Field labels and column keys; uppercase, tracked." },
-      "data": { "displayName": "Data (Mono)", "purpose": "Every comparable figure: tonnages, fuel, times, subtotals." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Flight and page titles only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Panel section headings (\"Souls on board\", \"Fuel plan\")."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and group titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default UI text; cap prose at 65-75ch, dense tables may run wider."
+      },
+      "label": {
+        "displayName": "Micro-Caps Label",
+        "purpose": "Field labels, column keys and group headings; uppercase, tracked >= 0.06em."
+      },
+      "data": {
+        "displayName": "Data (Mono)",
+        "purpose": "Every comparable figure: tonnages, fuel, times, subtotals, NOTAM validity."
+      }
     },
     "shadows": [
-      { "name": "modal-ambient", "value": "0 10px 15px -3px rgb(15 23 42 / 0.10), 0 4px 6px -4px rgb(15 23 42 / 0.10)", "purpose": "The only sanctioned shadow: lifts a modal off its backdrop." },
-      { "name": "card-legacy", "value": "0 1px 2px rgb(15 23 42 / 0.04), 0 6px 16px -8px rgb(15 23 42 / 0.12)", "purpose": "Legacy light-mode card shadow. Prefer border-based separation (The Flat Surface Rule)." }
+      {
+        "name": "modal-panel",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.06)",
+        "purpose": "The only sanctioned panel shadow: lifts a modal off its scrim. Defined on .modal-panel in app/styles/utilities.css."
+      },
+      {
+        "name": "modal-panel-dark",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4)",
+        "purpose": "Dark-mode modal lift; deeper because the scrim sits on the near-black canvas."
+      },
+      {
+        "name": "map-chip-legibility",
+        "value": "0 1px 2px rgba(17, 24, 39, 0.12)",
+        "purpose": "Map overlay chips (gate labels) only, so a floating chip stays readable over aerial tiles. Not panel chrome; The Flat Surface Rule still governs surfaces."
+      }
     ],
     "motion": [
-      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for state transitions." },
-      { "name": "duration-state", "value": "200ms", "purpose": "State-change transition duration; keep in the 150-250ms band." }
+      {
+        "name": "ease-entrance",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The system's signature exponential ease-out. Modal entrance, sign-in morph, map fullscreen morph."
+      },
+      {
+        "name": "ease-exit",
+        "value": "cubic-bezier(0.4, 0, 1, 1)",
+        "purpose": "Dismissal easing: the panel retreats faster than it arrived."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Default easing for colour and border state transitions."
+      },
+      {
+        "name": "duration-state",
+        "value": "200ms",
+        "purpose": "State-change transitions (hover, focus, colour). Keep in the 150-250ms band."
+      },
+      {
+        "name": "duration-modal-in",
+        "value": "280ms",
+        "purpose": "Modal panel entrance: opacity 0 + scale(0.94) to rest."
+      },
+      {
+        "name": "duration-modal-out",
+        "value": "180ms",
+        "purpose": "Modal dismissal: retreat to scale(0.96) toward the control that opened it."
+      },
+      {
+        "name": "duration-scrim-in",
+        "value": "260ms",
+        "purpose": "Scrim fade plus backdrop-filter blur(0) to blur(4px)."
+      },
+      {
+        "name": "duration-content-in",
+        "value": "240ms",
+        "purpose": "Modal body children rise 6px into place."
+      },
+      {
+        "name": "stagger-modal-body",
+        "value": "80ms, 100ms, 120ms, 140ms, 160ms",
+        "purpose": "Delay ladder for the first four modal body children, then a shared 160ms for the rest."
+      },
+      {
+        "name": "duration-app-entry",
+        "value": "620ms",
+        "purpose": "Sign-in to app-shell View Transition: clip-path inset opens from the pressed control."
+      },
+      {
+        "name": "duration-map-morph",
+        "value": "320ms",
+        "purpose": "Airport map maximize / restore View Transition."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none / animation-duration: 0.01ms",
+        "purpose": "Every animation above is cancelled under prefers-reduced-motion: reduce."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "md", "value": "768px" },
-      { "name": "lg", "value": "1024px" },
-      { "name": "xl", "value": "1280px" }
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "2xl",
+        "value": "1536px"
+      }
     ]
   },
   "components": [
@@ -43,23 +416,31 @@
       "name": "Subtle Button",
       "kind": "button",
       "refersTo": "button-subtle",
-      "description": "Secondary indigo action; quiet at rest.",
+      "description": "Secondary indigo action; transparent at rest, indigo tint on hover.",
       "html": "<button class=\"ds-btn-subtle\">Cancel</button>",
-      "css": ".ds-btn-subtle { background: transparent; color: #4f46e5; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border: 0; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-subtle:hover { background: #eef2ff; color: #4338ca; } .ds-btn-subtle:focus-visible { outline: none; box-shadow: 0 0 0 3px #c7d2fe; }"
+      "css": ".ds-btn-subtle { background: transparent; color: #4f46e5; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border: 0; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.4,0,0.2,1), color 200ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-subtle:hover { background: #eef2ff; color: #4338ca; } .ds-btn-subtle:focus-visible { outline: none; box-shadow: 0 0 0 3px #c7d2fe; }"
+    },
+    {
+      "name": "Light Button",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "Neutral secondary action: bordered white at rest, warming to indigo on hover. The most common non-primary button in the app.",
+      "html": "<button class=\"ds-btn-light\">Clear filter</button>",
+      "css": ".ds-btn-light { background: #fff; color: #374151; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.4,0,0.2,1), border-color 200ms, color 200ms; } .ds-btn-light:hover { background: #eef2ff; border-color: #a5b4fc; color: #4338ca; } .ds-btn-light:focus-visible { outline: none; box-shadow: 0 0 0 3px #a5b4fc; } .ds-btn-light:disabled { opacity: 0.5; cursor: not-allowed; }"
     },
     {
       "name": "Status Badge",
       "kind": "chip",
       "refersTo": "badge-status",
-      "description": "Status / limit pill; always carries a word, never color alone.",
-      "html": "<span class=\"ds-badge ds-badge--success\">Within limits</span>",
-      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 0.375rem; border-radius: 9999px; padding: 0.125rem 0.625rem; font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; } .ds-badge--success { background: #dcfce7; color: #15803d; } .ds-badge--warning { background: #fef3c7; color: #b45309; } .ds-badge--danger { background: #fee2e2; color: #b91c1c; }"
+      "description": "Status / limit / severity pill in six tones. Always carries a word, never colour alone.",
+      "html": "<div class=\"ds-badge-row\"><span class=\"ds-badge ds-badge--failure\">Closed</span><span class=\"ds-badge ds-badge--warning\">Work in progress</span><span class=\"ds-badge ds-badge--success\">Within limits</span><span class=\"ds-badge ds-badge--info\">Advisory</span><span class=\"ds-badge ds-badge--gray\">Concentration of birds</span><span class=\"ds-badge ds-badge--indigo\">Checked in</span></div>",
+      "css": ".ds-badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; } .ds-badge { display: inline-flex; align-items: center; gap: 0.375rem; border-radius: 9999px; padding: 0.125rem 0.625rem; font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; } .ds-badge--success { background: #dcfce7; color: #15803d; } .ds-badge--warning { background: #fef3c7; color: #b45309; } .ds-badge--failure { background: #fee2e2; color: #b91c1c; } .ds-badge--info { background: #e0f2fe; color: #0369a1; } .ds-badge--gray { background: #f3f4f6; color: #4b5563; } .ds-badge--indigo { background: #e0e7ff; color: #4338ca; }"
     },
     {
       "name": "Data Panel Card",
       "kind": "card",
       "refersTo": "card",
-      "description": "Flat surface separated by a border, not a shadow.",
+      "description": "Flat surface separated by a hairline border, never a shadow.",
       "html": "<section class=\"ds-card\"><h3 class=\"ds-card__title\">Fuel plan</h3><div class=\"ds-card__body\">Panel content</div></section>",
       "css": ".ds-card { background: #fff; color: #1f2937; border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 1rem; } .ds-card__title { font-family: Inter, sans-serif; font-size: 1rem; font-weight: 600; margin: 0; } .ds-card__body { font-family: Inter, sans-serif; font-size: 0.875rem; line-height: 1.5; }"
     },
@@ -67,30 +448,46 @@
       "name": "Floating-Label Input",
       "kind": "input",
       "refersTo": "input-field",
-      "description": "Label rests inside, floats up on focus/value.",
+      "description": "Label rests inside, floats up on focus or value; border shifts to indigo with an indigo ring.",
       "html": "<label class=\"ds-field\"><input class=\"ds-field__input\" placeholder=\" \" /><span class=\"ds-field__label\">Block fuel</span></label>",
-      "css": ".ds-field { position: relative; display: block; } .ds-field__input { width: 100%; box-sizing: border-box; font-family: Inter, sans-serif; font-size: 0.875rem; color: #1f2937; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem 0.75rem 0.5rem; transition: border-color 200ms, box-shadow 200ms; } .ds-field__input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px #c7d2fe; } .ds-field__label { position: absolute; left: 0.75rem; top: 0.9rem; color: #6b7280; font-family: Inter, sans-serif; font-size: 0.875rem; pointer-events: none; transition: transform 200ms, color 200ms, font-size 200ms; transform-origin: left top; } .ds-field__input:focus + .ds-field__label, .ds-field__input:not(:placeholder-shown) + .ds-field__label { transform: translateY(-0.65rem) scale(0.8); color: #4f46e5; }"
+      "css": ".ds-field { position: relative; display: block; } .ds-field__input { width: 100%; box-sizing: border-box; font-family: Inter, sans-serif; font-size: 0.875rem; color: #1f2937; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 0.875rem 0.625rem 0.5rem; transition: border-color 200ms, box-shadow 200ms; } .ds-field__input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px #c7d2fe; } .ds-field__input:disabled { opacity: 0.5; background: #f9fafb; cursor: not-allowed; } .ds-field__label { position: absolute; left: 0.5rem; top: 0.85rem; padding: 0 0.25rem; color: #6b7280; background: #fff; font-family: Inter, sans-serif; font-size: 0.875rem; pointer-events: none; transition: transform 200ms, color 200ms, font-size 200ms; transform-origin: left top; } .ds-field__input:focus + .ds-field__label, .ds-field__input:not(:placeholder-shown) + .ds-field__label { transform: translateY(-1.35rem) scale(0.85); color: #4f46e5; }"
     },
     {
-      "name": "Underline Tab (active)",
+      "name": "Underline Tab Bar",
       "kind": "nav",
       "refersTo": "tab-underline",
-      "description": "Active tab: indigo text + indigo underline; tablist scrolls when it overflows.",
-      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab--active\">Fuel &amp; load</button><button class=\"ds-tab\">Timesheet</button></div>",
-      "css": ".ds-tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; border-bottom: 1px solid #e5e7eb; } .ds-tab { flex: 0 0 auto; background: none; border: 0; border-bottom: 2px solid transparent; padding: 0.5rem 1rem; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 500; color: #6b7280; cursor: pointer; white-space: nowrap; } .ds-tab:hover { color: #1f2937; } .ds-tab--active { color: #6366f1; border-bottom-color: #6366f1; }"
+      "description": "Active tab is indigo text plus indigo underline. The tablist scrolls horizontally when it overflows and centres its active tab on mount. A volatile section may carry a mono count pill.",
+      "html": "<nav class=\"ds-tabs\"><a class=\"ds-tab\" href=\"#\">Runways</a><a class=\"ds-tab\" href=\"#\">Terminals</a><a class=\"ds-tab\" href=\"#\">Gates</a><a class=\"ds-tab ds-tab--active\" href=\"#\">NOTAMs<span class=\"ds-tab__count ds-tab__count--active\">3</span></a></nav>",
+      "css": ".ds-tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; border-bottom: 1px solid #e5e7eb; } .ds-tab { flex: 0 0 auto; display: flex; align-items: center; gap: 0.5rem; margin-bottom: -1px; border-bottom: 2px solid transparent; padding: 0.625rem 1rem; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 500; color: #6b7280; text-decoration: none; white-space: nowrap; transition: color 200ms cubic-bezier(0.4,0,0.2,1), border-color 200ms cubic-bezier(0.4,0,0.2,1); } .ds-tab:hover { color: #374151; border-bottom-color: #d1d5db; } .ds-tab--active { color: #4f46e5; border-bottom-color: #4f46e5; } .ds-tab__count { min-width: 1.25rem; padding: 0.125rem 0.375rem; border-radius: 9999px; background: #f3f4f6; color: #4b5563; font-family: 'Roboto Mono', monospace; font-variant-numeric: tabular-nums; font-size: 11px; font-weight: 700; text-align: center; } .ds-tab__count--active { background: #eef2ff; color: #4338ca; }"
+    },
+    {
+      "name": "Side Nav Item",
+      "kind": "nav",
+      "refersTo": "sidenav-item",
+      "description": "App-shell navigation row: muted at rest, indigo tint fill when current, with a slight press compression.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__item ds-nav__item--active\" href=\"#\">Airports</a><a class=\"ds-nav__item\" href=\"#\">Operators</a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: 0.125rem; width: 14rem; } .ds-nav__item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 12px; font-family: Inter, sans-serif; font-size: 0.875rem; color: #6b7280; text-decoration: none; cursor: pointer; transition: all 75ms ease-in-out; } .ds-nav__item:hover { background: #eef2ff; color: #4f46e5; } .ds-nav__item:active { background: #e0e7ff; transform: scale(0.97); } .ds-nav__item--active { background: #e0e7ff; color: #6366f1; } .ds-nav__item--active:hover { background: #c7d2fe; }"
+    },
+    {
+      "name": "Modal Panel",
+      "kind": "custom",
+      "refersTo": "modal-panel",
+      "description": "Shared chrome behind every modal in the app: near-black blurred scrim, header and footer rails lifted one tonal step above the body, and the only sanctioned panel shadow. Entrance scales from 0.94 toward the control that opened it.",
+      "html": "<div class=\"ds-modal\"><header class=\"ds-modal__header\"><h2 class=\"ds-modal__title\">Confirm final loadsheet</h2></header><div class=\"ds-modal__body\">Zero fuel weight and block fuel will be locked.</div><footer class=\"ds-modal__actions\"><button class=\"ds-modal__btn ds-modal__btn--light\">Cancel</button><button class=\"ds-modal__btn ds-modal__btn--primary\">Confirm</button></footer></div>",
+      "css": ".ds-modal { max-width: 28rem; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; color: #1f2937; overflow: hidden; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.06); animation: ds-modal-in 280ms cubic-bezier(0.16,1,0.3,1) both; } @keyframes ds-modal-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } } .ds-modal__header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1.5rem; border-bottom: 1px solid #e5e7eb; background: #f9fafb; } .ds-modal__title { margin: 0; font-family: Inter, sans-serif; font-size: 1rem; font-weight: 600; line-height: 1.25; color: #111827; } .ds-modal__body { padding: 1.25rem 1.5rem; font-family: Inter, sans-serif; font-size: 0.875rem; line-height: 1.5; color: #1f2937; } .ds-modal__actions { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 0.75rem 1.5rem; border-top: 1px solid #e5e7eb; background: #f9fafb; } .ds-modal__btn { font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: background 200ms cubic-bezier(0.4,0,0.2,1); } .ds-modal__btn--light { background: #fff; color: #374151; border: 1px solid #e5e7eb; } .ds-modal__btn--light:hover { background: #eef2ff; border-color: #a5b4fc; color: #4338ca; } .ds-modal__btn--primary { background: #6366f1; color: #fff; border: 0; } .ds-modal__btn--primary:hover { background: #4f46e5; } @media (prefers-reduced-motion: reduce) { .ds-modal { animation: none; } }"
     },
     {
       "name": "Fuel Build-up Line",
       "kind": "custom",
       "refersTo": "fuel-buildup",
-      "description": "Signature pattern: a mono figure ladder with rule-lined subtotals and running totals.",
-      "html": "<div class=\"ds-fuel\"><div class=\"ds-fuel__row\"><span class=\"ds-fuel__label\">Trip</span><span class=\"ds-fuel__val\">10.4<span class=\"ds-fuel__unit\">t</span></span></div><div class=\"ds-fuel__row ds-fuel__row--subtotal\"><span class=\"ds-fuel__label\">Min takeoff</span><span class=\"ds-fuel__val\">12.4<span class=\"ds-fuel__unit\">t</span></span></div></div>",
+      "description": "Signature pattern: a mono figure ladder with rule-lined subtotals and running totals, so every tonne is verifiable at a glance.",
+      "html": "<div class=\"ds-fuel\"><div class=\"ds-fuel__row\"><span class=\"ds-fuel__label\">Trip</span><span class=\"ds-fuel__val\">10.4<span class=\"ds-fuel__unit\">t</span></span></div><div class=\"ds-fuel__row\"><span class=\"ds-fuel__label\">Contingency</span><span class=\"ds-fuel__val\">0.5<span class=\"ds-fuel__unit\">t</span></span></div><div class=\"ds-fuel__row ds-fuel__row--subtotal\"><span class=\"ds-fuel__label\">Min takeoff</span><span class=\"ds-fuel__val\">12.4<span class=\"ds-fuel__unit\">t</span></span></div></div>",
       "css": ".ds-fuel { display: flex; flex-direction: column; } .ds-fuel__row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; padding: 0.375rem 0; } .ds-fuel__label { font-family: Inter, sans-serif; font-size: 0.75rem; color: #6b7280; } .ds-fuel__val { font-family: 'Roboto Mono', monospace; font-variant-numeric: tabular-nums; font-size: 0.875rem; font-weight: 500; color: #374151; } .ds-fuel__unit { margin-left: 0.125rem; font-size: 10px; opacity: 0.6; } .ds-fuel__row--subtotal { margin-top: 0.25rem; border-top: 1px solid #e5e7eb; padding-top: 0.5rem; } .ds-fuel__row--subtotal .ds-fuel__label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4b5563; } .ds-fuel__row--subtotal .ds-fuel__val { font-weight: 700; color: #1f2937; }"
     }
   ],
   "narrative": {
     "northStar": "The Flight Plan",
-    "overview": "Flight Tracker is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface reads like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document is the interface; authority comes from being correct and legible under density, not from chrome. A single indigo carries action and current selection; everything else is a disciplined gray scale that lets tabular data be the loudest thing on screen.",
+    "overview": "Flight Tracker is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface should read like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document *is* the interface. Its authority comes from being correct and legible under density, not from chrome.\n\nThe system is quiet on purpose. A single indigo carries action and current selection; everything else is a disciplined gray scale that lets tabular data (fuel in tons, times in `Z`, IATA/ICAO codes) be the loudest thing on the screen. Layout is structural and honest: panels separated by hairline borders and tonal steps, information packed tightly but never cramped, hierarchy built from weight and rhythm rather than empty space.\n\nThis system explicitly rejects the **flashy gamer / sci-fi HUD**: no neon, no glows, no aggressive dark-mode theatrics, no fake-cockpit skeuomorphism. Realism is earned through accurate workflow and terminology, never simulated with visual gimmickry. It equally rejects playful consumer-SaaS softness — this is a tool for a task, not a toy.",
     "keyCharacteristics": [
       "Document-grade: figures are the product; present them exactly, unit-labeled, with derivations shown.",
       "Restrained color: indigo for action and selection only; gray does the structural work.",
@@ -99,24 +496,49 @@
       "Dual-theme: light and dark ship together and both hold WCAG 2.1 AA."
     ],
     "rules": [
-      { "name": "The Rare Accent Rule", "body": "Instrument Indigo appears on ≤10% of any screen — actions and the one current selection. If two things on a panel are indigo, one is wrong.", "section": "colors" },
-      { "name": "The Signal-Not-Decoration Rule", "body": "Color only ever means something. Never encode meaning in hue alone — a limit breach or emergency needs a word or icon beside the color.", "section": "colors" },
-      { "name": "The Tabular Figures Rule", "body": "Any number a user compares or sums is set in Roboto Mono with tabular-nums, right-aligned, unit-suffixed. Never set comparable figures in the proportional body font.", "section": "typography" },
-      { "name": "The Micro-Caps Rule", "body": "Uppercase tracked labels are the connective tissue; keep tracking ≥ 0.06em and never use them for reading-length text.", "section": "typography" },
-      { "name": "The Flat Surface Rule", "body": "Surfaces are flat at rest. Separate them with a 1px border and a one-step tonal change, never a drop shadow. The only exception is a modal lifting off its backdrop.", "section": "elevation" }
+      {
+        "name": "The Rare Accent Rule",
+        "body": "Instrument Indigo appears on ≤10% of any screen — actions and the one current selection. If two things on a panel are indigo, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Integration Brand Exception",
+        "body": "A third-party integration may carry its own brand hue, and only on the marks that identify it — its glyph and the ring around its account avatar — never on actions, text, or surfaces. `--color-discord` (`#5865f2`, with `--color-discord-light` `#949cf7` for dark mode, since the base fails 4.5:1 on the dark canvas) is the only such token today. It sits within a few percent of Instrument Indigo, so it reads as tonal rather than as a competing accent; the integration is recognised by its logo shape, not its hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Signal-Not-Decoration Rule",
+        "body": "Color only ever means something (state, status, action). Never encode meaning in hue alone — a limit breach or emergency needs a word or icon beside the color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Any number a user compares or sums is set in Roboto Mono with `tabular-nums`, right-aligned in columns, unit suffix in a smaller muted weight. Never set comparable figures in the proportional body font.",
+        "section": "typography"
+      },
+      {
+        "name": "The Micro-Caps Rule",
+        "body": "Uppercase tracked labels are the system's connective tissue; keep tracking ≥ 0.06em so caps never touch, and never use them for reading-length text.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Surfaces are flat at rest. Separate them with a 1px border and a one-step tonal change, never a drop shadow. The only exception is a modal lifting off its backdrop.",
+        "section": "elevation"
+      }
     ],
     "dos": [
-      "Do set every comparable figure in Roboto Mono with tabular-nums, unit-suffixed and column-aligned.",
+      "Do set every comparable figure in Roboto Mono with `tabular-nums`, unit-suffixed and column-aligned.",
       "Do keep Instrument Indigo to ≤10% of a screen — action and current selection only.",
       "Do separate surfaces with a 1px border and a tonal step; keep them flat.",
       "Do show the derivation of computed values (subtotals, running totals, build-ups) so numbers are verifiable.",
       "Do pair every status color with a word or icon, and hold 4.5:1 body-text contrast in both light and dark.",
-      "Do honor prefers-reduced-motion; keep transitions in the 150-250ms state-change band."
+      "Do honor `prefers-reduced-motion`; keep transitions in the 150–250ms state-change band."
     ],
     "donts": [
       "Don't build a flashy gamer / sci-fi HUD — no neon, no glows, no aggressive dark-mode theatrics, no fake-cockpit skeuomorphism.",
       "Don't add drop shadows to separate panels; use borders and tone (modals lifting off the backdrop are the sole exception).",
-      "Don't use muted gray (gray-400 or lighter) for body-length text on tinted near-white surfaces — it fails contrast.",
+      "Don't use muted gray (`gray-400`/lighter) for body-length text on tinted near-white surfaces — it fails contrast; keep body text at Ink or Muted.",
       "Don't set numbers a user compares or sums in the proportional body font.",
       "Don't reach for a modal by reflex — exhaust inline and progressive-disclosure alternatives first.",
       "Don't encode meaning in color alone (a red border with no label is not a message).",
