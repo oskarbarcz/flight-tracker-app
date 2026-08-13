@@ -1,23 +1,53 @@
 import type { DiscordServerMembershipStatus } from "~/features/user";
+import type { DiscordSettingsResponse } from "~/features/user/request";
 
 export type DiscordMembershipState = "checking" | DiscordServerMembershipStatus;
 
-export const briefingsFeature = {
-  label: "Flight briefings as direct messages",
-  description:
-    "Each briefing is sent to you on Discord before the flight. This is what connecting Discord is for, so it cannot be turned off. It only reaches you while you are in the Flight Tracker server.",
+export type DiscordMessageSetting = keyof DiscordSettingsResponse;
+
+export type DiscordMessageId = "briefing" | "preliminaryLoadsheet" | "finalLoadsheet" | "delay";
+
+export const messagesFeature = {
+  label: "Receive Discord private messages",
+  description: "Expand any of them to see the message you would get.",
 } as const;
+
+export const discordMessages: {
+  id: DiscordMessageId;
+  settings: DiscordMessageSetting[];
+  label: string;
+  excerpt: string;
+}[] = [
+  {
+    id: "briefing",
+    settings: ["briefingsEnabled"],
+    label: "Flight briefing",
+    excerpt: "When you check in, with the schedule, the departure weather, and the flight plan attached.",
+  },
+  {
+    id: "preliminaryLoadsheet",
+    settings: ["preliminaryLoadsheetEnabled"],
+    label: "Preliminary loadsheet",
+    excerpt: "When boarding starts, with the crew and the planned load.",
+  },
+  {
+    id: "finalLoadsheet",
+    settings: ["finalLoadsheetEnabled"],
+    label: "Final loadsheet",
+    excerpt: "When boarding finishes, with the load as it stands for departure.",
+  },
+  {
+    id: "delay",
+    settings: ["delayUpdatesEnabled"],
+    label: "Delay updates",
+    excerpt: "When a departure delay has to be allocated, and when operations approves what you allocated.",
+  },
+];
 
 export const joinServerFeature = {
   label: "Add me to the Flight Tracker server",
   description:
     "Joins the server for you while connecting, so briefings can reach you. Without it you will need to join yourself before anything can be delivered.",
-} as const;
-
-export const serverMembershipFeature = {
-  label: "Member of the Flight Tracker server",
-  description:
-    "Joining can only happen while connecting, so this is not something to switch on afterwards. If you are not in the server, use the invite.",
 } as const;
 
 export const membershipNote: Record<DiscordMembershipState, string | null> = {

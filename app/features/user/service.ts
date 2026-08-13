@@ -4,12 +4,14 @@ import type {
   ChangePasswordRequest,
   ConfirmEmailChangeRequest,
   DiscordServerMembershipResponse,
+  DiscordSettingsResponse,
   GetUserResponse,
   LinkDiscordAccountRequest,
   LinkDiscordAccountResponse,
   ListUsersResponse,
   RequestEmailChangeRequest,
   UnlinkAccountRequest,
+  UpdateDiscordSettingsRequest,
   UpdateOwnProfileRequest,
 } from "~/features/user/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
@@ -62,6 +64,17 @@ export class UserService extends AbstractAuthorizedApiService {
 
   async fetchDiscordServerMembership() {
     return this.fetchWithAuth<DiscordServerMembershipResponse>("/api/v1/user/me/discord/server-membership");
+  }
+
+  async fetchDiscordSettings() {
+    return this.fetchWithAuth<DiscordSettingsResponse>("/api/v1/user/me/discord-settings");
+  }
+
+  async updateDiscordSettings(settings: UpdateDiscordSettingsRequest) {
+    return this.fetchWithAuth<DiscordSettingsResponse>("/api/v1/user/me/discord-settings", {
+      method: "PATCH",
+      body: JSON.stringify(settings),
+    });
   }
 
   async changePassword(currentPassword: string, newPassword: string) {
