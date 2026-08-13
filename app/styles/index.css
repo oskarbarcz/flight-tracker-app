@@ -17,4 +17,11 @@
   --font-display: "Inter", sans-serif;
   --color-discord: #5865f2;
   --color-discord-light: #949cf7;
+  --color-discord-chat: #313338;
+  --color-discord-panel: #2b2d31;
+  --color-discord-edge: #1e1f22;
+  --color-discord-text: #dbdee1;
+  --color-discord-name: #f2f3f5;
+  --color-discord-muted: #949ba4;
+  --color-discord-link: #00a8fc;
 }

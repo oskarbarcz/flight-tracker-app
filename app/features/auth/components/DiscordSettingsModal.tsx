@@ -1,11 +1,14 @@
-import { Badge, Modal, ModalBody, ModalHeader, ToggleSwitch } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader, ToggleSwitch } from "flowbite-react";
 import { useState } from "react";
 import { DiscordFeatureRow } from "~/features/auth/components/DiscordFeatureRow";
-import { briefingsFeature, joinServerFeature } from "~/features/auth/lib/discordFeatures";
+import { DiscordMessagesDrawer } from "~/features/auth/components/DiscordMessagesDrawer";
+import type { DiscordMessages } from "~/features/auth/hooks/useDiscordMessages";
+import { joinServerFeature } from "~/features/auth/lib/discordFeatures";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
+  messages: DiscordMessages;
   close: () => void;
   onContinue: (joinServer: boolean) => void;
 };
@@ -13,7 +16,7 @@ type Props = {
 const intro = "Choose what Flight Tracker may do with your Discord account before you connect it.";
 const consentNote = "Discord will ask you to confirm.";
 
-export function DiscordSettingsModal({ close, onContinue }: Props) {
+export function DiscordSettingsModal({ messages, close, onContinue }: Props) {
   const [joinServer, setJoinServer] = useState<boolean>(false);
 
   return (
@@ -25,15 +28,7 @@ export function DiscordSettingsModal({ close, onContinue }: Props) {
         <div className="space-y-3">
           <p className="text-pretty text-sm text-gray-600 dark:text-gray-400">{intro}</p>
 
-          <DiscordFeatureRow
-            label={briefingsFeature.label}
-            description={briefingsFeature.description}
-            control={
-              <Badge color="indigo" size="xs">
-                Always on
-              </Badge>
-            }
-          />
+          <DiscordMessagesDrawer messages={messages} />
 
           <DiscordFeatureRow
             label={joinServerFeature.label}

@@ -1,16 +1,16 @@
 # discord-account-link Specification
 
 ## Purpose
-Give a signed-in user a place to connect and disconnect their Discord account, choose whether to join the Flight Tracker Discord server while doing so, and see plainly whether flight briefings can actually reach them over Discord.
+Give a signed-in user a place to connect and disconnect their Discord account, choose whether to join the Flight Tracker Discord server while doing so, choose which flight messages Discord brings them, and see plainly whether those messages can actually reach them.
 ## Requirements
 ### Requirement: Discord connection section
 
-The account page SHALL contain a Discord connection section that explains what connecting a Discord account does — enables signing in with Discord, and lets the app send flight briefings as Discord direct messages — and offers the action appropriate to the current state. The section SHALL be omitted entirely when the deployment has no Discord client configured.
+The account page SHALL contain a Discord connection section that explains what connecting a Discord account does — enables signing in with Discord, and lets the app send messages about the user's flights as Discord direct messages — and offers the action appropriate to the current state. The section SHALL be omitted entirely when the deployment has no Discord client configured.
 
 #### Scenario: Section is offered
 
 - **WHEN** a signed-in user opens `/me/account` on a deployment where Discord is configured
-- **THEN** a Discord connection section is shown, stating that connecting lets the user sign in with Discord and receive flight briefings as direct messages
+- **THEN** a Discord connection section is shown, stating that connecting lets the user sign in with Discord and receive messages about their flights as direct messages
 
 #### Scenario: Discord is not configured
 
@@ -70,22 +70,31 @@ The connected account SHALL be presented as a panel spanning the full width of t
 
 ### Requirement: Managing the integration
 
-For a connected account, the section SHALL offer a management surface listing every feature of the Discord integration with its current state — those inherent to connecting shown as always on, and server membership shown as the state it is actually in. Disconnecting SHALL be reachable from that surface, presented as the destructive action it is and separated from the features, rather than sitting alongside the account as a primary action.
+For a connected account, the section SHALL offer a notifications settings surface that opens on the connected account itself — avatar, display name, and login — followed by the messages the user can receive. The surface SHALL be dismissed by a close control in its own header and SHALL carry no bar of actions beneath it, since everything it offers takes effect where it stands.
 
-#### Scenario: Management surface lists every feature
+Whether the user is in the Flight Tracker server SHALL be told on that same first line, as a mark and a word rather than a switch, because joining happens only while connecting. When they are not a member, the invite SHALL be offered beside it.
 
-- **WHEN** a connected user opens the management surface
-- **THEN** it identifies the connected account and lists briefing delivery as always on and server membership with its current state
+Disconnecting SHALL sit on that first line, beside the account it acts on, and SHALL read as an ordinary control until it is approached — carrying the destructive hue only on hover — so it is never mistaken for the surface's main action.
+
+#### Scenario: Settings surface opens on the account
+
+- **WHEN** a connected user opens the notifications settings
+- **THEN** the first line identifies the connected account, states whether the user is in the Flight Tracker server, and offers disconnecting beside it
+
+#### Scenario: Surface is dismissed from its header
+
+- **WHEN** a connected user has finished with the notifications settings
+- **THEN** a close control in the surface's own header dismisses it, and no footer of actions is presented
 
 #### Scenario: Server membership is not presented as a switch
 
-- **WHEN** the management surface shows server membership
-- **THEN** it reports the state rather than offering a control that cannot take effect, explains that joining happens only while connecting, and offers the invite when the user is not a member
+- **WHEN** the surface reports server membership
+- **THEN** it marks the state rather than offering a control that cannot take effect, and offers the invite when the user is not a member
 
 #### Scenario: Disconnecting is reachable and marked destructive
 
-- **WHEN** a connected user opens the management surface
-- **THEN** disconnecting the Discord account is offered as a destructive action, and choosing it leads to the confirmation that requires the current password
+- **WHEN** a connected user opens the notifications settings
+- **THEN** disconnecting the Discord account is offered beside the account, taking on its destructive hue as the user reaches for it, and choosing it leads to the confirmation that requires the current password
 
 #### Scenario: State survives a reload
 
@@ -99,9 +108,9 @@ For a connected account, the section SHALL offer a management surface listing ev
 
 ### Requirement: Discord settings are chosen before connecting
 
-Starting a connection SHALL first present a Discord settings surface listing what Flight Tracker may do with the Discord account, so the user decides before any permission is requested rather than discovering the consequences at Discord's consent screen. Each entry SHALL be named, explained, and show whether it is on. Leaving that surface without confirming SHALL start nothing.
+Starting a connection SHALL first present a Discord settings surface listing what Flight Tracker may do with the Discord account, so the user decides before any permission is requested rather than discovering the consequences at Discord's consent screen. Each entry SHALL be named, explained, show whether it is on, and be expandable to the message it stands for. Leaving that surface without confirming SHALL start nothing.
 
-The surface SHALL distinguish entries the user controls from entries that are inherent to connecting and cannot be turned off, and SHALL state why an uncontrollable entry is always on rather than presenting it as a control that does not respond.
+The surface SHALL distinguish entries that are settings of the account, kept whether or not a connection follows, from entries that apply only to the connection being started.
 
 #### Scenario: Settings are presented before any permission is requested
 
@@ -113,20 +122,20 @@ The surface SHALL distinguish entries the user controls from entries that are in
 - **WHEN** the user dismisses the Discord settings surface without confirming
 - **THEN** no flow is started, no permission is requested, and the section returns to its idle state
 
-#### Scenario: Briefing delivery is inherent to connecting
+#### Scenario: Message delivery is offered as settings
 
 - **WHEN** the Discord settings surface is shown
-- **THEN** sending flight briefings as direct messages is listed as always on, is not offered as something to turn off, and is explained as what connecting Discord is for
+- **THEN** every message sent as a direct message is listed as a switch carrying the state stored for the account, explained as choices kept with the account that take effect once Discord is connected
 
 #### Scenario: Joining the server is the user's choice
 
 - **WHEN** the Discord settings surface is shown
 - **THEN** being added to the Flight Tracker server is listed as a feature the user can turn on or off, explaining that server membership is what makes briefing direct messages deliverable
 
-#### Scenario: Controllable features start off
+#### Scenario: Permissions requested for this connection start off
 
 - **WHEN** the Discord settings surface is first shown
-- **THEN** every feature the user controls is off, so confirming without changing anything requests no more than connecting needs
+- **THEN** every entry that asks Discord for more than connecting needs is off, so confirming without changing anything requests no more than connecting needs
 
 #### Scenario: Joining is requested
 
@@ -222,6 +231,54 @@ A request rejected because the join was never authorized is a different case: no
 - **WHEN** a connection that includes the server join is started
 - **THEN** the authorization request asks Discord to obtain consent again rather than reusing an existing authorization, so a previously granted narrower access cannot silently reject the connection
 
+### Requirement: Each message is turned on and off by the user
+
+Every message Flight Tracker sends as a Discord direct message SHALL be a setting of the account, read from `GET /api/v1/user/me/discord-settings` and written with `PATCH /api/v1/user/me/discord-settings`, offered wherever the Discord integration is configured. The settings SHALL be readable and writable whether or not a Discord account is connected, since they decide what happens once one is.
+
+The messages SHALL be presented together as one list, each named and stated by the moment it arrives — the flight briefing on check-in, the preliminary loadsheet when boarding starts, the final loadsheet when boarding finishes, and the delay updates that ask for an allocation and report its approval — so a user reads the whole of what Discord would bring them in one place. What they have in common — that each arrives as a direct message, is kept with the account, and reaches them only while connected and in the server — SHALL be stated once for the list rather than repeated on every entry.
+
+A change SHALL be sent on its own as soon as it is made, carrying only the setting that changed and leaving the rest untouched, and SHALL NOT depend on the user completing a connection or confirming the surface it was made on. While a change is in flight, or while the stored settings are not known, no switch SHALL invite another change. A change that fails SHALL leave the switches showing the state that is actually stored, and SHALL say that it could not be saved.
+
+#### Scenario: A message is turned off
+
+- **WHEN** a user turns one of the message switches off
+- **THEN** only that setting is sent, the choice is saved for the account immediately, and the switches settle on the state the API reports back
+
+#### Scenario: Choice is kept without connecting
+
+- **WHEN** a user with no connected Discord account changes a message switch and leaves the settings surface without connecting
+- **THEN** the choice is kept for the account, so it applies as soon as a Discord account is connected
+
+#### Scenario: Choice cannot be saved
+
+- **WHEN** saving a message choice fails
+- **THEN** the switch returns to the state stored before the change, and the surface says the choice could not be saved
+
+#### Scenario: Stored state is not known
+
+- **WHEN** the stored settings cannot be read
+- **THEN** the switches are shown as unchangeable rather than claiming states they do not have
+
+#### Scenario: Every message can be seen before it is chosen
+
+- **WHEN** a user expands one of the messages
+- **THEN** the message it stands for is shown as it arrives on Discord — the briefing with its schedule, departure weather and attached flight plan; a loadsheet with its crew and load; the delay pair with the delay to allocate and its approval — marked as an example rather than as their own flight
+
+#### Scenario: One example at a time
+
+- **WHEN** a user expands a second message
+- **THEN** the one that was open closes, so the list never stacks examples on top of each other
+
+#### Scenario: A shared setting shows every message it governs
+
+- **WHEN** a user expands a message whose switch governs more than one message
+- **THEN** each of them is shown, one after another, so the switch is understood by everything it silences
+
+#### Scenario: The example reads as a picture of Discord
+
+- **WHEN** an example is shown
+- **THEN** it carries Discord's own surface rather than the account page's, and behaves as a picture of the message would — nothing in it is selectable, clickable, or announced as separate text — so it is never mistaken for the app's own interface
+
 ### Requirement: Server membership and its effect on briefings are reported
 
 For a connected account, the account page SHALL report whether the user is a member of the Flight Tracker Discord server, and SHALL state the consequence for briefing delivery. Membership SHALL be requested only by the account page, and SHALL NOT be requested as part of loading the user's profile.
@@ -279,7 +336,7 @@ When a connected user is not a member of the Discord server, the section SHALL o
 
 ### Requirement: Disconnecting a Discord account
 
-The section SHALL let a user with a connected Discord account disconnect it via `POST /api/v1/user/me/unlink-discord-account`, confirming the action with their current password because disconnecting removes a way of signing in. Disconnecting SHALL state its consequences before it is performed: signing in with Discord stops working, and flight briefings are no longer delivered as direct messages.
+The section SHALL let a user with a connected Discord account disconnect it via `POST /api/v1/user/me/unlink-discord-account`, confirming the action with their current password because disconnecting removes a way of signing in. Disconnecting SHALL state its consequences before it is performed: signing in with Discord stops working, and flight messages are no longer delivered as direct messages.
 
 #### Scenario: Successful disconnection
 
@@ -289,7 +346,7 @@ The section SHALL let a user with a connected Discord account disconnect it via 
 #### Scenario: Consequences are stated first
 
 - **WHEN** the user begins disconnecting
-- **THEN** they are told that Discord sign-in will stop working and that briefings will no longer arrive as direct messages, before the request is sent
+- **THEN** they are told that Discord sign-in will stop working and that flight messages will no longer arrive as direct messages, before the request is sent
 
 #### Scenario: Wrong password
 
@@ -323,5 +380,5 @@ Disconnecting a Discord account SHALL affect only the connection between the two
 #### Scenario: Membership is untouched
 
 - **WHEN** a user who is a member of the Flight Tracker Discord server disconnects their Discord account
-- **THEN** nothing in the flow removes them from the server, and the reported consequences mention only Discord sign-in and briefing delivery
+- **THEN** nothing in the flow removes them from the server, and the reported consequences mention only Discord sign-in and message delivery
 

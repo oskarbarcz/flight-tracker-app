@@ -26,6 +26,7 @@ const discordUnavailableOnSignInMessage =
 const discordUnavailableOnLinkMessage = "Discord isn't responding right now. Try connecting again in a moment.";
 const failedDiscordSignInMessage = "Sign-in failed on our side. Try again in a moment.";
 const failedDiscordLinkMessage = "Couldn't connect your Discord account right now. Try again in a moment.";
+const unsavedMessageSettingMessage = "That choice couldn't be saved. Try again in a moment.";
 
 type FailureReason = {
   statusCode?: number;
@@ -66,6 +67,10 @@ export function describeDiscordSignInFailure(reason: unknown): string {
   }
 
   return rejectedIdentityOnSignInMessage;
+}
+
+export function describeMessageSettingSaveFailure(reason: unknown): string {
+  return readReason(reason).statusCode === undefined ? unreachableServiceMessage : unsavedMessageSettingMessage;
 }
 
 export function describeDiscordLinkFailure(reason: unknown): string {

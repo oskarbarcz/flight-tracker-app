@@ -7,6 +7,7 @@ import { DisconnectAccountModal } from "~/features/auth/components/DisconnectAcc
 import { DiscordConnectionCard } from "~/features/auth/components/DiscordConnectionCard";
 import { DiscordIntegrationModal } from "~/features/auth/components/DiscordIntegrationModal";
 import { DiscordSettingsModal } from "~/features/auth/components/DiscordSettingsModal";
+import { useDiscordMessages } from "~/features/auth/hooks/useDiscordMessages";
 import { startDiscordFlow } from "~/features/auth/lib/discordAuthorization";
 import type { DiscordMembershipState } from "~/features/auth/lib/discordFeatures";
 import { readDiscordHandoff } from "~/features/auth/lib/discordHandoff";
@@ -20,10 +21,10 @@ import { RecordRow } from "~/shared/ui/Record/RecordRow";
 type Dialog = "none" | "settings" | "integration" | "disconnect";
 
 const explanation =
-  "Connect a Discord account to sign in with Discord, and to receive your flight briefings as Discord direct messages.";
+  "Connect a Discord account to sign in with Discord, and to receive messages about your flights as Discord direct messages.";
 const disconnectConsequences = [
   "Signing in with Discord will stop working.",
-  "Flight briefings will no longer arrive as Discord direct messages.",
+  "Flight messages will no longer arrive as Discord direct messages.",
   "You will stay a member of the Flight Tracker Discord server.",
 ];
 
@@ -47,6 +48,7 @@ export function DiscordAccountSection() {
   const [blocked, setBlocked] = useState<string | null>(null);
   const [membership, setMembership] = useState<DiscordMembershipState>("checking");
   const [dialog, setDialog] = useState<Dialog>("none");
+  const messages = useDiscordMessages();
 
   const identity = linkedNow ?? user?.identities?.discord ?? null;
   const isConnected = identity?.linked === true;
@@ -175,12 +177,15 @@ export function DiscordAccountSection() {
         </p>
       )}
 
-      {dialog === "settings" && <DiscordSettingsModal close={() => setDialog("none")} onContinue={connect} />}
+      {dialog === "settings" && (
+        <DiscordSettingsModal messages={messages} close={() => setDialog("none")} onContinue={connect} />
+      )}
 
       {dialog === "integration" && identity !== null && (
         <DiscordIntegrationModal
           identity={identity}
           membership={membership}
+          messages={messages}
           inviteUrl={inviteUrl}
           close={() => setDialog("none")}
           onDisconnect={() => setDialog("disconnect")}

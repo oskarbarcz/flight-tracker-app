@@ -136,6 +136,8 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
           "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
         light:
           "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
+        lightDanger:
+          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-red-300 hover:bg-red-50 hover:text-red-700 focus:ring-red-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-red-800 dark:hover:bg-red-950 dark:hover:text-red-300 dark:focus:ring-red-800",
         subtle:
           "bg-transparent hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:bg-indigo-950 border-0 focus:ring-indigo-200 dark:focus:ring-indigo-800",
       },

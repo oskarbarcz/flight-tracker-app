@@ -43,3 +43,12 @@ export type UnlinkAccountRequest = {
 export type DiscordServerMembershipResponse = {
   status: DiscordServerMembershipStatus;
 };
+
+export type DiscordSettingsResponse = {
+  briefingsEnabled: boolean;
+  preliminaryLoadsheetEnabled: boolean;
+  finalLoadsheetEnabled: boolean;
+  delayUpdatesEnabled: boolean;
+};
+
+export type UpdateDiscordSettingsRequest = Partial<DiscordSettingsResponse>;
