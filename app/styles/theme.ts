@@ -29,20 +29,20 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       },
       content: {
         inner:
-          "modal-panel rounded-xl border border-gray-200 bg-white text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300",
+          "modal-panel rounded-xl border border-gray-200 bg-white text-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300",
       },
       header: {
-        base: "flex items-center justify-between gap-4 rounded-t-xl border-b border-gray-200 bg-gray-100 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/50",
+        base: "flex items-center justify-between gap-4 rounded-t-xl border-b border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-800 dark:bg-gray-900",
         title: "min-w-0 text-base leading-tight text-gray-900 dark:text-white",
         close: {
-          base: "ms-auto inline-flex cursor-pointer items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:hover:bg-gray-700 dark:hover:text-white",
+          base: "ms-auto inline-flex cursor-pointer items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:hover:bg-gray-800 dark:hover:text-white",
         },
       },
       body: {
         base: "modal-body flex-1 overflow-auto px-6 py-5 text-gray-800 dark:text-gray-200",
       },
       footer: {
-        base: "modal-actions flex items-center justify-end gap-2 rounded-b-xl border-t border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40",
+        base: "modal-actions flex items-center justify-end gap-2 rounded-b-xl border-t border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-800 dark:bg-gray-900",
       },
     },
     tabs: {
@@ -100,6 +100,8 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
             "bg-green-100 text-green-700 hover:bg-green-100 dark:bg-green-900/40 dark:text-green-300 dark:hover:bg-green-900/40",
           warning:
             "bg-amber-100 text-amber-700 hover:bg-amber-100 dark:bg-amber-900/40 dark:text-amber-400 dark:hover:bg-amber-900/40",
+          failure:
+            "bg-red-100 text-red-700 hover:bg-red-100 dark:bg-red-900/40 dark:text-red-300 dark:hover:bg-red-900/40",
           info: "bg-sky-100 text-sky-700 hover:bg-sky-100 dark:bg-sky-900/40 dark:text-sky-300 dark:hover:bg-sky-900/40",
           gray: "bg-gray-100 text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-800",
           indigo:

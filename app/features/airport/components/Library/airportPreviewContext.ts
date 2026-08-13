@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router";
 import type { Airport } from "~/features/airport";
 import type { Gate } from "~/features/gate";
+import type { Notam } from "~/features/notam";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Runway } from "~/features/runway";
 import type { Terminal } from "~/features/terminal";
@@ -11,6 +12,7 @@ export type AirportPreviewContext = {
   terminals: Terminal[];
   parkingPositions: ParkingPosition[];
   gates: Gate[];
+  notams: Notam[] | null;
   isFiltered: boolean;
   clearFilter: () => void;
 };

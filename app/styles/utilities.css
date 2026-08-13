@@ -334,22 +334,24 @@ html[data-app-entry] [data-app-entry-content] {
 
 /* Modal chrome — slots referenced from app/styles/theme.ts */
 .modal-scrim {
+  --modal-scrim-color: 17 24 39;
   --modal-scrim-alpha: 0.5;
-  background-color: rgb(17 24 39 / var(--modal-scrim-alpha));
+  background-color: rgb(var(--modal-scrim-color) / var(--modal-scrim-alpha));
   backdrop-filter: blur(4px);
   animation: modal-scrim-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .dark .modal-scrim {
-  --modal-scrim-alpha: 0.8;
+  --modal-scrim-color: 0 0 0;
+  --modal-scrim-alpha: 0.75;
 }
 
 @keyframes modal-scrim-in {
   from {
-    background-color: rgb(17 24 39 / 0);
+    background-color: rgb(var(--modal-scrim-color) / 0);
     backdrop-filter: blur(0px);
   }
   to {
-    background-color: rgb(17 24 39 / var(--modal-scrim-alpha));
+    background-color: rgb(var(--modal-scrim-color) / var(--modal-scrim-alpha));
     backdrop-filter: blur(4px);
   }
 }
@@ -434,11 +436,11 @@ html[data-app-entry] [data-app-entry-content] {
 
 @keyframes modal-scrim-out {
   from {
-    background-color: rgb(17 24 39 / var(--modal-scrim-alpha));
+    background-color: rgb(var(--modal-scrim-color) / var(--modal-scrim-alpha));
     backdrop-filter: blur(4px);
   }
   to {
-    background-color: rgb(17 24 39 / 0);
+    background-color: rgb(var(--modal-scrim-color) / 0);
     backdrop-filter: blur(0px);
   }
 }

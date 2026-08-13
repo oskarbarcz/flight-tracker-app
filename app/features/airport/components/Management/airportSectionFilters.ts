@@ -39,5 +39,13 @@ export function filterAirportSection(
           return matchesFilter(query, gate.name, terminal?.shortName, terminal?.fullName);
         }),
       };
+    case "notams":
+      return {
+        ...data,
+        notams:
+          data.notams?.filter((notam) =>
+            matchesFilter(query, notam.notamId, notam.qcodeSubject, notam.qcodeStatus, notam.qcodeCategory, notam.text),
+          ) ?? null,
+      };
   }
 }
