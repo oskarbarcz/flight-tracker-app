@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate } from "react-router";
-import { useAuth } from "~/app-state/useAuth";
 import { HowItWorksSection } from "~/components/public/Landing/HowItWorksSection";
 import { LandingFooter } from "~/components/public/Landing/LandingFooter";
 import { LandingHero } from "~/components/public/Landing/LandingHero";
@@ -10,16 +9,7 @@ import { PilotDeepDiveSection } from "~/components/public/Landing/PilotDeepDiveS
 import { useInstalledApp } from "~/shared/hooks/useInstalledApp";
 
 export default function LandingRoute() {
-  const { user, isLoading } = useAuth();
   const isInstalledApp = useInstalledApp();
-
-  if (isLoading) {
-    return null;
-  }
-
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
-  }
 
   if (isInstalledApp) {
     return <Navigate to="/sign-in" replace />;
