@@ -1,4 +1,4 @@
-# Flight Tracker — Tile Design System
+# MyPreflight — Tile Design System
 
 A small, consistent kit for dashboard tiles and their controls. It is delivered as a **Flowbite theme extension** plus a restyled shared `Container`/`ContainerTitle`. There are no per-component wrappers around Flowbite — components like `Button`, `Card`, and `Badge` are restyled centrally through `createTheme`, so existing usage picks up the new look automatically.
 

@@ -9,18 +9,18 @@ const backendMessages = {
 } as const;
 
 const notConnectedMessage =
-  "This Discord account isn't connected to a Flight Tracker account. Sign in with your email and password, then connect it from your account page.";
+  "This Discord account isn't connected to a MyPreflight account. Sign in with your email and password, then connect it from your account page.";
 const rejectedIdentityOnSignInMessage =
   "Discord sign-in couldn't be completed. Try again, or use your email and password.";
 const rejectedIdentityOnLinkMessage = "Your Discord account couldn't be connected. Try again.";
 const userAlreadyLinkedMessage =
   "This account already has a Discord account connected. Only one can be connected at a time.";
 const linkedToAnotherUserMessage =
-  "This Discord account is already connected to another Flight Tracker account. Choose a different Discord account.";
+  "This Discord account is already connected to another MyPreflight account. Choose a different Discord account.";
 const indistinguishableConflictMessage =
   "This Discord account couldn't be connected: either this account or that Discord account is already connected.";
 const joinNotAuthorizedMessage =
-  "Discord didn't grant permission to add you to the Flight Tracker server, so nothing was connected. Try again and allow it, or connect without joining the server.";
+  "Discord didn't grant permission to add you to the MyPreflight server, so nothing was connected. Try again and allow it, or connect without joining the server.";
 const discordUnavailableOnSignInMessage =
   "Discord isn't responding, so sign-in couldn't be completed. Try again later, or use your email and password.";
 const discordUnavailableOnLinkMessage = "Discord isn't responding right now. Try connecting again in a moment.";

@@ -31,7 +31,7 @@ export function DiscordMessage({ sentAt, children }: MessageProps) {
 
       <div className="min-w-0 flex-1 space-y-2 text-sm leading-relaxed text-discord-text">
         <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <span className="font-bold text-discord-name">Flight Tracker</span>
+          <span className="font-bold text-discord-name">MyPreflight</span>
           <span className="rounded bg-discord px-1 py-px text-xs font-semibold uppercase leading-4 tracking-wide text-white">
             App
           </span>
@@ -69,7 +69,7 @@ export function MessageManageLine({ action }: { action: string }) {
     <p>
       {action} the <img src={logo} alt="" className="inline size-4 align-text-bottom" />{" "}
       <MessageValue>
-        <MessageLink>Flight Tracker app</MessageLink>
+        <MessageLink>MyPreflight app</MessageLink>
       </MessageValue>
       .
     </p>

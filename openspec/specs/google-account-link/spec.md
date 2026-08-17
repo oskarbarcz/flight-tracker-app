@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Give a signed-in user an account page where they can connect their Google account to their Flight Tracker account, which is what makes Google sign-in possible for them, and make the connection's constraints and failures understandable.
+Give a signed-in user an account page where they can connect their Google account to their MyPreflight account, which is what makes Google sign-in possible for them, and make the connection's constraints and failures understandable.
 ## Requirements
 ### Requirement: Account page
 
@@ -117,7 +117,7 @@ The system SHALL surface the backend's one-Google-account-per-user and one-user-
 #### Scenario: Google account belongs to another user
 
 - **WHEN** the request responds `409` reporting that the Google account is already linked to another user
-- **THEN** the section explains that this Google account is already connected to another Flight Tracker account and suggests choosing a different Google account
+- **THEN** the section explains that this Google account is already connected to another MyPreflight account and suggests choosing a different Google account
 
 #### Scenario: Conflict reason is not distinguishable
 

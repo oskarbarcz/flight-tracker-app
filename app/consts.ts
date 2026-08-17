@@ -1,1 +1,1 @@
-export const PAGE_TITLE_SUFFIX = " | Flight Tracker";
+export const PAGE_TITLE_SUFFIX = " | MyPreflight";

@@ -1,11 +1,11 @@
 {
   "name": "flight-tracker-app",
-  "version": "2.76.0",
+  "version": "2.77.0",
   "private": true,
-  "homepage": "https://flights.barcz.me",
+  "homepage": "https://mypreflight.io",
   "author": "Oskar Barcz",
   "license": "Unlicense",
-  "description": "A comprehensive web app for scheduling and tracking flights in a flight simulator environment. Designed for virtual aviation enthusiasts, it enables seamless management of flights, aircraft, airports, crews, and passengers.",
+  "description": "The web app of MyPreflight platform.",
   "type": "module",
   "scripts": {
     "build": "react-router build",
@@ -19,7 +19,7 @@
     "arc": "^0.1.4",
     "flowbite-react": "^0.12.17",
     "formik": "^2.4.9",
-    "isbot": "^5",
+    "isbot": "^5.2.1",
     "leaflet": "^1.9.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -36,14 +36,19 @@
     "@biomejs/biome": "2.5.6",
     "@react-router/dev": "^8.3.0",
     "@types/leaflet": "^1.9.22",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "tailwindcss": "^4.1.17",
     "tw-animate-css": "^1.4.0",
     "typescript": "^7.0.2",
-    "vite": "^8.2.0",
+    "vite": "^8.2.1",
     "vite-plugin-pwa": "^1.3.0"
+  },
+  "overrides": {
+    "flowbite-react": {
+      "deepmerge-ts": "^8.0.1"
+    }
   },
   "allowScripts": {
     "fsevents@2.3.3": true

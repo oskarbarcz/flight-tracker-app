@@ -4,20 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Flight Tracker is a frontend SPA for scheduling and tracking flights in a flight simulator environment. It manages flights, aircraft, airports, crews, and passengers with role-based access (Operations, Admin, CabinCrew).
+MyPreflight is a frontend SPA for scheduling and tracking flights in a flight simulator environment. It manages flights, aircraft, airports, crews, and passengers with role-based access (Operations, Admin, CabinCrew).
 
 - **Frontend only** — backend API is a separate repo ([flight-tracker-api](https://github.com/oskarbarcz/flight-tracker-api))
-- **Framework**: React Router v7 with SSR disabled (`react-router.config.ts: ssr: false`), Vite, TypeScript (strict)
+- **Framework**: React Router v8 with SSR disabled (`react-router.config.ts: ssr: false`), React 19, Vite 8, TypeScript 7 (strict)
 - **Styling**: Tailwind CSS v4 (configured via `@theme` directives in `app/styles/index.css`, no `tailwind.config.ts`), Flowbite React for UI components
-- **Forms**: Formik + Yup validation schemas (in `app/validator/form/`)
+- **Forms**: Formik + Yup — schemas live per feature (`app/features/<domain>/schema.ts`), shared field schemas in `app/shared/validator/`
 - **Linting/Formatting**: Biome (2-space indent, 120-char line width, double quotes)
-- **Node**: 24.x (see `.nvmrc`)
+- **PWA**: `vite-plugin-pwa` with `registerType: "prompt"` — installable, prompts to reload on a new version
+- **Node**: 26 (see `.nvmrc`)
 
 ## Commands
 
 ```bash
 npm run dev          # Vite dev server with HMR (localhost:5173)
-npm run build        # Production build (output: ./build)
+npm run build        # Production build (output: ./build/client)
 npm run typecheck    # react-router typegen + tsc --build --noEmit
 npm run lint         # Biome check (linter + formatter)
 npm run lint:fix     # Biome auto-fix
@@ -29,16 +30,44 @@ No test framework is configured. CI runs lint, typecheck, and build on PRs (`.gi
 
 ### Path Alias
 
-`~/*` maps to `./app/*` — use `import { X } from "~/state/api/context/useApi"`.
+`~/*` maps to `./app/*` — use `import { useApi } from "~/shared/api/useApi"`.
 
-### API Service Layer (`app/state/api/`)
+### Feature Slices (`app/features/<domain>/`)
 
-All API calls go through service classes that extend `AbstractAuthorizedApiService` (in `api.service.ts`). This base class handles:
-- Bearer token auth via localStorage (`at` = access token, `rt` = refresh token)
-- Automatic token refresh on 401 responses
-- JSON request/response handling
+Code is sliced by domain, not by technical layer. There are ~19 slices (`flight`, `airport`, `aircraft`, `operator`, `rotation`, `delay`, `emergency`, `diversion`, `notam`, `runway`, `terminal`, `gate`, `parking-position`, `travel`, `user`, `auth`, `adsb`, `airframe`, `skylink`). A slice uses as many of these as it needs:
 
-Services are instantiated once in `ApiProvider` context and accessed via `useApi()` hook:
+```
+components/      feature-owned React components
+hooks/           feature-scoped hooks and context providers
+lib/             pure helpers
+model.ts(x)      types, enums, and domain classes
+service.ts       API service class
+schema.ts        Yup validation schemas
+form.ts          Formik initial values / form types
+request.ts       request payload types
+transformer.ts   model <-> request mapping
+i18n.ts          enum-to-human-label translators
+index.ts         barrel export
+```
+
+Cross-feature building blocks live in `app/shared/` (`api/`, `ui/`, `hooks/`, `lib/`, `models/`, `validator/`, `pwa/`). Global app state lives in `app/app-state/`. `app/components/` holds only the public landing page.
+
+### API Service Layer (`app/shared/api/api.service.ts`)
+
+Two base classes:
+- `AbstractApiService` — unauthenticated requests
+- `AbstractAuthorizedApiService` — extends it with bearer auth
+
+Auth handling in the authorized base class:
+- Tokens in localStorage via `app/shared/lib/tokenStorage.ts` — `at` (access), `rt` (refresh), `at_exp` (access token expiry in ms, decoded from the JWT)
+- Refresh is **proactive** — `isAccessTokenExpired()` (30s skew) refreshes before the call — and **reactive**, retrying once after a 401
+- 4xx responses reject with `ErrorResponse<T>`, carrying `violations` for field-level form errors
+
+Each domain implements its own service in `app/features/<domain>/service.ts` (every slice except `notam`, whose NOTAMs are fetched through `AirportService.fetchNotams`). There are two entry points:
+
+- **`useApi()`** (`app/shared/api/useApi.tsx`) — 17 authorized services, instantiated once in `ApiProvider` and mounted in `root.tsx`
+- **`usePublicApi()`** (`app/shared/api/usePublicApi.tsx`) — the unauthenticated set used by the public map: `PublicFlightService`, `PublicRunwayService`, `PublicTerminalService`, `PublicParkingPositionService`, `PublicGateService` and `AdsbService`. Plain module-level singletons, no provider.
+
 ```typescript
 const { flightService } = useApi();
 const flight = await flightService.fetchFlightById(id);
@@ -46,19 +75,25 @@ const flight = await flightService.fetchFlightById(id);
 
 ### State Management
 
-All state is React Context — no Redux/Zustand:
-- **`useAuth()`** — user, tokens, sign-in/out
-- **`useApi()`** — singleton service instances (flight, airport, operator, aircraft, skylink, user, auth)
-- **`useToast()`** — toast notifications
-- **`useMapSettings()` / `useLocalStorage()`** — local app state
+All state is React Context — no Redux/Zustand.
+
+Global providers, mounted in `app/root.tsx`:
+- **`useToast()`** (`app/app-state/useToast.tsx`) — toast notifications
+- **`useApi()`** (`app/shared/api/useApi.tsx`) — singleton service instances
+- **`useAuth()`** (`app/app-state/useAuth.tsx`) — user, tokens, sign-in/out
+
+Scoped providers, mounted in `routes/AppLayout.tsx`: `useCurrentFlight()`, `useDataRefresh()`, `usePinnedAirports()`, `usePendingDelayCount()`. `useMapSettings()` (`app/app-state/useMapSettings.tsx`) is mounted separately in `routes/public/MapRoute.tsx`.
+
+`useLocalStorage()` is a generic persistence hook in `app/shared/hooks/`, not app state — `useMapSettings` and `usePinnedAirports` are built on it.
 
 ### Route Structure (`app/routes.ts`)
 
-Routes use React Router v7's compositional API (`layout()`, `route()`, `index()`). Key layouts:
-- `AuthLayout` — sign-in/out screens
-- `AppLayout` — main authenticated wrapper (with sidebar, wraps `AuthGuard`)
-- `OperationsLayout` / `PilotLayout` — role-specific nested layouts
-- `MapLayout` — public flight map
+Routes use React Router's compositional config API (`layout()`, `route()`, `index()`). Key layouts:
+- `AuthLayout` — sign-in/out, email confirmation, Discord OAuth callback
+- `MapLayout` — public flight map (`/map`, `/map/:id`), no auth
+- `LandingRoute` — public marketing index at `/`
+- `AppLayout` — authenticated wrapper (sidebar, bottom nav, toasts), wraps `AuthGuard`
+- `OperationsLayout` / `PilotLayout` — role-specific nested layouts; `AuthGuard` takes `allowOnly` to gate by role
 
 ### Code Style
 
@@ -66,13 +101,16 @@ Routes use React Router v7's compositional API (`layout()`, `route()`, `index()`
 
 ### Component Conventions
 
-- **Named exports only** (no default exports): `export function MyComponent() { ... }`
+- **Named exports for components**: `export function MyComponent() { ... }`
+- **Route modules are the one exception** — React Router requires `export default` for anything referenced from `app/routes.ts`. Nothing under `app/features/`, `app/shared/` or `app/components/` uses a default export.
 - **PascalCase** directories and files for components
-- Managed form blocks in `app/components/shared/` wrap Formik fields with consistent styling
+- Managed form blocks in `app/shared/ui/Form/Managed/` (`ManagedInputBlock`, `ManagedSelectBlock`, `ManagedDateTimeInputBlock`, …) wrap Formik fields with consistent styling — use them instead of raw Flowbite inputs
+- Flowbite component overrides belong in `app/styles/theme.ts` (`createTheme`), not per-call `className` or `data-testid` selector hacks
+- Enum-to-label translation goes through `toHuman` (`app/i18n/translate.ts`), backed by each slice's `i18n.ts`
 
-### Data Models (`app/models/`)
+### Data Models
 
-Domain classes (e.g., `Flight`) parse API responses and provide helper methods/getters. Enums define flight statuses, phases, airport types, user roles.
+Domain types live in each slice's `model.ts` (e.g. `app/features/flight/model.ts`). Most are plain types and enums; a few are classes (`Flight`) that parse API responses and expose helper getters. Shared geometry types are in `app/shared/models/`.
 
 ## Environment Variables
 
@@ -87,6 +125,8 @@ VITE_DISCORD_CLIENT_ID=your-discord-client-id
 VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 ```
 
+`VITE_FLIGHT_TRACKER_API_HOST` and `VITE_ADSB_API_HOST` are read through `app/shared/lib/getMyPreflightApiHost.ts`, which throws when either is missing. `VITE_NODE_ENV` drives `isProduction` / `isDebug` in `useAppEnvironment()`. Note that `.env` itself does not list `VITE_DISCORD_CLIENT_ID`, so a plain `cp .env .env.local` will not give you Discord sign-in.
+
 `import.meta.env.PACKAGE_VERSION` is injected by Vite config from `package.json`.
 
 `VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client.
@@ -95,12 +135,17 @@ VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 
 Discord OAuth is a full-page redirect, unlike Google's in-page identity token, so the callback route only behaves like production in a built app. Deep links reach the router through `public/404.html` plus `public/ghspa.js`, which turn `/auth/discord/callback?code=…&state=…` into `/?/auth/discord/callback&code=…~and~state=…` and reverse it before routing. Testing a built app under GitHub Pages semantics showed this rewrite handles the callback whether or not the service worker is active — `navigateFallback` did not intercept navigations — so the rewrite is the path that must keep working, and it does not exist in `npm run dev`.
 
+## Local Development Notes
+
+- The dev server mounts every route twice (React Router SPA + Vite, no StrictMode), so each API call fires about twice. Production does not — verify network volume against a build, not `npm run dev`.
+- The service worker and the GitHub Pages deep-link rewrite do not exist in dev. Anything touching them needs `npm run build` plus a static server on port 5173, which keeps the API's CORS origin valid.
+
 ## CI/CD
 
-- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build
+- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
 - **Push to main** (`release.yaml`): build → git tag from `package.json` version → GitHub release → deploy to GitHub Pages (`./build/client`)
 - Version must be bumped in `package.json` before merging (enforced by `bin/check_version_is_free`)
 
 ## Design Context
 
-Strategic design context lives in `PRODUCT.md` (root) — read it before design work. Register is **product**, platform **web**. Guiding principles: trust the numbers (exact, unit-labeled figures with visible derivation), earned familiarity over novelty, density with legibility, role-appropriate surfaces, procedural realism not theater. Accessibility bar is WCAG 2.1 AA across both light and dark themes. Visual system is documented in `DESIGN.md`. The impeccable design skill reads both.
+Strategic design context lives in `PRODUCT.md` (root) — read it before design work. Register is **product**, platform **web**. Guiding principles: trust the numbers (exact, unit-labeled figures with visible derivation), earned familiarity over novelty, density with legibility, role-appropriate surfaces, procedural realism not theater. Accessibility bar is WCAG 2.1 AA across both light and dark themes. Visual system is documented in `DESIGN.md`, component inventory in `docs/DESIGN_SYSTEM.md`. The impeccable design skill reads both.

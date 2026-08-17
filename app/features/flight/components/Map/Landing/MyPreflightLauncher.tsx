@@ -7,7 +7,7 @@ type Props = {
   loading: boolean;
 };
 
-export function FlightTrackerLauncher({ flights, loading }: Props) {
+export function MyPreflightLauncher({ flights, loading }: Props) {
   return (
     <section className="flex max-h-full w-full max-w-md flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-gray-950/20 dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/50">
       <header className="border-b border-gray-200 p-5 dark:border-gray-800">

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { MdBrightnessAuto, MdBrightnessHigh, MdBrightnessLow } from "react-icons/md";
 import { Link } from "react-router";
 import logo from "~/assets/logo.svg";
+import { Wordmark } from "~/shared/ui/Wordmark";
 
 type ThemeMode = "light" | "dark" | "auto";
 
@@ -50,10 +51,8 @@ export function LandingNavbar() {
       }`}
     >
       <Link to="/" className="flex items-center">
-        <img src={logo} className="mr-3 h-6 sm:h-9" alt="Flight Tracker app logo" />
-        <span className="self-center whitespace-nowrap text-xl font-bold text-indigo-500 dark:text-indigo-400">
-          Flight Tracker
-        </span>
+        <img src={logo} className="mr-3 h-6 sm:h-9" alt="MyPreflight app logo" />
+        <Wordmark className="self-center whitespace-nowrap text-xl text-indigo-500 dark:text-indigo-400" />
       </Link>
       <div className="flex md:order-2 items-center gap-2">
         <ThemeToggle />

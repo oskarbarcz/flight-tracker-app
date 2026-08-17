@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Flight } from "~/features/flight";
 import { MapHeader } from "~/features/flight/components/Map/FullScreen/MapHeader";
 import { BackgroundMap } from "~/features/flight/components/Map/Landing/BackgroundMap";
-import { FlightTrackerLauncher } from "~/features/flight/components/Map/Landing/FlightTrackerLauncher";
+import { MyPreflightLauncher } from "~/features/flight/components/Map/Landing/MyPreflightLauncher";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
@@ -39,7 +39,7 @@ export default function MapIndexRoute() {
       <div className="absolute inset-0 z-20 bg-gray-100/40 dark:bg-gray-950/60" />
       <MapHeader />
       <div className="absolute inset-0 z-30 flex items-center justify-center overflow-y-auto p-4 pt-20">
-        <FlightTrackerLauncher flights={flights} loading={loading} />
+        <MyPreflightLauncher flights={flights} loading={loading} />
       </div>
     </div>
   );

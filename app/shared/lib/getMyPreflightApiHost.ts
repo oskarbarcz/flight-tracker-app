@@ -1,8 +1,8 @@
-export function getFlightTrackerApiHost() {
+export function getMyPreflightApiHost() {
   const baseUrl = import.meta.env.VITE_FLIGHT_TRACKER_API_HOST;
 
   if (!baseUrl) {
-    throw new Error("Flight Tracker host is not defined");
+    throw new Error("MyPreflight host is not defined");
   }
 
   return baseUrl;

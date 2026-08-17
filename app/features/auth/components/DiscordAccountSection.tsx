@@ -25,13 +25,13 @@ const explanation =
 const disconnectConsequences = [
   "Signing in with Discord will stop working.",
   "Flight messages will no longer arrive as Discord direct messages.",
-  "You will stay a member of the Flight Tracker Discord server.",
+  "You will stay a member of the MyPreflight Discord server.",
 ];
 
 const joinOutcomeLead: Partial<Record<DiscordJoinOutcome, string>> = {
-  joined: "You have been added to the Flight Tracker server.",
-  already_member: "You are already in the Flight Tracker server.",
-  failed: "You could not be added to the Flight Tracker server.",
+  joined: "You have been added to the MyPreflight server.",
+  already_member: "You are already in the MyPreflight server.",
+  failed: "You could not be added to the MyPreflight server.",
 };
 
 export function DiscordAccountSection() {

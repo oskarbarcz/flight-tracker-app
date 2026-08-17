@@ -1,7 +1,7 @@
 # discord-sign-in Specification
 
 ## Purpose
-Let a user who has connected their Discord account to Flight Tracker sign in with Discord from the sign-in screen instead of typing an email and password, ending in exactly the same authenticated session a password sign-in produces.
+Let a user who has connected their Discord account to MyPreflight sign in with Discord from the sign-in screen instead of typing an email and password, ending in exactly the same authenticated session a password sign-in produces.
 ## Requirements
 ### Requirement: Discord sign-in option on the sign-in screen
 
@@ -34,13 +34,13 @@ Because the third-party options sit stacked and adjacent, the Discord control SH
 - **WHEN** the deployment has no Discord client configured
 - **THEN** no Discord control or Discord-related text appears anywhere on the sign-in screen, and the remaining options are presented without a gap where it would have been
 
-### Requirement: Discord identity is exchanged for a Flight Tracker session
+### Requirement: Discord identity is exchanged for a MyPreflight session
 
 When the user returns from Discord having granted access, the system SHALL exchange the authorization code for the application's own access and refresh tokens via `POST /api/v1/auth/discord`, and SHALL persist and use those tokens in exactly the same way as tokens obtained from a password sign-in. The exchange SHALL carry the value binding the code to this browser's flow, so that a code intercepted elsewhere cannot be redeemed.
 
 #### Scenario: Successful Discord sign-in
 
-- **WHEN** a user grants access with a Discord account that is connected to a Flight Tracker account
+- **WHEN** a user grants access with a Discord account that is connected to a MyPreflight account
 - **THEN** the system obtains access and refresh tokens from `POST /api/v1/auth/discord`, stores them as the active session, loads the signed-in user, and navigates to the landing screen for that user's role
 
 #### Scenario: Session is indistinguishable from a password session
@@ -50,21 +50,21 @@ When the user returns from Discord having granted access, the system SHALL excha
 
 ### Requirement: Signing in never creates an account
 
-Discord sign-in SHALL only ever open a session for an account that has already connected that Discord account. The system SHALL NOT create a Flight Tracker account, and SHALL NOT connect a Discord account to an existing one, as a side effect of signing in.
+Discord sign-in SHALL only ever open a session for an account that has already connected that Discord account. The system SHALL NOT create a MyPreflight account, and SHALL NOT connect a Discord account to an existing one, as a side effect of signing in.
 
 #### Scenario: Discord account is not connected to anything
 
-- **WHEN** a user signs in with a Discord account that no Flight Tracker account has connected
+- **WHEN** a user signs in with a Discord account that no MyPreflight account has connected
 - **THEN** no account is created, no connection is made, the user remains signed out, and the screen explains how to connect the account first
 
 ### Requirement: Discord sign-in failure messaging
 
 The system SHALL report a failed Discord sign-in in plain language, on the sign-in screen, in the same alert region used by password sign-in errors, and SHALL distinguish an account that is not connected from a rejected authorization. A failure SHALL never leave the user in a partially authenticated state.
 
-#### Scenario: Discord account is not connected to any Flight Tracker account
+#### Scenario: Discord account is not connected to any MyPreflight account
 
 - **WHEN** the exchange responds reporting that no user account is linked to this Discord account
-- **THEN** the screen explains that this Discord account is not connected to a Flight Tracker account and that the user must sign in with their email and password once and connect it from their account page
+- **THEN** the screen explains that this Discord account is not connected to a MyPreflight account and that the user must sign in with their email and password once and connect it from their account page
 
 #### Scenario: Authorization is rejected
 
@@ -76,12 +76,12 @@ The system SHALL report a failed Discord sign-in in plain language, on the sign-
 - **WHEN** the response carries a status the screen does not distinguish, or carries no usable reason
 - **THEN** the screen falls back to a generic sign-in failure message rather than showing nothing or a raw payload
 
-#### Scenario: Flight Tracker is unreachable
+#### Scenario: MyPreflight is unreachable
 
 - **WHEN** the exchange request fails without a response status
-- **THEN** the screen shows the same "can't reach Flight Tracker" message used by password sign-in
+- **THEN** the screen shows the same "can't reach MyPreflight" message used by password sign-in
 
-#### Scenario: Flight Tracker fails on its side
+#### Scenario: MyPreflight fails on its side
 
 - **WHEN** the exchange responds with a `5xx` status
 - **THEN** the screen shows the same server-side failure message used by password sign-in
@@ -102,7 +102,7 @@ While a Discord sign-in is being completed, the app SHALL indicate that sign-in 
 
 #### Scenario: Exchange in progress
 
-- **WHEN** the user has returned from Discord and the exchange with Flight Tracker has not yet completed
+- **WHEN** the user has returned from Discord and the exchange with MyPreflight has not yet completed
 - **THEN** a sign-in-in-progress state is shown and no other sign-in attempt can be started
 
 #### Scenario: Attempt finishes
