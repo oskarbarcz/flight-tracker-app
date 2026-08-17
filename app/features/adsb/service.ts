@@ -1,6 +1,6 @@
 import type { FlightPathElement } from "~/features/flight";
 import { AbstractApiService } from "~/shared/api/api.service";
-import { getAdsbApiHost } from "~/shared/lib/getFlightTrackerApiHost";
+import { getAdsbApiHost } from "~/shared/lib/getMyPreflightApiHost";
 
 export class AdsbService extends AbstractApiService {
   constructor() {

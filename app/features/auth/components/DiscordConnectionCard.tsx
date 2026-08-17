@@ -15,7 +15,7 @@ const markers: Record<DiscordMembershipState, Marker> = {
   member: {
     tone: "bg-green-700 dark:bg-green-400",
     Icon: FaCheck,
-    label: "Connected, and in the Flight Tracker server",
+    label: "Connected, and in the MyPreflight server",
   },
   unknown: {
     tone: "bg-green-700 dark:bg-green-400",
@@ -25,7 +25,7 @@ const markers: Record<DiscordMembershipState, Marker> = {
   not_member: {
     tone: "bg-amber-700 dark:bg-amber-400",
     Icon: FaExclamation,
-    label: "Connected, but not in the Flight Tracker server",
+    label: "Connected, but not in the MyPreflight server",
   },
   checking: {
     tone: "bg-gray-300 dark:bg-gray-600",

@@ -5,17 +5,28 @@ on:
     paths: [ "**", "!**.md" ]
 
 jobs:
-  integrate:
-    runs-on: "ubuntu-24.04"
+  files:
+    runs-on: ubuntu-latest
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
         with:
           fetch-depth: 0
-      - name: "Check if image version is available to publish"
-        run: './bin/check_version_is_free "$(jq -r ''.version'' package.json)"'
+      - name: "Check for CRLF line endings"
+        uses: gi-org-pl/check-crlf-action@v1
+      - name: "Check for file permission changes"
+        uses: gi-org-pl/check-file-permissions-action@v1
+      - name: "Check app version is unique"
+        uses: gi-org-pl/check-version-action@v1
+        with:
+          version: "$(jq -r '.version' package.json)"
+  code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
       - name: "Setup Node.js"
-        uses: "actions/setup-node@v4"
+        uses: actions/setup-node@v4
         with:
           node-version: "26.x"
       - name: "Install dependencies"

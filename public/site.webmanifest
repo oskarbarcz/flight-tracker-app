@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Flight Tracker",
-  "short_name": "FlightTracker",
+  "name": "MyPreflight",
+  "short_name": "MyPreflight",
   "start_url": "/dashboard",
   "scope": "/",
   "display": "standalone",

@@ -13,7 +13,7 @@ const backendMessages = {
 } as const;
 
 const notConnectedMessage =
-  "This Google account isn't connected to a Flight Tracker account. Sign in with your email and password, then connect it from your account page.";
+  "This Google account isn't connected to a MyPreflight account. Sign in with your email and password, then connect it from your account page.";
 const emailNotVerifiedMessage =
   "Google hasn't verified this account's email address. Verify it with Google, then try again.";
 const rejectedIdentityOnSignInMessage =
@@ -22,7 +22,7 @@ const rejectedIdentityOnLinkMessage = "Your Google account couldn't be connected
 const userAlreadyLinkedMessage =
   "This account already has a Google account connected. Only one can be connected at a time.";
 const linkedToAnotherUserMessage =
-  "This Google account is already connected to another Flight Tracker account. Choose a different Google account.";
+  "This Google account is already connected to another MyPreflight account. Choose a different Google account.";
 const indistinguishableConflictMessage =
   "This Google account couldn't be connected: either this account or that Google account is already connected.";
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-08-13T00:00:00.000Z",
-  "title": "Design System: Flight Tracker",
+  "title": "Design System: MyPreflight",
   "extensions": {
     "colorMeta": {
       "indigo-primary": {
@@ -487,7 +487,7 @@
   ],
   "narrative": {
     "northStar": "The Flight Plan",
-    "overview": "Flight Tracker is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface should read like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document *is* the interface. Its authority comes from being correct and legible under density, not from chrome.\n\nThe system is quiet on purpose. A single indigo carries action and current selection; everything else is a disciplined gray scale that lets tabular data (fuel in tons, times in `Z`, IATA/ICAO codes) be the loudest thing on the screen. Layout is structural and honest: panels separated by hairline borders and tonal steps, information packed tightly but never cramped, hierarchy built from weight and rhythm rather than empty space.\n\nThis system explicitly rejects the **flashy gamer / sci-fi HUD**: no neon, no glows, no aggressive dark-mode theatrics, no fake-cockpit skeuomorphism. Realism is earned through accurate workflow and terminology, never simulated with visual gimmickry. It equally rejects playful consumer-SaaS softness — this is a tool for a task, not a toy.",
+    "overview": "MyPreflight is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface should read like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document *is* the interface. Its authority comes from being correct and legible under density, not from chrome.\n\nThe system is quiet on purpose. A single indigo carries action and current selection; everything else is a disciplined gray scale that lets tabular data (fuel in tons, times in `Z`, IATA/ICAO codes) be the loudest thing on the screen. Layout is structural and honest: panels separated by hairline borders and tonal steps, information packed tightly but never cramped, hierarchy built from weight and rhythm rather than empty space.\n\nThis system explicitly rejects the **flashy gamer / sci-fi HUD**: no neon, no glows, no aggressive dark-mode theatrics, no fake-cockpit skeuomorphism. Realism is earned through accurate workflow and terminology, never simulated with visual gimmickry. It equally rejects playful consumer-SaaS softness — this is a tool for a task, not a toy.",
     "keyCharacteristics": [
       "Document-grade: figures are the product; present them exactly, unit-labeled, with derivations shown.",
       "Restrained color: indigo for action and selection only; gray does the structural work.",

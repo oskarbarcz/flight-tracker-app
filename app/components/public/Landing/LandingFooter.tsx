@@ -4,6 +4,7 @@ import { FaDiscord, FaGithub } from "react-icons/fa6";
 import { Link } from "react-router";
 import logo from "~/assets/logo.svg";
 import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
+import { Wordmark } from "~/shared/ui/Wordmark";
 
 export function LandingFooter() {
   const { discordInvitationHash } = useAppEnvironment();
@@ -17,10 +18,8 @@ export function LandingFooter() {
         <div className="grid w-full grid-cols-1 gap-12 md:grid-cols-2">
           <div>
             <Link to="/" className="flex items-center mb-4 w-fit">
-              <img src={logo} className="mr-3 h-8" alt="Flight Tracker app logo" />
-              <span className="self-center whitespace-nowrap text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                Flight Tracker
-              </span>
+              <img src={logo} className="mr-3 h-8" alt="MyPreflight app logo" />
+              <Wordmark className="self-center whitespace-nowrap text-2xl text-indigo-600 dark:text-indigo-400" />
             </Link>
             <p className="text-gray-500 dark:text-gray-400 font-medium max-w-sm leading-relaxed">
               The ultimate toolkit built exclusively for your flight simulation ecosystem. Master the skies with

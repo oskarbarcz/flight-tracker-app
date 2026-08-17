@@ -16,7 +16,7 @@ function Membership({ membership, inviteUrl }: { membership: DiscordMembershipSt
     return (
       <p className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300">
         <FaCircleCheck aria-hidden className="size-3.5 shrink-0 text-green-700 dark:text-green-400" />
-        In the Flight Tracker server
+        In the MyPreflight server
       </p>
     );
   }
@@ -25,7 +25,7 @@ function Membership({ membership, inviteUrl }: { membership: DiscordMembershipSt
     return (
       <p className="flex flex-wrap items-center gap-x-1.5 text-xs text-gray-600 dark:text-gray-300">
         <FaCircleExclamation aria-hidden className="size-3.5 shrink-0 text-amber-700 dark:text-amber-400" />
-        Not in the Flight Tracker server
+        Not in the MyPreflight server
         {inviteUrl !== null && (
           <a
             href={inviteUrl}
@@ -41,7 +41,7 @@ function Membership({ membership, inviteUrl }: { membership: DiscordMembershipSt
   }
 
   if (membership === "checking") {
-    return <p className="text-xs text-gray-500 dark:text-gray-400">Checking the Flight Tracker server…</p>;
+    return <p className="text-xs text-gray-500 dark:text-gray-400">Checking the MyPreflight server…</p>;
   }
 
   return null;

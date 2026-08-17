@@ -5,6 +5,7 @@ import { GitHubButton } from "~/features/flight/components/Map/FullScreen/Elemen
 import { ThemeSwitchButton } from "~/features/flight/components/Map/FullScreen/Element/ThemeSwitchButton";
 import { VerticalSeparator } from "~/features/flight/components/Map/FullScreen/Element/VerticalSeparator";
 import { dateToLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
+import { Wordmark } from "~/shared/ui/Wordmark";
 
 type Props = {
   lastUpdatedAt?: Date | null;
@@ -15,8 +16,8 @@ export function MapHeader({ lastUpdatedAt }: Props) {
     <div className="pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-gray-100/95 via-gray-100/55 to-transparent px-4 pb-12 pt-3 dark:from-gray-950/95 dark:via-gray-950/50">
       <div className="flex items-center justify-center gap-3 sm:justify-between">
         <Link to="/" className="pointer-events-auto flex items-center gap-2">
-          <img src={logo} className="h-6" alt="Flight Tracker app logo" />
-          <span className="text-xl font-bold text-indigo-500">Flight Tracker</span>
+          <img src={logo} className="h-6" alt="MyPreflight app logo" />
+          <Wordmark className="text-xl text-indigo-500" />
         </Link>
 
         <div className="pointer-events-auto hidden items-center gap-3 sm:flex">

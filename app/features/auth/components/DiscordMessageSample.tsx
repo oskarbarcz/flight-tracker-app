@@ -57,13 +57,13 @@ const delay = {
 
 const frameLabels: Record<DiscordMessageId, string> = {
   briefing:
-    "Screenshot of a Discord direct message from Flight Tracker: the briefing for flight LO 281 from Warsaw to London, with the estimated schedule, the departure METAR, a link back to the app, and the operational flight plan attached as a PDF.",
+    "Screenshot of a Discord direct message from MyPreflight: the briefing for flight LO 281 from Warsaw to London, with the estimated schedule, the departure METAR, a link back to the app, and the operational flight plan attached as a PDF.",
   preliminaryLoadsheet:
-    "Screenshot of a Discord direct message from Flight Tracker: the preliminary loadsheet for flight LO 281, listing the crew and the planned load.",
+    "Screenshot of a Discord direct message from MyPreflight: the preliminary loadsheet for flight LO 281, listing the crew and the planned load.",
   finalLoadsheet:
-    "Screenshot of a Discord direct message from Flight Tracker: the final loadsheet for flight LO 281, listing the crew and the load as it stands for departure.",
+    "Screenshot of a Discord direct message from MyPreflight: the final loadsheet for flight LO 281, listing the crew and the load as it stands for departure.",
   delay:
-    "Screenshot of two Discord direct messages from Flight Tracker: a 35 minute departure delay on flight LO 281 waiting to be allocated, and operations approving the allocation.",
+    "Screenshot of two Discord direct messages from MyPreflight: a 35 minute departure delay on flight LO 281 waiting to be allocated, and operations approving the allocation.",
 };
 
 function BriefingSample() {

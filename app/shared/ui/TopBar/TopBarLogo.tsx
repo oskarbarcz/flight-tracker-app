@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import logo from "~/assets/logo.svg";
+import { Wordmark } from "~/shared/ui/Wordmark";
 
 type Props = {
   size?: "md" | "lg";
@@ -16,8 +17,8 @@ export function TopBarLogo({ size = "md" }: Props) {
 
   return (
     <Link to="/dashboard" replace className="flex items-center">
-      <img src={logo} className={image} alt="Flight Tracker app logo" />
-      <span className={`${label} text-indigo-500 ms-2 font-bold`}>Flight Tracker</span>
+      <img src={logo} className={image} alt="MyPreflight app logo" />
+      <Wordmark className={`${label} text-indigo-500 ms-2`} />
     </Link>
   );
 }

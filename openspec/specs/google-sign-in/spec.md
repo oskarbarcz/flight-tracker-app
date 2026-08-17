@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Let a user who has connected their Google account to Flight Tracker sign in with Google from the sign-in screen instead of typing an email and password, ending in exactly the same authenticated session a password sign-in produces.
+Let a user who has connected their Google account to MyPreflight sign in with Google from the sign-in screen instead of typing an email and password, ending in exactly the same authenticated session a password sign-in produces.
 ## Requirements
 ### Requirement: Google sign-in option on the sign-in screen
 
@@ -28,13 +28,13 @@ The sign-in screen SHALL offer Google as one of possibly several alternatives to
 - **WHEN** the deployment has no third-party sign-in configured at all
 - **THEN** no third-party button, divider, or third-party-related text appears anywhere on the sign-in screen, and the email and password form is presented exactly as it was before any third-party sign-in existed
 
-### Requirement: Google identity is exchanged for a Flight Tracker session
+### Requirement: Google identity is exchanged for a MyPreflight session
 
 When the user completes the Google flow, the system SHALL exchange the resulting Google identity assertion for the application's own access and refresh tokens via `POST /api/v1/auth/google`, and SHALL persist and use those tokens in exactly the same way as tokens obtained from a password sign-in. No Google credential SHALL be retained after the exchange.
 
 #### Scenario: Successful Google sign-in
 
-- **WHEN** a user picks a Google account whose Google identity is connected to a Flight Tracker account
+- **WHEN** a user picks a Google account whose Google identity is connected to a MyPreflight account
 - **THEN** the system obtains access and refresh tokens from `POST /api/v1/auth/google`, stores them as the active session, loads the signed-in user, and navigates to the landing screen for that user's role
 
 #### Scenario: Session is indistinguishable from a password session
@@ -53,7 +53,7 @@ While a Google sign-in is in flight, the sign-in screen SHALL indicate that sign
 
 #### Scenario: Exchange in progress
 
-- **WHEN** the Google flow has returned an identity and the exchange with Flight Tracker has not yet completed
+- **WHEN** the Google flow has returned an identity and the exchange with MyPreflight has not yet completed
 - **THEN** the screen shows a sign-in-in-progress state and neither the password form nor the Google button starts another attempt
 
 #### Scenario: Attempt finishes
@@ -65,10 +65,10 @@ While a Google sign-in is in flight, the sign-in screen SHALL indicate that sign
 
 The system SHALL report a failed Google sign-in in plain language, on the sign-in screen, in the same alert region used by password sign-in errors, and SHALL distinguish an account that is not connected from a rejected Google identity, since the endpoint answers `401` for both. A failure SHALL never leave the user in a partially authenticated state.
 
-#### Scenario: Google account is not connected to any Flight Tracker account
+#### Scenario: Google account is not connected to any MyPreflight account
 
 - **WHEN** `POST /api/v1/auth/google` responds `401` reporting that no user account is linked to this Google account
-- **THEN** the screen explains that this Google account is not connected to a Flight Tracker account and that the user must sign in with their email and password once and connect it from their account page
+- **THEN** the screen explains that this Google account is not connected to a MyPreflight account and that the user must sign in with their email and password once and connect it from their account page
 
 #### Scenario: Google email address is not verified
 
@@ -85,12 +85,12 @@ The system SHALL report a failed Google sign-in in plain language, on the sign-i
 - **WHEN** the response carries a status the screen does not distinguish, or carries no usable reason
 - **THEN** the screen falls back to a generic sign-in failure message rather than showing nothing or a raw payload
 
-#### Scenario: Flight Tracker is unreachable
+#### Scenario: MyPreflight is unreachable
 
 - **WHEN** the exchange request fails without a response status
-- **THEN** the screen shows the same "can't reach Flight Tracker" message used by password sign-in
+- **THEN** the screen shows the same "can't reach MyPreflight" message used by password sign-in
 
-#### Scenario: Flight Tracker fails on its side
+#### Scenario: MyPreflight fails on its side
 
 - **WHEN** the exchange responds with a `5xx` status
 - **THEN** the screen shows the same server-side failure message used by password sign-in
@@ -103,7 +103,7 @@ The system SHALL report a failed Google sign-in in plain language, on the sign-i
 #### Scenario: Google's own service is unavailable
 
 - **WHEN** Google's sign-in client cannot be loaded or initialised
-- **THEN** the Google button is not presented as an operable control, the email and password form remains usable, and the failure is not reported as a Flight Tracker error
+- **THEN** the Google button is not presented as an operable control, the email and password form remains usable, and the failure is not reported as a MyPreflight error
 
 ### Requirement: Google sign-in respects existing session handling
 

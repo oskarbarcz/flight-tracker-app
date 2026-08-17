@@ -1,6 +1,6 @@
 import { io, type Socket } from "socket.io-client";
 import type { FlightEvent } from "~/features/flight";
-import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
+import { getMyPreflightApiHost } from "~/shared/lib/getMyPreflightApiHost";
 import { refreshAccessToken } from "~/shared/lib/refreshAccessToken";
 import { readAccessToken } from "~/shared/lib/tokenStorage";
 
@@ -32,7 +32,7 @@ export function subscribeToFlightEvents(flightId: string, listeners: FlightEvent
   const report = (message: string) => listeners.onError?.({ flightId, message });
   const setStatus = (status: FlightConnectionStatus) => listeners.onStatus?.(status);
 
-  const socket: Socket = io(`${getFlightTrackerApiHost()}${FLIGHT_EVENTS_NAMESPACE}`, {
+  const socket: Socket = io(`${getMyPreflightApiHost()}${FLIGHT_EVENTS_NAMESPACE}`, {
     auth: (cb) => cb({ token: readAccessToken() ?? "" }),
     transports: ["websocket"],
   });

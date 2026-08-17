@@ -1,4 +1,4 @@
-import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
+import { getMyPreflightApiHost } from "~/shared/lib/getMyPreflightApiHost";
 import { refreshAccessToken } from "~/shared/lib/refreshAccessToken";
 import { isAccessTokenExpired, readAccessToken } from "~/shared/lib/tokenStorage";
 
@@ -23,7 +23,7 @@ export abstract class AbstractApiService {
   protected host: string;
 
   constructor() {
-    this.host = getFlightTrackerApiHost();
+    this.host = getMyPreflightApiHost();
   }
 
   protected async doRequest(endpoint: string, options: RequestInit, token: string | undefined = undefined) {

@@ -13,7 +13,7 @@ type Props = {
   onContinue: (joinServer: boolean) => void;
 };
 
-const intro = "Choose what Flight Tracker may do with your Discord account before you connect it.";
+const intro = "Choose what MyPreflight may do with your Discord account before you connect it.";
 const consentNote = "Discord will ask you to confirm.";
 
 export function DiscordSettingsModal({ messages, close, onContinue }: Props) {

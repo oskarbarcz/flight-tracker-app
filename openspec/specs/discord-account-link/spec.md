@@ -1,7 +1,7 @@
 # discord-account-link Specification
 
 ## Purpose
-Give a signed-in user a place to connect and disconnect their Discord account, choose whether to join the Flight Tracker Discord server while doing so, choose which flight messages Discord brings them, and see plainly whether those messages can actually reach them.
+Give a signed-in user a place to connect and disconnect their Discord account, choose whether to join the MyPreflight Discord server while doing so, choose which flight messages Discord brings them, and see plainly whether those messages can actually reach them.
 ## Requirements
 ### Requirement: Discord connection section
 
@@ -72,14 +72,14 @@ The connected account SHALL be presented as a panel spanning the full width of t
 
 For a connected account, the section SHALL offer a notifications settings surface that opens on the connected account itself — avatar, display name, and login — followed by the messages the user can receive. The surface SHALL be dismissed by a close control in its own header and SHALL carry no bar of actions beneath it, since everything it offers takes effect where it stands.
 
-Whether the user is in the Flight Tracker server SHALL be told on that same first line, as a mark and a word rather than a switch, because joining happens only while connecting. When they are not a member, the invite SHALL be offered beside it.
+Whether the user is in the MyPreflight server SHALL be told on that same first line, as a mark and a word rather than a switch, because joining happens only while connecting. When they are not a member, the invite SHALL be offered beside it.
 
 Disconnecting SHALL sit on that first line, beside the account it acts on, and SHALL read as an ordinary control until it is approached — carrying the destructive hue only on hover — so it is never mistaken for the surface's main action.
 
 #### Scenario: Settings surface opens on the account
 
 - **WHEN** a connected user opens the notifications settings
-- **THEN** the first line identifies the connected account, states whether the user is in the Flight Tracker server, and offers disconnecting beside it
+- **THEN** the first line identifies the connected account, states whether the user is in the MyPreflight server, and offers disconnecting beside it
 
 #### Scenario: Surface is dismissed from its header
 
@@ -108,7 +108,7 @@ Disconnecting SHALL sit on that first line, beside the account it acts on, and S
 
 ### Requirement: Discord settings are chosen before connecting
 
-Starting a connection SHALL first present a Discord settings surface listing what Flight Tracker may do with the Discord account, so the user decides before any permission is requested rather than discovering the consequences at Discord's consent screen. Each entry SHALL be named, explained, show whether it is on, and be expandable to the message it stands for. Leaving that surface without confirming SHALL start nothing.
+Starting a connection SHALL first present a Discord settings surface listing what MyPreflight may do with the Discord account, so the user decides before any permission is requested rather than discovering the consequences at Discord's consent screen. Each entry SHALL be named, explained, show whether it is on, and be expandable to the message it stands for. Leaving that surface without confirming SHALL start nothing.
 
 The surface SHALL distinguish entries that are settings of the account, kept whether or not a connection follows, from entries that apply only to the connection being started.
 
@@ -130,7 +130,7 @@ The surface SHALL distinguish entries that are settings of the account, kept whe
 #### Scenario: Joining the server is the user's choice
 
 - **WHEN** the Discord settings surface is shown
-- **THEN** being added to the Flight Tracker server is listed as a feature the user can turn on or off, explaining that server membership is what makes briefing direct messages deliverable
+- **THEN** being added to the MyPreflight server is listed as a feature the user can turn on or off, explaining that server membership is what makes briefing direct messages deliverable
 
 #### Scenario: Permissions requested for this connection start off
 
@@ -183,7 +183,7 @@ The system SHALL surface the one-Discord-account-per-user and one-user-per-Disco
 #### Scenario: Discord account belongs to another user
 
 - **WHEN** the request responds `409` reporting that the Discord account is already linked to another user
-- **THEN** the section explains that this Discord account is already connected to another Flight Tracker account and suggests connecting a different Discord account
+- **THEN** the section explains that this Discord account is already connected to another MyPreflight account and suggests connecting a different Discord account
 
 #### Scenario: Conflict reason is not distinguishable
 
@@ -209,7 +209,7 @@ A request rejected because the join was never authorized is a different case: no
 #### Scenario: Join succeeded
 
 - **WHEN** the connection succeeds and the user was added to the server
-- **THEN** the section reports that Discord is connected and that the user has been added to the Flight Tracker server
+- **THEN** the section reports that Discord is connected and that the user has been added to the MyPreflight server
 
 #### Scenario: User was already in the server
 
@@ -233,7 +233,7 @@ A request rejected because the join was never authorized is a different case: no
 
 ### Requirement: Each message is turned on and off by the user
 
-Every message Flight Tracker sends as a Discord direct message SHALL be a setting of the account, read from `GET /api/v1/user/me/discord-settings` and written with `PATCH /api/v1/user/me/discord-settings`, offered wherever the Discord integration is configured. The settings SHALL be readable and writable whether or not a Discord account is connected, since they decide what happens once one is.
+Every message MyPreflight sends as a Discord direct message SHALL be a setting of the account, read from `GET /api/v1/user/me/discord-settings` and written with `PATCH /api/v1/user/me/discord-settings`, offered wherever the Discord integration is configured. The settings SHALL be readable and writable whether or not a Discord account is connected, since they decide what happens once one is.
 
 The messages SHALL be presented together as one list, each named and stated by the moment it arrives — the flight briefing on check-in, the preliminary loadsheet when boarding starts, the final loadsheet when boarding finishes, and the delay updates that ask for an allocation and report its approval — so a user reads the whole of what Discord would bring them in one place. What they have in common — that each arrives as a direct message, is kept with the account, and reaches them only while connected and in the server — SHALL be stated once for the list rather than repeated on every entry.
 
@@ -281,19 +281,19 @@ A change SHALL be sent on its own as soon as it is made, carrying only the setti
 
 ### Requirement: Server membership and its effect on briefings are reported
 
-For a connected account, the account page SHALL report whether the user is a member of the Flight Tracker Discord server, and SHALL state the consequence for briefing delivery. Membership SHALL be requested only by the account page, and SHALL NOT be requested as part of loading the user's profile.
+For a connected account, the account page SHALL report whether the user is a member of the MyPreflight Discord server, and SHALL state the consequence for briefing delivery. Membership SHALL be requested only by the account page, and SHALL NOT be requested as part of loading the user's profile.
 
 Membership SHALL be reported as one of three outcomes — a member, not a member, or not determinable — and the system SHALL NOT report a user as not a member when membership could not be determined.
 
 #### Scenario: Connected and in the server
 
 - **WHEN** the account page reports membership for a connected user who is in the server
-- **THEN** the section states that the user is in the Flight Tracker server and that briefings will be delivered as direct messages
+- **THEN** the section states that the user is in the MyPreflight server and that briefings will be delivered as direct messages
 
 #### Scenario: Connected but not in the server
 
 - **WHEN** the account page reports membership for a connected user who is not in the server
-- **THEN** the section states that the user is not in the Flight Tracker server, that briefings cannot be delivered as direct messages until they are, and offers the way to join
+- **THEN** the section states that the user is not in the MyPreflight server, that briefings cannot be delivered as direct messages until they are, and offers the way to join
 
 #### Scenario: Membership cannot be determined
 
@@ -322,7 +322,7 @@ When a connected user is not a member of the Discord server, the section SHALL o
 #### Scenario: Invite is offered
 
 - **WHEN** a connected user is reported as not a member of the server
-- **THEN** the section offers a control that opens the Flight Tracker Discord invite in a new context
+- **THEN** the section offers a control that opens the MyPreflight Discord invite in a new context
 
 #### Scenario: Invite is not offered when it cannot help
 
@@ -375,10 +375,10 @@ The section SHALL let a user with a connected Discord account disconnect it via 
 
 ### Requirement: Disconnecting does not remove the user from the server
 
-Disconnecting a Discord account SHALL affect only the connection between the two accounts. The system SHALL NOT remove the user from the Flight Tracker Discord server, and SHALL NOT suggest that it has.
+Disconnecting a Discord account SHALL affect only the connection between the two accounts. The system SHALL NOT remove the user from the MyPreflight Discord server, and SHALL NOT suggest that it has.
 
 #### Scenario: Membership is untouched
 
-- **WHEN** a user who is a member of the Flight Tracker Discord server disconnects their Discord account
+- **WHEN** a user who is a member of the MyPreflight Discord server disconnects their Discord account
 - **THEN** nothing in the flow removes them from the server, and the reported consequences mention only Discord sign-in and message delivery
 

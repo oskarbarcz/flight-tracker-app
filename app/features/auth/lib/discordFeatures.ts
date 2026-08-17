@@ -45,15 +45,15 @@ export const discordMessages: {
 ];
 
 export const joinServerFeature = {
-  label: "Add me to the Flight Tracker server",
+  label: "Add me to the MyPreflight server",
   description:
     "Joins the server for you while connecting, so briefings can reach you. Without it you will need to join yourself before anything can be delivered.",
 } as const;
 
 export const membershipNote: Record<DiscordMembershipState, string | null> = {
   checking: null,
-  member: "You are in the Flight Tracker server, so briefings arrive as direct messages.",
+  member: "You are in the MyPreflight server, so briefings arrive as direct messages.",
   not_member:
-    "You are not in the Flight Tracker server, so briefings cannot be delivered as direct messages until you join.",
+    "You are not in the MyPreflight server, so briefings cannot be delivered as direct messages until you join.",
   unknown: null,
 };

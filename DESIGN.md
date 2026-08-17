@@ -1,5 +1,5 @@
 ---
-name: Flight Tracker
+name: MyPreflight
 description: Operations and cockpit tooling for a virtual airline — precise, dependable, document-grade.
 colors:
   indigo-primary: "#6366f1"
@@ -92,13 +92,13 @@ components:
     padding: "0.625rem 0.75rem"
 ---
 
-# Design System: Flight Tracker
+# Design System: MyPreflight
 
 ## 1. Overview
 
 **Creative North Star: "The Flight Plan"**
 
-Flight Tracker is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface should read like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document *is* the interface. Its authority comes from being correct and legible under density, not from chrome.
+MyPreflight is dispatch and cockpit tooling for people who run a virtual airline for the realism of it. The interface should read like the paperwork of a real operation — a flight plan, a loadsheet, a fuel log: exact figures, labeled units, visible subtotals, nothing decorative between the reader and the number. The document *is* the interface. Its authority comes from being correct and legible under density, not from chrome.
 
 The system is quiet on purpose. A single indigo carries action and current selection; everything else is a disciplined gray scale that lets tabular data (fuel in tons, times in `Z`, IATA/ICAO codes) be the loudest thing on the screen. Layout is structural and honest: panels separated by hairline borders and tonal steps, information packed tightly but never cramped, hierarchy built from weight and rhythm rather than empty space.
 
@@ -160,6 +160,8 @@ A near-monochrome gray system with one indigo accent and a conventional semantic
 **The Tabular Figures Rule.** Any number a user compares or sums is set in Roboto Mono with `tabular-nums`, right-aligned in columns, unit suffix in a smaller muted weight. Never set comparable figures in the proportional body font.
 
 **The Micro-Caps Rule.** Uppercase tracked labels are the system's connective tissue; keep tracking ≥ 0.06em so caps never touch, and never use them for reading-length text.
+
+**The Wordmark Rule.** The name is set two ways and they are not interchangeable. In prose — copy, page titles, alt text, notifications — it is **MyPreflight**, one word, camel-cased. As a logotype beside the mark it is **mypreflight**: all lowercase, `my` at Inter 400 and `preflight` at Inter 700, so the weight break carries the emphasis instead of a capital. Render it with `Wordmark` (`app/shared/ui/Wordmark.tsx`), which owns the weight split and takes only size and colour classes — never hand-set the logotype, and never apply `font-bold` to the whole word.
 
 ## 4. Elevation
 

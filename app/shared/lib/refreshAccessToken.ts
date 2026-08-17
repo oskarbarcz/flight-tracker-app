@@ -1,4 +1,4 @@
-import { getFlightTrackerApiHost } from "~/shared/lib/getFlightTrackerApiHost";
+import { getMyPreflightApiHost } from "~/shared/lib/getMyPreflightApiHost";
 import { clearTokens, readRefreshToken, saveTokens } from "~/shared/lib/tokenStorage";
 
 export async function refreshAccessToken(): Promise<string> {
@@ -7,7 +7,7 @@ export async function refreshAccessToken(): Promise<string> {
     throw new Error("Refresh token not found");
   }
 
-  const response = await fetch(`${getFlightTrackerApiHost()}/api/v1/auth/refresh`, {
+  const response = await fetch(`${getMyPreflightApiHost()}/api/v1/auth/refresh`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

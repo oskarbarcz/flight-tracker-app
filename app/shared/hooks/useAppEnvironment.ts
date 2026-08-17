@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 type AppConfig = {
   discordInvitationHash: string;
-  flightTrackerHost: string;
+  myPreflightHost: string;
   adsbApiHost: string;
   isProduction: boolean;
   isDebug: boolean;
@@ -15,7 +15,7 @@ export function useAppEnvironment(): AppConfig {
 
     return {
       discordInvitationHash: import.meta.env.VITE_DISCORD_INVITATION_HASH as string,
-      flightTrackerHost: import.meta.env.VITE_FLIGHT_TRACKER_API_HOST as string,
+      myPreflightHost: import.meta.env.VITE_FLIGHT_TRACKER_API_HOST as string,
       adsbApiHost: import.meta.env.VITE_ADSB_API_HOST as string,
       isProduction: environment === "production",
       isDebug: environment === "development",
