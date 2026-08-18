@@ -13,6 +13,7 @@ import type {
   UnlinkAccountRequest,
   UpdateDiscordSettingsRequest,
   UpdateOwnProfileRequest,
+  VerifySimbriefUserResponse,
 } from "~/features/user/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
@@ -26,6 +27,12 @@ export class UserService extends AbstractAuthorizedApiService {
       method: "PATCH",
       body: JSON.stringify(profile),
     });
+  }
+
+  async verifySimbriefUser(simbriefUserId: string) {
+    return this.fetchWithAuth<VerifySimbriefUserResponse>(
+      `/api/v1/user/simbrief/${encodeURIComponent(simbriefUserId)}`,
+    );
   }
 
   async linkGoogleAccount(idToken: string) {

@@ -1,12 +1,14 @@
 import type { WeatherSource } from "~/features/airport/model";
 import type { DiscordAuthorizationRequest } from "~/features/auth";
-import type { DiscordJoinOutcome, DiscordServerMembershipStatus, User } from "~/features/user";
+import type { DiscordJoinOutcome, DiscordServerMembershipStatus, SimbriefAccount, User } from "~/features/user";
 
 export type GetUserResponse = User;
 export type ListUsersResponse = User[];
+export type VerifySimbriefUserResponse = SimbriefAccount;
 
 export type UpdateOwnProfileRequest = {
   defaultWeatherSource?: WeatherSource;
+  simbriefUserId?: string | null;
 };
 
 export type ChangePasswordRequest = {

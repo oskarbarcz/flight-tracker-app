@@ -4,6 +4,7 @@ import { GoogleAccountSection } from "~/features/auth/components/GoogleAccountSe
 import { AccountIdentity } from "~/features/user/components/AccountIdentity";
 import { EmailSection } from "~/features/user/components/EmailSection";
 import { PasswordSection } from "~/features/user/components/PasswordSection";
+import { SimbriefSection } from "~/features/user/components/SimbriefSection";
 import { WeatherSourceSection } from "~/features/user/components/WeatherSourceSection";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -27,6 +28,7 @@ export default function AccountRoute() {
         <PasswordSection />
         <GoogleAccountSection />
         <DiscordAccountSection />
+        <SimbriefSection />
         <WeatherSourceSection />
       </Container>
     </div>
