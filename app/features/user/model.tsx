@@ -41,9 +41,37 @@ export type User = {
   role: UserRole;
   currentFlightId: string;
   pilotLicenseId: string;
+  simbriefUserId: string | null;
   emails: UserEmail[];
   identities: UserIdentities;
   defaultWeatherSource: WeatherSource;
+};
+
+export type SimbriefAirport = {
+  icaoCode: string;
+  iataCode: string | null;
+  name: string | null;
+};
+
+export type SimbriefAircraft = {
+  registration: string | null;
+  type: string | null;
+  name: string | null;
+};
+
+export type SimbriefFlight = {
+  callsign: string;
+  origin: SimbriefAirport;
+  destination: SimbriefAirport;
+  scheduledOffBlockTime: string | null;
+  scheduledOnBlockTime: string | null;
+  aircraft: SimbriefAircraft;
+  generatedAt: string | null;
+};
+
+export type SimbriefAccount = {
+  simbriefUserId: string;
+  latestFlight: SimbriefFlight;
 };
 
 export type UserStats = {

@@ -1,5 +1,5 @@
 import { type ObjectSchema, object, ref, string } from "yup";
-import type { ChangeEmailFormData, ChangePasswordFormData } from "~/features/user/form";
+import type { ChangeEmailFormData, ChangePasswordFormData, ChangeSimbriefIdFormData } from "~/features/user/form";
 
 export const minimumPasswordLength = 12;
 
@@ -23,4 +23,14 @@ export const changePasswordSchema: ObjectSchema<ChangePasswordFormData> = object
 export const changeEmailSchema: ObjectSchema<ChangeEmailFormData> = object({
   newEmail: string().required("Enter the new email address").email("Enter a valid email address"),
   currentPassword: string().required("Enter your current password"),
+});
+
+export const maximumSimbriefUserIdLength = 15;
+
+export const changeSimbriefIdSchema: ObjectSchema<ChangeSimbriefIdFormData> = object({
+  simbriefUserId: string()
+    .ensure()
+    .trim()
+    .max(maximumSimbriefUserIdLength, `Use at most ${maximumSimbriefUserIdLength} digits`)
+    .matches(/^\d+$/, { message: "Use digits only, as shown on your SimBrief account", excludeEmptyString: true }),
 });

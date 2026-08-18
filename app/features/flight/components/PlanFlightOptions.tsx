@@ -1,8 +1,9 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { FaFileImport } from "react-icons/fa6";
+import { FaFileImport, FaGear } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import { Link, useNavigate } from "react-router";
+import { useAuth } from "~/app-state/useAuth";
 import { useToast } from "~/app-state/useToast";
 import { useApi } from "~/shared/api/useApi";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -10,9 +11,12 @@ import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function PlanFlightOptions() {
   const { flightService } = useApi();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { success, error } = useToast();
   const [importing, setImporting] = useState(false);
+
+  const hasSimbriefId = Boolean(user?.simbriefUserId);
 
   const handleImport = async () => {
     setImporting(true);
@@ -36,10 +40,22 @@ export function PlanFlightOptions() {
           Pull your latest SimBrief OFP to pre-fill the flight number, route, schedule and aircraft. You can review
           everything before the plan goes live.
         </p>
-        <Button className="mt-auto w-full sm:w-fit" color="indigo" onClick={handleImport} disabled={importing}>
-          <FaFileImport className="mr-2 h-5 w-5" />
-          Import from SimBrief
-        </Button>
+        {hasSimbriefId ? (
+          <Button className="mt-auto w-full sm:w-fit" color="indigo" onClick={handleImport} disabled={importing}>
+            <FaFileImport className="mr-2 h-5 w-5" />
+            Import from SimBrief
+          </Button>
+        ) : (
+          <Button
+            as={Link}
+            to="/me/account"
+            className="mt-auto w-full sm:w-fit dark:bg-gray-800 dark:hover:bg-gray-700"
+            color="alternative"
+          >
+            <FaGear className="mr-2 h-5 w-5" />
+            Add your SimBrief ID
+          </Button>
+        )}
       </Container>
       <Container>
         <ContainerTitle icon={HiPlus} title="Create manually" />

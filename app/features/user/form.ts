@@ -23,3 +23,13 @@ export function initChangeEmailData(): ChangeEmailFormData {
     currentPassword: "",
   };
 }
+
+export type ChangeSimbriefIdFormData = {
+  simbriefUserId: string;
+};
+
+export function initChangeSimbriefIdData(current: string | null): ChangeSimbriefIdFormData {
+  return {
+    simbriefUserId: current ?? "",
+  };
+}
