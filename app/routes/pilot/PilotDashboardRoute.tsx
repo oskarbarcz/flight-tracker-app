@@ -8,13 +8,13 @@ import { LastFlightBoxLoader } from "~/features/flight/components/Dashboard/Main
 import { NextScheduledFlightBoxLoader } from "~/features/flight/components/Dashboard/Main/Box/Loader/NextScheduledFlightBoxLoader";
 import { NextScheduledFlightBox } from "~/features/flight/components/Dashboard/Main/Box/NextScheduledFlightBox";
 import { NoCurrentFlightBox } from "~/features/flight/components/Dashboard/Main/Box/NoCurrentFlightBox";
-import { PilotStatsBox } from "~/features/flight/components/Dashboard/Main/Box/PilotStatsBox";
 import { UserHeader } from "~/features/flight/components/Dashboard/Main/UserHeader";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useLastFlight } from "~/features/flight/hooks/useLastFlight";
 import { CurrentRotationBox } from "~/features/rotation/components/CurrentRotationBox";
 import { CurrentRotationBoxLoader } from "~/features/rotation/components/CurrentRotationBoxLoader";
 import { useCurrentRotation } from "~/features/rotation/hooks/useCurrentRotation";
+import { RecentActivityBox } from "~/features/stats/components/Dashboard/RecentActivityBox";
 import { CurrentLocationBox } from "~/features/travel/components/CurrentLocationBox";
 import { CurrentLocationBoxLoader } from "~/features/travel/components/CurrentLocationBoxLoader";
 import { useUserTravels } from "~/features/user/hooks/useUserTravels";
@@ -76,7 +76,7 @@ export default function PilotDashboardRoute() {
               onTravelCreated={refreshTravels}
             />
           )}
-          <PilotStatsBox />
+          <RecentActivityBox />
         </div>
       </div>
       {isDebug && (

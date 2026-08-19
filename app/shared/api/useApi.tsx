@@ -13,6 +13,7 @@ import { ParkingPositionService } from "~/features/parking-position/service";
 import { RotationService } from "~/features/rotation/service";
 import { RunwayService } from "~/features/runway/service";
 import { SkyLinkService } from "~/features/skylink/service";
+import { StatsService } from "~/features/stats/service";
 import { TerminalService } from "~/features/terminal/service";
 import { TravelService } from "~/features/travel/service";
 import { UserService } from "~/features/user/service";
@@ -34,6 +35,7 @@ type ApiServices = {
   travelService: TravelService;
   userService: UserService;
   skyLinkService: SkyLinkService;
+  statsService: StatsService;
   authService: AuthService;
 };
 
@@ -62,6 +64,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       travelService: new TravelService(),
       userService: new UserService(),
       skyLinkService: new SkyLinkService(),
+      statsService: new StatsService(),
       authService: new AuthService(),
     }),
     [],
