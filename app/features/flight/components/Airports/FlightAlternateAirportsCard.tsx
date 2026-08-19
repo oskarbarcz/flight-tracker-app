@@ -1,5 +1,4 @@
 import React from "react";
-import { FaMapLocationDot } from "react-icons/fa6";
 import { Link } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { AirportShape } from "~/features/airport/components/Airport/AirportShape";
@@ -7,9 +6,9 @@ import { type AirportOnFlight, AirportOnFlightType } from "~/features/flight";
 import { translateAirportOnFlightType } from "~/features/flight/i18n";
 import { UserRole } from "~/features/user";
 import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const ALTERNATE_TYPE_ORDER: AirportOnFlightType[] = [
   AirportOnFlightType.DestinationAlternate,
@@ -61,9 +60,7 @@ export function FlightAlternateAirportsCard({ airports }: Props) {
   const alternates = ALTERNATE_TYPE_ORDER.flatMap((type) => airports.filter((airport) => airport.type === type));
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle icon={FaMapLocationDot} title="Alternate airports" />
-
+    <Container padding="condensed" header={<CardHeader title="Alternate airports" />}>
       {alternates.length === 0 ? (
         <ContainerEmptyState>No alternate airports for this flight.</ContainerEmptyState>
       ) : (

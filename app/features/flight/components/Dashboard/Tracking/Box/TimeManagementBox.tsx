@@ -5,8 +5,8 @@ import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { FormattedLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
 import { FormattedTimezoneTime } from "~/shared/ui/Date/FormattedTimezoneTime";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function TimeManagementBox() {
   const { flight } = useTrackedFlight();
@@ -24,8 +24,7 @@ export function TimeManagementBox() {
 
   if (!flight) {
     return (
-      <Container padding="condensed">
-        <ContainerTitle icon={FaClock} title="Time management" />
+      <Container padding="condensed" header={<CardHeader title="Time management" />}>
         <div className="min-h-25 flex items-center justify-center text-gray-500">
           <FaCircleInfo className="inline mr-2" />
           <span>Loading...</span>
@@ -35,8 +34,7 @@ export function TimeManagementBox() {
   }
 
   return (
-    <Container>
-      <ContainerTitle icon={FaClock} title="Time management" />
+    <Container header={<CardHeader title="Time management" />}>
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-1/2 shrink-0 mb-2">
           <span className="text-gray-500 text-sm">Zulu time</span>

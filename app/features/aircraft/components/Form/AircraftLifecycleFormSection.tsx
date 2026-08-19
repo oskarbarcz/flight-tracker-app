@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { HiOutlineRefresh } from "react-icons/hi";
 import { etopsThresholdSelectOptions } from "~/features/aircraft/components/Form/etopsThresholdSelectOptions";
 import type { AircraftLifecycleFormValues } from "~/features/aircraft/schema";
 import { aircraftLifecycleSchema } from "~/features/aircraft/schema";
@@ -32,7 +31,6 @@ export function AircraftLifecycleFormSection({ data, airports, defaultEditable =
       validationSchema={aircraftLifecycleSchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
-      icon={HiOutlineRefresh}
       title="Lifecycle"
       onSubmit={onSubmit}
     >

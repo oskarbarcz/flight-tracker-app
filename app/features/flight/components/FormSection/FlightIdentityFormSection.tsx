@@ -1,6 +1,5 @@
 import { useFormikContext } from "formik";
 import React, { useEffect, useState } from "react";
-import { FaIdCard } from "react-icons/fa6";
 import type { Aircraft } from "~/features/aircraft";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
 import type { CreateFlightFormData } from "~/features/flight/form";
@@ -120,7 +119,6 @@ export function FlightIdentityFormSection({ data, onSubmit }: Props) {
       validationSchema={newFlightIdentitySchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
-      icon={FaIdCard}
       title="Identity"
       onSubmit={onSubmit}
     >

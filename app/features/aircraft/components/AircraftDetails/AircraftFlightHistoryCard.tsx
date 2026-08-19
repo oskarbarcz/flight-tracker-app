@@ -1,14 +1,13 @@
 import { Pagination, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React, { useState } from "react";
-import { HiOutlineClock } from "react-icons/hi";
 import { Link } from "react-router";
 import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/features/aircraft";
 import { entryTime } from "~/features/aircraft/lib/aircraftStatus";
 import { FlightStatusBadge } from "~/features/flight/components/Flight/FlightStatusBadge";
 import { formatDate } from "~/shared/lib/time";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const PAGE_SIZE = 8;
 
@@ -113,9 +112,7 @@ export function AircraftFlightHistoryCard({ history, repositions }: Props) {
   const fillerKeys = Array.from({ length: fillerCount }, (_, index) => `filler-${page}-${index}`);
 
   return (
-    <Container className="h-full">
-      <ContainerTitle icon={HiOutlineClock} title="Flight history" />
-
+    <Container className="h-full" header={<CardHeader title="Flight history" />}>
       {timeline.length === 0 ? (
         <ContainerEmptyState>This aircraft has not operated any flights yet.</ContainerEmptyState>
       ) : (

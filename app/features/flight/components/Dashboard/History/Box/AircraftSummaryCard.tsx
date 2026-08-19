@@ -1,11 +1,10 @@
 import React from "react";
-import { FaPlane } from "react-icons/fa6";
 import { AircraftImage } from "~/features/aircraft/components/Aircraft/AircraftImage";
 import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { formatWeightCategory } from "~/features/airframe/lib/formatAirframe";
 import type { Flight } from "~/features/flight";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;
@@ -15,9 +14,7 @@ export function AircraftSummaryCard({ flight }: Props) {
   const { airframe } = flight.aircraft;
 
   return (
-    <Container>
-      <ContainerTitle icon={FaPlane} title="Aircraft" />
-
+    <Container header={<CardHeader title="Aircraft" />}>
       <div>
         <h3 className="font-mono text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
           <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} />

@@ -1,11 +1,8 @@
 import React from "react";
-import type { IconType } from "react-icons";
-import { FaCheckCircle, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
-import { FaPlane, FaStopwatch } from "react-icons/fa6";
 import type { FilledSchedule, Flight } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;
@@ -45,14 +42,12 @@ export function HeadlineStats({ flight }: Props) {
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
       <Tile
-        icon={FaStopwatch}
         tone="indigo"
         label="Block time"
         value={actualBlock !== null ? formatDuration(actualBlock) : "—"}
         sub={`${baselineLabel} ${formatDuration(baselineBlock)}`}
       />
       <Tile
-        icon={FaPlane}
         tone="indigo"
         label="Air time"
         value={actualAir !== null ? formatDuration(actualAir) : "—"}
@@ -63,22 +58,9 @@ export function HeadlineStats({ flight }: Props) {
   );
 }
 
-function Tile({
-  icon,
-  tone,
-  label,
-  value,
-  sub,
-}: {
-  icon: IconType;
-  tone: Tone;
-  label: string;
-  value: string;
-  sub: string;
-}) {
+function Tile({ tone, label, value, sub }: { tone: Tone; label: string; value: string; sub: string }) {
   return (
-    <Container padding="normal">
-      <ContainerTitle icon={icon} title={label} />
+    <Container padding="normal" header={<CardHeader title={label} />}>
       <div>
         <div className={`font-mono text-2xl font-bold ${TONE[tone]}`}>{value}</div>
         <div className="text-xs text-gray-500 dark:text-gray-400">{sub}</div>
@@ -89,42 +71,20 @@ function Tile({
 
 function ArrivalTile({ deltaMin, baselineLabel }: { deltaMin: number | null; baselineLabel: string }) {
   if (deltaMin === null) {
-    return <Tile icon={FaQuestionCircle} tone="gray" label="Arrival" value="—" sub="No actual times recorded" />;
+    return <Tile tone="gray" label="Arrival" value="—" sub="No actual times recorded" />;
   }
 
   const onTime = Math.abs(deltaMin) <= 5;
   const late = deltaMin > 5;
 
   if (onTime) {
-    return (
-      <Tile
-        icon={FaCheckCircle}
-        tone="emerald"
-        label="Arrival"
-        value="On time"
-        sub={deltaLabel(deltaMin, baselineLabel)}
-      />
-    );
+    return <Tile tone="emerald" label="Arrival" value="On time" sub={deltaLabel(deltaMin, baselineLabel)} />;
   }
   if (late) {
-    return (
-      <Tile
-        icon={FaExclamationCircle}
-        tone="amber"
-        label="Arrival"
-        value={`${deltaMin}m late`}
-        sub={`vs. ${baselineLabel} on-block`}
-      />
-    );
+    return <Tile tone="amber" label="Arrival" value={`${deltaMin}m late`} sub={`vs. ${baselineLabel} on-block`} />;
   }
   return (
-    <Tile
-      icon={FaCheckCircle}
-      tone="emerald"
-      label="Arrival"
-      value={`${Math.abs(deltaMin)}m early`}
-      sub={`vs. ${baselineLabel} on-block`}
-    />
+    <Tile tone="emerald" label="Arrival" value={`${Math.abs(deltaMin)}m early`} sub={`vs. ${baselineLabel} on-block`} />
   );
 }
 

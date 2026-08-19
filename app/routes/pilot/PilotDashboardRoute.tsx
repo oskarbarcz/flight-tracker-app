@@ -50,8 +50,8 @@ export default function PilotDashboardRoute() {
   return (
     <>
       <UserHeader />
-      <div className="grid grid-cols-1 gap-4 pt-6 lg:grid-cols-3 lg:pt-12">
-        <div className="flex flex-col gap-4 lg:col-span-2">
+      <div className="grid grid-cols-1 gap-3 pt-6 lg:grid-cols-3 lg:pt-12">
+        <div className="flex flex-col gap-3 lg:col-span-2">
           {loadingCurrent ? (
             <CurrentFlightBoxLoader />
           ) : currentFlight ? (
@@ -59,12 +59,12 @@ export default function PilotDashboardRoute() {
           ) : (
             <NoCurrentFlightBox />
           )}
-          <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2">
             {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
             {loadingAll ? <NextScheduledFlightBoxLoader /> : <NextScheduledFlightBox flight={nextFlight} />}
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {loadingRotation ? <CurrentRotationBoxLoader /> : rotation && <CurrentRotationBox rotation={rotation} />}
           {loadingTravels ? (
             <CurrentLocationBoxLoader />

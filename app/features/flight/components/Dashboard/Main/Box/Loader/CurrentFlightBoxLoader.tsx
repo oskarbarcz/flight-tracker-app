@@ -1,17 +1,19 @@
 import React from "react";
-import { FaPlane } from "react-icons/fa";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function CurrentFlightBoxLoader() {
   return (
-    <Container padding="condensed" className="hidden animate-pulse sm:flex">
-      <ContainerTitle
-        icon={FaPlane}
-        title="Current flight"
-        actions={<div className="h-5 w-20 bg-gray-200 dark:bg-gray-700 rounded-full" />}
-      />
-
+    <Container
+      padding="condensed"
+      className="hidden animate-pulse sm:flex"
+      header={
+        <CardHeader
+          title="Current flight"
+          actions={<div className="h-5 w-20 bg-gray-200 dark:bg-gray-700 rounded-full" />}
+        />
+      }
+    >
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div>
           <div className="h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-2" />

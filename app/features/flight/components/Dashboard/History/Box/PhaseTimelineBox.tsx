@@ -1,11 +1,10 @@
 import React from "react";
-import { FaStopwatch } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import type { FilledSchedule, Flight, Schedule } from "~/features/flight";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;
@@ -59,9 +58,7 @@ export function PhaseTimelineBox({ flight }: Props) {
   const baselineLabel = estimated ? "estimation" : "schedule";
 
   return (
-    <Container padding="spacious">
-      <ContainerTitle icon={FaStopwatch} title="Phase timeline" />
-
+    <Container padding="spacious" header={<CardHeader title="Phase timeline" />}>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {PHASES.map((p) => (
           <PhaseCallout

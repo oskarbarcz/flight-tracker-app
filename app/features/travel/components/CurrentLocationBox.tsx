@@ -8,9 +8,9 @@ import { InitiateTravelModal } from "~/features/travel/components/InitiateTravel
 import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
 import { MetaRow } from "~/shared/ui/Display/MetaRow";
 import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   currentLocation: UserTravelAirport | null;
@@ -32,9 +32,7 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
   const Pin = inTransit ? FaForward : FaLocationDot;
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle icon={Pin} title={inTransit ? "Travelling to" : "Current location"} />
-
+    <Container padding="condensed" header={<CardHeader title={inTransit ? "Travelling to" : "Current location"} />}>
       {airport && latestTravel ? (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">

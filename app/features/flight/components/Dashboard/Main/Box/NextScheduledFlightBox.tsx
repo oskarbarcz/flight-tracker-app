@@ -6,9 +6,9 @@ import { DetailLinkButton } from "~/shared/ui/Button/DetailLinkButton";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
 import { StatBlock } from "~/shared/ui/Display/StatBlock";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight | undefined;
@@ -17,8 +17,7 @@ type Props = {
 export function NextScheduledFlightBox({ flight }: Props) {
   if (!flight) {
     return (
-      <Container padding="condensed">
-        <ContainerTitle icon={FaPlaneDeparture} title="Next scheduled flight" />
+      <Container padding="condensed" header={<CardHeader title="Next scheduled flight" />}>
         <ContainerEmptyState>
           <FaCircleInfo className="inline mr-2" />
           <span>No upcoming flights.</span>
@@ -28,9 +27,7 @@ export function NextScheduledFlightBox({ flight }: Props) {
   }
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle icon={FaPlaneDeparture} title="Next scheduled flight" />
-
+    <Container padding="condensed" header={<CardHeader title="Next scheduled flight" />}>
       <article className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">

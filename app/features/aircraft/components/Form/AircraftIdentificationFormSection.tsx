@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { HiOutlineIdentification } from "react-icons/hi";
 import { airframeSelectOptions } from "~/features/aircraft/components/Form/airframeSelectOptions";
 import type { AircraftIdentityFormValues } from "~/features/aircraft/schema";
 import { aircraftIdentitySchema } from "~/features/aircraft/schema";
@@ -31,7 +30,6 @@ export function AircraftIdentificationFormSection({ data, airframes, defaultEdit
       validationSchema={aircraftIdentitySchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
-      icon={HiOutlineIdentification}
       title="Identification"
       onSubmit={onSubmit}
     >

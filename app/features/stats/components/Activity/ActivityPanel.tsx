@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { FaChartColumn } from "react-icons/fa6";
 import { BlockTimeChart } from "~/features/stats/components/Activity/BlockTimeChart";
 import { BlockTimeSummary } from "~/features/stats/components/Activity/BlockTimeSummary";
 import { CustomRange } from "~/features/stats/components/Activity/CustomRange";
@@ -31,8 +30,9 @@ import {
   toIsoDate,
 } from "~/features/stats/lib/span";
 import type { PeriodComparison } from "~/features/stats/model";
+import { CardDescription } from "~/shared/ui/Layout/CardDescription";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const COMPARISON: Record<Exclude<SpanKind, "custom">, string> = {
   week: "Week to week comparison",
@@ -192,12 +192,8 @@ export function ActivityPanel({ stats }: Props) {
     .join(" ");
 
   return (
-    <Container padding="normal" className="gap-4">
-      <div className="flex min-w-0 flex-col gap-0.5">
-        <ContainerTitle icon={FaChartColumn} title="Your activity" />
-        <p className="text-xs text-gray-500 dark:text-gray-400">{comparisonLabel(span)}</p>
-      </div>
-
+    <Container padding="normal" header={<CardHeader title="Your activity" />}>
+      <CardDescription>{comparisonLabel(span)}</CardDescription>
       <PeriodStrip
         segments={<SpanSegments selected={kind} onSelect={selectKind} />}
         position={

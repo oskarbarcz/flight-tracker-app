@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { useToast } from "~/app-state/useToast";
 import { useApi } from "~/shared/api/useApi";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function PlanFlightOptions() {
   const { flightService } = useApi();
@@ -34,8 +34,7 @@ export function PlanFlightOptions() {
 
   return (
     <div className="mb-4 grid gap-4 lg:grid-cols-2">
-      <Container>
-        <ContainerTitle icon={FaFileImport} title="Import from SimBrief" />
+      <Container header={<CardHeader title="Import from SimBrief" />}>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Pull your latest SimBrief OFP to pre-fill the flight number, route, schedule and aircraft. You can review
           everything before the plan goes live.
@@ -57,8 +56,7 @@ export function PlanFlightOptions() {
           </Button>
         )}
       </Container>
-      <Container>
-        <ContainerTitle icon={HiPlus} title="Create manually" />
+      <Container header={<CardHeader title="Create manually" />}>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Enter the flight number, schedule, route and aircraft by hand — best when you're not starting from a SimBrief
           plan.

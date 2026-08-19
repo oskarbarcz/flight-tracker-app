@@ -1,6 +1,5 @@
 import { Button, Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
-import { FaArrowsSpin } from "react-icons/fa6";
 import { HiPlus } from "react-icons/hi";
 import type { Airport } from "~/features/airport";
 import type { Rotation, RotationLeg } from "~/features/rotation";
@@ -10,8 +9,8 @@ import { EditLegModal } from "~/features/rotation/components/EditLegModal";
 import { RotationLegItem } from "~/features/rotation/components/RotationLegItem";
 import type { LegFormData } from "~/features/rotation/form";
 import { durationMinutes } from "~/shared/lib/time";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -52,20 +51,22 @@ export function RotationLegsEditor({
   };
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle
-        icon={FaArrowsSpin}
-        title="Legs"
-        actions={
-          rotation.isDraft && (
-            <Button size="xs" color="indigo" onClick={() => setAdding(true)}>
-              <HiPlus className="mr-1.5" />
-              <span>Add new</span>
-            </Button>
-          )
-        }
-      />
-
+    <Container
+      padding="condensed"
+      header={
+        <CardHeader
+          title="Legs"
+          actions={
+            rotation.isDraft && (
+              <Button size="xs" color="indigo" onClick={() => setAdding(true)}>
+                <HiPlus className="mr-1.5" />
+                <span>Add new</span>
+              </Button>
+            )
+          }
+        />
+      }
+    >
       {rotation.legs.length === 0 ? (
         <p className="rounded-xl bg-gray-50 p-6 text-center text-sm text-gray-500 dark:bg-gray-900/40">
           No legs planned yet.

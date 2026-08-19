@@ -1,10 +1,10 @@
 import React from "react";
 import type { IconType } from "react-icons";
-import { FaBox, FaFileInvoice, FaGasPump, FaScaleBalanced, FaUserGroup, FaUserTie } from "react-icons/fa6";
+import { FaBox, FaGasPump, FaScaleBalanced, FaUserGroup, FaUserTie } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import type { Loadsheet } from "~/features/flight";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   preliminary: Loadsheet | null;
@@ -17,8 +17,7 @@ export function LoadsheetSummaryCard({ preliminary, final }: Props) {
 
   if (!loadsheet) {
     return (
-      <Container padding="spacious" className="h-full">
-        <ContainerTitle icon={FaFileInvoice} title="Loadsheet" />
+      <Container padding="spacious" className="h-full" header={<CardHeader title="Loadsheet" />}>
         <div className="flex flex-1 items-center gap-3 rounded-lg border border-dashed border-gray-300 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
           <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
           <span>No loadsheet was recorded for this flight.</span>
@@ -34,18 +33,22 @@ export function LoadsheetSummaryCard({ preliminary, final }: Props) {
     loadsheet.passengers;
 
   return (
-    <Container padding="spacious" className="h-full">
-      <ContainerTitle
-        icon={FaFileInvoice}
-        title="Loadsheet"
-        actions={
-          isPreliminary ? (
-            <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-400">
-              Preliminary
-            </span>
-          ) : undefined
-        }
-      />
+    <Container
+      padding="spacious"
+      className="h-full"
+      header={
+        <CardHeader
+          title="Loadsheet"
+          actions={
+            isPreliminary ? (
+              <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-400">
+                Preliminary
+              </span>
+            ) : undefined
+          }
+        />
+      }
+    >
       <div className="flex items-baseline gap-1.5">
         <span className="font-mono text-2xl font-bold text-gray-900 dark:text-white">{souls}</span>
         <span className="text-xs text-gray-500">souls on board</span>
