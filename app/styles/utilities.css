@@ -473,3 +473,12 @@ html[data-app-entry] [data-app-entry-content] {
     animation: none;
   }
 }
+
+.chart-surface .recharts-surface:focus {
+  outline: none;
+}
+.chart-surface .recharts-surface:focus-visible {
+  outline: 2px solid var(--color-indigo-500);
+  outline-offset: 2px;
+  border-radius: 8px;
+}

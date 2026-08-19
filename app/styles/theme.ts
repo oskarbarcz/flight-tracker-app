@@ -59,7 +59,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
           variant: {
             underline: {
               active: {
-                on: "border-indigo-500 text-indigo-500 dark:border-indigo-600 dark:text-indigo-600",
+                on: "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400",
               },
             },
           },

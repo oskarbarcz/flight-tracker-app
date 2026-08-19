@@ -1,4 +1,4 @@
-import { FaArrowsSpin, FaMapLocationDot } from "react-icons/fa6";
+import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome } from "react-icons/hi";
 import { LuPlane } from "react-icons/lu";
@@ -40,6 +40,7 @@ export function CabinCrewSidebarItems() {
       </SidebarSection>
 
       <SidebarSection label="History">
+        <SidebarElement label="Statistics" href="/stats" isSelected={path.startsWith("/stats")} icon={FaChartColumn} />
         <SidebarElement
           label="Operations history"
           href="/flight-history"

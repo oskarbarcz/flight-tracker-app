@@ -1,4 +1,4 @@
-import { FaArrowsSpin, FaMapLocationDot } from "react-icons/fa6";
+import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
 import { LuPlane, LuTowerControl } from "react-icons/lu";
@@ -23,6 +23,7 @@ const pilotSections: MorePageSection[] = [
   {
     label: "History",
     items: [
+      { label: "Statistics", href: "/stats", icon: FaChartColumn },
       { label: "Operations history", href: "/flight-history", icon: GrDocumentTime },
       { label: "Travel history", href: "/travels", icon: FaMapLocationDot },
       { label: "Rotations history", href: "/rotations", icon: FaArrowsSpin },
