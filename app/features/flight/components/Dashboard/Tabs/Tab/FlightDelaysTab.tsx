@@ -1,14 +1,14 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { FaClock, FaPlus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 import type { DelayReport } from "~/features/delay";
 import { DelaySummary } from "~/features/delay/components/DelaySummary";
 import { FileDelayReportModal } from "~/features/delay/components/FileDelayReportModal";
 import { RemoveDelayReportConfirmModal } from "~/features/delay/components/RemoveDelayReportConfirmModal";
 import { FlightStatus } from "~/features/flight";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const DEPARTED_STATUSES: ReadonlySet<FlightStatus> = new Set([
   FlightStatus.TaxiingOut,
@@ -30,20 +30,22 @@ export function FlightDelaysTab() {
 
   return (
     <div className="mt-4 flex flex-col gap-4">
-      <Container padding="condensed">
-        <ContainerTitle
-          icon={FaClock}
-          title="Delay allocation"
-          actions={
-            delayRequest ? (
-              <Button color="blue" onClick={() => setFiling(true)} disabled={!canFile}>
-                <FaPlus className="me-1.5" />
-                File delay report
-              </Button>
-            ) : null
-          }
-        />
-
+      <Container
+        padding="condensed"
+        header={
+          <CardHeader
+            title="Delay allocation"
+            actions={
+              delayRequest ? (
+                <Button color="blue" onClick={() => setFiling(true)} disabled={!canFile}>
+                  <FaPlus className="me-1.5" />
+                  File delay report
+                </Button>
+              ) : null
+            }
+          />
+        }
+      >
         {delayRequest ? (
           <DelaySummary delayRequest={delayRequest} onRemove={setReportToRemove} />
         ) : hasDeparted ? (

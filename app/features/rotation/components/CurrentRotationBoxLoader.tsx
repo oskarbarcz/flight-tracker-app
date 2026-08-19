@@ -1,13 +1,10 @@
 import React from "react";
-import { FaArrowsSpin } from "react-icons/fa6";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export function CurrentRotationBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse">
-      <ContainerTitle icon={FaArrowsSpin} title="Current rotation" />
-
+    <Container padding="condensed" className="animate-pulse" header={<CardHeader title="Current rotation" />}>
       <div className="h-5 w-48 rounded bg-gray-200 dark:bg-gray-700" />
 
       <div className="flex flex-col gap-3">

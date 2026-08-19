@@ -8,8 +8,8 @@ import {
   HiOutlineCog,
   HiOutlineShieldCheck,
 } from "react-icons/hi";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type StatusRow = {
   icon: IconType;
@@ -34,9 +34,7 @@ export function AircraftTechnicalStatusCard({ etopsThresholdMinutes }: Props) {
   ];
 
   return (
-    <Container>
-      <ContainerTitle icon={HiOutlineShieldCheck} title="Technical status" />
-
+    <Container header={<CardHeader title="Technical status" />}>
       <div className="flex items-center gap-3">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-600 dark:bg-green-950 dark:text-green-400">
           <HiOutlineShieldCheck className="size-5" />

@@ -5,8 +5,8 @@ import { MonthHeatmap } from "~/features/stats/components/Heatmap/MonthHeatmap";
 import { useRecentActivity } from "~/features/stats/hooks/useRecentActivity";
 import { buildRangeHeatmap } from "~/features/stats/lib/heatmap";
 import { formatDuration } from "~/shared/lib/time";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const WEEKS = 5;
 const SKELETON_WEEKS = Array.from({ length: WEEKS }, (_, week) => ({
@@ -37,9 +37,30 @@ export function RecentActivityBox() {
   );
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle icon={FaChartColumn} title="Your activity" />
-
+    <Container
+      padding="condensed"
+      header={<CardHeader title="Your activity" />}
+      footer={
+        <Link
+          to="/stats"
+          viewTransition={true}
+          className="group flex items-center gap-3 px-3 py-2.5 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50"
+        >
+          <span className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover:bg-indigo-100 group-hover:text-indigo-600 dark:bg-gray-800 dark:text-gray-400 dark:group-hover:bg-indigo-900 dark:group-hover:text-indigo-300">
+            <FaChartColumn size={14} aria-hidden={true} />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold text-gray-700 dark:text-gray-200">See more stats</span>
+            <span className="block text-xs text-gray-500 dark:text-gray-400">Weeks, months and years</span>
+          </span>
+          <FaChevronRight
+            size={13}
+            className="ms-auto flex-none text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-500 motion-reduce:transition-none dark:text-gray-500"
+            aria-hidden={true}
+          />
+        </Link>
+      }
+    >
       <div className="flex items-center gap-4">
         {loading ? <HeatmapSkeleton /> : <MonthHeatmap heatmap={heatmap} today={today} />}
 
@@ -81,25 +102,6 @@ export function RecentActivityBox() {
           )}
         </div>
       </div>
-
-      <Link
-        to="/stats"
-        viewTransition={true}
-        className="group -mx-4 -mb-4 flex items-center gap-3 border-t border-gray-100 px-4 py-3.5 transition-colors hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50"
-      >
-        <span className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover:bg-indigo-100 group-hover:text-indigo-600 dark:bg-gray-800 dark:text-gray-400 dark:group-hover:bg-indigo-900 dark:group-hover:text-indigo-300">
-          <FaChartColumn size={14} aria-hidden={true} />
-        </span>
-        <span className="min-w-0">
-          <span className="block text-sm font-semibold text-gray-700 dark:text-gray-200">See more stats</span>
-          <span className="block text-xs text-gray-500 dark:text-gray-400">Weeks, months and years</span>
-        </span>
-        <FaChevronRight
-          size={13}
-          className="ms-auto flex-none text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-500 motion-reduce:transition-none dark:text-gray-500"
-          aria-hidden={true}
-        />
-      </Link>
     </Container>
   );
 }

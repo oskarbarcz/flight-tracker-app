@@ -1,11 +1,10 @@
 import React from "react";
-import { FaBan } from "react-icons/fa6";
 import type { Rotation } from "~/features/rotation";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { MetaRow } from "~/shared/ui/Display/MetaRow";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   rotation: Rotation;
@@ -13,9 +12,7 @@ type Props = {
 
 export function RotationCancellationNotice({ rotation }: Props) {
   return (
-    <Container padding="condensed">
-      <ContainerTitle icon={FaBan} title="Cancellation" />
-
+    <Container padding="condensed" header={<CardHeader title="Cancellation" />}>
       {rotation.cancellationReason && (
         <p className="text-sm text-gray-700 dark:text-gray-200">{rotation.cancellationReason}</p>
       )}

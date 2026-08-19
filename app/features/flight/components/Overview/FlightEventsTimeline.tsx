@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaListCheck } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import {
   type FlightEvent,
@@ -12,8 +11,8 @@ import { UserName } from "~/features/user/components/UserName";
 import { toHuman } from "~/i18n/translate";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   events: FlightEvent[];
@@ -52,9 +51,7 @@ export function FlightEventsTimeline({ events, serviceType }: Props) {
   const filtered = events.filter((e) => activeScopes.has(e.scope));
 
   return (
-    <Container>
-      <ContainerTitle icon={FaListCheck} title="Activity log" />
-
+    <Container header={<CardHeader title="Activity log" />}>
       <div className="flex flex-wrap gap-1.5">
         {SCOPE_FILTERS.map(({ scope, label }) => {
           const active = activeScopes.has(scope);

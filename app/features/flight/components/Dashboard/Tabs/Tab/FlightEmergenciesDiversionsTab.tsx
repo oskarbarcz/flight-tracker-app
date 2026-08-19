@@ -10,8 +10,8 @@ import { ResolvedEmergenciesHistory } from "~/features/emergency/components/Reso
 import { FlightStatus } from "~/features/flight";
 import { FlightAlternateAirportsCard } from "~/features/flight/components/Airports/FlightAlternateAirportsCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const STATUSES_VALID_FOR_EMERGENCY: ReadonlySet<FlightStatus> = new Set([
   FlightStatus.TaxiingOut,
@@ -72,9 +72,7 @@ export function FlightEmergenciesDiversionsTab() {
         <FlightAlternateAirportsCard airports={flight.airports} />
 
         <div className="flex flex-col gap-4 lg:col-span-2">
-          <Container padding="condensed">
-            <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" />
-
+          <Container padding="condensed" header={<CardHeader title="Emergencies" />}>
             {activeEmergency ? (
               <ActiveEmergencyPanel emergency={activeEmergency} />
             ) : (
@@ -98,9 +96,7 @@ export function FlightEmergenciesDiversionsTab() {
             {emergencyActions && <div className="flex justify-end">{emergencyActions}</div>}
           </Container>
 
-          <Container padding="condensed">
-            <ContainerTitle icon={FaPlaneCircleExclamation} title="Diversions" />
-
+          <Container padding="condensed" header={<CardHeader title="Diversions" />}>
             {diversion ? (
               <ActiveDiversionPanel diversion={diversion} />
             ) : (

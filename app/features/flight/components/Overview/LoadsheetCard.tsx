@@ -1,9 +1,8 @@
 import React from "react";
-import { FaFileInvoice } from "react-icons/fa6";
 import { HiExclamationTriangle, HiInformationCircle } from "react-icons/hi2";
 import type { Loadsheet } from "~/features/flight";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   title: string;
@@ -16,19 +15,20 @@ type Props = {
 
 export function LoadsheetCard({ title, loadsheet, emptyMessage, emptySeverity = "info", badge, footer }: Props) {
   return (
-    <Container>
-      <ContainerTitle
-        icon={FaFileInvoice}
-        title={title}
-        actions={
-          badge && (
-            <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-              {badge}
-            </span>
-          )
-        }
-      />
-
+    <Container
+      header={
+        <CardHeader
+          title={title}
+          actions={
+            badge && (
+              <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
+                {badge}
+              </span>
+            )
+          }
+        />
+      }
+    >
       {loadsheet ? (
         <>
           <Section title="Souls on board">

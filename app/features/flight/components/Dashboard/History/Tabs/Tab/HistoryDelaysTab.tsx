@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FaClock } from "react-icons/fa6";
 import type { DelayRequest } from "~/features/delay";
 import { DelaySummary } from "~/features/delay/components/DelaySummary";
 import { useApi } from "~/shared/api/useApi";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flightId: string;
@@ -34,9 +33,7 @@ export function HistoryDelaysTab({ flightId }: Props) {
 
   return (
     <div className="mt-4 flex flex-col gap-4">
-      <Container padding="condensed">
-        <ContainerTitle icon={FaClock} title="Delay allocation" />
-
+      <Container padding="condensed" header={<CardHeader title="Delay allocation" />}>
         {loading ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">Loading…</p>
         ) : delayRequest ? (

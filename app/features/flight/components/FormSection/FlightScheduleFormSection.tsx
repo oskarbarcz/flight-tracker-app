@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaRegCalendar } from "react-icons/fa6";
 import type { CreateFlightFormData } from "~/features/flight/form";
 import { newFlightScheduleSchema } from "~/features/flight/schema";
 import { FormSection } from "~/shared/ui/Form/FormSection";
@@ -26,7 +25,6 @@ export function FlightScheduleFormSection({ data, onSubmit }: Props) {
       validationSchema={newFlightScheduleSchema}
       isEditable={isEditable}
       setIsEditable={setIsEditable}
-      icon={FaRegCalendar}
       title="Schedule"
       onSubmit={onSubmit}
     >

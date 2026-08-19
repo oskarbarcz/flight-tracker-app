@@ -1,12 +1,11 @@
 import React from "react";
-import { FaUserGroup } from "react-icons/fa6";
 import { useAuth } from "~/app-state/useAuth";
 import { type CrewMember, crewRoleLabel, isCaptain, isFlightDeckCrew, isPurser } from "~/features/flight";
 import { useFlightCrew } from "~/features/flight/hooks/useFlightCrew";
 import { UserName } from "~/features/user/components/UserName";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flightId: string;
@@ -34,8 +33,7 @@ export function CrewColumn({ flightId }: Props) {
   const cabinCrew = crew.filter((member) => !isFlightDeckCrew(member) && !isPurser(member)).map(toEntry);
 
   return (
-    <Container className="lg:col-span-1">
-      <ContainerTitle icon={FaUserGroup} title="Crew" />
+    <Container className="lg:col-span-1" header={<CardHeader title="Crew" />}>
       {loading ? (
         <CrewLoading />
       ) : (

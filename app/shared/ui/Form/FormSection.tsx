@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import type { IconType } from "react-icons";
 import type { ObjectSchema } from "yup";
 import { FormSectionHeader } from "~/shared/ui/Form/Partial/FormSectionHeader";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -11,7 +10,6 @@ type Props<T extends object> = {
   isEditable: boolean;
   setIsEditable: (isEditable: boolean) => void;
   onSubmit: (data: T) => void;
-  icon: IconType;
   title: string;
   children: React.ReactNode;
 };
@@ -21,7 +19,6 @@ export function FormSection<T extends object>({
   validationSchema,
   isEditable,
   setIsEditable,
-  icon,
   title,
   onSubmit,
   children,
@@ -46,7 +43,6 @@ export function FormSection<T extends object>({
       >
         <Form className="flex flex-col gap-4">
           <FormSectionHeader
-            icon={icon}
             title={title}
             edit={isEditable}
             setEdit={setIsEditable}

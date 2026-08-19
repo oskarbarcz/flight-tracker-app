@@ -1,12 +1,11 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa6";
 import type { Airport } from "~/features/airport";
 import type { FilledSchedule } from "~/features/flight";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   airport: Airport;
@@ -19,7 +18,6 @@ type Props = {
 export function AirportEndpointCard({ airport, kind, schedule, details, actions }: Props) {
   const isDeparture = kind === "departure";
   const label = isDeparture ? "Departure" : "Arrival";
-  const Icon = isDeparture ? FaPlaneDeparture : FaPlaneArrival;
 
   const date = isDeparture ? schedule.offBlockTime : schedule.onBlockTime;
   const gateTime = isDeparture ? schedule.offBlockTime : schedule.onBlockTime;
@@ -40,17 +38,18 @@ export function AirportEndpointCard({ airport, kind, schedule, details, actions 
       ];
 
   return (
-    <Container>
-      <ContainerTitle
-        icon={Icon}
-        title={label}
-        actions={
-          <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-            <FormattedIcaoDate date={date} />
-          </span>
-        }
-      />
-
+    <Container
+      header={
+        <CardHeader
+          title={label}
+          actions={
+            <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
+              <FormattedIcaoDate date={date} />
+            </span>
+          }
+        />
+      }
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="min-w-0 sm:flex-1">
           <div className="flex items-baseline gap-2">

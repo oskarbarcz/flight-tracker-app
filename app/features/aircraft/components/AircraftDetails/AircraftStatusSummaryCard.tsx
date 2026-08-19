@@ -1,12 +1,11 @@
 import { Badge } from "flowbite-react";
 import React from "react";
-import { HiOutlineLocationMarker } from "react-icons/hi";
 import { type Aircraft, AircraftState } from "~/features/aircraft";
 import { AircraftAirportRow } from "~/features/aircraft/components/AircraftDetails/AircraftAirportRow";
 import type { Airport } from "~/features/airport";
 import { formatDate } from "~/shared/lib/time";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const stateLabels: Record<AircraftState, { label: string; color: string }> = {
   [AircraftState.Idle]: { label: "Idle", color: "gray" },
@@ -25,9 +24,7 @@ export function AircraftStatusSummaryCard({ aircraft, lastAirport }: Props) {
   const lastSeen = aircraft.lastAirportUpdatedAt ? formatDate(new Date(aircraft.lastAirportUpdatedAt)) : null;
 
   return (
-    <Container className="h-full">
-      <ContainerTitle icon={HiOutlineLocationMarker} title="Current status" />
-
+    <Container className="h-full" header={<CardHeader title="Current status" />}>
       <div className="flex flex-col gap-4">
         <Badge color={state.color} size="sm" className="w-fit">
           {state.label}

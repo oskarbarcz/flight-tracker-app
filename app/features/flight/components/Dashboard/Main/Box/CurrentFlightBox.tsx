@@ -12,8 +12,8 @@ import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
 import { StatBlock } from "~/shared/ui/Display/StatBlock";
 import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flight: Flight;
@@ -52,17 +52,19 @@ export function CurrentFlightBox({ flight }: Props) {
     : [];
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle
-        icon={FaPlane}
-        title="Current flight"
-        actions={
-          <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs uppercase text-indigo-500 dark:bg-indigo-900 dark:text-indigo-300">
-            {toHuman.flight.status.short(flight.status, flight.serviceType)}
-          </span>
-        }
-      />
-
+    <Container
+      padding="condensed"
+      header={
+        <CardHeader
+          title="Current flight"
+          actions={
+            <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs uppercase text-indigo-500 dark:bg-indigo-900 dark:text-indigo-300">
+              {toHuman.flight.status.short(flight.status, flight.serviceType)}
+            </span>
+          }
+        />
+      }
+    >
       <article className="mt-2 flex flex-row justify-between gap-3">
         <div className="min-w-0">
           <span className="block font-mono text-4xl font-bold leading-none text-indigo-500">{flight.flightNumber}</span>

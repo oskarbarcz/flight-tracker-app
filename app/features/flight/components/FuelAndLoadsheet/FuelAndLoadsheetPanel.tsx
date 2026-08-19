@@ -1,14 +1,13 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
-import { FaFileInvoice, FaGasPump } from "react-icons/fa6";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
 import type { Loadsheet, Timesheet } from "~/features/flight";
 import { CrewColumn } from "~/features/flight/components/FuelAndLoadsheet/CrewColumn";
 import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
 import { LoadsheetFigures } from "~/features/flight/components/FuelAndLoadsheet/LoadsheetFigures";
 import { type LoadsheetVariant, VariantSwitch } from "~/features/flight/components/FuelAndLoadsheet/VariantSwitch";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   flightId: string;
@@ -42,39 +41,45 @@ export function FuelAndLoadsheetPanel({
 
   return (
     <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
-      <Container className="lg:col-span-1">
-        <ContainerTitle
-          icon={FaGasPump}
-          title="Fuel"
-          actions={
-            hasAny && (
-              <VariantSwitch
-                value={fuelVariant}
-                onChange={setFuelVariant}
-                hasPreliminary={hasPreliminary}
-                hasFinal={hasFinal}
-              />
-            )
-          }
-        />
+      <Container
+        className="lg:col-span-1"
+        header={
+          <CardHeader
+            title="Fuel"
+            actions={
+              hasAny && (
+                <VariantSwitch
+                  value={fuelVariant}
+                  onChange={setFuelVariant}
+                  hasPreliminary={hasPreliminary}
+                  hasFinal={hasFinal}
+                />
+              )
+            }
+          />
+        }
+      >
         {fuelLoadsheet ? <FuelPlan fuel={fuelLoadsheet.fuel} timesheet={timesheet} /> : <EmptyState />}
       </Container>
 
-      <Container className="lg:col-span-2">
-        <ContainerTitle
-          icon={FaFileInvoice}
-          title="Loadsheet"
-          actions={
-            hasAny && (
-              <VariantSwitch
-                value={loadVariant}
-                onChange={setLoadVariant}
-                hasPreliminary={hasPreliminary}
-                hasFinal={hasFinal}
-              />
-            )
-          }
-        />
+      <Container
+        className="lg:col-span-2"
+        header={
+          <CardHeader
+            title="Loadsheet"
+            actions={
+              hasAny && (
+                <VariantSwitch
+                  value={loadVariant}
+                  onChange={setLoadVariant}
+                  hasPreliminary={hasPreliminary}
+                  hasFinal={hasFinal}
+                />
+              )
+            }
+          />
+        }
+      >
         {loadLoadsheet ? <LoadsheetFigures loadsheet={loadLoadsheet} /> : <EmptyState />}
 
         {showEditPreliminary && (

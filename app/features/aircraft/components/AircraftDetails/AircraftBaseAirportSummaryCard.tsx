@@ -1,10 +1,9 @@
 import React from "react";
-import { HiOutlineHome } from "react-icons/hi";
 import { AircraftAirportRow } from "~/features/aircraft/components/AircraftDetails/AircraftAirportRow";
 import type { Airport } from "~/features/airport";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   airport: Airport | null;
@@ -12,9 +11,7 @@ type Props = {
 
 export function AircraftBaseAirportSummaryCard({ airport }: Props) {
   return (
-    <Container>
-      <ContainerTitle icon={HiOutlineHome} title="Base airport" />
-
+    <Container header={<CardHeader title="Base airport" />}>
       {airport ? (
         <AircraftAirportRow airport={airport} />
       ) : (

@@ -1,12 +1,11 @@
 import React from "react";
-import { FaTriangleExclamation } from "react-icons/fa6";
 import { ActiveEmergencyPanel } from "~/features/emergency/components/ActiveEmergencyPanel";
 import { EmergencyEmptyState } from "~/features/emergency/components/EmergencyEmptyState";
 import { ResolvedEmergenciesHistory } from "~/features/emergency/components/ResolvedEmergenciesHistory";
 import { FlightAlternateAirportsCard } from "~/features/flight/components/Airports/FlightAlternateAirportsCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 export default function FlightEmergenciesRoute() {
   const { flight, emergencies, activeEmergency } = useTrackedFlight();
@@ -16,9 +15,7 @@ export default function FlightEmergenciesRoute() {
     <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
       <FlightAlternateAirportsCard airports={flight?.airports ?? []} />
 
-      <Container padding="condensed" className="lg:col-span-2">
-        <ContainerTitle icon={FaTriangleExclamation} title="Emergencies" />
-
+      <Container padding="condensed" className="lg:col-span-2" header={<CardHeader title="Emergencies" />}>
         {activeEmergency ? (
           <ActiveEmergencyPanel emergency={activeEmergency} readOnly />
         ) : (

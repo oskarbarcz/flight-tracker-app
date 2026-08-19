@@ -1,12 +1,12 @@
 import type { Route } from ".react-router/types/app/routes/operations/flights/+types/FlightOfpRoute";
 import React from "react";
-import { FaArrowUpRightFromSquare, FaFileLines, FaPlaneUp } from "react-icons/fa6";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
 import { useLoaderData } from "react-router";
 import type { FlightOfp } from "~/features/flight";
 import { FlightService } from "~/features/flight/service";
+import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 import { RawHtml } from "~/shared/ui/RawHtml";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -45,23 +45,20 @@ function DocumentCard({ ofp }: { ofp: FlightOfp }) {
     <Container padding="none" className="gap-0">
       <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
       <div className="flex flex-col gap-4 p-5">
-        <ContainerTitle
-          icon={FaFileLines}
-          title="Operational Flight Plan"
-          actions={
-            ofp.ofpDocumentUrl ? (
-              <a
-                href={ofp.ofpDocumentUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
-              >
-                Open PDF
-                <FaArrowUpRightFromSquare size={11} />
-              </a>
-            ) : undefined
-          }
-        />
+        <div className="flex items-center justify-between gap-3">
+          <FieldLabel>Operational Flight Plan</FieldLabel>
+          {ofp.ofpDocumentUrl && (
+            <a
+              href={ofp.ofpDocumentUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+            >
+              Open PDF
+              <FaArrowUpRightFromSquare size={11} />
+            </a>
+          )}
+        </div>
         <OfpHtml html={ofp.ofpContent} />
       </div>
     </Container>
@@ -73,7 +70,7 @@ function RunwayAnalysisCard({ ofp }: { ofp: FlightOfp }) {
     <Container padding="none" className="gap-0">
       <div className="h-1 bg-linear-to-r from-indigo-500 via-indigo-400 to-indigo-300 dark:from-indigo-600 dark:via-indigo-500 dark:to-indigo-400" />
       <div className="flex flex-col gap-4 p-5">
-        <ContainerTitle icon={FaPlaneUp} title="Runway Analysis" />
+        <FieldLabel>Runway Analysis</FieldLabel>
         <OfpHtml html={ofp.runwayAnalysis} />
       </div>
     </Container>

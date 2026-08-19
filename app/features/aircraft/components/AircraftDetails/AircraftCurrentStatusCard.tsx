@@ -1,12 +1,12 @@
 import { Button } from "flowbite-react";
 import React from "react";
-import { HiOutlineLocationMarker, HiOutlinePaperAirplane, HiOutlineSwitchHorizontal } from "react-icons/hi";
+import { HiOutlinePaperAirplane, HiOutlineSwitchHorizontal } from "react-icons/hi";
 import type { Aircraft, FlightHistoryEntry } from "~/features/aircraft";
 import { LocationMap, MapPill, type MapTone } from "~/features/aircraft/components/AircraftDetails/LocationMap";
 import { type AircraftStatusView, deriveAircraftStatus } from "~/features/aircraft/lib/aircraftStatus";
 import { formatDate } from "~/shared/lib/time";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type Props = {
   aircraft: Aircraft;
@@ -198,27 +198,28 @@ export function AircraftCurrentStatusCard({ aircraft, history, onReposition }: P
   const isAirborne = status.kind === "cruise";
 
   return (
-    <Container>
-      <ContainerTitle
-        icon={HiOutlineLocationMarker}
-        title="Current location"
-        actions={
-          onReposition && (
-            <Button
-              size="xs"
-              color="gray"
-              outline
-              disabled={isAirborne}
-              title={isAirborne ? "Available when the aircraft is on the ground" : undefined}
-              onClick={onReposition}
-            >
-              <HiOutlineSwitchHorizontal className="me-1.5" />
-              Reposition
-            </Button>
-          )
-        }
-      />
-
+    <Container
+      header={
+        <CardHeader
+          title="Current location"
+          actions={
+            onReposition && (
+              <Button
+                size="xs"
+                color="gray"
+                outline
+                disabled={isAirborne}
+                title={isAirborne ? "Available when the aircraft is on the ground" : undefined}
+                onClick={onReposition}
+              >
+                <HiOutlineSwitchHorizontal className="me-1.5" />
+                Reposition
+              </Button>
+            )
+          }
+        />
+      }
+    >
       {status.kind === "parked" && <ParkedView aircraft={aircraft} status={status} />}
 
       {status.kind === "cruise" && (

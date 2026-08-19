@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { FaTableCells } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import { BlurReveal } from "~/features/stats/components/BlurReveal";
 import { ActivityHeatmap } from "~/features/stats/components/Heatmap/ActivityHeatmap";
@@ -8,8 +7,9 @@ import type { Stats } from "~/features/stats/hooks/useStats";
 import { buildYearHeatmap, loggedYears } from "~/features/stats/lib/heatmap";
 import { formatDuration } from "~/shared/lib/time";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
+import { CardDescription } from "~/shared/ui/Layout/CardDescription";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -74,16 +74,16 @@ export function HeatmapPanel({ stats }: Props) {
   }, [heatmap, year]);
 
   return (
-    <Container padding="normal" className="gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex min-w-0 flex-col gap-0.5">
-          <ContainerTitle icon={FaTableCells} title="Flying activity" />
-          <p className="text-xs text-gray-500 dark:text-gray-400">Day by day breakdown</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <YearSwitcher years={years} selected={year} onSelect={setYear} />
-        </div>
-      </div>
+    <Container
+      padding="normal"
+      header={
+        <CardHeader
+          title="Flying activity"
+          actions={<YearSwitcher years={years} selected={year} onSelect={setYear} />}
+        />
+      }
+    >
+      <CardDescription>Day by day breakdown</CardDescription>
 
       <ActivityHeatmap heatmap={heatmap} today={stats.today} />
 

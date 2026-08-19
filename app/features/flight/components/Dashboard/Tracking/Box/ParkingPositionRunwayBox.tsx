@@ -25,8 +25,8 @@ import type { Terminal } from "~/features/terminal";
 import { useApi } from "~/shared/api/useApi";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-import { ContainerTitle } from "~/shared/ui/Layout/ContainerTitle";
 
 type ModalKind = "departureParkingPosition" | "departureRunway" | "arrivalRunway" | "arrivalParkingPosition" | null;
 
@@ -177,9 +177,7 @@ export function ParkingPositionRunwayBox() {
   };
 
   return (
-    <Container padding="condensed">
-      <ContainerTitle icon={HiOutlineLocationMarker} title="Travel plan" />
-
+    <Container padding="condensed" header={<CardHeader title="Travel plan" />}>
       <EndpointSection
         icon={FaPlaneDeparture}
         title="Departure"
