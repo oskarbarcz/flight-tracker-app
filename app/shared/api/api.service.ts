@@ -71,7 +71,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
     const response = await super.doRequest(endpoint, options, token);
     const body = await response.text();
 
-    if (response.status >= 400 && response.status < 500) {
+    if (response.status >= 400) {
       const errorResponse = parseErrorBody<T>(body, response.statusText);
       return Promise.reject({ ...errorResponse, statusCode: response.status });
     }
@@ -99,8 +99,8 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
       return { data: "" as T, headers: response.headers };
     }
 
-    if (response.status >= 400 && response.status < 500) {
-      const errorResponse = (await response.json()) as ErrorResponse<T>;
+    if (response.status >= 400) {
+      const errorResponse = parseErrorBody<T>(await response.text(), response.statusText);
       return Promise.reject({ ...errorResponse, statusCode: response.status });
     }
 

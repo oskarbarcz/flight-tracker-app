@@ -1,5 +1,12 @@
 import { translateContinent } from "~/features/airport/i18n";
 import {
+  translateCabinClass,
+  translateDeck,
+  translateLayoutMatch,
+  translateSeatRating,
+  translateWindowStatus,
+} from "~/features/cabin-layout/i18n";
+import {
   translateAirportOnFlightType,
   translateEventType,
   translateShortStatus,
@@ -23,5 +30,12 @@ export const toHuman = {
   airport: {
     continent: translateContinent,
     onFlightType: translateAirportOnFlightType,
+  },
+  cabinLayout: {
+    cabinClass: translateCabinClass,
+    deck: translateDeck,
+    match: translateLayoutMatch,
+    seatRating: translateSeatRating,
+    windowStatus: translateWindowStatus,
   },
 };

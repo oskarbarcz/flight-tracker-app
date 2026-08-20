@@ -3,6 +3,7 @@ import { AircraftService } from "~/features/aircraft/service";
 import { AirframeService } from "~/features/airframe/service";
 import { AirportService } from "~/features/airport/service";
 import { AuthService } from "~/features/auth/service";
+import { CabinLayoutService } from "~/features/cabin-layout/service";
 import { DelayService } from "~/features/delay/service";
 import { DiversionService } from "~/features/diversion/service";
 import { EmergencyService } from "~/features/emergency/service";
@@ -21,6 +22,7 @@ import { UserService } from "~/features/user/service";
 type ApiServices = {
   aircraftService: AircraftService;
   airframeService: AirframeService;
+  cabinLayoutService: CabinLayoutService;
   operatorService: OperatorService;
   airportService: AirportService;
   runwayService: RunwayService;
@@ -50,6 +52,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
     () => ({
       aircraftService: new AircraftService(),
       airframeService: new AirframeService(),
+      cabinLayoutService: new CabinLayoutService(),
       operatorService: new OperatorService(),
       airportService: new AirportService(),
       runwayService: new RunwayService(),

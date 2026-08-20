@@ -1,15 +1,11 @@
 import type { Route } from ".react-router/types/app/routes/operations/operators/aircraft/+types/AircraftDetailsRoute";
-import React, { useState } from "react";
-import { useLoaderData, useRevalidator } from "react-router";
-import { useToast } from "~/app-state/useToast";
-import { AircraftBaseAirportCard } from "~/features/aircraft/components/AircraftDetails/AircraftBaseAirportCard";
-import { AircraftCurrentStatusCard } from "~/features/aircraft/components/AircraftDetails/AircraftCurrentStatusCard";
+import React from "react";
+import { Outlet, useLoaderData, useRevalidator } from "react-router";
 import { AircraftDetailsHeader } from "~/features/aircraft/components/AircraftDetails/AircraftDetailsHeader";
-import { AircraftFlightHistoryCard } from "~/features/aircraft/components/AircraftDetails/AircraftFlightHistoryCard";
-import { AircraftTechnicalStatusCard } from "~/features/aircraft/components/AircraftDetails/AircraftTechnicalStatusCard";
-import { RepositionAircraftModal } from "~/features/aircraft/components/AircraftDetails/RepositionAircraftModal";
+import { AircraftDetailsTabs } from "~/features/aircraft/components/AircraftDetails/AircraftDetailsTabs";
+import type { AircraftDetailsContext } from "~/features/aircraft/components/AircraftDetails/aircraftDetailsContext";
 import { AircraftService } from "~/features/aircraft/service";
-import { useApi } from "~/shared/api/useApi";
+import { OperatorService } from "~/features/operator/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
@@ -19,41 +15,25 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const aircraft = await aircraftService.fetchById(params.operatorId, params.aircraftId).catch(() => null);
 
   if (!aircraft) {
-    return { aircraft: null, history: [], repositions: [] };
+    return { aircraft: null, history: [], repositions: [], operator: null };
   }
 
-  const [history, repositions] = await Promise.all([
+  const [history, repositions, operator] = await Promise.all([
     aircraftService.fetchFlightHistory(params.operatorId, params.aircraftId),
     aircraftService.fetchRepositionHistory(params.operatorId, params.aircraftId),
+    new OperatorService().fetchById(params.operatorId),
   ]);
 
-  return { aircraft, history, repositions };
+  return { aircraft, history, repositions, operator };
 }
 
 export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
-  const { aircraft, history, repositions } = useLoaderData<typeof clientLoader>();
-  const { aircraftService } = useApi();
-  const { success, error } = useToast();
+  const { aircraft, history, repositions, operator } = useLoaderData<typeof clientLoader>();
   const revalidator = useRevalidator();
-  const [isRepositionOpen, setIsRepositionOpen] = useState(false);
 
   usePageTitle(aircraft ? `Aircraft ${aircraft.registration}` : "Aircraft not found");
 
-  async function handleReposition(destinationAirportId: string) {
-    if (!aircraft) {
-      return;
-    }
-    try {
-      await aircraftService.createReposition(params.operatorId, aircraft.id, { destinationAirportId });
-      success("Aircraft reposition scheduled.");
-      setIsRepositionOpen(false);
-      revalidator.revalidate();
-    } catch {
-      error("Failed to reposition aircraft.");
-    }
-  }
-
-  if (!aircraft) {
+  if (!aircraft || !operator) {
     return (
       <div className="pb-8">
         <SectionHeaderWithBackButton backText="Back to fleet" backUrl={`/operators/${params.operatorId}/fleet`} />
@@ -64,6 +44,15 @@ export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
     );
   }
 
+  const context: AircraftDetailsContext = {
+    aircraft,
+    history,
+    repositions,
+    operator,
+    operatorId: params.operatorId,
+    refresh: () => revalidator.revalidate(),
+  };
+
   return (
     <div className="pb-8">
       <SectionHeaderWithBackButton backText="Back to fleet" backUrl={`/operators/${params.operatorId}/fleet`} />
@@ -73,28 +62,13 @@ export default function AircraftDetailsRoute({ params }: Route.ComponentProps) {
         editUrl={`/operators/${params.operatorId}/aircraft/${aircraft.id}/edit`}
       />
 
-      <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <AircraftFlightHistoryCard history={history} repositions={repositions} />
-        </div>
-        <div className="flex flex-col gap-3">
-          <AircraftBaseAirportCard baseAirport={aircraft.baseAirport} />
-          <AircraftCurrentStatusCard
-            aircraft={aircraft}
-            history={history}
-            onReposition={() => setIsRepositionOpen(true)}
-          />
-          <AircraftTechnicalStatusCard etopsThresholdMinutes={aircraft.etopsThresholdMinutes} />
-        </div>
+      <div className="mt-4">
+        <AircraftDetailsTabs operatorId={params.operatorId} aircraftId={aircraft.id} />
       </div>
 
-      {isRepositionOpen && (
-        <RepositionAircraftModal
-          aircraft={aircraft}
-          reposition={handleReposition}
-          cancel={() => setIsRepositionOpen(false)}
-        />
-      )}
+      <div className="mt-3">
+        <Outlet context={context} />
+      </div>
     </div>
   );
 }

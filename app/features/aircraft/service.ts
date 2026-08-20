@@ -1,4 +1,5 @@
 import type { Aircraft, AircraftReposition, FlightHistoryEntry, UserAircraftEntry } from "~/features/aircraft";
+import type { CabinLayoutSuggestionList } from "~/features/cabin-layout/model";
 import type { CreateAircraftRequest, CreateRepositionRequest, EditAircraftRequest } from "~/features/operator/request";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
@@ -38,6 +39,25 @@ export class AircraftService extends AbstractAuthorizedApiService {
     return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft`, {
       body: JSON.stringify(data),
       method: "POST",
+    });
+  }
+
+  async fetchCabinLayoutSuggestions(operatorId: string, aircraftId: string) {
+    return this.fetchWithAuth<CabinLayoutSuggestionList>(
+      `/api/v1/operator/${operatorId}/aircraft/${aircraftId}/cabin-layout/suggestions`,
+    );
+  }
+
+  async assignCabinLayout(operatorId: string, aircraftId: string, cabinLayout: string) {
+    return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}/cabin-layout`, {
+      body: JSON.stringify({ cabinLayout }),
+      method: "PUT",
+    });
+  }
+
+  async removeCabinLayout(operatorId: string, aircraftId: string) {
+    return this.fetchWithAuth<void>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}/cabin-layout`, {
+      method: "DELETE",
     });
   }
 

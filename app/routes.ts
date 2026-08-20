@@ -49,6 +49,10 @@ export default [
       route(
         "operators/:operatorId/aircraft/:aircraftId",
         "routes/operations/operators/aircraft/AircraftDetailsRoute.tsx",
+        [
+          index("routes/operations/operators/aircraft/AircraftFlightsTab.tsx"),
+          route("seat-layout", "routes/operations/operators/aircraft/AircraftSeatLayoutTab.tsx"),
+        ],
       ),
       route(
         "operators/:operatorId/aircraft/:aircraftId/edit",
