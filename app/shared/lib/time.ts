@@ -27,16 +27,6 @@ export function formatDate(date: Date): string {
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
 
-export function formatDateToLocal(date: Date): string {
-  const day = padZero(date.getDate());
-  const month = padZero(date.getMonth() + 1);
-  const year = date.getUTCFullYear();
-  const hours = padZero(date.getHours());
-  const minutes = padZero(date.getMinutes());
-
-  return `${day}-${month}-${year} ${hours}:${minutes}`;
-}
-
 export function getTimeDifferenceInMinutes(a: Date, b: Date): number {
   const diffInMs = b.getTime() - a.getTime();
   return Math.floor(diffInMs / (1000 * 60));

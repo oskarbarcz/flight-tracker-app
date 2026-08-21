@@ -3,6 +3,7 @@ import { TabItem, Tabs } from "flowbite-react";
 export enum FlightDataTab {
   Overview,
   FuelAndLoad,
+  CabinAndManifest,
   FlightProgress,
   OperationalFlightPlan,
   RunwayAnalysis,
@@ -35,6 +36,7 @@ export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmer
     <Tabs variant="underline" onActiveTabChange={setTab}>
       <TabItem active={tab === FlightDataTab.Overview} title="Overview" />
       <TabItem active={tab === FlightDataTab.FuelAndLoad} title="Fuel & load" />
+      <TabItem active={tab === FlightDataTab.CabinAndManifest} title="Cabin & manifest" />
       <TabItem active={tab === FlightDataTab.FlightProgress} title="Flight progress" />
       <TabItem active={tab === FlightDataTab.OperationalFlightPlan} title="OFP" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === FlightDataTab.RunwayAnalysis} title="Runway analysis" disabled={!isSimbriefAvailable} />

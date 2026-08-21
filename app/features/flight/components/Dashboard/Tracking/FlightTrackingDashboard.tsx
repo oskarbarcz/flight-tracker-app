@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { FlightSource, FlightStatus } from "~/features/flight";
 import { FlightDataTab, FlightDataTabs } from "~/features/flight/components/Dashboard/Tabs/FlightDataTabs";
+import { FlightCabinTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightCabinTab";
 import { FlightDelaysTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightDelaysTab";
 import { FlightEmergenciesDiversionsTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightEmergenciesDiversionsTab";
 import { FlightFuelAndLoadTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightFuelAndLoadTab";
@@ -54,6 +55,7 @@ export function FlightTrackingDashboard({ flightId }: Props) {
 
       {tab === FlightDataTab.Overview && <FlightOverviewTab />}
       {tab === FlightDataTab.FuelAndLoad && <FlightFuelAndLoadTab />}
+      {tab === FlightDataTab.CabinAndManifest && <FlightCabinTab />}
       {tab === FlightDataTab.FlightProgress && <FlightProgressTab />}
       {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
       {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}

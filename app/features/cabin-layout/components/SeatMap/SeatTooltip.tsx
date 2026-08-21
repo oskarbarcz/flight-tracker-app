@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CONDITION_LABELS, seatCondition } from "~/features/cabin-layout/lib/seatAppearance";
-import { type CabinSeat, CommentSentiment } from "~/features/cabin-layout/model";
+import type { CabinSeat } from "~/features/cabin-layout/model";
 import { toHuman } from "~/i18n/translate";
 
 type Props = {
@@ -9,29 +8,18 @@ type Props = {
   x: number;
   y: number;
   below: boolean;
+  children: React.ReactNode;
 };
 
 const FALLBACK_HALF_WIDTH = 70;
 const VIEWPORT_MARGIN = 8;
 const ARROW_INSET = 12;
 
-const SENTIMENT_GLYPHS: Record<CommentSentiment, string> = {
-  [CommentSentiment.Good]: "+",
-  [CommentSentiment.Neutral]: "·",
-  [CommentSentiment.Bad]: "−",
-};
-
-const SENTIMENT_COLOURS: Record<CommentSentiment, string> = {
-  [CommentSentiment.Good]: "text-green-300",
-  [CommentSentiment.Neutral]: "text-gray-300",
-  [CommentSentiment.Bad]: "text-red-300",
-};
-
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
-export function SeatTooltip({ seat, x, y, below }: Props) {
+export function SeatTooltip({ seat, x, y, below, children }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [halfWidth, setHalfWidth] = useState(FALLBACK_HALF_WIDTH);
 
@@ -47,7 +35,6 @@ export function SeatTooltip({ seat, x, y, below }: Props) {
   const anchor = clamp(x, lower, upper);
   const arrowLimit = Math.max(0, halfWidth - ARROW_INSET);
   const arrowOffset = clamp(x - anchor, -arrowLimit, arrowLimit);
-  const condition = seatCondition(seat);
 
   return createPortal(
     <div
@@ -64,52 +51,7 @@ export function SeatTooltip({ seat, x, y, below }: Props) {
           {`, ${toHuman.cabinLayout.cabinClass(seat.cabin)}`}
         </span>
 
-        <dl className="mt-1 grid grid-cols-[auto_auto] gap-x-3 text-xs">
-          <dt className="text-gray-400">Rating</dt>
-          <dd className="whitespace-nowrap text-end text-white">
-            {seat.rating ? toHuman.cabinLayout.seatRating(seat.rating) : "Not rated"}
-          </dd>
-          <dt className="text-gray-400">Window</dt>
-          <dd className="whitespace-nowrap text-end text-white">
-            {seat.windowStatus ? toHuman.cabinLayout.windowStatus(seat.windowStatus) : "Not reported"}
-          </dd>
-          {condition !== null && (
-            <>
-              <dt className="text-gray-400">Availability</dt>
-              <dd className="whitespace-nowrap text-end text-white">{CONDITION_LABELS[condition]}</dd>
-            </>
-          )}
-          {seat.reversed && (
-            <>
-              <dt className="text-gray-400">Facing</dt>
-              <dd className="whitespace-nowrap text-end text-white">Rearward</dd>
-            </>
-          )}
-        </dl>
-
-        {seat.comments.length > 0 && (
-          <ul className="mt-1.5 max-w-64 space-y-1 border-t border-white/10 pt-1.5 text-xs">
-            {seat.comments.map((comment) => (
-              <li key={comment.slug} className="flex gap-1.5">
-                <span
-                  aria-hidden={true}
-                  className={`mt-px w-2 shrink-0 text-center font-mono font-bold ${SENTIMENT_COLOURS[comment.sentiment]}`}
-                >
-                  {SENTIMENT_GLYPHS[comment.sentiment]}
-                </span>
-                <span className="text-gray-200">
-                  <span className="sr-only">{`${toHuman.cabinLayout.commentSentiment(comment.sentiment)}: `}</span>
-                  {comment.comment}
-                  {comment.severity !== null && (
-                    <span className="ml-1 whitespace-nowrap rounded-sm bg-white/10 px-1 py-px text-[10px] uppercase tracking-wide text-gray-300">
-                      {toHuman.cabinLayout.commentSeverity(comment.severity)}
-                    </span>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+        {children}
 
         <span
           aria-hidden={true}

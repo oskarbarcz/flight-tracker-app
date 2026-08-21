@@ -6,10 +6,11 @@ import {
   type SeatMode,
   seatCondition,
 } from "~/features/cabin-layout/lib/seatAppearance";
-import type { CabinSeat } from "~/features/cabin-layout/model";
+import type { CabinSeat, Deck } from "~/features/cabin-layout/model";
 
 type Props = {
   seats: CabinSeat[];
+  deck: Deck;
   mode: SeatMode;
 };
 
@@ -28,13 +29,13 @@ function Swatch({ className }: { className: string }) {
   return <span aria-hidden={true} className={twMerge("size-2.5 shrink-0 rounded-xs border", className)} />;
 }
 
-export function SeatLegend({ seats, mode }: Props) {
+export function SeatLegend({ seats, deck, mode }: Props) {
   const conditions = presentConditions(seats);
   const hasReversed = seats.some((seat) => seat.reversed);
 
   return (
     <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-      {mode.legend(seats).map((entry) => (
+      {mode.legend(seats, deck).map((entry) => (
         <li key={entry.key} className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
           <Swatch className={entry.fill} />
           {entry.label}

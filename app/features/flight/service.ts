@@ -3,6 +3,7 @@ import {
   type FilledSchedule,
   Flight,
   type FlightEvent,
+  type FlightManifest,
   type FlightOfp,
   type FlightPathElement,
   FlightPhase,
@@ -57,6 +58,10 @@ export class FlightService extends AbstractAuthorizedApiService {
 
   async fetchOfpByFlightId(id: string): Promise<FlightOfp> {
     return this.fetchWithAuth<FlightOfp>(`/api/v1/flight/${id}/ofp`);
+  }
+
+  async fetchManifestByFlightId(id: string): Promise<FlightManifest> {
+    return this.fetchWithAuth<FlightManifest>(`/api/v1/flight/${id}/manifest`);
   }
 
   async fetchCrewByFlightId(id: string): Promise<CrewMember[]> {
