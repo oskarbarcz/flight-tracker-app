@@ -1,5 +1,4 @@
 import React, { useId, useMemo, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import { CabinDescriptions } from "~/features/cabin-layout/components/SeatMap/CabinDescriptions";
 import { CabinDiagram } from "~/features/cabin-layout/components/SeatMap/CabinDiagram";
 import { DeckSwitcher } from "~/features/cabin-layout/components/SeatMap/DeckSwitcher";
@@ -11,6 +10,7 @@ import type { CabinClass, CabinSeatMap, Deck } from "~/features/cabin-layout/mod
 import { toHuman } from "~/i18n/translate";
 import { BlurReveal } from "~/shared/ui/Display/BlurReveal";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
+import { FilterChoice } from "~/shared/ui/Filter/FilterChoice";
 import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 
 type Props = {
@@ -26,24 +26,6 @@ const CHOICES = [
   { key: "cabin", label: "By cabin", mode: cabinClassMode },
   { key: "rating", label: "By rating", mode: ratingMode },
 ];
-
-function ModeChoice({ label, isSelected, onSelect }: { label: string; isSelected: boolean; onSelect: () => void }) {
-  return (
-    <button
-      type="button"
-      aria-pressed={isSelected}
-      onClick={onSelect}
-      className={twMerge(
-        "rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors",
-        isSelected
-          ? "border-indigo-500 bg-indigo-50 text-indigo-700 dark:border-indigo-400 dark:bg-indigo-950 dark:text-indigo-200"
-          : "border-gray-200 text-gray-600 hover:border-gray-300 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-600",
-      )}
-    >
-      {label}
-    </button>
-  );
-}
 
 export function SeatMap({ seatMap, mode, diagramOnly = false }: Props) {
   const [selectedDeck, setSelectedDeck] = useState<Deck>(seatMap.decks[0].deck);
@@ -84,7 +66,7 @@ export function SeatMap({ seatMap, mode, diagramOnly = false }: Props) {
           {mode === undefined && (
             <div className="flex gap-1.5">
               {CHOICES.map((entry) => (
-                <ModeChoice
+                <FilterChoice
                   key={entry.key}
                   label={entry.label}
                   isSelected={entry.key === choice}
@@ -106,7 +88,7 @@ export function SeatMap({ seatMap, mode, diagramOnly = false }: Props) {
         describedBy={diagramOnly ? undefined : summaryId}
       />
 
-      <SeatLegend seats={deck.seats} mode={activeMode} />
+      <SeatLegend seats={deck.seats} deck={deck.deck} mode={activeMode} />
 
       {!diagramOnly && (
         <>

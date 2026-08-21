@@ -12,7 +12,9 @@ import {
 import {
   translateAirportOnFlightType,
   translateEventType,
+  translatePassengerStatus,
   translateShortStatus,
+  translateSpecialServiceRequest,
   translateStatus,
   translateStatusNextAction,
 } from "~/features/flight/i18n";
@@ -24,6 +26,8 @@ export const toHuman = {
   },
   flight: {
     eventType: translateEventType,
+    passengerStatus: translatePassengerStatus,
+    specialServiceRequest: translateSpecialServiceRequest,
     status: {
       next: translateStatusNextAction,
       short: translateShortStatus,

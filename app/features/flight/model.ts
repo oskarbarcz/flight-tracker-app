@@ -1,5 +1,6 @@
 import type { Aircraft } from "~/features/aircraft";
 import type { Airport } from "~/features/airport";
+import type { CabinClass, Deck } from "~/features/cabin-layout/model";
 import type { ApiFlightResponse } from "~/features/flight/request";
 import type { Operator } from "~/features/operator";
 
@@ -147,6 +148,42 @@ export type Loadsheet = {
 export type Loadsheets = {
   preliminary: Loadsheet | null;
   final: Loadsheet | null;
+};
+
+export enum PassengerStatus {
+  Boarded = "boarded",
+  NoShow = "no_show",
+}
+
+export enum SpecialServiceRequest {
+  Infant = "INFT",
+  WheelchairToRamp = "WCHR",
+  WheelchairToSteps = "WCHS",
+  WheelchairToSeat = "WCHC",
+  UnaccompaniedMinor = "UMNR",
+  Blind = "BLND",
+  Deaf = "DEAF",
+  MeetAndAssist = "MAAS",
+  PetInCabin = "PETC",
+}
+
+export type ManifestPassenger = {
+  designator: string;
+  deck: Deck;
+  cabin: CabinClass;
+  name: string;
+  pnr: string;
+  status: PassengerStatus;
+  ssr: SpecialServiceRequest | null;
+};
+
+export type FlightManifest = {
+  flightId: string;
+  cabinLayout: string;
+  cabinLayoutRevision: number;
+  passengerCount: number;
+  passengersByCabin: Partial<Record<CabinClass, number>>;
+  passengers: ManifestPassenger[];
 };
 
 export enum FlightSource {

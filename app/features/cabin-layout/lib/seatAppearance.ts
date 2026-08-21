@@ -1,4 +1,5 @@
-import { CabinClass, type CabinSeat, SeatRating } from "~/features/cabin-layout/model";
+import type { ReactNode } from "react";
+import { CabinClass, type CabinSeat, type Deck, SeatRating } from "~/features/cabin-layout/model";
 import { toHuman } from "~/i18n/translate";
 
 export type SeatAppearance = {
@@ -6,7 +7,7 @@ export type SeatAppearance = {
   label: string;
 };
 
-export type SeatResolver = (seat: CabinSeat) => SeatAppearance;
+export type SeatResolver = (seat: CabinSeat, deck: Deck) => SeatAppearance;
 
 export type SeatLegendEntry = {
   key: string;
@@ -16,7 +17,8 @@ export type SeatLegendEntry = {
 
 export type SeatMode = {
   resolve: SeatResolver;
-  legend: (seats: CabinSeat[]) => SeatLegendEntry[];
+  legend: (seats: CabinSeat[], deck: Deck) => SeatLegendEntry[];
+  tooltip?: (seat: CabinSeat, deck: Deck) => ReactNode;
 };
 
 export enum SeatCondition {

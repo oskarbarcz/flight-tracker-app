@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Seat } from "~/features/cabin-layout/components/SeatMap/Seat";
+import { SeatFacts } from "~/features/cabin-layout/components/SeatMap/SeatFacts";
 import { SeatTooltip } from "~/features/cabin-layout/components/SeatMap/SeatTooltip";
 import { type CabinFrame, type CabinSection, cabinFrame, fuselagePath } from "~/features/cabin-layout/lib/cabinFrame";
 import {
@@ -92,7 +93,7 @@ export function CabinDiagram({ deck, basis, minScale, mode, spotlit = null, desc
         return [];
       }
 
-      const appearance = mode.resolve(seat);
+      const appearance = mode.resolve(seat, deck.deck);
 
       return [
         {
@@ -379,7 +380,11 @@ export function CabinDiagram({ deck, basis, minScale, mode, spotlit = null, desc
             </div>
           </div>
         </div>
-        {popup && <SeatTooltip {...popup} />}
+        {popup && (
+          <SeatTooltip seat={popup.seat} x={popup.x} y={popup.y} below={popup.below}>
+            {mode.tooltip?.(popup.seat, deck.deck) ?? <SeatFacts seat={popup.seat} />}
+          </SeatTooltip>
+        )}
       </div>
     </figure>
   );

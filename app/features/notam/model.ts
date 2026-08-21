@@ -1,9 +1,3 @@
-export enum NotamRecordType {
-  New = "NOTAMN",
-  Replacement = "NOTAMR",
-  Cancellation = "NOTAMC",
-}
-
 export enum NotamSeverity {
   OutOfService = "out_of_service",
   Limited = "limited",

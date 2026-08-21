@@ -21,13 +21,6 @@ export enum DiversionReason {
   Other = "other",
 }
 
-export enum DiversionReporterRole {
-  Crew = "crew",
-  Operations = "operations",
-  Dispatcher = "dispatcher",
-  AirTrafficControl = "atc",
-}
-
 export class Diversion {
   id: string;
   severity: DiversionSeverity;

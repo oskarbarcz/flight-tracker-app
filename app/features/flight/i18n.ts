@@ -1,4 +1,11 @@
-import { AirportOnFlightType, FlightEventType, FlightServiceType, FlightStatus } from "~/features/flight";
+import {
+  AirportOnFlightType,
+  FlightEventType,
+  FlightServiceType,
+  FlightStatus,
+  PassengerStatus,
+  SpecialServiceRequest,
+} from "~/features/flight";
 
 type HandlingWording = {
   onboarding: string;
@@ -140,4 +147,29 @@ export function translateStatusNextAction(
     default:
       return null;
   }
+}
+
+export function translatePassengerStatus(status: PassengerStatus): string {
+  const labels: Record<PassengerStatus, string> = {
+    [PassengerStatus.Boarded]: "Boarded",
+    [PassengerStatus.NoShow]: "No-show",
+  };
+
+  return labels[status];
+}
+
+export function translateSpecialServiceRequest(request: SpecialServiceRequest): string {
+  const labels: Record<SpecialServiceRequest, string> = {
+    [SpecialServiceRequest.Infant]: "Infant in arms",
+    [SpecialServiceRequest.WheelchairToRamp]: "Wheelchair to ramp",
+    [SpecialServiceRequest.WheelchairToSteps]: "Wheelchair to steps",
+    [SpecialServiceRequest.WheelchairToSeat]: "Wheelchair to seat",
+    [SpecialServiceRequest.UnaccompaniedMinor]: "Unaccompanied minor",
+    [SpecialServiceRequest.Blind]: "Blind or low vision",
+    [SpecialServiceRequest.Deaf]: "Deaf or hard of hearing",
+    [SpecialServiceRequest.MeetAndAssist]: "Meet and assist",
+    [SpecialServiceRequest.PetInCabin]: "Pet in cabin",
+  };
+
+  return labels[request];
 }
