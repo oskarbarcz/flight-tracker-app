@@ -1,18 +1,13 @@
 import { Badge } from "flowbite-react";
 import React from "react";
-import { type Aircraft, AircraftState } from "~/features/aircraft";
+import type { Aircraft } from "~/features/aircraft";
 import { AircraftAirportRow } from "~/features/aircraft/components/AircraftDetails/AircraftAirportRow";
+import { aircraftStateColors } from "~/features/aircraft/i18n";
 import type { Airport } from "~/features/airport";
+import { toHuman } from "~/i18n/translate";
 import { formatDate } from "~/shared/lib/time";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
-
-const stateLabels: Record<AircraftState, { label: string; color: string }> = {
-  [AircraftState.Idle]: { label: "Idle", color: "gray" },
-  [AircraftState.Planned]: { label: "Planned", color: "purple" },
-  [AircraftState.CheckedIn]: { label: "Checked in", color: "indigo" },
-  [AircraftState.Cruise]: { label: "In cruise to:", color: "info" },
-};
 
 type Props = {
   aircraft: Aircraft;
@@ -20,14 +15,13 @@ type Props = {
 };
 
 export function AircraftStatusSummaryCard({ aircraft, lastAirport }: Props) {
-  const state = stateLabels[aircraft.currentState];
   const lastSeen = aircraft.lastAirportUpdatedAt ? formatDate(new Date(aircraft.lastAirportUpdatedAt)) : null;
 
   return (
     <Container className="h-full" header={<CardHeader title="Current status" />}>
       <div className="flex flex-col gap-4">
-        <Badge color={state.color} size="sm" className="w-fit">
-          {state.label}
+        <Badge color={aircraftStateColors[aircraft.currentState]} size="sm" className="w-fit">
+          {toHuman.aircraft.state(aircraft.currentState)}
         </Badge>
 
         {lastAirport ? (

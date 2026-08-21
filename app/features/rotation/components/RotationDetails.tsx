@@ -1,7 +1,7 @@
 import { Button, Modal, ModalBody, ModalHeader } from "flowbite-react";
 import React, { useState } from "react";
-import { FaArrowLeft, FaCircleCheck } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router";
+import { FaCircleCheck } from "react-icons/fa6";
+import { useNavigate } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import type { Airport } from "~/features/airport";
 import { formatBlockTime, type Rotation } from "~/features/rotation";
@@ -17,11 +17,13 @@ import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
+import { Breadcrumbs } from "~/shared/ui/Section/Breadcrumbs";
 
 type Props = {
   initialRotation: Rotation;
   airports: Airport[];
   operatorId: string;
+  operatorName: string;
   pilotName: string | null;
 };
 
@@ -41,7 +43,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function RotationDetails({ initialRotation, airports, operatorId, pilotName }: Props) {
+export function RotationDetails({ initialRotation, airports, operatorId, operatorName, pilotName }: Props) {
   const { success } = useToast();
   const navigate = useNavigate();
   const {
@@ -83,20 +85,14 @@ export function RotationDetails({ initialRotation, airports, operatorId, pilotNa
   return (
     <div className="pb-6">
       <div className="mb-6">
-        <div className="mb-3">
-          <Button
-            as={Link}
-            to={`/operators/${operatorId}/rotations`}
-            color="gray"
-            outline
-            size="sm"
-            viewTransition
-            aria-label="Back to rotations"
-          >
-            <FaArrowLeft className="mr-2" />
-            Rotations
-          </Button>
-        </div>
+        <Breadcrumbs
+          className="mb-4"
+          items={[
+            { label: "Operators", to: "/operators" },
+            { label: operatorName, to: `/operators/${operatorId}/rotations` },
+            { label: current.name },
+          ]}
+        />
 
         <Container padding="spacious" className="gap-5">
           <header className="flex flex-wrap items-start justify-between gap-3">

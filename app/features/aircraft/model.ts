@@ -1,4 +1,5 @@
 import type { Airframe } from "~/features/airframe/model";
+import type { AircraftCabinLayout } from "~/features/cabin-layout/model";
 import type { FlightStatus } from "~/features/flight/model";
 import type { Coordinates } from "~/shared/models/coordinates";
 
@@ -36,6 +37,7 @@ export type Aircraft = {
   lastAirport: AircraftAirport | null;
   lastAirportUpdatedAt: string | null;
   lastParkingPosition: AircraftParkingPosition | null;
+  cabinLayout: AircraftCabinLayout | null;
 };
 
 export type UserAircraftEntryOperator = {

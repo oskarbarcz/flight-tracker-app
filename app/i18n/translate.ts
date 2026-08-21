@@ -1,4 +1,12 @@
+import { translateAircraftState } from "~/features/aircraft/i18n";
 import { translateContinent } from "~/features/airport/i18n";
+import {
+  translateCabinClass,
+  translateDeck,
+  translateLayoutMatch,
+  translateSeatRating,
+  translateWindowStatus,
+} from "~/features/cabin-layout/i18n";
 import {
   translateAirportOnFlightType,
   translateEventType,
@@ -9,6 +17,9 @@ import {
 import { translateRotationStatus } from "~/features/rotation/i18n";
 
 export const toHuman = {
+  aircraft: {
+    state: translateAircraftState,
+  },
   flight: {
     eventType: translateEventType,
     status: {
@@ -23,5 +34,12 @@ export const toHuman = {
   airport: {
     continent: translateContinent,
     onFlightType: translateAirportOnFlightType,
+  },
+  cabinLayout: {
+    cabinClass: translateCabinClass,
+    deck: translateDeck,
+    match: translateLayoutMatch,
+    seatRating: translateSeatRating,
+    windowStatus: translateWindowStatus,
   },
 };

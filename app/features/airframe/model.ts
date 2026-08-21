@@ -11,6 +11,12 @@ export enum PerformanceCode {
   E = "E",
 }
 
+export enum AirframeServiceType {
+  Passenger = "passenger",
+  Cargo = "cargo",
+  Both = "both",
+}
+
 export enum WeightCategory {
   Light = "light",
   Medium = "medium",
@@ -25,9 +31,11 @@ export type CruiseSpeed = {
 
 export type Airframe = {
   type: string;
+  iataType: string | null;
   name: string;
   cruiseSpeed: CruiseSpeed;
   serviceCeiling: number;
   performanceCode: PerformanceCode;
   weightCategory: WeightCategory;
+  serviceType: AirframeServiceType;
 };
