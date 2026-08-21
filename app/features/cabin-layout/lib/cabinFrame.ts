@@ -1,9 +1,9 @@
+import { parseDesignator } from "~/features/cabin-layout/lib/designator";
 import { type CabinClass, type CabinSeat, type CabinSeatMapDeck, Deck } from "~/features/cabin-layout/model";
 
 const WALL_MARGIN = 0.06;
 const CAP_MARGIN = 0.06;
 const GUTTER_SEATS = 1.15;
-const DESIGNATOR = /^(\d+)([A-Z]+)$/;
 const MIN_SEAT_ALONG_PX = 12;
 const MIN_LETTER_SPACING_PX = 9;
 
@@ -44,15 +44,13 @@ type Row = {
 function readRows(deck: CabinSeatMapDeck): Row[] {
   const rows = new Map<string, CabinSeat[]>();
   for (const seat of deck.seats) {
-    const match = DESIGNATOR.exec(seat.designator);
-    if (match === null) {
-      continue;
-    }
-    const existing = rows.get(match[1]);
+    const parsed = parseDesignator(seat.designator);
+    const label = parsed === null ? seat.designator : String(parsed.row);
+    const existing = rows.get(label);
     if (existing) {
       existing.push(seat);
     } else {
-      rows.set(match[1], [seat]);
+      rows.set(label, [seat]);
     }
   }
 
@@ -72,16 +70,16 @@ function dominantCabin(seats: CabinSeat[]): CabinClass {
 function lettersOf(seats: CabinSeat[]): CabinLetter[] {
   const groups = new Map<string, number[]>();
   for (const seat of seats) {
-    const match = DESIGNATOR.exec(seat.designator);
-    if (match === null) {
+    const parsed = parseDesignator(seat.designator);
+    if (parsed === null) {
       continue;
     }
     const centre = seat.x + seat.width / 2;
-    const existing = groups.get(match[2]);
+    const existing = groups.get(parsed.letter);
     if (existing) {
       existing.push(centre);
     } else {
-      groups.set(match[2], [centre]);
+      groups.set(parsed.letter, [centre]);
     }
   }
 
@@ -93,7 +91,7 @@ function lettersOf(seats: CabinSeat[]): CabinLetter[] {
     .sort((left, right) => left.across - right.across);
 }
 
-export function cabinFrame(deck: CabinSeatMapDeck): CabinFrame | null {
+function buildFrame(deck: CabinSeatMapDeck): CabinFrame | null {
   const rows = readRows(deck);
   if (rows.length === 0) {
     return null;
@@ -156,6 +154,19 @@ export function cabinFrame(deck: CabinSeatMapDeck): CabinFrame | null {
     rowCount: rows.length,
     sections,
   };
+}
+
+const frames = new WeakMap<CabinSeatMapDeck, CabinFrame | null>();
+
+export function cabinFrame(deck: CabinSeatMapDeck): CabinFrame | null {
+  const cached = frames.get(deck);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const built = buildFrame(deck);
+  frames.set(deck, built);
+  return built;
 }
 
 export function widestFrame(decks: CabinSeatMapDeck[]): number {

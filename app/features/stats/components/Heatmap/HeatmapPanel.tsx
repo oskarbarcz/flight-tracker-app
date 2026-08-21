@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { BlurReveal } from "~/features/stats/components/BlurReveal";
 import { ActivityHeatmap } from "~/features/stats/components/Heatmap/ActivityHeatmap";
 import { YearSwitcher } from "~/features/stats/components/Heatmap/YearSwitcher";
 import type { Stats } from "~/features/stats/hooks/useStats";
 import { buildYearHeatmap, loggedYears } from "~/features/stats/lib/heatmap";
 import { formatDuration } from "~/shared/lib/time";
+import { BlurReveal } from "~/shared/ui/Display/BlurReveal";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { CardDescription } from "~/shared/ui/Layout/CardDescription";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";

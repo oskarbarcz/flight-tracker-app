@@ -2,6 +2,8 @@ import { translateAircraftState } from "~/features/aircraft/i18n";
 import { translateContinent } from "~/features/airport/i18n";
 import {
   translateCabinClass,
+  translateCommentSentiment,
+  translateCommentSeverity,
   translateDeck,
   translateLayoutMatch,
   translateSeatRating,
@@ -37,6 +39,8 @@ export const toHuman = {
   },
   cabinLayout: {
     cabinClass: translateCabinClass,
+    commentSentiment: translateCommentSentiment,
+    commentSeverity: translateCommentSeverity,
     deck: translateDeck,
     match: translateLayoutMatch,
     seatRating: translateSeatRating,

@@ -62,6 +62,8 @@ export default [
         "operators/:operatorId/rotations/:rotationId",
         "routes/operations/operators/rotations/RotationDetailsRoute.tsx",
       ),
+      route("cabin-layouts", "routes/operations/cabin-layouts/CabinLayoutsListRoute.tsx"),
+      route("cabin-layouts/:id", "routes/operations/cabin-layouts/CabinLayoutDetailsRoute.tsx"),
       route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
       route("current-flights", "routes/operations/flights/CurrentFlightsRoute.tsx"),
       route("finished-flights", "routes/operations/flights/FinishedFlightsRoute.tsx"),

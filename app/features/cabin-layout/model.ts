@@ -29,6 +29,18 @@ export enum WindowStatus {
   None = "none",
 }
 
+export enum CommentSentiment {
+  Good = "good",
+  Neutral = "neutral",
+  Bad = "bad",
+}
+
+export enum CommentSeverity {
+  Minor = "minor",
+  Moderate = "moderate",
+  Major = "major",
+}
+
 export type CabinLayout = {
   id: string;
   airlineIata: string;
@@ -68,8 +80,8 @@ export type AircraftCabinLayout = {
 export type SeatComment = {
   slug: string;
   comment: string;
-  severity: string;
-  sentiment: string;
+  severity: CommentSeverity | null;
+  sentiment: CommentSentiment;
 };
 
 export type CabinSeat = {
@@ -143,4 +155,19 @@ export type CabinLayoutFilters = {
   retired?: boolean;
   limit?: number;
   offset?: number;
+};
+
+export type CabinLayoutSyncResult = {
+  reported: number;
+  catalogued: number;
+  created: number;
+  retired: number;
+  restored: number;
+  skipped: number;
+};
+
+export type CabinLayoutRefreshResult = {
+  layoutId: string;
+  changed: boolean;
+  revision: number;
 };

@@ -1,8 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { CABIN_FILLS, CABIN_ORDER, CABIN_SHORT_LABELS } from "~/features/cabin-layout/components/SeatMap/cabinLevels";
+import { Seat } from "~/features/cabin-layout/components/SeatMap/Seat";
 import { SeatTooltip } from "~/features/cabin-layout/components/SeatMap/SeatTooltip";
-import { type CabinSection, cabinFrame, fuselagePath } from "~/features/cabin-layout/lib/cabinFrame";
+import { type CabinFrame, type CabinSection, cabinFrame, fuselagePath } from "~/features/cabin-layout/lib/cabinFrame";
+import {
+  CABIN_SHORT_LABELS,
+  CONDITION_LABELS,
+  type SeatAppearance,
+  type SeatMode,
+  seatCondition,
+} from "~/features/cabin-layout/lib/seatAppearance";
+import { orderedSeats } from "~/features/cabin-layout/lib/seatOrder";
 import type { CabinClass, CabinSeat, CabinSeatMapDeck } from "~/features/cabin-layout/model";
 import { toHuman } from "~/i18n/translate";
 
@@ -10,6 +18,9 @@ type Props = {
   deck: CabinSeatMapDeck;
   basis: number;
   minScale: number;
+  mode: SeatMode;
+  spotlit?: CabinClass | null;
+  describedBy?: string;
 };
 
 const CAPS_CHAR_PX = 9;
@@ -26,15 +37,12 @@ type Hover = {
   below: boolean;
 };
 
-function seatLabel(seat: CabinSeat): string {
-  const cabin = toHuman.cabinLayout.cabinClass(seat.cabin);
-  const rating = seat.rating ? `, ${toHuman.cabinLayout.seatRating(seat.rating)}` : "";
-  const window = seat.windowStatus ? `, ${toHuman.cabinLayout.windowStatus(seat.windowStatus)}` : "";
-  return `Seat ${seat.designator}, ${cabin}${rating}${window}`;
-}
-
 function rowRange(section: CabinSection): string {
   return section.firstRow === section.lastRow ? section.firstRow : `${section.firstRow}–${section.lastRow}`;
+}
+
+function diagramWidthOf(frame: CabinFrame, basis: number, minScale: number, measured: number): number {
+  return Math.max(measured, basis * minScale) * (frame.length / basis);
 }
 
 function useMeasuredWidth() {
@@ -54,13 +62,55 @@ function useMeasuredWidth() {
   return { ref, width };
 }
 
-export function CabinDiagram({ deck, basis, minScale }: Props) {
+export function CabinDiagram({ deck, basis, minScale, mode, spotlit = null, describedBy }: Props) {
   const frame = useMemo(() => cabinFrame(deck), [deck]);
   const { ref, width } = useMeasuredWidth();
   const openTimer = useRef<number | null>(null);
+  const scrolledTo = useRef<number | null>(null);
   const [popup, setPopup] = useState<Hover | null>(null);
 
   const seatsByDesignator = useMemo(() => new Map(deck.seats.map((seat) => [seat.designator, seat])), [deck.seats]);
+
+  const placements = useMemo(() => {
+    if (frame === null) {
+      return [];
+    }
+
+    const sections = new Map<string, CabinSection>();
+    for (const section of frame.sections) {
+      for (const seat of section.seats) {
+        sections.set(seat.designator, section);
+      }
+    }
+
+    const along = (value: number) => (value / frame.length) * 100;
+    const across = (value: number) => ((frame.acrossOrigin + frame.width - value) / frame.width) * 100;
+
+    return orderedSeats(deck).flatMap((seat) => {
+      const section = sections.get(seat.designator);
+      if (section === undefined) {
+        return [];
+      }
+
+      const appearance = mode.resolve(seat);
+
+      return [
+        {
+          seat,
+          appearance,
+          condition: seatCondition(seat),
+          description: seatDescription(seat, appearance),
+          style: {
+            left: `${along(section.contentStart + (seat.y - section.sourceStart))}%`,
+            top: `${across(seat.x + seat.width)}%`,
+            width: `${along(seat.height)}%`,
+            height: `${(seat.width / frame.width) * 100}%`,
+            rotate: seat.rotation === 0 ? undefined : `${seat.rotation}deg`,
+          } as React.CSSProperties,
+        },
+      ];
+    });
+  }, [deck, frame, mode]);
 
   useEffect(() => {
     const dismissOutside = (event: PointerEvent) => {
@@ -74,14 +124,46 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
 
   useEffect(() => {
     const dismiss = () => setPopup(null);
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setPopup(null);
+      }
+    };
     window.addEventListener("scroll", dismiss, true);
+    window.addEventListener("keydown", dismissOnEscape);
     return () => {
       window.removeEventListener("scroll", dismiss, true);
+      window.removeEventListener("keydown", dismissOnEscape);
       if (openTimer.current !== null) {
         window.clearTimeout(openTimer.current);
       }
     };
   }, []);
+
+  useEffect(() => {
+    const scroller = ref.current;
+    if (scroller === null || frame === null || spotlit === null || width === 0) {
+      return;
+    }
+
+    const section = frame.sections.find((entry) => entry.cabin === spotlit);
+    if (section === undefined) {
+      return;
+    }
+
+    const total = diagramWidthOf(frame, basis, minScale, width);
+    const start = (section.gutterStart / frame.length) * total;
+    const end = ((section.contentStart + section.contentLength) / frame.length) * total;
+    const target = Math.max(0, Math.min((start + end) / 2 - width / 2, total - width));
+
+    if (scrolledTo.current === target) {
+      return;
+    }
+    scrolledTo.current = target;
+
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    scroller.scrollTo({ left: target, behavior: still ? "auto" : "smooth" });
+  }, [spotlit, frame, basis, minScale, width, ref]);
 
   function openFor(target: HTMLElement, immediate: boolean) {
     const seat = seatsByDesignator.get(target.dataset.seat ?? "");
@@ -159,20 +241,13 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
     setPopup(null);
   }
 
-  const present = useMemo(() => {
-    const seen = new Set<CabinClass>(deck.seats.map((seat) => seat.cabin));
-    return CABIN_ORDER.filter((cabin) => seen.has(cabin));
-  }, [deck.seats]);
-
   if (frame === null) {
     return null;
   }
 
   const along = (value: number) => (value / frame.length) * 100;
   const across = (value: number) => ((frame.acrossOrigin + frame.width - value) / frame.width) * 100;
-  const share = frame.length / basis;
-  const basisWidth = Math.max(width, basis * minScale);
-  const diagramWidth = basisWidth * share;
+  const diagramWidth = diagramWidthOf(frame, basis, minScale, width);
   const diagramHeight = (diagramWidth * frame.width) / frame.length;
 
   const separatorInset = diagramWidth > 0 ? (SEPARATOR_MARGIN_PX * frame.length) / diagramWidth : 0;
@@ -201,8 +276,10 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
   };
 
   return (
-    <figure className="flex flex-col gap-3">
-      <span className="sr-only">{`Cabin diagram: ${deck.seatCount} seats across ${frame.rowCount} rows`}</span>
+    <figure aria-describedby={describedBy} className="flex flex-col">
+      <figcaption className="sr-only">
+        {`Schematic cabin diagram of the ${toHuman.cabinLayout.deck(deck.deck)}: ${deck.seatCount} seats across ${frame.rowCount} rows, nose to the left.`}
+      </figcaption>
       <div className="relative">
         <div ref={ref} className="overflow-x-auto">
           <div className="mx-auto" style={{ width: `${diagramWidth}px` }}>
@@ -212,7 +289,10 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
                   <span
                     key={`${section.firstRow}-head`}
                     style={{ left: `${along(section.contentStart)}%`, width: `${along(section.contentLength)}%` }}
-                    className="absolute truncate text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                    className={twMerge(
+                      "absolute truncate text-[11px] font-bold uppercase tracking-wider text-gray-500 transition-opacity duration-150 motion-reduce:transition-none dark:text-gray-400",
+                      spotlit !== null && section.cabin !== spotlit && "opacity-25",
+                    )}
                   >
                     {CABIN_SHORT_LABELS[section.cabin]}
                   </span>
@@ -267,27 +347,18 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
                 )),
               )}
 
-              {frame.sections.map((section) =>
-                section.seats.map((seat) => (
-                  <button
-                    key={seat.designator}
-                    type="button"
-                    data-seat={seat.designator}
-                    aria-label={seatLabel(seat)}
-                    style={{
-                      left: `${along(section.contentStart + (seat.y - section.sourceStart))}%`,
-                      top: `${across(seat.x + seat.width)}%`,
-                      width: `${along(seat.height)}%`,
-                      height: `${(seat.width / frame.width) * 100}%`,
-                      rotate: seat.rotation === 0 ? undefined : `${seat.rotation}deg`,
-                    }}
-                    className={twMerge(
-                      "absolute rounded-[2px] border border-gray-900/10 transition-[scale,box-shadow] duration-[90ms] ease-out hover:z-10 hover:scale-[1.45] hover:ring-1 hover:ring-gray-900 focus-visible:z-10 focus-visible:scale-[1.45] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 motion-reduce:transition-none dark:border-white/10 dark:hover:ring-white",
-                      CABIN_FILLS[seat.cabin],
-                    )}
-                  />
-                )),
-              )}
+              {placements.map((placement) => (
+                <Seat
+                  key={placement.seat.designator}
+                  designator={placement.seat.designator}
+                  appearance={placement.appearance}
+                  condition={placement.condition}
+                  reversed={placement.seat.reversed}
+                  isMuted={spotlit !== null && placement.seat.cabin !== spotlit}
+                  description={placement.description}
+                  style={placement.style}
+                />
+              ))}
             </div>
 
             <div className="relative mt-2 h-4">
@@ -296,7 +367,10 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
                   <span
                     key={`${section.firstRow}-rows`}
                     style={{ left: `${along(section.contentStart)}%`, width: `${along(section.contentLength)}%` }}
-                    className="absolute truncate font-mono text-[10px] text-gray-400 dark:text-gray-500"
+                    className={twMerge(
+                      "absolute truncate font-mono text-[10px] text-gray-400 transition-opacity duration-150 motion-reduce:transition-none dark:text-gray-500",
+                      spotlit !== null && section.cabin !== spotlit && "opacity-25",
+                    )}
                   >
                     {rowRange(section)}
                   </span>
@@ -307,20 +381,21 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
         </div>
         {popup && <SeatTooltip {...popup} />}
       </div>
-
-      <figcaption className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-        {present.map((cabin) => (
-          <span key={cabin} className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-            <span
-              className={twMerge(
-                "size-2.5 rounded-xs border border-gray-900/10 dark:border-white/10",
-                CABIN_FILLS[cabin],
-              )}
-            />
-            {toHuman.cabinLayout.cabinClass(cabin)}
-          </span>
-        ))}
-      </figcaption>
     </figure>
   );
+}
+
+function seatDescription(seat: CabinSeat, appearance: SeatAppearance): string {
+  const cabin = toHuman.cabinLayout.cabinClass(seat.cabin);
+  const condition = seatCondition(seat);
+  const parts = [
+    `Seat ${seat.designator}`,
+    cabin,
+    appearance.label === cabin ? null : appearance.label,
+    seat.windowStatus === null ? null : toHuman.cabinLayout.windowStatus(seat.windowStatus),
+    condition === null ? null : CONDITION_LABELS[condition],
+    seat.reversed ? "Rearward facing" : null,
+  ];
+
+  return parts.filter((part) => part !== null).join(", ");
 }
