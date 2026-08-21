@@ -3,7 +3,7 @@ import type { CabinSeatMap } from "~/features/cabin-layout/model";
 import { type Flight, type FlightManifest, FlightServiceType, FlightStatus } from "~/features/flight";
 import { useApi } from "~/shared/api/useApi";
 
-export type ManifestGap = "cargo" | "not-released" | "no-layout" | "forbidden" | "failed";
+export type ManifestGap = "cargo" | "no-layout" | "not-released" | "unseated" | "forbidden" | "failed";
 
 export type FlightCabin =
   | { status: "loading" }
@@ -13,16 +13,24 @@ export type FlightCabin =
 const FORBIDDEN = 403;
 const NOT_FOUND = 404;
 
-function gapOf(reason: unknown, status: FlightStatus): ManifestGap {
-  const statusCode = (reason as { statusCode?: number }).statusCode;
-
+function gapOfFailure(statusCode: number | undefined): ManifestGap {
   if (statusCode === FORBIDDEN) {
     return "forbidden";
   }
-  if (statusCode === NOT_FOUND) {
-    return status === FlightStatus.Created ? "not-released" : "no-layout";
+  return statusCode === NOT_FOUND ? "unseated" : "failed";
+}
+
+function gapOf(flight: Flight): ManifestGap | null {
+  if (flight.serviceType === FlightServiceType.Cargo) {
+    return "cargo";
   }
-  return "failed";
+  if (flight.aircraft.cabinLayout === null) {
+    return "no-layout";
+  }
+  if (flight.status === FlightStatus.Created) {
+    return "not-released";
+  }
+  return null;
 }
 
 export function useFlightCabin(flight: Flight | null): FlightCabin {
@@ -30,16 +38,15 @@ export function useFlightCabin(flight: Flight | null): FlightCabin {
   const [state, setState] = useState<FlightCabin>({ status: "loading" });
 
   const flightId = flight?.id ?? null;
-  const flightStatus = flight?.status ?? null;
-  const serviceType = flight?.serviceType ?? null;
+  const gap = flight === null ? null : gapOf(flight);
 
   useEffect(() => {
-    if (flightId === null || flightStatus === null || serviceType === null) {
+    if (flightId === null) {
       return;
     }
 
-    if (serviceType === FlightServiceType.Cargo) {
-      setState({ status: "unavailable", gap: "cargo" });
+    if (gap !== null) {
+      setState({ status: "unavailable", gap });
       return;
     }
 
@@ -57,14 +64,14 @@ export function useFlightCabin(flight: Flight | null): FlightCabin {
       })
       .catch((reason: unknown) => {
         if (!cancelled) {
-          setState({ status: "unavailable", gap: gapOf(reason, flightStatus) });
+          setState({ status: "unavailable", gap: gapOfFailure((reason as { statusCode?: number }).statusCode) });
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [flightService, cabinLayoutService, flightId, flightStatus, serviceType]);
+  }, [flightService, cabinLayoutService, flightId, gap]);
 
   return state;
 }

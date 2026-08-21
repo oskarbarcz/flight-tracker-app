@@ -5,7 +5,13 @@ import { ManifestTable } from "~/features/flight/components/Cabin/ManifestTable"
 import { ManifestUnavailableState } from "~/features/flight/components/Cabin/ManifestUnavailableState";
 import { useFlightCabin } from "~/features/flight/hooks/useFlightCabin";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { cabinTallies, loadsheetHeadcount, manifestTally, orderedPassengers } from "~/features/flight/lib/manifest";
+import {
+  cabinTallies,
+  layoutMismatch,
+  loadsheetHeadcount,
+  manifestTally,
+  orderedPassengers,
+} from "~/features/flight/lib/manifest";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
@@ -52,7 +58,7 @@ export function FlightCabinTab() {
   return (
     <div className="mt-4 flex flex-col gap-4">
       <Container padding="condensed" header={<CardHeader title="Cabin occupancy" />}>
-        <CabinOccupancyPanel manifest={manifest} seatMap={seatMap} />
+        <CabinOccupancyPanel manifest={manifest} seatMap={seatMap} mismatch={layoutMismatch(flight)} />
       </Container>
 
       <Container padding="condensed" header={<CardHeader title="Passenger manifest" />}>

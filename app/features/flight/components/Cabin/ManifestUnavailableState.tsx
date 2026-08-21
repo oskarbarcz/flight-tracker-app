@@ -36,6 +36,13 @@ const NOTICES: Record<ManifestGap, Notice> = {
     description:
       "The aircraft flying it has no cabin layout assigned, so nobody was seated. Operations can assign one from the aircraft record.",
   },
+  unseated: {
+    tone: "neutral",
+    icon: FaChair,
+    title: "Nobody was seated on this flight",
+    description:
+      "Operations released it without a cabin layout, and a layout assigned afterwards does not seat a released flight.",
+  },
   forbidden: {
     tone: "neutral",
     icon: FaLock,
