@@ -1,67 +1,33 @@
-import { Button } from "flowbite-react";
 import React from "react";
-import { HiPencil } from "react-icons/hi";
-import { LuPlane, LuTag } from "react-icons/lu";
-import { Link } from "react-router";
 import type { Aircraft } from "~/features/aircraft";
-import { AircraftImage } from "~/features/aircraft/components/Aircraft/AircraftImage";
-import { formatCruiseSpeed, formatServiceCeiling, formatWeightCategory } from "~/features/airframe/lib/formatAirframe";
-import { DataField } from "~/shared/ui/Display/DataField";
-import { DataSection } from "~/shared/ui/Display/DataSection";
+import { AircraftProfile } from "~/features/aircraft/components/Aircraft/AircraftProfile";
+import { AircraftSpecStrip } from "~/features/aircraft/components/AircraftDetails/AircraftSpecStrip";
 
 type Props = {
   aircraft: Aircraft;
-  editUrl?: string;
 };
 
-export function AircraftDetailsHeader({ aircraft, editUrl }: Props) {
+export function AircraftDetailsHeader({ aircraft }: Props) {
   const { airframe } = aircraft;
 
   return (
-    <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-      <div className="flex flex-col gap-5 lg:col-span-1">
-        <div>
-          <span className="block font-mono text-4xl font-bold text-gray-900 dark:text-white">
+    <header className="relative">
+      <div className="relative flex flex-col gap-2 border-b border-gray-200 pb-5 dark:border-gray-700 lg:min-h-[17.5rem] lg:flex-row lg:items-end lg:gap-6">
+        <AircraftProfile
+          type={airframe.type}
+          name={airframe.name}
+          className="pointer-events-none order-last -mx-2 select-none [mask-image:linear-gradient(to_right,black_84%,transparent)] lg:absolute lg:bottom-2 lg:right-0 lg:mx-0 lg:w-[62%] lg:max-w-[720px]"
+        />
+
+        <div className="relative min-w-0 lg:max-w-[38%]">
+          <h1 className="font-mono text-4xl font-black tracking-tighter text-gray-900 dark:text-white xl:text-5xl">
             {aircraft.registration}
-          </span>
-          <span className="mt-1 block text-lg font-semibold text-gray-500 dark:text-gray-400">{airframe.name}</span>
+          </h1>
+          <p className="mt-1 text-base font-semibold text-gray-500 dark:text-gray-400">{airframe.name}</p>
         </div>
-
-        <DataSection icon={LuPlane} title="Airframe">
-          <div className="grid grid-cols-2 gap-2">
-            <DataField label="Type code" value={airframe.type} mono />
-            <DataField label="Cruise speed" value={formatCruiseSpeed(airframe.cruiseSpeed)} mono />
-            <DataField label="Service ceiling" value={formatServiceCeiling(airframe.serviceCeiling)} mono />
-            <DataField label="Weight category" value={formatWeightCategory(airframe.weightCategory)} />
-          </div>
-        </DataSection>
-
-        <DataSection icon={LuTag} title="Identity">
-          <div className="grid grid-cols-2 gap-2">
-            <DataField label="SELCAL" value={aircraft.selcal || "—"} mono />
-            <div className="col-span-2">
-              <DataField label="Livery" value={aircraft.livery} />
-            </div>
-          </div>
-        </DataSection>
       </div>
 
-      <div className="relative flex items-center justify-center lg:col-span-2">
-        {editUrl && (
-          <Button
-            as={Link}
-            to={editUrl}
-            viewTransition
-            size="sm"
-            color="indigo"
-            className="absolute right-0 top-0 space-x-1.5"
-          >
-            <HiPencil />
-            <span>Update airframe data</span>
-          </Button>
-        )}
-        <AircraftImage type={airframe.type} name={airframe.name} size="hero" className="max-h-80 dark:brightness-75" />
-      </div>
-    </div>
+      <AircraftSpecStrip aircraft={aircraft} className="pt-4" />
+    </header>
   );
 }

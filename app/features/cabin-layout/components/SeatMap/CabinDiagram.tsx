@@ -26,6 +26,13 @@ type Hover = {
   below: boolean;
 };
 
+function seatLabel(seat: CabinSeat): string {
+  const cabin = toHuman.cabinLayout.cabinClass(seat.cabin);
+  const rating = seat.rating ? `, ${toHuman.cabinLayout.seatRating(seat.rating)}` : "";
+  const window = seat.windowStatus ? `, ${toHuman.cabinLayout.windowStatus(seat.windowStatus)}` : "";
+  return `Seat ${seat.designator}, ${cabin}${rating}${window}`;
+}
+
 function rowRange(section: CabinSection): string {
   return section.firstRow === section.lastRow ? section.firstRow : `${section.firstRow}–${section.lastRow}`;
 }
@@ -56,6 +63,16 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
   const seatsByDesignator = useMemo(() => new Map(deck.seats.map((seat) => [seat.designator, seat])), [deck.seats]);
 
   useEffect(() => {
+    const dismissOutside = (event: PointerEvent) => {
+      if ((event.target as HTMLElement | null)?.closest("[data-seat]") == null) {
+        setPopup(null);
+      }
+    };
+    window.addEventListener("pointerdown", dismissOutside);
+    return () => window.removeEventListener("pointerdown", dismissOutside);
+  }, []);
+
+  useEffect(() => {
     const dismiss = () => setPopup(null);
     window.addEventListener("scroll", dismiss, true);
     return () => {
@@ -66,14 +83,9 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
     };
   }, []);
 
-  function trackPointer(event: React.PointerEvent<HTMLDivElement>) {
-    const target = (event.target as HTMLElement).closest<HTMLElement>("[data-seat]");
-    if (target === null) {
-      return;
-    }
-
+  function openFor(target: HTMLElement, immediate: boolean) {
     const seat = seatsByDesignator.get(target.dataset.seat ?? "");
-    if (seat === undefined || popup?.seat.designator === seat.designator) {
+    if (seat === undefined) {
       return;
     }
 
@@ -89,7 +101,55 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
     if (openTimer.current !== null) {
       window.clearTimeout(openTimer.current);
     }
+
+    if (immediate) {
+      setPopup(next);
+      return;
+    }
     openTimer.current = window.setTimeout(() => setPopup(next), OPEN_DELAY_MS);
+  }
+
+  function seatUnder(event: React.SyntheticEvent): HTMLElement | null {
+    return (event.target as HTMLElement).closest<HTMLElement>("[data-seat]");
+  }
+
+  function trackPointer(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType !== "mouse") {
+      return;
+    }
+    const target = seatUnder(event);
+    if (target === null || popup?.seat.designator === target.dataset.seat) {
+      return;
+    }
+    openFor(target, false);
+  }
+
+  function tapSeat(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "mouse") {
+      return;
+    }
+    const target = seatUnder(event);
+    if (target === null) {
+      return;
+    }
+    if (popup?.seat.designator === target.dataset.seat) {
+      clearPointer();
+      return;
+    }
+    openFor(target, true);
+  }
+
+  function focusSeat(event: React.FocusEvent<HTMLDivElement>) {
+    const target = seatUnder(event);
+    if (target !== null) {
+      openFor(target, true);
+    }
+  }
+
+  function leavePointer(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "mouse") {
+      clearPointer();
+    }
   }
 
   function clearPointer() {
@@ -142,6 +202,7 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
 
   return (
     <figure className="flex flex-col gap-3">
+      <span className="sr-only">{`Cabin diagram: ${deck.seatCount} seats across ${frame.rowCount} rows`}</span>
       <div className="relative">
         <div ref={ref} className="overflow-x-auto">
           <div className="mx-auto" style={{ width: `${diagramWidth}px` }}>
@@ -160,12 +221,13 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
             </div>
 
             <div
-              role="img"
-              aria-label={`Cabin diagram: ${deck.seatCount} seats across ${frame.rowCount} rows`}
               className="relative"
               style={{ aspectRatio: `${frame.length} / ${frame.width}` }}
               onPointerMove={trackPointer}
-              onPointerLeave={clearPointer}
+              onPointerDown={tapSeat}
+              onPointerLeave={leavePointer}
+              onFocusCapture={focusSeat}
+              onBlurCapture={clearPointer}
             >
               <svg
                 viewBox={`0 0 ${frame.length} ${frame.width}`}
@@ -207,9 +269,11 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
 
               {frame.sections.map((section) =>
                 section.seats.map((seat) => (
-                  <span
+                  <button
                     key={seat.designator}
+                    type="button"
                     data-seat={seat.designator}
+                    aria-label={seatLabel(seat)}
                     style={{
                       left: `${along(section.contentStart + (seat.y - section.sourceStart))}%`,
                       top: `${across(seat.x + seat.width)}%`,
@@ -218,7 +282,7 @@ export function CabinDiagram({ deck, basis, minScale }: Props) {
                       rotate: seat.rotation === 0 ? undefined : `${seat.rotation}deg`,
                     }}
                     className={twMerge(
-                      "absolute rounded-[2px] border border-gray-900/10 transition-[scale,box-shadow] duration-[90ms] ease-out hover:z-10 hover:scale-[1.45] hover:ring-1 hover:ring-gray-900 motion-reduce:transition-none dark:border-white/10 dark:hover:ring-white",
+                      "absolute rounded-[2px] border border-gray-900/10 transition-[scale,box-shadow] duration-[90ms] ease-out hover:z-10 hover:scale-[1.45] hover:ring-1 hover:ring-gray-900 focus-visible:z-10 focus-visible:scale-[1.45] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 motion-reduce:transition-none dark:border-white/10 dark:hover:ring-white",
                       CABIN_FILLS[seat.cabin],
                     )}
                   />

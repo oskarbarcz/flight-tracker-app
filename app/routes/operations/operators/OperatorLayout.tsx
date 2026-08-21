@@ -5,11 +5,11 @@ import { HiPencil } from "react-icons/hi";
 import { Link, Outlet, useLoaderData, useLocation, useNavigate, useSearchParams } from "react-router";
 import { UpdateOperatorModal } from "~/features/operator/components/Forms/UpdateOperatorModal";
 import { OperatorHeader } from "~/features/operator/components/Header/OperatorHeader";
-import { OperatorInsights } from "~/features/operator/components/Header/OperatorInsights";
 import { OperatorTabs } from "~/features/operator/components/Table/Tabs/OperatorTabs";
 import { isOperatorEditRequested, operatorEditPath } from "~/features/operator/navigation";
 import { OperatorService } from "~/features/operator/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { Breadcrumbs } from "~/shared/ui/Section/Breadcrumbs";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const operator = await new OperatorService().fetchById(params.operatorId);
@@ -26,16 +26,21 @@ export default function OperatorLayout() {
 
   return (
     <>
-      <OperatorHeader
-        operator={operator}
-        actions={
-          <Button as={Link} color="indigo" to={operatorEditPath(pathname)} className="space-x-1.5" size="sm">
-            <HiPencil />
-            <span>Edit operator</span>
-          </Button>
-        }
-      />
-      <OperatorInsights operator={operator} />
+      <div className="mb-4 mt-2 flex items-center justify-between gap-4">
+        <Breadcrumbs items={[{ label: "Operators", to: "/operators" }, { label: operator.shortName }]} />
+        <Button
+          as={Link}
+          color="alternative"
+          to={operatorEditPath(pathname)}
+          className="shrink-0 space-x-1.5"
+          size="xs"
+        >
+          <HiPencil />
+          <span>Edit operator</span>
+        </Button>
+      </div>
+
+      <OperatorHeader operator={operator} />
 
       <OperatorTabs id={operator.id} />
 

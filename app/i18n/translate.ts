@@ -1,3 +1,4 @@
+import { translateAircraftState } from "~/features/aircraft/i18n";
 import { translateContinent } from "~/features/airport/i18n";
 import {
   translateCabinClass,
@@ -16,6 +17,9 @@ import {
 import { translateRotationStatus } from "~/features/rotation/i18n";
 
 export const toHuman = {
+  aircraft: {
+    state: translateAircraftState,
+  },
   flight: {
     eventType: translateEventType,
     status: {
