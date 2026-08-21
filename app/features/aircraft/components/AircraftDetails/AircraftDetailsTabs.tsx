@@ -18,7 +18,7 @@ export function AircraftDetailsTabs({ operatorId, aircraftId }: Props) {
       activeKey={isSeatLayout ? "seat-layout" : "flights"}
       items={[
         { key: "flights", title: "Flights & position", to: base },
-        { key: "seat-layout", title: "Seat layout", to: `${base}/seat-layout` },
+        { key: "seat-layout", title: "Cabin layout", to: `${base}/seat-layout` },
       ]}
     />
   );

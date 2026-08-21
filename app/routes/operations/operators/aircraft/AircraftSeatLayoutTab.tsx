@@ -1,13 +1,12 @@
 import { Badge, Button, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { AssignCabinLayoutModal } from "~/features/aircraft/components/AircraftDetails/AssignCabinLayoutModal";
 import { useAircraftDetails } from "~/features/aircraft/components/AircraftDetails/aircraftDetailsContext";
 import { RemoveCabinLayoutModal } from "~/features/aircraft/components/AircraftDetails/RemoveCabinLayoutModal";
-import { CabinDiagram } from "~/features/cabin-layout/components/SeatMap/CabinDiagram";
-import { minimumScale, widestFrame } from "~/features/cabin-layout/lib/cabinFrame";
+import { SeatMap } from "~/features/cabin-layout/components/SeatMap/SeatMap";
 import type { CabinSeatMap } from "~/features/cabin-layout/model";
-import { toHuman } from "~/i18n/translate";
 import { useApi } from "~/shared/api/useApi";
 import { DataField } from "~/shared/ui/Display/DataField";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
@@ -110,9 +109,14 @@ export default function AircraftSeatLayoutTab() {
               <div className="flex flex-wrap items-center gap-2">
                 {layout.retired && (
                   <Badge color="gray" size="sm">
-                    Withdrawn by AeroLOPA
+                    Withdrawn
                   </Badge>
                 )}
+                <Link to={`/cabin-layouts/${layout.id}`} viewTransition>
+                  <Button size="xs" color="alternative">
+                    Open in catalogue
+                  </Button>
+                </Link>
                 <Button size="xs" color="indigo" onClick={() => setIsAssignOpen(true)}>
                   Change layout
                 </Button>
@@ -125,7 +129,7 @@ export default function AircraftSeatLayoutTab() {
             {state.status === "loading" && (
               <span className="flex items-center gap-2 py-6 text-sm text-gray-500 dark:text-gray-400">
                 <Spinner size="sm" />
-                Retrieving the cabin from AeroLOPA…
+                Retrieving the cabin from LOPA…
               </span>
             )}
 
@@ -135,24 +139,7 @@ export default function AircraftSeatLayoutTab() {
               </p>
             )}
 
-            {state.status === "ready" && (
-              <div className="flex flex-col gap-4">
-                {state.seatMap.decks.map((deck) => (
-                  <div key={deck.deck} className="flex flex-col gap-2">
-                    {state.seatMap.decks.length > 1 && (
-                      <h3 className="text-center text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {toHuman.cabinLayout.deck(deck.deck)} · {deck.seatCount} seats
-                      </h3>
-                    )}
-                    <CabinDiagram
-                      deck={deck}
-                      basis={widestFrame(state.seatMap.decks)}
-                      minScale={minimumScale(state.seatMap.decks)}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+            {state.status === "ready" && <SeatMap seatMap={state.seatMap} diagramOnly />}
           </>
         )}
       </Container>

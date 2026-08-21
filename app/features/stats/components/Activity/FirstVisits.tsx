@@ -5,8 +5,8 @@ import type { Airframe } from "~/features/airframe";
 import type { Airport } from "~/features/airport/model";
 import { AircraftTypeCard } from "~/features/stats/components/Activity/AircraftTypeCard";
 import { AirportVisitCard } from "~/features/stats/components/Activity/AirportVisitCard";
-import { BlurReveal } from "~/features/stats/components/BlurReveal";
 import type { AircraftTypeStat, UnlockedAirport } from "~/features/stats/model";
+import { BlurReveal } from "~/shared/ui/Display/BlurReveal";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { TilePlaceholder } from "~/shared/ui/Layout/TilePlaceholder";
 
