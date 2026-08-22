@@ -85,7 +85,7 @@ export enum OsmChangeStatus {
   Added = "added",
   Updated = "updated",
   Removed = "removed",
-  NotChanged = "not changed",
+  NotChanged = "not-changed",
 }
 
 export enum OsmPushOutcome {
