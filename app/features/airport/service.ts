@@ -43,11 +43,11 @@ export class AirportService extends AbstractAuthorizedApiService {
 
   async pullOpenStreetMapProposal(airportId: string, refresh = false) {
     const query = refresh ? "?refresh=true" : "";
-    return this.fetchWithAuth<AirportOsmProposal>(`/api/v1/airport/${airportId}/osm-pull${query}`);
+    return this.fetchWithAuth<AirportOsmProposal>(`/api/v1/airport/${airportId}/enrich${query}`);
   }
 
   async pushOpenStreetMapProposal(airportId: string, items: string[]) {
-    return this.fetchWithAuth<AirportOsmPushResult>(`/api/v1/airport/${airportId}/osm-push`, {
+    return this.fetchWithAuth<AirportOsmPushResult>(`/api/v1/airport/${airportId}/enrich`, {
       body: JSON.stringify({ items }),
       method: "POST",
     });
