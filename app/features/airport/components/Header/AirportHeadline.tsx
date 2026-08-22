@@ -1,9 +1,9 @@
 import { Button } from "flowbite-react";
 import React from "react";
-import { HiPencil } from "react-icons/hi";
+import { HiGlobeAlt, HiPencil } from "react-icons/hi";
 import { Link, useLocation } from "react-router";
 import type { Airport } from "~/features/airport";
-import { airportEditPath } from "~/features/airport/components/Management/airportSections";
+import { airportEditPath, airportEnrichPath } from "~/features/airport/components/Management/airportSections";
 import { getUtcOffset } from "~/shared/lib/formatGeo";
 
 type Props = {
@@ -37,10 +37,16 @@ export function AirportHeadline({ airport, readOnly }: Props) {
       </div>
 
       {!readOnly && (
-        <Button as={Link} to={airportEditPath(pathname)} color="indigo" size="sm" className="shrink-0 space-x-1.5">
-          <HiPencil />
-          <span>Update airport data</span>
-        </Button>
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <Button as={Link} to={airportEnrichPath(pathname)} color="light" size="sm" className="space-x-1.5">
+            <HiGlobeAlt />
+            <span>Enrich data</span>
+          </Button>
+          <Button as={Link} to={airportEditPath(pathname)} color="indigo" size="sm" className="space-x-1.5">
+            <HiPencil />
+            <span>Update airport data</span>
+          </Button>
+        </div>
       )}
     </header>
   );

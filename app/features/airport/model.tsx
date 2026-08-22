@@ -68,3 +68,84 @@ export type AirportWeatherReport = {
   content: string;
   lastFetched: string;
 };
+
+export enum OsmResource {
+  Airport = "airport",
+  Runway = "runway",
+  Terminal = "terminal",
+  ParkingPosition = "parkingPosition",
+  Gate = "gate",
+}
+
+export function allOsmResources(): OsmResource[] {
+  return [OsmResource.Airport, OsmResource.Runway, OsmResource.Terminal, OsmResource.ParkingPosition, OsmResource.Gate];
+}
+
+export enum OsmChangeStatus {
+  Added = "added",
+  Updated = "updated",
+  Removed = "removed",
+  NotChanged = "not changed",
+}
+
+export enum OsmPushOutcome {
+  Added = "added",
+  Updated = "updated",
+  Removed = "removed",
+  Skipped = "skipped",
+  Failed = "failed",
+}
+
+export type OsmFieldChange = {
+  field: string;
+  current: unknown;
+  proposed: unknown;
+};
+
+export type OsmProposedChange = {
+  key: string;
+  resource: OsmResource;
+  label: string;
+  status: OsmChangeStatus;
+  fields: OsmFieldChange[];
+  requires: string[];
+};
+
+export type OsmProposalSummary = {
+  added: number;
+  removed: number;
+  updated: number;
+  notChanged: number;
+};
+
+export type AirportOsmProposal = {
+  airportId: string;
+  icaoCode: string;
+  source: string;
+  providerName: string | null;
+  pulledAt: string;
+  fromCache: boolean;
+  summary: OsmProposalSummary;
+  changes: OsmProposedChange[];
+};
+
+export type OsmPushTotals = {
+  added: number;
+  removed: number;
+  updated: number;
+  skipped: number;
+  failed: number;
+};
+
+export type OsmPushedChange = {
+  key: string;
+  outcome: OsmPushOutcome;
+  reason?: string | null;
+};
+
+export type AirportOsmPushResult = {
+  airportId: string;
+  icaoCode: string;
+  totals: OsmPushTotals;
+  changes: OsmPushedChange[];
+};

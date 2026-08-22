@@ -482,3 +482,34 @@ html[data-app-entry] [data-app-entry-content] {
   outline-offset: 2px;
   border-radius: 8px;
 }
+
+.sweep-track {
+  position: relative;
+  overflow: hidden;
+}
+.sweep-track::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inline-size: 35%;
+  border-radius: 9999px;
+  background-color: currentColor;
+  animation: sweep-track 1.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes sweep-track {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(286%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep-track::after {
+    animation: none;
+    inline-size: 100%;
+    opacity: 0.35;
+  }
+}

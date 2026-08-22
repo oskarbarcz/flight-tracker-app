@@ -1,6 +1,7 @@
 import type { Route } from ".react-router/types/app/routes/operations/airports/+types/AirportLayout";
 import React, { useMemo, useState } from "react";
 import { Outlet, useLoaderData, useLocation, useNavigate, useSearchParams } from "react-router";
+import { EnrichAirportDataModal } from "~/features/airport/components/Enrichment/EnrichAirportDataModal";
 import { UpdateAirportModal } from "~/features/airport/components/Forms/UpdateAirportModal";
 import { AirportHeadline } from "~/features/airport/components/Header/AirportHeadline";
 import { AirportSectionTabs } from "~/features/airport/components/Management/AirportSectionTabs";
@@ -13,6 +14,7 @@ import { filterAirportSection } from "~/features/airport/components/Management/a
 import {
   AIRPORT_MANAGEMENT_BASE,
   isAirportEditRequested,
+  isAirportEnrichRequested,
   resolveActiveSection,
   sectionMapTitle,
 } from "~/features/airport/components/Management/airportSections";
@@ -96,6 +98,10 @@ export default function AirportLayout() {
 
       {isAirportEditRequested(searchParams) && (
         <UpdateAirportModal airport={data.airport} close={() => navigate(pathname)} />
+      )}
+
+      {isAirportEnrichRequested(searchParams) && (
+        <EnrichAirportDataModal airport={data.airport} close={() => navigate(pathname)} />
       )}
     </div>
   );
