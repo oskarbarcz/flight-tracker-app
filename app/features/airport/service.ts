@@ -1,4 +1,4 @@
-import type { AirportWeatherReport, Continent } from "~/features/airport";
+import type { AirportOsmProposal, AirportOsmPushResult, AirportWeatherReport, Continent } from "~/features/airport";
 import type { CreateAirportRequest, EditAirportRequest, GetAirportResponse } from "~/features/airport/request";
 import type { Notam } from "~/features/notam";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
@@ -38,6 +38,18 @@ export class AirportService extends AbstractAuthorizedApiService {
     return this.fetchWithAuth<GetAirportResponse>(`/api/v1/airport/${id}`, {
       body: JSON.stringify(airport),
       method: "PATCH",
+    });
+  }
+
+  async pullOpenStreetMapProposal(airportId: string, refresh = false) {
+    const query = refresh ? "?refresh=true" : "";
+    return this.fetchWithAuth<AirportOsmProposal>(`/api/v1/airport/${airportId}/osm-pull${query}`);
+  }
+
+  async pushOpenStreetMapProposal(airportId: string, items: string[]) {
+    return this.fetchWithAuth<AirportOsmPushResult>(`/api/v1/airport/${airportId}/osm-push`, {
+      body: JSON.stringify({ items }),
+      method: "POST",
     });
   }
 }

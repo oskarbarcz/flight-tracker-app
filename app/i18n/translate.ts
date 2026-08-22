@@ -1,5 +1,12 @@
 import { translateAircraftState } from "~/features/aircraft/i18n";
-import { translateContinent } from "~/features/airport/i18n";
+import {
+  translateContinent,
+  translateOsmChangeIntent,
+  translateOsmChangeStatus,
+  translateOsmPushOutcome,
+  translateOsmRecord,
+  translateOsmResource,
+} from "~/features/airport/i18n";
 import {
   translateCabinClass,
   translateCommentSentiment,
@@ -40,6 +47,13 @@ export const toHuman = {
   airport: {
     continent: translateContinent,
     onFlightType: translateAirportOnFlightType,
+    osm: {
+      changeIntent: translateOsmChangeIntent,
+      changeStatus: translateOsmChangeStatus,
+      pushOutcome: translateOsmPushOutcome,
+      record: translateOsmRecord,
+      resource: translateOsmResource,
+    },
   },
   cabinLayout: {
     cabinClass: translateCabinClass,

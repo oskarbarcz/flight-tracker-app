@@ -77,6 +77,8 @@ export function sectionMapTitle(section: AirportSection): string {
 
 const AIRPORT_EDIT_PARAM = "edit";
 const AIRPORT_EDIT_VALUE = "airport";
+const AIRPORT_ENRICH_PARAM = "enrich";
+const AIRPORT_ENRICH_VALUE = "openstreetmap";
 
 export function airportEditPath(pathname: string): string {
   return `${pathname}?${AIRPORT_EDIT_PARAM}=${AIRPORT_EDIT_VALUE}`;
@@ -84,4 +86,12 @@ export function airportEditPath(pathname: string): string {
 
 export function isAirportEditRequested(searchParams: URLSearchParams): boolean {
   return searchParams.get(AIRPORT_EDIT_PARAM) === AIRPORT_EDIT_VALUE;
+}
+
+export function airportEnrichPath(pathname: string): string {
+  return `${pathname}?${AIRPORT_ENRICH_PARAM}=${AIRPORT_ENRICH_VALUE}`;
+}
+
+export function isAirportEnrichRequested(searchParams: URLSearchParams): boolean {
+  return searchParams.get(AIRPORT_ENRICH_PARAM) === AIRPORT_ENRICH_VALUE;
 }

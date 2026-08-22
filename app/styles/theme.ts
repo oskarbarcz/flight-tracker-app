@@ -116,6 +116,11 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         off: "",
       },
     },
+    checkbox: {
+      color: {
+        default: "text-indigo-600 focus:ring-indigo-500 dark:ring-offset-gray-900 dark:focus:ring-indigo-500",
+      },
+    },
     toggleSwitch: {
       root: {
         label: "ms-3 mt-0.5 text-start text-sm font-medium text-gray-900 dark:text-gray-100",
