@@ -10,6 +10,12 @@ export function formatDuration(minutes: number): string {
   return `${Math.floor(minutes / 60)}h ${padZero(minutes % 60)}m`;
 }
 
+export function formatClockDuration(minutes: number): string {
+  const total = Math.max(0, Math.round(minutes));
+
+  return `${Math.floor(total / 60)}:${padZero(total % 60)}`;
+}
+
 export function formatCompactDuration(minutes: number): string {
   const total = Math.max(0, Math.round(minutes));
   const hours = Math.floor(total / 60);

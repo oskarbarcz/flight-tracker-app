@@ -37,7 +37,7 @@ function operatorSelectOptions(operators: Operator[]): AdvancedSelectOption[] {
     keywords: [operator.iataCode, operator.icaoCode, operator.shortName],
     avatar: (
       <OptionAvatarFrame>
-        <OperatorFin operator={operator} className="mix-blend-multiply" />
+        <OperatorFin operator={operator} />
       </OptionAvatarFrame>
     ),
     title: operator.shortName,

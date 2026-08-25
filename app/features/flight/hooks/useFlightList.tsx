@@ -39,12 +39,19 @@ export function FlightListProvider({ children, limit = 10 }: FlightListProviderP
           const emergencyResponse = responses[responses.length - 1];
           const listResponses = responses.slice(0, -1);
 
+          const emergencyIds = new Set(
+            listResponses
+              .filter((_, index) => phases[index] === FlightPhase.Emergency)
+              .flatMap((response) => response.flights.map((flight) => flight.id)),
+          );
+
           const merged: Flight[] = [];
           const seen = new Set<string>();
           for (const response of listResponses) {
             for (const flight of response.flights) {
               if (seen.has(flight.id)) continue;
               seen.add(flight.id);
+              flight.hasActiveEmergency = flight.hasActiveEmergency || emergencyIds.has(flight.id);
               merged.push(flight);
             }
           }

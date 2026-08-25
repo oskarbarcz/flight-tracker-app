@@ -1,10 +1,11 @@
-import { Pagination, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { Pagination } from "flowbite-react";
 import React, { useState } from "react";
-import { Link } from "react-router";
 import { type AircraftReposition, type FlightHistoryEntry, RepositionType } from "~/features/aircraft";
+import {
+  AIRCRAFT_HISTORY_GRID,
+  AircraftHistoryRow,
+} from "~/features/aircraft/components/AircraftDetails/AircraftHistoryRow";
 import { entryTime } from "~/features/aircraft/lib/aircraftStatus";
-import { FlightStatusBadge } from "~/features/flight/components/Flight/FlightStatusBadge";
-import { formatDate } from "~/shared/lib/time";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
@@ -20,11 +21,6 @@ type TimelineItem =
   | { kind: "flight"; time: number; flight: FlightHistoryEntry }
   | { kind: "reposition"; time: number; reposition: AircraftReposition };
 
-function onBlockDate(entry: FlightHistoryEntry): string {
-  const onBlockTime = entry.actualTimesheet?.onBlockTime;
-  return onBlockTime ? formatDate(new Date(onBlockTime)) : "—";
-}
-
 function sortKey(item: TimelineItem): number {
   return item.time === 0 ? Number.MAX_SAFE_INTEGER : item.time;
 }
@@ -38,69 +34,10 @@ function buildTimeline(history: FlightHistoryEntry[], repositions: AircraftRepos
   return [...flights, ...deadHeads].sort((a, b) => sortKey(b) - sortKey(a));
 }
 
-function AirportLink({ id, code, className }: { id: string; code: string; className?: string }) {
-  return (
-    <Link to={`/airports/${id}`} viewTransition className={`hover:text-primary-500 ${className ?? ""}`}>
-      {code}
-    </Link>
-  );
-}
-
-function FlightRow({ flight }: { flight: FlightHistoryEntry }) {
-  return (
-    <TableRow className="h-14">
-      <TableCell className="font-mono font-bold text-gray-900 dark:text-gray-100">
-        {flight.id ? (
-          <Link to={`/flights/${flight.id}/overview`} viewTransition className="hover:text-primary-500">
-            {flight.flightNumber}
-          </Link>
-        ) : (
-          flight.flightNumber
-        )}
-      </TableCell>
-      <TableCell>
-        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
-          <AirportLink
-            id={flight.departureAirport.id}
-            code={flight.departureAirport.iataCode}
-            className="font-mono font-bold"
-          />
-          <span className="text-gray-400">→</span>
-          <AirportLink
-            id={flight.arrivalAirport.id}
-            code={flight.arrivalAirport.iataCode}
-            className="font-mono font-bold"
-          />
-        </div>
-      </TableCell>
-      <TableCell>
-        <FlightStatusBadge status={flight.status} />
-      </TableCell>
-      <TableCell className="whitespace-nowrap text-gray-500 dark:text-gray-400">{onBlockDate(flight)}</TableCell>
-    </TableRow>
-  );
-}
-
-function RepositionRow({ reposition }: { reposition: AircraftReposition }) {
-  return (
-    <TableRow className="h-14">
-      <TableCell colSpan={4} className="text-center text-xs italic text-gray-400 dark:text-gray-500">
-        (reposition flight{" "}
-        <AirportLink
-          id={reposition.departureAirport.id}
-          code={reposition.departureAirport.iataCode}
-          className="font-bold"
-        />{" "}
-        →{" "}
-        <AirportLink
-          id={reposition.destinationAirport.id}
-          code={reposition.destinationAirport.iataCode}
-          className="font-bold"
-        />{" "}
-        on <span className="font-mono font-bold not-italic">{formatDate(new Date(reposition.createdAt))}z</span>)
-      </TableCell>
-    </TableRow>
-  );
+function itemDate(item: TimelineItem): Date | null {
+  if (item.kind === "reposition") return new Date(item.reposition.createdAt);
+  const onBlockTime = item.flight.actualTimesheet?.onBlockTime;
+  return onBlockTime ? new Date(onBlockTime) : null;
 }
 
 export function AircraftFlightHistoryCard({ history, repositions }: Props) {
@@ -108,46 +45,62 @@ export function AircraftFlightHistoryCard({ history, repositions }: Props) {
   const timeline = buildTimeline(history, repositions);
   const totalPages = Math.ceil(timeline.length / PAGE_SIZE);
   const pageItems = timeline.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const fillerCount = totalPages > 1 ? PAGE_SIZE - pageItems.length : 0;
-  const fillerKeys = Array.from({ length: fillerCount }, (_, index) => `filler-${page}-${index}`);
 
   return (
-    <Container className="h-full" header={<CardHeader title="Flight history" />}>
+    <Container className="h-full" padding="none" header={<CardHeader title="Flight history" />}>
       {timeline.length === 0 ? (
         <ContainerEmptyState>This aircraft has not operated any flights yet.</ContainerEmptyState>
       ) : (
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableHeadCell>Flight</TableHeadCell>
-                <TableHeadCell>Route</TableHeadCell>
-                <TableHeadCell>Status</TableHeadCell>
-                <TableHeadCell>Date</TableHeadCell>
-              </TableRow>
-            </TableHead>
-            <TableBody className="divide-y">
-              {pageItems.map((item) =>
-                item.kind === "flight" ? (
-                  <FlightRow key={`flight-${item.flight.flightNumber}-${item.time}`} flight={item.flight} />
+        <>
+          <div
+            className={`${AIRCRAFT_HISTORY_GRID} border-b border-gray-200 bg-gray-50 text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400`}
+            aria-hidden
+          >
+            <span className="px-1 py-2.5 sm:px-3">Date</span>
+            <span className="px-1 py-2.5 sm:px-3">Flight</span>
+            <span className="px-1 py-2.5 sm:px-3">Route</span>
+            <span className="order-4 hidden px-1 py-2.5 sm:block sm:px-3">Status</span>
+            <span className="order-4 sm:order-5" />
+          </div>
+
+          <ul>
+            {pageItems.map((item) => (
+              <li
+                key={
+                  item.kind === "flight"
+                    ? `flight-${item.flight.flightNumber}-${item.time}`
+                    : `rep-${item.reposition.id}`
+                }
+                className="border-b border-gray-200 last:border-b-0 dark:border-gray-800"
+              >
+                {item.kind === "flight" ? (
+                  <AircraftHistoryRow
+                    date={itemDate(item)}
+                    identifier={item.flight.flightNumber}
+                    departure={item.flight.departureAirport}
+                    arrival={item.flight.arrivalAirport}
+                    status={item.flight.status}
+                    flightId={item.flight.id}
+                  />
                 ) : (
-                  <RepositionRow key={`reposition-${item.reposition.id}`} reposition={item.reposition} />
-                ),
-              )}
-              {fillerKeys.map((key) => (
-                <TableRow key={key} aria-hidden className="h-14">
-                  <TableCell colSpan={4} className="h-14" />
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                  <AircraftHistoryRow
+                    date={itemDate(item)}
+                    identifier="—"
+                    departure={item.reposition.departureAirport}
+                    arrival={item.reposition.destinationAirport}
+                    status={null}
+                  />
+                )}
+              </li>
+            ))}
+          </ul>
 
           {totalPages > 1 && (
-            <div className="flex justify-center pt-3">
+            <div className="flex justify-center border-t border-gray-200 bg-gray-50 pt-2 pb-3 dark:border-gray-800 dark:bg-gray-800">
               <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} showIcons />
             </div>
           )}
-        </div>
+        </>
       )}
     </Container>
   );
