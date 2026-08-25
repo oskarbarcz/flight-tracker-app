@@ -16,7 +16,9 @@ export function SpecRow({ label, value, suffix = null }: Props) {
       </dt>
       <dd className="whitespace-nowrap text-right font-mono text-xs font-bold leading-4 tabular-nums text-gray-900 dark:text-gray-100">
         {value ?? NOT_REPORTED}
-        {suffix !== null && <span className="ml-1.5 font-normal text-gray-500 dark:text-gray-400">{`(${suffix})`}</span>}
+        {suffix !== null && (
+          <span className="ml-1.5 font-normal text-gray-500 dark:text-gray-400">{`(${suffix})`}</span>
+        )}
       </dd>
     </>
   );

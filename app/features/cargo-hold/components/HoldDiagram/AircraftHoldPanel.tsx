@@ -88,11 +88,7 @@ export function AircraftHoldPanel({ airframeType, holdVariant, actions, onLoaded
       <Container header={<CardHeader title="Cargo hold" actions={actions} />} padding="spacious">
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-mono text-sm font-semibold text-gray-900 dark:text-white">{state.variant.id}</span>
-          {state.isDefault ? (
-            <Badge color="gray">Type default</Badge>
-          ) : (
-            <Badge color="indigo">Assigned</Badge>
-          )}
+          {state.isDefault ? <Badge color="gray">Type default</Badge> : <Badge color="indigo">Assigned</Badge>}
           <Link
             to={`/cargo-holds/${state.layout.type}`}
             viewTransition
