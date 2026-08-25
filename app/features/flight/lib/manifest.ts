@@ -49,11 +49,26 @@ export function loadsheetHeadcount(loadsheets: Loadsheets): LoadsheetHeadcount |
   return null;
 }
 
+const collator = new Intl.Collator(undefined, { sensitivity: "base", numeric: true });
+
+export function compareNames(left: string, right: string): number {
+  return collator.compare(left, right);
+}
+
+export function foldForSearch(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toUpperCase();
+}
+
 export function matchesQuery(passenger: ManifestPassenger, wanted: string): boolean {
+  const folded = foldForSearch(wanted);
+
   return (
-    passenger.name.toUpperCase().includes(wanted) ||
-    passenger.designator.toUpperCase().includes(wanted) ||
-    passenger.pnr.toUpperCase().includes(wanted)
+    foldForSearch(passenger.name).includes(folded) ||
+    foldForSearch(passenger.designator).includes(folded) ||
+    foldForSearch(passenger.pnr).includes(folded)
   );
 }
 
@@ -75,13 +90,17 @@ export function manifestTally(passengers: ManifestPassenger[]): ManifestTally {
   };
 }
 
-export function cabinTallies(passengers: ManifestPassenger[], seatCounts: CabinSeatCounts | null): CabinTally[] {
-  const boarded = passengers.filter(isBoarded);
+export function cabinTallies(
+  passengers: ManifestPassenger[],
+  seatCounts: CabinSeatCounts | null,
+  countEveryone = false,
+): CabinTally[] {
+  const counted = countEveryone ? passengers : passengers.filter(isBoarded);
   const present = new Set(passengers.map((passenger) => passenger.cabin));
 
   return CABIN_ORDER.filter((cabin) => present.has(cabin)).map((cabin) => ({
     cabin,
-    boarded: boarded.filter((passenger) => passenger.cabin === cabin).length,
+    boarded: counted.filter((passenger) => passenger.cabin === cabin).length,
     seats: seatCounts?.[cabin] ?? null,
   }));
 }
@@ -99,12 +118,15 @@ export function orderedPassengers(passengers: ManifestPassenger[], decks: Deck[]
     const rightSeat = parseDesignator(right.designator);
 
     if (leftSeat === null || rightSeat === null) {
-      return left.designator.localeCompare(right.designator);
+      return collator.compare(left.designator, right.designator);
     }
     if (leftSeat.row !== rightSeat.row) {
       return leftSeat.row - rightSeat.row;
     }
-    return leftSeat.letter.localeCompare(rightSeat.letter);
+    if (leftSeat.letter !== rightSeat.letter) {
+      return collator.compare(leftSeat.letter, rightSeat.letter);
+    }
+    return compareNames(left.name, right.name);
   });
 }
 

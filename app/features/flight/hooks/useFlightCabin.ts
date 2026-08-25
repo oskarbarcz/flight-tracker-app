@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import type { CabinSeatMap } from "~/features/cabin-layout/model";
-import { type Flight, type FlightManifest, FlightServiceType, FlightStatus } from "~/features/flight";
+import {
+  type Flight,
+  type FlightManifest,
+  FlightServiceType,
+  FlightStatus,
+  type PassengerStatus,
+} from "~/features/flight";
 import { useApi } from "~/shared/api/useApi";
 
 export type ManifestGap = "cargo" | "no-layout" | "not-released" | "unseated" | "forbidden" | "failed";
@@ -8,7 +14,7 @@ export type ManifestGap = "cargo" | "no-layout" | "not-released" | "unseated" | 
 export type FlightCabin =
   | { status: "loading" }
   | { status: "unavailable"; gap: ManifestGap }
-  | { status: "ready"; manifest: FlightManifest; seatMap: CabinSeatMap | null };
+  | { status: "ready"; flightId: string; manifest: FlightManifest; seatMap: CabinSeatMap | null };
 
 const FORBIDDEN = 403;
 const NOT_FOUND = 404;
@@ -33,7 +39,7 @@ function gapOf(flight: Flight): ManifestGap | null {
   return null;
 }
 
-export function useFlightCabin(flight: Flight | null): FlightCabin {
+export function useFlightCabin(flight: Flight | null, status?: PassengerStatus): FlightCabin {
   const { flightService, cabinLayoutService } = useApi();
   const [state, setState] = useState<FlightCabin>({ status: "loading" });
 
@@ -51,15 +57,17 @@ export function useFlightCabin(flight: Flight | null): FlightCabin {
     }
 
     let cancelled = false;
-    setState({ status: "loading" });
+    setState((current) =>
+      current.status === "ready" && current.flightId === flightId ? current : { status: "loading" },
+    );
 
     flightService
-      .fetchManifestByFlightId(flightId)
+      .fetchManifestByFlightId(flightId, status)
       .then(async (manifest) => {
         const seatMap = await cabinLayoutService.fetchSeatMap(manifest.cabinLayout).catch(() => null);
 
         if (!cancelled) {
-          setState({ status: "ready", manifest, seatMap });
+          setState({ status: "ready", flightId, manifest, seatMap });
         }
       })
       .catch((reason: unknown) => {
@@ -71,7 +79,7 @@ export function useFlightCabin(flight: Flight | null): FlightCabin {
     return () => {
       cancelled = true;
     };
-  }, [flightService, cabinLayoutService, flightId, gap]);
+  }, [flightService, cabinLayoutService, flightId, gap, status]);
 
   return state;
 }

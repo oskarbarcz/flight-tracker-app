@@ -1,5 +1,7 @@
 import { Badge, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import React, { useMemo, useState } from "react";
+import { CABIN_ORDER } from "~/features/cabin-layout/lib/seatAppearance";
+import type { CabinClass } from "~/features/cabin-layout/model";
 import { ManifestNoMatches } from "~/features/flight/components/Cabin/ManifestNoMatches";
 import { matchesQuery } from "~/features/flight/lib/manifest";
 import { type ManifestPassenger, PassengerStatus } from "~/features/flight/model";
@@ -7,8 +9,12 @@ import { toHuman } from "~/i18n/translate";
 import { FilterChoice } from "~/shared/ui/Filter/FilterChoice";
 import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 
+export type StatusChoice = PassengerStatus | "all";
+
 type Props = {
   passengers: ManifestPassenger[];
+  status: StatusChoice;
+  onStatusChange: (status: StatusChoice) => void;
 };
 
 const manifestTableTheme = {
@@ -19,42 +25,46 @@ const manifestTableTheme = {
   },
 };
 
-type StatusChoice = PassengerStatus | "all";
-
 const STATUS_CHOICES: { key: StatusChoice; label: string }[] = [
   { key: "all", label: "Everyone" },
   { key: PassengerStatus.Boarded, label: "Boarded" },
   { key: PassengerStatus.NoShow, label: "No-show" },
 ];
 
-export function ManifestTable({ passengers }: Props) {
+export function ManifestTable({ passengers, status, onStatusChange }: Props) {
   const [query, setQuery] = useState("");
-  const [status, setStatus] = useState<StatusChoice>("all");
+  const [cabin, setCabin] = useState<CabinClass | "all">("all");
   const [specialServiceOnly, setSpecialServiceOnly] = useState(false);
 
-  const wanted = query.trim().toUpperCase();
+  const wanted = query.trim();
   const hasUpperDeck = useMemo(() => new Set(passengers.map((passenger) => passenger.deck)).size > 1, [passengers]);
+  const cabinsPresent = useMemo(() => {
+    const present = new Set(passengers.map((passenger) => passenger.cabin));
+    return CABIN_ORDER.filter((each) => present.has(each));
+  }, [passengers]);
 
   const shown = useMemo(
     () =>
       passengers.filter(
         (passenger) =>
           (wanted === "" || matchesQuery(passenger, wanted)) &&
-          (status === "all" || passenger.status === status) &&
+          (cabin === "all" || passenger.cabin === cabin) &&
           (!specialServiceOnly || passenger.ssr !== null),
       ),
-    [passengers, wanted, status, specialServiceOnly],
+    [passengers, wanted, cabin, specialServiceOnly],
   );
 
   function clearFilters() {
     setQuery("");
-    setStatus("all");
+    setCabin("all");
     setSpecialServiceOnly(false);
+    onStatusChange("all");
   }
 
   function keepOnlySearch() {
-    setStatus("all");
+    setCabin("all");
     setSpecialServiceOnly(false);
+    onStatusChange("all");
   }
 
   return (
@@ -69,7 +79,7 @@ export function ManifestTable({ passengers }: Props) {
               key={choice.key}
               label={choice.label}
               isSelected={status === choice.key}
-              onSelect={() => setStatus(status === choice.key ? "all" : choice.key)}
+              onSelect={() => onStatusChange(status === choice.key ? "all" : choice.key)}
             />
           ))}
           <FilterChoice
@@ -80,6 +90,20 @@ export function ManifestTable({ passengers }: Props) {
         </div>
       </div>
 
+      {cabinsPresent.length > 1 && (
+        <div className="flex flex-wrap gap-1.5">
+          <FilterChoice label="Every cabin" isSelected={cabin === "all"} onSelect={() => setCabin("all")} />
+          {cabinsPresent.map((each) => (
+            <FilterChoice
+              key={each}
+              label={toHuman.cabinLayout.cabinClass(each)}
+              isSelected={cabin === each}
+              onSelect={() => setCabin(cabin === each ? "all" : each)}
+            />
+          ))}
+        </div>
+      )}
+
       {shown.length > 0 && (
         <p className="text-xs text-gray-500 dark:text-gray-400">
           {`Showing ${shown.length} of ${passengers.length} passengers`}
@@ -89,8 +113,9 @@ export function ManifestTable({ passengers }: Props) {
       {shown.length === 0 ? (
         <ManifestNoMatches
           passengers={passengers}
-          query={query.trim()}
+          query={wanted}
           status={status}
+          cabin={cabin}
           specialServiceOnly={specialServiceOnly}
           onClear={clearFilters}
           onSearchOnly={keepOnlySearch}

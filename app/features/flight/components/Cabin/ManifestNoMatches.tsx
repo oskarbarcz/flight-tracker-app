@@ -1,6 +1,7 @@
 import { Button } from "flowbite-react";
 import React from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import type { CabinClass } from "~/features/cabin-layout/model";
 import { NoticePanel } from "~/features/flight/components/Dashboard/Tracking/Progress/NoticePanel";
 import { matchesQuery } from "~/features/flight/lib/manifest";
 import type { ManifestPassenger, PassengerStatus } from "~/features/flight/model";
@@ -10,12 +11,18 @@ type Props = {
   passengers: ManifestPassenger[];
   query: string;
   status: PassengerStatus | "all";
+  cabin: CabinClass | "all";
   specialServiceOnly: boolean;
   onClear: () => void;
   onSearchOnly: () => void;
 };
 
-function criteriaOf(query: string, status: PassengerStatus | "all", specialServiceOnly: boolean): string[] {
+function criteriaOf(
+  query: string,
+  status: PassengerStatus | "all",
+  cabin: CabinClass | "all",
+  specialServiceOnly: boolean,
+): string[] {
   const criteria: string[] = [];
 
   if (query !== "") {
@@ -24,6 +31,9 @@ function criteriaOf(query: string, status: PassengerStatus | "all", specialServi
   if (status !== "all") {
     criteria.push(toHuman.flight.passengerStatus(status));
   }
+  if (cabin !== "all") {
+    criteria.push(toHuman.cabinLayout.cabinClass(cabin));
+  }
   if (specialServiceOnly) {
     criteria.push("Special service");
   }
@@ -31,11 +41,18 @@ function criteriaOf(query: string, status: PassengerStatus | "all", specialServi
   return criteria;
 }
 
-export function ManifestNoMatches({ passengers, query, status, specialServiceOnly, onClear, onSearchOnly }: Props) {
-  const criteria = criteriaOf(query, status, specialServiceOnly);
-  const isNarrowed = status !== "all" || specialServiceOnly;
-  const searchAlone =
-    query === "" ? 0 : passengers.filter((passenger) => matchesQuery(passenger, query.toUpperCase())).length;
+export function ManifestNoMatches({
+  passengers,
+  query,
+  status,
+  cabin,
+  specialServiceOnly,
+  onClear,
+  onSearchOnly,
+}: Props) {
+  const criteria = criteriaOf(query, status, cabin, specialServiceOnly);
+  const isNarrowed = status !== "all" || cabin !== "all" || specialServiceOnly;
+  const searchAlone = query === "" ? 0 : passengers.filter((passenger) => matchesQuery(passenger, query)).length;
   const canWiden = isNarrowed && searchAlone > 0;
 
   return (

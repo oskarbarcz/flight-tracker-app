@@ -1,10 +1,16 @@
 import { Badge, Button, Spinner } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { HiExclamationTriangle } from "react-icons/hi2";
 import { Link } from "react-router";
 import { useToast } from "~/app-state/useToast";
 import { AssignCabinLayoutModal } from "~/features/aircraft/components/AircraftDetails/AssignCabinLayoutModal";
 import { useAircraftDetails } from "~/features/aircraft/components/AircraftDetails/aircraftDetailsContext";
 import { RemoveCabinLayoutModal } from "~/features/aircraft/components/AircraftDetails/RemoveCabinLayoutModal";
+import {
+  cabinLayoutDisagreements,
+  describeDisagreements,
+  isCabinLayoutMismatched,
+} from "~/features/aircraft/lib/mismatchReason";
 import { SeatMap } from "~/features/cabin-layout/components/SeatMap/SeatMap";
 import type { CabinSeatMap } from "~/features/cabin-layout/model";
 import { useApi } from "~/shared/api/useApi";
@@ -25,6 +31,8 @@ export default function AircraftSeatLayoutTab() {
 
   const layout = aircraft.cabinLayout;
   const layoutId = layout?.id ?? null;
+  const isMismatched = isCabinLayoutMismatched(aircraft);
+  const disagreements = cabinLayoutDisagreements(aircraft, operator.iataCode);
 
   useEffect(() => {
     if (layoutId === null) {
@@ -92,10 +100,14 @@ export default function AircraftSeatLayoutTab() {
         {layout && (
           <>
             <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-5">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 lg:grid-cols-6">
                 <DataField label="Layout" value={layout.id} mono />
                 <DataField label="Airline" value={layout.airlineIata} mono />
                 <DataField label="Aircraft type" value={layout.aircraftIata} mono />
+                <DataField
+                  label="Revision"
+                  value={layout.revision === null ? "Seat map not yet read" : String(layout.revision)}
+                />
                 <DataField
                   label="Aircraft"
                   value={state.status === "ready" ? state.seatMap.aircraftTypeDisplayed : "—"}
@@ -107,6 +119,11 @@ export default function AircraftSeatLayoutTab() {
                 />
               </div>
               <div className="flex flex-wrap items-center gap-2">
+                {isMismatched && (
+                  <Badge color="warning" size="sm">
+                    Mismatched
+                  </Badge>
+                )}
                 {layout.retired && (
                   <Badge color="gray" size="sm">
                     Withdrawn
@@ -125,6 +142,16 @@ export default function AircraftSeatLayoutTab() {
                 </Button>
               </div>
             </div>
+
+            {isMismatched && (
+              <p className="flex items-start gap-2 rounded-lg bg-amber-50 px-3 py-2.5 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+                <HiExclamationTriangle className="mt-0.5 size-4 shrink-0" />
+                <span>
+                  This cabin does not match {aircraft.registration}: {describeDisagreements(disagreements)}. The
+                  assignment stands as recorded.
+                </span>
+              </p>
+            )}
 
             {state.status === "loading" && (
               <span className="flex items-center gap-2 py-6 text-sm text-gray-500 dark:text-gray-400">

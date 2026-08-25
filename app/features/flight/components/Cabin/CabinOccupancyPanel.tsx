@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { FaTriangleExclamation } from "react-icons/fa6";
+import { FaChair, FaTriangleExclamation } from "react-icons/fa6";
 import { SeatMap } from "~/features/cabin-layout/components/SeatMap/SeatMap";
 import type { CabinSeatMap } from "~/features/cabin-layout/model";
 import { occupancyMode } from "~/features/flight/components/Cabin/occupancyMode";
@@ -12,12 +12,12 @@ type Props = {
   manifest: FlightManifest;
   seatMap: CabinSeatMap | null;
   mismatch: LayoutMismatch | null;
+  redrawnRevision: number | null;
 };
 
-export function CabinOccupancyPanel({ manifest, seatMap, mismatch }: Props) {
+export function CabinOccupancyPanel({ manifest, seatMap, mismatch, redrawnRevision }: Props) {
   const mode = useMemo(() => occupancyMode(manifest.passengers), [manifest.passengers]);
   const offDrawing = seatMap === null ? 0 : passengersOffDrawing(manifest.passengers, seatMap);
-  const isDrifted = seatMap !== null && seatMap.revision !== manifest.cabinLayoutRevision;
 
   return (
     <div className="flex flex-col gap-3">
@@ -37,20 +37,25 @@ export function CabinOccupancyPanel({ manifest, seatMap, mismatch }: Props) {
         />
       )}
 
-      {seatMap === null ? (
+      {redrawnRevision !== null && (
+        <NoticePanel
+          tone="neutral"
+          icon={FaChair}
+          title="The cabin has been redrawn since this flight was seated"
+          description={`The catalogue now holds revision ${redrawnRevision} of ${manifest.cabinLayout}, while this flight was seated against revision ${manifest.cabinLayoutRevision}. The seats the manifest names need not exist in the cabin as it is drawn now, so the drawing is withheld. The passenger manifest below is complete.`}
+        />
+      )}
+
+      {redrawnRevision === null && seatMap === null && (
         <p className="rounded-lg bg-gray-50 px-4 py-6 text-center text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400">
           The cabin drawing for <span className="font-mono">{manifest.cabinLayout}</span> could not be retrieved. The
           manifest below is complete.
         </p>
-      ) : (
+      )}
+
+      {seatMap !== null && (
         <>
           <SeatMap seatMap={seatMap} mode={mode} diagramOnly />
-
-          {isDrifted && (
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              {`The drawing shows revision ${seatMap.revision} of this layout, while the manifest was seated against revision ${manifest.cabinLayoutRevision}.`}
-            </p>
-          )}
 
           {offDrawing > 0 && (
             <p className="text-xs text-gray-500 dark:text-gray-400">

@@ -1,12 +1,17 @@
 import React from "react";
 import type { IconType } from "react-icons";
 import { FaBoxesStacked, FaChair, FaHourglassHalf, FaLock, FaTriangleExclamation } from "react-icons/fa6";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import { Link } from "react-router";
 import { NoticePanel } from "~/features/flight/components/Dashboard/Tracking/Progress/NoticePanel";
 import type { ManifestGap } from "~/features/flight/hooks/useFlightCabin";
 
 type Props = {
   gap: ManifestGap;
+  aircraftHref?: string;
 };
+
+const GAPS_FIXED_ON_THE_AIRCRAFT: ManifestGap[] = ["no-layout", "unseated"];
 
 type Notice = {
   tone: "info" | "warning" | "neutral";
@@ -57,8 +62,22 @@ const NOTICES: Record<ManifestGap, Notice> = {
   },
 };
 
-export function ManifestUnavailableState({ gap }: Props) {
+export function ManifestUnavailableState({ gap, aircraftHref }: Props) {
   const notice = NOTICES[gap];
+  const showsAircraftLink = aircraftHref !== undefined && GAPS_FIXED_ON_THE_AIRCRAFT.includes(gap);
 
-  return <NoticePanel tone={notice.tone} icon={notice.icon} title={notice.title} description={notice.description} />;
+  return (
+    <NoticePanel tone={notice.tone} icon={notice.icon} title={notice.title} description={notice.description}>
+      {showsAircraftLink && (
+        <Link
+          to={aircraftHref}
+          viewTransition
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-primary-500"
+        >
+          <span>Open the aircraft</span>
+          <HiOutlineArrowRight className="size-4" />
+        </Link>
+      )}
+    </NoticePanel>
+  );
 }
