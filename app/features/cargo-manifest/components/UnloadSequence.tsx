@@ -6,16 +6,17 @@ import { toHuman } from "~/i18n/translate";
 
 type Props = {
   sequence: Sequence;
+  holdDataNote: string | null;
 };
 
-export function UnloadSequence({ sequence }: Props) {
+export function UnloadSequence({ sequence, holdDataNote }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-sm text-gray-600 dark:text-gray-300">
         Derived from {sequence.derivedFrom.join(", ")}.
-        {sequence.compartmentKnown
+        {holdDataNote === null
           ? ""
-          : " This airframe type carries no curated hold data, so compartment and door are unknown and the order uses the fields that are available."}
+          : ` ${holdDataNote} Compartment and door are unknown for this load, so the order uses the fields that are available.`}
       </p>
 
       <ol className="divide-y divide-gray-200 dark:divide-gray-800">

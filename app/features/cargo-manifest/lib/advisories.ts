@@ -1,4 +1,5 @@
-import { compartmentsOf, type HoldCompartment, type HoldVariant } from "~/features/cargo-hold/model";
+import { resolvePositionDesignator } from "~/features/cargo-hold/lib/designator";
+import { compartmentsOf, type HoldCompartment, type HoldVariant, positionsOf } from "~/features/cargo-hold/model";
 import type { FlightCargoManifest } from "~/features/cargo-manifest/model";
 import { unitTotalKg } from "~/features/cargo-manifest/model";
 import { FlightServiceType } from "~/features/flight";
@@ -26,10 +27,10 @@ export type AdvisoryInput = {
   manifest: FlightCargoManifest;
   variant: HoldVariant | null;
   serviceType: FlightServiceType;
+  holdDataNote: string;
 };
 
 const LIVE_ANIMAL_CODE = "AVI";
-const NO_HOLD_DATA = "This airframe type carries no curated hold data, so no unit reports a compartment.";
 
 function kg(value: number): string {
   return `${value.toLocaleString()} kg`;
@@ -56,12 +57,12 @@ function notApplicable(key: string, label: string, reason: string): AdvisoryChec
   return { key, label, outcome: AdvisoryOutcome.NotApplicable, reason, findings: [] };
 }
 
-function dryIceVentilation({ manifest, variant }: AdvisoryInput): AdvisoryCheck {
+function dryIceVentilation({ manifest, variant, holdDataNote }: AdvisoryInput): AdvisoryCheck {
   const key = "dry-ice-ventilation";
   const label = "Dry ice in a ventilated compartment";
 
   if (variant === null) {
-    return notApplicable(key, label, NO_HOLD_DATA);
+    return notApplicable(key, label, holdDataNote);
   }
 
   const compartments = compartmentsByNumber(variant);
@@ -75,12 +76,12 @@ function dryIceVentilation({ manifest, variant }: AdvisoryInput): AdvisoryCheck 
   return resolve(key, label, findings);
 }
 
-function liveAnimalConditions({ manifest, variant }: AdvisoryInput): AdvisoryCheck {
+function liveAnimalConditions({ manifest, variant, holdDataNote }: AdvisoryInput): AdvisoryCheck {
   const key = "live-animal-conditions";
   const label = "Live animals in a heated and ventilated compartment";
 
   if (variant === null) {
-    return notApplicable(key, label, NO_HOLD_DATA);
+    return notApplicable(key, label, holdDataNote);
   }
 
   const compartments = compartmentsByNumber(variant);
@@ -132,45 +133,45 @@ function cargoAircraftOnly({ manifest, serviceType }: AdvisoryInput): AdvisoryCh
   return resolve(key, label, findings);
 }
 
-function positionWeight({ manifest, variant }: AdvisoryInput): AdvisoryCheck {
+function positionWeight({ manifest, variant, holdDataNote }: AdvisoryInput): AdvisoryCheck {
   const key = "position-weight";
   const label = "Unit weight within its position limit";
 
   if (variant === null) {
-    return notApplicable(key, label, NO_HOLD_DATA);
+    return notApplicable(key, label, holdDataNote);
   }
 
-  const limits = new Map(
-    compartmentsOf(variant)
-      .flatMap((compartment) => compartment.positions)
-      .map((position) => [position.designator, position.maxWeightKg]),
-  );
+  const positions = positionsOf(variant);
+  const published = new Set(positions.map((position) => position.designator));
+  const limits = new Map(positions.map((position) => [position.designator, position.maxWeightKg]));
 
-  const findings = manifest.units
-    .filter((unit) => unit.positionDesignator !== null)
-    .flatMap((unit) => {
-      const limit = limits.get(unit.positionDesignator ?? "");
-      const total = unitTotalKg(unit);
-      if (limit === undefined || total <= limit) {
-        return [];
-      }
-      return [
-        {
-          headline: `${unit.uldCode ?? "Unit"} at ${unit.positionDesignator} carries ${kg(total)} against a ${kg(limit)} limit`,
-          basis: [`Contents ${kg(unit.grossKg)}`, `Tare ${kg(unit.tareKg)}`, `Position limit ${kg(limit)}`],
-        },
-      ];
-    });
+  const findings = manifest.units.flatMap((unit) => {
+    if (unit.positionDesignator === null) {
+      return [];
+    }
+    const designator = resolvePositionDesignator(unit.positionDesignator, unit.compartment, published);
+    const limit = designator === null ? undefined : limits.get(designator);
+    const total = unitTotalKg(unit);
+    if (limit === undefined || total <= limit) {
+      return [];
+    }
+    return [
+      {
+        headline: `${unit.uldCode ?? "Unit"} at ${designator} carries ${kg(total)} against a ${kg(limit)} limit`,
+        basis: [`Contents ${kg(unit.grossKg)}`, `Tare ${kg(unit.tareKg)}`, `Position limit ${kg(limit)}`],
+      },
+    ];
+  });
 
   return resolve(key, label, findings);
 }
 
-function compartmentLimits({ manifest, variant }: AdvisoryInput): AdvisoryCheck {
+function compartmentLimits({ manifest, variant, holdDataNote }: AdvisoryInput): AdvisoryCheck {
   const key = "compartment-limits";
   const label = "Compartment load within its weight and volume limits";
 
   if (variant === null) {
-    return notApplicable(key, label, NO_HOLD_DATA);
+    return notApplicable(key, label, holdDataNote);
   }
 
   const compartments = compartmentsByNumber(variant);

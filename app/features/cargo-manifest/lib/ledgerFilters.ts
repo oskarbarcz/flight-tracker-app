@@ -69,3 +69,7 @@ export function coldChainRisksPresent(entries: IndexedShipment[]): ColdChainRisk
     ),
   ];
 }
+
+export function statusesPresent(entries: IndexedShipment[]): ShipmentStatus[] {
+  return [...new Set(entries.map(({ shipment }) => shipment.status))].sort();
+}

@@ -1,6 +1,7 @@
-import { Select, TextInput } from "flowbite-react";
+import { Select } from "flowbite-react";
 import React from "react";
 import { LuX } from "react-icons/lu";
+import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 
 export type CatalogueFilters = {
   airline: string;
@@ -18,23 +19,19 @@ type Props = {
 export function CatalogueToolbar({ filters, isFiltering, onChange, onClear }: Props) {
   return (
     <div className="mb-5 flex flex-wrap items-center gap-3">
-      <TextInput
-        sizing="sm"
-        className="w-32"
+      <FilterInput
+        className="w-48"
         maxLength={2}
-        aria-label="Filter by airline code"
-        placeholder="Airline"
+        placeholder="Filter by airline"
         value={filters.airline}
-        onChange={(event) => onChange("airline", event.target.value.toUpperCase())}
+        onChange={(value) => onChange("airline", value.toUpperCase())}
       />
-      <TextInput
-        sizing="sm"
-        className="w-40"
+      <FilterInput
+        className="w-56"
         maxLength={6}
-        aria-label="Filter by aircraft type code"
-        placeholder="Aircraft type"
+        placeholder="Filter by aircraft type"
         value={filters.aircraftType}
-        onChange={(event) => onChange("aircraftType", event.target.value.toUpperCase())}
+        onChange={(value) => onChange("aircraftType", value.toUpperCase())}
       />
       <Select
         sizing="sm"

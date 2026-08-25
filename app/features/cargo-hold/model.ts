@@ -111,6 +111,10 @@ export function positionCountOf(variant: HoldVariant): number {
   return positionsOf(variant).length;
 }
 
+export function volumeOf(variant: HoldVariant): number {
+  return compartmentsOf(variant).reduce((sum, compartment) => sum + compartment.volumeM3, 0);
+}
+
 export function isMultiDeck(variant: HoldVariant): boolean {
   return variant.decks.length > 1;
 }

@@ -67,7 +67,9 @@ export function CompartmentLoadList({ manifest, variant }: Props) {
   const volumeIn = (compartment: number) =>
     manifest.units.filter((unit) => unit.compartment === compartment).reduce((sum, unit) => sum + unit.volumeM3, 0);
 
-  const share = (entry: CompartmentLoad) => Math.round((entry.weightKg / manifest.cargoKg) * 100);
+  const compartmentTotal = manifest.compartmentLoad.reduce((sum, entry) => sum + entry.weightKg, 0);
+  const share = (entry: CompartmentLoad) =>
+    compartmentTotal === 0 ? 0 : Math.round((entry.weightKg / compartmentTotal) * 100);
 
   return (
     <ul className="divide-y divide-gray-200 dark:divide-gray-800">
@@ -92,7 +94,7 @@ export function CompartmentLoadList({ manifest, variant }: Props) {
                 </div>
 
                 <p className="mt-0.5 font-mono text-xs tabular-nums text-gray-500 dark:text-gray-400">
-                  {share(entry)}% of the cargo aboard
+                  {share(entry)}% of the load in compartments
                 </p>
 
                 {entry.dryIceKg > 0 && (

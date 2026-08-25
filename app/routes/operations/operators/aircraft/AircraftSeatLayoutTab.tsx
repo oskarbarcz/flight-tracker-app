@@ -113,11 +113,11 @@ export default function AircraftSeatLayoutTab() {
                   </Badge>
                 )}
                 <Link to={`/cabin-layouts/${layout.id}`} viewTransition>
-                  <Button size="xs" color="alternative">
+                  <Button size="xs" color="indigo">
                     Open in catalogue
                   </Button>
                 </Link>
-                <Button size="xs" color="indigo" onClick={() => setIsAssignOpen(true)}>
+                <Button size="xs" color="alternative" onClick={() => setIsAssignOpen(true)}>
                   Change layout
                 </Button>
                 <Button size="xs" color="alternative" onClick={() => setIsRemoveOpen(true)}>

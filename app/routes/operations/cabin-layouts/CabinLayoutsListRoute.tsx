@@ -133,6 +133,11 @@ export default function CabinLayoutsListRoute() {
         }}
       />
 
+      <p className="mb-4 max-w-prose text-sm text-gray-500 dark:text-gray-400">
+        Seat maps for every airline and aircraft type LOPA publishes. Each layout records the sources it was read from
+        and the day it was first seen; a layout LOPA stops publishing is marked withdrawn rather than removed.
+      </p>
+
       {refresh.status !== "idle" && refresh.status !== "running" && (
         <div className="mb-5">
           <CatalogueRefreshResult result={refresh.status === "done" ? refresh.result : null} />

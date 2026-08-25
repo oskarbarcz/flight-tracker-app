@@ -1,5 +1,6 @@
 import { LuArrowRight, LuLock, LuSnowflake, LuStar, LuTriangleAlert } from "react-icons/lu";
 import { TbPlaneOff } from "react-icons/tb";
+import { resolvePositionDesignator } from "~/features/cargo-hold/lib/designator";
 import type {
   HoldReading,
   LegendEntry,
@@ -8,7 +9,7 @@ import type {
 } from "~/features/cargo-hold/lib/holdReading";
 import { isRefrigeratedType } from "~/features/cargo-hold/lib/uldCode";
 import type { HoldCompartment, HoldPosition, HoldVariant } from "~/features/cargo-hold/model";
-import { compartmentsOf } from "~/features/cargo-hold/model";
+import { compartmentsOf, positionsOf } from "~/features/cargo-hold/model";
 import type { CargoUnitEntry, FlightCargoManifest } from "~/features/cargo-manifest/model";
 import { ColdChainRisk, ContentClass, unitTotalKg } from "~/features/cargo-manifest/model";
 import { toHuman } from "~/i18n/translate";
@@ -58,18 +59,27 @@ const COLD_ELEVATED = "border-amber-500 bg-amber-100 dark:border-amber-400 dark:
 const COLD_HIGH = "border-red-500 bg-red-100 dark:border-red-400 dark:bg-red-900";
 
 export function loadIndexOf(manifest: FlightCargoManifest, variant: HoldVariant | null): LoadIndex {
+  const published = new Set(variant === null ? [] : positionsOf(variant).map((position) => position.designator));
   const byDesignator = new Map<string, LoadedPosition>();
 
   for (const unit of manifest.units) {
-    if (unit.positionDesignator !== null) {
-      byDesignator.set(unit.positionDesignator, { unit, vacatedBy: null });
+    if (unit.positionDesignator === null) {
+      continue;
+    }
+    const designator = resolvePositionDesignator(unit.positionDesignator, unit.compartment, published);
+    if (designator !== null) {
+      byDesignator.set(designator, { unit, vacatedBy: null });
     }
   }
 
   for (const unit of manifest.units) {
     for (const shipment of unit.shipments) {
-      if (shipment.offloadedFrom !== null && !byDesignator.has(shipment.offloadedFrom)) {
-        byDesignator.set(shipment.offloadedFrom, { unit: null, vacatedBy: shipment.awb });
+      if (shipment.offloadedFrom === null) {
+        continue;
+      }
+      const designator = resolvePositionDesignator(shipment.offloadedFrom, unit.compartment, published);
+      if (designator !== null && !byDesignator.has(designator)) {
+        byDesignator.set(designator, { unit: null, vacatedBy: shipment.awb });
       }
     }
   }
@@ -107,13 +117,21 @@ function markersOf(unit: CargoUnitEntry): PositionMarker[] {
 }
 
 function detailOf(unit: CargoUnitEntry): DetailRow[] {
-  const rows: DetailRow[] = [
-    { label: "Device", value: unit.uldCode ?? toHuman.cargoManifest.unitKind(unit.kind) },
+  const rows: DetailRow[] = [{ label: "Device", value: unit.uldCode ?? toHuman.cargoManifest.unitKind(unit.kind) }];
+
+  if (unit.uldType !== null) {
+    rows.push({ label: "Type", value: unit.uldType });
+  }
+  if (unit.deck !== null) {
+    rows.push({ label: "Deck", value: toHuman.cargoHold.deck(unit.deck) });
+  }
+
+  rows.push(
     { label: "Contents", value: `${unit.grossKg.toLocaleString()} kg` },
     { label: "Tare", value: `${unit.tareKg.toLocaleString()} kg` },
     { label: "Volume", value: `${unit.volumeM3} m³` },
     { label: "Carries", value: toHuman.cargoManifest.contentClass(unit.contentClass) },
-  ];
+  );
 
   if (unit.contentClass === ContentClass.Baggage) {
     rows.push({ label: "Bags", value: unit.bagCount === null ? "—" : String(unit.bagCount) });
@@ -121,6 +139,9 @@ function detailOf(unit: CargoUnitEntry): DetailRow[] {
   }
 
   rows.push({ label: "Shipments", value: String(unit.shipments.length) });
+  for (const shipment of unit.shipments) {
+    rows.push({ label: shipment.awb, value: toHuman.cargoManifest.commodity(shipment.commodity) });
+  }
   return rows;
 }
 

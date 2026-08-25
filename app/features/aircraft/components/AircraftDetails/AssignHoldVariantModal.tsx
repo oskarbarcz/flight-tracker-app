@@ -67,11 +67,11 @@ export function AssignHoldVariantModal({ aircraft, variants, assign, cancel }: P
   return (
     <Modal size="md" className="text-gray-800 dark:text-white" show onClose={cancel}>
       <ModalHeader>
-        <ModalTitle context="Cargo hold" action="Assign variant" />
+        <ModalTitle context="Cargo hold" action="Change layout" />
       </ModalHeader>
       <ModalBody>
         <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
-          Choose the hold {aircraft.registration} is loaded against.
+          Choose the hold layout for {aircraft.registration} aircraft below.
         </p>
         <div className="flex flex-col gap-2">
           {variants.map((variant) => (
@@ -88,7 +88,7 @@ export function AssignHoldVariantModal({ aircraft, variants, assign, cancel }: P
       <ModalActions
         cancel={{ onClick: cancel }}
         confirm={{
-          label: "Assign variant",
+          label: "Change layout",
           disabled: selected === null,
           onClick: () => selected !== null && assign(selected),
         }}
