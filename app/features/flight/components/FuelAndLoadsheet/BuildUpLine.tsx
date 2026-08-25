@@ -5,10 +5,17 @@ export function formatTons(value: number): string {
   return value.toFixed(2);
 }
 
-function Figure({ value, unit = "t", className }: { value: number; unit?: string; className?: string }) {
+type FigureProps = {
+  value: number;
+  unit?: string;
+  className?: string;
+  format?: (value: number) => string;
+};
+
+function Figure({ value, unit = "t", className, format = formatTons }: FigureProps) {
   return (
     <span className={twMerge("font-mono tabular-nums text-sm text-gray-700 dark:text-gray-300", className)}>
-      {formatTons(value)}
+      {format(value)}
       <span className="ms-0.5 text-[10px] font-normal opacity-60">{unit}</span>
     </span>
   );
@@ -23,9 +30,10 @@ type Props = {
   subtotal?: boolean;
   total?: boolean;
   addition?: boolean;
+  format?: (value: number) => string;
 };
 
-export function BuildUpLine({ label, value, note, unit = "t", duration, subtotal, total, addition }: Props) {
+export function BuildUpLine({ label, value, note, unit = "t", duration, subtotal, total, addition, format }: Props) {
   return (
     <div
       className={twMerge(
@@ -53,6 +61,7 @@ export function BuildUpLine({ label, value, note, unit = "t", duration, subtotal
         <Figure
           value={value}
           unit={unit}
+          format={format}
           className={twMerge(
             addition && "text-gray-500 dark:text-gray-400",
             subtotal && "font-bold text-gray-800 dark:text-gray-100",

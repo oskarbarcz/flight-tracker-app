@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
-import type { Loadsheet, Timesheet } from "~/features/flight";
+import type { FlightServiceType, Loadsheet, Timesheet } from "~/features/flight";
 import { CrewColumn } from "~/features/flight/components/FuelAndLoadsheet/CrewColumn";
 import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
 import { LoadsheetFigures } from "~/features/flight/components/FuelAndLoadsheet/LoadsheetFigures";
@@ -11,6 +11,7 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 type Props = {
   flightId: string;
+  serviceType: FlightServiceType;
   preliminary: Loadsheet | null;
   final: Loadsheet | null;
   timesheet: Timesheet;
@@ -20,6 +21,7 @@ type Props = {
 
 export function FuelAndLoadsheetPanel({
   flightId,
+  serviceType,
   preliminary,
   final,
   timesheet,
@@ -80,7 +82,7 @@ export function FuelAndLoadsheetPanel({
           />
         }
       >
-        {loadLoadsheet ? <LoadsheetFigures loadsheet={loadLoadsheet} /> : <EmptyState />}
+        {loadLoadsheet ? <LoadsheetFigures loadsheet={loadLoadsheet} serviceType={serviceType} /> : <EmptyState />}
 
         {showEditPreliminary && (
           <div className="mt-auto flex justify-end border-t border-gray-200 pt-3 dark:border-gray-800">

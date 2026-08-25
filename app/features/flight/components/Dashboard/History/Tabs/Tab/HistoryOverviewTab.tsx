@@ -16,7 +16,11 @@ export function HistoryOverviewTab() {
       <PhaseTimelineBox flight={flight} />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <AircraftSummaryCard flight={flight} />
-        <LoadsheetSummaryCard preliminary={flight.loadsheets.preliminary} final={flight.loadsheets.final} />
+        <LoadsheetSummaryCard
+          preliminary={flight.loadsheets.preliminary}
+          final={flight.loadsheets.final}
+          serviceType={flight.serviceType}
+        />
       </div>
     </div>
   );

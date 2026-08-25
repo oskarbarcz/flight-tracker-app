@@ -1,14 +1,15 @@
 import React from "react";
-import type { Loadsheet } from "~/features/flight";
+import type { FlightServiceType, Loadsheet } from "~/features/flight";
+import { occupantsLabel } from "~/features/flight/lib/occupants";
 
-export function LoadsheetFigures({ loadsheet }: { loadsheet: Loadsheet }) {
+export function LoadsheetFigures({ loadsheet, serviceType }: { loadsheet: Loadsheet; serviceType: FlightServiceType }) {
   return (
     <>
       <Section title="Souls on board">
         <StatBlock label="Pilots" value={loadsheet.flightCrew.pilots.toString()} />
         <StatBlock label="Relief Pilots" value={loadsheet.flightCrew.reliefPilots.toString()} />
         <StatBlock label="Cabin Crew" value={loadsheet.flightCrew.cabinCrew.toString()} />
-        <StatBlock label="Passengers" value={loadsheet.passengers.toString()} />
+        <StatBlock label={occupantsLabel(serviceType)} value={loadsheet.passengers.toString()} />
       </Section>
 
       <Section title="Goods on board">

@@ -37,6 +37,7 @@ export default function FlightLoadsheetRoute() {
     <div className="mt-3">
       <FuelAndLoadsheetPanel
         flightId={flight.id}
+        serviceType={flight.serviceType}
         preliminary={flight.loadsheets.preliminary}
         final={flight.loadsheets.final}
         timesheet={flight.timesheet}

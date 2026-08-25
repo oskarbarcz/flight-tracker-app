@@ -11,6 +11,7 @@ export function FlightFuelAndLoadTab() {
     <div className="mt-4">
       <FuelAndLoadsheetPanel
         flightId={flight.id}
+        serviceType={flight.serviceType}
         preliminary={flight.loadsheets.preliminary}
         final={flight.loadsheets.final}
         timesheet={flight.timesheet}

@@ -6,7 +6,7 @@ import { HoldLegend } from "~/features/cargo-hold/components/HoldDiagram/HoldLeg
 import { HoldPositionTable } from "~/features/cargo-hold/components/HoldDiagram/HoldPositionTable";
 import { HoldPositionTooltip } from "~/features/cargo-hold/components/HoldDiagram/HoldPositionTooltip";
 import { holdFrame } from "~/features/cargo-hold/lib/holdFrame";
-import { acceptedReading, type HoldReading } from "~/features/cargo-hold/lib/holdReading";
+import { acceptedReading, type HoldReading, type PositionAppearance } from "~/features/cargo-hold/lib/holdReading";
 import {
   CompartmentLoading,
   type HoldDeckName,
@@ -16,12 +16,14 @@ import {
 import { toHuman } from "~/i18n/translate";
 import { BlurReveal } from "~/shared/ui/Display/BlurReveal";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
+import { FilterChoice } from "~/shared/ui/Filter/FilterChoice";
 import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 
 type Props = {
   variant: HoldVariant;
   variants?: HoldVariant[];
   reading?: HoldReading;
+  readings?: HoldReading[];
   diagramOnly?: boolean;
 };
 
@@ -35,6 +37,7 @@ const TABLE_PREVIEW_HEIGHT = 120;
 
 type Hover = {
   position: HoldPosition;
+  appearance: PositionAppearance;
   x: number;
   y: number;
   below: boolean;
@@ -57,18 +60,21 @@ function useMeasuredWidth() {
   return { ref, width };
 }
 
-export function HoldDiagram({ variant, variants, reading = acceptedReading, diagramOnly = false }: Props) {
+export function HoldDiagram({ variant, variants, reading, readings, diagramOnly = false }: Props) {
   const frame = useMemo(() => holdFrame(variant, variants ?? [variant]), [variant, variants]);
   const { ref, width } = useMeasuredWidth();
   const [selectedDeck, setSelectedDeck] = useState<HoldDeckName>(variant.decks[0].deck);
   const [hover, setHover] = useState<Hover | null>(null);
   const [isTableOpen, setIsTableOpen] = useState(false);
   const [positionQuery, setPositionQuery] = useState("");
+  const [readingKey, setReadingKey] = useState(readings?.[0]?.key ?? "");
   const summaryId = useId();
   const tableId = useId();
 
   const placement = frame.decks.find((entry) => entry.deck.deck === selectedDeck) ?? frame.decks[0];
   const deck = placement.deck;
+  const activeReading =
+    reading ?? readings?.find((entry) => entry.key === readingKey) ?? readings?.[0] ?? acceptedReading;
 
   const narrowestSlot = useMemo(() => {
     const lengths = frame.decks
@@ -97,16 +103,34 @@ export function HoldDiagram({ variant, variants, reading = acceptedReading, diag
     setSelectedDeck(next);
   }
 
-  const openTooltip = (position: HoldPosition, element: HTMLButtonElement) => {
+  const openTooltip = (position: HoldPosition, appearance: PositionAppearance, element: HTMLButtonElement) => {
     const rect = element.getBoundingClientRect();
     const below = rect.top < TOOLTIP_CLEARANCE_PX;
-    setHover({ position, x: rect.left + rect.width / 2, y: below ? rect.bottom + 8 : rect.top - 8, below });
+    setHover({ position, appearance, x: rect.left + rect.width / 2, y: below ? rect.bottom + 8 : rect.top - 8, below });
   };
 
   return (
     <div className="flex flex-col gap-4">
-      {variant.decks.length > 1 && (
-        <HoldDeckSwitcher decks={variant.decks} selected={deck.deck} onSelect={selectDeck} />
+      {(variant.decks.length > 1 || (readings !== undefined && readings.length > 1)) && (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          {variant.decks.length > 1 ? (
+            <HoldDeckSwitcher decks={variant.decks} selected={deck.deck} onSelect={selectDeck} />
+          ) : (
+            <span />
+          )}
+          {readings !== undefined && readings.length > 1 && (
+            <div className="flex flex-wrap gap-1.5">
+              {readings.map((entry) => (
+                <FilterChoice
+                  key={entry.key}
+                  label={entry.label}
+                  isSelected={entry.key === activeReading.key}
+                  onSelect={() => setReadingKey(entry.key)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       <div ref={ref} className={isNarrowerThanContainer ? "flex justify-center py-8" : "overflow-x-auto"}>
@@ -118,8 +142,8 @@ export function HoldDiagram({ variant, variants, reading = acceptedReading, diag
           <HoldDeckPlan
             key={deck.deck}
             placement={placement}
-            heightPx={deckHeightPx(placement.heightPx)}
-            reading={reading}
+            heightPx={deckHeightPx(tallestDeckPx)}
+            reading={activeReading}
             width={diagramWidth}
             labelWidthPx={LABEL_WIDTH_PX}
             onOpen={openTooltip}
@@ -132,7 +156,7 @@ export function HoldDiagram({ variant, variants, reading = acceptedReading, diag
         </div>
       </div>
 
-      <HoldLegend positions={positions} reading={reading} hasTaper={hasTaper} hasLoose={hasLoose} />
+      <HoldLegend positions={positions} reading={activeReading} hasTaper={hasTaper} hasLoose={hasLoose} />
 
       {!diagramOnly && (
         <>
@@ -171,7 +195,15 @@ export function HoldDiagram({ variant, variants, reading = acceptedReading, diag
         </>
       )}
 
-      {hover !== null && <HoldPositionTooltip position={hover.position} x={hover.x} y={hover.y} below={hover.below} />}
+      {hover !== null && (
+        <HoldPositionTooltip
+          position={hover.position}
+          appearance={hover.appearance}
+          x={hover.x}
+          y={hover.y}
+          below={hover.below}
+        />
+      )}
     </div>
   );
 }

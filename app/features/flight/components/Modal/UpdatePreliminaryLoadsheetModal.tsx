@@ -25,6 +25,7 @@ export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Prop
       formId="updatePreliminaryLoadsheetForm"
       loadsheet={oldLoadsheet}
       timesheet={flight.timesheet}
+      serviceType={flight.serviceType}
       confirmLabel="Update loadsheet for flight"
       confirmTrailing={<span className="font-mono font-bold">{flight.flightNumberWithoutSpaces}</span>}
       submit={(loadsheet) => update(flight.id, loadsheet)}

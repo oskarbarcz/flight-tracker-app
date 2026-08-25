@@ -94,13 +94,13 @@ Where a variant has more than one deck, the app SHALL let the reader move betwee
 
 ### Requirement: A deck is drawn to the width the aircraft actually has
 
-The app SHALL derive a deck's drawn width from the across-extent of the widest unit load device base its positions accept, so a deck that takes pallets side by side is visibly wider than one that takes containers, and SHALL NOT draw every deck at one fixed width. Because the fuselage belongs to the airframe type rather than to a variant of it, the width SHALL be resolved across every variant of the type and SHALL NOT change when the reader switches variant. Where no variant of the type declares positions for a deck, the app MAY estimate from the deck's volume.
+The app SHALL derive an aircraft's drawn width from the across-extent of the widest unit load device base any of its positions accept, so an aircraft that takes pallets side by side is visibly wider than one that takes containers, and SHALL NOT draw every aircraft at one fixed width. Because the fuselage belongs to the airframe type rather than to a variant or a deck of it, the width SHALL be resolved once across every variant and every deck of the type, and SHALL NOT change when the reader switches variant or deck. Where no variant of the type declares positions anywhere, the app MAY estimate from the deck's volume.
 
-#### Scenario: A freighter main deck against a lower deck
+#### Scenario: Switching deck does not resize the aircraft
 
-- **GIVEN** a variant whose main deck accepts pallets and whose lower deck accepts containers
-- **WHEN** each is drawn
-- **THEN** the main deck is drawn wider than the lower deck
+- **GIVEN** a variant with a main deck and a lower deck
+- **WHEN** the reader switches between them
+- **THEN** the hold is drawn at the same width in both
 
 #### Scenario: A narrowbody against a widebody
 

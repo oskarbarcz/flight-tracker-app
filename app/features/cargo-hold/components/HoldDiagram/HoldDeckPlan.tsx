@@ -2,7 +2,7 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import { HoldPositionTile } from "~/features/cargo-hold/components/HoldDiagram/HoldPositionTile";
 import { type DeckPlacement, envelopeClipPath, envelopePoints } from "~/features/cargo-hold/lib/holdFrame";
-import type { HoldReading } from "~/features/cargo-hold/lib/holdReading";
+import type { HoldReading, PositionAppearance } from "~/features/cargo-hold/lib/holdReading";
 import { CompartmentLoading, type HoldPosition } from "~/features/cargo-hold/model";
 import { toHuman } from "~/i18n/translate";
 
@@ -12,7 +12,7 @@ type Props = {
   reading: HoldReading;
   width: number;
   labelWidthPx: number;
-  onOpen: (position: HoldPosition, element: HTMLButtonElement) => void;
+  onOpen: (position: HoldPosition, appearance: PositionAppearance, element: HTMLButtonElement) => void;
   onClose: () => void;
 };
 
@@ -71,23 +71,26 @@ export function HoldDeckPlan({ placement, heightPx, reading, width, labelWidthPx
         </svg>
 
         {placement.compartments.flatMap((compartment) =>
-          compartment.positions.map((slot) => (
-            <HoldPositionTile
-              key={`${placement.deck.deck}-${slot.position.designator}`}
-              designator={slot.position.designator}
-              appearance={reading.appearanceOf(slot.position)}
-              tapered={slot.tapered}
-              showLabel={slot.length * width >= labelWidthPx}
-              style={{
-                left: `calc(${slot.start * 100}% + 1px)`,
-                width: `calc(${slot.length * 100}% - 2px)`,
-                top: `${INSET_PX + slot.top * inner}px`,
-                height: `calc(${slot.height * inner}px - 2px)`,
-              }}
-              onOpen={(element) => onOpen(slot.position, element)}
-              onClose={onClose}
-            />
-          )),
+          compartment.positions.map((slot) => {
+            const appearance = reading.appearanceOf(slot.position);
+            return (
+              <HoldPositionTile
+                key={`${placement.deck.deck}-${slot.position.designator}`}
+                designator={slot.position.designator}
+                appearance={appearance}
+                tapered={slot.tapered}
+                showLabel={slot.length * width >= labelWidthPx}
+                style={{
+                  left: `calc(${slot.start * 100}% + 1px)`,
+                  width: `calc(${slot.length * 100}% - 2px)`,
+                  top: `${INSET_PX + slot.top * inner}px`,
+                  height: `calc(${slot.height * inner}px - 2px)`,
+                }}
+                onOpen={(element) => onOpen(slot.position, appearance, element)}
+                onClose={onClose}
+              />
+            );
+          }),
         )}
       </div>
     </div>
