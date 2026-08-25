@@ -26,6 +26,7 @@ type ManagedFloatingInputBlock = {
   decimals?: number;
   footnote?: string;
   errors?: string[];
+  description?: ReactNode;
 };
 
 const hideSpinnerClasses =
@@ -71,6 +72,7 @@ export function ManagedFloatingInputBlock({
   decimals,
   footnote,
   errors = [],
+  description,
 }: ManagedFloatingInputBlock) {
   const [fieldProps, meta] = useField(field);
   const [draft, setDraft] = useState<string | null>(null);
@@ -78,6 +80,7 @@ export function ManagedFloatingInputBlock({
   const displayedErrors = [...new Set([...clientError, ...errors])];
   const isError = displayedErrors.length > 0;
   const density = useFormDensity();
+  const descriptionId = `${field}-description`;
 
   const footnoteBlock = footnote ? (
     <div className="rounded-b-lg border border-t-0 border-gray-300 bg-gray-100 px-2 py-1 text-[11px] leading-tight text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400">
@@ -131,6 +134,7 @@ export function ManagedFloatingInputBlock({
           className="whitespace-nowrap dark:bg-gray-800"
           color={isError ? "error" : undefined}
           disabled={disabled}
+          aria-describedby={description ? descriptionId : undefined}
           {...inputProps}
         />
         {unit && (
@@ -145,6 +149,11 @@ export function ManagedFloatingInputBlock({
         )}
       </div>
       {footnoteBlock}
+      {description && (
+        <div id={descriptionId} className="px-1 pt-1">
+          {description}
+        </div>
+      )}
       <InputErrorList errorFocus={isError} errors={displayedErrors} size={density.floatingSizing} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">

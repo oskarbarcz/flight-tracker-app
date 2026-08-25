@@ -4,13 +4,13 @@ Says who is aboard a flight, where they sit, and who did not turn up — as a li
 
 ## ADDED Requirements
 
-### Requirement: A released flight reports its passengers
+### Requirement: A seated flight reports its passengers
 
 The app SHALL show the seated passenger manifest of a flight, listing every passenger with the seat they occupy, the deck that seat is on, its cabin class, the passenger's name, their booking reference and their status.
 
 #### Scenario: Reading a manifest
 
-- **WHEN** the reader opens the manifest of a released flight
+- **WHEN** the reader opens the manifest of a flight whose passengers have been seated
 - **THEN** every passenger is listed with seat, deck, cabin class, name, booking reference and status
 
 #### Scenario: The list stands on its own
@@ -25,7 +25,7 @@ The app SHALL show the seated passenger manifest of a flight, listing every pass
 
 ### Requirement: The manifest reports which cabin it describes
 
-The app SHALL report the cabin layout and the revision the flight was seated against, so that the reader knows the manifest describes the cabin as it was at release.
+The app SHALL report the cabin layout and the revision the flight was seated against, so that the reader knows the manifest describes the cabin as it was when the flight was seated.
 
 #### Scenario: Naming the pinned revision
 
@@ -48,7 +48,7 @@ The app SHALL draw the cabin with each seat shown as free, occupied, or held by 
 - **WHEN** the reader opens an occupied seat
 - **THEN** the occupying passenger's name, booking reference and status are reported alongside the seat's own details
 
-#### Scenario: The cabin has been redrawn since release
+#### Scenario: The cabin has been redrawn since the flight was seated
 
 - **GIVEN** a manifest pinned to a revision earlier than the available cabin geometry
 - **WHEN** the reader opens it
@@ -138,13 +138,13 @@ Where a passenger travels with a special service request, the app SHALL report i
 
 ### Requirement: An absent manifest says which kind of absence it is
 
-The app SHALL distinguish a flight not yet released, a flight whose aircraft carries no cabin layout, and a manifest the reader may not see, and SHALL respond to each differently.
+The app SHALL distinguish a flight whose preliminary loadsheet has not been written, a flight whose aircraft carries no cabin layout, and a manifest the reader may not see, and SHALL respond to each differently.
 
-#### Scenario: The flight has not been released
+#### Scenario: The preliminary loadsheet has not been written
 
-- **GIVEN** a flight whose aircraft has a cabin layout and which has not been released
+- **GIVEN** a flight whose aircraft has a cabin layout and whose preliminary loadsheet has not been written
 - **WHEN** the reader opens the manifest
-- **THEN** the app states that the manifest is generated when the flight is released
+- **THEN** the app states that the manifest is generated from the preliminary loadsheet
 
 #### Scenario: The aircraft has no cabin layout
 
@@ -163,7 +163,7 @@ The app SHALL distinguish a flight not yet released, a flight whose aircraft car
 
 - **WHEN** any of these states is reached
 - **THEN** the app does NOT report an empty manifest
-- **AND** it does NOT report a missing cabin layout for a flight that is merely unreleased
+- **AND** it does NOT report a missing cabin layout for a flight that merely has no preliminary loadsheet yet
 
 ### Requirement: Operations reaches the manifest from the flight
 

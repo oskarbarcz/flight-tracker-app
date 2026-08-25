@@ -1,6 +1,6 @@
 ## Context
 
-Three changes add cabins to the app. This one deals with what they cost: a loadsheet that was previously free to state any passenger count is now bounded by the seats of a pinned layout, and the bound is enforced at two moments — release and the end of boarding — by a server the interface currently cannot interpret.
+Three changes add cabins to the app. This one deals with what they cost: a loadsheet that was previously free to state any passenger count is now bounded by the seats of the assigned layout, and the bound is enforced at two moments — writing the preliminary loadsheet and the end of boarding — by a server the interface currently cannot interpret.
 
 ## Goals / Non-Goals
 
@@ -21,15 +21,19 @@ Three changes add cabins to the app. This one deals with what they cost: a loads
 
 ### The form advises, the server decides
 
-The capacity shown on the form comes from the seat map of the layout currently assigned, which can change between typing and releasing. Treating it as a hard client-side limit would let the form refuse a submission the server would have accepted, which is worse than the refusal it prevents.
+The capacity shown on the form comes from the seat map of the layout currently assigned, which can change between typing and submitting. Treating it as a hard client-side limit would let the form refuse a submission the server would have accepted, which is worse than the refusal it prevents.
 
-So the passenger field carries a capacity hint, warns when the typed figure exceeds it, and still submits. The server's answer is the one that counts, and the warning exists to make that answer unsurprising.
+So the passenger field carries a capacity hint, warns when the typed figure exceeds it, and still submits. The server's answer is the one that counts, and the warning exists to make that answer unsurprising — the server does refuse an over-capacity loadsheet, so the warning is a prediction of a refusal, not a substitute for one.
 
 ### The refusal names both numbers
 
-An unprocessable response on release means the loadsheet's passengers exceed the pinned revision's seats. Saying "Failed to release flight" wastes the one piece of information the reader needs. The message names the passenger count, the seat count, and which cabin layout imposed the limit, and points at the loadsheet as the thing to change.
+An unprocessable response carrying *"Cannot seat N passengers in a cabin of M seats."* means the loadsheet's passengers exceed the assigned layout's seats. Saying "Failed to update preliminary loadsheet" wastes the one piece of information the reader needs. The message names the passenger count, the seat count, and which cabin layout imposed the limit, and points at the loadsheet as the thing to change.
 
-The same applies at the end of boarding, against the final loadsheet, with the same shape of message and a different figure.
+### The refusal is recognised centrally, not per surface
+
+Verified live, the capacity check fires on `PATCH /flight/{id}/loadsheet/preliminary` — an over-capacity preliminary loadsheet is never stored, so release is never reached carrying one. It fires again on `POST /flight/{id}/finish-boarding`, which carries the final loadsheet in its body.
+
+Rather than tie the explanation to a surface, a single helper recognises the refusal from any rejected request and every surface that submits passenger figures consults it: the preliminary loadsheet route, the finish-boarding control, and the release handler. Release is included defensively — it costs one call and means a refusal arriving there is explained rather than swallowed, without asserting that the API produces one.
 
 ### Omitting the split is a decision, not a gap
 
@@ -42,6 +46,8 @@ The API requires the per-cabin figures to sum to the passenger total. That is ar
 ### Reconciliation is reported, not inferred
 
 When boarding finishes with a different final count, the API adds passengers into free seats or records the surplus as no-shows, and leaves everyone else untouched. The app reports what happened — how many were added, how many became no-shows — because a manifest that silently differs from the one released is indistinguishable from a manifest that was regenerated, and the whole point of reconciliation is that it is not.
+
+That distinction is load-bearing, because regeneration is real: while the flight is still being planned, every write to the preliminary loadsheet regenerates the manifest wholesale. Release freezes it — the API refuses to update a preliminary loadsheet once the flight is marked ready — and from that moment the only lawful change is the reconciliation at the end of boarding. Reporting the reconciliation is what makes the difference between the two visible.
 
 ### No layout means no change at all
 

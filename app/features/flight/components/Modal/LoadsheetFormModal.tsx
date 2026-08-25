@@ -10,6 +10,7 @@ import {
   flatLoadsheetToLoadsheet,
   loadsheetToFlatLoadsheet,
 } from "~/features/flight/form-types";
+import type { CabinCapacity } from "~/features/flight/hooks/useCabinCapacity";
 import { updatePreliminaryLoadsheetSchema } from "~/features/flight/schema";
 import { Form } from "~/shared/ui/Form/Form";
 import { FormDensityProvider } from "~/shared/ui/Form/formDensity";
@@ -27,6 +28,7 @@ type Props = {
   formId: string;
   loadsheet: Loadsheet;
   timesheet: Timesheet;
+  capacity: CabinCapacity | null;
   confirmLabel: string;
   confirmTrailing?: React.ReactNode;
   submit: (loadsheet: Loadsheet) => void;
@@ -45,6 +47,7 @@ export function LoadsheetFormModal({
   formId,
   loadsheet,
   timesheet,
+  capacity,
   confirmLabel,
   confirmTrailing,
   submit,
@@ -94,7 +97,7 @@ export function LoadsheetFormModal({
             {step === "fuel" ? (
               <LoadsheetFuelStep timesheet={timesheet} />
             ) : (
-              <LoadsheetLoadStep serviceType={serviceType} />
+              <LoadsheetLoadStep serviceType={serviceType} capacity={capacity} />
             )}
           </Form>
         </FormDensityProvider>

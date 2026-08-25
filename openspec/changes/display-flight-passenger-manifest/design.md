@@ -62,7 +62,9 @@ The API retains a no-show and records the seat they were assigned, and no boarde
 
 ### Three absent states, three different sentences
 
-All three arrive as errors, and collapsing them would be actively misleading — telling operations the aircraft is uncatalogued when the flight is merely unreleased sends them to fix the wrong thing. Not released yet is a matter of time; no cabin layout is a matter of an assignment, and links to the aircraft; forbidden is a matter of access. Each says which.
+All three arrive as errors, and collapsing them would be actively misleading — telling operations the aircraft is uncatalogued when the flight merely has no loadsheet yet sends them to fix the wrong thing. No preliminary loadsheet is a matter of filling one in; no cabin layout is a matter of an assignment, and links to the aircraft; forbidden is a matter of access. Each says which.
+
+The manifest is generated from the preliminary loadsheet and regenerated on every update to it, so an absent manifest on a flight that has a cabin layout means the loadsheet has not been written. Once the flight is released the preliminary loadsheet is frozen — the API refuses to update it — and the manifest it produced is what boarding later reconciles.
 
 ## Risks / Trade-offs
 
@@ -77,4 +79,4 @@ No migration. The surfaces are new, and flights whose aircraft carry no layout b
 
 ## Follow-up for the API
 
-Add a revision parameter to `GET /cabin-layout/{id}/seat-map`, or serve the pinned geometry from the manifest itself. Until then a refreshed layout permanently costs every already-released flight its cabin drawing. This is the third change in a row to record the same gap, and it is now load-bearing.
+Add a revision parameter to `GET /cabin-layout/{id}/seat-map`, or serve the pinned geometry from the manifest itself. Until then a refreshed layout permanently costs every already-seated flight its cabin drawing. This is the third change in a row to record the same gap, and it is now load-bearing.

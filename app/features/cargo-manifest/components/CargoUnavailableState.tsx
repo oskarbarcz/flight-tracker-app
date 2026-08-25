@@ -9,14 +9,9 @@ type Props = {
 };
 
 const COPY: Record<CargoGap, { title: string; body: string; icon: IconType }> = {
-  "not-released": {
-    title: "Manifest not yet issued",
-    body: "The cargo manifest is generated when the flight is released to the pilot.",
-    icon: LuPackage,
-  },
   "not-generated": {
-    title: "No manifest for this flight",
-    body: "No cargo manifest has been generated for this flight.",
+    title: "Manifest not yet issued",
+    body: "The cargo manifest is generated from the preliminary loadsheet, and regenerated whenever operations change it.",
     icon: LuPackage,
   },
   "no-cargo": {

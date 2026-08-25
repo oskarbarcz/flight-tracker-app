@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import type { HoldVariant } from "~/features/cargo-hold/model";
 import { variantById } from "~/features/cargo-hold/model";
 import type { FlightCargoManifest } from "~/features/cargo-manifest/model";
-import { type Flight, FlightStatus } from "~/features/flight";
+import type { Flight } from "~/features/flight";
 import { useApi } from "~/shared/api/useApi";
 
-export type CargoGap = "not-released" | "not-generated" | "no-cargo" | "forbidden" | "failed";
+export type CargoGap = "not-generated" | "no-cargo" | "forbidden" | "failed";
 
 export const NO_CURATED_HOLD_DATA =
   "This airframe type carries no curated hold data, so no unit reports a position or a compartment.";
@@ -46,15 +46,9 @@ export function useFlightCargo(flight: Flight | null): FlightCargo {
 
   const flightId = flight?.id ?? null;
   const airframeType = flight?.aircraft.airframe.type ?? null;
-  const isReleased = flight !== null && flight.status !== FlightStatus.Created;
 
   useEffect(() => {
     if (flightId === null || airframeType === null) {
-      return;
-    }
-
-    if (!isReleased) {
-      setState({ status: "unavailable", gap: "not-released" });
       return;
     }
 
@@ -99,7 +93,7 @@ export function useFlightCargo(flight: Flight | null): FlightCargo {
     return () => {
       cancelled = true;
     };
-  }, [cargoManifestService, cargoHoldService, flightId, airframeType, isReleased]);
+  }, [cargoManifestService, cargoHoldService, flightId, airframeType]);
 
   return state;
 }

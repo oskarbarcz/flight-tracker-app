@@ -5,6 +5,7 @@ import { useToast } from "~/app-state/useToast";
 import { FlightStatus, type Loadsheet } from "~/features/flight";
 import { FuelAndLoadsheetPanel } from "~/features/flight/components/FuelAndLoadsheet/FuelAndLoadsheetPanel";
 import { UpdatePreliminaryLoadsheetModal } from "~/features/flight/components/Modal/UpdatePreliminaryLoadsheetModal";
+import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
 import { FlightService } from "~/features/flight/service";
 import { useApi } from "~/shared/api/useApi";
 
@@ -28,8 +29,13 @@ export default function FlightLoadsheetRoute() {
       success("Preliminary loadsheet updated.");
       setEditing(false);
       revalidator.revalidate();
-    } catch {
-      error("Failed to update preliminary loadsheet.");
+    } catch (reason: unknown) {
+      const refusal = capacityRefusal(reason);
+      error(
+        refusal === null
+          ? "Failed to update preliminary loadsheet."
+          : describeCapacityRefusal(refusal, flight.aircraft.cabinLayout?.id ?? null),
+      );
     }
   };
 

@@ -89,7 +89,7 @@ export default function AircraftSeatLayoutTab() {
           <div className="rounded-lg bg-gray-50 px-4 py-6 text-center dark:bg-gray-800">
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">No cabin layout assigned</p>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Flights on {aircraft.registration} are released without a passenger manifest until a layout is assigned.
+              Flights on {aircraft.registration} generate no passenger manifest until a layout is assigned.
             </p>
             <Button size="xs" color="indigo" className="mx-auto mt-3" onClick={() => setIsAssignOpen(true)}>
               Assign layout

@@ -5,6 +5,7 @@ import { FlightServiceType, type Loadsheet } from "~/features/flight";
 import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { UpdateFinalLoadsheetModal } from "~/features/flight/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
 import { toHuman } from "~/i18n/translate";
 
 export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
@@ -17,8 +18,15 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
     await finishBoarding(loadsheet)
       .then(() => setShowModal(false))
       .catch((err: unknown) => {
-        console.error("Failed to finish boarding", err);
-        error(`Could not finish ${handlingNoun}. Please try again.`);
+        const refusal = capacityRefusal(err);
+
+        if (refusal === null) {
+          console.error("Failed to finish boarding", err);
+          error(`Could not finish ${handlingNoun}. Please try again.`);
+          return;
+        }
+
+        error(describeCapacityRefusal(refusal, flight?.aircraft.cabinLayout?.id ?? null));
       });
   };
 

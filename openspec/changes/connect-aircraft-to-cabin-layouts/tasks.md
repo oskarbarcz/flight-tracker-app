@@ -20,7 +20,7 @@
 - [x] 3.1 Build `AircraftCabinLayoutCard` in `app/features/aircraft/components/AircraftDetails/` using `Container` with a `CardHeader`, matching `AircraftTechnicalStatusCard`
 - [x] 3.2 Render the assigned state: layout identifier, airline and aircraft type, variant where present, and the revision — distinguishing a null revision as "seat map not yet read" rather than showing nothing
 - [x] 3.3 Render the mismatch caution naming the specific disagreement, and the retired marker, each carrying a word or icon rather than colour alone
-- [x] 3.4 Render the empty state on `bg-gray-50`, stating that flights on this aircraft are released without a passenger manifest
+- [x] 3.4 Render the empty state on `bg-gray-50`, stating that flights on this aircraft generate no passenger manifest
 - [x] 3.5 Add Assign, Change and Remove actions, with Remove behind a confirmation that names the same consequence
 - [x] 3.6 Mount the card in the right-hand column of `AircraftDetailsRoute`, revalidating after every assignment change and reporting failures through `useToast` without leaving stale state on screen
 

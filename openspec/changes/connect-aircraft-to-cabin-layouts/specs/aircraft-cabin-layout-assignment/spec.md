@@ -17,7 +17,7 @@ The aircraft details page SHALL report the cabin layout assigned to the aircraft
 
 - **WHEN** operations opens an aircraft with no cabin layout
 - **THEN** the page states that none is assigned
-- **AND** it states that flights on this aircraft are released without a passenger manifest
+- **AND** it states that flights on this aircraft generate no passenger manifest
 
 #### Scenario: A layout whose seat map has never been read
 
@@ -119,7 +119,7 @@ Where a layout has been withdrawn by the provider, the app SHALL mark it as reti
 
 ### Requirement: Operations removes an assignment
 
-The app SHALL let operations remove the cabin layout assigned to an aircraft, and SHALL state before the removal takes effect that flights on the aircraft will afterwards be released without a manifest.
+The app SHALL let operations remove the cabin layout assigned to an aircraft, and SHALL state before the removal takes effect that flights on the aircraft will afterwards generate no manifest.
 
 #### Scenario: An assignment is removed
 
@@ -130,7 +130,7 @@ The app SHALL let operations remove the cabin layout assigned to an aircraft, an
 #### Scenario: Removal names its consequence
 
 - **WHEN** operations begins removing an assignment
-- **THEN** the app states that flights on the aircraft will be released without a passenger manifest
+- **THEN** the app states that flights on the aircraft will generate no passenger manifest
 
 ### Requirement: Operations replaces an assignment
 

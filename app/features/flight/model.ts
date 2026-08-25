@@ -138,6 +138,7 @@ export type FuelBreakdown = {
 export type Loadsheet = {
   flightCrew: FlightCrew;
   passengers: number;
+  passengersByCabin?: Partial<Record<CabinClass, number>>;
   cargo: number;
   payload: number;
   zeroFuelWeight: number;

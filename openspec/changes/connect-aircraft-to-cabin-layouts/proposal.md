@@ -2,7 +2,7 @@
 
 The API has shipped a mirrored AeroLOPA cabin catalogue, immutable seat-map revisions and a hand-assignment endpoint, and nothing in the app consumes any of it. A search across `app/` for `cabinLayout`, `seatMap`, `manifest` or `passengersByCabin` returns three unrelated hits — the PWA web manifest and two landing-page strings.
 
-Assignment is the gate on everything else. A flight only receives a passenger manifest if the aircraft flying it carries a cabin layout, and a flight whose aircraft has none is released and boarded exactly as before, silently, generating nothing. Read live against the seeded API, `GET /flight/{id}/manifest` answers two of the three test flights with *"Aircraft flying this flight has no cabin layout assigned, so the flight has no manifest."* Today the app offers no way to discover that, and no way to fix it.
+Assignment is the gate on everything else. A flight only receives a passenger manifest if the aircraft flying it carries a cabin layout, and a flight whose aircraft has none is planned, released and boarded exactly as before, silently, generating nothing. Read live against the seeded API, `GET /flight/{id}/manifest` answers two of the three test flights with *"Aircraft flying this flight has no cabin layout assigned, so the flight has no manifest."* Today the app offers no way to discover that, and no way to fix it.
 
 The seeded fleet also shows what unattended assignment looks like. Of Lufthansa's seven A330-900s, two carry no layout and five carry `lh-74h` — a 747-8 cabin. The API reports each of those five as `mismatched: true` and accepts them deliberately, because AeroLOPA covers neither every airline nor every type. Operations needs to see that state, not be protected from it.
 

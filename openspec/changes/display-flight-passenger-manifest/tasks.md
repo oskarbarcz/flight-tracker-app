@@ -5,7 +5,7 @@
 - [x] 1.3 Add the enums `PassengerStatus` (`boarded`, `no_show`) and `SsrCode` (`INFT`, `WCHR`, `WCHS`, `WCHC`, `UMNR`, `BLND`, `DEAF`, `MAAS`, `PETC`), and translate each in `i18n.ts` to the requirement in words rather than the abbreviation
 - [x] 1.4 Add `fetchManifest(flightId, status?)` to `FlightService`, omitting the query parameter when no status filter is active
 - [x] 1.5 Add `hooks/useFlightManifest.ts` fetching the manifest and, when its revision permits, the seat map — resolving the two independently so a failed seat map never withholds the passenger list
-- [x] 1.6 Map the three absent-manifest responses to distinct, discriminable states rather than a single error
+- [x] 1.6 Map the three absent-manifest responses to distinct, discriminable states rather than a single error, resolving the no-cabin-layout case from the flight itself rather than from the response
 
 ## 2. Occupancy in the seat diagram
 
@@ -37,7 +37,7 @@
 
 - [x] 5.1 Add a manifest route under `FlightLayout` in `app/routes.ts` and an entry in `FlightTabs`
 - [x] 5.2 Compose the summary, filters, table and drawing, collapsing the drawing before the table at narrow widths
-- [x] 5.3 Render the not-yet-released state stating that the manifest is generated at release
+- [x] 5.3 Render the no-preliminary-loadsheet state stating that the manifest is generated from the preliminary loadsheet
 - [x] 5.4 Render the no-cabin-layout state naming the cause and linking to the aircraft so the assignment can be made
 - [x] 5.5 Render the forbidden state stating that the manifest is available only to the flight's captain
 
@@ -54,7 +54,7 @@
 - [x] 7.3 Verify the summary reports 3 first, 39 business, 15 premium economy and 121 economy unfiltered, and that these counts are relabelled when a status filter is applied
 - [x] 7.4 Verify the two no-shows on LH880 keep their seats in both the table and the drawing, and that no boarded passenger occupies those seats
 - [x] 7.5 Verify the 21 passengers carrying special service requirements appear in their rows in words, that the filter finds them, and that no summary figure counts them
-- [x] 7.6 Verify all three absent states against real flights: an unreleased flight, a flight whose aircraft has no cabin layout, and a pilot who does not command the flight
+- [x] 7.6 Verify all three absent states against real flights: a flight with no preliminary loadsheet, a flight whose aircraft has no cabin layout, and a pilot who does not command the flight
 - [x] 7.7 Verify the revision guard by pointing the app at a seat map revision later than a manifest's pinned revision, and confirm the table survives while the drawing is withheld
 - [x] 7.8 Verify a failed seat map request leaves the passenger list intact
 - [x] 7.9 Verify unicode names sort correctly and are not mangled in the table or the seat detail

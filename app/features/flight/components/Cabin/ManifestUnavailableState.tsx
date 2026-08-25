@@ -11,7 +11,7 @@ type Props = {
   aircraftHref?: string;
 };
 
-const GAPS_FIXED_ON_THE_AIRCRAFT: ManifestGap[] = ["no-layout", "unseated"];
+const GAPS_FIXED_ON_THE_AIRCRAFT: ManifestGap[] = ["no-layout"];
 
 type Notice = {
   tone: "info" | "warning" | "neutral";
@@ -25,28 +25,21 @@ const NOTICES: Record<ManifestGap, Notice> = {
     tone: "neutral",
     icon: FaBoxesStacked,
     title: "Cargo flight",
-    description: "No passengers are carried, so this flight is released without a cabin manifest.",
+    description: "No passengers are carried, so this flight has no cabin manifest.",
   },
-  "not-released": {
+  "no-loadsheet": {
     tone: "info",
     icon: FaHourglassHalf,
     title: "Passengers are not seated yet",
     description:
-      "Operations seat the manifest against the cabin layout when they release the flight. It appears here as soon as they do.",
+      "The manifest is generated from the preliminary loadsheet. It appears here as soon as operations fill one in, and is regenerated whenever they change it.",
   },
   "no-layout": {
     tone: "neutral",
     icon: FaChair,
-    title: "This flight was released without a manifest",
+    title: "This flight has no manifest",
     description:
-      "The aircraft flying it has no cabin layout assigned, so nobody was seated. Operations can assign one from the aircraft record.",
-  },
-  unseated: {
-    tone: "neutral",
-    icon: FaChair,
-    title: "Nobody was seated on this flight",
-    description:
-      "Operations released it without a cabin layout, and a layout assigned afterwards does not seat a released flight.",
+      "The aircraft flying it has no cabin layout assigned, so nobody can be seated. Operations can assign one from the aircraft record.",
   },
   forbidden: {
     tone: "neutral",

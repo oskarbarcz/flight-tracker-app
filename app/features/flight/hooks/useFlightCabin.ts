@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 import type { CabinSeatMap } from "~/features/cabin-layout/model";
-import {
-  type Flight,
-  type FlightManifest,
-  FlightServiceType,
-  FlightStatus,
-  type PassengerStatus,
-} from "~/features/flight";
+import { type Flight, type FlightManifest, FlightServiceType, type PassengerStatus } from "~/features/flight";
 import { useApi } from "~/shared/api/useApi";
 
-export type ManifestGap = "cargo" | "no-layout" | "not-released" | "unseated" | "forbidden" | "failed";
+export type ManifestGap = "cargo" | "no-layout" | "no-loadsheet" | "forbidden" | "failed";
 
 export type FlightCabin =
   | { status: "loading" }
@@ -23,7 +17,7 @@ function gapOfFailure(statusCode: number | undefined): ManifestGap {
   if (statusCode === FORBIDDEN) {
     return "forbidden";
   }
-  return statusCode === NOT_FOUND ? "unseated" : "failed";
+  return statusCode === NOT_FOUND ? "no-loadsheet" : "failed";
 }
 
 function gapOf(flight: Flight): ManifestGap | null {
@@ -32,9 +26,6 @@ function gapOf(flight: Flight): ManifestGap | null {
   }
   if (flight.aircraft.cabinLayout === null) {
     return "no-layout";
-  }
-  if (flight.status === FlightStatus.Created) {
-    return "not-released";
   }
   return null;
 }
