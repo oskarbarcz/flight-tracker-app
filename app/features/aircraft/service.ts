@@ -68,12 +68,6 @@ export class AircraftService extends AbstractAuthorizedApiService {
     });
   }
 
-  async removeHoldVariant(operatorId: string, aircraftId: string) {
-    return this.fetchWithAuth<void>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}/hold-variant`, {
-      method: "DELETE",
-    });
-  }
-
   async update(operatorId: string, aircraftId: string, data: EditAircraftRequest) {
     return this.fetchWithAuth<Aircraft>(`/api/v1/operator/${operatorId}/aircraft/${aircraftId}`, {
       body: JSON.stringify(data),

@@ -1,5 +1,6 @@
 import type { Aircraft } from "~/features/aircraft/model";
 import {
+  type AircraftFormValues,
   type AircraftIdentityFormValues,
   type AircraftLifecycleFormValues,
   notEtopsCertified,
@@ -36,15 +37,23 @@ export function aircraftRequestError(error: unknown): string {
   return violation ?? err.message ?? "Failed to save aircraft.";
 }
 
-export function aircraftFormDataToRequest(formData: AircraftFormData): CreateAircraftRequest {
-  const { identity, lifecycle } = formData;
+export function initAircraftFormValues(aircraft: Aircraft): AircraftFormValues {
+  const { identity, lifecycle } = initAircraftFormData(aircraft);
+  return { ...identity, ...lifecycle };
+}
+
+export function aircraftValuesToRequest(values: AircraftFormValues): CreateAircraftRequest {
   return {
-    type: identity.type,
-    registration: identity.registration,
-    selcal: identity.selcal || null,
-    livery: lifecycle.livery || undefined,
-    baseAirportId: lifecycle.baseAirportId || null,
+    type: values.type,
+    registration: values.registration,
+    selcal: values.selcal || null,
+    livery: values.livery || undefined,
+    baseAirportId: values.baseAirportId || null,
     etopsThresholdMinutes:
-      lifecycle.etopsThresholdMinutes === notEtopsCertified ? null : Number(lifecycle.etopsThresholdMinutes),
+      values.etopsThresholdMinutes === notEtopsCertified ? null : Number(values.etopsThresholdMinutes),
   };
+}
+
+export function aircraftFormDataToRequest(formData: AircraftFormData): CreateAircraftRequest {
+  return aircraftValuesToRequest({ ...formData.identity, ...formData.lifecycle });
 }

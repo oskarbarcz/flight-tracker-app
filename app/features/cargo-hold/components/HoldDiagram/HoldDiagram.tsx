@@ -24,8 +24,10 @@ type Props = {
   variants?: HoldVariant[];
   reading?: HoldReading;
   readings?: HoldReading[];
-  diagramOnly?: boolean;
+  detail?: HoldDiagramDetail;
 };
+
+export type HoldDiagramDetail = "none" | "compartments" | "full";
 
 const MIN_TILE_PX = 26;
 const LABEL_WIDTH_PX = 34;
@@ -60,7 +62,7 @@ function useMeasuredWidth() {
   return { ref, width };
 }
 
-export function HoldDiagram({ variant, variants, reading, readings, diagramOnly = false }: Props) {
+export function HoldDiagram({ variant, variants, reading, readings, detail = "full" }: Props) {
   const frame = useMemo(() => holdFrame(variant, variants ?? [variant]), [variant, variants]);
   const { ref, width } = useMeasuredWidth();
   const [selectedDeck, setSelectedDeck] = useState<HoldDeckName>(variant.decks[0].deck);
@@ -75,6 +77,7 @@ export function HoldDiagram({ variant, variants, reading, readings, diagramOnly 
   const deck = placement.deck;
   const activeReading =
     reading ?? readings?.find((entry) => entry.key === readingKey) ?? readings?.[0] ?? acceptedReading;
+  const readingNote = activeReading.note === undefined || activeReading.note === "" ? null : activeReading.note;
 
   const narrowestSlot = useMemo(() => {
     const lengths = frame.decks
@@ -133,11 +136,17 @@ export function HoldDiagram({ variant, variants, reading, readings, diagramOnly 
         </div>
       )}
 
+      {readingNote !== null && (
+        <p className="rounded-lg bg-gray-50 px-3 py-2.5 text-sm text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+          {readingNote}
+        </p>
+      )}
+
       <div ref={ref} className={isNarrowerThanContainer ? "flex justify-center py-8" : "overflow-x-auto"}>
         <div
           style={{ width: diagramWidth }}
           className="flex shrink-0 flex-col gap-1"
-          aria-describedby={diagramOnly ? undefined : summaryId}
+          aria-describedby={detail === "full" ? summaryId : undefined}
         >
           <HoldDeckPlan
             key={deck.deck}
@@ -158,41 +167,41 @@ export function HoldDiagram({ variant, variants, reading, readings, diagramOnly 
 
       <HoldLegend positions={positions} reading={activeReading} hasTaper={hasTaper} hasLoose={hasLoose} />
 
-      {!diagramOnly && (
-        <>
-          <section className="flex flex-col gap-2">
-            <FieldLabel>Compartments</FieldLabel>
-            <CompartmentCapabilities key={deck.deck} compartments={deck.compartments} />
-          </section>
+      {detail !== "none" && (
+        <section className="flex flex-col gap-2">
+          <FieldLabel>Compartments</FieldLabel>
+          <CompartmentCapabilities key={deck.deck} compartments={deck.compartments} />
+        </section>
+      )}
 
-          <section className="flex flex-col gap-2">
-            <FieldLabel>Available positions</FieldLabel>
-            <p id={summaryId} className="sr-only">
-              Every position of this deck with its compartment, side, accepted devices and weight limit — the same
-              information the diagram carries.
-            </p>
-            {isTableOpen && (
-              <div className="w-full sm:w-56">
-                <FilterInput value={positionQuery} onChange={setPositionQuery} placeholder="Search position" />
-              </div>
-            )}
+      {detail === "full" && (
+        <section className="flex flex-col gap-2">
+          <FieldLabel>Available positions</FieldLabel>
+          <p id={summaryId} className="sr-only">
+            Every position of this deck with its compartment, side, accepted devices and weight limit — the same
+            information the diagram carries.
+          </p>
+          {isTableOpen && (
+            <div className="w-full sm:w-56">
+              <FilterInput value={positionQuery} onChange={setPositionQuery} placeholder="Search position" />
+            </div>
+          )}
 
-            <BlurReveal
-              expanded={isTableOpen}
-              onExpand={() => setIsTableOpen(true)}
-              onCollapse={() => {
-                setIsTableOpen(false);
-                setPositionQuery("");
-              }}
-              label={`Show all positions of the ${toHuman.cargoHold.deck(deck.deck).toLowerCase()}`}
-              overlayLabel="See all positions"
-              collapseLabel="Hide positions"
-              previewHeight={TABLE_PREVIEW_HEIGHT}
-            >
-              <HoldPositionTable deck={deck} id={tableId} query={positionQuery} />
-            </BlurReveal>
-          </section>
-        </>
+          <BlurReveal
+            expanded={isTableOpen}
+            onExpand={() => setIsTableOpen(true)}
+            onCollapse={() => {
+              setIsTableOpen(false);
+              setPositionQuery("");
+            }}
+            label={`Show all positions of the ${toHuman.cargoHold.deck(deck.deck).toLowerCase()}`}
+            overlayLabel="See all positions"
+            collapseLabel="Hide positions"
+            previewHeight={TABLE_PREVIEW_HEIGHT}
+          >
+            <HoldPositionTable deck={deck} id={tableId} query={positionQuery} />
+          </BlurReveal>
+        </section>
       )}
 
       {hover !== null && (

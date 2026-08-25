@@ -1,10 +1,19 @@
-import { Badge } from "flowbite-react";
+import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { HoldDiagram } from "~/features/cargo-hold/components/HoldDiagram/HoldDiagram";
 import { HoldUnavailableState } from "~/features/cargo-hold/components/HoldDiagram/HoldUnavailableState";
-import { type AircraftHoldLayout, defaultVariantOf, type HoldVariant, variantById } from "~/features/cargo-hold/model";
+import {
+  type AircraftHoldLayout,
+  compartmentsOf,
+  defaultVariantOf,
+  type HoldVariant,
+  positionCountOf,
+  variantById,
+  volumeOf,
+} from "~/features/cargo-hold/model";
 import { useApi } from "~/shared/api/useApi";
+import { DataField } from "~/shared/ui/Display/DataField";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
@@ -77,7 +86,7 @@ export function AircraftHoldPanel({ airframeType, holdVariant, actions, onLoaded
 
   if (state.status !== "ready") {
     return (
-      <Container header={<CardHeader title="Cargo hold" actions={actions} />} padding="spacious">
+      <Container header={<CardHeader title="Cargo hold" />} padding="spacious">
         <HoldUnavailableState gap={state.status === "uncurated" ? "uncurated" : "failed"} type={airframeType} />
       </Container>
     );
@@ -85,19 +94,30 @@ export function AircraftHoldPanel({ airframeType, holdVariant, actions, onLoaded
 
   return (
     <div className="flex flex-col gap-4">
-      <Container header={<CardHeader title="Cargo hold" actions={actions} />} padding="spacious">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-sm font-semibold text-gray-900 dark:text-white">{state.variant.id}</span>
-          {state.isDefault ? <Badge color="gray">Type default</Badge> : <Badge color="indigo">Assigned</Badge>}
-          <Link
-            to={`/cargo-holds/${state.layout.type}`}
-            viewTransition
-            className="text-xs text-indigo-600 underline dark:text-indigo-400"
-          >
-            View {state.layout.type} in the catalogue
-          </Link>
+      <Container header={<CardHeader title="Cargo hold" />} padding="spacious">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-5">
+            <DataField label="Layout" value={state.variant.id} mono />
+            <DataField label="Aircraft type" value={state.layout.type} mono />
+            <DataField label="Compartments" value={String(compartmentsOf(state.variant).length)} mono />
+            <DataField label="Positions" value={String(positionCountOf(state.variant))} mono />
+            <DataField label="Cargo space" value={`${Math.round(volumeOf(state.variant) * 10) / 10} m³`} mono />
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link to={`/cargo-holds/${state.layout.type}`} viewTransition>
+              <Button size="xs" color="indigo">
+                Open in catalogue
+              </Button>
+            </Link>
+            {actions}
+          </div>
         </div>
-        <HoldDiagram key={state.variant.id} variant={state.variant} variants={state.layout.variants} />
+        <HoldDiagram
+          key={state.variant.id}
+          variant={state.variant}
+          variants={state.layout.variants}
+          detail="compartments"
+        />
       </Container>
     </div>
   );

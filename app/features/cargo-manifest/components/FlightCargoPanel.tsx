@@ -18,6 +18,7 @@ import { reconcile } from "~/features/cargo-manifest/lib/reconciliation";
 import { shipmentIndex } from "~/features/cargo-manifest/lib/shipmentIndex";
 import { unloadSequence } from "~/features/cargo-manifest/lib/unloadSequence";
 import type { Flight } from "~/features/flight";
+import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
@@ -33,15 +34,22 @@ export function FlightCargoPanel({ flight }: Props) {
     if (cargo.status !== "ready") {
       return null;
     }
-    const { manifest, variant } = cargo;
+    const { manifest, variant, holdDataNote } = cargo;
     const entries = shipmentIndex(manifest);
 
     return {
       manifest,
       variant,
+      holdDataNote,
+      looseUnits: manifest.units.filter((unit) => unit.positionDesignator === null),
       entries,
       reconciliation: reconcile(manifest),
-      advisories: loadAdvisories({ manifest, variant, serviceType: flight.serviceType }),
+      advisories: loadAdvisories({
+        manifest,
+        variant,
+        serviceType: flight.serviceType,
+        holdDataNote: holdDataNote ?? "",
+      }),
       coldChain: coldChainEntries(entries),
       sequence: unloadSequence(manifest, variant),
       readings: loadedReadings(manifest, variant),
@@ -60,7 +68,18 @@ export function FlightCargoPanel({ flight }: Props) {
     return <LoadingData />;
   }
 
-  const { manifest, variant, entries, reconciliation, advisories, coldChain, sequence, readings } = derived;
+  const {
+    manifest,
+    variant,
+    holdDataNote,
+    looseUnits,
+    entries,
+    reconciliation,
+    advisories,
+    coldChain,
+    sequence,
+    readings,
+  } = derived;
 
   return (
     <div className="flex flex-col gap-4">
@@ -70,9 +89,17 @@ export function FlightCargoPanel({ flight }: Props) {
 
       <Container header={<CardHeader title="Hold" />} padding="spacious">
         {variant === null ? (
-          <PositionlessLoad units={manifest.units} compartmentKnown={false} />
+          <PositionlessLoad units={manifest.units} note={holdDataNote} />
         ) : (
-          <HoldDiagram variant={variant} readings={readings} diagramOnly />
+          <div className="flex flex-col gap-4">
+            <HoldDiagram variant={variant} readings={readings} detail="none" />
+            {looseUnits.length > 0 && (
+              <section className="flex flex-col gap-2">
+                <FieldLabel>Loose load, held against its compartment</FieldLabel>
+                <PositionlessLoad units={looseUnits} note={null} />
+              </section>
+            )}
+          </div>
         )}
       </Container>
 
@@ -101,7 +128,7 @@ export function FlightCargoPanel({ flight }: Props) {
       )}
 
       <Container header={<CardHeader title="Unload sequence" />} padding="spacious">
-        <UnloadSequence sequence={sequence} />
+        <UnloadSequence sequence={sequence} holdDataNote={holdDataNote} />
       </Container>
 
       <Container header={<CardHeader title="Left behind" />} padding="spacious">

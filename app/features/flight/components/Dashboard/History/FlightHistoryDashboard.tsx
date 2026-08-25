@@ -32,7 +32,7 @@ export function FlightHistoryDashboard() {
       </div>
 
       {tab === HistoryDataTab.Overview && <HistoryOverviewTab />}
-      {tab === HistoryDataTab.FuelAndLoad && <HistoryFuelAndLoadTab />}
+      {tab === HistoryDataTab.FuelAndCrew && <HistoryFuelAndLoadTab />}
       {tab === HistoryDataTab.Events && <HistoryEventsTab />}
       {tab === HistoryDataTab.Map && <HistoryMapTab />}
       {tab === HistoryDataTab.OperationalFlightPlan && <HistoryOfpTab />}

@@ -47,6 +47,10 @@ export const aircraftLifecycleSchema: ObjectSchema<AircraftLifecycleFormValues> 
     .oneOf(etopsThresholdFormValues, "Invalid ETOPS threshold"),
 });
 
+export type AircraftFormValues = AircraftIdentityFormValues & AircraftLifecycleFormValues;
+
+export const aircraftSchema: ObjectSchema<AircraftFormValues> = aircraftIdentitySchema.concat(aircraftLifecycleSchema);
+
 export const repositionSchema: ObjectSchema<CreateRepositionRequest> = object().shape({
   destinationAirportId: string().uuid("Invalid airport").required("Destination is required"),
 });

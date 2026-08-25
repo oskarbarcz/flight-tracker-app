@@ -5,6 +5,7 @@ import { HoldCatalogueTable } from "~/features/cargo-hold/components/Catalogue/H
 import type { AircraftHoldLayout } from "~/features/cargo-hold/model";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { FilterInput } from "~/shared/ui/Filter/FilterInput";
 import { SectionHeaderWithButton } from "~/shared/ui/Section/SectionHeaderWithButton";
 import { EmptyStateIcon } from "~/shared/ui/Table/LoadingStates/EmptyStateIcon";
 import { EmptyStateText } from "~/shared/ui/Table/LoadingStates/EmptyStateText";
@@ -67,14 +68,7 @@ export default function CargoHoldsListRoute() {
       </p>
 
       <div className="mb-4">
-        <input
-          type="search"
-          value={filter}
-          onChange={(event) => setFilter(event.target.value)}
-          placeholder="Filter by ICAO type"
-          aria-label="Filter by ICAO aircraft type"
-          className="w-full max-w-xs rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-mono uppercase placeholder:font-sans placeholder:normal-case focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-        />
+        <FilterInput className="w-56" placeholder="Filter by ICAO type" value={filter} onChange={setFilter} />
       </div>
 
       {state.status === "loading" && <LoadingData />}

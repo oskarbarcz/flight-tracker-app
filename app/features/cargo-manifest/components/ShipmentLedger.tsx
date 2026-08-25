@@ -11,6 +11,7 @@ import {
   isFiltering,
   type LedgerFilters,
   NO_FILTERS,
+  statusesPresent,
   transferRolesPresent,
 } from "~/features/cargo-manifest/lib/ledgerFilters";
 import type { IndexedShipment } from "~/features/cargo-manifest/lib/shipmentIndex";
@@ -95,6 +96,15 @@ export function ShipmentLedger({ entries, id }: Props) {
           options={transferRolesPresent(entries).map((role) => ({
             value: role,
             label: toHuman.cargoManifest.transferRole(role),
+          }))}
+        />
+        <FilterSelect
+          label="Status"
+          value={filters.status}
+          onChange={set("status")}
+          options={statusesPresent(entries).map((status) => ({
+            value: status,
+            label: toHuman.cargoManifest.shipmentStatus(status),
           }))}
         />
         <FilterSelect

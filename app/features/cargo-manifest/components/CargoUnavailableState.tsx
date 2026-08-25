@@ -14,9 +14,14 @@ const COPY: Record<CargoGap, { title: string; body: string; icon: IconType }> = 
     body: "The cargo manifest is generated when the flight is released to the pilot.",
     icon: LuPackage,
   },
+  "not-generated": {
+    title: "No manifest for this flight",
+    body: "No cargo manifest has been generated for this flight.",
+    icon: LuPackage,
+  },
   "no-cargo": {
     title: "No cargo aboard",
-    body: "This flight carries no cargo, so there is no manifest to report.",
+    body: "The manifest for this flight accounts for no cargo.",
     icon: LuPackage,
   },
   forbidden: {

@@ -26,9 +26,9 @@ export function AircraftDetailsTabs({ operatorId, aircraftId }: Props) {
       label="Aircraft sections"
       activeKey={activeKeyOf(pathname, base)}
       items={[
-        { key: "flights", title: "Flights & position", to: base },
+        { key: "flights", title: "Overview", to: base },
         { key: "seat-layout", title: "Cabin layout", to: `${base}/seat-layout` },
-        { key: "hold-layout", title: "Cargo hold", to: `${base}/hold-layout` },
+        { key: "hold-layout", title: "Cargo hold layout", to: `${base}/hold-layout` },
       ]}
     />
   );

@@ -6,6 +6,7 @@ import {
   compartmentsOf,
   defaultVariantOf,
   positionCountOf,
+  volumeOf,
 } from "~/features/cargo-hold/model";
 import { toHuman } from "~/i18n/translate";
 
@@ -32,7 +33,7 @@ export function HoldCatalogueTable({ layouts }: Props) {
             {layouts.map((layout) => {
               const variant = defaultVariantOf(layout);
               const compartments = variant === null ? [] : compartmentsOf(variant);
-              const volume = compartments.reduce((sum, compartment) => sum + compartment.volumeM3, 0);
+              const volume = variant === null ? 0 : volumeOf(variant);
 
               return (
                 <TableRow key={layout.type}>

@@ -6,16 +6,15 @@ import { SpecRow } from "~/shared/ui/Display/SpecRow";
 
 type Props = {
   units: CargoUnitEntry[];
-  compartmentKnown: boolean;
+  note: string | null;
 };
 
-export function PositionlessLoad({ units, compartmentKnown }: Props) {
+export function PositionlessLoad({ units, note }: Props) {
   return (
     <div className="flex flex-col gap-3">
-      {!compartmentKnown && (
+      {note !== null && (
         <p className="rounded-lg bg-gray-50 px-3 py-2.5 text-sm text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-          This airframe type carries no curated hold data. The load is reported by unit, without positions or
-          compartments.
+          {note}
         </p>
       )}
 

@@ -55,9 +55,9 @@ export function FlightTrackingDashboard({ flightId }: Props) {
       />
 
       {tab === FlightDataTab.Overview && <FlightOverviewTab />}
-      {tab === FlightDataTab.FuelAndLoad && <FlightFuelAndLoadTab />}
-      {tab === FlightDataTab.CabinAndManifest && <FlightCabinTab />}
-      {tab === FlightDataTab.CargoAndHold && <FlightCargoTab />}
+      {tab === FlightDataTab.FuelAndCrew && <FlightFuelAndLoadTab />}
+      {tab === FlightDataTab.Passengers && <FlightCabinTab />}
+      {tab === FlightDataTab.Cargo && <FlightCargoTab />}
       {tab === FlightDataTab.FlightProgress && <FlightProgressTab />}
       {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
       {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}

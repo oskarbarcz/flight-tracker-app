@@ -20,14 +20,18 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
+  maxLength?: number;
+  className?: string;
 };
 
-export function FilterInput({ value, onChange, placeholder }: Props) {
+export function FilterInput({ value, onChange, placeholder, maxLength, className }: Props) {
   return (
     <TextInput
       theme={filterInputTheme}
       icon={LuSearch}
       sizing="sm"
+      className={className}
+      maxLength={maxLength}
       aria-label={placeholder}
       placeholder={placeholder}
       value={value}
