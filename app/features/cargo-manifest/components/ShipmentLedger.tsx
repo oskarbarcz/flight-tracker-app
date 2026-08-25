@@ -1,5 +1,5 @@
 import { Badge, Select } from "flowbite-react";
-import React, { useMemo, useState } from "react";
+import React, { useId, useMemo, useState } from "react";
 import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 import { WaybillCard } from "~/features/cargo-manifest/components/WaybillCard";
@@ -33,14 +33,21 @@ function FilterSelect({
   options: Array<{ value: string; label: string }>;
   onChange: (value: string) => void;
 }) {
+  const selectId = useId();
+
   if (options.length === 0) {
     return null;
   }
 
   return (
-    <label className="flex flex-col gap-1">
-      <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</span>
-      <Select sizing="sm" value={value} onChange={(event) => onChange(event.target.value)}>
+    <div className="flex flex-col gap-1">
+      <label
+        htmlFor={selectId}
+        className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+      >
+        {label}
+      </label>
+      <Select id={selectId} sizing="sm" value={value} onChange={(event) => onChange(event.target.value)}>
         <option value="">All</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -48,7 +55,7 @@ function FilterSelect({
           </option>
         ))}
       </Select>
-    </label>
+    </div>
   );
 }
 
