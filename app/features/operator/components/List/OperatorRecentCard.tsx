@@ -15,7 +15,7 @@ export function OperatorRecentCard({ operator }: Props) {
       className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-2.5 transition-colors hover:border-indigo-400 hover:bg-indigo-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-indigo-500 dark:hover:bg-gray-700"
     >
       <div className="flex h-11 w-16 shrink-0 items-center justify-center rounded-lg bg-gray-50 p-1.5">
-        <OperatorFin operator={operator} className="mix-blend-multiply" />
+        <OperatorFin operator={operator} />
       </div>
       <div className="min-w-0">
         <h3 className="truncate text-sm font-bold text-gray-900 dark:text-white">{operator.shortName}</h3>

@@ -1,5 +1,6 @@
 import React from "react";
 import { FlightPhase } from "~/features/flight";
+import { blockTimeColumn } from "~/features/flight/components/List/FlightListColumns";
 import { FlightListView } from "~/features/flight/components/Table/FlightListView";
 import { FlightListProvider } from "~/features/flight/hooks/useFlightList";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -14,7 +15,7 @@ export default function FinishedFlightsRoute() {
     <>
       <SectionHeader title="Flight history" />
       <FlightListProvider>
-        <FlightListView phases={PHASES} emptyMessage="No finished flights found." />
+        <FlightListView phases={PHASES} emptyMessage="No finished flights found." trailingColumn={blockTimeColumn} />
       </FlightListProvider>
     </>
   );

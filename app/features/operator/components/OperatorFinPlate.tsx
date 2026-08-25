@@ -35,7 +35,7 @@ export function OperatorFinPlate({ operator, className }: Props) {
       {fin ? (
         <img src={fin} alt={`${operator.shortName} tail fin`} className="size-full object-contain mix-blend-multiply" />
       ) : (
-        <OperatorFin operator={operator} className="mix-blend-multiply" />
+        <OperatorFin operator={operator} />
       )}
     </div>
   );

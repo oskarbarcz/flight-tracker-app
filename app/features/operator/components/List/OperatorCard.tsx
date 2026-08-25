@@ -21,7 +21,7 @@ export function OperatorCard({ operator }: Props) {
       className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors dark:border-gray-700 dark:bg-gray-800"
     >
       <div className="flex aspect-16/9 items-center justify-center bg-gray-50 px-10 py-8">
-        <OperatorFin operator={operator} className="mix-blend-multiply" />
+        <OperatorFin operator={operator} />
       </div>
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-baseline justify-between gap-2">

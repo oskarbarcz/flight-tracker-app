@@ -2,15 +2,15 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import type { Operator } from "~/features/operator";
 
-const finThumbnails = import.meta.glob("../../../assets/operator/thumb/*.jpg", {
+const finImages = import.meta.glob("../../../assets/operator/transparent/*.png", {
   eager: true,
   import: "default",
   query: "?url",
 });
 
 const finByIcao: Record<string, string> = {};
-for (const [path, url] of Object.entries(finThumbnails)) {
-  const icao = path.split("/").at(-1)?.replace(".jpg", "");
+for (const [path, url] of Object.entries(finImages)) {
+  const icao = path.split("/").at(-1)?.replace(".png", "");
   if (icao) {
     finByIcao[icao] = url as string;
   }

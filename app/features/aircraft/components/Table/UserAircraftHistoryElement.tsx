@@ -38,7 +38,7 @@ export function UserAircraftHistoryElement({ entry }: Props) {
       <TableCell>
         <div className="flex items-center gap-3">
           <OptionAvatarFrame>
-            <OperatorFin operator={entry.operator} className="mix-blend-multiply" />
+            <OperatorFin operator={entry.operator} />
           </OptionAvatarFrame>
           <div>
             <span className="block font-semibold text-gray-900 dark:text-white">{entry.operator.shortName}</span>
