@@ -27,6 +27,20 @@ import {
   translateUldType,
 } from "~/features/cargo-hold/i18n";
 import {
+  translateBaggageSource,
+  translateCargoUnitKind,
+  translateColdChainRegime,
+  translateColdChainRisk,
+  translateColdChainSolution,
+  translateCommodity,
+  translateContentClass,
+  translateHazardClass,
+  translateOffloadReason,
+  translateShipmentStatus,
+  translateSpecialHandling,
+  translateTransferRole,
+} from "~/features/cargo-manifest/i18n";
+import {
   translateAirportOnFlightType,
   translateEventType,
   translatePassengerStatus,
@@ -74,6 +88,20 @@ export const toHuman = {
     uldBase: translateUldBase,
     uldContour: translateUldContour,
     uldType: translateUldType,
+  },
+  cargoManifest: {
+    baggageSource: translateBaggageSource,
+    coldChainRegime: translateColdChainRegime,
+    coldChainRisk: translateColdChainRisk,
+    coldChainSolution: translateColdChainSolution,
+    commodity: translateCommodity,
+    contentClass: translateContentClass,
+    hazardClass: translateHazardClass,
+    offloadReason: translateOffloadReason,
+    shipmentStatus: translateShipmentStatus,
+    specialHandling: translateSpecialHandling,
+    transferRole: translateTransferRole,
+    unitKind: translateCargoUnitKind,
   },
   cabinLayout: {
     cabinClass: translateCabinClass,

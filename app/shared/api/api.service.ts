@@ -2,6 +2,17 @@ import { getMyPreflightApiHost } from "~/shared/lib/getMyPreflightApiHost";
 import { refreshAccessToken } from "~/shared/lib/refreshAccessToken";
 import { isAccessTokenExpired, readAccessToken } from "~/shared/lib/tokenStorage";
 
+export class UnauthorizedError extends Error {
+  constructor() {
+    super("Unauthorized");
+    this.name = "UnauthorizedError";
+  }
+}
+
+export function isUnauthorized(reason: unknown): boolean {
+  return reason instanceof UnauthorizedError;
+}
+
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 
 export type ErrorResponse<T> = {
@@ -111,7 +122,7 @@ export abstract class AbstractAuthorizedApiService extends AbstractApiService {
   private getAccessToken() {
     const token = readAccessToken();
     if (token === null) {
-      throw new Error("Unauthorized");
+      throw new UnauthorizedError();
     }
     return token;
   }

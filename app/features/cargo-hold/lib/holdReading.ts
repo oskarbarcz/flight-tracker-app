@@ -1,11 +1,25 @@
+import type { IconType } from "react-icons";
 import { acceptedTypes } from "~/features/cargo-hold/lib/positionFit";
 import type { HoldPosition } from "~/features/cargo-hold/model";
 import { PositionSide, UldBase } from "~/features/cargo-hold/model";
 import { toHuman } from "~/i18n/translate";
 
+export type PositionMarker = {
+  key: string;
+  label: string;
+  icon: IconType;
+};
+
+export type DetailRow = {
+  label: string;
+  value: string;
+};
+
 export type PositionAppearance = {
   fill: string;
   description: string;
+  markers?: PositionMarker[];
+  detail?: DetailRow[];
 };
 
 export type LegendEntry = {
@@ -19,6 +33,7 @@ export type HoldReading = {
   label: string;
   appearanceOf: (position: HoldPosition) => PositionAppearance;
   legendFor: (positions: HoldPosition[]) => LegendEntry[];
+  note?: string | null;
 };
 
 const CONTAINER_FILL = "border-gray-300 bg-gray-100 dark:border-gray-600 dark:bg-gray-700";

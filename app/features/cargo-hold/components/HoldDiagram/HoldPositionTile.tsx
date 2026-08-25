@@ -29,6 +29,13 @@ function PositionControl({ designator, appearance, tapered, showLabel, style, on
       onBlur={onClose}
     >
       {showLabel && <span className="truncate px-0.5">{designator}</span>}
+      {appearance.markers !== undefined && appearance.markers.length > 0 && (
+        <span className="absolute inset-x-0 top-0 flex items-center justify-center gap-0.5 pt-px">
+          {appearance.markers.map((marker) => (
+            <marker.icon key={marker.key} aria-hidden={true} className="size-2.5 shrink-0" />
+          ))}
+        </span>
+      )}
       {tapered && (
         <span
           aria-hidden={true}

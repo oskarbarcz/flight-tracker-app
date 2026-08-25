@@ -80,6 +80,10 @@ A discriminated state — loading, unavailable with a named gap, ready — resol
 
 `no-hold-data` is distinct from the others: it is a *ready* state with a reduced view, not an unavailable one. The load is shown; only the drawing is withheld.
 
+### The aircraft is one size, whichever deck is shown
+
+`curate-aircraft-cargo-holds` sized each deck by the across-extent of the base its own positions accept, which is physically true — a 747F main deck really is wider than its lower hold. But decks are presented one at a time behind a switcher, so a per-deck height made the fuselage visibly jump on every switch, the same defect the per-variant width had. The width is now resolved once per airframe type, across every variant and every deck, and applied to whichever deck is shown. The difference that carries information is between aircraft, not between decks of one aircraft, and that difference is preserved.
+
 ## Risks / Trade-offs
 
 - **Large parts of the contract have no seeded data** — nothing offloaded, no baggage or mail unit, no transfer, five of seven device types absent. → Built to the contract, flagged in the spec as unverified against data, and the verification tasks say plainly which paths were exercised and which were not.

@@ -1,12 +1,14 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { TooltipRow } from "~/features/cabin-layout/components/SeatMap/TooltipRow";
+import type { PositionAppearance } from "~/features/cargo-hold/lib/holdReading";
 import { acceptedTypes } from "~/features/cargo-hold/lib/positionFit";
 import type { HoldPosition } from "~/features/cargo-hold/model";
 import { toHuman } from "~/i18n/translate";
 
 type Props = {
   position: HoldPosition;
+  appearance?: PositionAppearance;
   x: number;
   y: number;
   below: boolean;
@@ -20,7 +22,7 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
-export function HoldPositionTooltip({ position, x, y, below }: Props) {
+export function HoldPositionTooltip({ position, appearance, x, y, below }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [halfWidth, setHalfWidth] = useState(FALLBACK_HALF_WIDTH);
 
@@ -56,7 +58,20 @@ export function HoldPositionTooltip({ position, x, y, below }: Props) {
           <TooltipRow label="Bases" value={position.acceptedBases.join(", ")} />
           <TooltipRow label="Contours" value={position.acceptedContours.join(", ")} />
           <TooltipRow label="Accepts" value={fits.length === 0 ? "No catalogued device" : fits.join(", ")} />
+          {appearance?.detail?.map((row) => (
+            <TooltipRow key={row.label} label={row.label} value={row.value} />
+          ))}
         </dl>
+        {appearance?.markers !== undefined && appearance.markers.length > 0 && (
+          <ul className="mt-1.5 flex flex-col gap-0.5 border-t border-gray-700 pt-1.5 dark:border-gray-600">
+            {appearance.markers.map((marker) => (
+              <li key={marker.key} className="flex items-center gap-1.5 text-xs text-gray-300">
+                <marker.icon aria-hidden={true} className="size-3 shrink-0" />
+                {marker.label}
+              </li>
+            ))}
+          </ul>
+        )}
         <span
           aria-hidden={true}
           style={{ left: `calc(50% + ${arrowOffset}px)` }}

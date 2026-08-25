@@ -1,8 +1,9 @@
 import { Button, ThemeModeScript, ThemeProvider } from "flowbite-react";
 import React, { useEffect } from "react";
-import { isRouteErrorResponse, Link, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { isRouteErrorResponse, Link, Links, Meta, Navigate, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { AuthProvider } from "~/app-state/useAuth";
 import { ToastProvider } from "~/app-state/useToast";
+import { isUnauthorized } from "~/shared/api/api.service";
 import { ApiProvider } from "~/shared/api/useApi";
 import { installModalEntrance } from "~/shared/lib/modalEntrance";
 import { UpdatePrompt } from "~/shared/pwa/UpdatePrompt";
@@ -100,11 +101,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
 
-  if (isRouteErrorResponse(error)) {
-    if (error.status === 401) {
-      return error;
-    }
+  if (isUnauthorized(error) || (isRouteErrorResponse(error) && error.status === 401)) {
+    return <Navigate to="/sign-in" replace />;
+  }
 
+  if (isRouteErrorResponse(error)) {
     if (error.status === 404) {
       return <NotFoundError />;
     }

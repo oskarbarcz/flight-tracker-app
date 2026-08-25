@@ -2,16 +2,18 @@ import React from "react";
 import type { IconType } from "react-icons";
 import { FaBox, FaGasPump, FaScaleBalanced, FaUserGroup, FaUserTie } from "react-icons/fa6";
 import { HiInformationCircle } from "react-icons/hi";
-import type { Loadsheet } from "~/features/flight";
+import type { FlightServiceType, Loadsheet } from "~/features/flight";
+import { occupantsLabel } from "~/features/flight/lib/occupants";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
 type Props = {
   preliminary: Loadsheet | null;
   final: Loadsheet | null;
+  serviceType: FlightServiceType;
 };
 
-export function LoadsheetSummaryCard({ preliminary, final }: Props) {
+export function LoadsheetSummaryCard({ preliminary, final, serviceType }: Props) {
   const loadsheet = final ?? preliminary ?? null;
   const isPreliminary = !final && Boolean(preliminary);
 
@@ -58,7 +60,7 @@ export function LoadsheetSummaryCard({ preliminary, final }: Props) {
         <Row icon={FaUserTie} label="Pilots" value={loadsheet.flightCrew.pilots} />
         <Row icon={FaUserGroup} label="Cabin crew" value={loadsheet.flightCrew.cabinCrew} />
         <Row icon={FaUserTie} label="Relief pilots" value={loadsheet.flightCrew.reliefPilots} muted />
-        <Row icon={FaUserGroup} label="Passengers" value={loadsheet.passengers} emphasis />
+        <Row icon={FaUserGroup} label={occupantsLabel(serviceType)} value={loadsheet.passengers} emphasis />
       </div>
 
       <div className="border-t border-dashed border-gray-200 dark:border-gray-800" />

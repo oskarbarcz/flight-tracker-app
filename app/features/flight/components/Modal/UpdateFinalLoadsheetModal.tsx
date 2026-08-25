@@ -15,6 +15,7 @@ export function UpdateFinalLoadsheetModal({ flight, update, cancel }: UpdateFina
       formId="updateFinalLoadsheetForm"
       loadsheet={flight.loadsheets.preliminary as Loadsheet}
       timesheet={flight.timesheet}
+      serviceType={flight.serviceType}
       confirmLabel="Confirm weights and continue to pushback"
       submit={update}
       cancel={cancel}
