@@ -4,31 +4,12 @@ import { cabinFacts, centimetresOf } from "~/features/cabin-layout/lib/cabinFact
 import { CABIN_FILLS } from "~/features/cabin-layout/lib/seatAppearance";
 import type { CabinClass, CabinSeatMapDeck } from "~/features/cabin-layout/model";
 import { toHuman } from "~/i18n/translate";
+import { SpecRow } from "~/shared/ui/Display/SpecRow";
 
 type Props = {
   deck: CabinSeatMapDeck;
   onActiveChange: (cabin: CabinClass | null) => void;
 };
-
-const NOT_REPORTED = "Not reported";
-
-function SpecRow({ label, value }: { label: string; value: string | null }) {
-  const centimetres = centimetresOf(value);
-
-  return (
-    <>
-      <dt className="text-[10px] font-medium uppercase leading-4 tracking-wider text-gray-500 dark:text-gray-400">
-        {label}
-      </dt>
-      <dd className="whitespace-nowrap text-right font-mono text-xs font-bold leading-4 tabular-nums text-gray-900 dark:text-gray-100">
-        {value ?? NOT_REPORTED}
-        {centimetres !== null && (
-          <span className="ml-1.5 font-normal text-gray-500 dark:text-gray-400">{`(${centimetres})`}</span>
-        )}
-      </dd>
-    </>
-  );
-}
 
 export function CabinDescriptions({ deck, onActiveChange }: Props) {
   const facts = useMemo(() => cabinFacts(deck), [deck]);
@@ -162,9 +143,9 @@ export function CabinDescriptions({ deck, onActiveChange }: Props) {
 
               {definition !== null && (
                 <dl className="grid h-fit grid-cols-[auto_auto] gap-x-3 gap-y-2 sm:pt-0.5">
-                  <SpecRow label="Seat pitch" value={definition.pitch} />
-                  <SpecRow label="Seat width" value={definition.width} />
-                  <SpecRow label="Seat recline" value={definition.recline} />
+                  <SpecRow label="Seat pitch" value={definition.pitch} suffix={centimetresOf(definition.pitch)} />
+                  <SpecRow label="Seat width" value={definition.width} suffix={centimetresOf(definition.width)} />
+                  <SpecRow label="Seat recline" value={definition.recline} suffix={centimetresOf(definition.recline)} />
                 </dl>
               )}
             </div>

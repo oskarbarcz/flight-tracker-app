@@ -7,18 +7,28 @@ type Props = {
   aircraftId: string;
 };
 
+function activeKeyOf(pathname: string, base: string): string {
+  if (pathname.startsWith(`${base}/seat-layout`)) {
+    return "seat-layout";
+  }
+  if (pathname.startsWith(`${base}/hold-layout`)) {
+    return "hold-layout";
+  }
+  return "flights";
+}
+
 export function AircraftDetailsTabs({ operatorId, aircraftId }: Props) {
   const { pathname } = useLocation();
   const base = `/operators/${operatorId}/aircraft/${aircraftId}`;
-  const isSeatLayout = pathname.startsWith(`${base}/seat-layout`);
 
   return (
     <TabLinkNav
       label="Aircraft sections"
-      activeKey={isSeatLayout ? "seat-layout" : "flights"}
+      activeKey={activeKeyOf(pathname, base)}
       items={[
         { key: "flights", title: "Flights & position", to: base },
         { key: "seat-layout", title: "Cabin layout", to: `${base}/seat-layout` },
+        { key: "hold-layout", title: "Cargo hold", to: `${base}/hold-layout` },
       ]}
     />
   );

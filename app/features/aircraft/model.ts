@@ -38,6 +38,7 @@ export type Aircraft = {
   lastAirportUpdatedAt: string | null;
   lastParkingPosition: AircraftParkingPosition | null;
   cabinLayout: AircraftCabinLayout | null;
+  holdVariant: string | null;
 };
 
 export type UserAircraftEntryOperator = {

@@ -1,0 +1,232 @@
+## Purpose
+
+Presents the notification to captain a flight carries — what is aboard that the commander must know about, where it sits, and what to do if it goes wrong — as the immutable record of the load at the moment it was issued.
+
+## ADDED Requirements
+
+### Requirement: A notification is read only when one has been issued
+
+The app SHALL resolve a flight to either a notification or a named reason there is none, and SHALL distinguish those reasons. It SHALL state, distinctly: that no notification has been issued because the flight has not been released; that the reader is not permitted to read this flight's notification; and that the request failed.
+
+#### Scenario: A flight before release
+
+- **WHEN** the reader opens the notification of a flight that has not been released
+- **THEN** the app states that the notification is issued when the flight is released to the pilot
+- **AND** does not present an empty document
+
+#### Scenario: A flight the reader may not see
+
+- **GIVEN** a reader whose role permits the notification only for a flight they captain
+- **WHEN** they open another flight's notification
+- **THEN** the app states they are not permitted to read it
+- **AND** distinguishes that from no notification having been issued
+
+#### Scenario: A failed read
+
+- **WHEN** the notification cannot be read because the request failed
+- **THEN** the app distinguishes that from no notification having been issued
+
+### Requirement: A notification always says whether dangerous goods are aboard
+
+Every notification carries a statement in words of whether dangerous goods are loaded. The app SHALL present that statement prominently whether or not any dangerous goods follow it, and SHALL NOT present a notification carrying none as an empty document or as an absence.
+
+#### Scenario: A flight carrying no dangerous goods
+
+- **WHEN** a notification reporting no dangerous goods is shown
+- **THEN** its statement that none are loaded is presented
+- **AND** the document is not presented as empty or unavailable
+
+#### Scenario: A flight carrying dangerous goods
+
+- **WHEN** a notification reporting dangerous goods is shown
+- **THEN** its statement is presented
+- **AND** the dangerous goods it reports follow it
+
+### Requirement: The reader can choose a stage
+
+A notification is issued preliminarily at release and finally when boarding finishes, each an immutable record of the load at that moment. The app SHALL present the latest issued notification by default, SHALL let the reader move to another stage where one exists, and SHALL make clear which stage is shown and when it was issued.
+
+#### Scenario: Only a preliminary notification exists
+
+- **WHEN** a flight carries only a preliminary notification
+- **THEN** it is shown
+- **AND** the app states that the final one is issued when boarding finishes
+
+#### Scenario: Both stages exist
+
+- **GIVEN** a flight carrying both a preliminary and a final notification
+- **WHEN** the reader selects the preliminary one
+- **THEN** the preliminary document is shown
+- **AND** the stage and its issue time are stated
+
+#### Scenario: The document is immutable
+
+- **WHEN** a notification of either stage is shown
+- **THEN** no control is offered that would alter it
+
+### Requirement: What changed between stages is reported
+
+The final notification reports what changed since the preliminary one. Where such a report is present the app SHALL present it alongside the final document. Where it is absent — as on a preliminary notification — the app SHALL present no change report rather than an empty one.
+
+#### Scenario: A final notification reporting changes
+
+- **WHEN** a final notification carrying a change report is shown
+- **THEN** what changed since the preliminary notification is presented with it
+
+#### Scenario: A preliminary notification
+
+- **WHEN** a preliminary notification is shown
+- **THEN** no change report is presented
+
+### Requirement: Every dangerous good reports its declaration and its position
+
+For each dangerous good the app SHALL report the air waybill, the proper shipping name, the UN number, the hazard class, the subsidiary risk, the packing group, the number of packages, the net quantity per package, the airport it comes off at, whether it is restricted to cargo aircraft, and the hold position and compartment it occupies. Where the load is loose or the airframe type carries no curated hold data, no position is reported and the app SHALL present that as how the load sits rather than as missing data.
+
+#### Scenario: A declared dangerous good
+
+- **WHEN** a dangerous goods entry is shown
+- **THEN** its waybill, proper shipping name, UN number, hazard class and packing group are reported
+- **AND** its packages, net quantity per package and unloading airport are reported
+
+#### Scenario: A positioned entry
+
+- **WHEN** a dangerous goods entry reporting a position is shown
+- **THEN** the position designator and compartment are reported
+
+#### Scenario: An entry without a position
+
+- **WHEN** a dangerous goods entry reports no position
+- **THEN** the app presents the absence as loose load or as an uncurated airframe type
+- **AND** does not report it as missing data
+
+#### Scenario: A cargo-aircraft-only entry
+
+- **WHEN** an entry restricted to cargo aircraft is shown
+- **THEN** the restriction is stated in words
+
+#### Scenario: Hazard is not carried by colour alone in the app
+
+- **WHEN** a dangerous goods entry is shown on an in-app surface
+- **THEN** its hazard class is conveyed in text
+- **AND** no meaning is carried by colour alone
+
+### Requirement: Every dangerous good carries its drill
+
+Each dangerous good arrives with the emergency response drill derived from the published drill chart. The app SHALL present, for each, the emergency response code, the inherent risk, the risk to aircraft and occupants, the spill and fire procedure and the additional risks the drill letter adds. The app SHALL render the supplied text and SHALL NOT compose, summarise or paraphrase it.
+
+#### Scenario: Reading a drill
+
+- **WHEN** a dangerous goods entry's drill is shown
+- **THEN** its emergency response code, inherent risk, risk to aircraft and occupants, and spill and fire procedure are presented
+- **AND** the additional risks it reports are presented
+
+#### Scenario: The text is the API's
+
+- **WHEN** any drill text is presented
+- **THEN** it is the text the API supplied, unaltered
+
+#### Scenario: A drill with no additional risk
+
+- **WHEN** a drill reports no risk beyond the drill itself
+- **THEN** that is presented as the API states it rather than omitted
+
+### Requirement: Special loads are reported with their handling codes
+
+For each notifiable special load the app SHALL report the air waybill, the description, the handling codes that make it notifiable, its gross weight, its position and compartment where it has them, and the airport it comes off at. Where a heaviest piece is reported for a heavy or outsized load, the app SHALL present its weight and its dimensions with their units.
+
+#### Scenario: A special load
+
+- **WHEN** a special load is shown
+- **THEN** its waybill, description, handling codes, gross weight and unloading airport are reported
+
+#### Scenario: A heavy or outsized load
+
+- **WHEN** a special load reporting a heaviest piece is shown
+- **THEN** the weight and the dimensions of that piece are presented with their units
+
+#### Scenario: A special load with no heaviest piece
+
+- **WHEN** a special load reports no heaviest piece
+- **THEN** no dimensions are presented for it
+
+#### Scenario: Sensitive consignments are reported plainly
+
+- **WHEN** a special load concerns human remains or another sensitive consignment
+- **THEN** it appears as an ordinary row of the notification
+- **AND** does not appear in a heading, a figure or a summary line
+
+### Requirement: Cold chain assessments are carried as advisory
+
+Where the notification reports cold chain assessments the app SHALL present, for each, the air waybill, the description, the regime, the risk, the margin in hours and the API's own explanation, and SHALL state that the assessment is advisory and gates nothing.
+
+#### Scenario: A cold chain assessment
+
+- **WHEN** a cold chain assessment is shown
+- **THEN** its waybill, description, regime, risk and margin are reported
+- **AND** the API's explanation accompanies it
+
+#### Scenario: The assessment gates nothing
+
+- **WHEN** a cold chain assessment is shown
+- **THEN** it is presented as advisory
+- **AND** no action available to the reader is prevented by it
+
+### Requirement: The load summary reports the document's own figures
+
+The app SHALL present the notification's load summary — the weight and dry ice in each compartment, the container, pallet and loose lot counts, the cargo, baggage and deadload weights, what continues beyond this flight and the tightest onward connection — using the document's own definitions. Where a figure of the same name is reported differently by the cargo manifest, the app SHALL NOT present the two as one quantity.
+
+#### Scenario: Reading the summary
+
+- **WHEN** the load summary is shown
+- **THEN** each compartment's weight and dry ice are reported
+- **AND** the container, pallet and loose lot counts and the cargo, baggage and deadload weights are reported
+
+#### Scenario: Counts are not conflated
+
+- **GIVEN** that the notification splits a load into containers and pallets while the cargo manifest counts units
+- **WHEN** both surfaces are available for one flight
+- **THEN** neither figure is presented as the other
+
+#### Scenario: Nothing continues beyond
+
+- **WHEN** no shipment continues beyond this flight
+- **THEN** no onward connection is presented
+
+### Requirement: Acknowledgement is reported, not requested
+
+The preliminary notification is accepted by the pilot checking in and the final one by the request that finishes boarding, so there is no separate acknowledgement action. The app SHALL report who accepted the document and when where it has been accepted, SHALL state that it has not been where it has not, and SHALL offer no control that acknowledges it.
+
+#### Scenario: An accepted notification
+
+- **WHEN** a notification reporting an acknowledging pilot and a time is shown
+- **THEN** who accepted it and when are reported
+
+#### Scenario: An unaccepted notification
+
+- **WHEN** a notification reporting no acknowledgement is shown
+- **THEN** the app states it has not been accepted
+- **AND** explains that acceptance follows from checking in or from finishing boarding
+
+#### Scenario: No acknowledgement control
+
+- **WHEN** any notification is shown
+- **THEN** no control is offered that would acknowledge it
+
+### Requirement: The notification reaches the roles entitled to it
+
+The app SHALL present the notification to the pilot as a pre-departure artifact, read-only to operations on the flight file, and to cabin crew only for a flight they captain.
+
+#### Scenario: A pilot reads the notification
+
+- **WHEN** a pilot opens the notification of the flight they are operating
+- **THEN** it is shown
+
+#### Scenario: Operations reads the notification
+
+- **WHEN** operations opens a flight's notification
+- **THEN** it is shown read-only
+
+#### Scenario: Cabin crew read another flight's notification
+
+- **WHEN** cabin crew open the notification of a flight they do not captain
+- **THEN** the app states they are not permitted to read it
