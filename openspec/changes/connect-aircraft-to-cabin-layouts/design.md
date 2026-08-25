@@ -2,7 +2,7 @@
 
 AeroLOPA keys cabin layouts by airline IATA code and aircraft IATA type code, and keeps no register of individual aircraft. There is therefore no correct automatic mapping from an aircraft to a cabin — the API says so explicitly, and makes assignment a judgement operations records by hand. This change builds the surface for that judgement.
 
-Everything downstream depends on it: a flight pins its aircraft's layout and revision at release, and generates a manifest only if one is assigned.
+Everything downstream depends on it: a flight seats a manifest from its preliminary loadsheet only if a layout is assigned, and pins that layout and revision when it is released.
 
 ## Goals / Non-Goals
 

@@ -18,8 +18,8 @@ export function RemoveCabinLayoutModal({ aircraft, remove, cancel }: Props) {
       </ModalHeader>
       <ModalBody>
         <p className="text-sm text-gray-600 dark:text-gray-300">
-          {aircraft.registration} will no longer have a cabin. Flights on this aircraft will be released without a
-          passenger manifest.
+          {aircraft.registration} will no longer have a cabin. Flights on this aircraft will generate no passenger
+          manifest.
         </p>
       </ModalBody>
       <ModalActions

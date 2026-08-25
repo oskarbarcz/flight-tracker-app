@@ -4,6 +4,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { Link } from "react-router";
 import type { Aircraft } from "~/features/aircraft";
 import { AircraftIcon } from "~/features/aircraft/components/Aircraft/AircraftIcon";
+import { CabinCoverageBadge } from "~/features/aircraft/components/Aircraft/CabinCoverageBadge";
 import { AircraftAirportRow } from "~/features/aircraft/components/AircraftDetails/AircraftAirportRow";
 import { aircraftStateColors } from "~/features/aircraft/i18n";
 import {
@@ -47,6 +48,7 @@ export function AircraftListTable({ operatorId, aircraft, airports }: Props) {
             <TableHeadCell>Performance</TableHeadCell>
             <TableHeadCell>Base</TableHeadCell>
             <TableHeadCell>Livery</TableHeadCell>
+            <TableHeadCell className="hidden lg:table-cell">Cabin</TableHeadCell>
             <TableHeadCell>Actions</TableHeadCell>
           </TableRow>
         </TableHead>
@@ -95,6 +97,9 @@ export function AircraftListTable({ operatorId, aircraft, airports }: Props) {
                   )}
                 </TableCell>
                 <TableCell>{each.livery}</TableCell>
+                <TableCell className="hidden lg:table-cell">
+                  <CabinCoverageBadge aircraft={each} />
+                </TableCell>
                 <TableCell>
                   <Link
                     className="inline-flex items-center gap-1.5 text-primary-500 font-bold"

@@ -101,6 +101,29 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
     .min(0, "Cannot be negative")
     .max(1000, "Maximum 1000 passengers allowed"),
 
+  passengersByCabin: object()
+    .default({})
+    .test("split-agrees-with-total", "The cabin split must add up to the passenger total", function (split) {
+      const stated = Object.values(split ?? {}).filter(
+        (seats) => seats !== "" && seats !== null && seats !== undefined,
+      );
+
+      if (stated.length === 0) {
+        return true;
+      }
+
+      const splitTotal = stated.reduce((running: number, seats) => running + Number(seats), 0);
+      const passengers = Number(this.parent.passengers);
+
+      if (splitTotal === passengers) {
+        return true;
+      }
+
+      return this.createError({
+        message: `The cabin split adds up to ${splitTotal}, but the loadsheet reports ${passengers} passengers.`,
+      });
+    }),
+
   cargo: number()
     .required("Cargo weight is required")
     .min(0, "Cannot be negative")

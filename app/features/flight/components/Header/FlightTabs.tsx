@@ -7,6 +7,7 @@ const ALL_TABS = [
   { title: "Timesheet", path: "timesheet" },
   { title: "Fuel & crew", path: "loadsheet" },
   { title: "Cargo", path: "cargo" },
+  { title: "Manifest", path: "manifest" },
   { title: "OFP", path: "ofp" },
   { title: "Alternates & Emergencies", path: "emergencies" },
   { title: "Delays", path: "delays" },

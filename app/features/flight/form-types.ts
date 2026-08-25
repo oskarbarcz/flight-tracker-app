@@ -1,3 +1,4 @@
+import type { CabinClass } from "~/features/cabin-layout/model";
 import type { Loadsheet } from "~/features/flight";
 
 export type FlatLoadsheetFormData = {
@@ -5,6 +6,7 @@ export type FlatLoadsheetFormData = {
   reliefPilots: number;
   cabinCrew: number;
   passengers: number;
+  passengersByCabin: Partial<Record<CabinClass, number | "">>;
   cargo: number;
   payload: number;
   zeroFuelWeight: number;
@@ -45,6 +47,16 @@ function toNumber(value: number): number {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function statedSplit(split: Partial<Record<CabinClass, number | "">>): Partial<Record<CabinClass, number>> | undefined {
+  const stated = Object.entries(split).filter(([, value]) => value !== "" && value !== undefined && value !== null);
+
+  if (stated.length === 0) {
+    return undefined;
+  }
+
+  return Object.fromEntries(stated.map(([cabin, value]) => [cabin, Number(value)]));
+}
+
 export function flatLoadsheetToLoadsheet(data: FlatLoadsheetFormData): Loadsheet {
   const taxi = toNumber(data.taxi);
   const trip = toNumber(data.trip);
@@ -72,6 +84,7 @@ export function flatLoadsheetToLoadsheet(data: FlatLoadsheetFormData): Loadsheet
       cabinCrew: toNumber(data.cabinCrew),
     },
     passengers: toNumber(data.passengers),
+    passengersByCabin: statedSplit(data.passengersByCabin),
     cargo: roundTons(toNumber(data.cargo)),
     payload: roundTons(toNumber(data.payload)),
     zeroFuelWeight: roundTons(toNumber(data.zeroFuelWeight)),
@@ -107,6 +120,7 @@ export function loadsheetToFlatLoadsheet(loadsheet: Loadsheet): FlatLoadsheetFor
     reliefPilots: loadsheet.flightCrew.reliefPilots,
     cabinCrew: loadsheet.flightCrew.cabinCrew,
     passengers: loadsheet.passengers,
+    passengersByCabin: loadsheet.passengersByCabin ?? {},
     cargo: loadsheet.cargo,
     payload: loadsheet.payload,
     zeroFuelWeight: loadsheet.zeroFuelWeight,

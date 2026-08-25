@@ -12,6 +12,7 @@ import { RemoveFlightModal } from "~/features/flight/components/Modal/RemoveFlig
 import { UpdateServiceTypeModal } from "~/features/flight/components/Modal/UpdateServiceTypeModal";
 import { UpdateTrackingModal } from "~/features/flight/components/Modal/UpdateTrackingModal";
 import { TrackedFlightProvider, useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
 import { FlightService } from "~/features/flight/service";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
@@ -51,8 +52,13 @@ function FlightLayoutContent() {
       success(`Flight ${flight.flightNumberWithoutSpaces} released for pilot.`);
       setReleasePending(false);
       revalidator.revalidate();
-    } catch {
-      error("Failed to release flight.");
+    } catch (reason: unknown) {
+      const refusal = capacityRefusal(reason);
+      error(
+        refusal === null
+          ? "Failed to release flight."
+          : describeCapacityRefusal(refusal, flight.aircraft.cabinLayout?.id ?? null),
+      );
     }
   };
 

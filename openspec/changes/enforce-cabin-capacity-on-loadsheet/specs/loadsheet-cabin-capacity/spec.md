@@ -29,7 +29,7 @@ Where the flight's aircraft carries a cabin layout, the loadsheet form SHALL rep
 
 ### Requirement: A passenger count above capacity is warned about, not blocked
 
-The form SHALL warn when the passenger figure exceeds the reported capacity, and SHALL still allow the loadsheet to be submitted, because the server is the authority on whether a flight may be released.
+The form SHALL warn when the passenger figure exceeds the reported capacity, and SHALL still allow the loadsheet to be submitted, because the server is the authority on whether the loadsheet may stand. The warning predicts the server's refusal; it does not replace it.
 
 #### Scenario: Typing beyond capacity
 
@@ -41,18 +41,19 @@ The form SHALL warn when the passenger figure exceeds the reported capacity, and
 
 - **WHEN** operations submits a loadsheet whose passenger figure exceeds the reported capacity
 - **THEN** the form submits it
+- **AND** the server's answer, not the form's warning, decides whether it is stored
 
 ### Requirement: A capacity refusal is explained
 
-Where the server refuses to release a flight or to finish boarding because the passengers exceed the cabin's seats, the app SHALL report that as the reason, naming the passenger count, the seat count and the cabin layout imposing the limit, and SHALL direct the reader to the loadsheet.
+Where the server refuses a request because the passengers exceed the cabin's seats, the app SHALL report that as the reason, naming the passenger count, the seat count and the cabin layout imposing the limit, and SHALL direct the reader to the loadsheet. It SHALL recognise the refusal wherever it arrives rather than only on one surface.
 
-#### Scenario: Release is refused
+#### Scenario: The preliminary loadsheet is refused
 
-- **GIVEN** a flight whose loadsheet reports more passengers than its cabin has seats
-- **WHEN** operations releases the flight
+- **GIVEN** a flight whose aircraft carries a cabin layout
+- **WHEN** operations submits a preliminary loadsheet reporting more passengers than that cabin has seats
 - **THEN** the app reports that the passenger count exceeds the cabin's seats
 - **AND** it names both figures
-- **AND** the flight is not shown as released
+- **AND** the loadsheet is not shown as saved
 
 #### Scenario: Finishing boarding is refused
 
@@ -63,8 +64,9 @@ Where the server refuses to release a flight or to finish boarding because the p
 
 #### Scenario: An unrelated failure
 
-- **WHEN** a release fails for a reason other than capacity
+- **WHEN** a request fails for a reason other than capacity
 - **THEN** the app does NOT attribute it to capacity
+- **AND** it reports that failure as it otherwise would
 
 ### Requirement: Operations may state the split across cabins
 

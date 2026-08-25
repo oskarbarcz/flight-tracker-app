@@ -9,6 +9,7 @@ import {
   FlightPhase,
   type FlightServiceType,
   type Loadsheet,
+  type PassengerStatus,
   type Schedule,
   type Tracking,
 } from "~/features/flight";
@@ -60,8 +61,9 @@ export class FlightService extends AbstractAuthorizedApiService {
     return this.fetchWithAuth<FlightOfp>(`/api/v1/flight/${id}/ofp`);
   }
 
-  async fetchManifestByFlightId(id: string): Promise<FlightManifest> {
-    return this.fetchWithAuth<FlightManifest>(`/api/v1/flight/${id}/manifest`);
+  async fetchManifestByFlightId(id: string, status?: PassengerStatus): Promise<FlightManifest> {
+    const query = status === undefined ? "" : `?status=${status}`;
+    return this.fetchWithAuth<FlightManifest>(`/api/v1/flight/${id}/manifest${query}`);
   }
 
   async fetchCrewByFlightId(id: string): Promise<CrewMember[]> {
