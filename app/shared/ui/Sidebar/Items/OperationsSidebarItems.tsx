@@ -2,7 +2,7 @@ import React from "react";
 import { FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import { LuArmchair, LuTowerControl } from "react-icons/lu";
+import { LuArmchair, LuContainer, LuTowerControl } from "react-icons/lu";
 import { MdHistory } from "react-icons/md";
 import { useLocation } from "react-router";
 import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
@@ -50,6 +50,12 @@ export function OperatorSidebarItems() {
         href="/cabin-layouts"
         isSelected={path.startsWith("/cabin-layouts")}
         icon={LuArmchair}
+      />
+      <SidebarElement
+        label="Cargo holds"
+        href="/cargo-holds"
+        isSelected={path.startsWith("/cargo-holds")}
+        icon={LuContainer}
       />
       <SidebarElement
         label="Operators"

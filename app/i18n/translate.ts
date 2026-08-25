@@ -17,6 +17,16 @@ import {
   translateWindowStatus,
 } from "~/features/cabin-layout/i18n";
 import {
+  translateCompartmentLoading,
+  translateCompartmentName,
+  translateDoorSide,
+  translateHoldDeck,
+  translatePositionSide,
+  translateUldBase,
+  translateUldContour,
+  translateUldType,
+} from "~/features/cargo-hold/i18n";
+import {
   translateAirportOnFlightType,
   translateEventType,
   translatePassengerStatus,
@@ -54,6 +64,16 @@ export const toHuman = {
       record: translateOsmRecord,
       resource: translateOsmResource,
     },
+  },
+  cargoHold: {
+    compartmentLoading: translateCompartmentLoading,
+    compartmentName: translateCompartmentName,
+    deck: translateHoldDeck,
+    doorSide: translateDoorSide,
+    positionSide: translatePositionSide,
+    uldBase: translateUldBase,
+    uldContour: translateUldContour,
+    uldType: translateUldType,
   },
   cabinLayout: {
     cabinClass: translateCabinClass,

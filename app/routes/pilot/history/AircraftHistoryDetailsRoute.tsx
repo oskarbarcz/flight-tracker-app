@@ -7,6 +7,7 @@ import { AircraftDetailsHeader } from "~/features/aircraft/components/AircraftDe
 import { AircraftStatusSummaryCard } from "~/features/aircraft/components/AircraftDetails/AircraftStatusSummaryCard";
 import { AircraftTechnicalStatusCard } from "~/features/aircraft/components/AircraftDetails/AircraftTechnicalStatusCard";
 import type { Airport } from "~/features/airport";
+import { AircraftHoldPanel } from "~/features/cargo-hold/components/HoldDiagram/AircraftHoldPanel";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { SectionHeaderWithBackButton } from "~/shared/ui/Section/SectionHeaderWithBackButton";
@@ -82,6 +83,9 @@ export default function AircraftHistoryDetailsRoute() {
             <AircraftBaseAirportSummaryCard airport={baseAirport} />
             <AircraftStatusSummaryCard aircraft={aircraft} lastAirport={lastAirport} />
             <AircraftTechnicalStatusCard etopsThresholdMinutes={aircraft.etopsThresholdMinutes} />
+          </div>
+          <div className="mt-3">
+            <AircraftHoldPanel airframeType={aircraft.airframe.type} holdVariant={aircraft.holdVariant} />
           </div>
         </>
       )}
