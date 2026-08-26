@@ -68,7 +68,7 @@ The document splits `CV2020`'s load into 4 containers and 3 pallets where the ma
 
 A discriminated state resolved to a notification or a named gap — not-issued, forbidden, failed — mirroring `useFlightCargo` and, behind it, `useFlightCabin`. The stage is a parameter of the read, defaulting to the latest issued.
 
-`not-issued` carries a specific message: the notification is issued when the flight is released, and the final one when boarding finishes. That is more useful than a generic absence, and it is what the API's own 404 says.
+`not-issued` carries a specific message: the notification is issued from the preliminary loadsheet, and the final one when boarding finishes. That is more useful than a generic absence, and it is what the API's own 404 says — verified live, a flight still in `created` carrying a preliminary loadsheet already has a notification, and one without a loadsheet has none.
 
 ## Risks / Trade-offs
 

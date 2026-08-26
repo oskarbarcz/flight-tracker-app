@@ -6,17 +6,55 @@ import type { FlightProgressButtonProps } from "~/features/flight/components/Das
 import { UpdateFinalLoadsheetModal } from "~/features/flight/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
-import { toHuman } from "~/i18n/translate";
+import { describeReconciliation, reconcileManifest } from "~/features/flight/lib/reconciliation";
+import type { FlightManifest } from "~/features/flight/model";
+import { useApi } from "~/shared/api/useApi";
 
 export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   const { flight, finishBoarding } = useTrackedFlight();
-  const { error } = useToast();
+  const { flightService } = useApi();
+  const { success, error } = useToast();
   const [showModal, setShowModal] = useState(false);
   const handlingNoun = flight?.serviceType === FlightServiceType.Cargo ? "loading" : "boarding";
 
+  const readManifest = async (): Promise<FlightManifest | null> => {
+    if (!flight || flight.aircraft.cabinLayout === null) {
+      return null;
+    }
+
+    return flightService.fetchManifestByFlightId(flight.id).catch(() => null);
+  };
+
+  const reportReconciliation = async (released: FlightManifest | null): Promise<void> => {
+    if (released === null) {
+      return;
+    }
+
+    try {
+      const boarded = await readManifest();
+
+      if (boarded === null) {
+        return;
+      }
+
+      const reconciliation = reconcileManifest(released, boarded);
+
+      if (reconciliation !== null) {
+        success(describeReconciliation(reconciliation));
+      }
+    } catch {
+      return;
+    }
+  };
+
   const handleFinishBoarding = async (loadsheet: Loadsheet): Promise<void> => {
+    const released = await readManifest();
+
     await finishBoarding(loadsheet)
-      .then(() => setShowModal(false))
+      .then(async () => {
+        setShowModal(false);
+        await reportReconciliation(released);
+      })
       .catch((err: unknown) => {
         const refusal = capacityRefusal(err);
 
@@ -37,7 +75,7 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   return (
     <>
       <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
-        {toHuman.flight.status.next(flight.status, flight.serviceType)}
+        Finish {handlingNoun}
       </Button>
       {showModal && (
         <UpdateFinalLoadsheetModal flight={flight} update={handleFinishBoarding} cancel={() => setShowModal(false)} />

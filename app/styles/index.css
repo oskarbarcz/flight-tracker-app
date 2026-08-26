@@ -8,6 +8,8 @@
 @import "./base.css";
 @import "./utilities.css";
 @import "./scrollbars.css";
+@import "./print.css";
+@import "./stamp.css";
 
 @source "../../.flowbite-react/class-list.json";
 

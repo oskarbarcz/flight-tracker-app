@@ -23,7 +23,7 @@ export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Prop
 
   return (
     <LoadsheetFormModal
-      action={{ fuel: "Plan preliminary fuel", weights: "Plan preliminary weights" }}
+      action={{ load: "Plan preliminary payload", fuel: "Plan preliminary fuel", notoc: "" }}
       formId="updatePreliminaryLoadsheetForm"
       loadsheet={oldLoadsheet}
       timesheet={flight.timesheet}

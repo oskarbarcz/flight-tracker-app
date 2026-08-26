@@ -18,3 +18,14 @@ export const FUEL_STEP_FIELDS = [
   "averageFuelFlow",
   "maxTanks",
 ];
+
+export const LOAD_STEP_FIELDS = [
+  "pilots",
+  "reliefPilots",
+  "cabinCrew",
+  "passengers",
+  "passengersByCabin",
+  "cargo",
+  "payload",
+  "zeroFuelWeight",
+];
