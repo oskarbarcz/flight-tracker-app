@@ -1,15 +1,17 @@
 import { useThemeMode } from "flowbite-react";
-import type { MaplibreGL } from "leaflet";
-import { useEffect, useRef, useState } from "react";
-import { useMap } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { TileLayer } from "react-leaflet";
+import { getCartoApiKey } from "~/shared/lib/getCartoApiKey";
 
-const styleUrls = {
-  light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-  dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+const cartoApiKey = getCartoApiKey();
+const apiKeyQuery = cartoApiKey === null ? "" : `?key=${encodeURIComponent(cartoApiKey)}`;
+
+const tileUrls = {
+  light: `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${apiKeyQuery}`,
+  dark: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png${apiKeyQuery}`,
 };
 
 export function MapTileLayer() {
-  const map = useMap();
   const { computedMode } = useThemeMode();
   const [, refreshOnSystemThemeChange] = useState(0);
 
@@ -20,40 +22,7 @@ export function MapTileLayer() {
     return () => media.removeEventListener("change", onChange);
   }, []);
 
-  const styleUrl = styleUrls[computedMode === "dark" ? "dark" : "light"];
-  const styleUrlRef = useRef(styleUrl);
-  styleUrlRef.current = styleUrl;
+  const theme = computedMode === "dark" ? "dark" : "light";
 
-  const layerRef = useRef<MaplibreGL | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    Promise.all([import("@maplibre/maplibre-gl-leaflet"), import("maplibre-gl/dist/maplibre-gl.css")]).then(
-      ([{ default: maplibreGL }]) => {
-        if (cancelled) {
-          return;
-        }
-
-        const layer = maplibreGL({ style: styleUrlRef.current });
-        layer.addTo(map);
-        layerRef.current = layer;
-      },
-    );
-
-    return () => {
-      cancelled = true;
-
-      if (layerRef.current !== null) {
-        map.removeLayer(layerRef.current);
-        layerRef.current = null;
-      }
-    };
-  }, [map]);
-
-  useEffect(() => {
-    layerRef.current?.getMaplibreMap().setStyle(styleUrl);
-  }, [styleUrl]);
-
-  return null;
+  return <TileLayer key={theme} url={tileUrls[theme]} maxZoom={20} />;
 }

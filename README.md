@@ -116,6 +116,7 @@ you have to be registered already to sign in.
 | `VITE_DISCORD_INVITATION_HASH` | yes      | Invite hash behind the "join the community" links.                               |
 | `VITE_GOOGLE_CLIENT_ID`        | no       | Enables Google sign-in and account linking.                                      |
 | `VITE_DISCORD_CLIENT_ID`       | no       | Enables Discord sign-in and account linking.                                     |
+| `VITE_CARTO_API_KEY`           | no       | Removes the "API key required" watermark from the CARTO basemap tiles.           |
 
 `import.meta.env.PACKAGE_VERSION` is injected by Vite from `package.json`.
 
@@ -126,6 +127,12 @@ because the community invite needs no client.
 `VITE_GOOGLE_CLIENT_ID` must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID` — the API checks the ID
 token's audience against its own value, and a mismatch surfaces as `Google token is not valid.` The app's origin has to
 be an authorized JavaScript origin on that client.
+
+`VITE_CARTO_API_KEY` is the free key from [carto.com/basemaps/apikey](https://carto.com/basemaps/apikey/), appended to
+every basemap tile request as `?key=`. Leave it unset and the maps still work, but CARTO stamps every tile with an
+"API key required" watermark. It is not a secret — it ships in the client bundle like any other `VITE_` value — so
+restrict it to the app's origins on the CARTO side rather than treating it as confidential. The free allowance is 5
+million tile requests per calendar month.
 
 `VITE_DISCORD_CLIENT_ID` needs `<origin>/auth/discord/callback` registered as a redirect URI on the Discord
 application, exact match included (`http://localhost:5173/auth/discord/callback` for local dev). Discord OAuth is a
