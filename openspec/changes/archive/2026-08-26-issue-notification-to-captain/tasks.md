@@ -18,7 +18,7 @@
 
 ## 3. The in-app panel
 
-- [x] 3.1 Build the panel presenting the statement prominently whether or not dangerous goods follow it
+- [x] 3.1 Build the panel presenting the statement prominently where no dangerous goods are loaded, and listing the entries where they are
 - [x] 3.2 Render the dangerous goods entries with waybill, proper shipping name, UN number, hazard class, subsidiary risk, packing group, packages, net quantity per package, unloading airport, position and compartment
 - [x] 3.3 Use the semantic badges for hazard on the panel and introduce no hazard-standard colours there
 - [x] 3.4 State a cargo aircraft restriction in words
@@ -34,11 +34,11 @@
 
 ## 4. Stages, acknowledgement and changes
 
-- [x] 4.1 Add the stage switch, defaulting to the latest issued and stating which stage is shown and when it was issued
+- [x] 4.1 Present the latest issued notification, stating which stage is shown and when it was issued
 - [x] 4.2 State that the final notification is issued when boarding finishes where only a preliminary one exists
 - [x] 4.3 Offer no control that would alter a notification of either stage
 - [x] 4.4 Report who accepted the document and when where it has been accepted
-- [x] 4.5 State that it has not been accepted where it has not, explaining that acceptance follows from checking in or from finishing boarding, and offer no acknowledgement control
+- [x] 4.5 Report nothing where the notification has not been accepted, since the reader is performing that acceptance, and offer no acknowledgement control
 - [x] 4.6 Build the changes summary from the captured shape, presenting it only alongside a final notification carrying one
 
 ## 5. The document form
@@ -77,7 +77,7 @@
 - [x] 8.8 Verify the clean-flight statement renders prominently on `AA2018`, `AA2019` and `AA2021`, which report no dangerous goods, and that none is presented as an empty document
 - [x] 8.9 Verify the acknowledgement renders on `AA2018` and `AA2019`, which report an accepting pilot and a time, and the unaccepted state on `AA2021` and `CV2020`, which report neither
 - [x] 8.10 Verify no acknowledgement control is present on any notification
-- [x] 8.11 Verify the stage switch against the flight taken through finish-boarding in task 1.2, and that the changes summary renders on the final notification and not on the preliminary one
+- [x] 8.11 Verify the stage is named on the notification, and that the changes summary renders on a final notification and not on a preliminary one
 - [x] 8.12 Verify the load summary reports `CV2020` as 4 containers and 3 pallets and that this is never presented as the manifest's count of 7 units
 - [ ] 8.13 Verify the panel and the document form carry the same entries, drills, special loads, assessments and summary
 - [ ] 8.14 Verify the document form carries the standard hazard mark for each class with the class number and proper shipping name always beside it, and that no hazard-standard colour appears on the in-app panel

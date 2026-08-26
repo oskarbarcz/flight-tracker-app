@@ -35,36 +35,32 @@ The app SHALL resolve a flight to either a notification or a named reason there 
 
 ### Requirement: A notification always says whether dangerous goods are aboard
 
-Every notification carries a statement in words of whether dangerous goods are loaded. The app SHALL present that statement prominently whether or not any dangerous goods follow it, and SHALL NOT present a notification carrying none as an empty document or as an absence.
+Every notification carries a statement in words of whether dangerous goods are loaded. Where none are loaded the app SHALL present that statement prominently, so a clean hold is stated rather than left as an absence. Where dangerous goods are loaded the entries themselves carry that fact, and the app SHALL list them rather than repeat the statement above them.
 
 #### Scenario: A flight carrying no dangerous goods
 
 - **WHEN** a notification reporting no dangerous goods is shown
-- **THEN** its statement that none are loaded is presented
+- **THEN** its statement that none are loaded is presented prominently
 - **AND** the document is not presented as empty or unavailable
 
 #### Scenario: A flight carrying dangerous goods
 
 - **WHEN** a notification reporting dangerous goods is shown
-- **THEN** its statement is presented
-- **AND** the dangerous goods it reports follow it
+- **THEN** the dangerous goods it reports are listed
 
-### Requirement: The reader can choose a stage
+### Requirement: The notification names the stage it records
 
-A preliminary notification is issued from the preliminary loadsheet and reissued whenever it changes, until release freezes it; a final one is issued when boarding finishes. Each is an immutable record of the load at the moment it was issued. The app SHALL present the latest issued notification by default, SHALL let the reader move to another stage where one exists, and SHALL make clear which stage is shown and when it was issued.
+A preliminary notification is issued from the preliminary loadsheet and reissued whenever it changes, until release freezes it; a final one is issued when boarding finishes. Each is an immutable record of the load at the moment it was issued. The app SHALL present the latest issued notification and SHALL make clear which stage it is and when it was issued. Because the commander reads it while finishing boarding — before the final one exists — the app offers no control for moving between stages.
+
+#### Scenario: The stage is named
+
+- **WHEN** a notification is shown
+- **THEN** its stage and the time it was issued are stated
 
 #### Scenario: Only a preliminary notification exists
 
 - **WHEN** a flight carries only a preliminary notification
-- **THEN** it is shown
-- **AND** the app states that the final one is issued when boarding finishes
-
-#### Scenario: Both stages exist
-
-- **GIVEN** a flight carrying both a preliminary and a final notification
-- **WHEN** the reader selects the preliminary one
-- **THEN** the preliminary document is shown
-- **AND** the stage and its issue time are stated
+- **THEN** it is shown as the preliminary notification
 
 #### Scenario: The document is immutable
 
@@ -201,7 +197,7 @@ The app SHALL present the notification's load summary — the weight and dry ice
 
 ### Requirement: Acknowledgement is reported, not requested
 
-The preliminary notification is accepted by the pilot checking in and the final one by the request that finishes boarding, so there is no separate acknowledgement action. The app SHALL report who accepted the document and when where it has been accepted, SHALL state that it has not been where it has not, and SHALL offer no control that acknowledges it.
+The preliminary notification is accepted by the pilot checking in and the final one by the request that finishes boarding, so there is no separate acknowledgement action. The app SHALL report who accepted the document and when where it has been accepted, and SHALL offer no control that acknowledges it. Where it has not been accepted the app SHALL report nothing, because the reader is performing that acceptance as they read.
 
 #### Scenario: An accepted notification
 
@@ -211,8 +207,7 @@ The preliminary notification is accepted by the pilot checking in and the final 
 #### Scenario: An unaccepted notification
 
 - **WHEN** a notification reporting no acknowledgement is shown
-- **THEN** the app states it has not been accepted
-- **AND** explains that acceptance follows from checking in or from finishing boarding
+- **THEN** no acknowledgement is reported for it
 
 #### Scenario: No acknowledgement control
 
