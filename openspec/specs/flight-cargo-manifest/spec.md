@@ -8,13 +8,20 @@ Reports what a flight is carrying below the floor — the weights it accounts fo
 
 ### Requirement: A flight's manifest is read only when there is one to read
 
-The app SHALL resolve a flight to either a manifest or a named reason there is none, and SHALL distinguish those reasons from one another. It SHALL state, distinctly: that the flight has not been released and so no manifest has been generated; that the flight carries no cargo; that the reader is not permitted to see this flight's manifest; and that the request failed.
+The app SHALL resolve a flight to either a manifest or a named reason there is none, and SHALL distinguish those reasons from one another. It SHALL state, distinctly: that no manifest has been generated for the flight yet; that the flight carries no cargo; that the reader is not permitted to see this flight's manifest; and that the request failed.
 
-#### Scenario: A flight before release
+#### Scenario: A flight whose manifest has not been generated
 
-- **WHEN** the reader opens the cargo of a flight that has not been released
-- **THEN** the app states that the manifest is generated when the flight is released
+- **WHEN** the reader opens the cargo of a flight for which no manifest has been generated
+- **THEN** the app states that the manifest is generated from the preliminary loadsheet
 - **AND** does not present an empty manifest
+
+#### Scenario: A manifest before the flight is released
+
+- **GIVEN** a flight that has not been released and whose preliminary loadsheet has been written
+- **WHEN** the reader opens its cargo
+- **THEN** the manifest is shown
+- **AND** the app does NOT withhold it pending release
 
 #### Scenario: A flight the reader may not see
 

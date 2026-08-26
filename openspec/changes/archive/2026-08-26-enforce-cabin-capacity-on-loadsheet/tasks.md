@@ -24,20 +24,20 @@
 
 ## 4. Reconciliation outcome
 
-- [ ] 4.1 After boarding finishes, compare the manifest against the count it held before and report how many passengers were added and how many became no-shows
-- [ ] 4.2 Report nothing when the count is unchanged
-- [ ] 4.3 Report nothing for a flight whose aircraft carries no cabin layout
+- [x] 4.1 After boarding finishes, compare the manifest against the count it held before and report how many passengers were added and how many became no-shows
+- [x] 4.2 Report nothing when the count is unchanged
+- [x] 4.3 Report nothing for a flight whose aircraft carries no cabin layout
 
 ## 5. Verification
 
 - [x] 5.1 Run `npm run lint` and `npm run typecheck` clean, with no comments and no `biome-ignore` added
 - [x] 5.2 Verify against the live API that a loadsheet on a KLM 737-800 assigned `kl-738` reports 186 seats, and that a Lufthansa aircraft assigned `lh-74h` reports 364
 - [x] 5.3 Verify a preliminary loadsheet refused for capacity names both figures, and that the loadsheet is not shown as saved
-- [ ] 5.4 Verify finishing boarding refused for capacity behaves the same against the final loadsheet
+- [x] 5.4 Verify finishing boarding refused for capacity behaves the same against the final loadsheet
 - [x] 5.5 Verify an unrelated failure is not reported as a capacity problem
 - [x] 5.6 Verify an untouched split omits the key from the request payload entirely, and that the resulting manifest is distributed proportionally
 - [x] 5.7 Verify a stated split that does not sum to the total is caught before submission
 - [x] 5.8 Verify a flight whose aircraft has no cabin layout shows no capacity, no warning, no split and no reconciliation report
-- [ ] 5.9 Verify the reconciliation report against a final loadsheet both above and below the released count
+- [x] 5.9 Verify the reconciliation report against a final loadsheet both above and below the released count
 - [x] 5.10 Check that the capacity hint and warning are announced with the passenger field, in light and dark, against WCAG 2.1 AA
 - [x] 5.11 Run `npm run build`
