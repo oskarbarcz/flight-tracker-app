@@ -1,3 +1,5 @@
+import type { CountryRef } from "~/features/country/model";
+
 export type LifetimeTotals = {
   distanceNm: number;
   airborneMinutes: number;
@@ -27,7 +29,7 @@ export type MostVisitedAirport = {
   icaoCode: string;
   name: string;
   city: string;
-  country: string;
+  country: CountryRef;
   visits: number;
 };
 

@@ -25,7 +25,7 @@ export function AirportHeadline({ airport, readOnly }: Props) {
           <span className="font-mono font-bold text-gray-800 dark:text-gray-200">{airport.iataCode}</span>
           <span aria-hidden>·</span>
           <span>
-            {airport.city}, {airport.country}
+            {airport.city}, {airport.country.name}
           </span>
           {utcOffset ? (
             <>

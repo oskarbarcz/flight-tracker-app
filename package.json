@@ -1,6 +1,6 @@
 {
   "name": "flight-tracker-app",
-  "version": "2.91.0",
+  "version": "2.92.0",
   "private": true,
   "homepage": "https://mypreflight.io",
   "author": "Oskar Barcz",
@@ -15,12 +15,14 @@
     "lint:fix": "biome check --write"
   },
   "dependencies": {
+    "@maplibre/maplibre-gl-leaflet": "^0.1.4",
     "@tailwindcss/vite": "^4.3.3",
     "arc": "^0.1.4",
     "flowbite-react": "^0.12.17",
     "formik": "^2.4.9",
     "isbot": "^5.2.1",
     "leaflet": "^1.9.4",
+    "maplibre-gl": "^5.24.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-icons": "^5.7.0",

@@ -29,8 +29,7 @@ export const createAirportSchema: ObjectSchema<CreateAirportFormData> = object()
     .max(100, "City must be under 100 characters"),
   country: string()
     .required("Country is required")
-    .min(2, "Country must be at least 2 characters")
-    .max(100, "Country must be under 100 characters"),
+    .matches(/^[A-Z]{2}$/, "Country must be a two-letter ISO 3166-1 alpha-2 code"),
   longitude: number().required("Longitude is required").min(-180).max(180),
   latitude: number().required("Latitude is required").min(-90).max(90),
   continent: string().required("Continent is required").oneOf(Object.values(Continent)),

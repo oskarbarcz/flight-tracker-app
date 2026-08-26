@@ -1,4 +1,5 @@
 import React from "react";
+import { AirportCountryField } from "~/features/airport/components/Forms/AirportCountryField";
 import { AirportTimezoneField } from "~/features/airport/components/Forms/AirportTimezoneField";
 import { continentOptions } from "~/features/operator";
 import { FormFieldGroup } from "~/shared/ui/Form/FormFieldGroup";
@@ -28,7 +29,7 @@ export function AirportFormFields({ autofill }: Props) {
 
         <FormFieldGroup label="Location">
           <div className="grid grid-cols-12 gap-4">
-            <ManagedFloatingInputBlock className="col-span-6" field="country" label="Country" />
+            <AirportCountryField className="col-span-6" />
             <AirportTimezoneField className="col-span-6" />
 
             <ManagedFloatingSelectBlock

@@ -7,7 +7,7 @@ export function formDataToApiFormat(input: CreateAirportFormData): CreateAirport
     iataCode: input.iataCode.trim().toUpperCase(),
     name: input.name.trim(),
     city: input.city.trim(),
-    country: input.country.trim(),
+    country: input.country.trim().toUpperCase(),
     timezone: input.timezone.trim(),
     continent: input.continent,
     location: {
@@ -24,7 +24,7 @@ export function airportToFormData(input: GetAirportResponse): CreateAirportFormD
     iataCode: input.iataCode,
     name: input.name,
     city: input.city,
-    country: input.country,
+    country: input.country.code,
     timezone: input.timezone,
     continent: input.continent,
     latitude: input.location.latitude,
