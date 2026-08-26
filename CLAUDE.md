@@ -129,6 +129,17 @@ VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 
 `import.meta.env.PACKAGE_VERSION` is injected by Vite config from `package.json`.
 
+`VITE_CARTO_API_KEY` is optional and is read through `app/shared/lib/getCartoApiKey.ts`, which returns `null` when it is
+unset or blank. `MapTileLayer` appends it to both basemap URLs as `?key=` at module load; without it CARTO still serves
+tiles but stamps each one with an "API key required" watermark. It is a public value baked into the bundle, so it lives
+in GitHub Actions `vars` alongside the client IDs, not in `secrets`.
+
+The basemap stays on CARTO's **raster** tiles deliberately. CARTO's vector styles were evaluated and rejected: the
+`carto.streets/v1` vector source caps at zoom 14 and returns HTTP 400 above it, so the airport and apron views (z13-17,
+where runways, terminals and gates are drawn) lose detail to overzooming. Every free vector tileset shares that z14
+ceiling — OpenFreeMap and VersaTiles included — while the raster endpoints serve real tiles through zoom 20. CARTO has
+flagged the raster endpoints as being retired, so revisit this only when a vector source offers data above z14.
+
 `VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client.
 
 `VITE_DISCORD_CLIENT_ID` is optional and enables Discord sign-in and Discord account linking. It is the Discord application's client ID, whose secret lives only on the API — the browser never exchanges the authorization code itself. Leave it unset and every Discord identity surface disappears; `VITE_DISCORD_INVITATION_HASH` is separate and keeps working, because the community invite needs no client. `<origin>/auth/discord/callback` must be registered as a redirect URI on the Discord application for every origin the app runs on, exact match included (`http://localhost:5173/auth/discord/callback` for local dev), and the bot needs the Create Invite permission in the server for the opt-in server join to succeed.

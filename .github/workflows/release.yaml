@@ -35,6 +35,7 @@ jobs:
           VITE_DISCORD_INVITATION_HASH: ${{ vars.VITE_DISCORD_INVITATION_HASH }}
           VITE_DISCORD_CLIENT_ID: ${{ vars.VITE_DISCORD_CLIENT_ID }}
           VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
+          VITE_CARTO_API_KEY: ${{ vars.VITE_CARTO_API_KEY }}
       - name: "Upload artifact"
         uses: "actions/upload-pages-artifact@v3"
         with:
