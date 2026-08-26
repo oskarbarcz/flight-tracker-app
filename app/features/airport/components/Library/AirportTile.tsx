@@ -35,7 +35,7 @@ export function AirportTile({ airport, type, className }: Props) {
           <span className="truncate text-sm font-medium text-gray-700 dark:text-gray-200">{airport.name}</span>
         </span>
         <span className="block truncate text-sm text-gray-500 dark:text-gray-400">
-          {airport.city}, {airport.country}
+          {airport.city}, {airport.country.name}
         </span>
       </span>
       {type && <AirportTypeBadge type={type} />}

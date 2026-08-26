@@ -143,7 +143,7 @@ function ParkedView({
             <span className="font-semibold text-gray-700 dark:text-gray-300">{parkingPosition.name}</span> ·{" "}
           </>
         )}
-        {airport.city}, {airport.country}
+        {airport.city}, {airport.country.name}
       </>
     ) : undefined,
   });

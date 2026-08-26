@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaPlaneUp } from "react-icons/fa6";
 import type { Airport } from "~/features/airport";
 import { AirportShape } from "~/features/airport/components/Airport/AirportShape";
+import type { CountryRef } from "~/features/country/model";
 import type { Rotation, RotationLeg } from "~/features/rotation";
 import { RotationStatus } from "~/features/rotation";
 import type { LegAirportResponse } from "~/features/rotation/request";
@@ -13,7 +14,7 @@ type ResolvedAirport = {
   iataCode: string;
   name: string;
   city: string | null;
-  country: string | null;
+  country: CountryRef | null;
   shape: Airport["shape"];
 };
 
@@ -174,7 +175,7 @@ export function RotationRouteRibbon({ rotation, airports, activeLegId }: Props) 
               </div>
               {item.airport.city && item.airport.country && (
                 <span className="block truncate text-xs text-gray-500 dark:text-gray-400">
-                  {item.airport.city}, {item.airport.country}
+                  {item.airport.city}, {item.airport.country.name}
                 </span>
               )}
             </div>

@@ -1,3 +1,4 @@
+import type { CountryRef } from "~/features/country/model";
 import type { Coordinates } from "~/shared/models/coordinates";
 
 export enum Continent {
@@ -26,7 +27,7 @@ export type Airport = {
   iataCode: string;
   city: string;
   name: string;
-  country: string;
+  country: CountryRef;
   timezone: string;
   continent: Continent;
   location: {

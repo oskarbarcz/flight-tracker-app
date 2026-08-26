@@ -32,7 +32,7 @@ export function AirportListTable({ airports }: Props) {
             <TableCell>
               <span className="font-bold">{airport.name}</span>
               <span className="block">
-                {airport.city}, {airport.country}
+                {airport.city}, {airport.country.name}
               </span>
             </TableCell>
             <TableCell>

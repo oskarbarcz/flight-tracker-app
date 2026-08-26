@@ -14,7 +14,7 @@ export function airportSelectOptions(airports: Airport[]): AdvancedSelectOption[
       </OptionAvatarFrame>
     ),
     title: airport.name,
-    subtitle: `${airport.city}, ${airport.country}`,
+    subtitle: `${airport.city}, ${airport.country.name}`,
     selectedSubtitle: (
       <>
         IATA: <span className="font-semibold">{airport.iataCode}</span>, ICAO:{" "}

@@ -64,7 +64,7 @@ function flightAirportOptions(flightAirports: AirportOnFlight[]): AdvancedSelect
     return {
       ...option,
       keywords: [...option.keywords, role],
-      subtitle: `${role} · ${airport.city}, ${airport.country}`,
+      subtitle: `${role} · ${airport.city}, ${airport.country.name}`,
     };
   });
 }

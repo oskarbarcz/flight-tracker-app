@@ -17,7 +17,7 @@ export function AircraftBaseAirportCard({ baseAirport }: Props) {
           <div>
             <div className="text-sm font-semibold text-gray-900 dark:text-white">{baseAirport.name}</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              {baseAirport.city}, {baseAirport.country}
+              {baseAirport.city}, {baseAirport.country.name}
             </div>
           </div>
         </div>

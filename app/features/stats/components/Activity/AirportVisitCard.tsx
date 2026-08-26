@@ -36,7 +36,7 @@ export function AirportVisitCard({ icaoCode, airport, firstVisitAt }: Props) {
           )}
         </div>
         <div className="truncate text-sm text-gray-500 dark:text-gray-400">
-          {airport ? `${airport.city}, ${airport.country}` : "Airport details unavailable"}
+          {airport ? `${airport.city}, ${airport.country.name}` : "Airport details unavailable"}
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import { createContext, type ReactNode, useCallback, useContext, useMemo } from "react";
 import type { Airport } from "~/features/airport";
+import type { CountryRef } from "~/features/country/model";
 import { useLocalStorage } from "~/shared/hooks/useLocalStorage";
 
 export type PinnedAirport = {
@@ -8,9 +9,20 @@ export type PinnedAirport = {
   icaoCode: string;
   name: string;
   city: string;
-  country: string;
+  country: CountryRef;
   shape: Airport["shape"];
 };
+
+type StoredPinnedAirport = Omit<PinnedAirport, "country"> & {
+  country: CountryRef | string;
+};
+
+function fromStorage(entry: StoredPinnedAirport): PinnedAirport {
+  return {
+    ...entry,
+    country: typeof entry.country === "string" ? { code: "", name: entry.country } : entry.country,
+  };
+}
 
 function toSnapshot(airport: Airport): PinnedAirport {
   return {
@@ -36,22 +48,23 @@ const PinnedAirportsContext = createContext<PinnedAirportsContextValue | null>(n
 const STORAGE_KEY = "pinnedAirports";
 
 export function PinnedAirportsProvider({ children }: { children: ReactNode }) {
-  const [pinned, setPinned] = useLocalStorage<PinnedAirport[]>(STORAGE_KEY, []);
+  const [stored, setStored] = useLocalStorage<StoredPinnedAirport[]>(STORAGE_KEY, []);
+  const pinned = useMemo(() => stored.map(fromStorage), [stored]);
 
   const pin = useCallback(
     (airport: Airport) => {
-      setPinned((current) =>
+      setStored((current) =>
         current.some((entry) => entry.id === airport.id) ? current : [...current, toSnapshot(airport)],
       );
     },
-    [setPinned],
+    [setStored],
   );
 
   const unpin = useCallback(
     (id: string) => {
-      setPinned((current) => current.filter((entry) => entry.id !== id));
+      setStored((current) => current.filter((entry) => entry.id !== id));
     },
-    [setPinned],
+    [setStored],
   );
 
   const isPinned = useCallback((id: string) => pinned.some((entry) => entry.id === id), [pinned]);
