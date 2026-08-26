@@ -11,6 +11,7 @@ import { DiversionService } from "~/features/diversion/service";
 import { EmergencyService } from "~/features/emergency/service";
 import { FlightService } from "~/features/flight/service";
 import { GateService } from "~/features/gate/service";
+import { NotocService } from "~/features/notoc/service";
 import { OperatorService } from "~/features/operator/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
 import { RotationService } from "~/features/rotation/service";
@@ -27,6 +28,7 @@ type ApiServices = {
   cabinLayoutService: CabinLayoutService;
   cargoHoldService: CargoHoldService;
   cargoManifestService: CargoManifestService;
+  notocService: NotocService;
   operatorService: OperatorService;
   airportService: AirportService;
   runwayService: RunwayService;
@@ -59,6 +61,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       cabinLayoutService: new CabinLayoutService(),
       cargoHoldService: new CargoHoldService(),
       cargoManifestService: new CargoManifestService(),
+      notocService: new NotocService(),
       operatorService: new OperatorService(),
       airportService: new AirportService(),
       runwayService: new RunwayService(),

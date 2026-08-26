@@ -156,7 +156,7 @@ export const updatePreliminaryLoadsheetSchema = object().shape({
   alternate: nonNegativeTons("Alternate fuel"),
   reserve: nonNegativeTons("Final reserve"),
   contingencyAmount: nonNegativeTons("Contingency fuel"),
-  contingencyType: string().defined(),
+  contingencyType: string().ensure(),
   mel: nonNegativeTons("MEL fuel"),
   atc: nonNegativeTons("ATC fuel"),
   wxx: nonNegativeTons("Weather fuel"),

@@ -1,0 +1,50 @@
+@media print {
+  body:has(.notoc-document) {
+    background: #ffffff;
+    color-scheme: light;
+  }
+
+  body:has(.notoc-document) > *:not(:has(.notoc-document)) {
+    display: none !important;
+  }
+
+  body:has(.notoc-document) :has(.notoc-document) {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    overflow: visible !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  body:has(.notoc-document) :has(.notoc-document) > *:not(:has(.notoc-document)):not(.notoc-document) {
+    display: none !important;
+  }
+
+  .notoc-document {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .notoc-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .notoc-document h2 {
+    break-after: avoid;
+  }
+}

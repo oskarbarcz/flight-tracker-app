@@ -1,8 +1,7 @@
 import { useFormikContext } from "formik";
 import React from "react";
+import { DerivedField } from "~/features/flight/components/Forms/DerivedField";
 import { FuelTonsInput } from "~/features/flight/components/Forms/FuelTonsInput";
-import { BuildUpPanel } from "~/features/flight/components/FuelAndLoadsheet/BuildUpPanel";
-import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
 import { type FlatLoadsheetFormData, flatLoadsheetToLoadsheet } from "~/features/flight/form-types";
 import type { Timesheet } from "~/features/flight/model";
 import { durationMinutes, formatDuration } from "~/shared/lib/time";
@@ -24,7 +23,7 @@ export function LoadsheetFuelStep({ timesheet }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <section className="flex flex-col gap-4">
-        <FormSectionLabel>Fuel on board</FormSectionLabel>
+        <FormSectionLabel>Minimum operational fuel</FormSectionLabel>
 
         <FormGrid columns={3}>
           <FuelTonsInput field="trip" label="Trip" footnote={`block: ${blockTime}`} />
@@ -55,7 +54,7 @@ export function LoadsheetFuelStep({ timesheet }: Props) {
       </section>
 
       <section className="flex flex-col gap-4">
-        <FormSectionLabel>Performance</FormSectionLabel>
+        <FormSectionLabel>Aircraft fuel performance</FormSectionLabel>
 
         <FormGrid columns={2}>
           <ManagedFloatingInputBlock
@@ -72,9 +71,7 @@ export function LoadsheetFuelStep({ timesheet }: Props) {
         </FormGrid>
       </section>
 
-      <BuildUpPanel title="Fuel summary">
-        <FuelPlan fuel={loadsheet.fuel} />
-      </BuildUpPanel>
+      <DerivedField label="Block fuel" value={loadsheet.blockFuel} />
     </div>
   );
 }

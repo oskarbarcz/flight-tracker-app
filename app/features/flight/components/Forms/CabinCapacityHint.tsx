@@ -8,14 +8,8 @@ type Props = {
 };
 
 export function CabinCapacityHint({ capacity, passengers }: Props) {
-  const exceeds = passengers > capacity.totalSeats;
-
-  if (!exceeds) {
-    return (
-      <p className="text-xs text-gray-500 dark:text-gray-400">
-        {`${capacity.layoutId} holds ${capacity.totalSeats} seats.`}
-      </p>
-    );
+  if (passengers <= capacity.totalSeats) {
+    return null;
   }
 
   return (

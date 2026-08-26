@@ -8,7 +8,6 @@ import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
 import { describeReconciliation, reconcileManifest } from "~/features/flight/lib/reconciliation";
 import type { FlightManifest } from "~/features/flight/model";
-import { toHuman } from "~/i18n/translate";
 import { useApi } from "~/shared/api/useApi";
 
 export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
@@ -76,7 +75,7 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
   return (
     <>
       <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
-        {toHuman.flight.status.next(flight.status, flight.serviceType)}
+        Finish {handlingNoun}
       </Button>
       {showModal && (
         <UpdateFinalLoadsheetModal flight={flight} update={handleFinishBoarding} cancel={() => setShowModal(false)} />

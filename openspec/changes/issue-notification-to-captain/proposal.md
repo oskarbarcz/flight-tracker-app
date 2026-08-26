@@ -2,7 +2,7 @@
 
 A commander is entitled to know what is in the hold before they accept the aircraft. In real operations that entitlement takes the form of a specific document — the notification to captain — handed over before departure, listing every dangerous good with its position and its emergency response drill, every special load, and the weight in each compartment. Freighter crews handle one every flight.
 
-The API issues it. A preliminary notification at release and a final one when boarding finishes, each an immutable record of the load at that moment, each carrying the drill chart text for every hazard aboard, the final one reporting what changed since the preliminary. Four seeded flights carry one today and the app shows none of them.
+The API issues it. A preliminary notification from the preliminary loadsheet and a final one when boarding finishes, each an immutable record of the load at that moment, each carrying the drill chart text for every hazard aboard, the final one reporting what changed since the preliminary. Four seeded flights carry one today and the app shows none of them.
 
 No product in flight simulation produces this document. It is the single most distinctive artifact in this body of work, and unlike the manifest — which is a screen — it is a thing a pilot should be able to print and put beside the yoke.
 
