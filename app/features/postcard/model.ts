@@ -35,3 +35,22 @@ export type DrawMissingResult = {
 };
 
 export type RedrawOutcome = "replaced" | "already-drawing";
+
+export type MyPostcard = {
+  id: string;
+  city: CityRef;
+  country: CountryRef;
+  imageUrl: string | null;
+  width: number | null;
+  height: number | null;
+  status: PostcardStatus;
+  awardedAt: string;
+  seenAt: string | null;
+};
+
+export type CollectedPostcard = MyPostcard & { imageUrl: string };
+
+export type MyPostcardCollection = {
+  postcards: MyPostcard[];
+  total: number;
+};
