@@ -22,11 +22,11 @@ export function ReleaseFlightModal({ flight, release, cancel }: Props) {
           You are going to release flight <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
           <span className="font-bold">
-            {flight.departureAirport.city} ({flight.departureAirport.iataCode}){" "}
+            {flight.departureAirport.city.name} ({flight.departureAirport.iataCode}){" "}
           </span>
           to{" "}
           <span className="font-bold">
-            {flight.destinationAirport.city} ({flight.destinationAirport.iataCode})
+            {flight.destinationAirport.city.name} ({flight.destinationAirport.iataCode})
           </span>
           , departing at <span className="font-bold">{formatDate(flight.timesheet.scheduled.takeoffTime)}</span>.
         </p>

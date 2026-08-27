@@ -96,7 +96,7 @@ export function CurrentFlightBox({ flight }: Props) {
         <AirportEndpoint
           iataCode={flight.departureAirport.iataCode}
           name={flight.departureAirport.name}
-          subtitle={`${flight.departureAirport.city}, ${flight.departureAirport.country.name}`}
+          subtitle={`${flight.departureAirport.city.name}, ${flight.departureAirport.country.name}`}
           size="lg"
         />
 
@@ -117,7 +117,7 @@ export function CurrentFlightBox({ flight }: Props) {
         <AirportEndpoint
           iataCode={flight.destinationAirport.iataCode}
           name={flight.destinationAirport.name}
-          subtitle={`${flight.destinationAirport.city}, ${flight.destinationAirport.country.name}`}
+          subtitle={`${flight.destinationAirport.city.name}, ${flight.destinationAirport.country.name}`}
           align="right"
           size="lg"
         />

@@ -1,5 +1,6 @@
 import type { Airframe } from "~/features/airframe/model";
 import type { AircraftCabinLayout } from "~/features/cabin-layout/model";
+import type { CityRef } from "~/features/city/model";
 import type { CountryRef } from "~/features/country/model";
 import type { FlightStatus } from "~/features/flight/model";
 import type { Coordinates } from "~/shared/models/coordinates";
@@ -15,7 +16,7 @@ export type AircraftAirport = {
   id: string;
   iataCode: string;
   name: string;
-  city: string;
+  city: CityRef;
   country: CountryRef;
   location: Coordinates;
 };

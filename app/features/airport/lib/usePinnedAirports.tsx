@@ -1,5 +1,6 @@
 import { createContext, type ReactNode, useCallback, useContext, useMemo } from "react";
 import type { Airport } from "~/features/airport";
+import type { CityRef } from "~/features/city/model";
 import type { CountryRef } from "~/features/country/model";
 import { useLocalStorage } from "~/shared/hooks/useLocalStorage";
 
@@ -8,18 +9,20 @@ export type PinnedAirport = {
   iataCode: string;
   icaoCode: string;
   name: string;
-  city: string;
+  city: CityRef;
   country: CountryRef;
   shape: Airport["shape"];
 };
 
-type StoredPinnedAirport = Omit<PinnedAirport, "country"> & {
+type StoredPinnedAirport = Omit<PinnedAirport, "city" | "country"> & {
+  city: CityRef | string;
   country: CountryRef | string;
 };
 
 function fromStorage(entry: StoredPinnedAirport): PinnedAirport {
   return {
     ...entry,
+    city: typeof entry.city === "string" ? { id: "", name: entry.city } : entry.city,
     country: typeof entry.country === "string" ? { code: "", name: entry.country } : entry.country,
   };
 }

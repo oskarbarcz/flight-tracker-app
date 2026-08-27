@@ -51,9 +51,9 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
           </Badge>
         </span>
         <span className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-gray-700 dark:text-gray-200">
-          <span className="truncate">{flight.departureAirport.city}</span>
+          <span className="truncate">{flight.departureAirport.city.name}</span>
           <FaArrowRight size={9} className="shrink-0 text-gray-400" aria-hidden />
-          <span className="truncate">{flight.destinationAirport.city}</span>
+          <span className="truncate">{flight.destinationAirport.city.name}</span>
         </span>
       </Link>
 

@@ -2,7 +2,7 @@ import type { Airport } from "~/features/airport";
 import { keywordRank, matchesKeywords } from "~/shared/lib/keywordSearch";
 
 function keywordsOf(airport: Airport): string[] {
-  return [airport.iataCode, airport.icaoCode, airport.name, airport.city];
+  return [airport.iataCode, airport.icaoCode, airport.name, airport.city.name];
 }
 
 export function searchAirports(airports: Airport[], query: string, limit = 8): Airport[] {

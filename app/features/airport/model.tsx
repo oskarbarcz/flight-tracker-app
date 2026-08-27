@@ -1,3 +1,4 @@
+import type { CityRef } from "~/features/city/model";
 import type { CountryRef } from "~/features/country/model";
 import type { Coordinates } from "~/shared/models/coordinates";
 
@@ -21,15 +22,22 @@ export function allContinents(): Continent[] {
   ];
 }
 
+export enum DataQuality {
+  Low = "low",
+  High = "high",
+  Flagship = "flagship",
+}
+
 export type Airport = {
   id: string;
   icaoCode: string;
   iataCode: string;
-  city: string;
+  city: CityRef;
   name: string;
   country: CountryRef;
   timezone: string;
   continent: Continent;
+  dataQuality: DataQuality;
   location: {
     longitude: number;
     latitude: number;

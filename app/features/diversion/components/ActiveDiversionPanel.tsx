@@ -87,7 +87,7 @@ export function ActiveDiversionPanel({ diversion, readOnly = false }: Props) {
           label="Diversion airport"
           value={
             <span>
-              <span className="font-mono font-bold">{diversion.airport.iataCode}</span> — {diversion.airport.city}
+              <span className="font-mono font-bold">{diversion.airport.iataCode}</span> — {diversion.airport.city.name}
             </span>
           }
         />

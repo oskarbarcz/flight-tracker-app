@@ -1,5 +1,6 @@
 import {
   Continent,
+  DataQuality,
   OsmChangeStatus,
   OsmPushOutcome,
   OsmResource,
@@ -21,6 +22,17 @@ export function translateContinent(continent: Continent): string {
       return "Oceania";
     case Continent.SouthAmerica:
       return "South America";
+  }
+}
+
+export function translateDataQuality(quality: DataQuality): string {
+  switch (quality) {
+    case DataQuality.Low:
+      return "Low";
+    case DataQuality.High:
+      return "High";
+    case DataQuality.Flagship:
+      return "Flagship";
   }
 }
 

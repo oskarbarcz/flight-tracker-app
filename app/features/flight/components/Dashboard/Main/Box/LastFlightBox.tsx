@@ -88,7 +88,7 @@ export function LastFlightBox({ flight }: Props) {
 
       <div className="flex flex-col gap-3">
         <article className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1fr)] items-center gap-3">
-          <AirportEndpoint iataCode={flight.departureAirport.iataCode} subtitle={flight.departureAirport.city} />
+          <AirportEndpoint iataCode={flight.departureAirport.iataCode} subtitle={flight.departureAirport.city.name} />
           <div className="flex items-center gap-1.5 text-gray-300 dark:text-gray-600">
             <span className="size-1.5 flex-none rounded-full bg-current" />
             <span className="flex-1 border-t border-dashed border-current" />
@@ -98,7 +98,7 @@ export function LastFlightBox({ flight }: Props) {
           </div>
           <AirportEndpoint
             iataCode={flight.destinationAirport.iataCode}
-            subtitle={flight.destinationAirport.city}
+            subtitle={flight.destinationAirport.city.name}
             align="right"
           />
         </article>

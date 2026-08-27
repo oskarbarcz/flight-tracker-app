@@ -1,5 +1,5 @@
 import { number, type ObjectSchema, object, string } from "yup";
-import { Continent } from "~/features/airport";
+import { Continent, DataQuality } from "~/features/airport";
 import type { CreateAirportFormData } from "~/features/airport/form";
 import { polygonSchema } from "~/shared/validator/coordinates.schema";
 
@@ -33,6 +33,7 @@ export const createAirportSchema: ObjectSchema<CreateAirportFormData> = object()
   longitude: number().required("Longitude is required").min(-180).max(180),
   latitude: number().required("Latitude is required").min(-90).max(90),
   continent: string().required("Continent is required").oneOf(Object.values(Continent)),
+  dataQuality: string().required("Data quality is required").oneOf(Object.values(DataQuality)),
   timezone: timezoneSchema.required(),
   shape: polygonSchema,
 });

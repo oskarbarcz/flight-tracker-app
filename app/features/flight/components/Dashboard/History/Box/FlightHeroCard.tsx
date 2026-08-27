@@ -29,7 +29,7 @@ export function FlightHeroCard({ flight }: Props) {
           </div>
           <div className="mt-6">
             <div className="font-mono text-6xl font-bold leading-none">{flight.departureAirport.iataCode}</div>
-            <div className="mt-2 text-base font-medium text-indigo-100">{flight.departureAirport.city}</div>
+            <div className="mt-2 text-base font-medium text-indigo-100">{flight.departureAirport.city.name}</div>
             <div className="text-xs text-indigo-200/80">{flight.departureAirport.name}</div>
           </div>
         </div>
@@ -49,7 +49,7 @@ export function FlightHeroCard({ flight }: Props) {
           <div className="mt-2 text-base font-medium text-indigo-100 md:text-end">{flight.operator.shortName}</div>
           <div className="mt-6 md:text-end">
             <div className="font-mono text-6xl font-bold leading-none">{flight.destinationAirport.iataCode}</div>
-            <div className="mt-2 text-base font-medium text-indigo-100">{flight.destinationAirport.city}</div>
+            <div className="mt-2 text-base font-medium text-indigo-100">{flight.destinationAirport.city.name}</div>
             <div className="text-xs text-indigo-200/80">{flight.destinationAirport.name}</div>
           </div>
         </div>

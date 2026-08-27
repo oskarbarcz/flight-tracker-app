@@ -2,6 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from 
 import React from "react";
 import { Link } from "react-router";
 import type { Airport } from "~/features/airport";
+import { DataQualityBadge } from "~/features/airport/components/Airport/DataQualityBadge";
 import { FormattedTimezoneTime } from "~/shared/ui/Date/FormattedTimezoneTime";
 
 type Props = {
@@ -15,6 +16,7 @@ export function AirportListTable({ airports }: Props) {
         <TableRow>
           <TableHeadCell>IATA code</TableHeadCell>
           <TableHeadCell>Name and location</TableHeadCell>
+          <TableHeadCell>Data quality</TableHeadCell>
           <TableHeadCell>Timezone</TableHeadCell>
           <TableHeadCell>
             <span className="sr-only">Actions</span>
@@ -32,8 +34,11 @@ export function AirportListTable({ airports }: Props) {
             <TableCell>
               <span className="font-bold">{airport.name}</span>
               <span className="block">
-                {airport.city}, {airport.country.name}
+                {airport.city.name}, {airport.country.name}
               </span>
+            </TableCell>
+            <TableCell>
+              <DataQualityBadge quality={airport.dataQuality} size="xs" />
             </TableCell>
             <TableCell>
               <FormattedTimezoneTime date={new Date()} timezone={airport.timezone} />

@@ -368,7 +368,7 @@ function EndpointSection({
         <span className={`font-bold uppercase tracking-widest ${strikeClass ?? "text-gray-600 dark:text-gray-300"}`}>
           {title}
         </span>
-        <span className={`ms-auto ${strikeClass ?? "text-gray-400 dark:text-gray-500"}`}>{airport.city}</span>
+        <span className={`ms-auto ${strikeClass ?? "text-gray-400 dark:text-gray-500"}`}>{airport.city.name}</span>
         <span className="text-gray-300 dark:text-gray-600">→</span>
         <span className={`font-mono font-bold ${strikeClass ?? "text-gray-700 dark:text-gray-200"}`}>
           {airport.iataCode}
@@ -386,7 +386,7 @@ function DiversionEndpointSection({ diversion }: { diversion: Diversion }) {
       <div className="flex items-center gap-2 text-xs">
         <FaPlaneCircleExclamation size={14} className="text-red-600 dark:text-red-500" />
         <span className="font-bold uppercase tracking-widest text-red-600 dark:text-red-500">Diverting to</span>
-        <span className="ms-auto text-red-700/80 dark:text-red-400/80">{diversion.airport.city}</span>
+        <span className="ms-auto text-red-700/80 dark:text-red-400/80">{diversion.airport.city.name}</span>
         <span className="text-red-300 dark:text-red-700">→</span>
         <span className="font-mono font-bold text-red-700 dark:text-red-400">{diversion.airport.icaoCode}</span>
       </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { dataQualityOptions } from "~/features/airport";
 import { AirportCountryField } from "~/features/airport/components/Forms/AirportCountryField";
 import { AirportTimezoneField } from "~/features/airport/components/Forms/AirportTimezoneField";
 import { continentOptions } from "~/features/operator";
@@ -23,7 +24,13 @@ export function AirportFormFields({ autofill }: Props) {
             <ManagedFloatingInputBlock className="col-span-3" field="icaoCode" label="ICAO code" />
             <ManagedFloatingInputBlock className="col-span-6" field="city" label="City" />
 
-            <ManagedFloatingInputBlock className="col-span-12" field="name" label="Airport name" />
+            <ManagedFloatingInputBlock className="col-span-8" field="name" label="Airport name" />
+            <ManagedFloatingSelectBlock
+              className="col-span-4"
+              field="dataQuality"
+              label="Data quality"
+              options={dataQualityOptions}
+            />
           </div>
         </FormFieldGroup>
 

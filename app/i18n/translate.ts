@@ -1,6 +1,7 @@
 import { translateAircraftState } from "~/features/aircraft/i18n";
 import {
   translateContinent,
+  translateDataQuality,
   translateOsmChangeIntent,
   translateOsmChangeStatus,
   translateOsmPushOutcome,
@@ -71,6 +72,7 @@ export const toHuman = {
   },
   airport: {
     continent: translateContinent,
+    dataQuality: translateDataQuality,
     onFlightType: translateAirportOnFlightType,
     osm: {
       changeIntent: translateOsmChangeIntent,

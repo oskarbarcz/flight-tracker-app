@@ -1,4 +1,4 @@
-import { Continent } from "~/features/airport";
+import { Continent, DataQuality } from "~/features/airport";
 import type { CreateAirportFormData } from "~/features/airport/form";
 import type { Country } from "~/features/country/model";
 import type { SkyLinkAirportResponse } from "~/features/skylink/request";
@@ -19,6 +19,7 @@ export function skyLinkToFormData(input: SkyLinkAirportResponse, countries: Coun
     country: resolveCountryCode(input.country, countries),
     timezone: input.timezone,
     continent: Continent.Europe,
+    dataQuality: DataQuality.Low,
     latitude: Number.parseFloat(input.latitude),
     longitude: Number.parseFloat(input.longitude),
     shape: null,

@@ -1,4 +1,4 @@
-import { Continent } from "~/features/airport";
+import { Continent, DataQuality } from "~/features/airport/model";
 import type { Coordinates } from "~/shared/models/coordinates";
 
 export type CreateAirportFormData = {
@@ -9,6 +9,7 @@ export type CreateAirportFormData = {
   country: string;
   timezone: string;
   continent: Continent;
+  dataQuality: DataQuality;
   latitude: number;
   longitude: number;
   shape: Coordinates[] | null;
@@ -23,8 +24,15 @@ export function initCreateAirportData(): CreateAirportFormData {
     country: "",
     timezone: "",
     continent: Continent.Europe,
+    dataQuality: DataQuality.Low,
     latitude: 0,
     longitude: 0,
     shape: null,
   };
 }
+
+export const dataQualityOptions = [
+  { label: "Low", value: DataQuality.Low },
+  { label: "High", value: DataQuality.High },
+  { label: "Flagship", value: DataQuality.Flagship },
+];
