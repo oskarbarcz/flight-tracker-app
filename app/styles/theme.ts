@@ -206,6 +206,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       field: {
         select: {
           sizes: {
+            sm: "h-9 p-2 sm:text-xs",
             floating: "ps-2.5 pb-2.5 pt-4 text-sm",
             floatingSm: "ps-2 pb-2 pt-3.5 text-xs",
           },

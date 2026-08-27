@@ -51,6 +51,7 @@ import {
   translateStatusNextAction,
 } from "~/features/flight/i18n";
 import { translateNotocStage } from "~/features/notoc/i18n";
+import { translatePostcardStatus } from "~/features/postcard/i18n";
 import { translateRotationStatus } from "~/features/rotation/i18n";
 
 export const toHuman = {
@@ -108,6 +109,9 @@ export const toHuman = {
   },
   notoc: {
     stage: translateNotocStage,
+  },
+  postcard: {
+    status: translatePostcardStatus,
   },
   cabinLayout: {
     cabinClass: translateCabinClass,
