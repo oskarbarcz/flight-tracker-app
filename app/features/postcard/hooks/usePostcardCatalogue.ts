@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { CityRef } from "~/features/city/model";
+import type { City } from "~/features/city/model";
 import { useCountries } from "~/features/country";
 import { placePostcards } from "~/features/postcard/lib/place";
 import { type PlacedPostcard, type PostcardCatalogue, PostcardStatus } from "~/features/postcard/model";
@@ -7,36 +7,46 @@ import { useApi } from "~/shared/api/useApi";
 
 const POLL_INTERVAL_MS = 5000;
 
-const EMPTY: PostcardCatalogue = { postcards: [], citiesWithoutPostcard: [] };
+const EMPTY: PostcardCatalogue = { postcards: [] };
 
 export type PostcardCatalogueState = {
   postcards: PlacedPostcard[] | null;
-  citiesWithoutPostcard: CityRef[];
+  citiesWithoutPostcard: City[];
   isDrawing: boolean;
   reload: () => void;
 };
 
 export function usePostcardCatalogue(): PostcardCatalogueState {
-  const { postcardService } = useApi();
+  const { postcardService, cityService } = useApi();
   const countries = useCountries();
   const [catalogue, setCatalogue] = useState<PostcardCatalogue | null>(null);
+  const [citiesWithoutPostcard, setCitiesWithoutPostcard] = useState<City[]>([]);
   const latestRequest = useRef(0);
 
   const reload = useCallback(() => {
     latestRequest.current += 1;
     const request = latestRequest.current;
 
-    const settle = (next: PostcardCatalogue) => {
-      if (request === latestRequest.current) {
-        setCatalogue(next);
-      }
-    };
+    const isLatest = () => request === latestRequest.current;
 
     postcardService
       .fetchCatalogue()
-      .then(settle)
-      .catch(() => settle(EMPTY));
-  }, [postcardService]);
+      .catch(() => EMPTY)
+      .then((next) => {
+        if (isLatest()) {
+          setCatalogue(next);
+        }
+      });
+
+    cityService
+      .fetchWithoutPostcard()
+      .catch((): City[] => [])
+      .then((cities) => {
+        if (isLatest()) {
+          setCitiesWithoutPostcard(cities);
+        }
+      });
+  }, [postcardService, cityService]);
 
   useEffect(reload, [reload]);
 
@@ -59,7 +69,7 @@ export function usePostcardCatalogue(): PostcardCatalogueState {
 
   return {
     postcards,
-    citiesWithoutPostcard: catalogue?.citiesWithoutPostcard ?? [],
+    citiesWithoutPostcard,
     isDrawing,
     reload,
   };
