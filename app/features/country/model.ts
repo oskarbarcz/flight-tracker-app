@@ -5,4 +5,5 @@ export type CountryRef = {
 
 export type Country = CountryRef & {
   flag: string;
+  continent: string;
 };

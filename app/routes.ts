@@ -63,6 +63,7 @@ export default [
       route("cabin-layouts", "routes/operations/cabin-layouts/CabinLayoutsListRoute.tsx"),
       route("cabin-layouts/:id", "routes/operations/cabin-layouts/CabinLayoutDetailsRoute.tsx"),
       route("cargo-holds", "routes/operations/cargo-holds/CargoHoldsListRoute.tsx"),
+      route("postcards", "routes/operations/postcards/PostcardsRoute.tsx"),
       route("cargo-holds/:type", "routes/operations/cargo-holds/CargoHoldDetailsRoute.tsx"),
       route("flights", "routes/operations/flights/FlightsListRoute.tsx"),
       route("current-flights", "routes/operations/flights/CurrentFlightsRoute.tsx"),
