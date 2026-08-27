@@ -27,7 +27,6 @@ export type PlacedPostcard = CataloguePostcard & {
 
 export type PostcardCatalogue = {
   postcards: CataloguePostcard[];
-  citiesWithoutPostcard: CityRef[];
 };
 
 export type DrawMissingResult = {

@@ -6,6 +6,7 @@ import { AuthService } from "~/features/auth/service";
 import { CabinLayoutService } from "~/features/cabin-layout/service";
 import { CargoHoldService } from "~/features/cargo-hold/service";
 import { CargoManifestService } from "~/features/cargo-manifest/service";
+import { CityService } from "~/features/city/service";
 import { CountryService } from "~/features/country/service";
 import { DelayService } from "~/features/delay/service";
 import { DiversionService } from "~/features/diversion/service";
@@ -33,6 +34,7 @@ type ApiServices = {
   notocService: NotocService;
   operatorService: OperatorService;
   airportService: AirportService;
+  cityService: CityService;
   countryService: CountryService;
   runwayService: RunwayService;
   terminalService: TerminalService;
@@ -68,6 +70,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       notocService: new NotocService(),
       operatorService: new OperatorService(),
       airportService: new AirportService(),
+      cityService: new CityService(),
       countryService: new CountryService(),
       runwayService: new RunwayService(),
       terminalService: new TerminalService(),
