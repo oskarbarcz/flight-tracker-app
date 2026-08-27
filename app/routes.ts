@@ -26,6 +26,7 @@ export default [
       route("aircraft-history", "routes/pilot/history/AircraftHistoryListRoute.tsx"),
       route("aircraft-history/:id", "routes/pilot/history/AircraftHistoryDetailsRoute.tsx"),
       route("travels", "routes/pilot/travels/TravelLogRoute.tsx"),
+      route("my-postcards", "routes/pilot/postcards/MyPostcardsRoute.tsx"),
       route("airports-library", "routes/pilot/airports/AirportLibraryRoute.tsx"),
       route("airports-library/:id", "routes/pilot/airports/AirportPreviewLayout.tsx", [
         index("routes/pilot/airports/AirportLibraryIndexRoute.tsx"),

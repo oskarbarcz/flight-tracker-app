@@ -1,11 +1,12 @@
 import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome } from "react-icons/hi";
-import { LuPlane } from "react-icons/lu";
+import { LuImages, LuPlane } from "react-icons/lu";
 import { MdOutlineLocalAirport } from "react-icons/md";
 import { useLocation } from "react-router";
 import { usePinnedAirports } from "~/features/airport/lib/usePinnedAirports";
 import { CurrentFlightNav } from "~/features/flight/components/Sidebar/CurrentFlightNav";
+import { usePostcards } from "~/features/postcard/hooks/usePostcards";
 import { SidebarAirportRow } from "~/shared/ui/Sidebar/Elements/SidebarAirportRow";
 import { SidebarElement } from "~/shared/ui/Sidebar/Elements/SidebarElement";
 import { SidebarSection } from "~/shared/ui/Sidebar/Elements/SidebarSection";
@@ -13,6 +14,7 @@ import { SidebarSection } from "~/shared/ui/Sidebar/Elements/SidebarSection";
 export function CabinCrewSidebarItems() {
   const path = useLocation().pathname;
   const { pinned } = usePinnedAirports();
+  const { waiting } = usePostcards();
 
   return (
     <nav className="flex flex-col gap-y-5">
@@ -22,6 +24,16 @@ export function CabinCrewSidebarItems() {
 
       <SidebarSection label="Current flight">
         <CurrentFlightNav />
+      </SidebarSection>
+
+      <SidebarSection label="Collection">
+        <SidebarElement
+          label="Postcards"
+          href="/my-postcards"
+          isSelected={path.startsWith("/my-postcards")}
+          icon={LuImages}
+          badge={waiting.length}
+        />
       </SidebarSection>
 
       <SidebarSection label="Library">

@@ -16,7 +16,7 @@ import { GateService } from "~/features/gate/service";
 import { NotocService } from "~/features/notoc/service";
 import { OperatorService } from "~/features/operator/service";
 import { ParkingPositionService } from "~/features/parking-position/service";
-import { PostcardService } from "~/features/postcard/service";
+import { MyPostcardService, PostcardService } from "~/features/postcard/service";
 import { RotationService } from "~/features/rotation/service";
 import { RunwayService } from "~/features/runway/service";
 import { SkyLinkService } from "~/features/skylink/service";
@@ -40,6 +40,7 @@ type ApiServices = {
   terminalService: TerminalService;
   parkingPositionService: ParkingPositionService;
   postcardService: PostcardService;
+  myPostcardService: MyPostcardService;
   gateService: GateService;
   flightService: FlightService;
   rotationService: RotationService;
@@ -76,6 +77,7 @@ export function ApiProvider({ children }: ApiProviderProps) {
       terminalService: new TerminalService(),
       parkingPositionService: new ParkingPositionService(),
       postcardService: new PostcardService(),
+      myPostcardService: new MyPostcardService(),
       gateService: new GateService(),
       flightService: new FlightService(),
       rotationService: new RotationService(),

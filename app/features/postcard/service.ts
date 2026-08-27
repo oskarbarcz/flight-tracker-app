@@ -1,4 +1,9 @@
-import type { DrawMissingResult, PostcardCatalogue, RedrawOutcome } from "~/features/postcard/model";
+import type {
+  DrawMissingResult,
+  MyPostcardCollection,
+  PostcardCatalogue,
+  RedrawOutcome,
+} from "~/features/postcard/model";
 import { AbstractAuthorizedApiService, type ErrorResponse } from "~/shared/api/api.service";
 
 const ALREADY_DRAWING = 409;
@@ -30,5 +35,15 @@ export class PostcardService extends AbstractAuthorizedApiService {
 
       throw reason;
     }
+  }
+}
+
+export class MyPostcardService extends AbstractAuthorizedApiService {
+  async fetchMine(): Promise<MyPostcardCollection> {
+    return this.fetchWithAuth<MyPostcardCollection>("/api/v1/user/me/postcard");
+  }
+
+  async markSeen(id: string): Promise<void> {
+    await this.fetchWithAuth<void>(`/api/v1/user/me/postcard/${id}/seen`, { method: "POST" });
   }
 }

@@ -513,3 +513,47 @@ html[data-app-entry] [data-app-entry-content] {
     opacity: 0.35;
   }
 }
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti__piece {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: var(--confetti-size);
+  height: calc(var(--confetti-size) * 0.42);
+  border-radius: 1px;
+  background-color: var(--confetti-color);
+  opacity: 0;
+  animation: confetti-fly 1500ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--confetti-delay) forwards;
+}
+
+@keyframes confetti-fly {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.5);
+  }
+  10% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate3d(calc(var(--confetti-drift) * 0.6), var(--confetti-rise), 0)
+      rotate(calc(var(--confetti-spin) * 0.45)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--confetti-drift), var(--confetti-fall), 0) rotate(var(--confetti-spin)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti {
+    display: none;
+  }
+}

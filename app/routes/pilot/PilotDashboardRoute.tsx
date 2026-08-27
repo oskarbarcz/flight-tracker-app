@@ -11,6 +11,7 @@ import { NoCurrentFlightBox } from "~/features/flight/components/Dashboard/Main/
 import { UserHeader } from "~/features/flight/components/Dashboard/Main/UserHeader";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useLastFlight } from "~/features/flight/hooks/useLastFlight";
+import { PostcardsBox } from "~/features/postcard/components/Dashboard/PostcardsBox";
 import { CurrentRotationBox } from "~/features/rotation/components/CurrentRotationBox";
 import { CurrentRotationBoxLoader } from "~/features/rotation/components/CurrentRotationBoxLoader";
 import { useCurrentRotation } from "~/features/rotation/hooks/useCurrentRotation";
@@ -76,6 +77,7 @@ export default function PilotDashboardRoute() {
               onTravelCreated={refreshTravels}
             />
           )}
+          <PostcardsBox />
           <RecentActivityBox />
         </div>
       </div>
