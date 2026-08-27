@@ -60,7 +60,7 @@ export function AirportEndpointCard({ airport, kind, schedule, details, actions 
           </div>
           <div className="mt-1 truncate text-sm font-medium text-gray-800 dark:text-gray-100">{airport.name}</div>
           <div className="truncate text-xs text-gray-500 dark:text-gray-400">
-            {airport.city}, {airport.country.name}
+            {airport.city.name}, {airport.country.name}
           </div>
         </div>
 

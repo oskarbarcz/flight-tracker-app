@@ -7,14 +7,14 @@ import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarF
 export function airportSelectOptions(airports: Airport[]): AdvancedSelectOption[] {
   return airports.map((airport) => ({
     value: airport.id,
-    keywords: [airport.iataCode, airport.icaoCode, airport.city, airport.name],
+    keywords: [airport.iataCode, airport.icaoCode, airport.city.name, airport.name],
     avatar: (
       <OptionAvatarFrame>
         <AirportShape shape={airport.shape} />
       </OptionAvatarFrame>
     ),
     title: airport.name,
-    subtitle: `${airport.city}, ${airport.country.name}`,
+    subtitle: `${airport.city.name}, ${airport.country.name}`,
     selectedSubtitle: (
       <>
         IATA: <span className="font-semibold">{airport.iataCode}</span>, ICAO:{" "}

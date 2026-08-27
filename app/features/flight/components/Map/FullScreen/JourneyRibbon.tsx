@@ -12,7 +12,7 @@ function Endpoint({ airport, align }: { airport: AirportOnFlight; align: "start"
     <div className={align === "end" ? "text-right" : ""}>
       <div className="font-mono text-2xl font-bold leading-none text-gray-900 dark:text-white">{airport.iataCode}</div>
       <div className="mt-2 max-w-[7rem] truncate text-[15px] leading-none text-gray-500 dark:text-gray-400">
-        {airport.city}
+        {airport.city.name}
       </div>
     </div>
   );

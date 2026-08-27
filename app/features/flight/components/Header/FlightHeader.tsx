@@ -58,7 +58,7 @@ export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking, on
               <span>{flight.destinationAirport.iataCode}</span>
             </div>
             <span className="truncate text-sm text-gray-500 dark:text-gray-400">
-              {flight.departureAirport.city} → {flight.destinationAirport.city}
+              {flight.departureAirport.city.name} → {flight.destinationAirport.city.name}
             </span>
           </div>
         </div>

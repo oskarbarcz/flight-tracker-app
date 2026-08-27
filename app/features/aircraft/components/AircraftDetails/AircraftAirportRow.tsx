@@ -20,7 +20,7 @@ export function AircraftAirportRow({ airport }: Props) {
           <span className="truncate text-sm font-medium text-gray-700 dark:text-gray-200">{airport.name}</span>
         </div>
         <div className="truncate text-sm text-gray-500 dark:text-gray-400">
-          {airport.city}, {airport.country.name}
+          {airport.city.name}, {airport.country.name}
         </div>
       </div>
     </div>

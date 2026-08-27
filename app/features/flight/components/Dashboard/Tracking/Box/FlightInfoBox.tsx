@@ -51,9 +51,9 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
       <RouteRow
         departureIata={flight.departureAirport.iataCode}
-        departureCity={flight.departureAirport.city}
+        departureCity={flight.departureAirport.city.name}
         destinationIata={flight.destinationAirport.iataCode}
-        destinationCity={flight.destinationAirport.city}
+        destinationCity={flight.destinationAirport.city.name}
         scheduledBlockTime={scheduledBlockTime}
         estimatedBlockTime={estimatedBlockTime}
         diverted={Boolean(diversion)}
@@ -203,7 +203,7 @@ function DiversionBanner({ diversion }: { diversion: Diversion }) {
         <span className="truncate text-sm font-semibold text-red-700 dark:text-red-400">
           <span className="font-mono">{diversion.airport.icaoCode}</span>
           <span className="mx-1.5 text-red-400 dark:text-red-600">·</span>
-          {diversion.airport.city}
+          {diversion.airport.city.name}
         </span>
       </div>
     </div>

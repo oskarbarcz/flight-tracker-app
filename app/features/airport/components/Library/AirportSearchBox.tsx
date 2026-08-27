@@ -57,7 +57,8 @@ export function AirportSearchBox({ airports }: Props) {
                         </span>
                         <span className="block truncate text-xs text-gray-500 dark:text-gray-400">
                           <span className="font-mono font-semibold">{airport.iataCode}</span> ·{" "}
-                          <span className="font-mono">{airport.icaoCode}</span> · {airport.city}, {airport.country.name}
+                          <span className="font-mono">{airport.icaoCode}</span> · {airport.city.name},{" "}
+                          {airport.country.name}
                         </span>
                       </span>
                     </Link>
