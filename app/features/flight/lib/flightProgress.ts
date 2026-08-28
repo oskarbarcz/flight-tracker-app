@@ -78,10 +78,6 @@ export function computeFlightProgress(flight: Flight, path: FlightPathElement[])
   return { phase, fraction: 0, totalNm, flownNm: 0, remainingNm: totalNm, departureDate, arrivalDate, hasLivePosition };
 }
 
-export function formatAirportClockTime(date: Date, timeZone: string | undefined): string {
-  return date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone });
-}
-
 export function humanDuration(fromNow: number): string | null {
   const minutes = Math.round(fromNow / 60000);
   if (minutes <= 0) return null;

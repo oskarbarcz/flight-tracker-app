@@ -4,7 +4,10 @@ import ReactDOMServer from "react-dom/server";
 import { Marker, useMap, useMapEvents } from "react-leaflet";
 import type { Airport } from "~/features/airport";
 import { AirportHaloLabel } from "~/features/flight/components/Map/Element/AirportHaloLabel";
-import { AIRPORT_STRUCTURE_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
+import {
+  AIRPORT_STRUCTURE_ZOOM_THRESHOLD,
+  RUNWAY_ZOOM_THRESHOLD,
+} from "~/features/flight/components/Map/Element/zoomThresholds";
 
 type MapAirportLabelProps = {
   airport: Airport;
@@ -32,7 +35,7 @@ export function MapAirportLabel({ airport, variant = "primary" }: MapAirportLabe
     zoomend: () => setZoom(map.getZoom()),
   });
 
-  const expanded = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD;
+  const expanded = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD && zoom < RUNWAY_ZOOM_THRESHOLD;
   const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
 
   return (

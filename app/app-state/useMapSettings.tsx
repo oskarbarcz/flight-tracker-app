@@ -14,7 +14,7 @@ export type MapSettings = {
 
 const defaultMapSettings: MapSettings = {
   centerOn: "route",
-  autoCenter: true,
+  autoCenter: false,
   parkingPositionDisplay: "assigned",
   terminalDisplay: "assigned",
   gateDisplay: "none",

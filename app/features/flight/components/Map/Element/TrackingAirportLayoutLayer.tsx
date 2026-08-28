@@ -10,6 +10,7 @@ import {
   AIRPORT_LABELS_ZOOM_THRESHOLD,
   AIRPORT_SHAPE_ZOOM_THRESHOLD,
   AIRPORT_STRUCTURE_ZOOM_THRESHOLD,
+  TERMINAL_LABEL_ZOOM_THRESHOLD,
 } from "~/features/flight/components/Map/Element/zoomThresholds";
 import type { Gate } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
@@ -106,6 +107,7 @@ export function TrackingAirportLayoutLayer({
 
   const showStructure = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD;
   const showLabels = zoom >= AIRPORT_LABELS_ZOOM_THRESHOLD;
+  const showTerminalLabels = zoom >= TERMINAL_LABEL_ZOOM_THRESHOLD;
 
   const visibleDepartureParkingPositions = pickParkingPositions(
     departureParkingPositions,
@@ -138,8 +140,8 @@ export function TrackingAirportLayoutLayer({
     <>
       <AirportShapePolygon airport={departureAirport} />
       <AirportShapePolygon airport={destinationAirport} />
-      {showStructure && <TerminalPolygons terminals={visibleDepartureTerminals} />}
-      {showStructure && <TerminalPolygons terminals={visibleArrivalTerminals} />}
+      {showStructure && <TerminalPolygons terminals={visibleDepartureTerminals} showLabels={showTerminalLabels} />}
+      {showStructure && <TerminalPolygons terminals={visibleArrivalTerminals} showLabels={showTerminalLabels} />}
       {showLabels && (
         <ParkingPositionMarkers
           parkingPositions={visibleDepartureParkingPositions}

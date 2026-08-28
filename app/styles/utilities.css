@@ -107,6 +107,34 @@ input:-webkit-autofill:focus {
   cursor: crosshair;
 }
 
+.leaflet-tooltip.map-aircraft-label {
+  @apply flex items-center gap-2 rounded-md border border-gray-200 bg-white px-2 py-1 shadow-sm dark:border-gray-700 dark:bg-gray-900;
+  margin: 0;
+  width: max-content;
+  white-space: nowrap;
+}
+.leaflet-tooltip.map-aircraft-label::before {
+  @apply border-r-white;
+  left: 0;
+  border-width: 6px;
+  margin-top: -6px;
+}
+.dark .leaflet-tooltip.map-aircraft-label::before {
+  @apply border-r-gray-900;
+}
+.map-aircraft-label__fin {
+  @apply h-6 w-auto shrink-0 object-contain;
+}
+.map-aircraft-label__identity {
+  @apply flex flex-col gap-0.5;
+}
+.map-aircraft-label__flight {
+  @apply font-mono text-[13px] font-bold leading-none text-gray-900 dark:text-white;
+}
+.map-aircraft-label__registration {
+  @apply font-mono text-[9px] leading-none text-gray-500 dark:text-gray-400;
+}
+
 .leaflet-tooltip.map-terminal-label {
   @apply font-bold text-[10px] text-amber-700 dark:text-amber-300;
   background: transparent;
@@ -236,21 +264,95 @@ input:-webkit-autofill:focus {
   top: 0;
   transform: translate(-50%, -50%);
 }
-.map-runway-label {
-  @apply font-mono font-bold text-[12px] text-gray-700 dark:text-gray-200;
+.map-runway-plate {
+  @apply rounded-[3px] bg-slate-900/85 px-1 py-px font-mono text-[10px] font-bold leading-none text-white;
+  display: inline-block;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.map-runway-plate--active {
+  @apply bg-indigo-600;
+}
+.dark .map-runway-plate {
+  @apply bg-slate-100/90 text-slate-900;
+}
+.dark .map-runway-plate--active {
+  @apply bg-indigo-400 text-slate-900;
+}
+
+.map-approach-label {
+  @apply font-mono text-[10px] font-bold text-indigo-700 dark:text-indigo-300;
   display: inline-block;
   white-space: nowrap;
   text-shadow:
     0 0 3px #fff,
     0 0 3px #fff;
 }
-.dark .map-runway-label {
+.dark .map-approach-label {
   text-shadow:
     0 0 3px #0b0e14,
     0 0 3px #0b0e14;
 }
-.map-runway-label--selected {
-  @apply text-indigo-700 dark:text-indigo-300;
+
+.rw-casing {
+  stroke: #0f172a;
+  stroke-width: 3;
+  stroke-opacity: 0.4;
+  stroke-linejoin: round;
+}
+.rw-surface {
+  fill: #64748b;
+  fill-opacity: 0.88;
+}
+.dark .rw-surface {
+  fill: #94a3b8;
+  fill-opacity: 0.6;
+}
+.rw-surface--active {
+  fill: #4338ca;
+  fill-opacity: 0.95;
+}
+.dark .rw-surface--active {
+  fill: #818cf8;
+  fill-opacity: 0.95;
+}
+.rw-marking {
+  fill: #f8fafc;
+  fill-opacity: 0.9;
+}
+.dark .rw-marking {
+  fill: #0f172a;
+  fill-opacity: 0.6;
+}
+.rw-centerline {
+  stroke: #f8fafc;
+  stroke-width: 1.25;
+  stroke-opacity: 0.85;
+  stroke-linecap: butt;
+}
+.dark .rw-centerline {
+  stroke: #0f172a;
+  stroke-opacity: 0.55;
+}
+.rw-approach {
+  stroke: #4338ca;
+  stroke-width: 3.25;
+  stroke-opacity: 0.9;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 10;
+}
+.dark .rw-approach {
+  stroke: #a5b4fc;
+  stroke-opacity: 0.9;
+}
+.rw-approach-tick {
+  stroke: #4338ca;
+  stroke-width: 1.5;
+  stroke-opacity: 0.6;
+}
+.dark .rw-approach-tick {
+  stroke: #a5b4fc;
+  stroke-opacity: 0.65;
 }
 
 /* Sign-in morph into the app shell (View Transitions) */

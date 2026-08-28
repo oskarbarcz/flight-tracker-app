@@ -12,7 +12,7 @@ import type { Route } from "../../../.react-router/types/app/routes/public/+type
 
 export default function MapRoute({ params }: Route.ClientLoaderArgs) {
   const { publicFlightService } = usePublicApi();
-  const { setCallsign, flightPath, loadFlightPath, lastRequestedAt } = useAdsbData();
+  const { setCallsign, flightPath, loadFlightPath } = useAdsbData();
 
   const [flight, setFlight] = useState<Flight | null>(null);
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -83,7 +83,7 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
       <MapSettingsProvider>
         <FullScreenMap flight={flight} path={flightPath} />
       </MapSettingsProvider>
-      <MapHeader lastUpdatedAt={lastRequestedAt} />
+      <MapHeader />
     </div>
   );
 }
