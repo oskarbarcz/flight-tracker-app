@@ -38,18 +38,7 @@ export function AirportEndpointCard({ airport, kind, schedule, details, actions 
       ];
 
   return (
-    <Container
-      header={
-        <CardHeader
-          title={label}
-          actions={
-            <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-              <FormattedIcaoDate date={date} />
-            </span>
-          }
-        />
-      }
-    >
+    <Container header={<CardHeader title={label} />}>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="min-w-0 sm:flex-1">
           <div className="flex items-baseline gap-2">
@@ -64,10 +53,15 @@ export function AirportEndpointCard({ airport, kind, schedule, details, actions 
           </div>
         </div>
 
-        <div className="grid grid-cols-[auto_1fr_auto] items-stretch gap-3 sm:shrink-0">
-          <TimeBlock label={leftBlock.label} time={leftBlock.time} primary={leftBlock.primary} />
-          <TaxiSeparator minutes={taxiMinutes} />
-          <TimeBlock label={rightBlock.label} time={rightBlock.time} primary={rightBlock.primary} />
+        <div className="sm:shrink-0">
+          <div className="mb-1.5 font-mono text-xs font-semibold text-gray-500 sm:text-end dark:text-gray-400">
+            <FormattedIcaoDate date={date} />
+          </div>
+          <div className="grid grid-cols-[auto_1fr_auto] items-stretch gap-3">
+            <TimeBlock label={leftBlock.label} time={leftBlock.time} primary={leftBlock.primary} />
+            <TaxiSeparator minutes={taxiMinutes} />
+            <TimeBlock label={rightBlock.label} time={rightBlock.time} primary={rightBlock.primary} />
+          </div>
         </div>
       </div>
 

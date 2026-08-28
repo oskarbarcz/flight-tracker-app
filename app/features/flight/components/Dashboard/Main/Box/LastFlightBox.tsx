@@ -68,7 +68,7 @@ export function LastFlightBox({ flight }: Props) {
         </Link>
       }
       padding="condensed"
-      header={<CardHeader title="Last flight" actions={<ArrivalStatusBadge delayMinutes={arrivalDelayMinutes} />} />}
+      header={<CardHeader title="Last flight" />}
     >
       <article className="flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -83,7 +83,10 @@ export function LastFlightBox({ flight }: Props) {
             {flight.aircraft.airframe.name}
           </span>
         </div>
-        <StatBlock label="Arrival" align="right" value={<FormattedIcaoTime date={arrivalTime} />} />
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          <StatBlock label="Arrival" align="right" value={<FormattedIcaoTime date={arrivalTime} />} />
+          <ArrivalStatusBadge delayMinutes={arrivalDelayMinutes} />
+        </div>
       </article>
 
       <div className="flex flex-col gap-3">

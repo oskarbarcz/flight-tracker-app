@@ -1,4 +1,4 @@
-import { Button } from "flowbite-react";
+import { Badge, Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight, FaPlane } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
@@ -52,22 +52,13 @@ export function CurrentFlightBox({ flight }: Props) {
     : [];
 
   return (
-    <Container
-      padding="condensed"
-      header={
-        <CardHeader
-          title="Current flight"
-          actions={
-            <span className="rounded-full bg-indigo-100 px-2 py-1 text-xs uppercase text-indigo-500 dark:bg-indigo-900 dark:text-indigo-300">
-              {toHuman.flight.status.short(flight.status, flight.serviceType)}
-            </span>
-          }
-        />
-      }
-    >
+    <Container padding="condensed" header={<CardHeader title="Current flight" />}>
       <article className="mt-2 flex flex-row justify-between gap-3">
         <div className="min-w-0">
           <span className="block font-mono text-4xl font-bold leading-none text-indigo-500">{flight.flightNumber}</span>
+          <span className="mt-2 flex">
+            <Badge color="indigo">{toHuman.flight.status.short(flight.status, flight.serviceType)}</Badge>
+          </span>
           <span className="mt-1.5 block truncate font-semibold text-gray-700 text-sm dark:text-gray-300">
             {flight.operator.shortName}
           </span>
@@ -124,7 +115,7 @@ export function CurrentFlightBox({ flight }: Props) {
       </article>
 
       {loadsheet && (
-        <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-100 sm:grid-cols-4 dark:border-gray-800 dark:bg-gray-800">
+        <div className="mt-5 hidden gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-100 sm:grid sm:grid-cols-4 dark:border-gray-800 dark:bg-gray-800">
           {stats.map((stat) => (
             <div key={stat.label} className="bg-white px-3 py-2.5 dark:bg-gray-900">
               <StatBlock label={stat.label} value={stat.value} unit={stat.unit} />

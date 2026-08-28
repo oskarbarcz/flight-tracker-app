@@ -35,22 +35,13 @@ export function LoadsheetSummaryCard({ preliminary, final, serviceType }: Props)
     loadsheet.passengers;
 
   return (
-    <Container
-      padding="spacious"
-      className="h-full"
-      header={
-        <CardHeader
-          title="Loadsheet"
-          actions={
-            isPreliminary ? (
-              <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-400">
-                Preliminary
-              </span>
-            ) : undefined
-          }
-        />
-      }
-    >
+    <Container padding="spacious" className="h-full" header={<CardHeader title="Loadsheet" />}>
+      {isPreliminary && (
+        <div className="font-mono text-xs font-bold uppercase tracking-widest text-amber-700 dark:text-amber-400">
+          Preliminary
+        </div>
+      )}
+
       <div className="flex items-baseline gap-1.5">
         <span className="font-mono text-2xl font-bold text-gray-900 dark:text-white">{souls}</span>
         <span className="text-xs text-gray-500">souls on board</span>

@@ -52,7 +52,7 @@ export default function PilotDashboardRoute() {
     <>
       <UserHeader />
       <div className="grid grid-cols-1 gap-3 pt-6 lg:grid-cols-3 lg:pt-12">
-        <div className="flex flex-col gap-3 lg:col-span-2">
+        <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-3">
           {loadingCurrent ? (
             <CurrentFlightBoxLoader />
           ) : currentFlight ? (
@@ -60,25 +60,27 @@ export default function PilotDashboardRoute() {
           ) : (
             <NoCurrentFlightBox />
           )}
-          <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2">
+          <div className="order-1 grid grid-cols-1 items-start gap-3 sm:grid-cols-2 lg:order-none">
             {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
             {loadingAll ? <NextScheduledFlightBoxLoader /> : <NextScheduledFlightBox flight={nextFlight} />}
           </div>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="contents lg:flex lg:flex-col lg:gap-3">
           {loadingRotation ? <CurrentRotationBoxLoader /> : rotation && <CurrentRotationBox rotation={rotation} />}
-          {loadingTravels ? (
-            <CurrentLocationBoxLoader />
-          ) : (
-            <CurrentLocationBox
-              currentLocation={currentLocation}
-              latestTravel={latestTravel}
-              flightNumber={travelFlightNumber}
-              onTravelCreated={refreshTravels}
-            />
-          )}
-          <PostcardsBox />
-          <RecentActivityBox />
+          <div className="order-2 flex flex-col gap-3 lg:order-none">
+            {loadingTravels ? (
+              <CurrentLocationBoxLoader />
+            ) : (
+              <CurrentLocationBox
+                currentLocation={currentLocation}
+                latestTravel={latestTravel}
+                flightNumber={travelFlightNumber}
+                onTravelCreated={refreshTravels}
+              />
+            )}
+            <PostcardsBox />
+            <RecentActivityBox />
+          </div>
         </div>
       </div>
       {isDebug && (

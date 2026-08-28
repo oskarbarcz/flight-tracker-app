@@ -10,6 +10,7 @@ import { RotationLegItem } from "~/features/rotation/components/RotationLegItem"
 import type { LegFormData } from "~/features/rotation/form";
 import { durationMinutes } from "~/shared/lib/time";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
+import { CardToolbar } from "~/shared/ui/Layout/CardToolbar";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -51,22 +52,16 @@ export function RotationLegsEditor({
   };
 
   return (
-    <Container
-      padding="condensed"
-      header={
-        <CardHeader
-          title="Legs"
-          actions={
-            rotation.isDraft && (
-              <Button size="xs" color="indigo" onClick={() => setAdding(true)}>
-                <HiPlus className="mr-1.5" />
-                <span>Add new</span>
-              </Button>
-            )
-          }
-        />
-      }
-    >
+    <Container padding="condensed" header={<CardHeader title="Legs" />}>
+      {rotation.isDraft && (
+        <CardToolbar>
+          <Button size="xs" color="indigo" onClick={() => setAdding(true)}>
+            <HiPlus className="mr-1.5" />
+            <span>Add new</span>
+          </Button>
+        </CardToolbar>
+      )}
+
       {rotation.legs.length === 0 ? (
         <p className="rounded-xl bg-gray-50 p-6 text-center text-sm text-gray-500 dark:bg-gray-900/40">
           No legs planned yet.

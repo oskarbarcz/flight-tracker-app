@@ -8,6 +8,7 @@ import { RemoveDelayReportConfirmModal } from "~/features/delay/components/Remov
 import { FlightStatus } from "~/features/flight";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
+import { CardToolbar } from "~/shared/ui/Layout/CardToolbar";
 import { Container } from "~/shared/ui/Layout/Container";
 
 const DEPARTED_STATUSES: ReadonlySet<FlightStatus> = new Set([
@@ -30,22 +31,16 @@ export function FlightDelaysTab() {
 
   return (
     <div className="mt-4 flex flex-col gap-4">
-      <Container
-        padding="condensed"
-        header={
-          <CardHeader
-            title="Delay allocation"
-            actions={
-              delayRequest ? (
-                <Button color="blue" onClick={() => setFiling(true)} disabled={!canFile}>
-                  <FaPlus className="me-1.5" />
-                  File delay report
-                </Button>
-              ) : null
-            }
-          />
-        }
-      >
+      <Container padding="condensed" header={<CardHeader title="Delay allocation" />}>
+        {delayRequest && (
+          <CardToolbar>
+            <Button color="blue" onClick={() => setFiling(true)} disabled={!canFile}>
+              <FaPlus className="me-1.5" />
+              File delay report
+            </Button>
+          </CardToolbar>
+        )}
+
         {delayRequest ? (
           <DelaySummary delayRequest={delayRequest} onRemove={setReportToRemove} />
         ) : hasDeparted ? (
