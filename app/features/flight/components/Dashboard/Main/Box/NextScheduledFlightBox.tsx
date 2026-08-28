@@ -34,6 +34,7 @@ export function NextScheduledFlightBox({ flight }: Props) {
           flightNumber={flight.flightNumber}
           aircraftId={flight.aircraft.id}
           registration={flight.aircraft.registration}
+          size="md"
         />
         <StatBlock
           label="Departure"

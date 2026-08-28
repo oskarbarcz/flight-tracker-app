@@ -1,5 +1,5 @@
 import type { Schedule, Timesheet } from "~/features/flight/model";
-import { durationMinutes, getTimeDifferenceInMinutes } from "~/shared/lib/time";
+import { durationMinutes, formatCompactDuration, getTimeDifferenceInMinutes } from "~/shared/lib/time";
 
 export type BlockEventKey = "offBlockTime" | "takeoffTime" | "arrivalTime" | "onBlockTime";
 
@@ -58,6 +58,33 @@ export function reachedLeg(events: BlockEvent[]): ReachedLeg {
   }
 
   return { from: events[lastReached], to: events[lastReached + 1] ?? null };
+}
+
+const NEXT_ACTION_LABELS: Record<BlockEventKey, string> = {
+  offBlockTime: "off-block",
+  takeoffTime: "takeoff",
+  arrivalTime: "arrival",
+  onBlockTime: "on-block",
+};
+
+export function nextAction(events: BlockEvent[]): BlockEvent | null {
+  const leg = reachedLeg(events);
+
+  if (leg.from === null) {
+    return events[0] ?? null;
+  }
+
+  return leg.to;
+}
+
+export function nextActionCaption(event: BlockEvent, now: Date): string {
+  const minutes = getTimeDifferenceInMinutes(now, event.time);
+
+  if (minutes <= 0) {
+    return `${event.label} due now`;
+  }
+
+  return `Time to ${NEXT_ACTION_LABELS[event.key]}: ${formatCompactDuration(minutes)}`;
 }
 
 export function axisProgress(leg: ReachedLeg, legProgressPercent: number): number {

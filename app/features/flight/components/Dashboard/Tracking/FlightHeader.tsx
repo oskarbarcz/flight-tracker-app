@@ -5,10 +5,10 @@ import { MapBox } from "~/features/flight/components/Dashboard/Tracking/Map/MapB
 
 export function FlightHeader() {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+    <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
       <FlightInfoBox className="col-span-1" />
       <AdsbProvider>
-        <MapBox className="md:col-span-2 min-h-96" />
+        <MapBox className="xl:col-span-2 min-h-96" />
       </AdsbProvider>
     </section>
   );

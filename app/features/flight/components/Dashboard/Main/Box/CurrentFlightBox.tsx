@@ -1,4 +1,4 @@
-import { Badge, Button } from "flowbite-react";
+import { Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
@@ -6,7 +6,13 @@ import { Link } from "react-router";
 import { type Flight, FlightStatus } from "~/features/flight";
 import { FlightProgressBar } from "~/features/flight/components/Dashboard/Main/Box/FlightProgressBar";
 import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
-import { axisProgress, reachedLeg, resolveBlockEvents } from "~/features/flight/lib/blockEvents";
+import {
+  axisProgress,
+  nextAction,
+  nextActionCaption,
+  reachedLeg,
+  resolveBlockEvents,
+} from "~/features/flight/lib/blockEvents";
 import { toHuman } from "~/i18n/translate";
 import { useDateProgress } from "~/shared/hooks/useDateProgress";
 import { dateDiffToReadable } from "~/shared/lib/time";
@@ -15,6 +21,7 @@ import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
 import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
+import { LabeledDivider } from "~/shared/ui/Layout/LabeledDivider";
 
 type Props = {
   flight: Flight;
@@ -44,6 +51,7 @@ export function CurrentFlightBox({ flight }: Props) {
   const leg = reachedLeg(blockEvents);
   const legProgress = useDateProgress(leg.from?.time ?? scheduled.offBlockTime, leg.to?.time ?? scheduled.onBlockTime);
   const flightProgress = axisProgress(leg, legProgress);
+  const upcoming = nextAction(blockEvents);
 
   return (
     <Container padding="condensed" header={<CardHeader title="Current flight" />}>
@@ -70,11 +78,14 @@ export function CurrentFlightBox({ flight }: Props) {
         </div>
       </article>
 
-      <div className="mt-3 flex">
-        <Badge color="indigo">{toHuman.flight.status.short(flight.status, flight.serviceType)}</Badge>
+      <div className="mt-4">
+        <LabeledDivider
+          label={toHuman.flight.status.short(flight.status, flight.serviceType)}
+          caption={upcoming === null ? undefined : nextActionCaption(upcoming, new Date())}
+        />
       </div>
 
-      <article className="mt-5 flex items-center gap-6 lg:gap-12">
+      <article className="mt-4 flex items-center gap-6 lg:gap-12">
         <span className="shrink-0">
           <AirportEndpoint iataCode={flight.departureAirport.iataCode} size="lg" />
         </span>

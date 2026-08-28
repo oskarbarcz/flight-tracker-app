@@ -1,6 +1,5 @@
 import React from "react";
 import { FaPlane, FaPlaneCircleExclamation } from "react-icons/fa6";
-import { PiUserSoundBold } from "react-icons/pi";
 import { twMerge } from "tailwind-merge";
 import type { Diversion } from "~/features/diversion";
 import { FlightStatus, isFilledSchedule } from "~/features/flight";
@@ -43,14 +42,6 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
         registration={flight.aircraft.registration}
       />
 
-      <Header callsign={flight.callsign} operatorCallsign={flight.operator.callsign} />
-
-      <AircraftRow
-        airframeName={flight.aircraft.airframe.name}
-        selcal={flight.aircraft.selcal}
-        operatorName={flight.operator.shortName}
-      />
-
       <RouteRow
         departureIata={flight.departureAirport.iataCode}
         departureCity={flight.departureAirport.city.name}
@@ -72,51 +63,6 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
       <FlightConnectionFooter />
     </Container>
-  );
-}
-
-function Header({ callsign, operatorCallsign }: { callsign: string; operatorCallsign: string }) {
-  return (
-    <header className="flex flex-col gap-1">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 dark:text-gray-300">
-        <span className="font-mono">{callsign}</span>
-        <span className="text-gray-300 dark:text-gray-600">·</span>
-        <span className="inline-flex items-center gap-1.5 text-xs">
-          <PiUserSoundBold className="text-gray-400" />
-          <span className="font-mono">{operatorCallsign}</span>
-        </span>
-      </div>
-    </header>
-  );
-}
-
-function AircraftRow({
-  airframeName,
-  selcal,
-  operatorName,
-}: {
-  airframeName: string;
-  selcal: string | null;
-  operatorName: string;
-}) {
-  return (
-    <div className="flex flex-col gap-2 text-sm text-gray-700 dark:text-gray-300">
-      <div className="flex flex-wrap items-center gap-2">
-        <span>{airframeName}</span>
-        <Chip>{selcal || "—"}</Chip>
-      </div>
-      <div className="text-xs text-gray-500 dark:text-gray-400">
-        Operated by <span className="font-semibold text-gray-800 dark:text-gray-100">{operatorName}</span>
-      </div>
-    </div>
-  );
-}
-
-function Chip({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-block rounded-md border border-gray-300 px-2 py-0.5 font-mono text-xs text-gray-700 dark:border-gray-700 dark:text-gray-200">
-      {children}
-    </span>
   );
 }
 

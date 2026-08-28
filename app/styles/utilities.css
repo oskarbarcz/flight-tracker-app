@@ -577,3 +577,123 @@ html[data-app-entry] [data-app-entry-content] {
     display: none;
   }
 }
+
+@keyframes nav-plane-settle {
+  0% {
+    transform: translate3d(0, -12px, 0);
+  }
+  7% {
+    transform: translate3d(0, -22px, 0);
+  }
+  14% {
+    transform: translate3d(0, -12px, 0);
+  }
+  24% {
+    transform: translate3d(0, -21px, 0);
+  }
+  34% {
+    transform: translate3d(0, -12px, 0);
+  }
+  48% {
+    transform: translate3d(0, -20px, 0);
+  }
+  62% {
+    transform: translate3d(0, -12px, 0);
+  }
+  80% {
+    transform: translate3d(0, -19px, 0);
+  }
+  100% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes nav-plane-cruise {
+  0%,
+  100% {
+    transform: translate3d(0, -12px, 0);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0);
+  }
+}
+
+.nav-plane-flight {
+  animation:
+    nav-plane-settle 3400ms ease-in-out both,
+    nav-plane-cruise 2600ms ease-in-out 3400ms infinite;
+}
+
+@keyframes nav-cloud-in {
+  from {
+    transform: translate3d(var(--cloud-travel), 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nav-cloud-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(var(--cloud-drift), 0, 0);
+  }
+}
+
+.nav-cloud {
+  position: absolute;
+  color: #ffffff;
+  animation:
+    nav-cloud-in var(--cloud-duration) cubic-bezier(0.16, 1, 0.3, 1) var(--cloud-delay) both,
+    nav-cloud-drift var(--cloud-drift-duration) ease-in-out var(--cloud-drift-delay) infinite;
+}
+
+.nav-cloud--far {
+  --cloud-travel: 75px;
+  --cloud-duration: 760ms;
+  --cloud-delay: 90ms;
+  --cloud-drift: -5px;
+  --cloud-drift-duration: 26s;
+  --cloud-drift-delay: 850ms;
+  opacity: 0.16;
+}
+
+.nav-cloud--mid {
+  --cloud-travel: 85px;
+  --cloud-duration: 560ms;
+  --cloud-delay: 40ms;
+  --cloud-drift: -8px;
+  --cloud-drift-duration: 18s;
+  --cloud-drift-delay: 600ms;
+  opacity: 0.26;
+}
+
+.nav-cloud--near {
+  --cloud-travel: 95px;
+  --cloud-duration: 420ms;
+  --cloud-delay: 0ms;
+  --cloud-drift: -12px;
+  --cloud-drift-duration: 12s;
+  --cloud-drift-delay: 420ms;
+  opacity: 0.36;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-plane-flight,
+  .nav-cloud {
+    animation: none;
+  }
+}
+
+.bottom-nav-rail {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav-rail {
+    transition: none;
+  }
+}

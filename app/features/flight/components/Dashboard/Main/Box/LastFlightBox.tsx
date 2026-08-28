@@ -16,13 +16,11 @@ type Props = {
   flight: Flight | null;
 };
 
-function ArrivalStatusBadge({ delayMinutes }: { delayMinutes: number | null }) {
-  if (delayMinutes === null) {
+function ArrivalDelayBadge({ delayMinutes }: { delayMinutes: number | null }) {
+  if (delayMinutes === null || delayMinutes <= 0) {
     return null;
   }
-  if (delayMinutes <= 0) {
-    return <Badge color="success">On time</Badge>;
-  }
+
   return <Badge color="warning">+{delayMinutes}m late</Badge>;
 }
 
@@ -76,10 +74,11 @@ export function LastFlightBox({ flight }: Props) {
           flightNumber={flight.flightNumber}
           aircraftId={flight.aircraft.id}
           registration={flight.aircraft.registration}
+          size="md"
         />
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           <StatBlock label="Arrival" align="right" value={<FormattedIcaoTime date={arrivalTime} />} />
-          <ArrivalStatusBadge delayMinutes={arrivalDelayMinutes} />
+          <ArrivalDelayBadge delayMinutes={arrivalDelayMinutes} />
         </div>
       </article>
 
