@@ -63,7 +63,8 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
           <Link
             to={`/rotations/${rotation.id}`}
             viewTransition
-            className="block rounded font-mono text-sm font-semibold text-gray-600 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-gray-300 dark:hover:text-indigo-400"
+            title={rotation.name}
+            className="block truncate rounded font-mono text-sm font-semibold text-gray-600 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-gray-300 dark:hover:text-indigo-400"
           >
             {rotation.name}
           </Link>

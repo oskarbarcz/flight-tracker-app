@@ -51,8 +51,8 @@ export default function PilotDashboardRoute() {
   return (
     <>
       <UserHeader />
-      <div className="grid grid-cols-1 gap-3 pt-6 lg:grid-cols-3 lg:pt-12">
-        <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-3">
+      <div className="grid grid-cols-1 gap-3 pt-6 lg:grid-cols-2 lg:pt-12 xl:grid-cols-3">
+        <div className="contents lg:flex lg:flex-col lg:gap-3 xl:col-span-2">
           {loadingCurrent ? (
             <CurrentFlightBoxLoader />
           ) : currentFlight ? (
@@ -60,7 +60,7 @@ export default function PilotDashboardRoute() {
           ) : (
             <NoCurrentFlightBox />
           )}
-          <div className="order-1 grid grid-cols-1 items-start gap-3 sm:grid-cols-2 lg:order-none">
+          <div className="order-1 grid grid-cols-1 items-start gap-3 sm:grid-cols-2 md:grid-cols-1 lg:order-none xl:grid-cols-2">
             {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} />}
             {loadingAll ? <NextScheduledFlightBoxLoader /> : <NextScheduledFlightBox flight={nextFlight} />}
           </div>
@@ -68,16 +68,18 @@ export default function PilotDashboardRoute() {
         <div className="contents lg:flex lg:flex-col lg:gap-3">
           {loadingRotation ? <CurrentRotationBoxLoader /> : rotation && <CurrentRotationBox rotation={rotation} />}
           <div className="order-2 flex flex-col gap-3 lg:order-none">
-            {loadingTravels ? (
-              <CurrentLocationBoxLoader />
-            ) : (
-              <CurrentLocationBox
-                currentLocation={currentLocation}
-                latestTravel={latestTravel}
-                flightNumber={travelFlightNumber}
-                onTravelCreated={refreshTravels}
-              />
-            )}
+            {!loadingCurrent &&
+              !currentFlight &&
+              (loadingTravels ? (
+                <CurrentLocationBoxLoader />
+              ) : (
+                <CurrentLocationBox
+                  currentLocation={currentLocation}
+                  latestTravel={latestTravel}
+                  flightNumber={travelFlightNumber}
+                  onTravelCreated={refreshTravels}
+                />
+              ))}
             <PostcardsBox />
             <RecentActivityBox />
           </div>

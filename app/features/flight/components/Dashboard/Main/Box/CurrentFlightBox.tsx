@@ -1,16 +1,17 @@
 import { Badge, Button } from "flowbite-react";
 import React from "react";
-import { FaArrowRight, FaPlane } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import { Link } from "react-router";
-import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { type Flight, FlightStatus } from "~/features/flight";
+import { FlightProgressBar } from "~/features/flight/components/Dashboard/Main/Box/FlightProgressBar";
+import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
+import { axisProgress, reachedLeg, resolveBlockEvents } from "~/features/flight/lib/blockEvents";
 import { toHuman } from "~/i18n/translate";
 import { useDateProgress } from "~/shared/hooks/useDateProgress";
 import { dateDiffToReadable } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
-import { StatBlock } from "~/shared/ui/Display/StatBlock";
 import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -38,35 +39,21 @@ export function CurrentFlightBox({ flight }: Props) {
   const countdownLabel = showDeparture ? "Time to departure: " : "Time remaining: ";
   const overdueLabel = showDeparture ? "Departing now" : "Arriving now";
   const timeRemaining = dateDiffToReadable(new Date(), estimatedReference);
-  const timeProgress = useDateProgress(estimated?.offBlockTime ?? scheduled.offBlockTime, scheduled.onBlockTime);
 
-  const loadsheet = flight.loadsheets.final ?? flight.loadsheets.preliminary;
-
-  const stats = loadsheet
-    ? [
-        { label: "Passengers", value: loadsheet.passengers.toString() },
-        { label: "Cargo", value: loadsheet.cargo.toString(), unit: "t" },
-        { label: "Crew", value: `${loadsheet.flightCrew.pilots} + ${loadsheet.flightCrew.cabinCrew}` },
-        { label: "Block fuel", value: loadsheet.blockFuel.toString(), unit: "t" },
-      ]
-    : [];
+  const blockEvents = resolveBlockEvents(flight.timesheet);
+  const leg = reachedLeg(blockEvents);
+  const legProgress = useDateProgress(leg.from?.time ?? scheduled.offBlockTime, leg.to?.time ?? scheduled.onBlockTime);
+  const flightProgress = axisProgress(leg, legProgress);
 
   return (
     <Container padding="condensed" header={<CardHeader title="Current flight" />}>
       <article className="mt-2 flex flex-row justify-between gap-3">
-        <div className="min-w-0">
-          <span className="block font-mono text-4xl font-bold leading-none text-indigo-500">{flight.flightNumber}</span>
-          <span className="mt-2 flex">
-            <Badge color="indigo">{toHuman.flight.status.short(flight.status, flight.serviceType)}</Badge>
-          </span>
-          <span className="mt-1.5 block truncate font-semibold text-gray-700 text-sm dark:text-gray-300">
-            {flight.operator.shortName}
-          </span>
-          <span className="block truncate text-sm text-gray-500">
-            <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> ·{" "}
-            {flight.aircraft.airframe.name}
-          </span>
-        </div>
+        <FlightIdentity
+          operator={flight.operator}
+          flightNumber={flight.flightNumber}
+          aircraftId={flight.aircraft.id}
+          registration={flight.aircraft.registration}
+        />
 
         <div className="shrink-0 text-right">
           <span className="font-mono text-xl font-bold tabular-nums text-gray-900 dark:text-white">
@@ -83,46 +70,41 @@ export function CurrentFlightBox({ flight }: Props) {
         </div>
       </article>
 
-      <article className="mt-5 grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)] items-center gap-4">
-        <AirportEndpoint
-          iataCode={flight.departureAirport.iataCode}
-          name={flight.departureAirport.name}
-          subtitle={`${flight.departureAirport.city.name}, ${flight.departureAirport.country.name}`}
-          size="lg"
-        />
+      <div className="mt-3 flex">
+        <Badge color="indigo">{toHuman.flight.status.short(flight.status, flight.serviceType)}</Badge>
+      </div>
 
-        <div className="relative h-5">
-          <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded bg-gray-200 dark:bg-gray-700" />
-          <div
-            className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2 rounded bg-indigo-500"
-            style={{ width: `${timeProgress}%` }}
-          />
-          <span className="absolute left-0 top-1/2 size-2 -translate-y-1/2 rounded-full bg-indigo-500" />
-          <span className="absolute right-0 top-1/2 size-2 -translate-y-1/2 rounded-full bg-gray-300 dark:bg-gray-600" />
-          <FaPlane
-            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-500"
-            style={{ left: `${timeProgress}%` }}
-          />
-        </div>
+      <article className="mt-5 flex items-center gap-6 lg:gap-12">
+        <span className="shrink-0">
+          <AirportEndpoint iataCode={flight.departureAirport.iataCode} size="lg" />
+        </span>
 
-        <AirportEndpoint
-          iataCode={flight.destinationAirport.iataCode}
-          name={flight.destinationAirport.name}
-          subtitle={`${flight.destinationAirport.city.name}, ${flight.destinationAirport.country.name}`}
-          align="right"
-          size="lg"
-        />
+        <FlightProgressBar percent={flightProgress} />
+
+        <span className="shrink-0">
+          <AirportEndpoint iataCode={flight.destinationAirport.iataCode} size="lg" align="right" />
+        </span>
       </article>
 
-      {loadsheet && (
-        <div className="mt-5 hidden gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-100 sm:grid sm:grid-cols-4 dark:border-gray-800 dark:bg-gray-800">
-          {stats.map((stat) => (
-            <div key={stat.label} className="bg-white px-3 py-2.5 dark:bg-gray-900">
-              <StatBlock label={stat.label} value={stat.value} unit={stat.unit} />
-            </div>
-          ))}
+      <article className="-mt-1 flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <span className="block text-sm font-bold text-gray-700 dark:text-gray-200">
+            {flight.departureAirport.name}
+          </span>
+          <span className="block text-xs text-gray-500 dark:text-gray-400">
+            {flight.departureAirport.city.name}, {flight.departureAirport.country.name}
+          </span>
         </div>
-      )}
+
+        <div className="min-w-0 text-right">
+          <span className="block text-sm font-bold text-gray-700 dark:text-gray-200">
+            {flight.destinationAirport.name}
+          </span>
+          <span className="block text-xs text-gray-500 dark:text-gray-400">
+            {flight.destinationAirport.city.name}, {flight.destinationAirport.country.name}
+          </span>
+        </div>
+      </article>
 
       <BoxFooter
         leading={
