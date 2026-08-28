@@ -4,7 +4,7 @@ import { Wordmark } from "~/shared/ui/Wordmark";
 
 export default function MapSplash() {
   return (
-    <div className="flex flex-col h-screen w-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
+    <div className="flex flex-col h-dvh w-full items-center justify-center bg-gray-50 dark:bg-gray-950">
       <div className="text-center animate-pulse">
         <img src={logo} alt="MyPreflight app logo" className="mx-auto mb-4 size-14 md:mb-8 md:size-24 dark:hidden" />
         <img

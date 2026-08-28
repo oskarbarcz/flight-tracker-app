@@ -26,7 +26,7 @@ function AirportCode({ airport }: { airport: FlightHistoryAirport }) {
     <Link
       to={`/airports/${airport.id}`}
       viewTransition
-      className="relative z-10 transition-colors hover:text-primary-500"
+      className="relative z-10 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none"
     >
       {airport.iataCode}
     </Link>

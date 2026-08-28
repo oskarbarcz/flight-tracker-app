@@ -44,14 +44,14 @@ export function ParkingPositionFormFields({ airportLocation, terminals }: Props)
         <FormFieldGroup label="Identity">
           <div className="grid grid-cols-12 gap-4">
             <ManagedFloatingSelectBlock
-              className="col-span-5"
+              className="col-span-12 sm:col-span-5"
               field="terminalId"
               label="Terminal"
               options={terminalOptions}
             />
-            <ManagedFloatingInputBlock className="col-span-3" field="name" label="Name" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-3" field="name" label="Name" />
             <ManagedFloatingSelectBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
               field="location"
               label="Parking location"
               options={gateLocationOptions}
@@ -62,13 +62,13 @@ export function ParkingPositionFormFields({ airportLocation, terminals }: Props)
         <FormFieldGroup label="Boarding">
           <div className="grid grid-cols-12 gap-4">
             <ManagedFloatingSelectBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="bridge"
               label="Jet bridge"
               options={bridgeOptions}
             />
             <ManagedFloatingSelectBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="stairs"
               label="Stairs boarding"
               options={stairsOptions}
@@ -79,19 +79,19 @@ export function ParkingPositionFormFields({ airportLocation, terminals }: Props)
         <FormFieldGroup label="Parking">
           <div className="grid grid-cols-12 gap-4">
             <ManagedFloatingSelectBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
               field="type"
               label="Position"
               options={parkingPositionTypeOptions}
             />
             <ManagedFloatingSelectBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
               field="spotType"
               label="Spot type"
               options={parkingSpotTypeOptions}
             />
             <ManagedFloatingSelectBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
               field="assistance"
               label="Assistance"
               options={parkingAssistanceOptions}
@@ -101,16 +101,26 @@ export function ParkingPositionFormFields({ airportLocation, terminals }: Props)
 
         <FormFieldGroup label="Services">
           <div className="grid grid-cols-12 gap-4">
-            <ManagedFloatingSelectBlock className="col-span-6" field="gpu" label="GPU" options={groundUnitOptions} />
-            <ManagedFloatingSelectBlock className="col-span-6" field="pca" label="PCA" options={groundUnitOptions} />
             <ManagedFloatingSelectBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
+              field="gpu"
+              label="GPU"
+              options={groundUnitOptions}
+            />
+            <ManagedFloatingSelectBlock
+              className="col-span-12 sm:col-span-6"
+              field="pca"
+              label="PCA"
+              options={groundUnitOptions}
+            />
+            <ManagedFloatingSelectBlock
+              className="col-span-12 sm:col-span-6"
               field="fuelingOptions"
               label="Fueling"
               options={fuelingOptionsList}
             />
             <ManagedFloatingSelectBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="deicing"
               label="Deicing"
               options={deicingOptions}
@@ -132,7 +142,7 @@ export function ParkingPositionFormFields({ airportLocation, terminals }: Props)
         <FormFieldGroup label="Noise sensitivity">
           <div className="grid grid-cols-12 gap-4">
             <ManagedFloatingSelectBlock
-              className={noiseActive ? "col-span-6" : "col-span-12"}
+              className={noiseActive ? "col-span-12 sm:col-span-6" : "col-span-12"}
               field="noiseSensitivity"
               label="Noise-sensitive area?"
               options={noiseSensitivityOptions}
@@ -140,14 +150,14 @@ export function ParkingPositionFormFields({ airportLocation, terminals }: Props)
             {noiseActive ? (
               <>
                 <ManagedFloatingInputBlock
-                  className="col-span-3"
+                  className="col-span-12 sm:col-span-3"
                   field="noiseSensitivityStartTime"
                   label="Curfew start"
                   unit="UTC"
                   required={false}
                 />
                 <ManagedFloatingInputBlock
-                  className="col-span-3"
+                  className="col-span-12 sm:col-span-3"
                   field="noiseSensitivityEndTime"
                   label="Curfew end"
                   unit="UTC"

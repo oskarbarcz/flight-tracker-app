@@ -32,7 +32,7 @@ export function AddLegModal({ airports, defaultDepartureId, onAdd, onClose }: Pr
         validationSchema={legSchema}
         onSubmit={submit}
       >
-        <Form>
+        <Form className="flex min-h-0 flex-1 flex-col">
           <ModalBody>
             <LegFormFields airports={airports} />
           </ModalBody>

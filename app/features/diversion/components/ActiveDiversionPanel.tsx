@@ -60,13 +60,13 @@ export function ActiveDiversionPanel({ diversion, readOnly = false }: Props) {
 
   return (
     <section className="overflow-hidden rounded-xl border border-red-500 bg-white dark:bg-gray-900">
-      <div className="flex items-center justify-between gap-3 bg-red-600 px-5 py-3 text-white">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-red-600 px-5 py-3 text-white">
+        <div className="flex min-w-0 items-center gap-2">
           <FaPlaneCircleExclamation />
           <span className="text-sm font-bold uppercase tracking-widest">Active diversion</span>
         </div>
         {!readOnly && (
-          <div className="flex gap-2">
+          <div className="flex shrink-0 flex-wrap gap-2">
             <Button size="xs" color="light" onClick={() => setEditing(true)}>
               <FaPencil className="me-1.5" />
               Edit

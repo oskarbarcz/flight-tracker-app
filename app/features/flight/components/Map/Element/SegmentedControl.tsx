@@ -25,7 +25,7 @@ export function SegmentedControl<T extends string>({ value, onChange, options, a
             aria-label={ariaLabel ? `${ariaLabel}: ${option.label}` : undefined}
             onClick={() => onChange(option.value)}
             className={twMerge(
-              "cursor-pointer rounded-lg px-2 py-0.5 text-xs font-semibold transition-colors",
+              "cursor-pointer rounded-lg px-2 py-0.5 text-xs font-semibold transition-colors pointer-coarse:min-h-11 pointer-coarse:px-3",
               active
                 ? "bg-indigo-500 text-white"
                 : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100",

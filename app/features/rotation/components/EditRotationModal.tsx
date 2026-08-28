@@ -34,7 +34,7 @@ export function EditRotationModal({ name, pilotId, onSave, onClose }: Props) {
         onSubmit={submit}
       >
         {({ errors, touched, setFieldValue }) => (
-          <Form>
+          <Form className="flex min-h-0 flex-1 flex-col">
             <ModalBody className="flex flex-col gap-4">
               <RotationTmi />
               <ManagedFloatingInputBlock field="name" label="Rotation name" />

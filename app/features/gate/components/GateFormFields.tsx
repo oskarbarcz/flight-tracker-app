@@ -32,12 +32,12 @@ export function GateFormFields({ airportLocation, terminals, parkingPositions }:
         <FormFieldGroup label="Identity">
           <div className="grid grid-cols-12 gap-4">
             <ManagedFloatingSelectBlock
-              className="col-span-7"
+              className="col-span-12 sm:col-span-7"
               field="terminalId"
               label="Terminal"
               options={terminalOptions}
             />
-            <ManagedFloatingInputBlock className="col-span-5" field="name" label="Gate name" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-5" field="name" label="Gate name" />
 
             <ManagedFloatingSelectBlock
               className="col-span-12"

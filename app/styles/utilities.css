@@ -456,10 +456,30 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
-/* Compact on a mouse, comfortable under a finger. */
 @media (pointer: coarse) {
-  .modal-actions button {
-    min-height: 40px;
+  button,
+  summary,
+  select,
+  textarea,
+  [role="button"],
+  [role="tab"],
+  [role="switch"],
+  input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]) {
+    min-height: 44px;
+  }
+
+  button:has(> svg:only-child),
+  a:has(> svg:only-child),
+  [role="button"]:has(> svg:only-child) {
+    min-width: 44px;
+  }
+
+  td > a,
+  th > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 

@@ -86,9 +86,46 @@ function useOperationsTabs(path: string): Tab[] {
         path === "/me" ||
         path.startsWith("/finished-flights") ||
         path.startsWith("/airports") ||
+        path.startsWith("/cabin-layouts") ||
+        path.startsWith("/cargo-holds") ||
+        path.startsWith("/postcards") ||
         path.startsWith("/operators"),
     },
   ];
+}
+
+function adminTabs(path: string): Tab[] {
+  return [
+    {
+      label: "Home",
+      icon: HiHome,
+      to: "/dashboard",
+      isActive: path === "/dashboard" || path === "/",
+    },
+    {
+      label: "Profile",
+      icon: HiOutlineUser,
+      to: "/me",
+      isActive: path.startsWith("/me"),
+    },
+  ];
+}
+
+type RoleTabs = {
+  operationsTabs: Tab[];
+  pilotTabs: Tab[];
+  path: string;
+};
+
+function tabsForRole(role: UserRole, { operationsTabs, pilotTabs, path }: RoleTabs): Tab[] {
+  switch (role) {
+    case UserRole.Operations:
+      return operationsTabs;
+    case UserRole.CabinCrew:
+      return pilotTabs;
+    case UserRole.Admin:
+      return adminTabs(path);
+  }
 }
 
 export function BottomNav() {
@@ -101,7 +138,7 @@ export function BottomNav() {
     return null;
   }
 
-  const tabs = user.role === UserRole.Operations ? operationsTabs : pilotTabs;
+  const tabs = tabsForRole(user.role, { operationsTabs, pilotTabs, path });
 
   return (
     <nav

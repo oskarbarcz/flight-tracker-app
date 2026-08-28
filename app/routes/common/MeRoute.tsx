@@ -1,7 +1,7 @@
 import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
-import { LuImages, LuPlane, LuTowerControl } from "react-icons/lu";
+import { LuArmchair, LuContainer, LuImage, LuImages, LuPlane, LuTowerControl } from "react-icons/lu";
 import { MdHistory, MdOutlineLocalAirport } from "react-icons/md";
 import { useAuth } from "~/app-state/useAuth";
 import { usePostcards } from "~/features/postcard/hooks/usePostcards";
@@ -44,6 +44,9 @@ const operationsSections: MorePageSection[] = [
     items: [
       { label: "Flight history", href: "/finished-flights", icon: MdHistory },
       { label: "Airports", href: "/airports", icon: LuTowerControl },
+      { label: "Cabin layouts", href: "/cabin-layouts", icon: LuArmchair },
+      { label: "Cargo holds", href: "/cargo-holds", icon: LuContainer },
+      { label: "Postcards", href: "/postcards", icon: LuImage },
       { label: "Operators", href: "/operators", icon: HiOutlineBuildingOffice },
     ],
   },

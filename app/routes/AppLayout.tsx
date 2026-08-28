@@ -44,6 +44,7 @@ export default function AppLayout() {
                   newestOnTop
                   closeOnClick
                   theme="light"
+                  className="!bottom-[calc(4.5rem_+_env(safe-area-inset-bottom))] max-[480px]:!px-3 md:!bottom-4"
                   toastClassName="!bg-transparent !shadow-none !p-0"
                   closeButton={false}
                 />

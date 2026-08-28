@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 
-const MAXIMIZED_CLASS = "fixed inset-0 z-30 h-auto w-auto bg-gray-100 md:left-72 dark:bg-gray-900";
+const MAXIMIZED_CLASS = "fixed inset-0 z-50 h-auto w-auto bg-gray-100 md:left-72 dark:bg-gray-900";
 
 export function useMapMaximize() {
   const [isMaximized, setIsMaximized] = useState(false);
