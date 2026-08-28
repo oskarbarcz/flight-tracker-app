@@ -4,7 +4,6 @@ import { Link } from "react-router";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import type { Rotation } from "~/features/rotation";
 import { CurrentRotationLegStrip } from "~/features/rotation/components/CurrentRotationLegStrip";
-import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
@@ -15,8 +14,6 @@ type Props = {
 export function CurrentRotationBox({ rotation }: Props) {
   const { currentFlight } = useCurrentFlight();
   const activeLeg = rotation.activeLeg(currentFlight?.id ?? null);
-  const legCount = rotation.legs.length;
-  const flownCount = rotation.completedLegs.length;
 
   return (
     <Container
@@ -50,14 +47,6 @@ export function CurrentRotationBox({ rotation }: Props) {
         activeLegId={activeLeg?.id ?? null}
         currentFlightId={currentFlight?.id ?? null}
       />
-
-      <div className="flex items-baseline justify-between gap-3 border-t border-gray-100 pt-4 dark:border-gray-800">
-        <FieldLabel>Flown</FieldLabel>
-        <span className="font-mono text-sm font-bold tabular-nums text-gray-900 dark:text-white">
-          {flownCount}
-          <span className="text-gray-500 dark:text-gray-400">/{legCount}</span>
-        </span>
-      </div>
     </Container>
   );
 }

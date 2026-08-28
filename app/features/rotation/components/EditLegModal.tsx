@@ -30,7 +30,7 @@ export function EditLegModal({ leg, airports, onSave, onClose }: Props) {
         <ModalTitle context="Leg" action="Edit" />
       </ModalHeader>
       <Formik<LegFormData> initialValues={legToFormData(leg)} validationSchema={legSchema} onSubmit={submit}>
-        <Form>
+        <Form className="flex min-h-0 flex-1 flex-col">
           <ModalBody>
             <LegFormFields airports={airports} />
           </ModalBody>

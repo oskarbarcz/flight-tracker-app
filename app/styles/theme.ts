@@ -23,6 +23,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     modal: {
       root: {
+        base: "fixed inset-x-0 top-0 z-50 h-dvh overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
         show: {
           on: "flex modal-scrim",
         },
@@ -35,7 +36,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         base: "flex items-center justify-between gap-4 rounded-t-xl border-b border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-800 dark:bg-gray-900",
         title: "min-w-0 text-base leading-tight text-gray-900 dark:text-white",
         close: {
-          base: "ms-auto inline-flex cursor-pointer items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:hover:bg-gray-800 dark:hover:text-white",
+          base: "ms-auto inline-flex cursor-pointer items-center justify-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 pointer-coarse:size-11 dark:hover:bg-gray-800 dark:hover:text-white",
         },
       },
       body: {
@@ -73,7 +74,12 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       head: {
         base: "border-b border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200",
         cell: {
-          base: "bg-gray-50 dark:bg-gray-800/50",
+          base: "bg-gray-50 px-3 py-3 sm:px-6 dark:bg-gray-800/50",
+        },
+      },
+      body: {
+        cell: {
+          base: "px-3 py-3 sm:px-6 sm:py-4",
         },
       },
       row: {
@@ -82,6 +88,14 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     tooltip: {
       base: "z-100",
+    },
+    toast: {
+      root: {
+        base: "flex w-full max-w-none items-center rounded-lg bg-white p-4 text-gray-500 shadow sm:max-w-xs dark:bg-gray-800 dark:text-gray-400",
+      },
+      toggle: {
+        base: "-m-1.5 ml-auto inline-flex size-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 pointer-coarse:size-11 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white",
+      },
     },
     buttonGroup: {
       base: "shadow-none",
@@ -166,7 +180,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       field: {
         input: {
           sizes: {
-            sm: "h-9 p-2 sm:text-xs",
+            sm: "h-11 p-2 text-base sm:h-9 sm:text-xs",
             md: "p-2.5 text-base sm:text-sm",
           },
           colors: {
@@ -179,13 +193,13 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       input: {
         default: {
           outlined: {
-            sm: "px-2 pb-2 pt-3.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
-            md: "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
+            sm: "px-2 pb-2 pt-3.5 text-base sm:text-xs disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
+            md: "text-base sm:text-sm disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50 dark:disabled:bg-gray-700",
           },
         },
         error: {
           outlined: {
-            sm: "px-2 pb-2 pt-3.5",
+            sm: "px-2 pb-2 pt-3.5 text-base sm:text-xs",
           },
         },
       },
@@ -202,13 +216,16 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         },
       },
     },
+    textarea: {
+      base: "block w-full rounded-lg border p-2.5 text-base focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm",
+    },
     select: {
       field: {
         select: {
           sizes: {
-            sm: "h-9 p-2 sm:text-xs",
-            floating: "ps-2.5 pb-2.5 pt-4 text-sm",
-            floatingSm: "ps-2 pb-2 pt-3.5 text-xs",
+            sm: "h-11 p-2 text-base sm:h-9 sm:text-xs",
+            floating: "ps-2.5 pb-2.5 pt-4 text-base sm:text-sm",
+            floatingSm: "ps-2 pb-2 pt-3.5 text-base sm:text-xs",
           },
           colors: {
             floating:

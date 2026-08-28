@@ -49,7 +49,7 @@ export function groupRunwaysByPair(runways: Runway[]): RunwayPair[] {
     .sort((a, b) => designatorOrder(a.ends[0].designator) - designatorOrder(b.ends[0].designator));
 }
 
-function destinationPoint(lat: number, lng: number, bearingDeg: number, distanceM: number): [number, number] {
+export function destinationPoint(lat: number, lng: number, bearingDeg: number, distanceM: number): [number, number] {
   const earthRadiusM = 6371000;
   const lat1Rad = (lat * Math.PI) / 180;
   const lon1Rad = (lng * Math.PI) / 180;
@@ -77,7 +77,7 @@ export type RunwayRibbon = {
   ends: Runway[];
 };
 
-function initialBearing(lat1: number, lng1: number, lat2: number, lng2: number): number {
+export function initialBearing(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const phi1 = (lat1 * Math.PI) / 180;
   const phi2 = (lat2 * Math.PI) / 180;
   const deltaLambda = ((lng2 - lng1) * Math.PI) / 180;

@@ -2,6 +2,7 @@ import { type FitBoundsOptions, latLngBounds } from "leaflet";
 import { MapContainer } from "react-leaflet";
 import type { Flight, FlightPathElement } from "~/features/flight";
 import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
+import { AircraftIdentityLabel } from "~/features/flight/components/Map/Element/AircraftIdentityLabel";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
@@ -56,7 +57,7 @@ export function FullScreenMap({ flight, path }: Props) {
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <FlightPath path={path} />
 
-        {path.length > 0 && <MapAircraftMarker path={path} />}
+        {path.length > 0 && <MapAircraftMarker path={path} label={<AircraftIdentityLabel flight={flight} />} />}
 
         <MapAirportLabel airport={flight.departureAirport} />
         <MapAirportLabel airport={flight.destinationAirport} />
@@ -87,7 +88,7 @@ export function FullScreenMap({ flight, path }: Props) {
           destinationPosition={destinationPosition}
         />
       </MapContainer>
-      <MapOptionsControl triggerClassName="top-16 left-4 hidden sm:block" placement="below" />
+      <MapOptionsControl triggerClassName="top-16 left-4" placement="below" />
       <FlightSummaryCard flight={flight} path={path} />
     </div>
   );

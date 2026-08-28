@@ -107,6 +107,34 @@ input:-webkit-autofill:focus {
   cursor: crosshair;
 }
 
+.leaflet-tooltip.map-aircraft-label {
+  @apply flex items-center gap-2 rounded-md border border-gray-200 bg-white px-2 py-1 shadow-sm dark:border-gray-700 dark:bg-gray-900;
+  margin: 0;
+  width: max-content;
+  white-space: nowrap;
+}
+.leaflet-tooltip.map-aircraft-label::before {
+  @apply border-r-white;
+  left: 0;
+  border-width: 6px;
+  margin-top: -6px;
+}
+.dark .leaflet-tooltip.map-aircraft-label::before {
+  @apply border-r-gray-900;
+}
+.map-aircraft-label__fin {
+  @apply h-6 w-auto shrink-0 object-contain;
+}
+.map-aircraft-label__identity {
+  @apply flex flex-col gap-0.5;
+}
+.map-aircraft-label__flight {
+  @apply font-mono text-[13px] font-bold leading-none text-gray-900 dark:text-white;
+}
+.map-aircraft-label__registration {
+  @apply font-mono text-[9px] leading-none text-gray-500 dark:text-gray-400;
+}
+
 .leaflet-tooltip.map-terminal-label {
   @apply font-bold text-[10px] text-amber-700 dark:text-amber-300;
   background: transparent;
@@ -236,21 +264,95 @@ input:-webkit-autofill:focus {
   top: 0;
   transform: translate(-50%, -50%);
 }
-.map-runway-label {
-  @apply font-mono font-bold text-[12px] text-gray-700 dark:text-gray-200;
+.map-runway-plate {
+  @apply rounded-[3px] bg-slate-900/85 px-1 py-px font-mono text-[10px] font-bold leading-none text-white;
+  display: inline-block;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.map-runway-plate--active {
+  @apply bg-indigo-600;
+}
+.dark .map-runway-plate {
+  @apply bg-slate-100/90 text-slate-900;
+}
+.dark .map-runway-plate--active {
+  @apply bg-indigo-400 text-slate-900;
+}
+
+.map-approach-label {
+  @apply font-mono text-[10px] font-bold text-indigo-700 dark:text-indigo-300;
   display: inline-block;
   white-space: nowrap;
   text-shadow:
     0 0 3px #fff,
     0 0 3px #fff;
 }
-.dark .map-runway-label {
+.dark .map-approach-label {
   text-shadow:
     0 0 3px #0b0e14,
     0 0 3px #0b0e14;
 }
-.map-runway-label--selected {
-  @apply text-indigo-700 dark:text-indigo-300;
+
+.rw-casing {
+  stroke: #0f172a;
+  stroke-width: 3;
+  stroke-opacity: 0.4;
+  stroke-linejoin: round;
+}
+.rw-surface {
+  fill: #64748b;
+  fill-opacity: 0.88;
+}
+.dark .rw-surface {
+  fill: #94a3b8;
+  fill-opacity: 0.6;
+}
+.rw-surface--active {
+  fill: #4338ca;
+  fill-opacity: 0.95;
+}
+.dark .rw-surface--active {
+  fill: #818cf8;
+  fill-opacity: 0.95;
+}
+.rw-marking {
+  fill: #f8fafc;
+  fill-opacity: 0.9;
+}
+.dark .rw-marking {
+  fill: #0f172a;
+  fill-opacity: 0.6;
+}
+.rw-centerline {
+  stroke: #f8fafc;
+  stroke-width: 1.25;
+  stroke-opacity: 0.85;
+  stroke-linecap: butt;
+}
+.dark .rw-centerline {
+  stroke: #0f172a;
+  stroke-opacity: 0.55;
+}
+.rw-approach {
+  stroke: #4338ca;
+  stroke-width: 3.25;
+  stroke-opacity: 0.9;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 10;
+}
+.dark .rw-approach {
+  stroke: #a5b4fc;
+  stroke-opacity: 0.9;
+}
+.rw-approach-tick {
+  stroke: #4338ca;
+  stroke-width: 1.5;
+  stroke-opacity: 0.6;
+}
+.dark .rw-approach-tick {
+  stroke: #a5b4fc;
+  stroke-opacity: 0.65;
 }
 
 /* Sign-in morph into the app shell (View Transitions) */
@@ -456,10 +558,30 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
-/* Compact on a mouse, comfortable under a finger. */
 @media (pointer: coarse) {
-  .modal-actions button {
-    min-height: 40px;
+  button,
+  summary,
+  select,
+  textarea,
+  [role="button"],
+  [role="tab"],
+  [role="switch"],
+  input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]) {
+    min-height: 44px;
+  }
+
+  button:has(> svg:only-child),
+  a:has(> svg:only-child),
+  [role="button"]:has(> svg:only-child) {
+    min-width: 44px;
+  }
+
+  td > a,
+  th > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 
@@ -555,5 +677,125 @@ html[data-app-entry] [data-app-entry-content] {
 @media (prefers-reduced-motion: reduce) {
   .confetti {
     display: none;
+  }
+}
+
+@keyframes nav-plane-settle {
+  0% {
+    transform: translate3d(0, -12px, 0);
+  }
+  7% {
+    transform: translate3d(0, -22px, 0);
+  }
+  14% {
+    transform: translate3d(0, -12px, 0);
+  }
+  24% {
+    transform: translate3d(0, -21px, 0);
+  }
+  34% {
+    transform: translate3d(0, -12px, 0);
+  }
+  48% {
+    transform: translate3d(0, -20px, 0);
+  }
+  62% {
+    transform: translate3d(0, -12px, 0);
+  }
+  80% {
+    transform: translate3d(0, -19px, 0);
+  }
+  100% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes nav-plane-cruise {
+  0%,
+  100% {
+    transform: translate3d(0, -12px, 0);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0);
+  }
+}
+
+.nav-plane-flight {
+  animation:
+    nav-plane-settle 3400ms ease-in-out both,
+    nav-plane-cruise 2600ms ease-in-out 3400ms infinite;
+}
+
+@keyframes nav-cloud-in {
+  from {
+    transform: translate3d(var(--cloud-travel), 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes nav-cloud-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(var(--cloud-drift), 0, 0);
+  }
+}
+
+.nav-cloud {
+  position: absolute;
+  color: #ffffff;
+  animation:
+    nav-cloud-in var(--cloud-duration) cubic-bezier(0.16, 1, 0.3, 1) var(--cloud-delay) both,
+    nav-cloud-drift var(--cloud-drift-duration) ease-in-out var(--cloud-drift-delay) infinite;
+}
+
+.nav-cloud--far {
+  --cloud-travel: 75px;
+  --cloud-duration: 760ms;
+  --cloud-delay: 90ms;
+  --cloud-drift: -5px;
+  --cloud-drift-duration: 26s;
+  --cloud-drift-delay: 850ms;
+  opacity: 0.16;
+}
+
+.nav-cloud--mid {
+  --cloud-travel: 85px;
+  --cloud-duration: 560ms;
+  --cloud-delay: 40ms;
+  --cloud-drift: -8px;
+  --cloud-drift-duration: 18s;
+  --cloud-drift-delay: 600ms;
+  opacity: 0.26;
+}
+
+.nav-cloud--near {
+  --cloud-travel: 95px;
+  --cloud-duration: 420ms;
+  --cloud-delay: 0ms;
+  --cloud-drift: -12px;
+  --cloud-drift-duration: 12s;
+  --cloud-drift-delay: 420ms;
+  opacity: 0.36;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-plane-flight,
+  .nav-cloud {
+    animation: none;
+  }
+}
+
+.bottom-nav-rail {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav-rail {
+    transition: none;
   }
 }

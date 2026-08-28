@@ -6,6 +6,7 @@ import { LocationMap, MapPill, type MapTone } from "~/features/aircraft/componen
 import { type AircraftStatusView, deriveAircraftStatus } from "~/features/aircraft/lib/aircraftStatus";
 import { formatDate } from "~/shared/lib/time";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
+import { CardToolbar } from "~/shared/ui/Layout/CardToolbar";
 import { Container } from "~/shared/ui/Layout/Container";
 
 type Props = {
@@ -198,28 +199,23 @@ export function AircraftCurrentStatusCard({ aircraft, history, onReposition }: P
   const isAirborne = status.kind === "cruise";
 
   return (
-    <Container
-      header={
-        <CardHeader
-          title="Current location"
-          actions={
-            onReposition && (
-              <Button
-                size="xs"
-                color="gray"
-                outline
-                disabled={isAirborne}
-                title={isAirborne ? "Available when the aircraft is on the ground" : undefined}
-                onClick={onReposition}
-              >
-                <HiOutlineSwitchHorizontal className="me-1.5" />
-                Reposition
-              </Button>
-            )
-          }
-        />
-      }
-    >
+    <Container header={<CardHeader title="Current location" />}>
+      {onReposition && (
+        <CardToolbar>
+          <Button
+            size="xs"
+            color="gray"
+            outline
+            disabled={isAirborne}
+            title={isAirborne ? "Available when the aircraft is on the ground" : undefined}
+            onClick={onReposition}
+          >
+            <HiOutlineSwitchHorizontal className="me-1.5" />
+            Reposition
+          </Button>
+        </CardToolbar>
+      )}
+
       {status.kind === "parked" && <ParkedView aircraft={aircraft} status={status} />}
 
       {status.kind === "cruise" && (

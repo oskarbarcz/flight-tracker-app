@@ -10,26 +10,12 @@ type Props = {
   title: string;
   schedule?: Schedule;
   emptyMessage: string;
-  badge?: string;
   footer?: React.ReactNode;
 };
 
-export function TimesheetCard({ title, schedule, emptyMessage, badge, footer }: Props) {
+export function TimesheetCard({ title, schedule, emptyMessage, footer }: Props) {
   return (
-    <Container
-      header={
-        <CardHeader
-          title={title}
-          actions={
-            badge && (
-              <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-                {badge}
-              </span>
-            )
-          }
-        />
-      }
-    >
+    <Container header={<CardHeader title={title} />}>
       {schedule ? (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
           <StatBlock label="DEP DATE">

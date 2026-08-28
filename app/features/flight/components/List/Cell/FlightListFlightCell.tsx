@@ -34,7 +34,7 @@ export function FlightListFlightCell({ flight, links }: Props) {
         <Link
           to={links.aircraft(flight)}
           viewTransition
-          className="relative z-10 block truncate font-mono text-xs text-gray-500 transition-colors hover:text-primary-500 dark:text-gray-400"
+          className="relative z-10 block truncate font-mono text-xs text-gray-500 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none dark:text-gray-400"
         >
           {flight.aircraft.registration}
         </Link>

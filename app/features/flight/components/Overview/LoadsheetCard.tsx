@@ -15,20 +15,11 @@ type Props = {
 
 export function LoadsheetCard({ title, loadsheet, emptyMessage, emptySeverity = "info", badge, footer }: Props) {
   return (
-    <Container
-      header={
-        <CardHeader
-          title={title}
-          actions={
-            badge && (
-              <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-                {badge}
-              </span>
-            )
-          }
-        />
-      }
-    >
+    <Container header={<CardHeader title={title} />}>
+      {badge && (
+        <div className="mb-3 font-mono text-xs font-bold tracking-wider text-gray-500 dark:text-gray-400">{badge}</div>
+      )}
+
       {loadsheet ? (
         <>
           <Section title="Souls on board">

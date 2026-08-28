@@ -16,13 +16,17 @@ for (const [path, url] of Object.entries(finImages)) {
   }
 }
 
+export function operatorFinUrl(icaoCode: string): string | undefined {
+  return finByIcao[icaoCode.toLowerCase()];
+}
+
 type Props = {
   operator: Pick<Operator, "icaoCode" | "iataCode" | "shortName"> & { logoUrl?: string | null };
   className?: string;
 };
 
 export function OperatorFin({ operator, className }: Props) {
-  const fin = finByIcao[operator.icaoCode.toLowerCase()];
+  const fin = operatorFinUrl(operator.icaoCode);
 
   if (fin) {
     return (

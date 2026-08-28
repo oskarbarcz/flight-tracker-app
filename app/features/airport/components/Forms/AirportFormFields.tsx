@@ -20,13 +20,13 @@ export function AirportFormFields({ autofill }: Props) {
 
         <FormFieldGroup label="Identity">
           <div className="grid grid-cols-12 gap-4">
-            <ManagedFloatingInputBlock className="col-span-3" field="iataCode" label="IATA code" />
-            <ManagedFloatingInputBlock className="col-span-3" field="icaoCode" label="ICAO code" />
-            <ManagedFloatingInputBlock className="col-span-6" field="city" label="City" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-3" field="iataCode" label="IATA code" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-3" field="icaoCode" label="ICAO code" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-6" field="city" label="City" />
 
-            <ManagedFloatingInputBlock className="col-span-8" field="name" label="Airport name" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-8" field="name" label="Airport name" />
             <ManagedFloatingSelectBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
               field="dataQuality"
               label="Data quality"
               options={dataQualityOptions}
@@ -36,17 +36,27 @@ export function AirportFormFields({ autofill }: Props) {
 
         <FormFieldGroup label="Location">
           <div className="grid grid-cols-12 gap-4">
-            <AirportCountryField className="col-span-6" />
-            <AirportTimezoneField className="col-span-6" />
+            <AirportCountryField className="col-span-12 sm:col-span-6" />
+            <AirportTimezoneField className="col-span-12 sm:col-span-6" />
 
             <ManagedFloatingSelectBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
               field="continent"
               label="Continent"
               options={continentOptions}
             />
-            <ManagedFloatingInputBlock className="col-span-4" field="latitude" label="Latitude" type="number" />
-            <ManagedFloatingInputBlock className="col-span-4" field="longitude" label="Longitude" type="number" />
+            <ManagedFloatingInputBlock
+              className="col-span-12 sm:col-span-4"
+              field="latitude"
+              label="Latitude"
+              type="number"
+            />
+            <ManagedFloatingInputBlock
+              className="col-span-12 sm:col-span-4"
+              field="longitude"
+              label="Longitude"
+              type="number"
+            />
           </div>
         </FormFieldGroup>
       </div>

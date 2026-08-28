@@ -18,7 +18,7 @@ export function FlightListRouteCell({ flight, links }: Props) {
         <Link
           to={links.airport(departureAirport.id)}
           viewTransition
-          className="relative z-10 transition-colors hover:text-primary-500"
+          className="relative z-10 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none"
         >
           {departureAirport.iataCode}
         </Link>
@@ -26,7 +26,7 @@ export function FlightListRouteCell({ flight, links }: Props) {
         <Link
           to={links.airport(destinationAirport.id)}
           viewTransition
-          className="relative z-10 transition-colors hover:text-primary-500"
+          className="relative z-10 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none"
         >
           {destinationAirport.iataCode}
         </Link>

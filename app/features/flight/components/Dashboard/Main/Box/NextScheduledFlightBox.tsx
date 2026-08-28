@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCircleInfo, FaPlaneDeparture } from "react-icons/fa6";
-import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import type { Flight } from "~/features/flight";
+import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
 import { DetailLinkButton } from "~/shared/ui/Button/DetailLinkButton";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
@@ -29,18 +29,13 @@ export function NextScheduledFlightBox({ flight }: Props) {
   return (
     <Container padding="condensed" header={<CardHeader title="Next scheduled flight" />}>
       <article className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <span className="block font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">
-            {flight.flightNumber}
-          </span>
-          <span className="mt-1.5 block truncate text-sm font-semibold text-gray-700 dark:text-gray-300">
-            {flight.operator.shortName}
-          </span>
-          <span className="block truncate text-sm text-gray-500">
-            <AircraftRegistrationLink aircraftId={flight.aircraft.id} registration={flight.aircraft.registration} /> ·{" "}
-            {flight.aircraft.airframe.name}
-          </span>
-        </div>
+        <FlightIdentity
+          operator={flight.operator}
+          flightNumber={flight.flightNumber}
+          aircraftId={flight.aircraft.id}
+          registration={flight.aircraft.registration}
+          size="md"
+        />
         <StatBlock
           label="Departure"
           align="right"

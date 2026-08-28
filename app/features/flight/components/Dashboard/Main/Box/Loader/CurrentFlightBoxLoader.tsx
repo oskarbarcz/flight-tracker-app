@@ -7,16 +7,12 @@ export function CurrentFlightBoxLoader() {
     <Container
       padding="condensed"
       className="hidden animate-pulse sm:flex"
-      header={
-        <CardHeader
-          title="Current flight"
-          actions={<div className="h-5 w-20 bg-gray-200 dark:bg-gray-700 rounded-full" />}
-        />
-      }
+      header={<CardHeader title="Current flight" />}
     >
       <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div>
           <div className="h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
+          <div className="h-5 w-20 bg-gray-200 dark:bg-gray-700 rounded-full mb-2" />
           <div className="h-4 w-40 bg-gray-200 dark:bg-gray-700 rounded" />
         </div>
         <div className="text-right">

@@ -68,7 +68,7 @@ export default function App() {
     <ToastProvider>
       <ApiProvider>
         <AuthProvider>
-          <ThemeProvider theme={theme()} props={{ modal: { initialFocus: -1 } }}>
+          <ThemeProvider theme={theme()} props={{ modal: { initialFocus: -1, dismissible: true } }}>
             <UpdatePrompt />
             <Outlet />
           </ThemeProvider>

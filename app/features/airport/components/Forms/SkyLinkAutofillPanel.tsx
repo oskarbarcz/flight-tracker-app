@@ -28,7 +28,7 @@ export function SkyLinkAutofillPanel() {
 
   return (
     <FormFieldGroup label="Fill from SkyLink">
-      <div className="flex items-start gap-2">
+      <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-start">
         <FloatingLabel
           variant="outlined"
           label="IATA code"

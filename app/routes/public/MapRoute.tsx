@@ -12,7 +12,7 @@ import type { Route } from "../../../.react-router/types/app/routes/public/+type
 
 export default function MapRoute({ params }: Route.ClientLoaderArgs) {
   const { publicFlightService } = usePublicApi();
-  const { setCallsign, flightPath, loadFlightPath, lastRequestedAt } = useAdsbData();
+  const { setCallsign, flightPath, loadFlightPath } = useAdsbData();
 
   const [flight, setFlight] = useState<Flight | null>(null);
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -59,7 +59,7 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
 
   if (notFound) {
     return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center gap-4 bg-gray-50 p-6 text-center dark:bg-gray-950">
+      <div className="flex h-dvh w-full flex-col items-center justify-center gap-4 bg-gray-50 p-6 text-center dark:bg-gray-950">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">Flight not found</h1>
         <p className="max-w-md text-gray-500 dark:text-gray-400">
           This flight doesn't exist or is no longer available for tracking.
@@ -83,7 +83,7 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
       <MapSettingsProvider>
         <FullScreenMap flight={flight} path={flightPath} />
       </MapSettingsProvider>
-      <MapHeader lastUpdatedAt={lastRequestedAt} />
+      <MapHeader />
     </div>
   );
 }

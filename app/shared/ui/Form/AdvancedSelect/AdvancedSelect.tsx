@@ -8,6 +8,10 @@ import { keywordRank, matchesKeywords } from "~/shared/lib/keywordSearch";
 import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 import { RequiredMark } from "~/shared/ui/Form/RequiredMark";
 
+const MENU_GAP = 4;
+const MENU_MARGIN = 8;
+const MENU_MIN_HEIGHT = 160;
+
 export type AdvancedSelectOption = {
   value: string;
   keywords: string[];
@@ -49,7 +53,7 @@ export function AdvancedSelect({
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const anchorRef = useRef<HTMLDivElement>(null);
-  const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 0 });
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 0, maxHeight: 0, openUp: false });
 
   const selected = useMemo(
     () => options.find((option) => option.value === fieldProps.value) ?? null,
@@ -70,19 +74,37 @@ export function AdvancedSelect({
     }
     function reposition() {
       const anchor = anchorRef.current;
-      if (anchor) {
-        const rect = anchor.getBoundingClientRect();
-        setMenuPos({ top: rect.bottom + 4, left: rect.left, width: rect.width });
+      if (!anchor) {
+        return;
       }
+      const rect = anchor.getBoundingClientRect();
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom - MENU_GAP - MENU_MARGIN;
+      const spaceAbove = rect.top - MENU_GAP - MENU_MARGIN;
+      const openUp = spaceBelow < MENU_MIN_HEIGHT && spaceAbove > spaceBelow;
+      const width = Math.max(rect.width, Math.min(menuMinWidth, window.innerWidth - MENU_MARGIN * 2));
+      const left = Math.min(Math.max(MENU_MARGIN, rect.left), window.innerWidth - width - MENU_MARGIN);
+
+      setMenuPos({
+        top: openUp ? rect.top - MENU_GAP : rect.bottom + MENU_GAP,
+        left,
+        width,
+        maxHeight: Math.max(MENU_MIN_HEIGHT, openUp ? spaceAbove : spaceBelow),
+        openUp,
+      });
     }
     reposition();
     window.addEventListener("scroll", reposition, true);
     window.addEventListener("resize", reposition);
+    window.visualViewport?.addEventListener("resize", reposition);
+    window.visualViewport?.addEventListener("scroll", reposition);
     return () => {
       window.removeEventListener("scroll", reposition, true);
       window.removeEventListener("resize", reposition);
+      window.visualViewport?.removeEventListener("resize", reposition);
+      window.visualViewport?.removeEventListener("scroll", reposition);
     };
-  }, [isOpen]);
+  }, [isOpen, menuMinWidth]);
 
   const { results, totalMatches } = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -204,7 +226,7 @@ export function AdvancedSelect({
             type="button"
             aria-label="Clear selection"
             onClick={clearSelection}
-            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:hover:text-gray-200"
+            className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-300 pointer-coarse:size-11 dark:hover:text-gray-200"
           >
             <FaXmark className="h-3.5 w-3.5" />
           </button>
@@ -222,10 +244,12 @@ export function AdvancedSelect({
               top: menuPos.top,
               left: menuPos.left,
               width: menuPos.width,
-              minWidth: menuMinWidth,
-              zIndex: 50,
+              maxWidth: "calc(100vw - 1rem)",
+              maxHeight: menuPos.maxHeight,
+              transform: menuPos.openUp ? "translateY(-100%)" : undefined,
+              zIndex: 60,
             }}
-            className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
+            className="overflow-y-auto overscroll-contain rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
           >
             {results.length === 0 ? (
               <div className="bg-gray-50 px-3 py-3 text-sm text-gray-500 dark:bg-gray-900 dark:text-gray-400">

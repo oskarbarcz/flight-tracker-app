@@ -7,6 +7,7 @@ import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan
 import { LoadsheetFigures } from "~/features/flight/components/FuelAndLoadsheet/LoadsheetFigures";
 import { type LoadsheetVariant, VariantSwitch } from "~/features/flight/components/FuelAndLoadsheet/VariantSwitch";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
+import { CardToolbar } from "~/shared/ui/Layout/CardToolbar";
 import { Container } from "~/shared/ui/Layout/Container";
 
 type Props = {
@@ -43,45 +44,31 @@ export function FuelAndLoadsheetPanel({
 
   return (
     <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
-      <Container
-        className="lg:col-span-1"
-        header={
-          <CardHeader
-            title="Fuel"
-            actions={
-              hasAny && (
-                <VariantSwitch
-                  value={fuelVariant}
-                  onChange={setFuelVariant}
-                  hasPreliminary={hasPreliminary}
-                  hasFinal={hasFinal}
-                />
-              )
-            }
-          />
-        }
-      >
+      <Container className="lg:col-span-1" header={<CardHeader title="Fuel" />}>
+        {hasAny && (
+          <CardToolbar>
+            <VariantSwitch
+              value={fuelVariant}
+              onChange={setFuelVariant}
+              hasPreliminary={hasPreliminary}
+              hasFinal={hasFinal}
+            />
+          </CardToolbar>
+        )}
         {fuelLoadsheet ? <FuelPlan fuel={fuelLoadsheet.fuel} timesheet={timesheet} /> : <EmptyState />}
       </Container>
 
-      <Container
-        className="lg:col-span-2"
-        header={
-          <CardHeader
-            title="Loadsheet"
-            actions={
-              hasAny && (
-                <VariantSwitch
-                  value={loadVariant}
-                  onChange={setLoadVariant}
-                  hasPreliminary={hasPreliminary}
-                  hasFinal={hasFinal}
-                />
-              )
-            }
-          />
-        }
-      >
+      <Container className="lg:col-span-2" header={<CardHeader title="Loadsheet" />}>
+        {hasAny && (
+          <CardToolbar>
+            <VariantSwitch
+              value={loadVariant}
+              onChange={setLoadVariant}
+              hasPreliminary={hasPreliminary}
+              hasFinal={hasFinal}
+            />
+          </CardToolbar>
+        )}
         {loadLoadsheet ? <LoadsheetFigures loadsheet={loadLoadsheet} serviceType={serviceType} /> : <EmptyState />}
 
         {showEditPreliminary && (

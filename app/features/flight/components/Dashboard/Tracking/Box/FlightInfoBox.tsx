@@ -1,10 +1,10 @@
 import React from "react";
 import { FaPlane, FaPlaneCircleExclamation } from "react-icons/fa6";
-import { PiUserSoundBold } from "react-icons/pi";
-import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
+import { twMerge } from "tailwind-merge";
 import type { Diversion } from "~/features/diversion";
 import { FlightStatus, isFilledSchedule } from "~/features/flight";
 import { FlightConnectionFooter } from "~/features/flight/components/Dashboard/Tracking/Box/FlightConnectionFooter";
+import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { Container, type ContainerClassProps } from "~/shared/ui/Layout/Container";
 
@@ -34,19 +34,12 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
   const estimatedBlockTime = estimated ? calculateBlockTime(estimated.offBlockTime, estimated.onBlockTime) : null;
 
   return (
-    <Container className={className} padding="condensed">
-      <Header
+    <Container className={twMerge("pt-4", className)} padding="condensed">
+      <FlightIdentity
+        operator={flight.operator}
         flightNumber={flight.flightNumber}
-        callsign={flight.callsign}
-        operatorCallsign={flight.operator.callsign}
-      />
-
-      <AircraftRow
         aircraftId={flight.aircraft.id}
-        airframeName={flight.aircraft.airframe.name}
         registration={flight.aircraft.registration}
-        selcal={flight.aircraft.selcal}
-        operatorName={flight.operator.shortName}
       />
 
       <RouteRow
@@ -70,67 +63,6 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
       <FlightConnectionFooter />
     </Container>
-  );
-}
-
-function Header({
-  flightNumber,
-  callsign,
-  operatorCallsign,
-}: {
-  flightNumber: string;
-  callsign: string;
-  operatorCallsign: string;
-}) {
-  return (
-    <header className="flex flex-col gap-1">
-      <h2 className="text-3xl font-bold tracking-tight text-indigo-500 md:text-4xl">{flightNumber}</h2>
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600 dark:text-gray-300">
-        <span className="font-mono">{callsign}</span>
-        <span className="text-gray-300 dark:text-gray-600">·</span>
-        <span className="inline-flex items-center gap-1.5 text-xs">
-          <PiUserSoundBold className="text-gray-400" />
-          <span className="font-mono">{operatorCallsign}</span>
-        </span>
-      </div>
-    </header>
-  );
-}
-
-function AircraftRow({
-  aircraftId,
-  airframeName,
-  registration,
-  selcal,
-  operatorName,
-}: {
-  aircraftId: string;
-  airframeName: string;
-  registration: string;
-  selcal: string | null;
-  operatorName: string;
-}) {
-  return (
-    <div className="flex flex-col gap-2 text-sm text-gray-700 dark:text-gray-300">
-      <div className="flex flex-wrap items-center gap-2">
-        <span>{airframeName}</span>
-        <Chip>
-          <AircraftRegistrationLink aircraftId={aircraftId} registration={registration} />
-        </Chip>
-        <Chip>{selcal || "—"}</Chip>
-      </div>
-      <div className="text-xs text-gray-500 dark:text-gray-400">
-        Operated by <span className="font-semibold text-gray-800 dark:text-gray-100">{operatorName}</span>
-      </div>
-    </div>
-  );
-}
-
-function Chip({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-block rounded-md border border-gray-300 px-2 py-0.5 font-mono text-xs text-gray-700 dark:border-gray-700 dark:text-gray-200">
-      {children}
-    </span>
   );
 }
 

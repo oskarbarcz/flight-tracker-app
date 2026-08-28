@@ -15,8 +15,8 @@ export function TerminalFormFields({ airportLocation }: Props) {
       <div className="flex flex-col gap-6 lg:col-span-3">
         <FormFieldGroup label="Identity">
           <div className="grid grid-cols-12 gap-4">
-            <ManagedFloatingInputBlock className="col-span-4" field="shortName" label="Short name" />
-            <ManagedFloatingInputBlock className="col-span-8" field="fullName" label="Full name" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-4" field="shortName" label="Short name" />
+            <ManagedFloatingInputBlock className="col-span-12 sm:col-span-8" field="fullName" label="Full name" />
           </div>
         </FormFieldGroup>
 

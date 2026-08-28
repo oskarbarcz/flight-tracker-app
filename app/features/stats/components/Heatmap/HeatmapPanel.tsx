@@ -9,6 +9,7 @@ import { BlurReveal } from "~/shared/ui/Display/BlurReveal";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { CardDescription } from "~/shared/ui/Layout/CardDescription";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
+import { CardToolbar } from "~/shared/ui/Layout/CardToolbar";
 import { Container } from "~/shared/ui/Layout/Container";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -74,15 +75,11 @@ export function HeatmapPanel({ stats }: Props) {
   }, [heatmap, year]);
 
   return (
-    <Container
-      padding="normal"
-      header={
-        <CardHeader
-          title="Flying activity"
-          actions={<YearSwitcher years={years} selected={year} onSelect={setYear} />}
-        />
-      }
-    >
+    <Container padding="normal" header={<CardHeader title="Flying activity" />}>
+      <CardToolbar>
+        <YearSwitcher years={years} selected={year} onSelect={setYear} />
+      </CardToolbar>
+
       <CardDescription>Day by day breakdown</CardDescription>
 
       <ActivityHeatmap heatmap={heatmap} today={stats.today} />

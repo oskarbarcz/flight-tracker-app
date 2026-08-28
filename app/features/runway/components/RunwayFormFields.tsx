@@ -20,10 +20,22 @@ export function RunwayFormFields({ airportLocation }: Props) {
 
         <FormFieldGroup label="Dimensions">
           <div className="grid grid-cols-12 gap-4">
-            <ManagedFloatingInputBlock className="col-span-4" field="length" label="Length" unit="m" type="number" />
-            <ManagedFloatingInputBlock className="col-span-4" field="width" label="Width" unit="m" type="number" />
             <ManagedFloatingInputBlock
-              className="col-span-4"
+              className="col-span-12 sm:col-span-4"
+              field="length"
+              label="Length"
+              unit="m"
+              type="number"
+            />
+            <ManagedFloatingInputBlock
+              className="col-span-12 sm:col-span-4"
+              field="width"
+              label="Width"
+              unit="m"
+              type="number"
+            />
+            <ManagedFloatingInputBlock
+              className="col-span-12 sm:col-span-4"
               field="elevation"
               label="Elevation"
               unit="m"
@@ -32,14 +44,14 @@ export function RunwayFormFields({ airportLocation }: Props) {
             />
 
             <ManagedFloatingInputBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="magneticHeading"
               label="Magnetic heading"
               unit="°"
               type="number"
             />
             <ManagedFloatingInputBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="trueHeading"
               label="True heading"
               unit="°"
@@ -61,13 +73,13 @@ export function RunwayFormFields({ airportLocation }: Props) {
         <FormFieldGroup label="Hardware">
           <div className="grid grid-cols-12 gap-4">
             <ManagedFloatingSelectBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="surfaceType"
               label="Surface"
               options={surfaceTypeOptions}
             />
             <ManagedFloatingSelectBlock
-              className="col-span-6"
+              className="col-span-12 sm:col-span-6"
               field="lightingType"
               label="Lighting"
               options={lightingTypeOptions}

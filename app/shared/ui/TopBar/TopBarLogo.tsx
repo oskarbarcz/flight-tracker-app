@@ -16,7 +16,7 @@ export function TopBarLogo({ size = "md" }: Props) {
   const { image, label } = sizes[size];
 
   return (
-    <Link to="/dashboard" replace className="flex items-center">
+    <Link to="/dashboard" replace className="flex items-center pointer-coarse:min-h-11">
       <img src={logo} className={image} alt="MyPreflight app logo" />
       <Wordmark className={`${label} text-indigo-500 ms-2`} />
     </Link>

@@ -15,7 +15,7 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="hidden md:flex h-full w-72 shrink-0 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-e border-gray-200 dark:border-gray-800 px-3 pt-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))] md:px-4">
+    <aside className="hidden md:flex h-full w-60 shrink-0 flex-col text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 border-e border-gray-200 dark:border-gray-800 px-3 pt-4 pb-[calc(1rem_+_env(safe-area-inset-bottom))] md:px-4 xl:w-72">
       <div className="mb-4 flex flex-col items-center gap-3 px-2">
         <TopBarLogo />
         <hr className="w-full border-gray-200 dark:border-gray-800" />

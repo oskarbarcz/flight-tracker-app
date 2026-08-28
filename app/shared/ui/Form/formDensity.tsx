@@ -23,7 +23,7 @@ const styles: Record<Density, DensityStyles> = {
     floatingSizing: "sm",
     fieldClass: "mb-3 w-full",
     labelClass: "mb-1 block",
-    textareaClass: "p-2 sm:text-xs",
+    textareaClass: "p-2 text-base sm:text-xs",
   },
 };
 

@@ -1,83 +1,44 @@
-import { type ReactNode, useState } from "react";
-import { FaChevronRight } from "react-icons/fa6";
+import { useState } from "react";
 import type { Flight, FlightPathElement } from "~/features/flight";
+import { FlightProgressBar } from "~/features/flight/components/Dashboard/Main/Box/FlightProgressBar";
+import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
 import { FlightDetailsDrawer } from "~/features/flight/components/Map/FullScreen/FlightDetailsDrawer";
-import { JourneyRibbon } from "~/features/flight/components/Map/FullScreen/JourneyRibbon";
-import {
-  computeFlightProgress,
-  type FlightProgress,
-  formatAirportClockTime,
-  humanDuration,
-} from "~/features/flight/lib/flightProgress";
+import { nextAction, nextActionCaption, resolveBlockEvents } from "~/features/flight/lib/blockEvents";
+import { computeFlightProgress, type FlightProgress } from "~/features/flight/lib/flightProgress";
 import { toHuman } from "~/i18n/translate";
+import { dateToLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
+import { AirportEndpoint } from "~/shared/ui/Display/AirportEndpoint";
+import { BlurReveal } from "~/shared/ui/Display/BlurReveal";
+import { LabeledDivider } from "~/shared/ui/Layout/LabeledDivider";
 
 type Props = {
   flight: Flight;
   path: FlightPathElement[];
 };
 
-function StatusPill({ live, label }: { live: boolean; label: string }) {
+function NextStage({ flight, progress }: { flight: Flight; progress: FlightProgress }) {
+  const showDeparture = progress.phase === "preflight";
+  const scheduled = flight.timesheet.scheduled;
+  const estimated = flight.timesheet.estimated;
+
+  const scheduledReference = showDeparture ? scheduled.takeoffTime : scheduled.arrivalTime;
+  const estimatedReference = (showDeparture ? estimated?.takeoffTime : estimated?.arrivalTime) ?? scheduledReference;
+  const delayMinutes = Math.round((estimatedReference.getTime() - scheduledReference.getTime()) / 60000);
+
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
-      {live && <span className="size-1.5 rounded-full bg-emerald-500 motion-safe:animate-pulse" />}
-      {label}
-    </span>
-  );
-}
-
-function Figure({ children, timeZone }: { children: ReactNode; timeZone?: string }) {
-  return (
-    <span
-      className="font-mono font-semibold text-gray-700 dark:text-gray-200"
-      title={timeZone ? `${timeZone} local` : undefined}
-    >
-      {children}
-    </span>
-  );
-}
-
-function EtaLine({ flight, progress }: { flight: Flight; progress: FlightProgress }) {
-  const now = Date.now();
-  const destTz = flight.destinationAirport.timezone;
-  const depTz = flight.departureAirport.timezone;
-
-  if (progress.phase === "arrived") {
-    return (
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        Landed <Figure timeZone={destTz}>{formatAirportClockTime(progress.arrivalDate, destTz)}</Figure>
-      </p>
-    );
-  }
-
-  if (progress.phase === "preflight") {
-    const untilDeparture = humanDuration(progress.departureDate.getTime() - now);
-    return (
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        Departs <Figure timeZone={depTz}>~{formatAirportClockTime(progress.departureDate, depTz)}</Figure>
-        {untilDeparture && (
-          <>
-            {" · in about "}
-            <Figure>{untilDeparture}</Figure>
-          </>
+    <div className="shrink-0 text-right">
+      <span className="flex items-center justify-end gap-1.5 text-xs uppercase tracking-wide text-gray-500">
+        {showDeparture ? "Est. departure" : "Est. arrival"}
+        {delayMinutes > 0 && (
+          <span className="inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-[11px] font-bold normal-case text-amber-700 dark:bg-amber-950 dark:text-amber-400">
+            +{delayMinutes}
+          </span>
         )}
-      </p>
-    );
-  }
-
-  const untilArrival = humanDuration(progress.arrivalDate.getTime() - now);
-  return (
-    <p className="text-sm text-gray-500 dark:text-gray-400">
-      Lands <Figure timeZone={destTz}>~{formatAirportClockTime(progress.arrivalDate, destTz)}</Figure>
-      {untilArrival ? (
-        <>
-          {" · about "}
-          <Figure>{untilArrival}</Figure>
-          {" left"}
-        </>
-      ) : (
-        " · landing now"
-      )}
-    </p>
+      </span>
+      <span className="mt-0.5 block font-mono text-xl font-bold tabular-nums text-gray-900 dark:text-white">
+        {dateToLocalTime(estimatedReference, false)}
+      </span>
+    </div>
   );
 }
 
@@ -107,53 +68,81 @@ export function FlightSummaryCard({ flight, path }: Props) {
   const progress = computeFlightProgress(flight, path);
   const lastPosition = path[path.length - 1];
   const isLive = progress.phase === "enroute" && progress.hasLivePosition;
+  const upcoming = nextAction(resolveBlockEvents(flight.timesheet));
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center p-0 sm:p-4">
-      <section className="pointer-events-auto flex w-full flex-col gap-4 rounded-t-2xl border-t border-gray-200 bg-white p-4 shadow-[0_-6px_28px_rgba(15,23,42,0.12)] dark:border-gray-800 dark:bg-gray-900 sm:w-full sm:max-w-xl sm:rounded-2xl sm:border sm:p-5 sm:shadow-2xl">
-        <div className="mx-auto h-1 w-9 shrink-0 rounded-full bg-gray-300 dark:bg-gray-700 sm:hidden" />
+      <section className="pointer-events-auto flex w-full flex-col rounded-t-2xl border-t border-gray-200 bg-white p-4 shadow-[0_-6px_28px_rgba(15,23,42,0.12)] dark:border-gray-800 dark:bg-gray-900 sm:w-full sm:max-w-lg sm:rounded-2xl sm:border sm:p-5 sm:shadow-2xl">
+        <div className="mx-auto mb-3 h-1 w-9 shrink-0 rounded-full bg-gray-300 dark:bg-gray-700 sm:hidden" />
 
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <span className="font-mono text-base font-bold text-gray-900 dark:text-white">{flight.flightNumber}</span>
-            <StatusPill live={isLive} label={toHuman.flight.status.standard(flight.status, flight.serviceType)} />
-          </div>
-          <div className="hidden sm:block">
-            <EtaLine flight={flight} progress={progress} />
-          </div>
+        <article className="flex flex-row justify-between gap-3">
+          <FlightIdentity
+            operator={flight.operator}
+            flightNumber={flight.flightNumber}
+            aircraftId={flight.aircraft.id}
+            registration={flight.aircraft.registration}
+          />
+          <NextStage flight={flight} progress={progress} />
+        </article>
+
+        <div className="mt-4">
+          <LabeledDivider
+            label={toHuman.flight.status.short(flight.status, flight.serviceType)}
+            caption={upcoming === null ? undefined : nextActionCaption(upcoming, new Date())}
+          />
         </div>
 
-        <JourneyRibbon
-          departure={flight.departureAirport}
-          destination={flight.destinationAirport}
-          fraction={progress.fraction}
-        />
+        <article className="mt-4 flex items-center gap-6 lg:gap-12">
+          <span className="shrink-0">
+            <AirportEndpoint iataCode={flight.departureAirport.iataCode} size="lg" />
+          </span>
 
-        <div className="sm:hidden">
-          <EtaLine flight={flight} progress={progress} />
-        </div>
+          <FlightProgressBar percent={progress.fraction * 100} />
 
-        <div className="flex flex-col items-start gap-3 border-t border-gray-100 pt-4 dark:border-gray-800 sm:flex-row sm:items-center sm:justify-between">
-          {isLive ? (
+          <span className="shrink-0">
+            <AirportEndpoint iataCode={flight.destinationAirport.iataCode} size="lg" align="right" />
+          </span>
+        </article>
+
+        <article className="-mt-1 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <span className="block text-sm font-bold text-gray-700 dark:text-gray-200">
+              {flight.departureAirport.name}
+            </span>
+            <span className="block text-xs text-gray-500 dark:text-gray-400">
+              {flight.departureAirport.city.name}, {flight.departureAirport.country.name}
+            </span>
+          </div>
+
+          <div className="min-w-0 text-right">
+            <span className="block text-sm font-bold text-gray-700 dark:text-gray-200">
+              {flight.destinationAirport.name}
+            </span>
+            <span className="block text-xs text-gray-500 dark:text-gray-400">
+              {flight.destinationAirport.city.name}, {flight.destinationAirport.country.name}
+            </span>
+          </div>
+        </article>
+
+        <div className="mt-4 flex flex-col gap-3 border-t border-gray-100 pt-3 dark:border-gray-800">
+          {isLive && (
             <div className="flex items-center gap-4">
               <Stat label="ALT" value={formatAltitude(lastPosition?.altitude)} />
               <Stat label="GS" value={formatGroundSpeed(lastPosition?.groundSpeed)} />
             </div>
-          ) : (
-            <span />
           )}
-          <button
-            type="button"
-            aria-expanded={expanded}
-            onClick={() => setExpanded((open) => !open)}
-            className="flex cursor-pointer items-center gap-1.5 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200"
-          >
-            Flight details
-            <FaChevronRight className={`size-3 transition-transform duration-200 ${expanded ? "rotate-90" : ""}`} />
-          </button>
-        </div>
 
-        {expanded && <FlightDetailsDrawer flight={flight} />}
+          <BlurReveal
+            expanded={expanded}
+            onExpand={() => setExpanded(true)}
+            onCollapse={() => setExpanded(false)}
+            label={`Show flight details for ${flight.flightNumber}`}
+            overlayLabel="Show flight details"
+            collapseLabel="Hide flight details"
+          >
+            <FlightDetailsDrawer flight={flight} />
+          </BlurReveal>
+        </div>
       </section>
     </div>
   );

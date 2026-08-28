@@ -16,7 +16,7 @@ export default function LandingRoute() {
   }
 
   return (
-    <main className="min-h-screen bg-white dark:bg-gray-950 font-sans relative">
+    <main className="min-h-dvh bg-white dark:bg-gray-950 font-sans relative">
       <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden">
         <div className="absolute top-[20%] left-[-10%] w-150 h-150 bg-indigo-500/10 rounded-full blur-[120px]"></div>
         <div className="absolute top-[60%] right-[-10%] w-150 h-150 bg-purple-500/10 rounded-full blur-[120px]"></div>

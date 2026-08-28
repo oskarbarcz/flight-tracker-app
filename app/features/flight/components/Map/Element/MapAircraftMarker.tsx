@@ -1,16 +1,25 @@
 import L from "leaflet";
-import { useMemo } from "react";
-import { Marker } from "react-leaflet";
+import { type ReactNode, useMemo, useState } from "react";
+import { Marker, Tooltip, useMap, useMapEvents } from "react-leaflet";
 import type { FlightPathElement } from "~/features/flight";
+import { RUNWAY_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
 import { calculateLastBearing } from "~/features/flight/lib/smooth";
 import type { Position } from "~/shared/models/geo";
 
 type MapAircraftMarkerProps = {
   path: FlightPathElement[];
+  label?: ReactNode;
 };
 
-export function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
+export function MapAircraftMarker({ path, label }: MapAircraftMarkerProps) {
+  const map = useMap();
+  const [zoom, setZoom] = useState(map.getZoom());
   const lastPoint = path[path.length - 1];
+
+  useMapEvents({
+    zoomend: () => setZoom(map.getZoom()),
+  });
+
   const bearing = useMemo(() => {
     if (lastPoint?.track !== undefined) {
       return lastPoint.track;
@@ -38,5 +47,13 @@ export function MapAircraftMarker({ path }: MapAircraftMarkerProps) {
     return null;
   }
 
-  return <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={planeIcon} zIndexOffset={10000} />;
+  return (
+    <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={planeIcon} zIndexOffset={10000}>
+      {label && zoom < RUNWAY_ZOOM_THRESHOLD && (
+        <Tooltip permanent direction="right" offset={[28, 0]} opacity={1} className="map-aircraft-label">
+          {label}
+        </Tooltip>
+      )}
+    </Marker>
+  );
 }
