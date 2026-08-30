@@ -70,7 +70,7 @@ const reducer = (state: State, action: Action): State => {
     case "SET_TRACKED_FLIGHT_EVENTS":
       return { ...state, events: action.payload };
     case "PREPEND_TRACKED_FLIGHT_EVENT":
-      if (state.events.some((event) => event.id === action.payload.id)) return state;
+      if (action.payload.id && state.events.some((event) => event.id === action.payload.id)) return state;
       return { ...state, events: [action.payload, ...state.events] };
     case "SET_TRACKED_FLIGHT_EMERGENCIES":
       return { ...state, emergencies: action.payload };

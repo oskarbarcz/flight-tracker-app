@@ -105,14 +105,16 @@ export function FlightEventsTimeline({ events, serviceType }: Props) {
                 <span className="font-mono">
                   <FormattedIcaoDate date={event.createdAt} /> <FormattedIcaoTime date={event.createdAt} />
                 </span>
-                {event.actor?.name && (
-                  <span className="flex basis-full items-baseline gap-x-2 sm:basis-auto">
-                    <span aria-hidden className="hidden sm:inline">
-                      ·
-                    </span>
-                    <UserName user={event.actor} />
+                <span className="flex basis-full items-baseline gap-x-2 sm:basis-auto">
+                  <span aria-hidden className="hidden sm:inline">
+                    ·
                   </span>
-                )}
+                  {event.actor ? (
+                    <UserName user={event.actor} />
+                  ) : (
+                    <span className="italic">Detected automatically</span>
+                  )}
+                </span>
               </div>
             </li>
           ))}
