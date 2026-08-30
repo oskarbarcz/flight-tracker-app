@@ -29,7 +29,7 @@ export function FlightListFlightCell({ flight, links }: Props) {
       )}
       <span className="min-w-0">
         <span className="block truncate font-mono text-sm font-bold text-gray-900 sm:text-base dark:text-white">
-          {flight.callsign}
+          {flight.flightNumber}
         </span>
         <Link
           to={links.aircraft(flight)}
