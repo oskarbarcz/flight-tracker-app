@@ -1,8 +1,7 @@
 import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome } from "react-icons/hi";
-import { LuImages, LuPlane } from "react-icons/lu";
-import { MdOutlineLocalAirport } from "react-icons/md";
+import { LuImages, LuPlane, LuTowerControl } from "react-icons/lu";
 import { useLocation } from "react-router";
 import { usePinnedAirports } from "~/features/airport/lib/usePinnedAirports";
 import { CurrentFlightNav } from "~/features/flight/components/Sidebar/CurrentFlightNav";
@@ -41,7 +40,7 @@ export function CabinCrewSidebarItems() {
           label="Airports library"
           href="/airports-library"
           isSelected={path === "/airports-library"}
-          icon={MdOutlineLocalAirport}
+          icon={LuTowerControl}
         />
         <SidebarElement
           label="Aircraft library"

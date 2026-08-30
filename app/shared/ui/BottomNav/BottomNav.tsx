@@ -3,7 +3,7 @@ import { FaPlane } from "react-icons/fa";
 import { FaChartColumn, FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome, HiOutlineUser } from "react-icons/hi";
-import { MdOutlineLocalAirport } from "react-icons/md";
+import { LuTowerControl } from "react-icons/lu";
 import { useLocation } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
@@ -34,7 +34,7 @@ function usePilotTabs(path: string): Tab[] {
     },
     {
       label: "Airports",
-      icon: MdOutlineLocalAirport,
+      icon: LuTowerControl,
       to: "/airports-library",
       isActive: path.startsWith("/airports-library"),
     },

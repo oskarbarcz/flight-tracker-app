@@ -2,7 +2,7 @@ import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice, HiOutlineUser } from "react-icons/hi2";
 import { LuArmchair, LuContainer, LuImage, LuImages, LuPlane, LuTowerControl } from "react-icons/lu";
-import { MdHistory, MdOutlineLocalAirport } from "react-icons/md";
+import { MdHistory } from "react-icons/md";
 import { useAuth } from "~/app-state/useAuth";
 import { usePostcards } from "~/features/postcard/hooks/usePostcards";
 import { UserRole } from "~/features/user";
@@ -22,7 +22,7 @@ function pilotSections(postcardsWaiting: number): MorePageSection[] {
     {
       label: "Library",
       items: [
-        { label: "Airports library", href: "/airports-library", icon: MdOutlineLocalAirport },
+        { label: "Airports library", href: "/airports-library", icon: LuTowerControl },
         { label: "Aircraft library", href: "/aircraft-history", icon: LuPlane },
       ],
     },
