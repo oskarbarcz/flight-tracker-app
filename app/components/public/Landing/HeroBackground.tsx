@@ -1,20 +1,51 @@
-import React from "react";
+import { useThemeMode } from "flowbite-react";
+import React, { useEffect, useState } from "react";
+
+const heroImages = {
+  light: {
+    id: "photo-1436491865332-7a61a109cc05",
+    alt: "Gray and white airplane in flight near clear blue sky",
+    backdrop: "bg-blue-50/50",
+    treatment: "opacity-35 brightness-110 saturate-[0.85]",
+  },
+  dark: {
+    id: "photo-1587408811730-1a978e6c407d",
+    alt: "Airliner cockpit at dusk",
+    backdrop: "bg-black",
+    treatment: "opacity-50 brightness-[0.6] contrast-125",
+  },
+};
+
+const CANDIDATE_WIDTHS = [640, 828, 1280, 1920, 2560];
+
+function heroUrl(id: string, width: number): string {
+  return `https://images.unsplash.com/${id}?q=80&w=${width}&auto=format&fit=crop`;
+}
 
 export function HeroBackground() {
+  const { computedMode } = useThemeMode();
+  const [, refreshOnSystemThemeChange] = useState(0);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => refreshOnSystemThemeChange((tick) => tick + 1);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  const hero = heroImages[computedMode === "dark" ? "dark" : "light"];
+
   return (
     <>
-      <div className="absolute inset-0 w-full h-full bg-blue-50/50 dark:hidden transition-opacity duration-1000">
+      <div className={`absolute inset-0 w-full h-full ${hero.backdrop} transition-opacity duration-1000`}>
         <img
-          src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2560&auto=format&fit=crop"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-35 brightness-110 saturate-[0.85]"
-          alt="Gray and white airplane in flight near clear blue sky"
-        />
-      </div>
-      <div className="absolute inset-0 w-full h-full bg-black hidden dark:block transition-opacity duration-1000">
-        <img
-          src="https://images.unsplash.com/photo-1587408811730-1a978e6c407d?q=80&w=2560&auto=format&fit=crop"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-50 brightness-[0.6] contrast-125"
-          alt="Airliner cockpit at dusk"
+          src={heroUrl(hero.id, 1280)}
+          srcSet={CANDIDATE_WIDTHS.map((width) => `${heroUrl(hero.id, width)} ${width}w`).join(", ")}
+          sizes="100vw"
+          fetchPriority="high"
+          decoding="async"
+          alt={hero.alt}
+          className={`absolute inset-0 w-full h-full object-cover object-center ${hero.treatment}`}
         />
       </div>
 

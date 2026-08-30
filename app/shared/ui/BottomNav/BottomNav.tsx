@@ -9,6 +9,7 @@ import { useAuth } from "~/app-state/useAuth";
 import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { UserRole } from "~/features/user";
+import { useInstalledApp } from "~/shared/hooks/useInstalledApp";
 import { BottomNavRaisedTab } from "~/shared/ui/BottomNav/BottomNavRaisedTab";
 import { BottomNavTab } from "~/shared/ui/BottomNav/BottomNavTab";
 
@@ -69,7 +70,7 @@ function useOperationsTabs(path: string): Tab[] {
 
   return [
     {
-      label: "Flights",
+      label: "Flight plans",
       icon: GrDocumentTime,
       to: "/flights",
       isActive: path.startsWith("/flights"),
@@ -183,6 +184,7 @@ export function BottomNav() {
   const role = user?.role ?? null;
   const tabs = role === null ? [] : tabsForRole(role, { operationsTabs, pilotTabs, path });
   const { listRef, offset } = useActiveRail(tabs.findIndex((tab) => tab.isActive));
+  const isInstalledApp = useInstalledApp();
 
   if (user === null) {
     return null;
@@ -191,7 +193,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white pb-[var(--bottom-nav-safe-bottom)] md:hidden dark:border-gray-800 dark:bg-gray-900"
+      className={`bottom-nav ${isInstalledApp ? "bottom-nav-installed" : ""} fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white pb-[var(--bottom-nav-safe-bottom)] md:hidden dark:border-gray-800 dark:bg-gray-900`}
     >
       {offset !== null && (
         <span
@@ -202,7 +204,7 @@ export function BottomNav() {
       )}
       <ul ref={listRef} className="flex items-stretch">
         {tabs.map((tab) => (
-          <li key={tab.label} className="relative flex flex-1">
+          <li key={tab.label} className="bottom-nav-slot flex flex-1">
             {tab.isRaised ? (
               <BottomNavRaisedTab label={tab.label} icon={tab.icon} to={tab.to} isActive={tab.isActive} />
             ) : (

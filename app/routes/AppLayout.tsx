@@ -42,8 +42,8 @@ export default function AppLayout() {
                       </div>
                     </main>
                   </div>
-                  <BottomNav />
                 </div>
+                <BottomNav />
                 <ToastContainer
                   position="bottom-right"
                   autoClose={5000}
