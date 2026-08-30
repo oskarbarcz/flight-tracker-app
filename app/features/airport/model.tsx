@@ -4,6 +4,7 @@ import type { Coordinates } from "~/shared/models/coordinates";
 
 export enum Continent {
   Africa = "africa",
+  Antarctica = "antarctica",
   Asia = "asia",
   Europe = "europe",
   NorthAmerica = "north_america",
@@ -19,6 +20,7 @@ export function allContinents(): Continent[] {
     Continent.Africa,
     Continent.Asia,
     Continent.Oceania,
+    Continent.Antarctica,
   ];
 }
 

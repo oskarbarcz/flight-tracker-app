@@ -87,7 +87,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       },
     },
     tooltip: {
-      base: "z-100",
+      base: "z-100 whitespace-nowrap",
     },
     toast: {
       root: {

@@ -12,6 +12,8 @@ export function translateContinent(continent: Continent): string {
   switch (continent) {
     case Continent.Africa:
       return "Africa";
+    case Continent.Antarctica:
+      return "Antarctica";
     case Continent.Asia:
       return "Asia";
     case Continent.Europe:

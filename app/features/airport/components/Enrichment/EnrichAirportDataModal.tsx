@@ -17,6 +17,7 @@ import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 type Props = {
   airport: Airport;
   close: () => void;
+  onApplied?: () => void;
 };
 
 const NO_CHANGES: OsmProposedChange[] = [];
@@ -29,7 +30,7 @@ function countChanges(count: number): string {
   return `${count} ${count === 1 ? "change" : "changes"}`;
 }
 
-export function EnrichAirportDataModal({ airport, close }: Props) {
+export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
   const { airportService } = useApi();
   const { error: showError, success, warning } = useToast();
   const revalidator = useRevalidator();
@@ -77,6 +78,7 @@ export function EnrichAirportDataModal({ airport, close }: Props) {
 
       setReport(result);
       revalidator.revalidate();
+      onApplied?.();
 
       if (result.totals.failed > 0) {
         warning(`${countRecords(written)} written, ${result.totals.failed} could not be applied.`);

@@ -2,7 +2,7 @@ import React from "react";
 import { dataQualityOptions } from "~/features/airport";
 import { AirportCountryField } from "~/features/airport/components/Forms/AirportCountryField";
 import { AirportTimezoneField } from "~/features/airport/components/Forms/AirportTimezoneField";
-import { continentOptions } from "~/features/operator";
+import { continentOptions } from "~/features/airport/components/Forms/continentOptions";
 import { FormFieldGroup } from "~/shared/ui/Form/FormFieldGroup";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 import { ManagedFloatingSelectBlock } from "~/shared/ui/Form/Managed/ManagedFloatingSelectBlock";

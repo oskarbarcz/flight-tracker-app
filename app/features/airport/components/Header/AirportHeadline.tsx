@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import React from "react";
-import { HiGlobeAlt, HiPencil } from "react-icons/hi";
+import { HiCloudDownload, HiPencil } from "react-icons/hi";
 import { Link, useLocation } from "react-router";
 import type { Airport } from "~/features/airport";
 import { DataQualityBadge } from "~/features/airport/components/Airport/DataQualityBadge";
@@ -45,7 +45,7 @@ export function AirportHeadline({ airport, readOnly }: Props) {
       {!readOnly && (
         <div className="flex shrink-0 flex-wrap items-center gap-2">
           <Button as={Link} to={airportEnrichPath(pathname)} color="light" size="sm" className="space-x-1.5">
-            <HiGlobeAlt />
+            <HiCloudDownload />
             <span>Enrich data</span>
           </Button>
           <Button as={Link} to={airportEditPath(pathname)} color="indigo" size="sm" className="space-x-1.5">

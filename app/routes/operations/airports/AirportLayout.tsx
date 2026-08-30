@@ -27,6 +27,7 @@ import { ParkingPositionService } from "~/features/parking-position/service";
 import { RunwayService } from "~/features/runway/service";
 import { TerminalService } from "~/features/terminal/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { Breadcrumbs } from "~/shared/ui/Section/Breadcrumbs";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const [airport, runways, terminals, parkingPositions, gates, notams] = await Promise.all([
@@ -61,7 +62,16 @@ export default function AirportLayout() {
 
   return (
     <div className="space-y-6">
-      <AirportHeadline airport={data.airport} />
+      <div>
+        <Breadcrumbs
+          className="mb-4"
+          items={[
+            { label: "Airports", to: AIRPORT_MANAGEMENT_BASE },
+            { label: data.airport.icaoCode, mono: true },
+          ]}
+        />
+        <AirportHeadline airport={data.airport} />
+      </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="min-w-0 space-y-4">

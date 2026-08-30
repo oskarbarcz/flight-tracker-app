@@ -1,10 +1,17 @@
-import type { AirportOsmProposal, AirportOsmPushResult, AirportWeatherReport, Continent } from "~/features/airport";
+import type {
+  AirportOsmProposal,
+  AirportOsmPushResult,
+  AirportWeatherReport,
+  Continent,
+  DataQuality,
+} from "~/features/airport";
 import type { CreateAirportRequest, EditAirportRequest, GetAirportResponse } from "~/features/airport/request";
 import type { Notam } from "~/features/notam";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type AirportListFilters = {
   continent?: Continent;
+  dataQuality?: DataQuality;
 };
 
 export class AirportService extends AbstractAuthorizedApiService {
