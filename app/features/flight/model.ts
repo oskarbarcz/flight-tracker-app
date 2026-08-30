@@ -341,7 +341,7 @@ export type FlightEvent = {
   actor: {
     id: string;
     name: string;
-  };
+  } | null;
   createdAt: Date;
 };
 

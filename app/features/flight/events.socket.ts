@@ -21,7 +21,7 @@ export type FlightEventsListeners = {
 };
 
 function parseEvent(raw: FlightEventResponse): FlightEvent {
-  return { ...raw, createdAt: new Date(raw.createdAt) } as FlightEvent;
+  return { ...raw, createdAt: new Date(raw.createdAt) };
 }
 
 export function subscribeToFlightEvents(flightId: string, listeners: FlightEventsListeners): () => void {
