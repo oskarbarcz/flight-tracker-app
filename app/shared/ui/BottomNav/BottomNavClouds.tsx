@@ -17,7 +17,7 @@ const CLOUDS: Cloud[] = [
 
 export function BottomNavClouds() {
   return (
-    <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-t-2xl">
+    <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
       {CLOUDS.map((cloud) => (
         <svg
           key={cloud.id}

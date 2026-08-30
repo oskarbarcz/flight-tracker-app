@@ -11,7 +11,7 @@ type Props = {
 };
 
 const LABEL = "text-[11px] font-medium leading-none";
-const SLOT = "flex flex-1 flex-col items-center justify-center gap-1.5 py-2";
+const SLOT = "flex flex-1 flex-col items-center justify-center gap-1.5 pt-2";
 
 export function BottomNavTab({ label, icon: Icon, to, isActive, badge }: Props) {
   const showBadge = typeof badge === "number" && badge > 0;

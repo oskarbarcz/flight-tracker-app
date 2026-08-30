@@ -15,7 +15,7 @@ type Props = {
 };
 
 export function FlightListRow({ flight, links, trailingColumn }: Props) {
-  const label = `${flight.callsign}, ${flight.departureAirport.iataCode} to ${flight.destinationAirport.iataCode}, ${trailingColumn.label(flight)}`;
+  const label = `${flight.flightNumber}, ${flight.departureAirport.iataCode} to ${flight.destinationAirport.iataCode}, ${trailingColumn.label(flight)}`;
 
   return (
     <div

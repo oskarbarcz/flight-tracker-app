@@ -790,6 +790,35 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
+.bottom-nav {
+  --bottom-nav-safe-bottom: 1rem;
+  --bottom-nav-pill-drop: 0.5rem;
+}
+
+.bottom-nav-installed {
+  --bottom-nav-safe-bottom: max(1rem, env(safe-area-inset-bottom));
+  --bottom-nav-pill-drop: 1.5rem;
+}
+
+.bottom-nav-slot {
+  position: relative;
+}
+
+.bottom-nav-pill {
+  position: absolute;
+  top: -1.75rem;
+  bottom: calc(var(--bottom-nav-pill-drop) * -1);
+  left: 50%;
+  width: 78px;
+  transform: translateX(-50%);
+  padding-bottom: var(--bottom-nav-pill-drop);
+}
+
+.bottom-nav:not(.bottom-nav-installed) .bottom-nav-pill {
+  top: -1.5rem;
+  width: 74px;
+}
+
 .bottom-nav-rail {
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
