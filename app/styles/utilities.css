@@ -790,6 +790,10 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
+:root {
+  --bottom-nav-safe-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
 .bottom-nav-rail {
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }

@@ -13,7 +13,7 @@ type Props = {
 const LABEL = "text-[11px] font-semibold leading-none";
 
 const SHAPE =
-  "absolute -top-5 bottom-0 left-1/2 flex w-[70px] -translate-x-1/2 flex-col items-center justify-end gap-1 overflow-hidden rounded-t-2xl pb-2";
+  "absolute -top-5 -bottom-[var(--bottom-nav-safe-bottom)] left-1/2 flex w-[70px] -translate-x-1/2 flex-col items-center justify-end gap-1 overflow-hidden rounded-t-2xl pb-[var(--bottom-nav-safe-bottom)]";
 
 export function BottomNavRaisedTab({ label, icon: Icon, to, isActive }: Props) {
   const [skyKey, setSkyKey] = useState(0);

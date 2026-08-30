@@ -191,7 +191,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden dark:border-gray-800 dark:bg-gray-900"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white pb-[var(--bottom-nav-safe-bottom)] md:hidden dark:border-gray-800 dark:bg-gray-900"
     >
       {offset !== null && (
         <span
