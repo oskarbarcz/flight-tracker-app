@@ -3,7 +3,7 @@ import React from "react";
 import { HiCloudDownload, HiPencil } from "react-icons/hi";
 import { Link, useLocation } from "react-router";
 import type { Airport } from "~/features/airport";
-import { DataQualityBadge } from "~/features/airport/components/Airport/DataQualityBadge";
+import { AirportQualityIcon } from "~/features/airport/components/Airport/AirportQualityIcon";
 import { airportEditPath, airportEnrichPath } from "~/features/airport/components/Management/airportSections";
 import { getUtcOffset } from "~/shared/lib/formatGeo";
 
@@ -23,7 +23,7 @@ export function AirportHeadline({ airport, readOnly }: Props) {
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
             {airport.name}
           </h1>
-          <DataQualityBadge quality={airport.dataQuality} />
+          <AirportQualityIcon quality={airport.dataQuality} />
         </div>
         <div className="mt-2 flex flex-wrap items-baseline gap-x-1.5 text-sm text-gray-500 dark:text-gray-400">
           <span className="font-mono font-bold text-gray-800 dark:text-gray-200">{airport.icaoCode}</span>

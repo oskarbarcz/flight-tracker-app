@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-const installedDisplayModes = ["standalone", "minimal-ui", "fullscreen", "window-controls-overlay"];
+const installedDisplayModes = ["standalone", "fullscreen", "window-controls-overlay"];
 
 function isIosInstalledApp(): boolean {
   return (window.navigator as Navigator & { standalone?: boolean }).standalone === true;

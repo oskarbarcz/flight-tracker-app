@@ -62,7 +62,7 @@ function WeatherReport({ report }: { report: AirportWeatherReport }) {
 
   return (
     <section className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <header className="border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
+      <header className="flex flex-wrap items-baseline justify-between gap-x-3 border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
         <h3 className="font-mono text-base font-bold text-gray-900 dark:text-white">
           {translateWeatherInformationType(report.informationType)}
         </h3>
