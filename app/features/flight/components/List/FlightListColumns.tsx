@@ -14,12 +14,12 @@ const HEADERS = ["Date", "Flight", "Route"];
 
 export const blockTimeColumn: FlightListTrailingColumn = {
   layout: {
-    grid: "grid grid-cols-[94px_68px_auto_1fr_18px] sm:grid-cols-[124px_150px_minmax(160px,300px)_1fr_34px]",
+    grid: "grid grid-cols-[96px_100px_1fr_18px] sm:grid-cols-[124px_150px_minmax(160px,300px)_1fr_34px]",
     headers: HEADERS,
     trailingHeader: "Block",
-    trailingClassName: "order-4",
+    trailingClassName: "order-4 hidden sm:block",
     chevronClassName: "order-5",
-    headerTrailingClassName: "order-4",
+    headerTrailingClassName: "order-4 hidden sm:block",
   },
   render: (flight) => <FlightBlockTimeCell flight={flight} />,
   label: blockTimeLabelOf,
@@ -27,7 +27,7 @@ export const blockTimeColumn: FlightListTrailingColumn = {
 
 export const statusColumn: FlightListTrailingColumn = {
   layout: {
-    grid: "grid grid-cols-[94px_68px_1fr_18px] sm:grid-cols-[124px_150px_minmax(160px,300px)_1fr_34px]",
+    grid: "grid grid-cols-[96px_100px_1fr_18px] sm:grid-cols-[124px_150px_minmax(160px,300px)_1fr_34px]",
     headers: HEADERS,
     trailingHeader: "Status",
     trailingClassName: "order-5 col-span-4 sm:order-4 sm:col-span-1",

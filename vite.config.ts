@@ -16,10 +16,22 @@ export default defineConfig({
       manifest: false,
       outDir: "build/client",
       workbox: {
-        globPatterns: ["**/*.{js,css,html}"],
+        globPatterns: ["**/*.css", "404.html", "ghspa.js"],
+        additionalManifestEntries: [{ url: "index.html", revision: packageJson.version }],
         navigateFallback: "index.html",
         navigateFallbackDenylist: [/^\/api\//],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            urlPattern: /\/assets\/[^/]+\.js$/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "app-chunks",
+              expiration: { maxEntries: 250, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
       },
     }),
   ],

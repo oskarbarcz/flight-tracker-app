@@ -16,13 +16,13 @@ export function FlightListFlightCell({ flight, links }: Props) {
   return (
     <span className="flex min-w-0 items-center gap-2.5 px-1 py-2.5 sm:px-3">
       {operatorHref === null ? (
-        <span className="hidden size-9 shrink-0 items-center justify-center sm:flex">{fin}</span>
+        <span className="flex size-7 shrink-0 items-center justify-center sm:size-9">{fin}</span>
       ) : (
         <Link
           to={operatorHref}
           viewTransition
           aria-label={flight.operator.shortName}
-          className="relative z-10 hidden size-9 shrink-0 items-center justify-center transition-opacity hover:opacity-70 sm:flex"
+          className="relative z-10 flex size-7 shrink-0 items-center justify-center transition-opacity hover:opacity-70 sm:size-9"
         >
           {fin}
         </Link>

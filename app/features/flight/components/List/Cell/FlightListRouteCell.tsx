@@ -31,7 +31,7 @@ export function FlightListRouteCell({ flight, links }: Props) {
           {destinationAirport.iataCode}
         </Link>
       </span>
-      <span className="mt-0.5 hidden truncate text-xs text-gray-500 sm:block dark:text-gray-400">
+      <span className="mt-0.5 block truncate text-xs text-gray-500 dark:text-gray-400">
         {departureAirport.name} → {destinationAirport.name}
       </span>
     </span>

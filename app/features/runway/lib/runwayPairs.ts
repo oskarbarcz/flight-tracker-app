@@ -70,6 +70,10 @@ export function destinationPoint(lat: number, lng: number, bearingDeg: number, d
   return [(lat2Rad * 180) / Math.PI, (lon2Rad * 180) / Math.PI];
 }
 
+export function runwayBearing(runway: Runway): number {
+  return runway.trueHeading ?? runway.magneticHeading;
+}
+
 export type RunwayRibbon = {
   key: string;
   polygon: [number, number][];
@@ -100,7 +104,7 @@ export function computeRunwayRibbons(runways: Runway[]): RunwayRibbon[] {
     } else {
       const only = pair.ends[0];
       start = [only.coordinates.latitude, only.coordinates.longitude];
-      end = destinationPoint(start[0], start[1], only.magneticHeading, only.length);
+      end = destinationPoint(start[0], start[1], runwayBearing(only), only.length);
       width = only.width;
     }
 
@@ -131,7 +135,7 @@ export function computeRunwayLines(runways: Runway[]): RunwayLine[] {
     const otherEnd = destinationPoint(
       end.coordinates.latitude,
       end.coordinates.longitude,
-      end.magneticHeading,
+      runwayBearing(end),
       end.length,
     );
     const positions: [number, number][] = [[end.coordinates.latitude, end.coordinates.longitude], otherEnd];
