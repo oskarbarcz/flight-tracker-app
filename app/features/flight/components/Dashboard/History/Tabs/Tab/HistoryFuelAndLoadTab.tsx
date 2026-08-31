@@ -3,7 +3,7 @@ import { FuelAndLoadsheetPanel } from "~/features/flight/components/FuelAndLoads
 import { useHistoryFlight } from "~/features/flight/hooks/useHistoryFlight";
 
 export function HistoryFuelAndLoadTab() {
-  const { flight } = useHistoryFlight();
+  const { flight, loadsheets } = useHistoryFlight();
 
   if (!flight) return null;
 
@@ -12,8 +12,8 @@ export function HistoryFuelAndLoadTab() {
       <FuelAndLoadsheetPanel
         flightId={flight.id}
         serviceType={flight.serviceType}
-        preliminary={flight.loadsheets.preliminary}
-        final={flight.loadsheets.final}
+        preliminary={loadsheets.preliminary}
+        final={loadsheets.final}
         timesheet={flight.timesheet}
       />
     </div>

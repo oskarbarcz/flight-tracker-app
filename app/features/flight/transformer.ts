@@ -35,9 +35,5 @@ export function formDataToApiFormat(input: CreateFlightFormData): CreateFlightRe
       },
     },
     tracking: Tracking.Disabled,
-    loadsheets: {
-      preliminary: null,
-      final: null,
-    },
   };
 }

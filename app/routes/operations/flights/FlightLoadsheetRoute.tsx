@@ -5,17 +5,18 @@ import { useToast } from "~/app-state/useToast";
 import { FlightStatus, type Loadsheet } from "~/features/flight";
 import { FuelAndLoadsheetPanel } from "~/features/flight/components/FuelAndLoadsheet/FuelAndLoadsheetPanel";
 import { UpdatePreliminaryLoadsheetModal } from "~/features/flight/components/Modal/UpdatePreliminaryLoadsheetModal";
-import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
+import { describeLoadsheetRefusal } from "~/features/flight/lib/loadsheetRefusal";
 import { FlightService } from "~/features/flight/service";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const flight = await new FlightService().fetchById(params.id);
-  return { flight };
+  const service = new FlightService();
+  const [flight, loadsheets] = await Promise.all([service.fetchById(params.id), service.fetchLoadsheets(params.id)]);
+  return { flight, loadsheets };
 }
 
 export default function FlightLoadsheetRoute() {
-  const { flight } = useLoaderData<typeof clientLoader>();
+  const { flight, loadsheets } = useLoaderData<typeof clientLoader>();
   const { flightService } = useApi();
   const { success, error } = useToast();
   const revalidator = useRevalidator();
@@ -30,11 +31,9 @@ export default function FlightLoadsheetRoute() {
       setEditing(false);
       revalidator.revalidate();
     } catch (reason: unknown) {
-      const refusal = capacityRefusal(reason);
       error(
-        refusal === null
-          ? "Failed to update preliminary loadsheet."
-          : describeCapacityRefusal(refusal, flight.aircraft.cabinLayout?.id ?? null),
+        describeLoadsheetRefusal(reason, flight.aircraft.cabinLayout?.id ?? null) ??
+          "Failed to update preliminary loadsheet.",
       );
     }
   };
@@ -44,15 +43,20 @@ export default function FlightLoadsheetRoute() {
       <FuelAndLoadsheetPanel
         flightId={flight.id}
         serviceType={flight.serviceType}
-        preliminary={flight.loadsheets.preliminary}
-        final={flight.loadsheets.final}
+        preliminary={loadsheets.preliminary}
+        final={loadsheets.final}
         timesheet={flight.timesheet}
         canEditPreliminary={canEditPreliminary}
         onEditPreliminary={() => setEditing(true)}
       />
 
       {editing && (
-        <UpdatePreliminaryLoadsheetModal flight={flight} update={handleUpdate} cancel={() => setEditing(false)} />
+        <UpdatePreliminaryLoadsheetModal
+          flight={flight}
+          preliminary={loadsheets.preliminary}
+          update={handleUpdate}
+          cancel={() => setEditing(false)}
+        />
       )}
     </div>
   );

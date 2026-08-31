@@ -3,11 +3,11 @@ import { FlightManifestPanel } from "~/features/flight/components/Cabin/FlightMa
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 
 export function FlightCabinTab() {
-  const { flight } = useTrackedFlight();
+  const { flight, loadsheets } = useTrackedFlight();
 
   if (flight === null) {
     return null;
   }
 
-  return <FlightManifestPanel flight={flight} />;
+  return <FlightManifestPanel flight={flight} loadsheets={loadsheets} />;
 }

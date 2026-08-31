@@ -138,7 +138,7 @@ export type FuelBreakdown = {
 export type Loadsheet = {
   flightCrew: FlightCrew;
   passengers: number;
-  passengersByCabin?: Partial<Record<CabinClass, number>>;
+  passengersByCabin?: Partial<Record<CabinClass, number>> | null;
   cargo: number;
   payload: number;
   zeroFuelWeight: number;
@@ -146,9 +146,22 @@ export type Loadsheet = {
   fuel: FuelBreakdown | null;
 };
 
+export enum LoadsheetKind {
+  Preliminary = "preliminary",
+  Final = "final",
+}
+
+export type FlightLoadsheet = Loadsheet & {
+  id: string;
+  kind: LoadsheetKind;
+  revision: number;
+  issuedById: string | null;
+  issuedAt: Date;
+};
+
 export type Loadsheets = {
-  preliminary: Loadsheet | null;
-  final: Loadsheet | null;
+  preliminary: FlightLoadsheet | null;
+  final: FlightLoadsheet | null;
 };
 
 export enum PassengerStatus {
@@ -210,7 +223,6 @@ export class Flight {
   pilot: Pilot | null;
   timesheet: Timesheet;
   status: FlightStatus;
-  loadsheets: Loadsheets;
   departureParkingPositionId: string | null;
   departureRunwayId: string | null;
   arrivalParkingPositionId: string | null;
@@ -234,10 +246,6 @@ export class Flight {
     this.pilot = flight.pilot ?? null;
     this.timesheet = parseTimesheet(flight.timesheet);
     this.status = flight.status;
-    this.loadsheets = {
-      preliminary: flight.loadsheets.preliminary,
-      final: flight.loadsheets.final,
-    };
     this.departureParkingPositionId = flight.departureParkingPositionId;
     this.departureRunwayId = flight.departureRunwayId;
     this.arrivalParkingPositionId = flight.arrivalParkingPositionId;

@@ -1,4 +1,5 @@
 import type { Aircraft } from "~/features/aircraft";
+import type { CabinClass } from "~/features/cabin-layout/model";
 import type {
   AirportOnFlight,
   AirportOnFlightType,
@@ -6,6 +7,7 @@ import type {
   FlightServiceType,
   FlightStatus,
   FuelBreakdown,
+  LoadsheetKind,
   Pilot,
   Tracking,
 } from "~/features/flight";
@@ -41,19 +43,20 @@ export type CloseFlightRequest = {
   actualFuelBurned: number;
 };
 
-export type ApiLoadsheetResponse = {
+export type ApiFlightLoadsheetResponse = {
+  id: string;
+  kind: LoadsheetKind;
+  revision: number;
+  issuedById: string | null;
+  issuedAt: string;
   flightCrew: FlightCrew;
   passengers: number;
+  passengersByCabin: Partial<Record<CabinClass, number>> | null;
   cargo: number;
   payload: number;
   zeroFuelWeight: number;
   blockFuel: number;
   fuel: FuelBreakdown | null;
-};
-
-export type ApiLoadsheetsResponse = {
-  preliminary: ApiLoadsheetResponse | null;
-  final: ApiLoadsheetResponse | null;
 };
 
 export type ApiFlightResponse = {
@@ -92,7 +95,6 @@ export type ApiFlightResponse = {
   };
   status: FlightStatus;
   tracking: Tracking;
-  loadsheets: ApiLoadsheetsResponse;
   departureParkingPositionId: string | null;
   departureRunwayId: string | null;
   arrivalParkingPositionId: string | null;

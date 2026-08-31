@@ -2,7 +2,6 @@ import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import React from "react";
 import { useToast } from "~/app-state/useToast";
-import type { Flight } from "~/features/flight";
 import { CloseFlightForm } from "~/features/flight/components/Forms/CloseFlightForm";
 import {
   closeFlightFormDataToActualFuelBurned,
@@ -16,15 +15,14 @@ import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
-  flight: Flight;
   onClose: () => void;
 };
 
-export function CloseFlightModal({ flight, onClose }: Props) {
-  const { close } = useTrackedFlight();
+export function CloseFlightModal({ onClose }: Props) {
+  const { close, loadsheets } = useTrackedFlight();
   const { error, success } = useToast();
 
-  const plannedTrip = flight.loadsheets.final?.fuel?.trip ?? null;
+  const plannedTrip = loadsheets.final?.fuel?.trip ?? null;
 
   const handleSubmit = async (
     values: FlatCloseFlightFormData,

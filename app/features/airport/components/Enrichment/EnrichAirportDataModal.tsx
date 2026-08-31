@@ -22,6 +22,11 @@ type Props = {
 
 const NO_CHANGES: OsmProposedChange[] = [];
 
+type Outcome = {
+  tone: "success" | "warning";
+  message: string;
+};
+
 function countRecords(count: number): string {
   return `${count} ${count === 1 ? "record" : "records"}`;
 }
@@ -41,7 +46,15 @@ export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
   const [pullStartedAt, setPullStartedAt] = useState<number | null>(null);
   const [isPushing, setIsPushing] = useState(false);
   const [pullError, setPullError] = useState<string | null>(null);
+  const [outcome, setOutcome] = useState<Outcome | null>(null);
   const isPulling = pullStartedAt !== null;
+
+  const dismiss = () => {
+    if (outcome !== null) {
+      (outcome.tone === "warning" ? warning : success)(outcome.message);
+    }
+    close();
+  };
 
   const selection = useOsmSelection(proposal?.changes ?? NO_CHANGES, pullNumber);
   const selectedKeys = [...selection.keys];
@@ -80,11 +93,14 @@ export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
       revalidator.revalidate();
       onApplied?.();
 
-      if (result.totals.failed > 0) {
-        warning(`${countRecords(written)} written, ${result.totals.failed} could not be applied.`);
-      } else {
-        success(`${countRecords(written)} written to ${airport.icaoCode}.`);
-      }
+      setOutcome(
+        result.totals.failed > 0
+          ? {
+              tone: "warning",
+              message: `${countRecords(written)} written, ${result.totals.failed} could not be applied.`,
+            }
+          : { tone: "success", message: `${countRecords(written)} written to ${airport.icaoCode}.` },
+      );
     } catch (failure) {
       showError(describeOsmPushFailure(failure));
     } finally {
@@ -121,7 +137,7 @@ export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
       return (
         <ModalActions
           cancel={{ label: "Review again", onClick: reviewAgain, animateExit: false }}
-          confirm={{ label: "Done", onClick: close }}
+          confirm={{ label: "Done", onClick: dismiss }}
         />
       );
     }
@@ -129,7 +145,7 @@ export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
     if (proposal !== null) {
       return (
         <ModalActions
-          cancel={{ onClick: close }}
+          cancel={{ onClick: dismiss }}
           confirm={{
             label: selectedKeys.length === 0 ? "Apply changes" : `Apply ${countChanges(selectedKeys.length)}`,
             onClick: apply,
@@ -149,7 +165,7 @@ export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
 
     return (
       <ModalActions
-        cancel={{ label: "Close", onClick: close }}
+        cancel={{ label: "Close", onClick: dismiss }}
         confirm={{
           label: "Pull data from OpenStreetMap",
           onClick: () => pull(false),
@@ -161,7 +177,7 @@ export function EnrichAirportDataModal({ airport, close, onApplied }: Props) {
   };
 
   return (
-    <Modal size="5xl" className="text-gray-800 dark:text-white" show onClose={close}>
+    <Modal size="5xl" className="text-gray-800 dark:text-white" show onClose={dismiss}>
       <ModalHeader>
         <ModalTitle context="Airport" action="Enrich from OpenStreetMap" />
       </ModalHeader>

@@ -2,24 +2,18 @@ import React from "react";
 import type { Flight, Loadsheet } from "~/features/flight";
 import { LoadsheetFormModal } from "~/features/flight/components/Modal/LoadsheetFormModal";
 import { useCabinCapacity } from "~/features/flight/hooks/useCabinCapacity";
+import { EMPTY_LOADSHEET } from "~/features/flight/lib/loadsheets";
 
 type Props = {
   flight: Flight;
+  preliminary: Loadsheet | null;
   update: (flightId: string, loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
-export function UpdatePreliminaryLoadsheetModal({ flight, update, cancel }: Props) {
+export function UpdatePreliminaryLoadsheetModal({ flight, preliminary, update, cancel }: Props) {
   const capacity = useCabinCapacity(flight);
-  const oldLoadsheet = flight.loadsheets.preliminary ?? {
-    flightCrew: { pilots: 0, reliefPilots: 0, cabinCrew: 0 },
-    passengers: 0,
-    zeroFuelWeight: 0,
-    cargo: 0,
-    payload: 0,
-    blockFuel: 0,
-    fuel: null,
-  };
+  const oldLoadsheet = preliminary ?? EMPTY_LOADSHEET;
 
   return (
     <LoadsheetFormModal

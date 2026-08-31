@@ -37,7 +37,7 @@ export function CloseFlightButton({ disabled }: FlightProgressButtonProps) {
       ) : (
         button
       )}
-      {showModal && <CloseFlightModal flight={flight} onClose={() => setShowModal(false)} />}
+      {showModal && <CloseFlightModal onClose={() => setShowModal(false)} />}
     </>
   );
 }

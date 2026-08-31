@@ -6,7 +6,7 @@ import { PhaseTimelineBox } from "~/features/flight/components/Dashboard/History
 import { useHistoryFlight } from "~/features/flight/hooks/useHistoryFlight";
 
 export function HistoryOverviewTab() {
-  const { flight } = useHistoryFlight();
+  const { flight, loadsheets } = useHistoryFlight();
 
   if (!flight) return null;
 
@@ -17,8 +17,8 @@ export function HistoryOverviewTab() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <AircraftSummaryCard flight={flight} />
         <LoadsheetSummaryCard
-          preliminary={flight.loadsheets.preliminary}
-          final={flight.loadsheets.final}
+          preliminary={loadsheets.preliminary}
+          final={loadsheets.final}
           serviceType={flight.serviceType}
         />
       </div>

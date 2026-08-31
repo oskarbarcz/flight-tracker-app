@@ -1,6 +1,8 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import type { Flight } from "~/features/flight";
+import type { Flight, Loadsheets } from "~/features/flight";
+import { NO_LOADSHEETS } from "~/features/flight/lib/loadsheets";
+import { usePublicApi } from "~/shared/api/usePublicApi";
 import { dateToLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
 
 type Props = {
@@ -29,8 +31,28 @@ function Endpoint({ label, time, code, align }: { label: string; time: string; c
 }
 
 export function FlightDetailsDrawer({ flight }: Props) {
+  const { publicFlightService } = usePublicApi();
   const { aircraft, operator, pilot } = flight;
-  const loadsheet = flight.loadsheets.final ?? flight.loadsheets.preliminary;
+  const [loadsheets, setLoadsheets] = useState<Loadsheets>(NO_LOADSHEETS);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    publicFlightService
+      .fetchLoadsheets(flight.id)
+      .then((fetched) => {
+        if (!cancelled) setLoadsheets(fetched);
+      })
+      .catch(() => {
+        if (!cancelled) setLoadsheets(NO_LOADSHEETS);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [publicFlightService, flight.id]);
+
+  const loadsheet = loadsheets.final ?? loadsheets.preliminary;
   const crew = loadsheet
     ? loadsheet.flightCrew.pilots + loadsheet.flightCrew.reliefPilots + loadsheet.flightCrew.cabinCrew
     : null;

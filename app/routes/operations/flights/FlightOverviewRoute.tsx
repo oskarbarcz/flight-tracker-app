@@ -76,7 +76,8 @@ async function fetchAssignment(
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const flight = await new FlightService().fetchById(params.id);
+  const service = new FlightService();
+  const [flight, loadsheets] = await Promise.all([service.fetchById(params.id), service.fetchLoadsheets(params.id)]);
 
   const [departure, arrival] = await Promise.all([
     fetchAssignment(flight.departureAirport.id, flight.departureRunwayId, flight.departureParkingPositionId),
@@ -85,6 +86,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   return {
     flight,
+    loadsheets,
     departureRunway: departure.runway,
     departureParkingPosition: departure.parkingPosition,
     departureParkingPositionTerminal: departure.parkingPositionTerminal,
@@ -99,6 +101,7 @@ type ModalKind = "departureRunway" | "departureParkingPosition" | "arrivalRunway
 export default function FlightOverviewRoute() {
   const {
     flight,
+    loadsheets,
     departureRunway,
     departureParkingPosition,
     departureParkingPositionTerminal,
@@ -215,8 +218,8 @@ export default function FlightOverviewRoute() {
       />
       <LoadsheetCard
         title="Loadsheet"
-        loadsheet={flight.loadsheets.final ?? flight.loadsheets.preliminary}
-        badge={flight.loadsheets.final ? "FINAL" : flight.loadsheets.preliminary ? "PRELIMINARY" : undefined}
+        loadsheet={loadsheets.final ?? loadsheets.preliminary}
+        badge={loadsheets.final ? "FINAL" : loadsheets.preliminary ? "PRELIMINARY" : undefined}
         emptyMessage="No loadsheet has been filled for this flight."
         emptySeverity="warning"
         footer={
