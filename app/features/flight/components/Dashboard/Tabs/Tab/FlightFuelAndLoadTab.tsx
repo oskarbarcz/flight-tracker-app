@@ -3,7 +3,7 @@ import { FuelAndLoadsheetPanel } from "~/features/flight/components/FuelAndLoads
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 
 export function FlightFuelAndLoadTab() {
-  const { flight } = useTrackedFlight();
+  const { flight, loadsheets } = useTrackedFlight();
 
   if (!flight) return null;
 
@@ -12,8 +12,8 @@ export function FlightFuelAndLoadTab() {
       <FuelAndLoadsheetPanel
         flightId={flight.id}
         serviceType={flight.serviceType}
-        preliminary={flight.loadsheets.preliminary}
-        final={flight.loadsheets.final}
+        preliminary={loadsheets.preliminary}
+        final={loadsheets.final}
         timesheet={flight.timesheet}
       />
     </div>

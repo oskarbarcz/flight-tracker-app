@@ -14,15 +14,23 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 type Props = {
   flight: Flight;
+  hasPreliminaryLoadsheet: boolean;
   onRelease: () => void;
   onRemove: () => void;
   onUpdateTracking: () => void;
   onUpdateServiceType: () => void;
 };
 
-export function FlightHeader({ flight, onRelease, onRemove, onUpdateTracking, onUpdateServiceType }: Props) {
+export function FlightHeader({
+  flight,
+  hasPreliminaryLoadsheet,
+  onRelease,
+  onRemove,
+  onUpdateTracking,
+  onUpdateServiceType,
+}: Props) {
   const { success } = useToast();
-  const canRelease = flight.status === FlightStatus.Created && flight.loadsheets.preliminary !== null;
+  const canRelease = flight.status === FlightStatus.Created && hasPreliminaryLoadsheet;
   const canRemove = flight.status === FlightStatus.Created;
   const canUpdateServiceType = flight.status === FlightStatus.Created;
   const ServiceTypeIcon = flight.serviceType === FlightServiceType.Cargo ? FaBox : FaUserGroup;

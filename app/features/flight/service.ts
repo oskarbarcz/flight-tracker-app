@@ -9,11 +9,18 @@ import {
   FlightPhase,
   type FlightServiceType,
   type Loadsheet,
+  type Loadsheets,
   type PassengerStatus,
   type Schedule,
   type Tracking,
 } from "~/features/flight";
-import type { ApiFlightResponse, CloseFlightRequest, CreateFlightRequest } from "~/features/flight/request";
+import { latestLoadsheets, parseFlightLoadsheet } from "~/features/flight/lib/loadsheets";
+import type {
+  ApiFlightLoadsheetResponse,
+  ApiFlightResponse,
+  CloseFlightRequest,
+  CreateFlightRequest,
+} from "~/features/flight/request";
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type FlightListFilters = {
@@ -21,6 +28,10 @@ type FlightListFilters = {
   page?: number;
   limit?: number;
 };
+
+function loadsheetUrl(id: string): string {
+  return `/api/v1/flight/${id}/loadsheet`;
+}
 
 export class FlightService extends AbstractAuthorizedApiService {
   async fetchAllFlights({ phase = undefined, page = 1, limit = 100 }: FlightListFilters = {}) {
@@ -46,6 +57,12 @@ export class FlightService extends AbstractAuthorizedApiService {
     const response = await this.fetchWithAuth<ApiFlightResponse>(`/api/v1/flight/${id}`);
 
     return new Flight(response);
+  }
+
+  async fetchLoadsheets(id: string): Promise<Loadsheets> {
+    const response = await this.fetchWithAuth<ApiFlightLoadsheetResponse[]>(loadsheetUrl(id));
+
+    return latestLoadsheets(response.map(parseFlightLoadsheet));
   }
 
   async createNew(flight: CreateFlightRequest): Promise<Flight> {
@@ -242,5 +259,11 @@ export class PublicFlightService extends AbstractApiService {
 
   async fetchOfpByFlightId(id: string): Promise<FlightOfp> {
     return this.request<FlightOfp>(`/api/v1/flight/${id}/ofp`);
+  }
+
+  async fetchLoadsheets(id: string): Promise<Loadsheets> {
+    const response = await this.request<ApiFlightLoadsheetResponse[]>(loadsheetUrl(id));
+
+    return latestLoadsheets(response.map(parseFlightLoadsheet));
   }
 }

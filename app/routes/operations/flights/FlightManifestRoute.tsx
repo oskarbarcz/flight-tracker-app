@@ -6,17 +6,19 @@ import { FlightService } from "~/features/flight/service";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const flight = await new FlightService().fetchById(params.id);
-  return { flight };
+  const service = new FlightService();
+  const [flight, loadsheets] = await Promise.all([service.fetchById(params.id), service.fetchLoadsheets(params.id)]);
+  return { flight, loadsheets };
 }
 
 export default function FlightManifestRoute() {
-  const { flight } = useLoaderData<typeof clientLoader>();
+  const { flight, loadsheets } = useLoaderData<typeof clientLoader>();
   usePageTitle(`Manifest ${flight.flightNumber}`);
 
   return (
     <FlightManifestPanel
       flight={flight}
+      loadsheets={loadsheets}
       aircraftHref={`/operators/${flight.operator.id}/aircraft/${flight.aircraft.id}/seat-layout`}
     />
   );

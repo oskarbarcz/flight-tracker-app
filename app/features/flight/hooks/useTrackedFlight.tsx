@@ -21,9 +21,11 @@ import {
   type FlightEvent,
   isEmergencyEvent,
   type Loadsheet,
+  type Loadsheets,
 } from "~/features/flight";
 import { type FlightConnectionStatus, subscribeToFlightEvents } from "~/features/flight/events.socket";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
+import { NO_LOADSHEETS } from "~/features/flight/lib/loadsheets";
 import { useApi } from "~/shared/api/useApi";
 
 function sortNewestFirst(events: FlightEvent[]): FlightEvent[] {
@@ -34,6 +36,7 @@ type State = {
   flightId: string | null;
   events: FlightEvent[];
   flight: Flight | null;
+  loadsheets: Loadsheets;
   emergencies: Emergency[];
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
@@ -44,6 +47,7 @@ type State = {
 const initialState: State = {
   flightId: null,
   flight: null,
+  loadsheets: NO_LOADSHEETS,
   events: [],
   emergencies: [],
   diversion: null,
@@ -54,6 +58,7 @@ const initialState: State = {
 
 type Action =
   | { type: "SET_TRACKED_FLIGHT"; payload: Flight }
+  | { type: "SET_TRACKED_FLIGHT_LOADSHEETS"; payload: Loadsheets }
   | { type: "SET_TRACKED_FLIGHT_EVENTS"; payload: FlightEvent[] }
   | { type: "PREPEND_TRACKED_FLIGHT_EVENT"; payload: FlightEvent }
   | { type: "SET_TRACKED_FLIGHT_EMERGENCIES"; payload: Emergency[] }
@@ -67,6 +72,8 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_TRACKED_FLIGHT":
       return { ...state, flight: action.payload };
+    case "SET_TRACKED_FLIGHT_LOADSHEETS":
+      return { ...state, loadsheets: action.payload };
     case "SET_TRACKED_FLIGHT_EVENTS":
       return { ...state, events: action.payload };
     case "PREPEND_TRACKED_FLIGHT_EVENT":
@@ -91,6 +98,7 @@ const reducer = (state: State, action: Action): State => {
 
 type TrackedFlightContextType = {
   flight: Flight | null;
+  loadsheets: Loadsheets;
   events: FlightEvent[];
   emergencies: Emergency[];
   activeEmergency: Emergency | null;
@@ -124,6 +132,7 @@ type TrackedFlightContextType = {
 
 const UseTrackedFlight = createContext<TrackedFlightContextType>({
   flight: null,
+  loadsheets: NO_LOADSHEETS,
   events: [],
   emergencies: [],
   activeEmergency: null,
@@ -177,8 +186,12 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       if (!silent) dispatch({ type: "SET_LOADING", payload: true });
       const updatedFlight = await flightService.fetchById(state.flightId);
       const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
-      const delayRequest = await delayService.getByFlight(state.flightId);
+      const [loadsheets, delayRequest] = await Promise.all([
+        flightService.fetchLoadsheets(state.flightId),
+        delayService.getByFlight(state.flightId),
+      ]);
       dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
+      dispatch({ type: "SET_TRACKED_FLIGHT_LOADSHEETS", payload: loadsheets });
       dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
       dispatch({ type: "SET_TRACKED_FLIGHT_DELAY", payload: delayRequest });
       markRefreshed();
@@ -397,6 +410,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
   const value = useMemo(
     () => ({
       flight: state.flight,
+      loadsheets: state.loadsheets,
       events: state.events,
       emergencies: state.emergencies,
       activeEmergency,
@@ -429,6 +443,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     }),
     [
       state.flight,
+      state.loadsheets,
       state.events,
       state.emergencies,
       activeEmergency,

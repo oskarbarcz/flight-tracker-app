@@ -48,10 +48,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
       },
     },
     tracking: Tracking.Disabled,
-    loadsheets: {
-      final: null,
-      preliminary: null,
-    },
   };
 
   const created = await flightService.createNew(flight);

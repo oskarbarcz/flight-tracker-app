@@ -5,13 +5,14 @@ import { FlightServiceType, type Loadsheet } from "~/features/flight";
 import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { UpdateFinalLoadsheetModal } from "~/features/flight/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
+import { describeLoadsheetRefusal } from "~/features/flight/lib/loadsheetRefusal";
+import { EMPTY_LOADSHEET } from "~/features/flight/lib/loadsheets";
 import { describeReconciliation, reconcileManifest } from "~/features/flight/lib/reconciliation";
 import type { FlightManifest } from "~/features/flight/model";
 import { useApi } from "~/shared/api/useApi";
 
 export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
-  const { flight, finishBoarding } = useTrackedFlight();
+  const { flight, loadsheets, finishBoarding } = useTrackedFlight();
   const { flightService } = useApi();
   const { success, error } = useToast();
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +57,7 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
         await reportReconciliation(released);
       })
       .catch((err: unknown) => {
-        const refusal = capacityRefusal(err);
+        const refusal = describeLoadsheetRefusal(err, flight?.aircraft.cabinLayout?.id ?? null);
 
         if (refusal === null) {
           console.error("Failed to finish boarding", err);
@@ -64,7 +65,7 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
           return;
         }
 
-        error(describeCapacityRefusal(refusal, flight?.aircraft.cabinLayout?.id ?? null));
+        error(refusal);
       });
   };
 
@@ -78,7 +79,12 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
         Finish {handlingNoun}
       </Button>
       {showModal && (
-        <UpdateFinalLoadsheetModal flight={flight} update={handleFinishBoarding} cancel={() => setShowModal(false)} />
+        <UpdateFinalLoadsheetModal
+          flight={flight}
+          preliminary={loadsheets.preliminary ?? EMPTY_LOADSHEET}
+          update={handleFinishBoarding}
+          cancel={() => setShowModal(false)}
+        />
       )}
     </>
   );

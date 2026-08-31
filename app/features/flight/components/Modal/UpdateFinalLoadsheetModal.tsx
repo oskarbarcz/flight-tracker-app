@@ -8,14 +8,14 @@ import { useApi } from "~/shared/api/useApi";
 
 type Props = {
   flight: Flight;
+  preliminary: Loadsheet;
   update: (loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
-export function UpdateFinalLoadsheetModal({ flight, update, cancel }: Props) {
+export function UpdateFinalLoadsheetModal({ flight, preliminary, update, cancel }: Props) {
   const { flightService } = useApi();
   const capacity = useCabinCapacity(flight);
-  const preliminary = flight.loadsheets.preliminary as Loadsheet;
   const [initialValues, setInitialValues] = useState<FlatLoadsheetFormData | null>(null);
 
   const isCargo = flight.serviceType === FlightServiceType.Cargo;

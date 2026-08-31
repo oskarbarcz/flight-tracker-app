@@ -11,19 +11,20 @@ import {
   manifestTally,
   orderedPassengers,
 } from "~/features/flight/lib/manifest";
-import type { Flight } from "~/features/flight/model";
+import type { Flight, Loadsheets } from "~/features/flight/model";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { LoadingData } from "~/shared/ui/Table/LoadingStates/LoadingData";
 
 type Props = {
   flight: Flight;
+  loadsheets: Loadsheets;
   aircraftHref?: string;
 };
 
 const WIDE_ENOUGH_FOR_THE_DRAWING = "(min-width: 768px)";
 
-export function FlightManifestPanel({ flight, aircraftHref }: Props) {
+export function FlightManifestPanel({ flight, loadsheets, aircraftHref }: Props) {
   const [status, setStatus] = useState<StatusChoice>("all");
   const cabin = useFlightCabin(flight, status === "all" ? undefined : status);
   const [isDrawingOpen, setIsDrawingOpen] = useState(() => window.matchMedia(WIDE_ENOUGH_FOR_THE_DRAWING).matches);
@@ -88,7 +89,7 @@ export function FlightManifestPanel({ flight, aircraftHref }: Props) {
           tally={figures.tally}
           cabins={figures.cabins}
           totalSeats={seatMap?.totalSeats ?? null}
-          loadsheet={loadsheetHeadcount(flight.loadsheets)}
+          loadsheet={loadsheetHeadcount(loadsheets)}
           status={status}
         />
         <ManifestTable passengers={figures.passengers} status={status} onStatusChange={setStatus} />

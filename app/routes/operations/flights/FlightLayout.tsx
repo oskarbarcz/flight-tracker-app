@@ -12,18 +12,19 @@ import { RemoveFlightModal } from "~/features/flight/components/Modal/RemoveFlig
 import { UpdateServiceTypeModal } from "~/features/flight/components/Modal/UpdateServiceTypeModal";
 import { UpdateTrackingModal } from "~/features/flight/components/Modal/UpdateTrackingModal";
 import { TrackedFlightProvider, useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { capacityRefusal, describeCapacityRefusal } from "~/features/flight/lib/capacityRefusal";
+import { describeLoadsheetRefusal } from "~/features/flight/lib/loadsheetRefusal";
 import { FlightService } from "~/features/flight/service";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const flight = await new FlightService().fetchById(params.id);
-  return { flight };
+  const service = new FlightService();
+  const [flight, loadsheets] = await Promise.all([service.fetchById(params.id), service.fetchLoadsheets(params.id)]);
+  return { flight, loadsheets };
 }
 
 function FlightLayoutContent() {
-  const { flight } = useLoaderData<typeof clientLoader>();
+  const { flight, loadsheets } = useLoaderData<typeof clientLoader>();
   const { flightService } = useApi();
   const { success, error } = useToast();
   const { markRefreshed } = useDataRefresh();
@@ -53,12 +54,7 @@ function FlightLayoutContent() {
       setReleasePending(false);
       revalidator.revalidate();
     } catch (reason: unknown) {
-      const refusal = capacityRefusal(reason);
-      error(
-        refusal === null
-          ? "Failed to release flight."
-          : describeCapacityRefusal(refusal, flight.aircraft.cabinLayout?.id ?? null),
-      );
+      error(describeLoadsheetRefusal(reason, flight.aircraft.cabinLayout?.id ?? null) ?? "Failed to release flight.");
     }
   };
 
@@ -104,6 +100,7 @@ function FlightLayoutContent() {
       <div className="mb-3">
         <FlightHeader
           flight={flight}
+          hasPreliminaryLoadsheet={loadsheets.preliminary !== null}
           onRelease={() => setReleasePending(true)}
           onRemove={() => setRemovePending(true)}
           onUpdateTracking={() => setTrackingPending(true)}
