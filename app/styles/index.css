@@ -14,8 +14,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Barlow", sans-serif;
-  --font-display: "Barlow", sans-serif;
+  --font-sans: "Noto Sans", sans-serif;
+  --font-display: "Noto Sans", sans-serif;
   --color-discord: #5865f2;
   --color-discord-light: #949cf7;
   --color-discord-chat: #313338;
