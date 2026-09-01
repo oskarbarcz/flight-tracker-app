@@ -10,7 +10,8 @@ and live tracking, in the browser.
 
 **MyPreflight** is a briefing service and electronic flight board app for your virtual flights, providing you realistic
 figures, checklists, procedures and data to perform your flight like a real pilots do. You can customize your
-experience, integrate with SimBrief and other tools. Check out our homepage at [mypreflight.io][homepage].
+experience, integrate with SimBrief and other tools. Check out our homepage at [mypreflight.io][homepage]. The app
+itself runs at [app.mypreflight.io][app].
 
 **This module** is the part running in your browser. It is where every role does its work:
 - dispatches flights — schedules, fleet, crew and passengers, preliminary loadsheet and fuel figures,
@@ -168,6 +169,13 @@ Continuous integration and deployment run on GitHub Actions, configured in `.git
 linted, typechecked and built; a push to `main` builds, tags the release from `package.json` and deploys to GitHub
 Pages.
 
+The deployed app is served from `https://app.mypreflight.io`. The custom domain is configured in the repository's
+Settings → Pages rather than a `CNAME` file, because `release.yaml` publishes through `actions/deploy-pages`. No URL is
+baked into the bundle — links are router-relative and the Discord `redirect_uri` and map share links are built from
+`window.location.origin` — but four registrations outside this repo are keyed to the origin and must name it: the DNS
+`CNAME` for `app`, the API's allowed CORS origins, the Discord redirect URI, and the Google authorized JavaScript
+origin. See the Deployment Domain section of `CLAUDE.md` for the migration details.
+
 ## Contact
 
 My name is Oskar, an experienced programmer, cybersecurity enthusiast, and conference speaker from Poland. Feel free to
@@ -196,6 +204,7 @@ not be used for real-world aviation operations.
 
 [banner]: .github/image/banner.png
 [homepage]: https://mypreflight.io
+[app]: https://app.mypreflight.io
 [repo-api]: https://github.com/oskarbarcz/flight-tracker-api
 [repo-transponder]: https://github.com/oskarbarcz/flight-tracker-transponder-app
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/oskarbarcz/flight-tracker-app/integrity.yaml?branch=main&style=for-the-badge&label=integrity
