@@ -5,8 +5,10 @@ import { AuthProvider } from "~/app-state/useAuth";
 import { ToastProvider } from "~/app-state/useToast";
 import { isUnauthorized } from "~/shared/api/api.service";
 import { ApiProvider } from "~/shared/api/useApi";
+import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 import { installModalEntrance } from "~/shared/lib/modalEntrance";
 import { UpdatePrompt } from "~/shared/pwa/UpdatePrompt";
+import { FontPicker } from "~/shared/ui/FontPicker/FontPicker";
 import theme from "~/styles/theme";
 import "~/shared/validator/yup-locale";
 import type { Route } from "./+types/root";
@@ -21,7 +23,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto+Mono:wght@100..700&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto+Mono:wght@100..700&display=swap",
   },
   { rel: "stylesheet", href: stylesheet },
   {
@@ -62,6 +64,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { isProduction } = useAppEnvironment();
+
   useEffect(() => installModalEntrance(), []);
 
   return (
@@ -70,6 +74,7 @@ export default function App() {
         <AuthProvider>
           <ThemeProvider theme={theme()} props={{ modal: { initialFocus: -1, dismissible: true } }}>
             <UpdatePrompt />
+            {!isProduction && <FontPicker />}
             <Outlet />
           </ThemeProvider>
         </AuthProvider>

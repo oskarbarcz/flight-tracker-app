@@ -10,7 +10,7 @@ html.dark body {
 }
 
 body {
-  font-family: "Barlow", sans-serif;
+  font-family: var(--font-sans);
   font-optical-sizing: auto;
 }
 
