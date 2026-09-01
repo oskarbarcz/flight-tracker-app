@@ -2,7 +2,7 @@
   "name": "flight-tracker-app",
   "version": "2.100.0",
   "private": true,
-  "homepage": "https://mypreflight.io",
+  "homepage": "https://app.mypreflight.io",
   "author": "Oskar Barcz",
   "license": "Unlicense",
   "description": "The web app of MyPreflight platform.",

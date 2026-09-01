@@ -22,28 +22,28 @@ colors:
   danger: "#dc2626"
 typography:
   display:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Barlow, sans-serif"
     fontSize: "1.875rem"
     fontWeight: 700
     lineHeight: 1.15
     letterSpacing: "-0.01em"
   headline:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Barlow, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 700
     lineHeight: 1.3
   title:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Barlow, sans-serif"
     fontSize: "1rem"
     fontWeight: 600
     lineHeight: 1.4
   body:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Barlow, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.5
   label:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Barlow, sans-serif"
     fontSize: "0.6875rem"
     fontWeight: 700
     lineHeight: 1.2
@@ -143,17 +143,17 @@ A near-monochrome gray system with one indigo accent and a conventional semantic
 
 ## 3. Typography
 
-**Display / Body Font:** Inter (with `sans-serif` fallback), optical sizing on.
+**Display / Body Font:** Barlow (with `sans-serif` fallback).
 **Data Font:** Roboto Mono (with `monospace` fallback), for figures only.
 
 **Character:** One humanist sans carries the entire UI — headings, labels, body, controls — so nothing competes with the data. Numbers that must be scanned and compared (weights, fuel, times) switch to Roboto Mono with tabular figures so digits align in columns. The type scale is a fixed rem scale, never fluid: users view at consistent DPI and a shrinking heading in a sidebar helps no one.
 
 ### Hierarchy
-- **Display** (Inter 700, 1.875rem, 1.15): flight/page titles (e.g. the flight number header).
-- **Headline** (Inter 700, 1.25rem, 1.3): panel section headings ("Souls on board", "Fuel plan").
-- **Title** (Inter 600, 1rem, 1.4): card and group titles.
-- **Body** (Inter 400, 0.875rem/14px, 1.5): default UI text; cap prose at 65–75ch, though dense tables may run wider.
-- **Label** (Inter 700, ~0.6875rem/11px, uppercase, `letter-spacing: 0.08em`): the small tracked caps used for field labels and column keys ("PILOTS", "TRACKING", "EN-ROUTE & RESERVES").
+- **Display** (Barlow 700, 1.875rem, 1.15): flight/page titles (e.g. the flight number header).
+- **Headline** (Barlow 700, 1.25rem, 1.3): panel section headings ("Souls on board", "Fuel plan").
+- **Title** (Barlow 600, 1rem, 1.4): card and group titles.
+- **Body** (Barlow 400, 0.875rem/14px, 1.5): default UI text; cap prose at 65–75ch, though dense tables may run wider.
+- **Label** (Barlow 700, ~0.6875rem/11px, uppercase, `letter-spacing: 0.08em`): the small tracked caps used for field labels and column keys ("PILOTS", "TRACKING", "EN-ROUTE & RESERVES").
 - **Data** (Roboto Mono 500, 0.875rem, `tabular-nums`): every figure — tonnages, fuel, times, subtotals, running totals.
 
 ### Named Rules
@@ -161,7 +161,7 @@ A near-monochrome gray system with one indigo accent and a conventional semantic
 
 **The Micro-Caps Rule.** Uppercase tracked labels are the system's connective tissue; keep tracking ≥ 0.06em so caps never touch, and never use them for reading-length text.
 
-**The Wordmark Rule.** The name is set two ways and they are not interchangeable. In prose — copy, page titles, alt text, notifications — it is **MyPreflight**, one word, camel-cased. As a logotype beside the mark it is **mypreflight**: all lowercase, `my` at Inter 400 and `preflight` at Inter 700, so the weight break carries the emphasis instead of a capital. Render it with `Wordmark` (`app/shared/ui/Wordmark.tsx`), which owns the weight split and takes only size and colour classes — never hand-set the logotype, and never apply `font-bold` to the whole word.
+**The Wordmark Rule.** The name is set two ways and they are not interchangeable. In prose — copy, page titles, alt text, notifications — it is **MyPreflight**, one word, camel-cased. As a logotype beside the mark it is **mypreflight**: all lowercase, `my` at Barlow 400 and `preflight` at Barlow 700, so the weight break carries the emphasis instead of a capital. Render it with `Wordmark` (`app/shared/ui/Wordmark.tsx`), which owns the weight split and takes only size and colour classes — never hand-set the logotype, and never apply `font-bold` to the whole word.
 
 ## 4. Elevation
 

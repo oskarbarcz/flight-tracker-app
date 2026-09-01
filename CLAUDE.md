@@ -140,9 +140,9 @@ where runways, terminals and gates are drawn) lose detail to overzooming. Every 
 ceiling — OpenFreeMap and VersaTiles included — while the raster endpoints serve real tiles through zoom 20. CARTO has
 flagged the raster endpoints as being retired, so revisit this only when a vector source offers data above z14.
 
-`VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client.
+`VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client — `https://app.mypreflight.io` for production, plus `http://localhost:5173` for local dev.
 
-`VITE_DISCORD_CLIENT_ID` is optional and enables Discord sign-in and Discord account linking. It is the Discord application's client ID, whose secret lives only on the API — the browser never exchanges the authorization code itself. Leave it unset and every Discord identity surface disappears; `VITE_DISCORD_INVITATION_HASH` is separate and keeps working, because the community invite needs no client. `<origin>/auth/discord/callback` must be registered as a redirect URI on the Discord application for every origin the app runs on, exact match included (`http://localhost:5173/auth/discord/callback` for local dev), and the bot needs the Create Invite permission in the server for the opt-in server join to succeed.
+`VITE_DISCORD_CLIENT_ID` is optional and enables Discord sign-in and Discord account linking. It is the Discord application's client ID, whose secret lives only on the API — the browser never exchanges the authorization code itself. Leave it unset and every Discord identity surface disappears; `VITE_DISCORD_INVITATION_HASH` is separate and keeps working, because the community invite needs no client. `<origin>/auth/discord/callback` must be registered as a redirect URI on the Discord application for every origin the app runs on, exact match included (`https://app.mypreflight.io/auth/discord/callback` for production, `http://localhost:5173/auth/discord/callback` for local dev), and the bot needs the Create Invite permission in the server for the opt-in server join to succeed.
 
 Discord OAuth is a full-page redirect, unlike Google's in-page identity token, so the callback route only behaves like production in a built app. Deep links reach the router through `public/404.html` plus `public/ghspa.js`, which turn `/auth/discord/callback?code=…&state=…` into `/?/auth/discord/callback&code=…~and~state=…` and reverse it before routing. Testing a built app under GitHub Pages semantics showed this rewrite handles the callback whether or not the service worker is active — `navigateFallback` did not intercept navigations — so the rewrite is the path that must keep working, and it does not exist in `npm run dev`.
 
@@ -156,6 +156,33 @@ Discord OAuth is a full-page redirect, unlike Google's in-page identity token, s
 - **PR** (`integrity.yaml`): version check → install → lint → typecheck → build. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
 - **Push to main** (`release.yaml`): build → git tag from `package.json` version → GitHub release → deploy to GitHub Pages (`./build/client`)
 - Version must be bumped in `package.json` before merging (enforced by `bin/check_version_is_free`)
+
+### Deployment Domain
+
+The app is served from **`https://app.mypreflight.io`**, not the apex. Nothing in the bundle hardcodes it: every internal
+link is router-relative, and the two places that need an absolute URL — the Discord `redirect_uri`
+(`app/features/auth/lib/discordAuthorization.ts`) and the map share links — derive it from `window.location.origin`. A
+domain move therefore needs no code change, only the four registrations below.
+
+`release.yaml` uploads `./build/client` through `actions/deploy-pages`, so the custom domain lives in the repository's
+Settings → Pages, not in a `CNAME` file — there is none in `public/`, and adding one has no effect on an Actions-published
+site. Because a Pages site carries exactly one custom domain (apex and `www` being the only automatic pairing), the apex
+is no longer served by this repository and needs its own host.
+
+Four things are keyed to the origin and live outside this repo. All four must name `https://app.mypreflight.io` or the
+app breaks in ways the build cannot catch:
+
+1. DNS — a `CNAME` record for `app` pointing at the Pages host, and the domain set in Settings → Pages.
+2. API CORS — the allowed-origin list in [flight-tracker-api](https://github.com/oskarbarcz/flight-tracker-api). Every
+   request fails without it.
+3. Discord — the redirect URI, exact match.
+4. Google — the authorized JavaScript origin.
+
+Three things do not survive the move, because the browser scopes them per origin: the bearer tokens in `localStorage`
+(`at`, `rt`, `at_exp`), so every user signs in again; the installed PWA, whose manifest `id` is `/` on the old origin, so
+existing installs stay bound there and must be reinstalled; and the service worker, which keeps serving its cached shell
+from `navigateFallback` to anyone who visited the apex. Whatever takes over the apex should unregister that worker
+before redirecting, or those clients keep running the old app offline.
 
 ## Design Context
 
