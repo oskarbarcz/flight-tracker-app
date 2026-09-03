@@ -6,6 +6,8 @@ import { ToastProvider } from "~/app-state/useToast";
 import { isUnauthorized } from "~/shared/api/api.service";
 import { ApiProvider } from "~/shared/api/useApi";
 import { installModalEntrance } from "~/shared/lib/modalEntrance";
+import { appleSplashScreenLinks } from "~/shared/pwa/appleSplashScreens";
+import { ThemeColorSync } from "~/shared/pwa/ThemeColorSync";
 import { UpdatePrompt } from "~/shared/pwa/UpdatePrompt";
 import theme from "~/styles/theme";
 import "~/shared/validator/yup-locale";
@@ -34,6 +36,7 @@ export const links: Route.LinksFunction = () => [
   { rel: "shortcut icon", type: "shortcut icon", href: "/favicon.ico" },
   { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png", sizes: "180x180" },
   { rel: "manifest", href: "/site.webmanifest" },
+  ...appleSplashScreenLinks,
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -44,7 +47,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ThemeModeScript />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#030712" media="(prefers-color-scheme: dark)" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -69,6 +73,7 @@ export default function App() {
       <ApiProvider>
         <AuthProvider>
           <ThemeProvider theme={theme()} props={{ modal: { initialFocus: -1, dismissible: true } }}>
+            <ThemeColorSync />
             <UpdatePrompt />
             <Outlet />
           </ThemeProvider>

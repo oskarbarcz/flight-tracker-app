@@ -12,7 +12,8 @@
     "dev": "react-router dev",
     "typecheck": "react-router typegen && tsc --build --noEmit",
     "lint": "biome check",
-    "lint:fix": "biome check --write"
+    "lint:fix": "biome check --write",
+    "generate:pwa-assets": "node bin/generate_pwa_assets.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
