@@ -5,10 +5,8 @@ import { AuthProvider } from "~/app-state/useAuth";
 import { ToastProvider } from "~/app-state/useToast";
 import { isUnauthorized } from "~/shared/api/api.service";
 import { ApiProvider } from "~/shared/api/useApi";
-import { useAppEnvironment } from "~/shared/hooks/useAppEnvironment";
 import { installModalEntrance } from "~/shared/lib/modalEntrance";
 import { UpdatePrompt } from "~/shared/pwa/UpdatePrompt";
-import { FontPicker } from "~/shared/ui/FontPicker/FontPicker";
 import theme from "~/styles/theme";
 import "~/shared/validator/yup-locale";
 import type { Route } from "./+types/root";
@@ -46,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ThemeModeScript />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" content="#6875F5" />
+        <meta name="theme-color" content="#ffffff" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -64,8 +62,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { isProduction } = useAppEnvironment();
-
   useEffect(() => installModalEntrance(), []);
 
   return (
@@ -74,7 +70,6 @@ export default function App() {
         <AuthProvider>
           <ThemeProvider theme={theme()} props={{ modal: { initialFocus: -1, dismissible: true } }}>
             <UpdatePrompt />
-            {!isProduction && <FontPicker />}
             <Outlet />
           </ThemeProvider>
         </AuthProvider>
