@@ -1,9 +1,13 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useSidebar } from "~/app-state/useSidebar";
 
-const MAXIMIZED_CLASS = "fixed inset-0 z-50 h-auto w-auto bg-gray-100 md:left-72 dark:bg-gray-900";
+const MAXIMIZED_CLASS = "fixed inset-0 z-50 h-auto w-auto bg-gray-100 dark:bg-gray-900";
+const EXPANDED_SIDEBAR_OFFSET = "md:left-60 xl:left-72";
+const COLLAPSED_SIDEBAR_OFFSET = "md:left-0";
 
 export function useMapMaximize() {
   const [isMaximized, setIsMaximized] = useState(false);
+  const { isCollapsed } = useSidebar();
   const containerRef = useRef<HTMLDivElement>(null);
   const hasMounted = useRef(false);
 
@@ -33,6 +37,8 @@ export function useMapMaximize() {
     isMaximized,
     toggle,
     containerRef,
-    containerClassName: isMaximized ? MAXIMIZED_CLASS : "",
+    containerClassName: isMaximized
+      ? `${MAXIMIZED_CLASS} ${isCollapsed ? COLLAPSED_SIDEBAR_OFFSET : EXPANDED_SIDEBAR_OFFSET}`
+      : "",
   };
 }

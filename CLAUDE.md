@@ -11,7 +11,7 @@ MyPreflight is a frontend SPA for scheduling and tracking flights in a flight si
 - **Styling**: Tailwind CSS v4 (configured via `@theme` directives in `app/styles/index.css`, no `tailwind.config.ts`), Flowbite React for UI components
 - **Forms**: Formik + Yup — schemas live per feature (`app/features/<domain>/schema.ts`), shared field schemas in `app/shared/validator/`
 - **Linting/Formatting**: Biome (2-space indent, 120-char line width, double quotes)
-- **PWA**: `vite-plugin-pwa` with `registerType: "prompt"` — installable, prompts to reload on a new version
+- **PWA**: `vite-plugin-pwa` with `registerType: "prompt"` — installable, prompts to reload on a new version. Launch assets (`public/icons/`, `public/splash/`) are generated, not hand-drawn — see "PWA launch assets" below
 - **Node**: 26 (see `.nvmrc`)
 
 ## Commands
@@ -111,6 +111,28 @@ Routes use React Router's compositional config API (`layout()`, `route()`, `inde
 ### Data Models
 
 Domain types live in each slice's `model.ts` (e.g. `app/features/flight/model.ts`). Most are plain types and enums; a few are classes (`Flight`) that parse API responses and expose helper getters. Shared geometry types are in `app/shared/models/`.
+
+### PWA Launch Assets
+
+`npm run generate:pwa-assets` regenerates `public/icons/` and the 88 iOS startup images in `public/splash/`. Do not edit
+those PNGs by hand.
+
+The generated splash is a pixel copy of `app/routes/common/Splash.tsx` — same `gray-50` / `gray-950` field, same mark,
+same `my`/`preflight` wordmark at the same `md:` breakpoint sizes — so the OS splash, the in-app splash and the first
+paint are the same picture and the launch shows no flash or jump. Change `Splash.tsx` and you must rerun the generator.
+`background_color` in `site.webmanifest` is the same `gray-50`, and the icons carry it as their own background, which is
+what keeps Android's generated splash (background colour + icon + app name) free of a visible icon tile.
+
+Device coverage lives in `app/shared/pwa/appleSplashDevices.json`, read by both the generator and
+`appleSplashScreens.ts`, which turns each entry into four `apple-touch-startup-image` links (portrait/landscape ×
+light/dark). iOS needs an exact `device-width`/`device-height`/`-webkit-device-pixel-ratio` match or it shows no splash
+at all, so a new device means a new entry plus a regeneration. The images are deliberately left out of the service
+worker precache — 2.5 MB against a 233 KB shell — so a cold offline launch may briefly show none.
+
+Rendering needs `chrome-headless-shell`, not full Chrome: Chrome's headless mode clamps narrow windows to a minimum
+width, which silently shifts the artwork off centre. The script finds the binary in `~/.cache/puppeteer`, honours
+`CHROME_HEADLESS_SHELL`, and otherwise prints the `npx @puppeteer/browsers install` command. It also fetches the Noto
+Sans latin faces from Google Fonts and inlines them, so the wordmark is the real brand font rather than a fallback.
 
 ## Environment Variables
 
