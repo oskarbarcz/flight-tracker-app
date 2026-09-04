@@ -6,6 +6,7 @@ export enum FlightDataTab {
   Passengers,
   Cargo,
   FlightProgress,
+  Route,
   OperationalFlightPlan,
   RunwayAnalysis,
   EmergenciesDiversions,
@@ -40,6 +41,7 @@ export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmer
       <TabItem active={tab === FlightDataTab.Passengers} title="Passengers" />
       <TabItem active={tab === FlightDataTab.Cargo} title="Cargo" />
       <TabItem active={tab === FlightDataTab.FlightProgress} title="Flight progress" />
+      <TabItem active={tab === FlightDataTab.Route} title="Route" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === FlightDataTab.OperationalFlightPlan} title="OFP" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === FlightDataTab.RunwayAnalysis} title="Runway analysis" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === FlightDataTab.EmergenciesDiversions} title={emergencyTitle} />

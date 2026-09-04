@@ -109,7 +109,7 @@ function FlightLayoutContent() {
       </div>
       <FlightTabs
         id={flight.id}
-        showOfp={flight.source === FlightSource.SimBrief}
+        showPlanTabs={flight.source === FlightSource.SimBrief}
         hasActiveEmergency={activeEmergency !== null}
         hasPendingDelays={delayRequest?.hasPendingReports ?? false}
       />

@@ -94,6 +94,30 @@ input:-webkit-autofill:focus {
   @apply text-red-300 dark:text-red-500;
 }
 
+.map-etops-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff,
+    0 0 5px #fff;
+}
+.dark .map-etops-label {
+  text-shadow:
+    0 0 2px #0b0e14,
+    0 0 3px #0b0e14,
+    0 0 5px #0b0e14;
+}
+.map-etops-label__kind {
+  @apply font-mono text-[11px] font-extrabold uppercase tracking-wider text-gray-600 dark:text-gray-300;
+}
+.map-etops-label--critical .map-etops-label__kind {
+  @apply text-gray-900 dark:text-white;
+}
+
 .airport-shape-polygon {
   fill-opacity: 0.07;
 }

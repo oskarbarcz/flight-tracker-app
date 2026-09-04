@@ -53,6 +53,12 @@ import {
 import { translateNotocStage } from "~/features/notoc/i18n";
 import { translatePostcardStatus } from "~/features/postcard/i18n";
 import { translateRotationStatus } from "~/features/rotation/i18n";
+import {
+  translateEtopsPointKind,
+  translateEtopsPointKindShort,
+  translateOceanicDirection,
+  translateOceanicRouting,
+} from "~/features/route/i18n";
 
 export const toHuman = {
   aircraft: {
@@ -70,6 +76,12 @@ export const toHuman = {
   },
   rotation: {
     status: translateRotationStatus,
+  },
+  route: {
+    etopsPointKind: translateEtopsPointKind,
+    etopsPointKindShort: translateEtopsPointKindShort,
+    oceanicDirection: translateOceanicDirection,
+    oceanicRouting: translateOceanicRouting,
   },
   airport: {
     continent: translateContinent,

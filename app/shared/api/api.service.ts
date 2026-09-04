@@ -13,6 +13,10 @@ export function isUnauthorized(reason: unknown): boolean {
   return reason instanceof UnauthorizedError;
 }
 
+export function isNotFound(reason: unknown): boolean {
+  return typeof reason === "object" && reason !== null && "statusCode" in reason && reason.statusCode === 404;
+}
+
 export type BadRequestViolations<T> = Record<keyof T, string[]>;
 
 export type ErrorResponse<T> = {
