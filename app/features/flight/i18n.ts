@@ -94,6 +94,18 @@ export function translateStatus(
   return statuses[status];
 }
 
+export function translatePhase(
+  status: FlightStatus,
+  serviceType: FlightServiceType = FlightServiceType.Passenger,
+): string {
+  const phases: Partial<Record<FlightStatus, string>> = {
+    [FlightStatus.Created]: "Not yet released by operations",
+    [FlightStatus.Ready]: "Check-in now",
+  };
+
+  return phases[status] ?? translateStatus(status, serviceType);
+}
+
 export function translateShortStatus(
   status: FlightStatus,
   serviceType: FlightServiceType = FlightServiceType.Passenger,

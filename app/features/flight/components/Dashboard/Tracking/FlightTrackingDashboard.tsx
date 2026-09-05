@@ -16,7 +16,10 @@ import { FlightHeader } from "~/features/flight/components/Dashboard/Tracking/Fl
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { FlightDataTab, flightDataTabFromSlug, flightDataTabSlug } from "~/features/flight/lib/flightDataTabs";
 import { mapIntentForTab } from "~/features/flight/lib/tabMapIntent";
+import { RouteBriefingProvider } from "~/features/route/hooks/useRouteBriefing";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+
+const NEEDS_ROUTE_TABS = [FlightDataTab.Overview, FlightDataTab.Route];
 
 type Props = {
   flightId: string;
@@ -52,7 +55,7 @@ export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
   const hasUnsettledDelay = delayRequest !== null && !delayRequest.isSettled;
 
   return (
-    <>
+    <RouteBriefingProvider flight={NEEDS_ROUTE_TABS.includes(tab) ? flight : null}>
       <FlightHeader mapIntent={mapIntentForTab(tab, flight.status)} />
       <FlightDataTabs
         tab={tab}
@@ -72,6 +75,6 @@ export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
       {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}
       {tab === FlightDataTab.EmergenciesDiversions && <FlightEmergenciesDiversionsTab />}
       {tab === FlightDataTab.Delays && <FlightDelaysTab />}
-    </>
+    </RouteBriefingProvider>
   );
 }

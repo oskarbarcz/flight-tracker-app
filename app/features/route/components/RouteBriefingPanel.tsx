@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { FaRoute } from "react-icons/fa6";
 import type { Flight } from "~/features/flight";
 import { ChartLegend } from "~/features/route/components/Chart/ChartLegend";
@@ -8,15 +8,9 @@ import { FuelMarginNote } from "~/features/route/components/NavLog/FuelMarginNot
 import { NavLog } from "~/features/route/components/NavLog/NavLog";
 import { OceanicCrossingPanel } from "~/features/route/components/OceanicCrossingPanel";
 import { RoutePlanCard } from "~/features/route/components/RoutePlanCard";
-import { useRouteBriefing } from "~/features/route/hooks/useRouteBriefing";
-import {
-  buildFixInsights,
-  hasEtopsContent,
-  summariseFuelMargin,
-  summariseRoute,
-} from "~/features/route/lib/routeInsights";
+import { useRouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
+import { hasEtopsContent } from "~/features/route/lib/routeInsights";
 import { OceanicRouting } from "~/features/route/model";
-import { useAssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import { PanelEmptyState } from "~/shared/ui/Display/PanelEmptyState";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -25,6 +19,7 @@ type Props = {
   flight: Flight;
   alternatesHref?: string;
   airportHref?: (airportId: string) => string;
+  withChart?: boolean;
 };
 
 function BriefingSkeleton() {
@@ -39,25 +34,9 @@ function BriefingSkeleton() {
   );
 }
 
-export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Props) {
-  const { briefing, airports, loading, error } = useRouteBriefing(flight.id);
-  const runways = useAssignedRunways(flight);
-  const [selectedOrdinal, setSelectedOrdinal] = useState<number | null>(null);
-  const [hasChosen, setHasChosen] = useState(false);
-
-  const analysis = useMemo(() => {
-    if (briefing === null) {
-      return null;
-    }
-
-    const insights = buildFixInsights(briefing.route.fixes);
-
-    return {
-      insights,
-      summary: summariseRoute(briefing.route),
-      margin: summariseFuelMargin(insights),
-    };
-  }, [briefing]);
+export function RouteBriefingPanel({ flight, alternatesHref, airportHref, withChart = true }: Props) {
+  const state = useRouteBriefingState();
+  const { briefing, airports, loading, error, insights, summary, margin, runways, selectedOrdinal, select } = state;
 
   if (loading) {
     return <BriefingSkeleton />;
@@ -77,8 +56,8 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
 
   const noPlan =
     briefing === null ||
-    analysis === null ||
-    (analysis.insights.length === 0 && briefing.route.atcRoute === null && briefing.route.route === null);
+    summary === null ||
+    (insights.length === 0 && briefing.route.atcRoute === null && briefing.route.route === null);
 
   if (noPlan) {
     return (
@@ -92,16 +71,6 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
     );
   }
 
-  const { insights, summary, margin } = analysis;
-
-  const emphasised = margin !== null && !margin.isConstant ? margin.tightest.fix.ordinal : insights[0]?.fix.ordinal;
-  const pinned = hasChosen ? selectedOrdinal : (emphasised ?? null);
-
-  const select = (ordinal: number) => {
-    setHasChosen(true);
-    setSelectedOrdinal(ordinal);
-  };
-
   const plan = briefing.etops !== null && hasEtopsContent(briefing.etops) ? briefing.etops : null;
   const hasOceanic = briefing.oceanicCrossing.routing !== OceanicRouting.Random;
 
@@ -112,15 +81,19 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
         route={briefing.route}
         summary={summary}
         runways={runways}
-        selectedOrdinal={pinned}
+        selectedOrdinal={selectedOrdinal}
         onSelect={select}
       />
 
       {insights.length > 0 && (
-        <div className="grid items-start gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+        <div
+          className={
+            withChart ? "grid items-start gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]" : "grid items-start"
+          }
+        >
           <Container
             padding="none"
-            className="order-2 xl:order-1"
+            className={withChart ? "order-2 xl:order-1" : undefined}
             header={<CardHeader title={`Nav log · ${insights.length} fixes`} />}
             footer={
               margin !== null && (
@@ -131,36 +104,30 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
             }
           >
             <div className="max-h-[30rem] overflow-y-auto">
-              <NavLog insights={insights} selectedOrdinal={pinned} onSelect={select} />
+              <NavLog insights={insights} selectedOrdinal={selectedOrdinal} onSelect={select} />
             </div>
           </Container>
 
-          <Container
-            padding="none"
-            className="order-1 xl:order-2"
-            header={<CardHeader title="Chart" />}
-            footer={
-              <div className="border-t border-gray-200 px-3.5 py-3 dark:border-gray-700">
-                <ChartLegend
-                  hasTrack={hasOceanic}
-                  hasRings={(plan?.airports.length ?? 0) > 0}
-                  hasPoints={(plan?.points.length ?? 0) > 0}
-                />
+          {withChart && (
+            <Container
+              padding="none"
+              className="order-1 xl:order-2"
+              header={<CardHeader title="Chart" />}
+              footer={
+                <div className="border-t border-gray-200 px-3.5 py-3 dark:border-gray-700">
+                  <ChartLegend
+                    hasTrack={hasOceanic}
+                    hasRings={(plan?.airports.length ?? 0) > 0}
+                    hasPoints={(plan?.points.length ?? 0) > 0}
+                  />
+                </div>
+              }
+            >
+              <div className="h-72 w-full xl:h-[30rem]">
+                <RouteChart flight={flight} briefing={briefing} state={state} />
               </div>
-            }
-          >
-            <div className="h-72 w-full xl:h-[30rem]">
-              <RouteChart
-                flight={flight}
-                briefing={briefing}
-                airports={airports}
-                insights={insights}
-                runways={runways}
-                selectedOrdinal={pinned}
-                onSelect={select}
-              />
-            </div>
-          </Container>
+            </Container>
+          )}
         </div>
       )}
 

@@ -1,6 +1,7 @@
 import L from "leaflet";
 import { useMemo } from "react";
 import { MapContainer } from "react-leaflet";
+import { useMapSettings } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { DiversionRoute } from "~/features/flight/components/Map/Element/DiversionRoute";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
@@ -15,11 +16,16 @@ import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Ele
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
+import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
+import { usePlannedRoute } from "~/features/route/hooks/useRouteBriefing";
 import { useApi } from "~/shared/api/useApi";
 
 export function TrackingFlightMap() {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
+  const plannedRoute = usePlannedRoute();
+  const { intent } = useMapSettings();
+  const isPlotted = intent?.plotsRoute === true && plannedRoute?.briefing != null;
   const { runwayService, terminalService, parkingPositionService, gateService } = useApi();
   const cachedParkingPositionService = useMemo(
     () => ({ fetchAll: (airportId: string) => parkingPositionService.fetchAllCached(airportId) }),
@@ -51,7 +57,11 @@ export function TrackingFlightMap() {
       <MapTileLayer />
       <MapWorldConstraint />
 
-      <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
+      {isPlotted ? (
+        <PlannedRouteLayer state={plannedRoute} />
+      ) : (
+        <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
+      )}
       <DiversionRoute origin={flight.departureAirport} diversion={diversion} />
       <FlightPath path={flightPath} />
 

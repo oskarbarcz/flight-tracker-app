@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import React from "react";
 import type { Flight } from "~/features/flight";
 import { FiledRoute } from "~/features/route/components/FiledRoute/FiledRoute";
 import { RouteTiming } from "~/features/route/components/RouteTiming";
-import { parseFiledRoute, type RouteEndpoint } from "~/features/route/lib/filedRoute";
+import { useFiledRouteTokens } from "~/features/route/hooks/useFiledRouteTokens";
 import {
   ABSENT,
   formatAltitude,
@@ -39,20 +39,8 @@ function cruiseLevelValue(levelsFeet: number[]): string {
 }
 
 export function RoutePlanCard({ flight, route, summary, runways, selectedOrdinal, onSelect }: Props) {
-  const departureIcao = flight.departureAirport.icaoCode;
-  const destinationIcao = flight.destinationAirport.icaoCode;
   const departureRunway = runways.departure?.designator ?? null;
-  const arrivalRunway = runways.arrival?.designator ?? null;
-
-  const endpoints = useMemo<{ departure: RouteEndpoint; destination: RouteEndpoint }>(
-    () => ({
-      departure: { icao: departureIcao, runway: departureRunway },
-      destination: { icao: destinationIcao, runway: arrivalRunway },
-    }),
-    [departureIcao, destinationIcao, departureRunway, arrivalRunway],
-  );
-
-  const tokens = useMemo(() => parseFiledRoute(route, endpoints.departure, endpoints.destination), [route, endpoints]);
+  const tokens = useFiledRouteTokens(flight, route, runways);
 
   const { timesheet } = flight;
   const takeoff = timesheet.actual?.takeoffTime ?? (timesheet.estimated ?? timesheet.scheduled).takeoffTime;

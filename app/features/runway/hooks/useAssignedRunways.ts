@@ -10,15 +10,21 @@ export type AssignedRunways = {
 
 const NONE: AssignedRunways = { departure: null, arrival: null };
 
-export function useAssignedRunways(flight: Flight): AssignedRunways {
+export function useAssignedRunways(flight: Flight | null): AssignedRunways {
   const { runwayService } = useApi();
   const [runways, setRunways] = useState<AssignedRunways>(NONE);
 
-  const departureAirportId = flight.departureAirport.id;
-  const destinationAirportId = flight.destinationAirport.id;
-  const { departureRunwayId, arrivalRunwayId } = flight;
+  const departureAirportId = flight?.departureAirport.id ?? null;
+  const destinationAirportId = flight?.destinationAirport.id ?? null;
+  const departureRunwayId = flight?.departureRunwayId ?? null;
+  const arrivalRunwayId = flight?.arrivalRunwayId ?? null;
 
   useEffect(() => {
+    if (departureAirportId === null || destinationAirportId === null) {
+      setRunways(NONE);
+      return;
+    }
+
     if (departureRunwayId === null && arrivalRunwayId === null) {
       setRunways(NONE);
       return;

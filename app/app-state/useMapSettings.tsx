@@ -21,6 +21,7 @@ export type MapSettings = MapView & {
 export type MapIntent = {
   label: string;
   view: MapView;
+  plotsRoute?: boolean;
 };
 
 const defaultMapSettings: MapSettings = {

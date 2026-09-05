@@ -1,4 +1,5 @@
-import { FlightStatus } from "~/features/flight";
+import React from "react";
+import { type Flight, FlightStatus } from "~/features/flight";
 import { ChangeFlightProgressButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
 import { AutoArrivalNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/AutoArrivalNotice";
 import { AutoOffBlockNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/AutoOffBlockNotice";
@@ -6,28 +7,22 @@ import { AutoTakeoffNotice } from "~/features/flight/components/Dashboard/Tracki
 import { DelayNotice } from "~/features/flight/components/Dashboard/Tracking/Progress/DelayNotice";
 import { LifecycleTrack } from "~/features/flight/components/Dashboard/Tracking/Progress/LifecycleTrack";
 import { PhaseMetrics } from "~/features/flight/components/Dashboard/Tracking/Progress/PhaseMetrics";
-import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
 import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
-import { CardHeader } from "~/shared/ui/Layout/CardHeader";
-import { Container } from "~/shared/ui/Layout/Container";
 
 const NO_ACTION_STATUSES = [FlightStatus.Created, FlightStatus.Closed];
 
-export function FlightProgressBox() {
-  const { flight } = useTrackedFlight();
-
-  if (!flight) return null;
-
+export function FlightProgressSummary({ flight }: { flight: Flight }) {
   const showAction = !NO_ACTION_STATUSES.includes(flight.status);
 
   return (
-    <Container padding="condensed" header={<CardHeader title="Flight progress" />}>
+    <>
+      <hr className="border-gray-200 dark:border-gray-700" />
       <div>
         <FieldLabel>Phase</FieldLabel>
         <p className="mt-0.5 text-xl font-semibold text-gray-900 dark:text-gray-100">
-          {toHuman.flight.status.standard(flight.status, flight.serviceType)}
+          {toHuman.flight.status.phase(flight.status, flight.serviceType)}
         </p>
       </div>
       <LifecycleTrack status={flight.status} />
@@ -44,6 +39,6 @@ export function FlightProgressBox() {
           </BoxFooter>
         </div>
       )}
-    </Container>
+    </>
   );
 }

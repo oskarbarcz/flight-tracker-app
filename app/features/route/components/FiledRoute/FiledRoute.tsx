@@ -120,7 +120,7 @@ type OceanicProps = {
   designator: string | null;
   segment: RouteToken[];
   selectedOrdinal: number | null;
-  onSelect: (ordinal: number) => void;
+  onSelect?: (ordinal: number) => void;
 };
 
 function OceanicTrackSegment({ designator, segment, selectedOrdinal, onSelect }: OceanicProps) {
@@ -159,7 +159,7 @@ function OceanicTrackSegment({ designator, segment, selectedOrdinal, onSelect }:
 type TokenViewProps = {
   token: RouteToken;
   selectedOrdinal: number | null;
-  onSelect: (ordinal: number) => void;
+  onSelect?: (ordinal: number) => void;
 };
 
 function TokenView({ token, selectedOrdinal, onSelect }: TokenViewProps) {
@@ -207,25 +207,28 @@ type ListProps = {
   label: string;
   className: string;
   selectedOrdinal: number | null;
-  onSelect: (ordinal: number) => void;
+  onSelect?: (ordinal: number) => void;
+  trailing?: React.ReactNode;
 };
 
-function TokenList({ tokens, label, className, selectedOrdinal, onSelect }: ListProps) {
+function TokenList({ tokens, label, className, selectedOrdinal, onSelect, trailing }: ListProps) {
   return (
     <ol aria-label={label} className={className}>
       {tokens.map((token) => {
-        const ordinal = ordinalOf(token);
+        const ordinal = onSelect === undefined ? null : ordinalOf(token);
+        const select = ordinal === null || onSelect === undefined ? undefined : () => onSelect(ordinal);
 
         return (
           <li
             key={token.id}
-            onMouseEnter={ordinal === null ? undefined : () => onSelect(ordinal)}
-            className={twMerge("inline-flex max-w-full items-center gap-1.5", ordinal !== null && "cursor-pointer")}
+            onMouseEnter={select}
+            className={twMerge("inline-flex max-w-full items-center gap-1.5", select !== undefined && "cursor-pointer")}
           >
             <TokenView token={token} selectedOrdinal={selectedOrdinal} onSelect={onSelect} />
           </li>
         );
       })}
+      {trailing !== undefined && <li className="ms-auto inline-flex items-center">{trailing}</li>}
     </ol>
   );
 }
@@ -233,10 +236,11 @@ function TokenList({ tokens, label, className, selectedOrdinal, onSelect }: List
 type Props = {
   tokens: RouteToken[];
   selectedOrdinal: number | null;
-  onSelect: (ordinal: number) => void;
+  onSelect?: (ordinal: number) => void;
+  trailing?: React.ReactNode;
 };
 
-export function FiledRoute({ tokens, selectedOrdinal, onSelect }: Props) {
+export function FiledRoute({ tokens, selectedOrdinal, onSelect, trailing }: Props) {
   return (
     <TokenList
       tokens={tokens}
@@ -244,6 +248,7 @@ export function FiledRoute({ tokens, selectedOrdinal, onSelect }: Props) {
       className="flex flex-wrap items-center gap-x-2 gap-y-2"
       selectedOrdinal={selectedOrdinal}
       onSelect={onSelect}
+      trailing={trailing}
     />
   );
 }

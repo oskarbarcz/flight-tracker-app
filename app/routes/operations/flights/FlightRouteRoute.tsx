@@ -3,6 +3,7 @@ import React from "react";
 import { useLoaderData } from "react-router";
 import { FlightService } from "~/features/flight/service";
 import { RouteBriefingPanel } from "~/features/route/components/RouteBriefingPanel";
+import { RouteBriefingProvider } from "~/features/route/hooks/useRouteBriefing";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -15,10 +16,12 @@ export default function FlightRouteRoute() {
   usePageTitle(`Route ${flight.flightNumber}`);
 
   return (
-    <RouteBriefingPanel
-      flight={flight}
-      alternatesHref={`/flights/${flight.id}/emergencies`}
-      airportHref={(airportId) => `/airports/${airportId}`}
-    />
+    <RouteBriefingProvider flight={flight}>
+      <RouteBriefingPanel
+        flight={flight}
+        alternatesHref={`/flights/${flight.id}/emergencies`}
+        airportHref={(airportId) => `/airports/${airportId}`}
+      />
+    </RouteBriefingProvider>
   );
 }

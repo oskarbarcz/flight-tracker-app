@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import type { Diversion } from "~/features/diversion";
 import { FlightStatus, isFilledSchedule } from "~/features/flight";
 import { FlightConnectionFooter } from "~/features/flight/components/Dashboard/Tracking/Box/FlightConnectionFooter";
+import { FlightProgressSummary } from "~/features/flight/components/Dashboard/Tracking/Progress/FlightProgressSummary";
 import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { Container, type ContainerClassProps } from "~/shared/ui/Layout/Container";
@@ -13,10 +14,6 @@ function calculateBlockTime(offBlockTime: Date, onBlockTime: Date): string {
   const minutes = Math.floor(diff / 1000 / 60);
   const hours = Math.floor(minutes / 60);
   return `${hours}h ${minutes % 60}m`;
-}
-
-function formatTime(date: Date): string {
-  return date.toISOString().slice(11, 16);
 }
 
 type FlightInfoBoxProps = ContainerClassProps;
@@ -54,12 +51,7 @@ export function FlightInfoBox({ className }: FlightInfoBoxProps) {
 
       {diversion && <DiversionBanner diversion={diversion} />}
 
-      <TimesheetRow
-        scheduledOffBlock={timesheet.scheduled.offBlockTime}
-        scheduledOnBlock={timesheet.scheduled.onBlockTime}
-        estimatedOffBlock={estimated?.offBlockTime ?? null}
-        estimatedOnBlock={estimated?.onBlockTime ?? null}
-      />
+      <FlightProgressSummary flight={flight} />
 
       <FlightConnectionFooter />
     </Container>
@@ -138,53 +130,6 @@ function DiversionBanner({ diversion }: { diversion: Diversion }) {
           {diversion.airport.city.name}
         </span>
       </div>
-    </div>
-  );
-}
-
-function TimesheetRow({
-  scheduledOffBlock,
-  scheduledOnBlock,
-  estimatedOffBlock,
-  estimatedOnBlock,
-}: {
-  scheduledOffBlock: Date;
-  scheduledOnBlock: Date;
-  estimatedOffBlock: Date | null;
-  estimatedOnBlock: Date | null;
-}) {
-  return (
-    <div className="mt-2 flex items-end justify-between">
-      <TimesheetSide label="Off-block" scheduled={scheduledOffBlock} estimated={estimatedOffBlock} align="start" />
-      <TimesheetSide label="On-block" scheduled={scheduledOnBlock} estimated={estimatedOnBlock} align="end" />
-    </div>
-  );
-}
-
-function TimesheetSide({
-  label,
-  scheduled,
-  estimated,
-  align,
-}: {
-  label: string;
-  scheduled: Date;
-  estimated: Date | null;
-  align: "start" | "end";
-}) {
-  const alignClass = align === "end" ? "items-end text-end" : "items-start text-start";
-  return (
-    <div className={`flex flex-col gap-0.5 ${alignClass}`}>
-      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-        {label}
-      </span>
-      {estimated && (
-        <>
-          <span className="text-[0.65rem] font-bold uppercase tracking-widest text-green-500">On time</span>
-          <span className="font-mono text-2xl font-bold text-green-500">{formatTime(estimated)}</span>
-        </>
-      )}
-      <span className="font-mono text-xs text-gray-500 dark:text-gray-400">Sched. {formatTime(scheduled)}</span>
     </div>
   );
 }

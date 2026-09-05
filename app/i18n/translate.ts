@@ -45,6 +45,7 @@ import {
   translateAirportOnFlightType,
   translateEventType,
   translatePassengerStatus,
+  translatePhase,
   translateShortStatus,
   translateSpecialServiceRequest,
   translateStatus,
@@ -70,6 +71,7 @@ export const toHuman = {
     specialServiceRequest: translateSpecialServiceRequest,
     status: {
       next: translateStatusNextAction,
+      phase: translatePhase,
       short: translateShortStatus,
       standard: translateStatus,
     },

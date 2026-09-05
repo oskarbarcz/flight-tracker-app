@@ -10,11 +10,11 @@ type Props = {
 
 export function FlightHeader({ mapIntent }: Props) {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
-      <FlightInfoBox className="col-span-1" />
-      <AdsbProvider>
-        <MapBox className="xl:col-span-2 min-h-96" mapIntent={mapIntent} />
-      </AdsbProvider>
-    </section>
+    <AdsbProvider>
+      <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
+        <FlightInfoBox className="col-span-1" />
+        <MapBox className="xl:col-span-2 min-h-96 lg:min-h-[32rem]" mapIntent={mapIntent} />
+      </section>
+    </AdsbProvider>
   );
 }

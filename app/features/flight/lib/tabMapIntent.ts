@@ -63,7 +63,7 @@ export function mapIntentForTab(tab: FlightDataTab, status: FlightStatus): MapIn
     [FlightDataTab.Passengers]: { label: "Passengers", view: apron(end, "assigned") },
     [FlightDataTab.Cargo]: { label: "Cargo", view: apron(end, "none") },
     [FlightDataTab.FlightProgress]: { label: "Flight progress", view: AIRCRAFT },
-    [FlightDataTab.Route]: { label: "Route", view: ENROUTE },
+    [FlightDataTab.Route]: { label: "Route", view: ENROUTE, plotsRoute: true },
     [FlightDataTab.OperationalFlightPlan]: { label: "OFP", view: ENROUTE },
     [FlightDataTab.RunwayAnalysis]: { label: "Runway analysis", view: runways(end) },
     [FlightDataTab.EmergenciesDiversions]: { label: "Emergencies", view: ENROUTE },
