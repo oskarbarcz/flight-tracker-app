@@ -3,7 +3,9 @@ import { useLocalStorage } from "~/shared/hooks/useLocalStorage";
 
 export type DisplayMode = "all" | "assigned" | "none";
 
-export type MapSettings = {
+export type MapMode = "auto" | "manual";
+
+export type MapView = {
   centerOn: "aircraft" | "route" | "departure" | "destination";
   autoCenter: boolean;
   parkingPositionDisplay: DisplayMode;
@@ -12,7 +14,17 @@ export type MapSettings = {
   runwayDisplay: DisplayMode;
 };
 
+export type MapSettings = MapView & {
+  mode: MapMode;
+};
+
+export type MapIntent = {
+  label: string;
+  view: MapView;
+};
+
 const defaultMapSettings: MapSettings = {
+  mode: "auto",
   centerOn: "route",
   autoCenter: false,
   parkingPositionDisplay: "assigned",
@@ -31,24 +43,33 @@ function migrate(raw: Partial<MapSettings> & Record<string, unknown>): MapSettin
 
 type ProviderProps = {
   children: ReactNode;
+  intent?: MapIntent | null;
 };
 
 type MapSettingsContextType = {
   mapSettings: MapSettings;
   updateMapSettings: (settings: MapSettings) => void;
+  intent: MapIntent | null;
+  setMode: (mode: MapMode) => void;
 };
 
 const UseMapSettings = createContext<MapSettingsContextType>({
   mapSettings: defaultMapSettings,
   updateMapSettings: async () => {},
+  intent: null,
+  setMode: async () => {},
 });
 
-export function MapSettingsProvider({ children }: ProviderProps) {
+export function MapSettingsProvider({ children, intent = null }: ProviderProps) {
   const [settings, setSettings] = useLocalStorage<MapSettings>("map-settings", defaultMapSettings);
-  const merged = migrate(settings as Partial<MapSettings> & Record<string, unknown>);
+  const stored = migrate(settings as Partial<MapSettings> & Record<string, unknown>);
+  const followsIntent = stored.mode === "auto" && intent !== null;
+  const mapSettings: MapSettings = followsIntent ? { ...intent.view, mode: "auto" } : stored;
+
+  const setMode = (mode: MapMode) => setSettings({ ...mapSettings, mode });
 
   return (
-    <UseMapSettings.Provider value={{ mapSettings: merged, updateMapSettings: setSettings }}>
+    <UseMapSettings.Provider value={{ mapSettings, updateMapSettings: setSettings, intent, setMode }}>
       {children}
     </UseMapSettings.Provider>
   );

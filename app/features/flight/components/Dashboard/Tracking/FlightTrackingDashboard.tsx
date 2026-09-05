@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { FlightSource, FlightStatus } from "~/features/flight";
-import { FlightDataTab, FlightDataTabs } from "~/features/flight/components/Dashboard/Tabs/FlightDataTabs";
+import { FlightDataTabs } from "~/features/flight/components/Dashboard/Tabs/FlightDataTabs";
 import { FlightCabinTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightCabinTab";
 import { FlightCargoTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightCargoTab";
 import { FlightDelaysTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightDelaysTab";
@@ -14,16 +14,23 @@ import { FlightRouteTab } from "~/features/flight/components/Dashboard/Tabs/Tab/
 import { FlightRunwayAnalysisTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightRunwayAnalysisTab";
 import { FlightHeader } from "~/features/flight/components/Dashboard/Tracking/FlightHeader";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { FlightDataTab, flightDataTabFromSlug, flightDataTabSlug } from "~/features/flight/lib/flightDataTabs";
+import { mapIntentForTab } from "~/features/flight/lib/tabMapIntent";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 type Props = {
   flightId: string;
+  tabSlug: string | undefined;
 };
 
-export function FlightTrackingDashboard({ flightId }: Props) {
+export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
   const { flight, activeEmergency, delayRequest, setFlightId } = useTrackedFlight();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<FlightDataTab>(FlightDataTab.Overview);
+  const tab = flightDataTabFromSlug(tabSlug);
+
+  const setTab = (next: FlightDataTab) => {
+    navigate(next === FlightDataTab.Overview ? `/track/${flightId}` : `/track/${flightId}/${flightDataTabSlug(next)}`);
+  };
   usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Tracking");
 
   useEffect(() => {
@@ -46,7 +53,7 @@ export function FlightTrackingDashboard({ flightId }: Props) {
 
   return (
     <>
-      <FlightHeader />
+      <FlightHeader mapIntent={mapIntentForTab(tab, flight.status)} />
       <FlightDataTabs
         tab={tab}
         setTab={setTab}

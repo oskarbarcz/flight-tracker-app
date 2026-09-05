@@ -1,3 +1,4 @@
+import { cruiseFixes } from "~/features/route/lib/routeStages";
 import type { EtopsPlan, PlannedRoute, PlannedRouteFix } from "~/features/route/model";
 
 export type FixInsight = {
@@ -7,11 +8,10 @@ export type FixInsight = {
 };
 
 export type RouteSummary = {
-  fixCount: number;
   totalDistanceNm: number | null;
   totalElapsedSeconds: number | null;
-  totalBurnKg: number | null;
-  topAltitudeFeet: number | null;
+  tripFuelKg: number | null;
+  cruiseLevelsFeet: number[];
 };
 
 export function buildFixInsights(fixes: PlannedRouteFix[]): FixInsight[] {
@@ -58,17 +58,26 @@ export function summariseFuelMargin(insights: FixInsight[]): FuelMarginSummary |
   };
 }
 
+function cruiseLevelsFeet(fixes: PlannedRouteFix[]): number[] {
+  const cruising = cruiseFixes(fixes);
+
+  if (cruising.length === 0) {
+    return fixes.length === 0 ? [] : [Math.max(...fixes.map((fix) => fix.altitude))];
+  }
+
+  return [...new Set(cruising.map((fix) => fix.altitude))];
+}
+
 export function summariseRoute(route: PlannedRoute): RouteSummary {
   const insights = buildFixInsights(route.fixes);
   const last = insights.at(-1) ?? null;
   const burns = route.fixes.map((fix) => fix.fuel.used).filter((used): used is number => used !== null);
 
   return {
-    fixCount: route.fixes.length,
     totalDistanceNm: last?.cumulativeDistanceNm ?? null,
     totalElapsedSeconds: last?.fix.elapsedSeconds ?? null,
-    totalBurnKg: burns.length === 0 ? null : Math.max(...burns),
-    topAltitudeFeet: route.fixes.length === 0 ? null : Math.max(...route.fixes.map((fix) => fix.altitude)),
+    tripFuelKg: burns.length === 0 ? null : Math.max(...burns),
+    cruiseLevelsFeet: cruiseLevelsFeet(route.fixes),
   };
 }
 

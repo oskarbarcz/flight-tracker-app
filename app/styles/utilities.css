@@ -582,6 +582,11 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
 @media (pointer: coarse) {
   button,
   summary,

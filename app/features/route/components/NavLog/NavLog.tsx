@@ -118,7 +118,7 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
                   }}
                   onMouseEnter={() => onSelect(fix.ordinal)}
                   className={twMerge(
-                    "border-b border-gray-100 transition-colors dark:border-gray-800",
+                    "cursor-pointer border-b border-gray-100 transition-colors dark:border-gray-800",
                     isSelected ? "bg-indigo-50 dark:bg-indigo-500/10" : "hover:bg-gray-50 dark:hover:bg-gray-800/60",
                   )}
                 >

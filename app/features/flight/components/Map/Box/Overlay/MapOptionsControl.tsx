@@ -3,11 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { IconType } from "react-icons";
 import { FaBan, FaPlane, FaRoad } from "react-icons/fa";
-import { FaCheck, FaPlaneArrival, FaPlaneDeparture, FaRoute, FaSliders } from "react-icons/fa6";
+import { FaCheck, FaCircleInfo, FaPlaneArrival, FaPlaneDeparture, FaRoute, FaSliders } from "react-icons/fa6";
 import { HiLocationMarker, HiOutlineOfficeBuilding } from "react-icons/hi";
 import { MdMeetingRoom } from "react-icons/md";
 import { twMerge } from "tailwind-merge";
-import { type DisplayMode, type MapSettings, useMapSettings } from "~/app-state/useMapSettings";
+import { type DisplayMode, type MapMode, type MapSettings, useMapSettings } from "~/app-state/useMapSettings";
 import { SegmentedControl } from "~/features/flight/components/Map/Element/SegmentedControl";
 
 type Props = {
@@ -20,6 +20,7 @@ type FollowValue = MapSettings["centerOn"] | "off";
 type LayerKey = "runwayDisplay" | "terminalDisplay" | "gateDisplay" | "parkingPositionDisplay";
 
 const POPOVER_WIDTH = 288;
+const POPOVER_ESTIMATED_HEIGHT = 420;
 const GAP = 8;
 
 const followOptions: { value: FollowValue; label: string; icon: IconType; iconClassName?: string }[] = [
@@ -37,20 +38,29 @@ const layerRows: { key: LayerKey; label: string; icon: IconType }[] = [
   { key: "parkingPositionDisplay", label: "Parking", icon: HiLocationMarker },
 ];
 
+const modeOptions: { value: MapMode; label: string }[] = [
+  { value: "auto", label: "AUTO" },
+  { value: "manual", label: "MAN" },
+];
+
 const displayOptions: { value: DisplayMode; label: string }[] = [
   { value: "all", label: "All" },
   { value: "assigned", label: "Assigned" },
   { value: "none", label: "Off" },
 ];
 
-const sectionLabel =
-  "px-2 pb-0.5 pt-1 text-[10px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400";
+const LAYER_LIMIT = 4;
+
+const sectionLabel = "text-[10px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400";
 
 export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 left-3", placement = "above" }: Props) {
-  const { mapSettings, updateMapSettings } = useMapSettings();
+  const { mapSettings, updateMapSettings, intent, setMode } = useMapSettings();
   const [open, setOpen] = useState(false);
   const [portalTarget, setPortalTarget] = useState<Element | null>(null);
-  const [position, setPosition] = useState<{ left: number; top?: number; bottom?: number }>({ left: 0, bottom: 0 });
+  const [position, setPosition] = useState<{ left: number; top?: number; bottom?: number; maxHeight?: number }>({
+    left: 0,
+    bottom: 0,
+  });
   const triggerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -59,15 +69,25 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
     if (!trigger) return;
     const rect = trigger.getBoundingClientRect();
     const left = Math.max(GAP, Math.min(rect.left, window.innerWidth - POPOVER_WIDTH - GAP));
-    if (placement === "below") {
-      setPosition({ left, top: rect.bottom + GAP });
+    const height = popoverRef.current?.offsetHeight ?? POPOVER_ESTIMATED_HEIGHT;
+    const spaceAbove = rect.top - GAP * 2;
+    const spaceBelow = window.innerHeight - rect.bottom - GAP * 2;
+    const preferred = placement === "above" ? spaceAbove : spaceBelow;
+    const alternative = placement === "above" ? spaceBelow : spaceAbove;
+    const keepsPlacement = preferred >= height || preferred >= alternative;
+    const above = placement === "above" ? keepsPlacement : !keepsPlacement;
+
+    if (above) {
+      setPosition({ left, bottom: window.innerHeight - rect.top + GAP, maxHeight: spaceAbove });
     } else {
-      setPosition({ left, bottom: window.innerHeight - rect.top + GAP });
+      setPosition({ left, top: rect.bottom + GAP, maxHeight: spaceBelow });
     }
   }, [placement]);
 
   useEffect(() => {
     if (!open) return;
+
+    updatePosition();
 
     const reposition = () => updatePosition();
     const onPointerDown = (event: MouseEvent) => {
@@ -100,17 +120,21 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
   };
 
   const follow: FollowValue = mapSettings.autoCenter ? mapSettings.centerOn : "off";
+  const modeAfterEdit: MapMode = intent === null ? mapSettings.mode : "manual";
+  const followsIntent = intent !== null && mapSettings.mode === "auto";
+  const shownLayers = layerRows.filter((row) => mapSettings[row.key] === "all").length;
+  const layersAtLimit = shownLayers >= LAYER_LIMIT;
 
   const selectFollow = (value: FollowValue) => {
     if (value === "off") {
-      updateMapSettings({ ...mapSettings, autoCenter: false });
+      updateMapSettings({ ...mapSettings, mode: modeAfterEdit, autoCenter: false });
       return;
     }
-    updateMapSettings({ ...mapSettings, centerOn: value, autoCenter: true });
+    updateMapSettings({ ...mapSettings, mode: modeAfterEdit, centerOn: value, autoCenter: true });
   };
 
   const setLayer = (key: LayerKey, value: DisplayMode) => {
-    updateMapSettings({ ...mapSettings, [key]: value });
+    updateMapSettings({ ...mapSettings, mode: modeAfterEdit, [key]: value });
   };
 
   return (
@@ -132,62 +156,102 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
         createPortal(
           <div
             ref={popoverRef}
-            style={{ position: "fixed", left: position.left, top: position.top, bottom: position.bottom }}
+            style={{
+              position: "fixed",
+              left: position.left,
+              top: position.top,
+              bottom: position.bottom,
+              maxHeight: position.maxHeight,
+            }}
             className={twMerge(
-              "z-[1000] w-72 max-w-[calc(100vw-1rem)] rounded-xl border border-gray-200 bg-white p-1.5 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 dark:border-gray-700 dark:bg-gray-900",
+              "z-[1000] w-72 max-w-[calc(100vw-1rem)] overflow-y-auto rounded-xl border border-gray-200 bg-white p-1.5 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 dark:border-gray-700 dark:bg-gray-900",
               placement === "below" ? "motion-safe:slide-in-from-top-1" : "motion-safe:slide-in-from-bottom-1",
             )}
           >
-            <div className="px-1">
-              <p className={sectionLabel}>Follow</p>
-              {followOptions.map((option) => {
-                const active = follow === option.value;
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    aria-pressed={active}
-                    onClick={() => selectFollow(option.value)}
-                    className={twMerge(
-                      "flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors",
-                      active
-                        ? "font-semibold text-indigo-700 dark:text-indigo-300"
-                        : "text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800",
-                    )}
-                  >
-                    <option.icon
-                      className={twMerge(
-                        "size-3.5 shrink-0",
-                        active ? "text-indigo-500" : "text-gray-400",
-                        option.iconClassName,
-                      )}
-                    />
-                    <span>{option.label}</span>
-                    {active && <FaCheck className="ml-auto size-3 text-indigo-500" />}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="my-1 border-t border-gray-200 dark:border-gray-700" />
-
-            <div className="px-1">
-              <p className={sectionLabel}>Data layers</p>
-              {layerRows.map((row) => (
-                <div key={row.key} className="flex items-center justify-between gap-2 px-2 py-1">
-                  <span className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-100">
-                    <row.icon className="size-3.5 shrink-0 text-gray-400" />
-                    {row.label}
-                  </span>
+            {intent !== null && (
+              <div className="px-1">
+                <p className={twMerge(sectionLabel, "px-2 pb-0.5 pt-1")}>Mode</p>
+                <div className="px-2 py-1">
                   <SegmentedControl
-                    ariaLabel={row.label}
-                    value={mapSettings[row.key]}
-                    onChange={(value) => setLayer(row.key, value)}
-                    options={displayOptions}
+                    ariaLabel="Map mode"
+                    value={mapSettings.mode}
+                    onChange={setMode}
+                    options={modeOptions}
                   />
                 </div>
-              ))}
-            </div>
+                {followsIntent && (
+                  <p className="flex items-start gap-2 px-2 pb-1 pt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                    <FaCircleInfo className="mt-0.5 size-3 shrink-0 text-gray-400 dark:text-gray-500" />
+                    <span>Follow selected tab (currently: {intent.label})</span>
+                  </p>
+                )}
+              </div>
+            )}
+
+            {!followsIntent && intent !== null && (
+              <div className="my-1 border-t border-gray-200 dark:border-gray-700" />
+            )}
+
+            {!followsIntent && (
+              <>
+                <div className="px-1">
+                  <p className={twMerge(sectionLabel, "px-2 pb-0.5 pt-1")}>Follow</p>
+                  {followOptions.map((option) => {
+                    const active = follow === option.value;
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => selectFollow(option.value)}
+                        className={twMerge(
+                          "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors",
+                          active
+                            ? "font-semibold text-indigo-700 dark:text-indigo-300"
+                            : "text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800",
+                        )}
+                      >
+                        <option.icon
+                          className={twMerge(
+                            "size-3.5 shrink-0",
+                            active ? "text-indigo-500" : "text-gray-400",
+                            option.iconClassName,
+                          )}
+                        />
+                        <span>{option.label}</span>
+                        {active && <FaCheck className="ml-auto size-3 text-indigo-500" />}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="my-1 border-t border-gray-200 dark:border-gray-700" />
+
+                <div className="px-1">
+                  <div className="flex items-baseline justify-between gap-2 px-2 pb-0.5 pt-1">
+                    <p className={sectionLabel}>Data layers</p>
+                    <span className="font-mono text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
+                      {shownLayers}/{LAYER_LIMIT}
+                    </span>
+                  </div>
+                  {layerRows.map((row) => (
+                    <div key={row.key} className="flex items-center justify-between gap-2 px-2 py-1">
+                      <span className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-100">
+                        <row.icon className="size-3.5 shrink-0 text-gray-400" />
+                        {row.label}
+                      </span>
+                      <SegmentedControl
+                        ariaLabel={row.label}
+                        value={mapSettings[row.key]}
+                        onChange={(value) => setLayer(row.key, value)}
+                        options={displayOptions}
+                        disabledValues={layersAtLimit ? ["all"] : []}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>,
           portalTarget,
         )}

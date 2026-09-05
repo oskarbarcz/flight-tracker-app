@@ -18,6 +18,7 @@ export default [
     route("me/account", "routes/common/AccountRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
+      route("track/:id/:tab", "routes/pilot/track/TrackFlightRoute.tsx", { id: "track-tab" }),
       route("rotations", "routes/pilot/rotations/PilotRotationsRoute.tsx"),
       route("rotations/:rotationId", "routes/pilot/rotations/PilotRotationDetailsRoute.tsx"),
       route("stats", "routes/pilot/stats/PilotStatsRoute.tsx"),

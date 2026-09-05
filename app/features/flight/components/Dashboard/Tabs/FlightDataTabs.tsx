@@ -1,17 +1,5 @@
 import { TabItem, Tabs } from "flowbite-react";
-
-export enum FlightDataTab {
-  Overview,
-  FuelAndCrew,
-  Passengers,
-  Cargo,
-  FlightProgress,
-  Route,
-  OperationalFlightPlan,
-  RunwayAnalysis,
-  EmergenciesDiversions,
-  Delays,
-}
+import { FlightDataTab } from "~/features/flight/lib/flightDataTabs";
 
 type Props = {
   tab: FlightDataTab;

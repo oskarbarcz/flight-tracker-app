@@ -18,6 +18,8 @@ import { nauticalMilesToMetres } from "~/features/route/lib/routeFigures";
 import type { FixInsight } from "~/features/route/lib/routeInsights";
 import type { EtopsBriefing, EtopsPoint, OceanicTrack } from "~/features/route/model";
 import { EtopsPointKind, OceanicRouting } from "~/features/route/model";
+import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
+import type { Runway } from "~/features/runway/model";
 import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
 
@@ -31,6 +33,7 @@ type Props = {
   briefing: EtopsBriefing;
   airports: Map<string, Airport>;
   insights: FixInsight[];
+  runways: AssignedRunways;
   selectedOrdinal: number | null;
   onSelect: (ordinal: number) => void;
 };
@@ -75,6 +78,28 @@ function flownTrack(briefing: EtopsBriefing): OceanicTrack | null {
   return tracks.find((track) => track.identifier === trackId) ?? null;
 }
 
+function threshold(runway: Runway | null): LatLngTuple | null {
+  return runway === null ? null : [runway.coordinates.latitude, runway.coordinates.longitude];
+}
+
+function routeLine(briefing: EtopsBriefing, runways: AssignedRunways): LatLngTuple[] {
+  const fixes = briefing.route.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]);
+  const start = threshold(runways.departure);
+  const end = threshold(runways.arrival);
+
+  return fixes.map((position, index) => {
+    if (index === 0 && start !== null) {
+      return start;
+    }
+
+    if (index === fixes.length - 1 && end !== null) {
+      return end;
+    }
+
+    return position;
+  });
+}
+
 function chartBounds(flight: Flight, briefing: EtopsBriefing): L.LatLngBounds {
   const points: LatLngTuple[] = [
     [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
@@ -86,14 +111,14 @@ function chartBounds(flight: Flight, briefing: EtopsBriefing): L.LatLngBounds {
   return L.latLngBounds(points);
 }
 
-export function RouteChart({ flight, briefing, airports, insights, selectedOrdinal, onSelect }: Props) {
+export function RouteChart({ flight, briefing, airports, insights, runways, selectedOrdinal, onSelect }: Props) {
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
   const { computedMode } = useThemeMode();
   const pointColor = etopsPointColor(computedMode);
   const markerFill = fixMarkerFill(computedMode);
   const track = flownTrack(briefing);
   const plan = briefing.etops;
-  const routeLine = briefing.route.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]);
+  const line = routeLine(briefing, runways);
   const selected = insights.find((insight) => insight.fix.ordinal === selectedOrdinal) ?? null;
 
   const ringCentres = (plan?.airports ?? [])
@@ -139,7 +164,7 @@ export function RouteChart({ flight, briefing, airports, insights, selectedOrdin
           />
         )}
 
-        {routeLine.length > 1 && <Polyline pathOptions={ROUTE_STYLE} positions={routeLine} />}
+        {line.length > 1 && <Polyline pathOptions={ROUTE_STYLE} positions={line} />}
 
         {insights.map(({ fix }) => (
           <CircleMarker

@@ -7,7 +7,7 @@ import { EtopsPanel } from "~/features/route/components/Etops/EtopsPanel";
 import { FuelMarginNote } from "~/features/route/components/NavLog/FuelMarginNote";
 import { NavLog } from "~/features/route/components/NavLog/NavLog";
 import { OceanicCrossingPanel } from "~/features/route/components/OceanicCrossingPanel";
-import { RoutePlanStrings } from "~/features/route/components/RoutePlanStrings";
+import { RoutePlanCard } from "~/features/route/components/RoutePlanCard";
 import { useRouteBriefing } from "~/features/route/hooks/useRouteBriefing";
 import {
   buildFixInsights,
@@ -16,6 +16,7 @@ import {
   summariseRoute,
 } from "~/features/route/lib/routeInsights";
 import { OceanicRouting } from "~/features/route/model";
+import { useAssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import { PanelEmptyState } from "~/shared/ui/Display/PanelEmptyState";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -40,6 +41,7 @@ function BriefingSkeleton() {
 
 export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Props) {
   const { briefing, airports, loading, error } = useRouteBriefing(flight.id);
+  const runways = useAssignedRunways(flight);
   const [selectedOrdinal, setSelectedOrdinal] = useState<number | null>(null);
   const [hasChosen, setHasChosen] = useState(false);
 
@@ -74,7 +76,9 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
   }
 
   const noPlan =
-    briefing === null || analysis === null || (analysis.insights.length === 0 && briefing.route.route === null);
+    briefing === null ||
+    analysis === null ||
+    (analysis.insights.length === 0 && briefing.route.atcRoute === null && briefing.route.route === null);
 
   if (noPlan) {
     return (
@@ -103,7 +107,14 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
 
   return (
     <div className="mt-3 flex flex-col gap-3">
-      <RoutePlanStrings route={briefing.route} summary={summary} />
+      <RoutePlanCard
+        flight={flight}
+        route={briefing.route}
+        summary={summary}
+        runways={runways}
+        selectedOrdinal={pinned}
+        onSelect={select}
+      />
 
       {insights.length > 0 && (
         <div className="grid items-start gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
@@ -144,6 +155,7 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref }: Prop
                 briefing={briefing}
                 airports={airports}
                 insights={insights}
+                runways={runways}
                 selectedOrdinal={pinned}
                 onSelect={select}
               />

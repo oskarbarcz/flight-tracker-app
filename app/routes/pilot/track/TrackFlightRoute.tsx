@@ -9,7 +9,7 @@ export default function TrackFlightRoute({ params }: Route.ComponentProps) {
 
   return (
     <TrackedFlightProvider>
-      <FlightTrackingDashboard flightId={params.id} />
+      <FlightTrackingDashboard flightId={params.id} tabSlug={params.tab} />
     </TrackedFlightProvider>
   );
 }
