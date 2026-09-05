@@ -5,6 +5,10 @@ const DIRECT = "DCT";
 const SPEED_LEVEL = /^(?<speed>[NK]\d{4}|M\d{3})?(?<level>F\d{3}|A\d{3}|S\d{4}|M\d{4}|VFR)?$/;
 const AIRWAY_SHAPE = /^[A-Z]{1,3}\d{1,3}[A-Z]?$/;
 const PROCEDURE_SHAPE = /^[A-Z]{3,5}\d[A-Z]?$/;
+const OCEANIC_POSITION = /^(?:\d{2}(?:\d{2})?[NS]\d{3}(?:\d{2})?[EW]|\d{4}[NSEW])$/;
+const NORTH_ATLANTIC_TRACK = /^NAT([A-Z])$/;
+const SHORTEST_TRACK_GEOMETRY = 2;
+const RANDOM_OCEANIC = "random";
 
 export type RouteEndpoint = {
   icao: string;
@@ -38,6 +42,7 @@ export enum RouteTokenKind {
   Waypoint = "waypoint",
   Airway = "airway",
   Clearance = "clearance",
+  OceanicTrack = "oceanic_track",
 }
 
 type RouteTokenBody =
@@ -51,7 +56,8 @@ type RouteTokenBody =
   | { kind: RouteTokenKind.Procedure; text: string; procedure: RouteProcedure }
   | { kind: RouteTokenKind.Waypoint; text: string; ordinal: number | null; clearance: RouteClearance | null }
   | { kind: RouteTokenKind.Airway; text: string }
-  | { kind: RouteTokenKind.Clearance; clearance: RouteClearance };
+  | { kind: RouteTokenKind.Clearance; clearance: RouteClearance }
+  | { kind: RouteTokenKind.OceanicTrack; designator: string | null; segment: RouteToken[] };
 
 export type RouteToken = RouteTokenBody & { id: string };
 
@@ -112,6 +118,114 @@ export function describeClearance(clearance: RouteClearance): string {
     .join(" at ");
 
   return `${opening[clearance.step ?? "filed"]} ${figures}`;
+}
+
+export function describeOceanicTrack(designator: string | null): string {
+  return designator === null ? "Oceanic crossing" : `${designator} track`;
+}
+
+function trackName(airway: string | null): string | null {
+  const letter = airway === null ? null : (NORTH_ATLANTIC_TRACK.exec(airway)?.[1] ?? null);
+
+  return letter === null ? null : `NAT ${letter}`;
+}
+
+function crossedOrdinals(fixes: PlannedRouteFix[]): Map<number, string> {
+  const crossed = new Map<number, string>();
+
+  fixes.forEach((fix, position) => {
+    const name = trackName(fix.viaAirway);
+    const entry = fixes[position - 1];
+
+    if (name === null) {
+      return;
+    }
+
+    if (entry !== undefined) {
+      crossed.set(entry.ordinal, name);
+    }
+
+    crossed.set(fix.ordinal, name);
+  });
+
+  return crossed;
+}
+
+function segmentKey(token: RouteTokenBody, crossed: Map<number, string>): string | null {
+  if (token.kind !== RouteTokenKind.Waypoint) {
+    return null;
+  }
+
+  const flown = token.ordinal === null ? undefined : crossed.get(token.ordinal);
+
+  if (flown !== undefined) {
+    return flown;
+  }
+
+  return crossed.size === 0 && OCEANIC_POSITION.test(token.text) ? RANDOM_OCEANIC : null;
+}
+
+function restatesTrack(token: RouteTokenBody, designator: string | null): boolean {
+  return token.kind === RouteTokenKind.OceanicTrack && token.designator === designator;
+}
+
+function crossedFixCount(segment: RouteTokenBody[]): number {
+  return segment.filter((token) => token.kind === RouteTokenKind.Waypoint).length;
+}
+
+function oceanicTrack(key: string, segment: RouteTokenBody[]): RouteTokenBody {
+  const designator = key === RANDOM_OCEANIC ? null : key;
+
+  return {
+    kind: RouteTokenKind.OceanicTrack,
+    designator,
+    segment: segment
+      .filter((token) => !restatesTrack(token, designator))
+      .map((token, position) => ({ ...token, id: `${position}-${token.kind}` })),
+  };
+}
+
+function groupOceanicSegments(tokens: RouteTokenBody[], fixes: PlannedRouteFix[]): RouteTokenBody[] {
+  const crossed = crossedOrdinals(fixes);
+  const grouped: RouteTokenBody[] = [];
+
+  let key: string | null = null;
+  let segment: RouteTokenBody[] = [];
+  let between: RouteTokenBody[] = [];
+
+  const closeSegment = () => {
+    if (key !== null && crossedFixCount(segment) >= SHORTEST_TRACK_GEOMETRY) {
+      grouped.push(oceanicTrack(key, segment));
+    } else {
+      grouped.push(...segment);
+    }
+
+    grouped.push(...between);
+    key = null;
+    segment = [];
+    between = [];
+  };
+
+  for (const token of tokens) {
+    const found = segmentKey(token, crossed);
+
+    if (found === null) {
+      (key === null ? grouped : between).push(token);
+      continue;
+    }
+
+    if (found !== key) {
+      closeSegment();
+      key = found;
+    }
+
+    segment.push(...between, token);
+    between = [];
+  }
+
+  closeSegment();
+
+  return grouped;
 }
 
 function terminalProcedures(fixes: PlannedRouteFix[]): Map<string, RouteProcedure> {
@@ -205,6 +319,12 @@ export function parseFiledRoute(
       return { kind: RouteTokenKind.Procedure, text: ident, procedure };
     }
 
+    const filedTrack = trackName(ident);
+
+    if (filedTrack !== null) {
+      return { kind: RouteTokenKind.OceanicTrack, designator: filedTrack, segment: [] };
+    }
+
     const ordinal = takeOrdinal(ident);
 
     if (ordinal !== null) {
@@ -252,5 +372,8 @@ export function parseFiledRoute(
     tokens.push(airport(destination, true));
   }
 
-  return tokens.map((token, position) => ({ ...token, id: `${position}-${token.kind}` }));
+  return groupOceanicSegments(tokens, route.fixes).map((token, position) => ({
+    ...token,
+    id: `${position}-${token.kind}`,
+  }));
 }

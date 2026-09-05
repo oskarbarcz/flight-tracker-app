@@ -4,6 +4,7 @@ import type { IconType } from "react-icons/lib";
 import { twMerge } from "tailwind-merge";
 import {
   describeClearance,
+  describeOceanicTrack,
   type RouteClearance,
   type RouteFigure,
   RouteLevelStep,
@@ -115,7 +116,53 @@ function Airway({ text }: { text: string }) {
   return <span className="font-mono text-xs tracking-wide text-gray-500 dark:text-gray-400">{text}</span>;
 }
 
-function TokenView({ token, selectedOrdinal }: { token: RouteToken; selectedOrdinal: number | null }) {
+type OceanicProps = {
+  designator: string | null;
+  segment: RouteToken[];
+  selectedOrdinal: number | null;
+  onSelect: (ordinal: number) => void;
+};
+
+function OceanicTrackSegment({ designator, segment, selectedOrdinal, onSelect }: OceanicProps) {
+  const described = describeOceanicTrack(designator);
+
+  return (
+    <div
+      title={described}
+      className="inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-dashed border-gray-300 bg-gray-100 px-2 py-1 dark:border-gray-600 dark:bg-gray-800"
+    >
+      <span className="inline-flex items-baseline gap-1.5">
+        {designator !== null && (
+          <span className="font-mono text-sm font-bold text-gray-900 dark:text-white">{designator}</span>
+        )}
+        <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          {designator === null ? "Oceanic" : "Track"}
+        </span>
+      </span>
+
+      {segment.length > 0 && (
+        <>
+          <span className="h-4 w-px bg-gray-300 dark:bg-gray-600" aria-hidden={true} />
+          <TokenList
+            tokens={segment}
+            label={described}
+            className="inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1"
+            selectedOrdinal={selectedOrdinal}
+            onSelect={onSelect}
+          />
+        </>
+      )}
+    </div>
+  );
+}
+
+type TokenViewProps = {
+  token: RouteToken;
+  selectedOrdinal: number | null;
+  onSelect: (ordinal: number) => void;
+};
+
+function TokenView({ token, selectedOrdinal, onSelect }: TokenViewProps) {
   switch (token.kind) {
     case RouteTokenKind.Airport:
       return (
@@ -139,11 +186,48 @@ function TokenView({ token, selectedOrdinal }: { token: RouteToken; selectedOrdi
       return <Airway text={token.text} />;
     case RouteTokenKind.Clearance:
       return <ClearanceTag clearance={token.clearance} />;
+    case RouteTokenKind.OceanicTrack:
+      return (
+        <OceanicTrackSegment
+          designator={token.designator}
+          segment={token.segment}
+          selectedOrdinal={selectedOrdinal}
+          onSelect={onSelect}
+        />
+      );
   }
 }
 
 function ordinalOf(token: RouteToken): number | null {
   return token.kind === RouteTokenKind.Airport || token.kind === RouteTokenKind.Waypoint ? token.ordinal : null;
+}
+
+type ListProps = {
+  tokens: RouteToken[];
+  label: string;
+  className: string;
+  selectedOrdinal: number | null;
+  onSelect: (ordinal: number) => void;
+};
+
+function TokenList({ tokens, label, className, selectedOrdinal, onSelect }: ListProps) {
+  return (
+    <ol aria-label={label} className={className}>
+      {tokens.map((token) => {
+        const ordinal = ordinalOf(token);
+
+        return (
+          <li
+            key={token.id}
+            onMouseEnter={ordinal === null ? undefined : () => onSelect(ordinal)}
+            className={twMerge("inline-flex max-w-full items-center gap-1.5", ordinal !== null && "cursor-pointer")}
+          >
+            <TokenView token={token} selectedOrdinal={selectedOrdinal} onSelect={onSelect} />
+          </li>
+        );
+      })}
+    </ol>
+  );
 }
 
 type Props = {
@@ -154,20 +238,12 @@ type Props = {
 
 export function FiledRoute({ tokens, selectedOrdinal, onSelect }: Props) {
   return (
-    <ol aria-label="Filed route" className="flex flex-wrap items-center gap-x-2 gap-y-2">
-      {tokens.map((token) => {
-        const ordinal = ordinalOf(token);
-
-        return (
-          <li
-            key={token.id}
-            onMouseEnter={ordinal === null ? undefined : () => onSelect(ordinal)}
-            className={twMerge("inline-flex items-center gap-1.5", ordinal !== null && "cursor-pointer")}
-          >
-            <TokenView token={token} selectedOrdinal={selectedOrdinal} />
-          </li>
-        );
-      })}
-    </ol>
+    <TokenList
+      tokens={tokens}
+      label="Filed route"
+      className="flex flex-wrap items-center gap-x-2 gap-y-2"
+      selectedOrdinal={selectedOrdinal}
+      onSelect={onSelect}
+    />
   );
 }
