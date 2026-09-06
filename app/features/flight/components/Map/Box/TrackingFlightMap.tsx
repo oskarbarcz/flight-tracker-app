@@ -50,12 +50,13 @@ export function TrackingFlightMap() {
       bounds={mapBounds}
       boundsOptions={{ padding: [80, 80] }}
       scrollWheelZoom={true}
+      worldCopyJump={true}
       className="rounded-xl h-full w-full z-0"
       zoomControl={false}
       attributionControl={false}
     >
       <MapTileLayer />
-      <MapWorldConstraint />
+      <MapWorldConstraint crossAntimeridian={true} />
 
       {isPlotted ? (
         <PlannedRouteLayer state={plannedRoute} />

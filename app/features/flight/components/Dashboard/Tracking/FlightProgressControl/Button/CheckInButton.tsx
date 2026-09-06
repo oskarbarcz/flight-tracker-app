@@ -7,7 +7,7 @@ import { CheckInFlightModal } from "~/features/flight/components/Modal/CheckInFl
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
 
-export function CheckInButton({ disabled }: FlightProgressButtonProps) {
+export function CheckInButton({ disabled, tone, label }: FlightProgressButtonProps) {
   const { flight, checkIn } = useTrackedFlight();
   const { error } = useToast();
   const [showModal, setShowModal] = useState(false);
@@ -27,8 +27,8 @@ export function CheckInButton({ disabled }: FlightProgressButtonProps) {
 
   return (
     <>
-      <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
-        {toHuman.flight.status.next(flight.status, flight.serviceType)}
+      <Button color={tone} outline onClick={() => setShowModal(true)} disabled={disabled}>
+        {label ?? toHuman.flight.status.next(flight.status, flight.serviceType)}
       </Button>
       {showModal && <CheckInFlightModal flight={flight} checkIn={handleCheckIn} close={() => setShowModal(false)} />}
     </>

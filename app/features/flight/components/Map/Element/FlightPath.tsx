@@ -4,6 +4,7 @@ import { Polyline } from "react-leaflet";
 import type { FlightPathElement } from "~/features/flight";
 import { smoothFlightPath } from "~/features/flight/lib/smooth";
 import { altitudeToColor, quantizeAltitude } from "~/shared/lib/altitudeColor";
+import { shiftPath, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 type Props = {
   path: FlightPathElement[];
@@ -45,9 +46,15 @@ export function FlightPath({ path }: Props) {
 
   return (
     <>
-      {segments.map((segment) => (
-        <Polyline key={segment.id} positions={segment.positions} pathOptions={{ color: segment.color, weight: 4 }} />
-      ))}
+      {WORLD_COPIES.map((offset) =>
+        segments.map((segment) => (
+          <Polyline
+            key={`${offset}-${segment.id}`}
+            positions={shiftPath(segment.positions, offset)}
+            pathOptions={{ color: segment.color, weight: 4 }}
+          />
+        )),
+      )}
     </>
   );
 }

@@ -1,8 +1,9 @@
-import { Button } from "flowbite-react";
+import { Button, Tooltip } from "flowbite-react";
 import React, { type ReactElement, useEffect } from "react";
 import { FaUnlock } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import { FlightStatus } from "~/features/flight";
+import { AutomationSummary } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/AutomationSummary";
 import { CheckInButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CheckInButton";
 import { CloseFlightButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CloseFlightButton";
 import { FinishBoardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/FinishBoardingButton";
@@ -14,41 +15,49 @@ import { ReportTakeoffButton } from "~/features/flight/components/Dashboard/Trac
 import { StartBoardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/StartBoardingButton";
 import { StartOffboardingButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/StartOffboardingButton";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { flightAutomation, manualReportLabel } from "~/features/flight/lib/flightAutomation";
 
-function mapStatusToButton(status: FlightStatus, disabled: boolean): ReactElement<typeof StartBoardingButton> | null {
+export type FlightProgressTone = "indigo" | "warning";
+
+export type FlightProgressButtonProps = {
+  disabled: boolean;
+  tone: FlightProgressTone;
+  label?: string;
+};
+
+function mapStatusToButton(
+  status: FlightStatus,
+  props: FlightProgressButtonProps,
+): ReactElement<typeof StartBoardingButton> | null {
   switch (status) {
     case FlightStatus.Ready:
-      return <CheckInButton disabled={disabled} />;
+      return <CheckInButton {...props} />;
     case FlightStatus.CheckedIn:
-      return <StartBoardingButton disabled={disabled} />;
+      return <StartBoardingButton {...props} />;
     case FlightStatus.BoardingStarted:
-      return <FinishBoardingButton disabled={disabled} />;
+      return <FinishBoardingButton {...props} />;
     case FlightStatus.BoardingFinished:
-      return <ReportOffBlockButton disabled={disabled} />;
+      return <ReportOffBlockButton {...props} />;
     case FlightStatus.TaxiingOut:
-      return <ReportTakeoffButton disabled={disabled} />;
+      return <ReportTakeoffButton {...props} />;
     case FlightStatus.InCruise:
-      return <ReportArrivalButton disabled={disabled} />;
+      return <ReportArrivalButton {...props} />;
     case FlightStatus.TaxiingIn:
-      return <ReportOnBlockButton disabled={disabled} />;
+      return <ReportOnBlockButton {...props} />;
     case FlightStatus.OnBlock:
-      return <StartOffboardingButton disabled={disabled} />;
+      return <StartOffboardingButton {...props} />;
     case FlightStatus.OffboardingStarted:
-      return <FinishOffboardingButton disabled={disabled} />;
+      return <FinishOffboardingButton {...props} />;
     case FlightStatus.OffboardingFinished:
-      return <CloseFlightButton disabled={disabled} />;
+      return <CloseFlightButton {...props} />;
     default:
       return null;
   }
 }
 
-export type FlightProgressButtonProps = {
-  disabled: boolean;
-};
-
 export function ChangeFlightProgressButton() {
   const [disabled, setDisabled] = React.useState(true);
-  const { flight } = useTrackedFlight();
+  const { flight, events } = useTrackedFlight();
 
   useEffect(() => {
     setDisabled(true);
@@ -74,13 +83,18 @@ export function ChangeFlightProgressButton() {
     return;
   }
 
+  const automation = flightAutomation(flight, events);
+  const tone: FlightProgressTone = automation !== null && !automation.isAutomatic ? "warning" : "indigo";
+  const label = automation?.isAutomatic === true ? manualReportLabel(automation) : undefined;
+  const action = mapStatusToButton(flight.status, { disabled, tone, label });
+
   return (
     <>
-      <Button color="indigo" outline onClick={onClick}>
+      <Button color={tone} outline onClick={onClick}>
         {disabled && <FaUnlock />}
         {!disabled && <FaLock />}
       </Button>
-      {mapStatusToButton(flight.status, disabled)}
+      {automation === null ? action : <Tooltip content={<AutomationSummary state={automation} />}>{action}</Tooltip>}
     </>
   );
 }

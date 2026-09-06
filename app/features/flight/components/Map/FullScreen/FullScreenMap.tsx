@@ -48,12 +48,13 @@ export function FullScreenMap({ flight, path }: Props) {
         bounds={mapBounds}
         boundsOptions={{ padding: [100, 100] }}
         scrollWheelZoom={true}
+        worldCopyJump={true}
         className="bg-gray-800 size-full z-10"
         zoomControl={false}
         attributionControl={false}
       >
         <MapTileLayer />
-        <MapWorldConstraint />
+        <MapWorldConstraint crossAntimeridian={true} />
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <FlightPath path={path} />
 

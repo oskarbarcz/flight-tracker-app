@@ -15,6 +15,7 @@ import { EtopsPointKind, OceanicRouting } from "~/features/route/model";
 import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import type { Runway } from "~/features/runway/model";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
+import { shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 const ROUTE_STYLE = { color: FLIGHT_COLOR, weight: 2.5, opacity: 0.9 };
 const TRACK_STYLE = { color: RUNWAY_COLOR, weight: 2.5, opacity: 0.85, dashArray: "2 8" };
@@ -27,6 +28,8 @@ const LABEL_LANE: Record<EtopsPointKind, number> = {
   [EtopsPointKind.EqualTime]: 38,
   [EtopsPointKind.Critical]: -40,
 };
+
+type LayerProps = Props & { offset: number };
 
 type Props = {
   briefing: EtopsBriefing;
@@ -92,7 +95,7 @@ function routeLine(briefing: EtopsBriefing, runways: AssignedRunways): LatLngTup
   });
 }
 
-export function RouteOverlay({ briefing, airports, insights, runways, selectedOrdinal, onSelect }: Props) {
+function RouteLayer({ briefing, airports, insights, runways, selectedOrdinal, onSelect, offset }: LayerProps) {
   const { computedMode } = useThemeMode();
   const pointColor = etopsPointColor(computedMode);
   const markerFill = fixMarkerFill(computedMode);
@@ -111,14 +114,14 @@ export function RouteOverlay({ briefing, airports, insights, runways, selectedOr
         <React.Fragment key={airport.id}>
           {plan?.ruleRadiusNm !== null && plan?.ruleRadiusNm !== undefined && (
             <LeafletCircle
-              center={[airport.location.latitude, airport.location.longitude]}
+              center={shiftPoint([airport.location.latitude, airport.location.longitude], offset)}
               radius={nauticalMilesToMetres(plan.ruleRadiusNm)}
               pathOptions={RULE_RING_STYLE}
             />
           )}
           {plan?.thresholdRadiusNm !== null && plan?.thresholdRadiusNm !== undefined && (
             <LeafletCircle
-              center={[airport.location.latitude, airport.location.longitude]}
+              center={shiftPoint([airport.location.latitude, airport.location.longitude], offset)}
               radius={nauticalMilesToMetres(plan.thresholdRadiusNm)}
               pathOptions={THRESHOLD_RING_STYLE}
             />
@@ -129,16 +132,19 @@ export function RouteOverlay({ briefing, airports, insights, runways, selectedOr
       {track !== null && track.fixes.length > 1 && (
         <Polyline
           pathOptions={TRACK_STYLE}
-          positions={track.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude])}
+          positions={shiftPath(
+            track.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]),
+            offset,
+          )}
         />
       )}
 
-      {line.length > 1 && <Polyline pathOptions={ROUTE_STYLE} positions={line} />}
+      {line.length > 1 && <Polyline pathOptions={ROUTE_STYLE} positions={shiftPath(line, offset)} />}
 
       {insights.map(({ fix }) => (
         <CircleMarker
           key={fix.ordinal}
-          center={[fix.latitude, fix.longitude]}
+          center={shiftPoint([fix.latitude, fix.longitude], offset)}
           radius={2.5}
           pathOptions={{ color: RUNWAY_COLOR, weight: 1, fillColor: markerFill, fillOpacity: 1 }}
           eventHandlers={{ click: () => onSelect(fix.ordinal) }}
@@ -148,7 +154,7 @@ export function RouteOverlay({ briefing, airports, insights, runways, selectedOr
       {(plan?.points ?? []).map((point) => (
         <React.Fragment key={`${point.kind}-${point.ordinal}`}>
           <CircleMarker
-            center={[point.position.latitude, point.position.longitude]}
+            center={shiftPoint([point.position.latitude, point.position.longitude], offset)}
             radius={point.isCritical ? 6 : 4}
             pathOptions={{
               color: pointColor,
@@ -158,7 +164,7 @@ export function RouteOverlay({ briefing, airports, insights, runways, selectedOr
             }}
           />
           <Marker
-            position={[point.position.latitude, point.position.longitude]}
+            position={shiftPoint([point.position.latitude, point.position.longitude], offset)}
             icon={etopsPointIcon(point)}
             zIndexOffset={900}
           />
@@ -167,11 +173,21 @@ export function RouteOverlay({ briefing, airports, insights, runways, selectedOr
 
       {selected !== null && (
         <CircleMarker
-          center={[selected.fix.latitude, selected.fix.longitude]}
+          center={shiftPoint([selected.fix.latitude, selected.fix.longitude], offset)}
           radius={6}
           pathOptions={{ color: markerFill, weight: 2, fillColor: FLIGHT_COLOR, fillOpacity: 1 }}
         />
       )}
+    </>
+  );
+}
+
+export function RouteOverlay(props: Props) {
+  return (
+    <>
+      {WORLD_COPIES.map((offset) => (
+        <RouteLayer key={offset} {...props} offset={offset} />
+      ))}
     </>
   );
 }

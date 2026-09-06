@@ -12,6 +12,7 @@ import { FlightOverviewTab } from "~/features/flight/components/Dashboard/Tabs/T
 import { FlightProgressTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightProgressTab";
 import { FlightRouteTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightRouteTab";
 import { FlightRunwayAnalysisTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightRunwayAnalysisTab";
+import { DelayNotice } from "~/features/flight/components/Dashboard/Tracking/DelayNotice";
 import { FlightHeader } from "~/features/flight/components/Dashboard/Tracking/FlightHeader";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { FlightDataTab, flightDataTabFromSlug, flightDataTabSlug } from "~/features/flight/lib/flightDataTabs";
@@ -56,6 +57,7 @@ export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
 
   return (
     <RouteBriefingProvider flight={NEEDS_ROUTE_TABS.includes(tab) ? flight : null}>
+      <DelayNotice />
       <FlightHeader mapIntent={mapIntentForTab(tab, flight.status)} />
       <FlightDataTabs
         tab={tab}

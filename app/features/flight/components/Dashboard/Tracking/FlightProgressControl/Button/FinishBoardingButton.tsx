@@ -11,7 +11,7 @@ import { describeReconciliation, reconcileManifest } from "~/features/flight/lib
 import type { FlightManifest } from "~/features/flight/model";
 import { useApi } from "~/shared/api/useApi";
 
-export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
+export function FinishBoardingButton({ disabled, tone }: FlightProgressButtonProps) {
   const { flight, loadsheets, finishBoarding } = useTrackedFlight();
   const { flightService } = useApi();
   const { success, error } = useToast();
@@ -75,7 +75,7 @@ export function FinishBoardingButton({ disabled }: FlightProgressButtonProps) {
 
   return (
     <>
-      <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled}>
+      <Button color={tone} outline onClick={() => setShowModal(true)} disabled={disabled}>
         Finish {handlingNoun}
       </Button>
       {showModal && (

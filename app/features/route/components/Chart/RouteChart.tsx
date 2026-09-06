@@ -40,12 +40,13 @@ export function RouteChart({ flight, briefing, state }: Props) {
         bounds={chartBounds(flight, briefing)}
         boundsOptions={{ padding: [48, 48] }}
         scrollWheelZoom={true}
+        worldCopyJump={true}
         className="h-full w-full z-0"
         zoomControl={false}
         attributionControl={false}
       >
         <MapTileLayer />
-        <MapWorldConstraint />
+        <MapWorldConstraint crossAntimeridian={true} />
 
         <PlannedRouteLayer state={state} />
 

@@ -5,6 +5,7 @@ import { MapWorldConstraint } from "~/features/flight/components/Map/Element/Map
 export function BackgroundMap() {
   return (
     <MapContainer
+      worldCopyJump={true}
       center={[30, 0]}
       zoom={3}
       minZoom={3}
@@ -18,7 +19,7 @@ export function BackgroundMap() {
       keyboard={false}
     >
       <MapTileLayer />
-      <MapWorldConstraint />
+      <MapWorldConstraint crossAntimeridian={true} />
     </MapContainer>
   );
 }

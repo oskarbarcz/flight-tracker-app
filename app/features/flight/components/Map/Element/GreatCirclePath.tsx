@@ -2,6 +2,7 @@ import Arc from "arc";
 import type { LatLngTuple } from "leaflet";
 import { Polyline } from "react-leaflet";
 import type { Airport } from "~/features/airport";
+import { shiftPath, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 type GreatCirclePathType = {
   start: Airport;
@@ -15,12 +16,17 @@ function isValidPoint({ x, y }: MapPoint): boolean {
   return Number.isFinite(x) && Number.isFinite(y);
 }
 
-function generateGreatCirclePath(from: MapPoint, to: MapPoint): LatLngTuple[] {
+function generateGreatCirclePath(from: MapPoint, to: MapPoint): LatLngTuple[][] {
   const gc = new Arc.GreatCircle(from, to);
   const line = gc.Arc(100, { offset: 10 });
-  const geometry = line.geometries[0];
-  if (!geometry) return [];
-  return geometry.coords.map(([lon, lat]) => [lat, lon] as LatLngTuple);
+
+  return line.geometries
+    .map((geometry: { coords: [number, number][] }) =>
+      geometry.coords
+        .map(([lon, lat]) => [lat, lon] as LatLngTuple)
+        .filter(([lat, lon]) => Number.isFinite(lat) && Number.isFinite(lon)),
+    )
+    .filter((segment: LatLngTuple[]) => segment.length > 1);
 }
 
 const VARIANT_STYLE = {
@@ -35,10 +41,20 @@ export function GreatCirclePath({ start, end, variant = "primary" }: GreatCircle
   if (!isValidPoint(startPos) || !isValidPoint(endPos)) return null;
   if (startPos.x === endPos.x && startPos.y === endPos.y) return null;
 
-  const path = generateGreatCirclePath(startPos, endPos).filter(
-    ([lat, lon]) => Number.isFinite(lat) && Number.isFinite(lon),
-  );
-  if (path.length < 2) return null;
+  const segments = generateGreatCirclePath(startPos, endPos);
+  if (segments.length === 0) return null;
 
-  return <Polyline pathOptions={VARIANT_STYLE[variant]} positions={path} />;
+  return (
+    <>
+      {WORLD_COPIES.map((offset) =>
+        segments.map((segment) => (
+          <Polyline
+            key={`${offset}-${segment[0][0]}-${segment[0][1]}`}
+            pathOptions={VARIANT_STYLE[variant]}
+            positions={shiftPath(segment, offset)}
+          />
+        )),
+      )}
+    </>
+  );
 }
