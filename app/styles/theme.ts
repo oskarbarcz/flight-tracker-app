@@ -163,6 +163,8 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
           "bg-transparent hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:bg-indigo-950 border-0 focus:ring-indigo-200 dark:focus:ring-indigo-800",
       },
       outlineColor: {
+        warning:
+          "bg-amber-100 border-amber-100 dark:border-amber-700 dark:bg-amber-700 text-amber-700 dark:text-amber-50 hover:bg-amber-200 hover:text-amber-800 hover:border-amber-200 dark:hover:border-amber-500 dark:hover:bg-amber-500 dark:hover:text-amber-50 focus:ring-amber-300 dark:focus:ring-amber-700",
         indigo:
           "bg-indigo-100 border-indigo-100 dark:border-indigo-700 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-600 hover:border-indigo-200 dark:hover:border-indigo-500 dark:hover:bg-indigo-500 dark:hover:text-indigo-50 focus:ring-indigo-300 dark:focus:ring-indigo-700",
         gray: "bg-gray-200 text-gray-800 border-gray-200 hover:text-gray-800 hover:bg-gray-300 hover:border-gray-300 focus:ring-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-600 dark:hover:border-gray-600 dark:focus:ring-gray-500",

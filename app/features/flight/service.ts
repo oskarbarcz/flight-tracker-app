@@ -21,6 +21,7 @@ import type {
   CloseFlightRequest,
   CreateFlightRequest,
 } from "~/features/flight/request";
+import type { EtopsBriefing, PlannedRoute } from "~/features/route/model";
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
 
 type FlightListFilters = {
@@ -76,6 +77,14 @@ export class FlightService extends AbstractAuthorizedApiService {
 
   async fetchOfpByFlightId(id: string): Promise<FlightOfp> {
     return this.fetchWithAuth<FlightOfp>(`/api/v1/flight/${id}/ofp`);
+  }
+
+  async fetchRouteByFlightId(id: string): Promise<PlannedRoute> {
+    return this.fetchWithAuth<PlannedRoute>(`/api/v1/flight/${id}/route`);
+  }
+
+  async fetchEtopsBriefingByFlightId(id: string): Promise<EtopsBriefing> {
+    return this.fetchWithAuth<EtopsBriefing>(`/api/v1/flight/${id}/etops-briefing`);
   }
 
   async fetchManifestByFlightId(id: string, status?: PassengerStatus): Promise<FlightManifest> {

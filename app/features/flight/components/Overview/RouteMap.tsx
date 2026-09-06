@@ -76,12 +76,13 @@ function RouteMapContent({ flight }: Props) {
             bounds={bounds}
             boundsOptions={{ padding: [40, 40] }}
             scrollWheelZoom={true}
+            worldCopyJump={true}
             className="h-full w-full z-0"
             zoomControl={false}
             attributionControl={false}
           >
             <MapTileLayer />
-            <MapWorldConstraint />
+            <MapWorldConstraint crossAntimeridian={true} />
             <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
             <FlightPath path={flightPath} />
             <TrackingRunwaysLayer

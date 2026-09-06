@@ -2,14 +2,24 @@ import { latLngBounds } from "leaflet";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-const WORLD_BOUNDS = latLngBounds([-85.0511, -180], [85.0511, 180]);
+const LATITUDE_LIMIT = 85.0511;
+const SINGLE_WORLD = 180;
+const WRAPPED_WORLDS = 540;
 const TILE_SIZE = 256;
 
-export function MapWorldConstraint() {
+type Props = {
+  crossAntimeridian?: boolean;
+};
+
+function boundsFor(longitudeLimit: number) {
+  return latLngBounds([-LATITUDE_LIMIT, -longitudeLimit], [LATITUDE_LIMIT, longitudeLimit]);
+}
+
+export function MapWorldConstraint({ crossAntimeridian = false }: Props) {
   const map = useMap();
 
   useEffect(() => {
-    map.setMaxBounds(WORLD_BOUNDS);
+    map.setMaxBounds(boundsFor(crossAntimeridian ? WRAPPED_WORLDS : SINGLE_WORLD));
     map.options.maxBoundsViscosity = 1;
 
     const clampMinZoom = () => {
@@ -23,7 +33,7 @@ export function MapWorldConstraint() {
     return () => {
       map.off("resize", clampMinZoom);
     };
-  }, [map]);
+  }, [map, crossAntimeridian]);
 
   return null;
 }

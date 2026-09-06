@@ -5,7 +5,7 @@ import { CloseFlightModal } from "~/features/flight/components/Modal/CloseFlight
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
 
-export function CloseFlightButton({ disabled }: FlightProgressButtonProps) {
+export function CloseFlightButton({ disabled, tone, label }: FlightProgressButtonProps) {
   const { flight, activeEmergency, delayRequest } = useTrackedFlight();
   const [showModal, setShowModal] = useState(false);
 
@@ -17,8 +17,8 @@ export function CloseFlightButton({ disabled }: FlightProgressButtonProps) {
   const isBlocked = Boolean(activeEmergency) || hasUnsettledDelay;
 
   const button = (
-    <Button color="indigo" outline onClick={() => setShowModal(true)} disabled={disabled || isBlocked}>
-      {toHuman.flight.status.next(flight.status, flight.serviceType)}
+    <Button color={tone} outline onClick={() => setShowModal(true)} disabled={disabled || isBlocked}>
+      {label ?? toHuman.flight.status.next(flight.status, flight.serviceType)}
     </Button>
   );
 

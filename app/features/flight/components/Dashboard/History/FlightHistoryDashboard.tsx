@@ -8,6 +8,7 @@ import { HistoryFuelAndLoadTab } from "~/features/flight/components/Dashboard/Hi
 import { HistoryMapTab } from "~/features/flight/components/Dashboard/History/Tabs/Tab/HistoryMapTab";
 import { HistoryOfpTab } from "~/features/flight/components/Dashboard/History/Tabs/Tab/HistoryOfpTab";
 import { HistoryOverviewTab } from "~/features/flight/components/Dashboard/History/Tabs/Tab/HistoryOverviewTab";
+import { HistoryRouteTab } from "~/features/flight/components/Dashboard/History/Tabs/Tab/HistoryRouteTab";
 import { useHistoryFlight } from "~/features/flight/hooks/useHistoryFlight";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
@@ -35,6 +36,7 @@ export function FlightHistoryDashboard() {
       {tab === HistoryDataTab.FuelAndCrew && <HistoryFuelAndLoadTab />}
       {tab === HistoryDataTab.Events && <HistoryEventsTab />}
       {tab === HistoryDataTab.Map && <HistoryMapTab />}
+      {tab === HistoryDataTab.Route && <HistoryRouteTab />}
       {tab === HistoryDataTab.OperationalFlightPlan && <HistoryOfpTab />}
       {tab === HistoryDataTab.Delays && <HistoryDelaysTab flightId={flight.id} />}
     </>

@@ -1,11 +1,9 @@
 import React from "react";
-import { Link } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
-import { AirportShape } from "~/features/airport/components/Airport/AirportShape";
 import { type AirportOnFlight, AirportOnFlightType } from "~/features/flight";
 import { translateAirportOnFlightType } from "~/features/flight/i18n";
 import { UserRole } from "~/features/user";
-import { OptionAvatarFrame } from "~/shared/ui/Form/AdvancedSelect/OptionAvatarFrame";
+import { AirportIdentity } from "~/shared/ui/Display/AirportIdentity";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
@@ -22,34 +20,19 @@ type Props = {
 };
 
 function AlternateAirportRow({ airport, canOpenAirport }: { airport: AirportOnFlight; canOpenAirport: boolean }) {
-  const iataClassName = "shrink-0 font-mono text-lg font-bold text-gray-900 dark:text-white";
-
   return (
     <div className="flex flex-col gap-1">
       <span className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
         {translateAirportOnFlightType(airport.type)}
       </span>
-      <div className="flex items-center gap-3">
-        <OptionAvatarFrame>
-          <AirportShape shape={airport.shape} />
-        </OptionAvatarFrame>
-        <div className="min-w-0">
-          <div className="flex min-w-0 items-baseline gap-2">
-            {canOpenAirport ? (
-              <Link to={`/airports/${airport.id}`} viewTransition className={`${iataClassName} hover:text-primary-500`}>
-                {airport.iataCode}
-              </Link>
-            ) : (
-              <span className={iataClassName}>{airport.iataCode}</span>
-            )}
-            <span className="shrink-0 text-gray-300 dark:text-gray-600">|</span>
-            <span className="truncate text-sm font-medium text-gray-700 dark:text-gray-200">{airport.name}</span>
-          </div>
-          <div className="truncate text-sm text-gray-500 dark:text-gray-400">
-            {airport.city.name}, {airport.country.name}
-          </div>
-        </div>
-      </div>
+      <AirportIdentity
+        iataCode={airport.iataCode}
+        name={airport.name}
+        city={airport.city.name}
+        country={airport.country.name}
+        shape={airport.shape}
+        href={canOpenAirport ? `/airports/${airport.id}` : undefined}
+      />
     </div>
   );
 }

@@ -47,15 +47,7 @@ export function PhaseMetrics({ flight }: Props) {
   const actual = flight.timesheet.actual;
 
   if (flight.status === FlightStatus.Created) {
-    return (
-      <div>
-        <FieldLabel>Status</FieldLabel>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Not yet released by operations</p>
-        <div className="mt-3">
-          <MetaRow label="Scheduled off-block" value={<FormattedIcaoTime date={scheduled.offBlockTime} />} />
-        </div>
-      </div>
-    );
+    return <MetaRow label="Scheduled off-block" value={<FormattedIcaoTime date={scheduled.offBlockTime} />} />;
   }
 
   if (OFF_BLOCK_STATUSES.includes(flight.status)) {

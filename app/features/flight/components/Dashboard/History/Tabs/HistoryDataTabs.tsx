@@ -5,6 +5,7 @@ export enum HistoryDataTab {
   FuelAndCrew,
   Events,
   Map,
+  Route,
   OperationalFlightPlan,
   Delays,
 }
@@ -22,6 +23,7 @@ export function HistoryDataTabs({ tab, setTab, isSimbriefAvailable }: Props) {
       <TabItem active={tab === HistoryDataTab.FuelAndCrew} title="Fuel & crew" />
       <TabItem active={tab === HistoryDataTab.Events} title="Events" />
       <TabItem active={tab === HistoryDataTab.Map} title="Map" />
+      <TabItem active={tab === HistoryDataTab.Route} title="Route" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === HistoryDataTab.OperationalFlightPlan} title="OFP" disabled={!isSimbriefAvailable} />
       <TabItem active={tab === HistoryDataTab.Delays} title="Delay report" />
     </Tabs>

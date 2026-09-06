@@ -45,12 +45,13 @@ export function HistoryFlightMap({ flight, diversion = null }: Props) {
         bounds={mapBounds}
         boundsOptions={{ padding: [80, 80] }}
         scrollWheelZoom={true}
+        worldCopyJump={true}
         className="rounded-xl h-full w-full z-0"
         zoomControl={false}
         attributionControl={false}
       >
         <MapTileLayer />
-        <MapWorldConstraint />
+        <MapWorldConstraint crossAntimeridian={true} />
 
         <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
         <DiversionRoute origin={flight.departureAirport} diversion={diversion} />

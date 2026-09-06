@@ -6,11 +6,12 @@ type Props = {
   label: string;
   value: React.ReactNode;
   unit?: string;
+  meta?: React.ReactNode;
   mono?: boolean;
   align?: "left" | "right";
 };
 
-export function StatBlock({ label, value, unit, mono = true, align = "left" }: Props) {
+export function StatBlock({ label, value, unit, meta, mono = true, align = "left" }: Props) {
   return (
     <div className={align === "right" ? "text-right" : undefined}>
       <FieldLabel>{label}</FieldLabel>
@@ -23,6 +24,7 @@ export function StatBlock({ label, value, unit, mono = true, align = "left" }: P
         {value}
         {unit && <span className="ms-0.5 text-xs font-normal text-gray-500 dark:text-gray-400">{unit}</span>}
       </div>
+      {meta !== undefined && <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">{meta}</div>}
     </div>
   );
 }

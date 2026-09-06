@@ -18,6 +18,7 @@ export default [
     route("me/account", "routes/common/AccountRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [
       route("track/:id", "routes/pilot/track/TrackFlightRoute.tsx"),
+      route("track/:id/:tab", "routes/pilot/track/TrackFlightRoute.tsx", { id: "track-tab" }),
       route("rotations", "routes/pilot/rotations/PilotRotationsRoute.tsx"),
       route("rotations/:rotationId", "routes/pilot/rotations/PilotRotationDetailsRoute.tsx"),
       route("stats", "routes/pilot/stats/PilotStatsRoute.tsx"),
@@ -77,6 +78,7 @@ export default [
         route("flights/:id/loadsheet", "routes/operations/flights/FlightLoadsheetRoute.tsx"),
         route("flights/:id/cargo", "routes/operations/flights/FlightCargoRoute.tsx"),
         route("flights/:id/manifest", "routes/operations/flights/FlightManifestRoute.tsx"),
+        route("flights/:id/route", "routes/operations/flights/FlightRouteRoute.tsx"),
         route("flights/:id/ofp", "routes/operations/flights/FlightOfpRoute.tsx"),
         route("flights/:id/emergencies", "routes/operations/flights/FlightEmergenciesRoute.tsx"),
         route("flights/:id/delays", "routes/operations/flights/FlightDelaysRoute.tsx"),

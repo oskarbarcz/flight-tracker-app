@@ -19,6 +19,7 @@ import { ParkingPositionEmptyPanel } from "~/features/flight/components/Overview
 import { RunwayEmptyPanel } from "~/features/flight/components/Overview/RunwayEmptyPanel";
 import { TerminalEmptyPanel } from "~/features/flight/components/Overview/TerminalEmptyPanel";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { isAfterTakeoff } from "~/features/flight/lib/flightPhase";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Runway } from "~/features/runway";
 import type { Terminal } from "~/features/terminal";
@@ -79,15 +80,6 @@ const ARRIVAL_PARKING_POSITION_CHANGEABLE = new Set<FlightStatus>([
   FlightStatus.TaxiingIn,
 ]);
 
-const AFTER_TAKEOFF = new Set<FlightStatus>([
-  FlightStatus.InCruise,
-  FlightStatus.TaxiingIn,
-  FlightStatus.OnBlock,
-  FlightStatus.OffboardingStarted,
-  FlightStatus.OffboardingFinished,
-  FlightStatus.Closed,
-]);
-
 export function ParkingPositionRunwayBox() {
   const { flight, diversion, reload } = useTrackedFlight();
   const { flightService, parkingPositionService, runwayService, terminalService } = useApi();
@@ -102,7 +94,7 @@ export function ParkingPositionRunwayBox() {
   const arrivalRunwayId = flight?.arrivalRunwayId ?? null;
   const arrivalParkingPositionId = flight?.arrivalParkingPositionId ?? null;
 
-  const afterTakeoff = flight ? AFTER_TAKEOFF.has(flight.status) : false;
+  const afterTakeoff = flight ? isAfterTakeoff(flight.status) : false;
   const [departureOpen, setDepartureOpen] = useState(!afterTakeoff);
   const [arrivalOpen, setArrivalOpen] = useState(afterTakeoff);
 

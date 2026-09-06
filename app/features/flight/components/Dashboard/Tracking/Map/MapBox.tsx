@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
-import { MapSettingsProvider } from "~/app-state/useMapSettings";
+import { type MapIntent, MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import { FlightEventType, shouldPollForAdsbData, Tracking } from "~/features/flight";
 import { AdsbStatusIndicator } from "~/features/flight/components/Map/Box/Overlay/AdsbStatusIndicator";
@@ -13,9 +13,11 @@ import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
 import type { ContainerClassProps } from "~/shared/ui/Layout/Container";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
-type MapBoxProps = ContainerClassProps;
+type MapBoxProps = ContainerClassProps & {
+  mapIntent: MapIntent;
+};
 
-export function MapBox({ className }: MapBoxProps) {
+export function MapBox({ className, mapIntent }: MapBoxProps) {
   const { flight, events } = useTrackedFlight();
   const { setCallsign, loadFlightPath, flightPath } = useAdsbData();
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
@@ -54,7 +56,7 @@ export function MapBox({ className }: MapBoxProps) {
   return (
     <TransparentContainer className={className}>
       <div ref={containerRef} className={twMerge("relative h-full w-full", containerClassName)}>
-        <MapSettingsProvider>
+        <MapSettingsProvider intent={mapIntent}>
           <TrackingFlightMap />
           <MapTopBar
             flightId={flight.id}

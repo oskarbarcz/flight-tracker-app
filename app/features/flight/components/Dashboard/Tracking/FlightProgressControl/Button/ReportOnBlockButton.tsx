@@ -3,7 +3,7 @@ import type { FlightProgressButtonProps } from "~/features/flight/components/Das
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
 
-export function ReportOnBlockButton({ disabled }: FlightProgressButtonProps) {
+export function ReportOnBlockButton({ disabled, tone, label }: FlightProgressButtonProps) {
   const { flight, reportOnBlock } = useTrackedFlight();
 
   if (!flight) {
@@ -14,8 +14,8 @@ export function ReportOnBlockButton({ disabled }: FlightProgressButtonProps) {
     await reportOnBlock();
   };
   return (
-    <Button onClick={onClick} outline color="indigo" disabled={disabled}>
-      {toHuman.flight.status.next(flight.status, flight.serviceType)}
+    <Button onClick={onClick} outline color={tone} disabled={disabled}>
+      {label ?? toHuman.flight.status.next(flight.status, flight.serviceType)}
     </Button>
   );
 }

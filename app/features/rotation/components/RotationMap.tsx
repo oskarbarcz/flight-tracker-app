@@ -136,6 +136,7 @@ export function RotationMap({ rotation, airports }: Props) {
       <div ref={containerRef} className={twMerge("relative h-full min-h-[36rem] w-full", containerClassName)}>
         <MapSettingsProvider>
           <MapContainer
+            worldCopyJump={true}
             bounds={L.latLngBounds(boundsPositions)}
             boundsOptions={{ padding: [40, 40] }}
             scrollWheelZoom
@@ -144,7 +145,7 @@ export function RotationMap({ rotation, airports }: Props) {
             attributionControl={false}
           >
             <MapTileLayer />
-            <MapWorldConstraint />
+            <MapWorldConstraint crossAntimeridian={true} />
             {legPaths.map((leg) => (
               <Polyline key={leg.id} pathOptions={LEG_LINE_STYLE} positions={leg.positions} />
             ))}

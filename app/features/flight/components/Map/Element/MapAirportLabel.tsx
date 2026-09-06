@@ -1,4 +1,4 @@
-import L, { type LatLngExpression } from "leaflet";
+import L, { type LatLngTuple } from "leaflet";
 import { useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, useMap, useMapEvents } from "react-leaflet";
@@ -8,6 +8,7 @@ import {
   AIRPORT_STRUCTURE_ZOOM_THRESHOLD,
   RUNWAY_ZOOM_THRESHOLD,
 } from "~/features/flight/components/Map/Element/zoomThresholds";
+import { shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 type MapAirportLabelProps = {
   airport: Airport;
@@ -36,13 +37,18 @@ export function MapAirportLabel({ airport, variant = "primary" }: MapAirportLabe
   });
 
   const expanded = zoom >= AIRPORT_STRUCTURE_ZOOM_THRESHOLD && zoom < RUNWAY_ZOOM_THRESHOLD;
-  const position: LatLngExpression = [airport.location.latitude, airport.location.longitude];
+  const position: LatLngTuple = [airport.location.latitude, airport.location.longitude];
 
   return (
-    <Marker
-      position={position}
-      icon={labelIcon(airport, variant, expanded)}
-      zIndexOffset={variant === "diversion" ? 1100 : 1000}
-    />
+    <>
+      {WORLD_COPIES.map((offset) => (
+        <Marker
+          key={offset}
+          position={shiftPoint(position, offset)}
+          icon={labelIcon(airport, variant, expanded)}
+          zIndexOffset={variant === "diversion" ? 1100 : 1000}
+        />
+      ))}
+    </>
   );
 }

@@ -27,18 +27,24 @@ type NoticePanelProps = {
   title: string;
   description: ReactNode;
   children?: ReactNode;
+  action?: ReactNode;
 };
 
-export function NoticePanel({ tone, icon: Icon, title, description, children }: NoticePanelProps) {
+export function NoticePanel({ tone, icon: Icon, title, description, children, action }: NoticePanelProps) {
   const classes = toneClasses[tone];
   return (
     <div className={`rounded-xl border p-3 ${classes.container}`}>
-      <div className={`flex items-center gap-2 text-sm font-bold ${classes.header}`}>
-        <Icon size={15} aria-hidden={true} />
-        {title}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <div className={`flex items-center gap-2 text-sm font-bold ${classes.header}`}>
+            <Icon size={15} aria-hidden={true} />
+            {title}
+          </div>
+          <p className={`mt-1.5 text-sm ${classes.body}`}>{description}</p>
+          {children && <div className="mt-2.5 flex flex-col gap-1.5">{children}</div>}
+        </div>
+        {action !== undefined && <div className="shrink-0">{action}</div>}
       </div>
-      <p className={`mt-1.5 text-sm ${classes.body}`}>{description}</p>
-      {children && <div className="mt-2.5 flex flex-col gap-1.5">{children}</div>}
     </div>
   );
 }

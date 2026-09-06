@@ -8,23 +8,26 @@ const ALL_TABS = [
   { title: "Fuel & crew", path: "loadsheet" },
   { title: "Cargo", path: "cargo" },
   { title: "Manifest", path: "manifest" },
+  { title: "Route", path: "route" },
   { title: "OFP", path: "ofp" },
   { title: "Alternates & Emergencies", path: "emergencies" },
   { title: "Delays", path: "delays" },
 ];
 
+const PLAN_TABS = ["route", "ofp"];
+
 type Props = {
   id: string;
-  showOfp: boolean;
+  showPlanTabs: boolean;
   hasActiveEmergency: boolean;
   hasPendingDelays: boolean;
 };
 
-export function FlightTabs({ id, showOfp, hasActiveEmergency, hasPendingDelays }: Props) {
+export function FlightTabs({ id, showPlanTabs, hasActiveEmergency, hasPendingDelays }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const tabs = showOfp ? ALL_TABS : ALL_TABS.filter((t) => t.path !== "ofp");
+  const tabs = showPlanTabs ? ALL_TABS : ALL_TABS.filter((t) => !PLAN_TABS.includes(t.path));
 
   const activeIndex = tabs.findIndex((t) => pathname.includes(t.path));
   const onClick = (index: number) => {
