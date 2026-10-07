@@ -3,9 +3,10 @@ import { FaPlane } from "react-icons/fa";
 import { FaChartColumn, FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiHome, HiOutlineUser } from "react-icons/hi";
-import { LuTowerControl } from "react-icons/lu";
+import { LuFileDiff, LuTowerControl } from "react-icons/lu";
 import { useLocation } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
+import { usePendingChangeRequestCount } from "~/features/change-request/hooks/usePendingChangeRequests";
 import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { UserRole } from "~/features/user";
@@ -99,18 +100,22 @@ function useOperationsTabs(path: string): Tab[] {
         path.startsWith("/cabin-layouts") ||
         path.startsWith("/cargo-holds") ||
         path.startsWith("/postcards") ||
-        path.startsWith("/operators"),
+        path.startsWith("/operators") ||
+        path.startsWith("/data-changes"),
     },
   ];
 }
 
-function adminTabs(path: string): Tab[] {
+function useAdminTabs(path: string): Tab[] {
+  const pendingDataChanges = usePendingChangeRequestCount();
+
   return [
     {
-      label: "Home",
-      icon: HiHome,
-      to: "/dashboard",
-      isActive: path === "/dashboard" || path === "/",
+      label: "Data changes",
+      icon: LuFileDiff,
+      to: "/data-changes",
+      isActive: path.startsWith("/data-changes"),
+      badge: pendingDataChanges,
     },
     {
       label: "Profile",
@@ -124,17 +129,17 @@ function adminTabs(path: string): Tab[] {
 type RoleTabs = {
   operationsTabs: Tab[];
   pilotTabs: Tab[];
-  path: string;
+  adminTabs: Tab[];
 };
 
-function tabsForRole(role: UserRole, { operationsTabs, pilotTabs, path }: RoleTabs): Tab[] {
+function tabsForRole(role: UserRole, { operationsTabs, pilotTabs, adminTabs }: RoleTabs): Tab[] {
   switch (role) {
     case UserRole.Operations:
       return operationsTabs;
     case UserRole.CabinCrew:
       return pilotTabs;
     case UserRole.Admin:
-      return adminTabs(path);
+      return adminTabs;
   }
 }
 
@@ -181,8 +186,9 @@ export function BottomNav() {
   const path = useLocation().pathname;
   const pilotTabs = usePilotTabs(path);
   const operationsTabs = useOperationsTabs(path);
+  const adminTabs = useAdminTabs(path);
   const role = user?.role ?? null;
-  const tabs = role === null ? [] : tabsForRole(role, { operationsTabs, pilotTabs, path });
+  const tabs = role === null ? [] : tabsForRole(role, { operationsTabs, pilotTabs, adminTabs });
   const { listRef, offset } = useActiveRail(tabs.findIndex((tab) => tab.isActive));
   const isInstalledApp = useInstalledApp();
 

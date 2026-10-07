@@ -2,9 +2,10 @@ import React from "react";
 import { FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
 import { GrDocumentTime } from "react-icons/gr";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import { LuArmchair, LuContainer, LuImage, LuTowerControl } from "react-icons/lu";
+import { LuArmchair, LuContainer, LuFileDiff, LuImage, LuTowerControl } from "react-icons/lu";
 import { MdHistory } from "react-icons/md";
 import { useLocation } from "react-router";
+import { usePendingChangeRequestCount } from "~/features/change-request/hooks/usePendingChangeRequests";
 import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
 import { SidebarElement } from "~/shared/ui/Sidebar/Elements/SidebarElement";
 import { SidebarSection } from "~/shared/ui/Sidebar/Elements/SidebarSection";
@@ -12,6 +13,7 @@ import { SidebarSection } from "~/shared/ui/Sidebar/Elements/SidebarSection";
 export function OperatorSidebarItems() {
   const path = useLocation().pathname;
   const pendingDelays = usePendingDelayCount();
+  const pendingDataChanges = usePendingChangeRequestCount();
 
   return (
     <nav className="flex flex-col gap-y-5">
@@ -37,6 +39,13 @@ export function OperatorSidebarItems() {
           isSelected={path.startsWith("/delays")}
           icon={FaRegClock}
           badge={pendingDelays}
+        />
+        <SidebarElement
+          label="Review data changes"
+          href="/data-changes"
+          isSelected={path.startsWith("/data-changes")}
+          icon={LuFileDiff}
+          badge={pendingDataChanges}
         />
         <SidebarElement
           label="Flights history"

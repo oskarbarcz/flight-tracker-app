@@ -18,4 +18,8 @@ export default function DashboardRoute() {
   if (user.role === UserRole.Operations) {
     return <Navigate to="/flights" replace />;
   }
+
+  if (user.role === UserRole.Admin) {
+    return <Navigate to="/data-changes" replace />;
+  }
 }

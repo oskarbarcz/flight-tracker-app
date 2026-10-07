@@ -7,7 +7,7 @@ import { landingPathForRole } from "~/features/user/lib/landingPath";
 const mainPaths: Record<UserRole, string[]> = {
   [UserRole.Operations]: ["/flights", "/current-flights", "/delays", "/me"],
   [UserRole.CabinCrew]: ["/dashboard", "/airports-library", "/stats", "/me"],
-  [UserRole.Admin]: ["/dashboard", "/me"],
+  [UserRole.Admin]: ["/data-changes", "/me"],
 };
 
 const trackedFlightPath = /^\/track\/[^/]+$/;

@@ -93,7 +93,8 @@ Routes use React Router's compositional config API (`layout()`, `route()`, `inde
 - `MapLayout` — public flight map (`/map`, `/map/:id`), no auth
 - `LandingRoute` — public marketing index at `/`
 - `AppLayout` — authenticated wrapper (sidebar, bottom nav, toasts), wraps `AuthGuard`
-- `OperationsLayout` / `PilotLayout` — role-specific nested layouts; `AuthGuard` takes `allowOnly` to gate by role
+- `OperationsLayout` / `PilotLayout` — role-specific nested layouts; `AuthGuard` takes `allowOnly` (one role or a list) to gate by role
+- `ReviewLayout` — shared by Operations and Admin; holds the data change review queue at `/data-changes`, which is also the Admin landing page
 
 ### Code Style
 

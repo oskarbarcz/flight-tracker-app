@@ -41,6 +41,7 @@ import {
   translateSpecialHandling,
   translateTransferRole,
 } from "~/features/cargo-manifest/i18n";
+import { translateChangeRequestResource, translateChangeRequestStatus } from "~/features/change-request/i18n";
 import {
   translateAirportOnFlightType,
   translateEventType,
@@ -120,6 +121,10 @@ export const toHuman = {
     specialHandling: translateSpecialHandling,
     transferRole: translateTransferRole,
     unitKind: translateCargoUnitKind,
+  },
+  changeRequest: {
+    resource: translateChangeRequestResource,
+    status: translateChangeRequestStatus,
   },
   notoc: {
     stage: translateNotocStage,
