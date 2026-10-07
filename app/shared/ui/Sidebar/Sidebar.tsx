@@ -3,6 +3,7 @@ import { useSidebar } from "~/app-state/useSidebar";
 import { UserRole } from "~/features/user";
 import { SidebarClock } from "~/shared/ui/Sidebar/Elements/SidebarClock";
 import { SidebarTab } from "~/shared/ui/Sidebar/Elements/SidebarTab";
+import { AdminSidebarItems } from "~/shared/ui/Sidebar/Items/AdminSidebarItems";
 import { CabinCrewSidebarItems } from "~/shared/ui/Sidebar/Items/CabinCrewSidebarItems";
 import { OperatorSidebarItems } from "~/shared/ui/Sidebar/Items/OperationsSidebarItems";
 import { SettingsSidebarItems } from "~/shared/ui/Sidebar/Items/SettingsSidebarItems";
@@ -36,6 +37,7 @@ export function Sidebar() {
           <div className="flex min-h-0 flex-1 flex-col gap-y-5 overflow-y-auto">
             {user.role === UserRole.Operations && <OperatorSidebarItems />}
             {user.role === UserRole.CabinCrew && <CabinCrewSidebarItems />}
+            {user.role === UserRole.Admin && <AdminSidebarItems />}
             <SettingsSidebarItems />
           </div>
           <div className="mt-3 border-t border-gray-200 pt-3 dark:border-gray-800">

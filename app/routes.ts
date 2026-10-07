@@ -38,6 +38,12 @@ export default [
         route("notams", "routes/pilot/airports/AirportNotamsTab.tsx"),
       ]),
     ]),
+    layout("routes/review/ReviewLayout.tsx", [
+      route("data-changes", "routes/review/data-changes/DataChangesLayout.tsx", [
+        index("routes/review/data-changes/DataChangesIndexRoute.tsx"),
+        route(":requestId", "routes/review/data-changes/DataChangeReviewRoute.tsx"),
+      ]),
+    ]),
     layout("routes/operations/OperationsLayout.tsx", [
       route("operators", "routes/operations/operators/ListOperatorsRoute.tsx", [
         route("new", "routes/operations/operators/CreateOperatorRoute.tsx"),

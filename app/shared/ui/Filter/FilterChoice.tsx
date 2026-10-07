@@ -5,9 +5,10 @@ type Props = {
   label: string;
   isSelected: boolean;
   onSelect: () => void;
+  count?: number;
 };
 
-export function FilterChoice({ label, isSelected, onSelect }: Props) {
+export function FilterChoice({ label, isSelected, onSelect, count }: Props) {
   return (
     <button
       type="button"
@@ -21,6 +22,16 @@ export function FilterChoice({ label, isSelected, onSelect }: Props) {
       )}
     >
       {label}
+      {count !== undefined && (
+        <span
+          className={twMerge(
+            "ms-1.5 font-mono tabular-nums",
+            isSelected ? "text-indigo-600 dark:text-indigo-300" : "text-gray-500 dark:text-gray-400",
+          )}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 }
