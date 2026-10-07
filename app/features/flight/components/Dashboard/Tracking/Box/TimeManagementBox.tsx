@@ -25,9 +25,9 @@ export function TimeManagementBox() {
   if (!flight) {
     return (
       <Container padding="condensed" header={<CardHeader title="Time management" />}>
-        <div className="min-h-25 flex items-center justify-center text-gray-500">
+        <div className="min-h-25 flex items-center justify-center text-gray-500 dark:text-gray-400">
           <FaCircleInfo className="inline mr-2" />
-          <span>Loading...</span>
+          <span>Loading…</span>
         </div>
       </Container>
     );
@@ -37,20 +37,20 @@ export function TimeManagementBox() {
     <Container header={<CardHeader title="Time management" />}>
       <div className="flex items-center flex-wrap text-lg">
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">Zulu time</span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">Zulu time</span>
           <p className="font-bold">
             <FormattedIcaoTime date={currentTime} />
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">Date</span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">Date</span>
           <p className="font-bold">
             <FormattedIcaoDate date={currentTime} />
           </p>
         </div>
         <hr className="w-full mt-1 mb-3 border-gray-300 dark:border-gray-700" />
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">Local time (now)</span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">Local time (now)</span>
           <p className="font-bold">
             <FormattedLocalTime date={currentTime} />
           </p>
@@ -61,7 +61,9 @@ export function TimeManagementBox() {
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">Departure ({flight.departureAirport.iataCode})</span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">
+            Departure ({flight.departureAirport.iataCode})
+          </span>
           <p className="font-bold text-lg">
             <FormattedTimezoneTime date={currentTime} timezone={flight.departureAirport.timezone} />
           </p>
@@ -72,7 +74,9 @@ export function TimeManagementBox() {
           </p>
         </div>
         <div className="w-1/2 shrink-0 mb-2">
-          <span className="text-gray-500 text-sm">Arrival ({flight.destinationAirport.iataCode})</span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">
+            Arrival ({flight.destinationAirport.iataCode})
+          </span>
           <p className="font-bold text-lg">
             <FormattedTimezoneTime date={currentTime} timezone={flight.destinationAirport.timezone} />
           </p>

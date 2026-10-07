@@ -119,7 +119,7 @@ export function LogbookRail({ rail, span, isCustom, onPick, onRange, onStep }: P
     <div className="flex flex-col gap-1">
       <div className="flex items-baseline justify-between gap-3">
         <FieldLabel>Logbook</FieldLabel>
-        <span className="font-mono text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
+        <span className="font-mono text-2xs tabular-nums text-gray-500 dark:text-gray-400">
           {hoveredMonth
             ? `${MONTHS[hoveredMonth.start.getUTCMonth()]} ${hoveredMonth.start.getUTCFullYear()} · ${formatDuration(hoveredMonth.blockMinutes)}`
             : `${MONTHS[rail.from.getUTCMonth()]} ${rail.from.getUTCFullYear()} → ${MONTHS[rail.to.getUTCMonth()]} ${rail.to.getUTCFullYear()}`}
@@ -209,7 +209,7 @@ export function LogbookRail({ rail, span, isCustom, onPick, onRange, onStep }: P
         {rail.years.map((year) => (
           <span
             key={year.year}
-            className="absolute font-mono text-[11px] tabular-nums text-gray-400 dark:text-gray-500"
+            className="absolute font-mono text-2xs tabular-nums text-gray-500 dark:text-gray-400"
             style={{ left: percent(year.fraction) }}
           >
             {year.year}

@@ -45,7 +45,7 @@ export function AirportTile({ airport, type, className }: Props) {
 
 function AirportTypeBadge({ type }: { type: AirportOnFlightType }) {
   return (
-    <span className="shrink-0 self-start rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300">
+    <span className="shrink-0 self-start rounded-full bg-indigo-100 px-2 py-0.5 text-2xs font-semibold uppercase tracking-wide text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300">
       {toHuman.airport.onFlightType(type)}
     </span>
   );

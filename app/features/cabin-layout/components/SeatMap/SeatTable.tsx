@@ -71,7 +71,7 @@ function renderTable(seats: CabinSeat[], id: string) {
                 <TableCell className="whitespace-nowrap">{availability(seat)}</TableCell>
                 <TableCell className="w-full min-w-64 whitespace-normal break-words">
                   {seat.comments.length === 0 ? (
-                    <span className="text-gray-400 dark:text-gray-500">None</span>
+                    <span className="text-gray-500 dark:text-gray-400">None</span>
                   ) : (
                     <ul className="space-y-0.5">
                       {seat.comments.map((comment) => (

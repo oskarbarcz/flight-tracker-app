@@ -49,7 +49,7 @@ export function SeatFacts({ seat }: Props) {
                 <span className="sr-only">{`${toHuman.cabinLayout.commentSentiment(comment.sentiment)}: `}</span>
                 {comment.comment}
                 {comment.severity !== null && (
-                  <span className="ml-1 whitespace-nowrap rounded-sm bg-white/10 px-1 py-px text-[10px] uppercase tracking-wide text-gray-300">
+                  <span className="ml-1 whitespace-nowrap rounded-sm bg-white/10 px-1 py-px text-2xs uppercase tracking-wide text-gray-300">
                     {toHuman.cabinLayout.commentSeverity(comment.severity)}
                   </span>
                 )}

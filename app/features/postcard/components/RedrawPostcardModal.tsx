@@ -62,7 +62,7 @@ export function RedrawPostcardModal({ postcard, close, onReplaced }: Props) {
         </p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: close }}
+        cancel={{ onClick: close }}
         confirm={{ label: "Replace art", onClick: replace }}
         pending={submitting}
         pendingLabel="Requesting…"

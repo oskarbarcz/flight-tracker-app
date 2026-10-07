@@ -21,7 +21,7 @@ export function LiveFlightListItem({ flight }: Props) {
         </div>
         <div className="mt-0.5 flex items-center gap-2 font-mono text-sm font-bold text-gray-600 dark:text-gray-300">
           <span>{flight.departureAirport.iataCode}</span>
-          <FaArrowRight size="12" className="text-gray-400" />
+          <FaArrowRight size="12" className="text-gray-500 dark:text-gray-400" />
           <span>{flight.destinationAirport.iataCode}</span>
         </div>
       </div>

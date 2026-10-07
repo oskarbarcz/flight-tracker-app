@@ -25,7 +25,7 @@ export default function FlightOfpRoute() {
     return (
       <div className="mt-3">
         <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/40 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
-          <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
+          <HiInformationCircle className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
           <span>No OFP is available for this flight.</span>
         </div>
       </div>
@@ -52,7 +52,7 @@ function DocumentCard({ ofp }: { ofp: FlightOfp }) {
               href={ofp.ofpDocumentUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               Open PDF
               <FaArrowUpRightFromSquare size={11} />

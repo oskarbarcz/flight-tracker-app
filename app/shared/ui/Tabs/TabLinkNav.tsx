@@ -44,7 +44,7 @@ export function TabLinkNav({ label, items, activeKey }: Props) {
             className={`-mb-px flex shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-4 py-2.5 text-sm font-medium transition-colors ${
               isActive
                 ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
-                : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                : "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
             }`}
           >
             {item.title}
@@ -59,9 +59,9 @@ export function TabLinkNav({ label, items, activeKey }: Props) {
 function TabCount({ count, isActive }: { count: number; isActive: boolean }) {
   return (
     <span
-      className={`min-w-5 rounded-full px-1.5 py-0.5 text-center font-mono text-[11px] font-bold tabular-nums ${
+      className={`min-w-5 rounded-full px-1.5 py-0.5 text-center font-mono text-2xs font-bold tabular-nums ${
         isActive
-          ? "bg-indigo-600 text-white dark:bg-indigo-500 dark:text-white"
+          ? "bg-indigo-600 text-white dark:text-white"
           : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
       }`}
     >

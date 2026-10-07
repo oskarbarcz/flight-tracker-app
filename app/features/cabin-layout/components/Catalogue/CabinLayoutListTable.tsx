@@ -28,7 +28,11 @@ export function CabinLayoutListTable({ layouts }: Props) {
         {layouts.map((layout) => (
           <TableRow key={layout.id}>
             <TableCell className="font-mono text-base font-bold text-gray-900 dark:text-white">
-              <Link to={`/cabin-layouts/${layout.id}`} viewTransition className="hover:text-primary-500">
+              <Link
+                to={`/cabin-layouts/${layout.id}`}
+                viewTransition
+                className="hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
                 {layout.id}
               </Link>
             </TableCell>

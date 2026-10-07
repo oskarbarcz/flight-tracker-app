@@ -195,7 +195,7 @@ export default function AirportsListRoute() {
           <div className="mb-3 flex items-baseline justify-between gap-3">
             <FieldLabel>
               {filtering ? "Matching airports" : "All airports"}
-              <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-400 dark:text-gray-500">
+              <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-500 dark:text-gray-400">
                 {matching.length}
               </span>
             </FieldLabel>
@@ -215,7 +215,7 @@ export default function AirportsListRoute() {
                 <button
                   type="button"
                   onClick={showEverything}
-                  className="ms-2 cursor-pointer font-medium text-primary-500 underline-offset-2 hover:underline"
+                  className="ms-2 cursor-pointer font-medium text-indigo-600 dark:text-indigo-400 underline-offset-2 hover:underline"
                 >
                   Show every airport
                 </button>

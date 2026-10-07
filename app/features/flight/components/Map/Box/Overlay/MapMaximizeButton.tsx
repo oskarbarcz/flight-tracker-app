@@ -1,5 +1,6 @@
 import { Button } from "flowbite-react";
-import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
+import { LuMaximize2, LuMinimize2 } from "react-icons/lu";
+import { IconSwap } from "~/shared/ui/Display/IconSwap";
 
 type Props = {
   isMaximized: boolean;
@@ -11,7 +12,10 @@ export function MapMaximizeButton({ isMaximized, onToggle }: Props) {
 
   return (
     <Button size="xs" color="light" onClick={onToggle} title={label} aria-label={label}>
-      {isMaximized ? <MdFullscreenExit className="size-4" /> : <MdFullscreen className="size-4" />}
+      <IconSwap
+        current={isMaximized ? "maximized" : "restored"}
+        icons={{ maximized: <LuMinimize2 className="size-4" />, restored: <LuMaximize2 className="size-4" /> }}
+      />
     </Button>
   );
 }

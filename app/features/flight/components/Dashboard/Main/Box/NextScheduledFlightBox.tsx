@@ -49,7 +49,7 @@ export function NextScheduledFlightBox({ flight }: Props) {
           <div className="flex items-center gap-1.5 text-gray-300 dark:text-gray-600">
             <span className="size-1.5 flex-none rounded-full bg-current" />
             <span className="flex-1 border-t border-dashed border-current" />
-            <FaPlaneDeparture className="flex-none text-gray-400 dark:text-gray-500" size={15} aria-hidden={true} />
+            <FaPlaneDeparture className="flex-none text-gray-500 dark:text-gray-400" size={15} aria-hidden={true} />
             <span className="flex-1 border-t border-dashed border-current" />
             <span className="size-1.5 flex-none rounded-full bg-current" />
           </div>

@@ -18,7 +18,7 @@ export function RemoveFlightModal({ flight, remove, cancel }: Props) {
       </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <p>
-          You are going to remove flight <span className="font-bold">{flight.flightNumber} </span>
+          Remove flight <span className="font-bold">{flight.flightNumber} </span>
           from{" "}
           <span className="font-bold">
             {flight.departureAirport.city.name} ({flight.departureAirport.iataCode}){" "}
@@ -27,14 +27,12 @@ export function RemoveFlightModal({ flight, remove, cancel }: Props) {
           <span className="font-bold">
             {flight.destinationAirport.city.name} ({flight.destinationAirport.iataCode})
           </span>
-          , departing at <span className="font-bold">{formatDate(flight.timesheet.scheduled.takeoffTime)}</span>.
+          , departing at <span className="font-bold">{formatDate(flight.timesheet.scheduled.takeoffTime)}</span>?
         </p>
-        <p>
-          <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
-        </p>
+        <p>This cannot be undone.</p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{ label: `Remove flight ${flight.flightNumber}`, onClick: () => remove(flight.id), tone: "danger" }}
       />
     </Modal>

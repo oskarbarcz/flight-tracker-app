@@ -13,6 +13,7 @@ import { reportDiversionSchema } from "~/features/diversion/schema";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -39,7 +40,7 @@ export function UpdateDiversionModal({ diversion, close }: Props) {
       success("Diversion updated.");
       close();
     } catch (err) {
-      handleFormikApiError<ReportDiversionFormData>(err, setErrors, error, "Failed to update diversion.");
+      handleFormikApiError<ReportDiversionFormData>(err, setErrors, error, "Failed to update diversion. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -58,6 +59,7 @@ export function UpdateDiversionModal({ diversion, close }: Props) {
         >
           {({ isSubmitting }) => (
             <FormikForm id="updateDiversionForm" noValidate>
+              <FocusFirstError />
               <DiversionFormFields />
               <div className="hidden">
                 <button type="submit" disabled={isSubmitting}>

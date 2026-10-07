@@ -81,9 +81,12 @@ export function ManagedFloatingInputBlock({
   const isError = displayedErrors.length > 0;
   const density = useFormDensity();
   const descriptionId = `${field}-description`;
+  const errorId = `${field}-error`;
+  const describedBy =
+    [description ? descriptionId : undefined, isError ? errorId : undefined].filter(Boolean).join(" ") || undefined;
 
   const footnoteBlock = footnote ? (
-    <div className="rounded-b-lg border border-t-0 border-gray-300 bg-gray-100 px-2 py-1 text-[11px] leading-tight text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400">
+    <div className="rounded-b-lg border border-t-0 border-gray-300 bg-gray-100 px-2 py-1 text-2xs leading-tight text-gray-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400">
       {footnote}
     </div>
   ) : null;
@@ -91,7 +94,7 @@ export function ManagedFloatingInputBlock({
   const labelContent: ReactNode = required ? (
     <>
       {label}
-      <span className="text-red-500"> *</span>
+      <span className="text-red-700 dark:text-red-400"> *</span>
     </>
   ) : (
     label
@@ -134,7 +137,8 @@ export function ManagedFloatingInputBlock({
           className="whitespace-nowrap dark:bg-gray-800"
           color={isError ? "error" : undefined}
           disabled={disabled}
-          aria-describedby={description ? descriptionId : undefined}
+          aria-invalid={isError}
+          aria-describedby={describedBy}
           {...inputProps}
         />
         {unit && (
@@ -154,7 +158,7 @@ export function ManagedFloatingInputBlock({
           {description}
         </div>
       )}
-      <InputErrorList errorFocus={isError} errors={displayedErrors} size={density.floatingSizing} />
+      <InputErrorList id={errorId} errorFocus={isError} errors={displayedErrors} size={density.floatingSizing} />
       {helperText && (
         <HelperText className="text-xs px-1 flex items-center gap-2">
           <FaInfoCircle />

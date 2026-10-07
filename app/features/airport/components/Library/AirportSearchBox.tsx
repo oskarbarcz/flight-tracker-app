@@ -70,7 +70,7 @@ export function AirportSearchBox({ airports }: Props) {
                       className={`absolute right-2 top-1/2 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 ${
                         pinned
                           ? "text-indigo-500 opacity-100"
-                          : "text-gray-400 opacity-0 focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
+                          : "text-gray-500 dark:text-gray-400 opacity-0 focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
                       }`}
                     >
                       <LuPin size={18} className={pinned ? "fill-current" : ""} />

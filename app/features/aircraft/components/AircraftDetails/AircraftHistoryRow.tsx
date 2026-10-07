@@ -10,7 +10,7 @@ import { dateToIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { dateToIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
 export const AIRCRAFT_HISTORY_GRID =
-  "grid grid-cols-[94px_74px_1fr_18px] sm:grid-cols-[112px_88px_minmax(140px,1fr)_192px_34px]";
+  "grid grid-cols-[94px_74px_1fr_18px] @xl:grid-cols-[112px_88px_minmax(140px,1fr)_192px_34px]";
 
 type Props = {
   date: Date | null;
@@ -26,7 +26,7 @@ function AirportCode({ airport }: { airport: FlightHistoryAirport }) {
     <Link
       to={`/airports/${airport.id}`}
       viewTransition
-      className="relative z-10 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none"
+      className="relative z-10 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400 pointer-coarse:pointer-events-none"
     >
       {airport.iataCode}
     </Link>
@@ -44,8 +44,8 @@ export function AircraftHistoryRow({ date, identifier, departure, arrival, statu
         <Link to={`/flights/${flightId}/overview`} viewTransition aria-label={label} className="absolute inset-0 z-0" />
       )}
 
-      <span className="block min-w-0 px-1 py-2.5 sm:px-3">
-        <span className="block text-sm font-bold tabular-nums text-gray-900 sm:text-base dark:text-white">
+      <span className="block min-w-0 px-1 py-2.5 @xl:px-3">
+        <span className="block text-sm font-bold tabular-nums text-gray-900 @xl:text-base dark:text-white">
           {date ? dateToIcaoDate(date) : "—"}
         </span>
         <span className="mt-0.5 block font-mono text-xs tabular-nums text-gray-500 dark:text-gray-400">
@@ -53,29 +53,29 @@ export function AircraftHistoryRow({ date, identifier, departure, arrival, statu
         </span>
       </span>
 
-      <span className="block min-w-0 px-1 py-2.5 sm:px-3">
-        <span className="block truncate font-mono text-sm font-bold text-gray-900 sm:text-base dark:text-white">
+      <span className="block min-w-0 px-1 py-2.5 @xl:px-3">
+        <span className="block truncate font-mono text-sm font-bold text-gray-900 @xl:text-base dark:text-white">
           {identifier}
         </span>
       </span>
 
-      <span className="block min-w-0 px-1 py-2.5 sm:px-3">
-        <span className="flex items-center gap-1.5 font-mono text-sm font-bold text-gray-900 sm:text-base dark:text-white">
+      <span className="block min-w-0 px-1 py-2.5 @xl:px-3">
+        <span className="flex items-center gap-1.5 font-mono text-sm font-bold text-gray-900 @xl:text-base dark:text-white">
           <AirportCode airport={departure} />
-          <FaArrowRight size={11} className="shrink-0 text-gray-400 dark:text-gray-500" />
+          <FaArrowRight size={11} className="shrink-0 text-gray-500 dark:text-gray-400" />
           <AirportCode airport={arrival} />
         </span>
-        <span className="mt-0.5 hidden truncate text-xs text-gray-500 sm:block dark:text-gray-400">
+        <span className="mt-0.5 hidden truncate text-xs text-gray-500 @xl:block dark:text-gray-400">
           {departure.name} → {arrival.name}
         </span>
       </span>
 
       <HiChevronRight
-        className={`order-4 size-4 shrink-0 sm:order-5 ${flightId ? "text-gray-400 dark:text-gray-500" : "invisible"}`}
+        className={`order-4 size-4 shrink-0 @xl:order-5 ${flightId ? "text-gray-500 dark:text-gray-400" : "invisible"}`}
         aria-hidden
       />
 
-      <span className="order-5 col-span-4 px-1 pb-2.5 sm:order-4 sm:col-span-1 sm:px-3 sm:pt-2.5 sm:pb-2.5">
+      <span className="order-5 col-span-4 px-1 pb-2.5 @xl:order-4 @xl:col-span-1 @xl:px-3 @xl:pt-2.5 @xl:pb-2.5">
         {status === null ? (
           <Badge color="gray" size="xs">
             Reposition

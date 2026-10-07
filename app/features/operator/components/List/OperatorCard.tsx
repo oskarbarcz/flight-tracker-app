@@ -27,10 +27,10 @@ export function OperatorCard({ operator }: Props) {
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="truncate font-bold text-gray-900 dark:text-white">{operator.shortName}</h3>
           <span className="flex flex-none gap-1">
-            <span className="rounded bg-indigo-50 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300">
+            <span className="rounded bg-indigo-50 px-1.5 py-0.5 font-mono text-2xs font-semibold text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300">
               {operator.icaoCode}
             </span>
-            <span className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[11px] text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+            <span className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-2xs text-gray-500 dark:bg-gray-700 dark:text-gray-400">
               {operator.iataCode}
             </span>
           </span>

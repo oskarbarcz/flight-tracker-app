@@ -22,11 +22,11 @@ export default function AirportGatesRoute() {
     setIsRemoving(true);
     try {
       await gateService.remove(airport.id, gate.id);
-      success(`Gate ${gate.name} deleted.`);
+      success(`Gate ${gate.name} removed.`);
       setPendingRemove(null);
       revalidator.revalidate();
     } catch {
-      error("Failed to delete gate.");
+      error("Failed to remove gate. Try again.");
     } finally {
       setIsRemoving(false);
     }

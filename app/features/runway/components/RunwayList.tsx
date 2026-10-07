@@ -1,10 +1,10 @@
 import React from "react";
-import { HiOutlineTrash, HiPencil } from "react-icons/hi";
-import { Link } from "react-router";
+import { LuPencil, LuTrash2 } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 import { type Runway, surfaceTypeOptions } from "~/features/runway";
 import { groupRunwaysByPair } from "~/features/runway/lib/runwayPairs";
 import { formatDegrees } from "~/shared/lib/geo";
+import { RowActionButton, RowActionLink } from "~/shared/ui/Button/RowAction";
 
 type Props = {
   airportId: string;
@@ -39,7 +39,7 @@ export function RunwayList({ airportId, runways, onDelete, readOnly }: Props) {
                   {pair.ends.map((end, index) => (
                     <React.Fragment key={end.id}>
                       {index > 0 ? (
-                        <span className="font-sans font-normal text-gray-400 dark:text-gray-600">·</span>
+                        <span className="font-sans font-normal text-gray-500 dark:text-gray-400">·</span>
                       ) : null}
                       <span>{end.designator}</span>
                     </React.Fragment>
@@ -132,22 +132,17 @@ function RunwayEndActions({
 
   return (
     <div className="ms-auto flex shrink-0 items-center">
-      <Link
+      <RowActionLink
         to={`/airports/${airportId}/runways/${end.id}/edit`}
-        viewTransition
-        aria-label={`Edit runway ${end.designator}`}
-        className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
-      >
-        <HiPencil className="size-3.5" />
-      </Link>
-      <button
-        type="button"
+        icon={LuPencil}
+        label={`Edit runway ${end.designator}`}
+      />
+      <RowActionButton
         onClick={() => onDelete?.(end)}
-        aria-label={`Delete runway ${end.designator}`}
-        className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
-      >
-        <HiOutlineTrash className="size-3.5" />
-      </button>
+        icon={LuTrash2}
+        label={`Remove runway ${end.designator}`}
+        tone="danger"
+      />
     </div>
   );
 }

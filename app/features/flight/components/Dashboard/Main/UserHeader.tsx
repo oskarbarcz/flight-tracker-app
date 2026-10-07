@@ -86,7 +86,7 @@ export function UserHeader() {
       <HeroBackdrop />
       <div className="relative flex w-full items-center justify-between gap-4 sm:w-auto sm:gap-6">
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{greeting},</p>
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{greeting},</p>
           <h2 className="mt-1 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">{name}</h2>
         </div>
         <StatusPill status={getStatus(user)} />

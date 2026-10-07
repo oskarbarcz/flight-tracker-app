@@ -15,7 +15,7 @@ const toneDot: Record<MapTone, string> = {
 
 export function MapPill({ label, tone }: { label: string; tone: MapTone }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white/85 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-gray-700 backdrop-blur dark:border-gray-700 dark:bg-gray-900/70 dark:text-gray-200">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white/85 px-2.5 py-1 text-2xs font-bold uppercase tracking-wide text-gray-700 backdrop-blur dark:border-gray-700 dark:bg-gray-900/70 dark:text-gray-200">
       <span className={`size-1.5 rounded-full ${toneDot[tone]}`} />
       {label}
     </span>

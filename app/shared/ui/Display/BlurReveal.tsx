@@ -71,7 +71,7 @@ export function BlurReveal({
           className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-xl bg-gradient-to-t from-white via-white/70 to-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:from-gray-900 dark:via-gray-900/70"
         >
           {overlayLabel !== undefined && (
-            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
+            <span className="text-2xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
               {overlayLabel}
             </span>
           )}
@@ -82,7 +82,7 @@ export function BlurReveal({
         <button
           type="button"
           onClick={onCollapse}
-          className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-xl py-1.5 text-[11px] font-bold uppercase tracking-wider text-indigo-700 transition-colors hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-indigo-300 dark:hover:bg-indigo-950"
+          className="mt-2 flex w-full cursor-pointer items-center justify-center rounded-xl py-1.5 text-2xs font-bold uppercase tracking-wider text-indigo-700 transition-colors hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-indigo-300 dark:hover:bg-indigo-950"
         >
           {collapseLabel}
         </button>

@@ -55,7 +55,7 @@ function TrackMessage({ tracks, flownIdentifier }: { tracks: OceanicTrack[]; flo
       <FieldLabel>Track message ({tracks.length} published)</FieldLabel>
       <table className="mt-2 w-full text-left">
         <thead>
-          <tr className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <tr className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             <th scope="col" className="pb-1 pe-3">
               Id
             </th>

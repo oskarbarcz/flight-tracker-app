@@ -5,6 +5,7 @@ import { PilotLicenseInputBlock } from "~/features/rotation/components/PilotLice
 import { RotationTmi } from "~/features/rotation/components/RotationTmi";
 import type { CreateRotationRequest } from "~/features/rotation/request";
 import { createRotationSchema } from "~/features/rotation/schema";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -35,12 +36,13 @@ export function EditRotationModal({ name, pilotId, onSave, onClose }: Props) {
       >
         {({ errors, touched, setFieldValue }) => (
           <Form className="flex min-h-0 flex-1 flex-col">
+            <FocusFirstError />
             <ModalBody className="flex flex-col gap-4">
               <RotationTmi />
               <ManagedFloatingInputBlock field="name" label="Rotation name" />
               <PilotLicenseInputBlock
                 htmlName="pilotId"
-                label="Assigned pilot"
+                label="Pilot license ID"
                 defaultValue={pilotId}
                 setFieldValue={setFieldValue}
                 errors={touched.pilotId && errors.pilotId ? [errors.pilotId] : []}

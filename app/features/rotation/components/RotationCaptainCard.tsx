@@ -26,7 +26,9 @@ export function RotationCaptainCard({ name, onEdit }: Props) {
         </span>
         <div className="min-w-0 flex-1">
           <span className="block truncate font-semibold text-gray-900 dark:text-white">{name ?? "Unassigned"}</span>
-          <span className="block text-xs font-medium uppercase tracking-wide text-gray-500">Captain</span>
+          <span className="block text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            Captain
+          </span>
         </div>
         {onEdit && (
           <Button color="gray" outline size="sm" className="shrink-0" onClick={onEdit}>

@@ -24,7 +24,7 @@ export function StatBlock({ label, value, unit, meta, mono = true, align = "left
         {value}
         {unit && <span className="ms-0.5 text-xs font-normal text-gray-500 dark:text-gray-400">{unit}</span>}
       </div>
-      {meta !== undefined && <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">{meta}</div>}
+      {meta !== undefined && <div className="mt-0.5 text-2xs text-gray-500 dark:text-gray-400">{meta}</div>}
     </div>
   );
 }

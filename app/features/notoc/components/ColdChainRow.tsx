@@ -20,17 +20,17 @@ export function ColdChainRow({ assessment }: Props) {
   return (
     <article className="flex items-baseline gap-3 border-b border-gray-100 py-1.5 last:border-b-0 dark:border-gray-800">
       <span className="flex w-20 shrink-0">
-        <Badge color={RISK_COLOR[assessment.risk]} size="xs" className="px-1.5 py-0 text-[10px]">
+        <Badge color={RISK_COLOR[assessment.risk]} size="xs" className="px-1.5 py-0 text-2xs">
           {toHuman.cargoManifest.coldChainRisk(assessment.risk)}
         </Badge>
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-xs font-semibold text-gray-900 dark:text-white">{assessment.description}</span>
         {!isRoutine && (
-          <span className="block text-[11px] text-gray-500 dark:text-gray-400">{assessment.explanation}</span>
+          <span className="block text-2xs text-gray-500 dark:text-gray-400">{assessment.explanation}</span>
         )}
       </span>
-      <span className="shrink-0 text-right font-mono text-[11px] text-gray-500 dark:text-gray-400">
+      <span className="shrink-0 text-right font-mono text-2xs text-gray-500 dark:text-gray-400">
         <span className="block">{assessment.marginHours} h margin</span>
         <span className="block">{toHuman.cargoManifest.coldChainRegime(assessment.regime)}</span>
       </span>

@@ -1,4 +1,4 @@
-import { FaExclamationTriangle } from "react-icons/fa";
+import { LuTriangleAlert } from "react-icons/lu";
 import { FlightStatus } from "~/features/flight";
 
 const beforeOffBlockStatuses = [
@@ -14,7 +14,7 @@ type Props = {
   isOnline: boolean;
 };
 
-const labelClass = "flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em]";
+const labelClass = "flex items-center gap-2 text-2xs font-bold uppercase tracking-[0.08em]";
 
 export function AdsbStatusIndicator({ status, isOnline }: Props) {
   if (isOnline) {
@@ -40,7 +40,7 @@ export function AdsbStatusIndicator({ status, isOnline }: Props) {
 
   return (
     <span className={`${labelClass} text-amber-700 dark:text-amber-400`}>
-      <FaExclamationTriangle className="size-3" />
+      <LuTriangleAlert className="size-3" />
       ADS-B offline
     </span>
   );

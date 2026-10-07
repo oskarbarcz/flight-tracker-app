@@ -1,11 +1,11 @@
 import React from "react";
-import { HiOutlineTrash, HiPencil } from "react-icons/hi";
-import { Link } from "react-router";
+import { LuPencil, LuTrash2 } from "react-icons/lu";
 import { type Gate, gateCategoryOptions } from "~/features/gate";
 import { groupGatesByTerminal } from "~/features/gate/lib/gateGroups";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
 import { CollapsibleTerminalSection } from "~/features/terminal/components/CollapsibleTerminalSection";
+import { RowActionButton, RowActionLink } from "~/shared/ui/Button/RowAction";
 import { FactRow } from "~/shared/ui/Fact/FactRow";
 
 type Props = {
@@ -68,22 +68,17 @@ export function GateList({
                   </h4>
                   {!readOnly && (
                     <div className="flex shrink-0 items-center">
-                      <Link
+                      <RowActionLink
                         to={`/airports/${airportId}/gates/${gate.id}/edit`}
-                        viewTransition
-                        aria-label={`Edit gate ${gate.name}`}
-                        className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
-                      >
-                        <HiPencil className="size-3.5" />
-                      </Link>
-                      <button
-                        type="button"
+                        icon={LuPencil}
+                        label={`Edit gate ${gate.name}`}
+                      />
+                      <RowActionButton
                         onClick={() => onDelete?.(gate)}
-                        aria-label={`Delete gate ${gate.name}`}
-                        className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
-                      >
-                        <HiOutlineTrash className="size-3.5" />
-                      </button>
+                        icon={LuTrash2}
+                        label={`Remove gate ${gate.name}`}
+                        tone="danger"
+                      />
                     </div>
                   )}
                 </header>
@@ -93,7 +88,7 @@ export function GateList({
                     {parkingPosition ? (
                       <span className="font-mono">{parkingPosition.name}</span>
                     ) : (
-                      <span className="text-gray-400 dark:text-gray-600">Not linked</span>
+                      <span className="text-gray-500 dark:text-gray-400">Not linked</span>
                     )}
                   </FactRow>
                 </dl>

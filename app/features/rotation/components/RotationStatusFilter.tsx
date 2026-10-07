@@ -32,6 +32,7 @@ export function RotationStatusFilter({ active }: Props) {
             key={value}
             to={`?status=${value}`}
             viewTransition
+            aria-current={isActive ? "page" : undefined}
             className={`rounded-md px-3 py-1.5 text-sm font-semibold transition-colors ${
               isActive
                 ? "bg-white text-indigo-600 dark:bg-gray-900 dark:text-indigo-300"

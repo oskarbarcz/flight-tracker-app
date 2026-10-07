@@ -77,7 +77,7 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
               key={column.key}
               scope="col"
               className={twMerge(
-                "border-b border-gray-200 px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:border-gray-700 dark:text-gray-400",
+                "border-b border-gray-200 px-3 py-2 text-2xs font-bold uppercase tracking-wider text-gray-500 dark:border-gray-700 dark:text-gray-400",
                 column.numeric && "text-right",
                 column.hideOnNarrow && NARROW_HIDDEN,
               )}
@@ -94,7 +94,7 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
             <th
               scope="rowgroup"
               colSpan={COLUMNS.length}
-              className="border-b border-gray-100 bg-white px-3 pb-1 pt-3 text-left text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-500"
+              className="border-b border-gray-100 bg-white px-3 pb-1 pt-3 text-left text-2xs font-bold uppercase tracking-wider text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400"
             >
               {run[0].fix.stage}
             </th>
@@ -130,7 +130,7 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
                       onFocus={() => onSelect(fix.ordinal)}
                       onClick={() => setExpandedOrdinal(isExpanded ? null : fix.ordinal)}
                       className={twMerge(
-                        "rounded font-mono text-sm font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300",
+                        "rounded font-mono text-sm font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
                         isSelected ? "text-indigo-600 dark:text-indigo-400" : "text-gray-900 dark:text-white",
                       )}
                     >

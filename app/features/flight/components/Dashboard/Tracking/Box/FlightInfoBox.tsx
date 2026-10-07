@@ -21,7 +21,7 @@ type FlightInfoBoxProps = ContainerClassProps;
 export function FlightInfoBox({ className }: FlightInfoBoxProps) {
   const { flight, diversion } = useTrackedFlight();
   if (!flight) {
-    return <div>Loading...</div>;
+    return <div>Loading…</div>;
   }
 
   const { timesheet } = flight;
@@ -81,9 +81,17 @@ function RouteRow({
       <div className="flex shrink-0 flex-col items-center">
         <FaPlane className="text-gray-500 dark:text-gray-400" />
         {estimatedBlockTime && (
-          <span className="mt-1 font-mono text-sm font-semibold text-green-500">{estimatedBlockTime}</span>
+          <span className="mt-1 font-mono text-sm font-semibold text-gray-900 dark:text-gray-100">
+            <span className="me-1 font-sans text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              Est
+            </span>
+            {estimatedBlockTime}
+          </span>
         )}
-        <span className="font-mono text-xs text-gray-400 dark:text-gray-500">{scheduledBlockTime}</span>
+        <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
+          <span className="me-1 font-sans text-2xs font-bold uppercase tracking-wider">Sched</span>
+          {scheduledBlockTime}
+        </span>
       </div>
       <AirportColumn iata={destinationIata} city={destinationCity} align="end" struck={diverted} />
     </div>
@@ -101,7 +109,7 @@ function AirportColumn({
   align: "start" | "end";
   struck?: boolean;
 }) {
-  const baseTextColor = struck ? "text-gray-400 dark:text-gray-500 line-through decoration-2" : undefined;
+  const baseTextColor = struck ? "text-gray-500 dark:text-gray-400 line-through decoration-2" : undefined;
   return (
     <div
       className={`flex min-w-0 flex-col font-bold ${align === "end" ? "items-end text-end" : "items-start text-start"}`}
@@ -119,9 +127,9 @@ function AirportColumn({
 function DiversionBanner({ diversion }: { diversion: Diversion }) {
   return (
     <div className="-mx-1 flex items-center gap-3 rounded-lg border border-red-500/60 bg-red-50 px-3 py-2 dark:bg-red-950/40">
-      <FaPlaneCircleExclamation className="shrink-0 text-red-600 dark:text-red-500" />
+      <FaPlaneCircleExclamation className="shrink-0 text-red-700 dark:text-red-400" />
       <div className="flex min-w-0 flex-col">
-        <span className="text-[0.65rem] font-bold uppercase tracking-widest text-red-600 dark:text-red-500">
+        <span className="text-2xs font-bold uppercase tracking-widest text-red-700 dark:text-red-400">
           Diverting to
         </span>
         <span className="truncate text-sm font-semibold text-red-700 dark:text-red-400">

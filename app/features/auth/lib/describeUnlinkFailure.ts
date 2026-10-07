@@ -15,11 +15,11 @@ function noPasswordMessage(provider: UnlinkProvider): string {
 }
 
 function temporaryFailureMessage(provider: UnlinkProvider): string {
-  return `Couldn't disconnect your ${provider} account right now. Try again in a moment.`;
+  return `Couldn’t disconnect your ${provider} account right now. Try again in a moment.`;
 }
 
 function rejectedMessage(provider: UnlinkProvider): string {
-  return `Your ${provider} account couldn't be disconnected. Try again.`;
+  return `Your ${provider} account couldn’t be disconnected. Try again.`;
 }
 
 type FailureReason = {

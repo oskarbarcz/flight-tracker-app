@@ -8,11 +8,10 @@ type Props = {
   assignedParkingPositionId?: string | null;
 };
 
-function parkingIcon(name: string, filled: boolean, assigned: boolean) {
+function parkingIcon(name: string, filled: boolean) {
   const dotClass = `map-parking__dot ${filled ? "map-parking__dot--filled" : "map-parking__dot--hollow"}`;
-  const labelClass = `map-parking__label${assigned ? " map-parking__label--assigned" : ""}`;
   return new L.DivIcon({
-    html: `<span class="map-parking"><span class="${dotClass}"></span><span class="${labelClass}">${escapeHtml(name)}</span></span>`,
+    html: `<span class="map-parking"><span class="${dotClass}"></span><span class="map-parking__label">${escapeHtml(name)}</span></span>`,
     className: "map-marker",
     iconSize: [0, 0],
     iconAnchor: [0, 0],
@@ -30,7 +29,7 @@ export function ParkingPositionMarkers({ parkingPositions, assignedParkingPositi
           <Marker
             key={parkingPosition.id}
             position={[parkingPosition.coordinates.latitude, parkingPosition.coordinates.longitude]}
-            icon={parkingIcon(parkingPosition.name, filled, assigned)}
+            icon={parkingIcon(parkingPosition.name, filled)}
           />
         );
       })}

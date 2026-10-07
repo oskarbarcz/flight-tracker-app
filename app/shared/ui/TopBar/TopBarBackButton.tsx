@@ -1,4 +1,4 @@
-import { HiOutlineChevronLeft } from "react-icons/hi";
+import { LuChevronLeft } from "react-icons/lu";
 import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { UserRole } from "~/features/user";
@@ -49,9 +49,9 @@ export function TopBarBackButton() {
       type="button"
       onClick={goBack}
       aria-label="Go back"
-      className="flex size-11 cursor-pointer items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:text-gray-400 dark:hover:text-indigo-400"
+      className="flex size-11 cursor-pointer items-center justify-center rounded-lg text-gray-500 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-gray-400 dark:hover:text-indigo-400"
     >
-      <HiOutlineChevronLeft className="size-6" />
+      <LuChevronLeft className="size-6" />
     </button>
   );
 }

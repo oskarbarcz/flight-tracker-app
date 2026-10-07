@@ -35,12 +35,11 @@ export function ReleaseFlightModal({ flight, release, cancel }: Props) {
           <span className="font-bold">Removing a flight </span>
           and
           <span className="font-bold"> changing the schedule </span>
-          won't be available anymore.
+          won’t be available anymore.
         </p>
-        <p className="my-4">Are you sure to proceed?</p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{
           label: "Release flight",
           onClick: () => release(flight.id),

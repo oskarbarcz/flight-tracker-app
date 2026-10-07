@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
 import type { Emergency } from "~/features/emergency";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { apiErrorMessage } from "~/shared/lib/handleFormikApiError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -23,7 +24,7 @@ export function ResolveEmergencyConfirmModal({ emergency, close }: Props) {
       success("Emergency marked as resolved.");
       close();
     } catch (err) {
-      const message = (err as { error?: string } | null)?.error ?? "Failed to resolve emergency.";
+      const message = apiErrorMessage(err, "Failed to resolve emergency. Try again.");
       error(message);
     } finally {
       setSubmitting(false);
@@ -42,7 +43,7 @@ export function ResolveEmergencyConfirmModal({ emergency, close }: Props) {
         </p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: close }}
+        cancel={{ onClick: close }}
         confirm={{ label: "Mark resolved", onClick: handleResolve, tone: "danger" }}
         pending={submitting}
       />

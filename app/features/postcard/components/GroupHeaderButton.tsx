@@ -21,11 +21,11 @@ export function GroupHeaderButton({ open, onToggle, label, count, failedCount, c
       aria-expanded={open}
       onClick={onToggle}
       className={twMerge(
-        "flex w-full cursor-pointer items-center gap-3 px-3.5 py-3 text-left transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-300 dark:hover:bg-gray-800/60",
+        "flex w-full cursor-pointer items-center gap-3 px-3.5 py-3 text-left transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 dark:hover:bg-gray-800/60",
         className,
       )}
     >
-      <Chevron className="size-4 shrink-0 text-gray-400 dark:text-gray-500" aria-hidden={true} />
+      <Chevron className="size-4 shrink-0 text-gray-500 dark:text-gray-400" aria-hidden={true} />
       {label}
       {failedCount > 0 && (
         <Badge size="xs" color="failure">

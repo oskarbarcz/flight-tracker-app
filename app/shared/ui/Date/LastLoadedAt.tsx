@@ -30,7 +30,7 @@ export function LastLoadedAt({ at, label = "Loaded" }: Props) {
   }, []);
 
   return (
-    <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+    <span className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
       {label} <time dateTime={at}>{describeElapsed(now - new Date(at).getTime())}</time>
     </span>
   );

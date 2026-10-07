@@ -63,7 +63,7 @@ export function RotationLegsEditor({
       )}
 
       {rotation.legs.length === 0 ? (
-        <p className="rounded-xl bg-gray-50 p-6 text-center text-sm text-gray-500 dark:bg-gray-900/40">
+        <p className="rounded-xl bg-gray-50 p-6 text-center text-sm text-gray-500 dark:text-gray-400 dark:bg-gray-900/40">
           No legs planned yet.
         </p>
       ) : (

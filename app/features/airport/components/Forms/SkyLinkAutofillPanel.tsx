@@ -7,20 +7,24 @@ import { skyLinkToFormData } from "~/features/skylink/transformer";
 import { useApi } from "~/shared/api/useApi";
 import { FormFieldGroup } from "~/shared/ui/Form/FormFieldGroup";
 import { useFormDensity } from "~/shared/ui/Form/formDensity";
+import { InputErrorList } from "~/shared/ui/Form/InputErrorList";
 
 export function SkyLinkAutofillPanel() {
   const { skyLinkService } = useApi();
   const countries = useCountries();
   const { setValues } = useFormikContext<CreateAirportFormData>();
   const [iataCodeInput, setIataCodeInput] = useState<string>("");
+  const [iataCodeError, setIataCodeError] = useState<string | null>(null);
   const density = useFormDensity();
 
   async function handleFill() {
     const iataCode = iataCodeInput.trim().toUpperCase();
     if (iataCode.length !== 3) {
-      alert("Please enter a valid IATA code.");
+      setIataCodeError("Enter a 3-letter IATA code");
       return;
     }
+
+    setIataCodeError(null);
 
     const response = await skyLinkService.fetchAirportByIataCode(iataCode);
     setValues(skyLinkToFormData(response, countries));
@@ -37,13 +41,20 @@ export function SkyLinkAutofillPanel() {
           name="skylinkIataCode"
           className="whitespace-nowrap dark:bg-gray-800"
           value={iataCodeInput}
-          onChange={(event) => setIataCodeInput(event.target.value)}
+          color={iataCodeError ? "error" : undefined}
+          aria-invalid={iataCodeError !== null}
+          aria-describedby={iataCodeError ? "skylinkIataCode-error" : undefined}
+          onChange={(event) => {
+            setIataCodeInput(event.target.value);
+            setIataCodeError(null);
+          }}
         />
         <Button className="min-w-fit cursor-pointer" color="indigo" size="sm" onClick={handleFill} outline>
           <span className="pe-1">Fill with</span>
           <span className="font-mono font-bold">SkyLink</span>
         </Button>
       </div>
+      <InputErrorList id="skylinkIataCode-error" errorFocus={true} errors={iataCodeError ? [iataCodeError] : []} />
     </FormFieldGroup>
   );
 }

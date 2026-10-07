@@ -11,13 +11,11 @@ type Props = {
 export function SectionHeaderWithBackButton({ sectionTitle, backUrl, backText }: Props) {
   return (
     <div className="mx-auto my-6">
-      <Link className="block" to={backUrl} viewTransition>
-        <Button color="gray" size="xs">
-          <HiOutlineArrowLeft className="mr-2 size-4" />
-          {backText}
-        </Button>
-      </Link>
-      {sectionTitle && <h2 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>}
+      <Button as={Link} to={backUrl} viewTransition color="gray" size="xs" className="w-fit">
+        <HiOutlineArrowLeft className="mr-2 size-4" />
+        {backText}
+      </Button>
+      {sectionTitle && <h1 className="mt-3 text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h1>}
     </div>
   );
 }

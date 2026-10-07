@@ -101,19 +101,19 @@ export function HeatmapPanel({ stats }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200 dark:border-gray-700">
-                  <th className="pb-2 pe-3 text-start text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <th className="pb-2 pe-3 text-start text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Month
                   </th>
-                  <th className="pb-2 pe-3 text-end text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <th className="pb-2 pe-3 text-end text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Flights
                   </th>
-                  <th className="pb-2 pe-3 text-end text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <th className="pb-2 pe-3 text-end text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Block
                   </th>
-                  <th className="pb-2 pe-3 text-end text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <th className="pb-2 pe-3 text-end text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Air
                   </th>
-                  <th className="pb-2 text-end text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <th className="pb-2 text-end text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Days flown
                   </th>
                 </tr>
@@ -124,7 +124,7 @@ export function HeatmapPanel({ stats }: Props) {
                     key={month.key}
                     className={twMerge(
                       "border-b border-gray-100 last:border-b-0 dark:border-gray-800",
-                      month.flights === 0 ? "text-gray-400 dark:text-gray-600" : "text-gray-700 dark:text-gray-200",
+                      month.flights === 0 ? "text-gray-500 dark:text-gray-400" : "text-gray-700 dark:text-gray-200",
                     )}
                   >
                     <td
@@ -151,7 +151,7 @@ export function HeatmapPanel({ stats }: Props) {
             <button
               type="button"
               onClick={() => setExpanded(false)}
-              className="w-full cursor-pointer rounded-lg py-1 text-center text-[11px] font-bold uppercase tracking-wider text-indigo-700 transition-colors hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-indigo-300 dark:hover:bg-indigo-950"
+              className="w-full cursor-pointer rounded-lg py-1 text-center text-2xs font-bold uppercase tracking-wider text-indigo-700 transition-colors hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-indigo-300 dark:hover:bg-indigo-950"
             >
               Hide
             </button>

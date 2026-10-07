@@ -30,10 +30,7 @@ export function CountryFlag({ code, name, className }: Props) {
       alt={`Flag of ${name}`}
       loading="lazy"
       decoding="async"
-      className={twMerge(
-        "h-3.5 w-[1.167rem] shrink-0 rounded-[2px] object-cover ring-1 ring-gray-900/15 dark:ring-white/20",
-        className,
-      )}
+      className={twMerge("h-3.5 w-[1.167rem] shrink-0 rounded-[2px] object-cover image-outline", className)}
     />
   );
 }

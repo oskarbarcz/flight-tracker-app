@@ -97,7 +97,7 @@ export function ActiveEmergencyPanel({ emergency, readOnly = false }: Props) {
             emergency.squawk ? (
               <span className="font-mono font-bold">{squawkLabel(emergency.squawk)}</span>
             ) : (
-              <span className="text-gray-400">—</span>
+              <span className="text-gray-500 dark:text-gray-400">—</span>
             )
           }
         />

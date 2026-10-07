@@ -17,7 +17,7 @@ export function PostcardPresentation({ postcard }: Props) {
           cityName={postcard.city.name}
           width={postcard.width}
           height={postcard.height}
-          className="inline-block h-[58vh] w-auto max-w-full rounded-xl"
+          className="inline-block h-[58vh] w-auto max-w-full rounded-xl image-outline"
         />
       </div>
 

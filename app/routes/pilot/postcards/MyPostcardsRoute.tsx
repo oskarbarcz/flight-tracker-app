@@ -56,7 +56,7 @@ export default function MyPostcardsRoute() {
           <div className="mb-3 flex items-baseline justify-between gap-3">
             <FieldLabel>
               {country === "" ? "Collected" : "Collected here"}
-              <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-400 dark:text-gray-500">
+              <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-500 dark:text-gray-400">
                 {shown.length}
               </span>
             </FieldLabel>

@@ -21,7 +21,7 @@ function summaryOf(deck: HoldDeck): string {
 
 export function HoldDeckSwitcher({ decks, selected, onSelect }: Props) {
   return (
-    <div role="tablist" aria-label="Deck" className="flex flex-wrap gap-1.5">
+    <fieldset aria-label="Deck" className="min-w-0 flex flex-wrap gap-1.5">
       {decks.map((deck) => {
         const isSelected = deck.deck === selected;
 
@@ -29,8 +29,7 @@ export function HoldDeckSwitcher({ decks, selected, onSelect }: Props) {
           <button
             key={deck.deck}
             type="button"
-            role="tab"
-            aria-selected={isSelected}
+            aria-pressed={isSelected}
             onClick={() => onSelect(deck.deck)}
             className={twMerge(
               "cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors",
@@ -44,6 +43,6 @@ export function HoldDeckSwitcher({ decks, selected, onSelect }: Props) {
           </button>
         );
       })}
-    </div>
+    </fieldset>
   );
 }

@@ -34,7 +34,7 @@ function NotamSourceNote() {
     <p className="flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400">
       <LuInfo aria-hidden className="mt-0.5 size-3.5 shrink-0" />
       <span>
-        NOTAMs are refreshed only when a flight plan is imported, so this list can lag the airport's current state.
+        NOTAMs are refreshed only when a flight plan is imported, so this list can lag the airport’s current state.
       </span>
     </p>
   );

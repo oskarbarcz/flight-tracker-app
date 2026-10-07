@@ -5,6 +5,7 @@ import type { Airport } from "~/features/airport";
 import { LegFormFields } from "~/features/rotation/components/LegFormFields";
 import { initLegFormData, type LegFormData } from "~/features/rotation/form";
 import { legSchema } from "~/features/rotation/schema";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -33,6 +34,7 @@ export function AddLegModal({ airports, defaultDepartureId, onAdd, onClose }: Pr
         onSubmit={submit}
       >
         <Form className="flex min-h-0 flex-1 flex-col">
+          <FocusFirstError />
           <ModalBody>
             <LegFormFields airports={airports} />
           </ModalBody>

@@ -23,7 +23,7 @@ export function AirportRoute({ departure, destination, className }: Props) {
       )}
     >
       <AirportCodeLink airport={departure} />
-      <FaArrowRight size={12} className="shrink-0 text-gray-500" />
+      <FaArrowRight size={12} className="shrink-0 text-gray-500 dark:text-gray-400" />
       <AirportCodeLink airport={destination} />
     </div>
   );
@@ -31,7 +31,11 @@ export function AirportRoute({ departure, destination, className }: Props) {
 
 function AirportCodeLink({ airport }: { airport: RouteAirport }) {
   return (
-    <Link to={`/airports-library/${airport.id}`} viewTransition className="transition-colors hover:text-primary-500">
+    <Link
+      to={`/airports-library/${airport.id}`}
+      viewTransition
+      className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+    >
       {airport.iataCode}
     </Link>
   );

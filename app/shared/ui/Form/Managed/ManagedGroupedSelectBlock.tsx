@@ -28,6 +28,7 @@ export function ManagedGroupedSelectBlock({
 }: Props) {
   const [fieldProps, meta] = useField(field);
   const isError = meta.touched && meta.error;
+  const errorId = `${field}-error`;
 
   return (
     <div className={twMerge("w-full mb-4", className)}>
@@ -42,6 +43,8 @@ export function ManagedGroupedSelectBlock({
         required={required}
         disabled={disabled}
         color={isError ? "failure" : undefined}
+        aria-invalid={Boolean(isError)}
+        aria-describedby={isError ? errorId : undefined}
         {...fieldProps}
       >
         {groups.map((group) => (
@@ -54,7 +57,7 @@ export function ManagedGroupedSelectBlock({
           </optgroup>
         ))}
       </Select>
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList id={errorId} errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

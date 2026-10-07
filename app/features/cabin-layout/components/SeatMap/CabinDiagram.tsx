@@ -291,7 +291,7 @@ export function CabinDiagram({ deck, basis, minScale, mode, spotlit = null, desc
                     key={`${section.firstRow}-head`}
                     style={{ left: `${along(section.contentStart)}%`, width: `${along(section.contentLength)}%` }}
                     className={twMerge(
-                      "absolute truncate text-[11px] font-bold uppercase tracking-wider text-gray-500 transition-opacity duration-150 motion-reduce:transition-none dark:text-gray-400",
+                      "absolute truncate text-2xs font-bold uppercase tracking-wider text-gray-500 transition-opacity duration-150 motion-reduce:transition-none dark:text-gray-400",
                       spotlit !== null && section.cabin !== spotlit && "opacity-25",
                     )}
                   >
@@ -341,7 +341,7 @@ export function CabinDiagram({ deck, basis, minScale, mode, spotlit = null, desc
                   <span
                     key={`${section.firstRow}-${letter}`}
                     style={{ left: `${along(section.gutterStart + frame.gutter / 2)}%`, top: `${across(centre)}%` }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 font-mono text-[10px] leading-none text-gray-400 dark:text-gray-500"
+                    className="absolute -translate-x-1/2 -translate-y-1/2 font-mono text-2xs leading-none text-gray-500 dark:text-gray-400"
                   >
                     {letter}
                   </span>
@@ -369,7 +369,7 @@ export function CabinDiagram({ deck, basis, minScale, mode, spotlit = null, desc
                     key={`${section.firstRow}-rows`}
                     style={{ left: `${along(section.contentStart)}%`, width: `${along(section.contentLength)}%` }}
                     className={twMerge(
-                      "absolute truncate font-mono text-[10px] text-gray-400 transition-opacity duration-150 motion-reduce:transition-none dark:text-gray-500",
+                      "absolute truncate font-mono text-2xs text-gray-500 transition-opacity duration-150 motion-reduce:transition-none dark:text-gray-400",
                       spotlit !== null && section.cabin !== spotlit && "opacity-25",
                     )}
                   >

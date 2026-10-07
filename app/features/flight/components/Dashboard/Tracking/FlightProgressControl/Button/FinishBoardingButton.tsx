@@ -61,7 +61,7 @@ export function FinishBoardingButton({ disabled, tone }: FlightProgressButtonPro
 
         if (refusal === null) {
           console.error("Failed to finish boarding", err);
-          error(`Could not finish ${handlingNoun}. Please try again.`);
+          error(`Could not finish ${handlingNoun}. Try again.`);
           return;
         }
 

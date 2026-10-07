@@ -97,7 +97,7 @@ export function RotationDetails({ initialRotation, airports, operatorId, operato
         <Container padding="spacious" className="gap-5">
           <header className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <span className="block text-xs font-bold uppercase tracking-widest text-indigo-500 dark:text-indigo-400">
+              <span className="block text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
                 Rotation
               </span>
               <h1 className="mt-1 truncate text-3xl font-bold text-gray-900 dark:text-white" title={current.name}>

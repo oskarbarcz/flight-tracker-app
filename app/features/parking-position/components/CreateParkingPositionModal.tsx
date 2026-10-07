@@ -34,11 +34,16 @@ export function CreateParkingPositionModal({ airport, terminals, duplicateOf, cl
   ) => {
     try {
       const created = await parkingPositionService.createNew(airport.id, parkingPositionFormDataToRequest(values));
-      success(`Parking position ${created.name} created.`);
+      success(`Parking stand ${created.name} created.`);
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateParkingPositionFormData>(err, setErrors, error, "Failed to create parking position.");
+      handleFormikApiError<CreateParkingPositionFormData>(
+        err,
+        setErrors,
+        error,
+        "Failed to create parking stand. Try again.",
+      );
     } finally {
       setSubmitting(false);
     }

@@ -25,7 +25,7 @@ export function NotamListUnavailableState({ icaoCode }: Props) {
 function NotamNotice({ icon: Icon, title, children }: { icon: IconType; title: string; children: React.ReactNode }) {
   return (
     <div className="rounded-xl bg-gray-50 px-6 py-10 text-center dark:bg-gray-900">
-      <Icon aria-hidden className="mx-auto size-5 text-gray-400 dark:text-gray-500" />
+      <Icon aria-hidden className="mx-auto size-5 text-gray-500 dark:text-gray-400" />
       <p className="mt-3 text-sm font-semibold text-gray-700 dark:text-gray-200">{title}</p>
       <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{children}</p>
     </div>

@@ -6,6 +6,7 @@ import { useApi } from "~/shared/api/useApi";
 type FlightListContextType = {
   flights: Flight[];
   loading: boolean;
+  loadFailed: boolean;
   totalCount: number;
   emergencyCount: number;
   limit: number;
@@ -24,6 +25,7 @@ export function FlightListProvider({ children, limit = 10 }: FlightListProviderP
   const { markRefreshed } = useDataRefresh();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [emergencyCount, setEmergencyCount] = useState(0);
 
@@ -31,6 +33,7 @@ export function FlightListProvider({ children, limit = 10 }: FlightListProviderP
     (phase: FlightPhase | FlightPhase[], pageToLoad: number) => {
       const phases = Array.isArray(phase) ? phase : [phase];
       setLoading(true);
+      setLoadFailed(false);
       Promise.all([
         ...phases.map((p) => flightService.fetchAllFlights({ phase: p, page: pageToLoad, limit })),
         flightService.fetchAllFlights({ phase: FlightPhase.Emergency, page: 1, limit: 1 }),
@@ -61,6 +64,10 @@ export function FlightListProvider({ children, limit = 10 }: FlightListProviderP
           setEmergencyCount(emergencyResponse.totalCount);
           markRefreshed();
         })
+        .catch((error) => {
+          console.error("Failed to load flights", error);
+          setLoadFailed(true);
+        })
         .finally(() => setLoading(false));
     },
     [flightService, markRefreshed, limit],
@@ -71,6 +78,7 @@ export function FlightListProvider({ children, limit = 10 }: FlightListProviderP
       value={{
         flights,
         loading,
+        loadFailed,
         totalCount,
         emergencyCount,
         limit,

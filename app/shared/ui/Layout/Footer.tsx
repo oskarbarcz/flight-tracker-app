@@ -3,7 +3,7 @@ import { Wordmark } from "~/shared/ui/Wordmark";
 
 export function Footer() {
   return (
-    <footer className="px-6 py-4 text-center text-xs md:text-sm text-gray-500 dark:text-gray-400">
+    <footer className="px-6 py-4 text-center text-xs md:text-sm text-gray-600 dark:text-gray-400">
       <p>
         <Wordmark /> &copy; {new Date().getFullYear()}
       </p>

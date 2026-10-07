@@ -17,13 +17,13 @@ function errorToMessage(error: unknown): string {
   if (typeof error === "object" && error !== null && "statusCode" in error) {
     const statusCode = (error as { statusCode: number }).statusCode;
     if (statusCode === 400) {
-      return "Pilot license ID format is incorrect";
+      return "Enter the pilot’s 8-character license ID";
     }
   }
   if (Array.isArray(error) && error.length === 0) {
-    return "Pilot with given license ID not found";
+    return "No pilot holds this license ID. Check the ID with the pilot";
   }
-  return "An unexpected error occurred while fetching pilot data";
+  return "Pilot lookup failed. Re-enter the license ID to try again";
 }
 
 export function PilotLicenseInputBlock({
@@ -96,12 +96,12 @@ export function PilotLicenseInputBlock({
         <div className="mt-2 flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800/60">
           <div>
             <span className="block text-sm font-semibold text-gray-900 dark:text-white">{pilot.name}</span>
-            <span className="block text-xs text-gray-500">License: {pilot.pilotLicenseId}</span>
+            <span className="block text-xs text-gray-500 dark:text-gray-400">License: {pilot.pilotLicenseId}</span>
           </div>
           <button
             type="button"
             onClick={clear}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
             aria-label="Clear selected pilot"
           >
             <FaXmark />

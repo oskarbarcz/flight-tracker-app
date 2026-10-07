@@ -4,6 +4,7 @@ import type { DelayReport } from "~/features/delay";
 import { DelaySummary } from "~/features/delay/components/DelaySummary";
 import { RejectDelayReportModal } from "~/features/delay/components/RejectDelayReportModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { apiErrorMessage } from "~/shared/lib/handleFormikApiError";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
@@ -17,7 +18,7 @@ export default function FlightDelaysRoute() {
       await acceptDelayReport(report.id);
       success("Delay report accepted.");
     } catch (err) {
-      const message = (err as { error?: string } | null)?.error ?? "Failed to accept delay report.";
+      const message = apiErrorMessage(err, "Failed to accept delay report. Try again.");
       error(message);
     }
   };

@@ -1,4 +1,4 @@
-import { Label, Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
 import { useState } from "react";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { useAuth } from "~/app-state/useAuth";
@@ -57,34 +57,40 @@ export function ChangeWeatherSourceModal({ current, close, onChanged }: Props) {
         </p>
 
         <fieldset aria-label="Airport weather source" className="space-y-3">
-          {allWeatherSources().map((source) => (
-            <button
-              type="button"
-              key={source}
-              disabled={isSaving}
-              className="flex select-none items-start gap-3 rounded-lg p-3 py-1.5 text-start hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => setSelected(source)}
-            >
-              <Radio
-                id={`weather-source-${source}`}
-                name="defaultWeatherSource"
-                value={source}
-                checked={selected === source}
-                disabled={isSaving}
-                onChange={() => setSelected(source)}
-                className="mt-1.5 cursor-pointer"
-              />
-              <div className="flex-1">
-                <Label
-                  htmlFor={`weather-source-${source}`}
-                  className="cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-100"
-                >
-                  <WeatherSourceLabel source={source} />
-                </Label>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{sourceDescriptions[source]}</p>
-              </div>
-            </button>
-          ))}
+          {allWeatherSources().map((source) => {
+            const radioId = `weather-source-${source}`;
+
+            return (
+              <label
+                key={source}
+                htmlFor={radioId}
+                className="flex select-none items-start gap-3 rounded-lg p-3 py-1.5 text-start hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <Radio
+                  id={radioId}
+                  name="defaultWeatherSource"
+                  value={source}
+                  checked={selected === source}
+                  disabled={isSaving}
+                  onChange={() => setSelected(source)}
+                  aria-labelledby={`${radioId}-label`}
+                  aria-describedby={`${radioId}-description`}
+                  className="mt-1.5 cursor-pointer"
+                />
+                <span className="flex-1">
+                  <span
+                    id={`${radioId}-label`}
+                    className="cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-100"
+                  >
+                    <WeatherSourceLabel source={source} />
+                  </span>
+                  <span id={`${radioId}-description`} className="mt-1 block text-xs text-gray-500 dark:text-gray-400">
+                    {sourceDescriptions[source]}
+                  </span>
+                </span>
+              </label>
+            );
+          })}
         </fieldset>
 
         {hasFailed && (

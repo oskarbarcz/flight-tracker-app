@@ -46,15 +46,14 @@ export function SelectRunwayModal({ airportId, kind, currentSelectionId, select,
         ) : (
           <div className="space-y-2 max-h-80 overflow-y-auto">
             {runways.map((runway) => (
-              <button
-                type="button"
+              <label
                 key={runway.id}
+                htmlFor={`runway-${runway.id}`}
                 className={`flex w-full items-center gap-3 rounded-lg border p-3 text-start cursor-pointer transition-colors ${
                   selectedId === runway.id
                     ? "border-indigo-300 bg-indigo-50 dark:border-indigo-800 dark:bg-indigo-950"
                     : "border-gray-200 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800"
                 }`}
-                onClick={() => setSelectedId(runway.id)}
               >
                 <Radio
                   id={`runway-${runway.id}`}
@@ -64,21 +63,23 @@ export function SelectRunwayModal({ airportId, kind, currentSelectionId, select,
                   onChange={() => setSelectedId(runway.id)}
                   className="cursor-pointer"
                 />
-                <div className="flex-1">
-                  <div className="font-mono text-base font-bold text-gray-900 dark:text-white">{runway.designator}</div>
-                  <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                <span className="flex-1">
+                  <span className="block font-mono text-base font-bold text-gray-900 dark:text-white">
+                    {runway.designator}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-gray-500 dark:text-gray-400">
                     {runway.length.toLocaleString()} m · {runway.surfaceType}
-                  </div>
-                </div>
-              </button>
+                  </span>
+                </span>
+              </label>
             ))}
           </div>
         )}
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{
-          label: "Confirm",
+          label: "Set runway",
           onClick: () => selectedId && select(selectedId),
           disabled: !selectedId || runways === null || runways.length === 0,
         }}

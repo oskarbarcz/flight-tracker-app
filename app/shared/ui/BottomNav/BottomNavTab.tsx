@@ -1,6 +1,7 @@
 import React from "react";
 import type { IconType } from "react-icons";
 import { Link } from "react-router";
+import { CountBadge } from "~/shared/ui/Display/CountBadge";
 
 type Props = {
   label: string;
@@ -10,8 +11,8 @@ type Props = {
   badge?: number;
 };
 
-const LABEL = "text-[11px] font-medium leading-none";
-const SLOT = "flex flex-1 flex-col items-center justify-center gap-1.5 pt-2";
+const LABEL = "text-2xs font-medium leading-none";
+const SLOT = "flex flex-1 flex-col items-center justify-center gap-1.5 pt-2 [-webkit-tap-highlight-color:transparent]";
 
 export function BottomNavTab({ label, icon: Icon, to, isActive, badge }: Props) {
   const showBadge = typeof badge === "number" && badge > 0;
@@ -21,7 +22,7 @@ export function BottomNavTab({ label, icon: Icon, to, isActive, badge }: Props) 
     return (
       <span aria-disabled className={`${SLOT} select-none text-gray-300 dark:text-gray-600`}>
         <span className="flex h-6 w-12 items-center justify-center">
-          <Icon size={21} aria-hidden />
+          <Icon size={21} strokeWidth={2.25} aria-hidden />
         </span>
         <span className={LABEL}>{label}</span>
       </span>
@@ -34,15 +35,11 @@ export function BottomNavTab({ label, icon: Icon, to, isActive, badge }: Props) 
       replace
       viewTransition
       aria-current={isActive ? "page" : undefined}
-      className={`${SLOT} outline-none focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-indigo-400`}
+      className={`${SLOT} outline-none focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-indigo-500`}
     >
       <span className={`relative flex h-6 w-12 items-center justify-center transition-colors duration-200 ${tone}`}>
-        <Icon size={21} aria-hidden />
-        {showBadge && (
-          <span className="absolute -right-1 -top-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold leading-none text-white">
-            {badge}
-          </span>
-        )}
+        <Icon size={21} strokeWidth={2.25} aria-hidden />
+        {showBadge && <CountBadge count={badge} size="sm" className="absolute -right-1 -top-1" />}
       </span>
       <span className={`${LABEL} transition-colors duration-200 ${tone}`}>{label}</span>
     </Link>

@@ -27,6 +27,7 @@ export function ManagedTextareaBlock({
 }: Props) {
   const [fieldProps, meta] = useField<string>(field);
   const isError = meta.touched && meta.error;
+  const errorId = `${field}-error`;
   const density = useFormDensity();
 
   return (
@@ -45,9 +46,11 @@ export function ManagedTextareaBlock({
         required={required}
         disabled={disabled}
         color={isError ? "failure" : undefined}
+        aria-invalid={Boolean(isError)}
+        aria-describedby={isError ? errorId : undefined}
         {...fieldProps}
       />
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList id={errorId} errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

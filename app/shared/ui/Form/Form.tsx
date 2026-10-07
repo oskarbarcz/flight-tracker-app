@@ -1,6 +1,7 @@
 import { Formik, Form as FormikForm, type FormikProps } from "formik";
 import React from "react";
 import type { ObjectSchema } from "yup";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 
 type Props<T extends object> = {
   id?: string;
@@ -30,6 +31,7 @@ export function Form<T extends object>({
       innerRef={innerRef}
     >
       <FormikForm id={id} noValidate>
+        <FocusFirstError />
         {children}
       </FormikForm>
     </Formik>

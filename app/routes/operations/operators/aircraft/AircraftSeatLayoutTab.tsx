@@ -67,7 +67,7 @@ export default function AircraftSeatLayoutTab() {
       setIsAssignOpen(false);
       refresh();
     } catch {
-      error("Failed to assign cabin layout.");
+      error("Failed to assign cabin layout. Try again.");
     }
   }
 
@@ -78,7 +78,7 @@ export default function AircraftSeatLayoutTab() {
       setIsRemoveOpen(false);
       refresh();
     } catch {
-      error("Failed to remove cabin layout.");
+      error("Failed to remove cabin layout. Try again.");
     }
   }
 
@@ -129,11 +129,9 @@ export default function AircraftSeatLayoutTab() {
                     Withdrawn
                   </Badge>
                 )}
-                <Link to={`/cabin-layouts/${layout.id}`} viewTransition>
-                  <Button size="xs" color="indigo">
-                    Open in catalogue
-                  </Button>
-                </Link>
+                <Button as={Link} to={`/cabin-layouts/${layout.id}`} viewTransition size="xs" color="indigo">
+                  Open in catalogue
+                </Button>
                 <Button size="xs" color="alternative" onClick={() => setIsAssignOpen(true)}>
                   Change layout
                 </Button>

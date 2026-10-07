@@ -25,7 +25,7 @@ export function ManifestFigures({ tally, cabins, totalSeats, loadsheet, status }
   return (
     <div className="flex flex-col gap-3">
       {isFiltered && (
-        <p className="text-xs font-semibold text-amber-600 dark:text-amber-500">
+        <p className="text-xs font-semibold text-amber-700 dark:text-amber-500">
           {`These figures count only ${toHuman.flight.passengerStatus(status).toLowerCase()} passengers, not the whole flight.`}
         </p>
       )}
@@ -41,7 +41,7 @@ export function ManifestFigures({ tally, cabins, totalSeats, loadsheet, status }
       <p className="text-xs text-gray-500 dark:text-gray-400">
         {!isFiltered && totalSeats !== null && `${tally.boarded} of ${totalSeats} seats occupied. `}
         {loadsheet !== null && (
-          <span className={reconciles ? undefined : "font-semibold text-amber-600 dark:text-amber-500"}>
+          <span className={reconciles ? undefined : "font-semibold text-amber-700 dark:text-amber-500"}>
             {`${loadsheet.label} reports ${loadsheet.passengers} passengers.`}
           </span>
         )}

@@ -13,7 +13,7 @@ type Props = {
 };
 
 const BASE =
-  "absolute flex items-center justify-center rounded-[2px] border text-[11px] font-bold leading-none tracking-wide text-gray-600 transition-[scale,box-shadow,opacity] duration-[90ms] ease-out hover:z-10 hover:scale-[1.12] hover:ring-1 hover:ring-gray-900 focus-visible:z-10 focus-visible:scale-[1.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 motion-reduce:transition-none dark:text-gray-200 dark:hover:ring-white";
+  "absolute flex items-center justify-center rounded-[2px] border text-2xs font-bold leading-none tracking-wide text-gray-600 transition-[scale,box-shadow,opacity] duration-[90ms] ease-out hover:z-10 hover:scale-[1.12] hover:ring-1 hover:ring-gray-900 focus-visible:z-10 focus-visible:scale-[1.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 motion-reduce:transition-none dark:text-gray-200 dark:hover:ring-white";
 
 function PositionControl({ designator, appearance, tapered, showLabel, style, onOpen, onClose }: Props) {
   return (

@@ -14,7 +14,7 @@ export function NoFilterMatchesState({ subject, onClear }: Props) {
   return (
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color="blue" />
-      <EmptyStateText title={`No ${subject} match your filter.`} paragraph="Try a different term." />
+      <EmptyStateText title={`No ${subject} match your filter`} paragraph="Try a different term." />
       <Button color="light" className="mx-auto w-fit cursor-pointer" onClick={onClear}>
         Clear filter
       </Button>

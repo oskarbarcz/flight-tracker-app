@@ -13,6 +13,7 @@ import { SimbriefAccountPreview } from "~/features/user/components/SimbriefAccou
 import { describeSimbriefIdChangeFailure } from "~/features/user/lib/describeSimbriefIdChangeFailure";
 import { describeSimbriefVerificationFailure } from "~/features/user/lib/describeSimbriefVerificationFailure";
 import { useApi } from "~/shared/api/useApi";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -96,6 +97,7 @@ export function ChangeSimbriefIdModal({ current, close, onSaved }: Props) {
             <>
               <ModalBody>
                 <FormikForm id="changeSimbriefIdForm" noValidate>
+                  <FocusFirstError />
                   <ul className="mb-5 list-disc space-y-1.5 pl-4 text-pretty text-sm text-gray-600 marker:text-gray-400 dark:text-gray-400">
                     <li>
                       Find your ID on SimBrief under{" "}

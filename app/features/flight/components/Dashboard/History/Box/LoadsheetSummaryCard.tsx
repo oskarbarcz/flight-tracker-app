@@ -21,7 +21,7 @@ export function LoadsheetSummaryCard({ preliminary, final, serviceType }: Props)
     return (
       <Container padding="spacious" className="h-full" header={<CardHeader title="Loadsheet" />}>
         <div className="flex flex-1 items-center gap-3 rounded-lg border border-dashed border-gray-300 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
-          <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
+          <HiInformationCircle className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
           <span>No loadsheet was recorded for this flight.</span>
         </div>
       </Container>
@@ -44,7 +44,7 @@ export function LoadsheetSummaryCard({ preliminary, final, serviceType }: Props)
 
       <div className="flex items-baseline gap-1.5">
         <span className="font-mono text-2xl font-bold text-gray-900 dark:text-white">{souls}</span>
-        <span className="text-xs text-gray-500">souls on board</span>
+        <span className="text-xs text-gray-500 dark:text-gray-400">souls on board</span>
       </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-3">
@@ -86,8 +86,8 @@ function Row({
       <Icon className={`shrink-0 ${muted ? "text-gray-300" : "text-indigo-400"}`} size={14} />
       <div className="min-w-0 flex-1">
         <div
-          className={`text-[10px] font-bold uppercase tracking-widest ${
-            muted ? "text-gray-400" : "text-gray-500 dark:text-gray-400"
+          className={`text-2xs font-bold uppercase tracking-widest ${
+            muted ? "text-gray-500" : "text-gray-500 dark:text-gray-400"
           }`}
         >
           {label}
@@ -97,7 +97,7 @@ function Row({
             emphasis
               ? "text-2xl text-gray-900 dark:text-white"
               : muted
-                ? "text-lg text-gray-400"
+                ? "text-lg text-gray-500"
                 : "text-xl text-gray-800 dark:text-gray-100"
           }`}
         >

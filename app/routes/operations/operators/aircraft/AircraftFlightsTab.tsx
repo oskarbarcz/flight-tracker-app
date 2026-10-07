@@ -21,7 +21,7 @@ export default function AircraftFlightsTab() {
       setIsRepositionOpen(false);
       refresh();
     } catch {
-      error("Failed to reposition aircraft.");
+      error("Failed to reposition aircraft. Try again.");
     }
   }
 

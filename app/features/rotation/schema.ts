@@ -6,15 +6,15 @@ export const createRotationSchema: ObjectSchema<CreateRotationRequest> = object(
   name: string()
     .required("Rotation name is required")
     .min(3, "Name must be at least 3 characters")
-    .max(50, "Name must be under 50 characters"),
-  pilotId: string().required("Assigned pilot is required").uuid("Invalid pilot ID format"),
+    .max(50, "Name must be at most 50 characters"),
+  pilotId: string().required("Pilot license ID is required").uuid("Invalid pilot ID format"),
 });
 
 export const legSchema: ObjectSchema<LegFormData> = object({
   flightNumber: string()
     .required("Flight number is required")
     .min(2, "Flight number must be at least 2 characters")
-    .max(10, "Flight number must be under 10 characters"),
+    .max(10, "Flight number must be at most 10 characters"),
   departureId: string().required("Departure airport is required").uuid("Invalid airport"),
   arrivalId: string()
     .required("Arrival airport is required")

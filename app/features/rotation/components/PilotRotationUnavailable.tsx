@@ -15,7 +15,7 @@ export function PilotRotationUnavailable({ hint }: Props) {
         <Link
           to="/rotations"
           viewTransition
-          className="inline-flex items-center gap-2 rounded text-sm font-semibold text-gray-500 hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-gray-400 dark:hover:text-gray-200"
+          className="inline-flex items-center gap-2 rounded text-sm font-semibold text-gray-500 hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-gray-400 dark:hover:text-gray-200"
         >
           <FaArrowLeft size={12} aria-hidden={true} />
           Rotations

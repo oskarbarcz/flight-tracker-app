@@ -11,6 +11,7 @@ import {
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { closeFlightSchema } from "~/features/flight/schema";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -33,7 +34,7 @@ export function CloseFlightModal({ onClose }: Props) {
       success("Flight closed.");
       onClose();
     } catch (err) {
-      handleFormikApiError<FlatCloseFlightFormData>(err, setErrors, error, "Failed to close the flight.");
+      handleFormikApiError<FlatCloseFlightFormData>(err, setErrors, error, "Failed to close the flight. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -52,6 +53,7 @@ export function CloseFlightModal({ onClose }: Props) {
         >
           {({ isSubmitting }) => (
             <FormikForm id="closeFlightForm" noValidate>
+              <FocusFirstError />
               <CloseFlightForm plannedTrip={plannedTrip} />
               <div className="hidden">
                 <button type="submit" disabled={isSubmitting}>

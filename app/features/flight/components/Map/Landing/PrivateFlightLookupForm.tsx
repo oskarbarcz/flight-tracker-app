@@ -7,6 +7,7 @@ import {
   trackPrivateFlightSchema,
 } from "~/features/flight/components/Map/Landing/schema";
 import { usePublicApi } from "~/shared/api/usePublicApi";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 
 export function PrivateFlightLookupForm() {
@@ -21,7 +22,7 @@ export function PrivateFlightLookupForm() {
       await publicFlightService.fetchById(values.flightId);
       navigate(`/map/${values.flightId}`);
     } catch {
-      setErrors({ flightId: "We couldn't find a flight with that ID" });
+      setErrors({ flightId: "We couldn’t find a flight with that ID" });
     } finally {
       setSubmitting(false);
     }
@@ -35,6 +36,7 @@ export function PrivateFlightLookupForm() {
     >
       {({ isSubmitting }) => (
         <FormikForm noValidate>
+          <FocusFirstError />
           <ManagedInputBlock field="flightId" label="Flight ID" />
           <Button type="submit" color="indigo" className="w-full" disabled={isSubmitting}>
             Track flight

@@ -12,7 +12,7 @@ type Props = {
 function DetailBlock({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-gray-400 dark:text-gray-500">{label}</div>
+      <div className="text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">{label}</div>
       <div className="mt-1">{children}</div>
     </div>
   );
@@ -21,7 +21,7 @@ function DetailBlock({ label, children }: { label: string; children: ReactNode }
 function Endpoint({ label, time, code, align }: { label: string; time: string; code: string; align: "start" | "end" }) {
   return (
     <div className={align === "end" ? "text-right" : ""}>
-      <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-gray-400 dark:text-gray-500">{label}</div>
+      <div className="text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">{label}</div>
       <div className={`mt-1 flex items-baseline gap-1.5 ${align === "end" ? "justify-end" : ""}`}>
         <span className="font-mono text-lg font-bold tabular-nums text-gray-900 dark:text-white">{time}</span>
         <span className="text-xs text-gray-500 dark:text-gray-400">{code}</span>
@@ -62,7 +62,7 @@ export function FlightDetailsDrawer({ flight }: Props) {
   const scheduleIsEstimated = Boolean(flight.timesheet.estimated);
 
   return (
-    <div className="flex max-h-[50vh] flex-col gap-5 overflow-y-auto">
+    <div className="flex max-h-[50vh] flex-col gap-5 overflow-y-auto overscroll-contain">
       <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
         <DetailBlock label="Operated by">
           <div className="font-semibold text-gray-900 dark:text-white">{operator.shortName}</div>
@@ -120,7 +120,7 @@ export function FlightDetailsDrawer({ flight }: Props) {
             code={flight.departureAirport.iataCode}
             align="start"
           />
-          <FaArrowRight className="size-3.5 shrink-0 text-gray-400 dark:text-gray-500" />
+          <FaArrowRight className="size-3.5 shrink-0 text-gray-500 dark:text-gray-400" />
           <Endpoint
             label="Arrival"
             time={dateToLocalTime(arrival, false)}
@@ -128,7 +128,7 @@ export function FlightDetailsDrawer({ flight }: Props) {
             align="end"
           />
         </div>
-        <div className="mt-2 text-[11px] text-gray-400 dark:text-gray-500">
+        <div className="mt-2 text-2xs text-gray-500 dark:text-gray-400">
           {scheduleIsEstimated ? "Estimated times" : "Scheduled times"} · your local time
         </div>
       </div>

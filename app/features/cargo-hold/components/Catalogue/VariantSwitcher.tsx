@@ -14,7 +14,7 @@ export function VariantSwitcher({ variants, selected, onSelect }: Props) {
   }
 
   return (
-    <div role="tablist" aria-label="Hold variant" className="flex flex-wrap gap-1.5">
+    <fieldset aria-label="Hold variant" className="min-w-0 flex flex-wrap gap-1.5">
       {variants.map((variant) => {
         const isSelected = variant.id === selected;
         const positions = positionCountOf(variant);
@@ -23,8 +23,7 @@ export function VariantSwitcher({ variants, selected, onSelect }: Props) {
           <button
             key={variant.id}
             type="button"
-            role="tab"
-            aria-selected={isSelected}
+            aria-pressed={isSelected}
             onClick={() => onSelect(variant.id)}
             className={twMerge(
               "rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors",
@@ -43,6 +42,6 @@ export function VariantSwitcher({ variants, selected, onSelect }: Props) {
           </button>
         );
       })}
-    </div>
+    </fieldset>
   );
 }

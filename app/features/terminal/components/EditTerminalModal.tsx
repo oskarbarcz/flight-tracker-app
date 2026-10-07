@@ -32,7 +32,7 @@ export function EditTerminalModal({ airport, terminal, close }: Props) {
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateTerminalFormData>(err, setErrors, error, "Failed to update terminal.");
+      handleFormikApiError<CreateTerminalFormData>(err, setErrors, error, "Failed to update terminal. Try again.");
     } finally {
       setSubmitting(false);
     }

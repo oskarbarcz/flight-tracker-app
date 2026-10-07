@@ -20,7 +20,7 @@ export function AircraftDetailsHeader({ aircraft }: Props) {
         />
 
         <div className="relative min-w-0 lg:max-w-[38%]">
-          <h1 className="font-mono text-4xl font-black tracking-tighter text-gray-900 dark:text-white xl:text-5xl">
+          <h1 className="font-mono text-4xl font-bold tracking-tight text-gray-900 dark:text-white xl:text-5xl">
             {aircraft.registration}
           </h1>
           <p className="mt-1 text-base font-semibold text-gray-500 dark:text-gray-400">{airframe.name}</p>

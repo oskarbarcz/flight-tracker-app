@@ -9,7 +9,7 @@ export const createGateSchema: ObjectSchema<CreateGateFormData> = object().shape
   category: string<GateCategory>().required().oneOf(Object.values(GateCategory)),
   parkingPositionId: string()
     .default("")
-    .test("uuid-or-empty", "Parking position selection is invalid", (value) => {
+    .test("uuid-or-empty", "Parking stand selection is invalid", (value) => {
       if (!value) return true;
       return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
     }),

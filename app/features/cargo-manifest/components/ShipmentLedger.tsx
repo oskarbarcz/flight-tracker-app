@@ -44,7 +44,7 @@ function FilterSelect({
     <div className="flex flex-col gap-1">
       <label
         htmlFor={selectId}
-        className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+        className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
       >
         {label}
       </label>
@@ -130,7 +130,7 @@ export function ShipmentLedger({ entries, id }: Props) {
               onClick={() => setFilters(NO_FILTERS)}
               className="cursor-pointer text-sm text-indigo-600 underline dark:text-indigo-400"
             >
-              Clear the filters
+              Clear filters
             </button>
           )}
         </div>
@@ -152,9 +152,9 @@ export function ShipmentLedger({ entries, id }: Props) {
                   )}
                 >
                   {isOpen ? (
-                    <LuChevronDown aria-hidden={true} className="size-4 shrink-0 text-gray-400" />
+                    <LuChevronDown aria-hidden={true} className="size-4 shrink-0 text-gray-500 dark:text-gray-400" />
                   ) : (
-                    <LuChevronRight aria-hidden={true} className="size-4 shrink-0 text-gray-400" />
+                    <LuChevronRight aria-hidden={true} className="size-4 shrink-0 text-gray-500 dark:text-gray-400" />
                   )}
                   <span className="font-mono text-sm font-bold text-gray-900 dark:text-white">{shipment.awb}</span>
                   <span className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-200">

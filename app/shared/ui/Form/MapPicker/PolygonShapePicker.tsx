@@ -98,7 +98,7 @@ export function PolygonShapePicker({ field, airportLocation, label, tone, classN
     if (closed) return;
     const candidate = { latitude: lat, longitude: lng };
     if (newEdgeCrossesPolyline(vertices, candidate)) {
-      setError("Edges cannot cross — pick a point that doesn't cause a kink");
+      setError("Edges cannot cross — pick a point that doesn’t cause a kink");
       return;
     }
     setError(null);

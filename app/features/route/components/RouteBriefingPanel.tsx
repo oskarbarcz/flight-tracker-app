@@ -88,30 +88,12 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref, withCh
       {insights.length > 0 && (
         <div
           className={
-            withChart ? "grid items-start gap-3 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]" : "grid items-start"
+            withChart ? "grid items-start gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]" : "grid items-start"
           }
         >
-          <Container
-            padding="none"
-            className={withChart ? "order-2 xl:order-1" : undefined}
-            header={<CardHeader title={`Nav log · ${insights.length} fixes`} />}
-            footer={
-              margin !== null && (
-                <div className="border-t border-gray-200 px-3.5 py-3 dark:border-gray-700">
-                  <FuelMarginNote margin={margin} onSelect={select} />
-                </div>
-              )
-            }
-          >
-            <div className="max-h-[30rem] overflow-y-auto">
-              <NavLog insights={insights} selectedOrdinal={selectedOrdinal} onSelect={select} />
-            </div>
-          </Container>
-
           {withChart && (
             <Container
               padding="none"
-              className="order-1 xl:order-2"
               header={<CardHeader title="Chart" />}
               footer={
                 <div className="border-t border-gray-200 px-3.5 py-3 dark:border-gray-700">
@@ -128,6 +110,22 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref, withCh
               </div>
             </Container>
           )}
+
+          <Container
+            padding="none"
+            header={<CardHeader title={`Nav log · ${insights.length} fixes`} />}
+            footer={
+              margin !== null && (
+                <div className="border-t border-gray-200 px-3.5 py-3 dark:border-gray-700">
+                  <FuelMarginNote margin={margin} onSelect={select} />
+                </div>
+              )
+            }
+          >
+            <div className="max-h-[30rem] overflow-y-auto">
+              <NavLog insights={insights} selectedOrdinal={selectedOrdinal} onSelect={select} />
+            </div>
+          </Container>
         </div>
       )}
 

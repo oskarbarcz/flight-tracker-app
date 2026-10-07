@@ -7,6 +7,7 @@ import { pendingEmail } from "~/features/user/lib/accountEmails";
 import { describePasswordChangeFailure } from "~/features/user/lib/describePasswordChangeFailure";
 import { passwordPolicyDescription } from "~/features/user/schema";
 import { useApi } from "~/shared/api/useApi";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -66,6 +67,7 @@ export function ChangePasswordModal({ close, onChanged, onUnavailable }: Props) 
           <>
             <ModalBody>
               <FormikForm id="changePasswordForm" noValidate>
+                <FocusFirstError />
                 <div className="mb-4 space-y-2 text-pretty text-sm text-gray-600 dark:text-gray-400">
                   <p>{otherSessionsWarning}</p>
                   {hasPendingEmailChange && <p>{pendingEmailWarning}</p>}

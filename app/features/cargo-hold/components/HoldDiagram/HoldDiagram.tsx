@@ -158,7 +158,7 @@ export function HoldDiagram({ variant, variants, reading, readings, detail = "fu
             onOpen={openTooltip}
             onClose={() => setHover(null)}
           />
-          <div className="flex justify-between text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <div className="flex justify-between text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             <span>Nose</span>
             <span>Tail</span>
           </div>

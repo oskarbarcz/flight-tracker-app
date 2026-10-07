@@ -43,9 +43,7 @@ export function LiveTelemetry({ point }: Props) {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <span className="flex items-baseline gap-1 whitespace-nowrap">
-      <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-gray-400 dark:text-gray-500">
-        {label}
-      </span>
+      <span className="text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">{label}</span>
       <span className="font-mono text-xs font-semibold tabular-nums text-gray-800 dark:text-gray-100">{value}</span>
     </span>
   );

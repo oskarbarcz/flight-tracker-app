@@ -3,6 +3,7 @@ import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
 import { FaCircleExclamation } from "react-icons/fa6";
 import { type DisconnectAccountFormData, disconnectAccountSchema, initDisconnectAccountData } from "~/features/auth";
 import { describeUnlinkFailure, type UnlinkProvider } from "~/features/auth/lib/describeUnlinkFailure";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -69,6 +70,7 @@ export function DisconnectAccountModal({
           <>
             <ModalBody>
               <FormikForm id="disconnectAccountForm" noValidate>
+                <FocusFirstError />
                 <div className="mb-4 space-y-2 text-pretty text-sm text-gray-600 dark:text-gray-400">
                   {consequences.map((consequence) => (
                     <p key={consequence}>{consequence}</p>

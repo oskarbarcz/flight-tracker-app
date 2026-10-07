@@ -9,6 +9,7 @@ import type { ApiCoordinates } from "~/features/emergency/request";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -49,7 +50,7 @@ export function ReportDiversionModal({ close }: Props) {
       success("Diversion reported.");
       close();
     } catch (err) {
-      handleFormikApiError<ReportDiversionFormData>(err, setErrors, error, "Failed to report diversion.");
+      handleFormikApiError<ReportDiversionFormData>(err, setErrors, error, "Failed to report diversion. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -68,6 +69,7 @@ export function ReportDiversionModal({ close }: Props) {
         >
           {({ isSubmitting }) => (
             <FormikForm id="reportDiversionForm" noValidate>
+              <FocusFirstError />
               <DiversionFormFields />
               <div className="hidden">
                 <button type="submit" disabled={isSubmitting}>

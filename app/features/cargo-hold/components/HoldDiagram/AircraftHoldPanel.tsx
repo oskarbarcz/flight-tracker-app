@@ -104,11 +104,9 @@ export function AircraftHoldPanel({ airframeType, holdVariant, actions, onLoaded
             <DataField label="Cargo space" value={`${Math.round(volumeOf(state.variant) * 10) / 10} m³`} mono />
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Link to={`/cargo-holds/${state.layout.type}`} viewTransition>
-              <Button size="xs" color="indigo">
-                Open in catalogue
-              </Button>
-            </Link>
+            <Button as={Link} to={`/cargo-holds/${state.layout.type}`} viewTransition size="xs" color="indigo">
+              Open in catalogue
+            </Button>
             {actions}
           </div>
         </div>

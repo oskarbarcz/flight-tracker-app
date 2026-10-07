@@ -16,16 +16,16 @@ export function DangerousGoodsEntry({ entry, hasCuratedHold }: Props) {
   return (
     <article className="border-b border-gray-100 py-1.5 last:border-b-0 dark:border-gray-800">
       <div className="flex flex-wrap items-center gap-1">
-        <Badge color="warning" size="xs" className="px-1.5 py-0 text-[10px]">
+        <Badge color="warning" size="xs" className="px-1.5 py-0 text-2xs">
           Class {entry.hazardClass}
         </Badge>
         {entry.subsidiaryRisk !== null && (
-          <Badge color="gray" size="xs" className="px-1.5 py-0 text-[10px]">
+          <Badge color="gray" size="xs" className="px-1.5 py-0 text-2xs">
             Subsidiary {entry.subsidiaryRisk}
           </Badge>
         )}
         {entry.cargoAircraftOnly && (
-          <Badge color="failure" size="xs" className="px-1.5 py-0 text-[10px]">
+          <Badge color="failure" size="xs" className="px-1.5 py-0 text-2xs">
             Cargo aircraft only
           </Badge>
         )}
@@ -34,11 +34,11 @@ export function DangerousGoodsEntry({ entry, hasCuratedHold }: Props) {
       <div className="mt-0.5 flex items-baseline gap-3">
         <span className="min-w-0 flex-1">
           <span className="block text-xs font-semibold text-gray-900 dark:text-white">{entry.properShippingName}</span>
-          <span className="block text-[11px] text-gray-500 dark:text-gray-400">
+          <span className="block text-2xs text-gray-500 dark:text-gray-400">
             UN{entry.unNumber} · {toHuman.cargoManifest.hazardClass(entry.hazardClass)} · {packingGroup}
           </span>
         </span>
-        <span className="shrink-0 text-right font-mono text-[11px] text-gray-500 dark:text-gray-400">
+        <span className="shrink-0 text-right font-mono text-2xs text-gray-500 dark:text-gray-400">
           <span className="block">
             {entry.packages} × {entry.netPerPackage}
           </span>
@@ -49,7 +49,7 @@ export function DangerousGoodsEntry({ entry, hasCuratedHold }: Props) {
       </div>
 
       <details className="mt-1">
-        <summary className="cursor-pointer text-[11px] text-gray-500 dark:text-gray-400">
+        <summary className="cursor-pointer text-2xs text-gray-500 dark:text-gray-400">
           Emergency response drill {entry.drill.ercCode}
         </summary>
         <div className="mt-1.5">

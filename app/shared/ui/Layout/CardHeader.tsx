@@ -24,7 +24,7 @@ export function CardHeader({ title, actions }: Props) {
         INSET[padding],
       )}
     >
-      <h2 className="min-w-0 truncate text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+      <h2 className="min-w-0 truncate text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
         {title}
       </h2>
       {actions && <div className="shrink-0">{actions}</div>}

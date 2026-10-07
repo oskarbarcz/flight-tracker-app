@@ -54,7 +54,10 @@ function FlightLayoutContent() {
       setReleasePending(false);
       revalidator.revalidate();
     } catch (reason: unknown) {
-      error(describeLoadsheetRefusal(reason, flight.aircraft.cabinLayout?.id ?? null) ?? "Failed to release flight.");
+      error(
+        describeLoadsheetRefusal(reason, flight.aircraft.cabinLayout?.id ?? null) ??
+          "Failed to release flight. Try again.",
+      );
     }
   };
 
@@ -64,7 +67,7 @@ function FlightLayoutContent() {
       success(`Flight ${flight.flightNumberWithoutSpaces} removed.`);
       navigate("/flights");
     } catch {
-      error("Failed to remove flight.");
+      error("Failed to remove flight. Try again.");
     }
   };
 
@@ -75,7 +78,7 @@ function FlightLayoutContent() {
       setTrackingPending(false);
       revalidator.revalidate();
     } catch {
-      error("Failed to update flight visibility.");
+      error("Failed to update flight visibility. Try again.");
     }
   };
 
@@ -86,7 +89,7 @@ function FlightLayoutContent() {
       setServiceTypePending(false);
       revalidator.revalidate();
     } catch {
-      error("Failed to update flight service type.");
+      error("Failed to update flight service type. Try again.");
     }
   };
 

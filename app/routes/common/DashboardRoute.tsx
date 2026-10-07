@@ -8,7 +8,7 @@ export default function DashboardRoute() {
   const { user } = useAuth();
 
   if (user === null) {
-    return <div>Loading...</div>;
+    return <div>Loading…</div>;
   }
 
   if (user.role === UserRole.CabinCrew) {

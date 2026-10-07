@@ -36,7 +36,7 @@ export function EditGateModal({ airport, gate, terminals, parkingPositions, clos
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateGateFormData>(err, setErrors, error, "Failed to update gate.");
+      handleFormikApiError<CreateGateFormData>(err, setErrors, error, "Failed to update gate. Try again.");
     } finally {
       setSubmitting(false);
     }

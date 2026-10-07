@@ -38,7 +38,7 @@ export function SpecialLoadRow({ load, hasCuratedHold }: Props) {
             key={code}
             color={RISK_COLOR[risk]}
             size="xs"
-            className="px-1.5 py-0 text-[10px]"
+            className="px-1.5 py-0 text-2xs"
             title={toHuman.cargoManifest.specialHandling(code)}
           >
             {code}
@@ -47,9 +47,9 @@ export function SpecialLoadRow({ load, hasCuratedHold }: Props) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-xs font-semibold text-gray-900 dark:text-white">{load.description}</span>
-        {heaviest !== null && <span className="block text-[11px] text-gray-500 dark:text-gray-400">{heaviest}</span>}
+        {heaviest !== null && <span className="block text-2xs text-gray-500 dark:text-gray-400">{heaviest}</span>}
       </span>
-      <span className="shrink-0 text-right font-mono text-[11px] text-gray-500 dark:text-gray-400">
+      <span className="shrink-0 text-right font-mono text-2xs text-gray-500 dark:text-gray-400">
         <span className="block">{load.grossKg.toLocaleString()} kg</span>
         <span className="block">
           {position} · {load.unloadingAirport}

@@ -16,8 +16,8 @@ type Tone = "indigo" | "emerald" | "amber" | "gray";
 
 const TONE: Record<Tone, string> = {
   indigo: "text-gray-900 dark:text-white",
-  emerald: "text-emerald-600 dark:text-emerald-300",
-  amber: "text-amber-600 dark:text-amber-400",
+  emerald: "text-emerald-700 dark:text-emerald-300",
+  amber: "text-amber-700 dark:text-amber-400",
   gray: "text-gray-500 dark:text-gray-400",
 };
 

@@ -42,11 +42,11 @@ export function DelayReportRow({ report, onRemove, onAccept, onReject }: Props) 
           </span>
         </div>
         {report.freeText && <p className="text-xs text-gray-500 dark:text-gray-400">{report.freeText}</p>}
-        {report.isPending && <p className="text-xs text-amber-600 dark:text-amber-500">Awaiting Operations review</p>}
+        {report.isPending && <p className="text-xs text-amber-700 dark:text-amber-500">Awaiting Operations review</p>}
         {report.isRejected && report.rejectionReason && (
           <p className="text-xs text-red-600 dark:text-red-400">Rejected: {report.rejectionReason}</p>
         )}
-        <p className="text-xs text-gray-400 dark:text-gray-500">Filed by {report.reportedBy.name}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">Filed by {report.reportedBy.name}</p>
       </div>
       {onRemove && report.isPending && (
         <Button size="xs" color="gray" outline onClick={() => onRemove(report)} title="Remove report">

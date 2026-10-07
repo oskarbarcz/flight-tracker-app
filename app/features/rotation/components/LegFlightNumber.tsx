@@ -32,7 +32,7 @@ export function LegFlightNumber({ leg, className }: Props) {
       to={path}
       viewTransition
       className={twMerge(
-        "rounded font-mono font-bold text-gray-900 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-white dark:hover:text-indigo-400",
+        "rounded font-mono font-bold text-gray-900 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-white dark:hover:text-indigo-400",
         className,
       )}
     >

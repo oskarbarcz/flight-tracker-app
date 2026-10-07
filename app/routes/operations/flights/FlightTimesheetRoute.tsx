@@ -36,7 +36,7 @@ export default function FlightTimesheetRoute() {
       setEditing(false);
       revalidator.revalidate();
     } catch {
-      error("Failed to update scheduled timesheet.");
+      error("Failed to update scheduled timesheet. Try again.");
     }
   };
 

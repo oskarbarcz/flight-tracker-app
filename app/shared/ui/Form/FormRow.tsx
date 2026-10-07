@@ -5,5 +5,5 @@ type Props = {
 };
 
 export function FormRow({ children }: Props) {
-  return <div className="flex gap-4">{children}</div>;
+  return <div className="flex flex-col gap-4 sm:flex-row">{children}</div>;
 }

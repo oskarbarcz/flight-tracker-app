@@ -2,9 +2,9 @@ import { unreachableServiceMessage } from "~/features/auth/lib/serviceFailureMes
 
 export type SimbriefVerificationFailure = { kind: "field"; message: string } | { kind: "section"; message: string };
 
-const unknownIdMessage = "SimBrief doesn't know this ID. Check it in your SimBrief account settings.";
-const noAnswerMessage = "SimBrief didn't answer. Try again in a moment.";
-const temporaryFailureMessage = "Couldn't check the ID with SimBrief right now. Try again in a moment.";
+const unknownIdMessage = "SimBrief doesn’t know this ID. Check it in your SimBrief account settings.";
+const noAnswerMessage = "SimBrief didn’t answer. Try again in a moment.";
+const temporaryFailureMessage = "Couldn’t check the ID with SimBrief right now. Try again in a moment.";
 
 type FailureReason = {
   statusCode?: number;

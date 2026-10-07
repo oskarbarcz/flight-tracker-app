@@ -136,6 +136,12 @@ export function AdvancedSelect({
   }
 
   const isClearable = (clearable ?? !required) && !disabled && selected !== null;
+  const isMenuVisible = isOpen && !disabled && menuPos.width > 0;
+  const labelId = `${field}-label`;
+  const listboxId = `${field}-listbox`;
+  const errorId = `${field}-error`;
+  const optionId = (index: number) => `${field}-option-${index}`;
+  const activeOptionId = isMenuVisible && results[activeIndex] ? optionId(activeIndex) : undefined;
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
@@ -159,7 +165,7 @@ export function AdvancedSelect({
   return (
     <div className={twMerge("w-full mb-4 min-w-0", className)}>
       <div className="mb-2 block">
-        <Label htmlFor={field} color={isError ? "failure" : undefined}>
+        <Label id={labelId} htmlFor={field} color={isError ? "failure" : undefined}>
           {label}
           {required && <RequiredMark />}
         </Label>
@@ -176,8 +182,11 @@ export function AdvancedSelect({
             value={search}
             role="combobox"
             aria-expanded={isOpen}
-            aria-controls={`${field}-listbox`}
+            aria-controls={listboxId}
             aria-autocomplete="list"
+            aria-activedescendant={activeOptionId}
+            aria-invalid={Boolean(isError)}
+            aria-describedby={isError ? errorId : undefined}
             onChange={(event) => {
               setSearch(event.target.value);
               setActiveIndex(0);
@@ -200,9 +209,10 @@ export function AdvancedSelect({
             id={field}
             disabled={disabled}
             aria-haspopup="listbox"
+            aria-describedby={isError ? errorId : undefined}
             onClick={openForSearch}
             className={twMerge(
-              "flex w-full items-center gap-3 rounded-lg border bg-gray-50 p-2.5 text-left focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-gray-700",
+              "flex w-full items-center gap-3 rounded-lg border bg-gray-50 p-2.5 text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700",
               disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600",
               isClearable && "pr-10",
               isError ? "border-red-500" : "border-gray-300 dark:border-gray-600",
@@ -226,19 +236,18 @@ export function AdvancedSelect({
             type="button"
             aria-label="Clear selection"
             onClick={clearSelection}
-            className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded p-1 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-300 pointer-coarse:size-11 dark:hover:text-gray-200"
+            className="absolute right-2 top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center rounded p-1 text-gray-500 dark:text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 pointer-coarse:size-11 dark:hover:text-gray-200"
           >
             <FaXmark className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
-      {isOpen &&
-        !disabled &&
-        menuPos.width > 0 &&
+      {isMenuVisible &&
         createPortal(
           <div
-            id={`${field}-listbox`}
+            id={listboxId}
             role="listbox"
+            aria-labelledby={labelId}
             style={{
               position: "fixed",
               top: menuPos.top,
@@ -259,8 +268,10 @@ export function AdvancedSelect({
               results.map((option, index) => (
                 <button
                   key={option.value}
+                  id={optionId(index)}
                   type="button"
                   role="option"
+                  tabIndex={-1}
                   aria-selected={index === activeIndex}
                   onMouseDown={(event) => event.preventDefault()}
                   onMouseEnter={() => setActiveIndex(index)}
@@ -272,25 +283,27 @@ export function AdvancedSelect({
                 >
                   {option.avatar && <span className="flex shrink-0">{option.avatar}</span>}
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium text-gray-900 dark:text-white">
+                    <span className="block break-words text-sm font-medium text-gray-900 dark:text-white">
                       {option.title}
                     </span>
                     {option.subtitle && (
-                      <span className="block truncate text-xs text-gray-500 dark:text-gray-400">{option.subtitle}</span>
+                      <span className="block break-words text-xs text-gray-500 dark:text-gray-400">
+                        {option.subtitle}
+                      </span>
                     )}
                   </span>
                 </button>
               ))
             )}
             {totalMatches > results.length && (
-              <div className="border-t border-gray-100 bg-gray-50 px-3 py-2 text-xs text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-500">
+              <div className="border-t border-gray-100 bg-gray-50 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400">
                 Showing {results.length} of {totalMatches} — keep typing to narrow.
               </div>
             )}
           </div>,
           document.body,
         )}
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList id={errorId} errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

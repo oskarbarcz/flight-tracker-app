@@ -10,7 +10,7 @@ export function FieldLabel({ children, className }: Props) {
   return (
     <span
       className={twMerge(
-        "block text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400",
+        "block text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400",
         className,
       )}
     >

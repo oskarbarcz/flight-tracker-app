@@ -6,7 +6,7 @@ type Props = {
 
 export function FormSectionSave({ title }: Props) {
   return (
-    <button className="cursor-pointer font-bold text-indigo-500 px-4" type="submit">
+    <button className="cursor-pointer font-bold text-indigo-600 dark:text-indigo-400 px-4" type="submit">
       {title}
     </button>
   );

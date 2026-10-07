@@ -20,15 +20,12 @@ export function RemoveTerminalModal({ terminal, remove, cancel, isPending = fals
       </ModalHeader>
       <ModalBody>
         <p>
-          You are going to remove terminal <span className="font-mono font-bold">{terminal.shortName}</span> (
-          {terminal.fullName}).
+          Remove terminal <span className="font-mono font-bold">{terminal.shortName}</span> ({terminal.fullName})?
         </p>
-        <p className="mt-3">
-          <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
-        </p>
+        <p className="mt-3">This cannot be undone.</p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{
           label: "Remove terminal",
           onClick: () => remove(terminal),

@@ -11,6 +11,7 @@ import { EmergencyFormFields } from "~/features/emergency/components/EmergencyFo
 import { declareEmergencySchema } from "~/features/emergency/schema";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -31,7 +32,7 @@ export function DeclareEmergencyModal({ close }: Props) {
       success("Emergency declared.");
       close();
     } catch (err) {
-      handleFormikApiError<DeclareEmergencyFormData>(err, setErrors, error, "Failed to declare emergency.");
+      handleFormikApiError<DeclareEmergencyFormData>(err, setErrors, error, "Failed to declare emergency. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -50,6 +51,7 @@ export function DeclareEmergencyModal({ close }: Props) {
         >
           {({ isSubmitting }) => (
             <FormikForm id="declareEmergencyForm" noValidate>
+              <FocusFirstError />
               <EmergencyFormFields />
               <div className="hidden">
                 <button type="submit" disabled={isSubmitting}>

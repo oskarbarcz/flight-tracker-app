@@ -90,7 +90,9 @@ function Timeline({ steps }: { steps: TimelineStep[] }) {
               <span className="absolute -inset-0.5 rounded-full border-2 border-indigo-500 motion-safe:animate-ping" />
             )}
           </span>
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">{step.when}</div>
+          <div className="text-2xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            {step.when}
+          </div>
           <div className="mt-0.5 text-sm font-semibold text-gray-900 dark:text-white">{step.title}</div>
           {step.sub && <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{step.sub}</div>}
         </div>
@@ -140,8 +142,8 @@ function ParkedView({
       <>
         {parkingPosition && (
           <>
-            Parking position{" "}
-            <span className="font-semibold text-gray-700 dark:text-gray-300">{parkingPosition.name}</span> ·{" "}
+            Parking stand <span className="font-semibold text-gray-700 dark:text-gray-300">{parkingPosition.name}</span>{" "}
+            ·{" "}
           </>
         )}
         {airport.city.name}, {airport.country.name}
@@ -239,7 +241,7 @@ export function AircraftCurrentStatusCard({ aircraft, history, onReposition }: P
                 <>
                   {aircraft.lastParkingPosition && (
                     <>
-                      Parking position{" "}
+                      Parking stand{" "}
                       <span className="font-semibold text-gray-700 dark:text-gray-300">
                         {aircraft.lastParkingPosition.name}
                       </span>{" "}

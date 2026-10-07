@@ -163,7 +163,7 @@ export function ManifestTable({ passengers, status, onStatusChange }: Props) {
                   </TableCell>
                   <TableCell className="whitespace-nowrap px-3 py-2">
                     {passenger.ssr === null ? (
-                      <span className="text-gray-400 dark:text-gray-500">—</span>
+                      <span className="text-gray-500 dark:text-gray-400">—</span>
                     ) : (
                       <span className="flex items-baseline gap-1.5">
                         <span className="font-mono font-bold text-gray-900 dark:text-white">{passenger.ssr}</span>

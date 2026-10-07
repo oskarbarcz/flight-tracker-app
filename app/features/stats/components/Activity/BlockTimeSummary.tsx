@@ -46,20 +46,20 @@ export function BlockTimeSummary({
       {detailed && (
         <div className="flex flex-col">
           <div className="flex min-h-5 items-center justify-between gap-2">
-            <span className="shrink-0 text-[11px] text-gray-500 dark:text-gray-400">vs {previousLabel}</span>
-            <span className="font-mono text-[11px] tabular-nums text-gray-600 dark:text-gray-300">
+            <span className="shrink-0 text-2xs text-gray-500 dark:text-gray-400">vs {previousLabel}</span>
+            <span className="font-mono text-2xs tabular-nums text-gray-600 dark:text-gray-300">
               {hasBaselineData ? formatDuration(previousBlockMinutes) : "no earlier data"}
             </span>
           </div>
 
           <div className="flex min-h-6 items-center justify-between gap-2">
             {yearOverYear === null ? (
-              <span className="text-[11px] text-gray-400 dark:text-gray-600">&nbsp;</span>
+              <span className="text-2xs text-gray-500 dark:text-gray-400">&nbsp;</span>
             ) : (
               <>
-                <span className="shrink-0 text-[11px] text-gray-500 dark:text-gray-400">vs {yearOverYear.label}</span>
+                <span className="shrink-0 text-2xs text-gray-500 dark:text-gray-400">vs {yearOverYear.label}</span>
                 <span className="flex items-center gap-2">
-                  <span className="font-mono text-[11px] tabular-nums text-gray-600 dark:text-gray-300">
+                  <span className="font-mono text-2xs tabular-nums text-gray-600 dark:text-gray-300">
                     {formatDuration(yearOverYear.blockMinutes)}
                   </span>
                   <DeltaBadge delta={yearOverYear.delta} format={formatDuration} />

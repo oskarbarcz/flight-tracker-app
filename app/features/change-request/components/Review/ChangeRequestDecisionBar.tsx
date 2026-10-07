@@ -13,6 +13,7 @@ import type { ChangeRequestDetail } from "~/features/change-request/model";
 import { rejectChangeRequestSchema } from "~/features/change-request/schema";
 import { useApi } from "~/shared/api/useApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
 
 const REASON_FIELD = "rejectionReason";
@@ -124,7 +125,7 @@ export function ChangeRequestDecisionBar({ detail, onDecided, onStale }: Props) 
           reason,
           setErrors,
           error,
-          "The proposal could not be rejected.",
+          "The proposal could not be rejected. Try again.",
         );
       }
     } finally {
@@ -150,6 +151,7 @@ export function ChangeRequestDecisionBar({ detail, onDecided, onStale }: Props) 
                 }
               }}
             >
+              <FocusFirstError />
               <ManagedTextareaBlock
                 field={REASON_FIELD}
                 label={`Reason for ${detail.requestedBy.name}`}
@@ -170,7 +172,7 @@ export function ChangeRequestDecisionBar({ detail, onDecided, onStale }: Props) 
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <AcceptSummary detail={detail} deletedReferences={deletedReferences} />
-          <div className="ms-auto flex gap-2">
+          <div className="ms-auto flex flex-wrap justify-end gap-2">
             <Button ref={rejectButton} color="alternative" disabled={isAccepting} onClick={() => setIsRejecting(true)}>
               Reject…
             </Button>

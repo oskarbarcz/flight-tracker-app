@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import type { ObjectSchema } from "yup";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { FormSectionHeader } from "~/shared/ui/Form/Partial/FormSectionHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
@@ -42,6 +43,7 @@ export function FormSection<T extends object>({
         validationSchema={validationSchema}
       >
         <Form className="flex flex-col gap-4">
+          <FocusFirstError />
           <FormSectionHeader
             title={title}
             edit={isEditable}

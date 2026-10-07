@@ -41,7 +41,7 @@ function NotifyBadges({ diversion }: { diversion: Diversion }) {
   if (diversion.notifyFirefightersOnGround) notifications.push("Firefighters");
 
   if (notifications.length === 0) {
-    return <span className="text-gray-400">—</span>;
+    return <span className="text-gray-500 dark:text-gray-400">—</span>;
   }
 
   return (

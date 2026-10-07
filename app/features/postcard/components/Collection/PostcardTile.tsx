@@ -16,7 +16,7 @@ export function PostcardTile({ postcard, onOpen }: Props) {
         type="button"
         onClick={() => onOpen(postcard)}
         aria-label={`See the postcard from ${postcard.city.name} larger`}
-        className="block cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-400"
+        className="block cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500"
       >
         <PostcardImage
           imageUrl={postcard.imageUrl}
@@ -37,7 +37,7 @@ export function PostcardTile({ postcard, onOpen }: Props) {
           </span>
         </span>
 
-        <span className="font-mono text-xs tabular-nums text-gray-400 dark:text-gray-500">
+        <span className="font-mono text-xs tabular-nums text-gray-500 dark:text-gray-400">
           <FormattedIcaoDate date={new Date(postcard.awardedAt)} />
         </span>
       </figcaption>

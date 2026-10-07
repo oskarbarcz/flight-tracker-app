@@ -59,6 +59,7 @@ export function FlightEventsTimeline({ events, serviceType }: Props) {
             <button
               type="button"
               key={scope}
+              aria-pressed={active}
               onClick={() => toggleScope(scope)}
               className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors cursor-pointer ${
                 active
@@ -127,7 +128,7 @@ export function FlightEventsTimeline({ events, serviceType }: Props) {
 function EmptyState({ message }: { message: string }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/40 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
-      <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
+      <HiInformationCircle className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
       <span>{message}</span>
     </div>
   );

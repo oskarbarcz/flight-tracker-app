@@ -136,7 +136,7 @@ export function AssignCabinLayoutModal({ aircraft, operatorId, airlineIata, assi
       </ModalHeader>
       <ModalBody className="flex flex-col gap-4">
         <section className="flex flex-col gap-2">
-          <h3 className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <h3 className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             Suggested for {aircraft.registration}
           </h3>
 
@@ -185,7 +185,7 @@ export function AssignCabinLayoutModal({ aircraft, operatorId, airlineIata, assi
 
           {isBrowsing && (
             <>
-              <h3 className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <h3 className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                 Browse the catalogue
               </h3>
               <div className="grid grid-cols-2 gap-3">

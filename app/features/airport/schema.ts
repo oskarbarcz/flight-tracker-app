@@ -22,11 +22,11 @@ export const createAirportSchema: ObjectSchema<CreateAirportFormData> = object()
   name: string()
     .required("Airport name is required")
     .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be under 100 characters"),
+    .max(100, "Name must be at most 100 characters"),
   city: string()
     .required("City is required")
     .min(2, "City must be at least 2 characters")
-    .max(100, "City must be under 100 characters"),
+    .max(100, "City must be at most 100 characters"),
   country: string()
     .required("Country is required")
     .matches(/^[A-Z]{2}$/, "Country must be a two-letter ISO 3166-1 alpha-2 code"),

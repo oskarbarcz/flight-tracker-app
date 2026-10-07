@@ -267,7 +267,7 @@ export function ActivityPanel({ stats }: Props) {
         </div>
 
         <div className="flex min-w-0 flex-col gap-2">
-          <div className="flex min-h-8 flex-wrap items-center gap-3.5 text-[11px] leading-4 text-gray-500 dark:text-gray-400">
+          <div className="flex min-h-8 flex-wrap items-center gap-3.5 text-2xs leading-4 text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1.5">
               <span
                 className="size-2.5 rounded-sm border border-indigo-500 bg-indigo-500/15 dark:border-indigo-400 dark:bg-indigo-400/15"

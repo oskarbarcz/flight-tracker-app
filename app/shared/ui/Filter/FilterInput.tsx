@@ -6,7 +6,7 @@ const filterInputTheme = {
   field: {
     icon: {
       base: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3",
-      svg: "h-4 w-4 text-gray-400 dark:text-gray-500",
+      svg: "h-4 w-4 text-gray-500 dark:text-gray-400",
     },
     input: {
       withIcon: {

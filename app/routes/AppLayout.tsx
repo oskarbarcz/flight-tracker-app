@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router";
-import { ToastContainer } from "react-toastify";
+import { cssTransition, ToastContainer } from "react-toastify";
 import { DataRefreshProvider } from "~/app-state/useDataRefresh";
 import { SidebarProvider } from "~/app-state/useSidebar";
 import { PinnedAirportsProvider } from "~/features/airport/lib/usePinnedAirports";
@@ -13,6 +13,8 @@ import { BottomNav } from "~/shared/ui/BottomNav/BottomNav";
 import { Sidebar } from "~/shared/ui/Sidebar/Sidebar";
 import { TopBarBackButton } from "~/shared/ui/TopBar/TopBarBackButton";
 import { TopBarLogo } from "~/shared/ui/TopBar/TopBarLogo";
+
+const toastTransition = cssTransition({ enter: "toast-enter", exit: "toast-exit" });
 
 export default function AppLayout() {
   return (
@@ -37,7 +39,7 @@ export default function AppLayout() {
                       </div>
                       <div className="flex-1 flex flex-col md:flex-row min-h-0">
                         <Sidebar />
-                        <main className="flex-1 min-h-0 min-w-0 overflow-y-auto [scrollbar-gutter:stable] pb-[calc(5.25rem_+_env(safe-area-inset-bottom))] md:pb-0">
+                        <main className="flex-1 min-h-0 min-w-0 overflow-y-auto [scrollbar-gutter:stable] scroll-pt-[calc(5rem_+_env(safe-area-inset-top))] scroll-pb-[calc(5.25rem_+_env(safe-area-inset-bottom))] pb-[calc(5.25rem_+_env(safe-area-inset-bottom))] md:scroll-pt-0 md:scroll-pb-24 md:pb-0">
                           <div
                             data-app-entry-content
                             className="mx-auto w-full max-w-7xl p-3 pt-[calc(4rem_+_env(safe-area-inset-top))] sm:p-4 sm:pt-[calc(4rem_+_env(safe-area-inset-top))] md:p-6 md:pt-6"
@@ -50,11 +52,12 @@ export default function AppLayout() {
                     <BottomNav />
                     <ToastContainer
                       position="bottom-right"
+                      transition={toastTransition}
                       autoClose={5000}
                       newestOnTop
                       closeOnClick
                       theme="light"
-                      className="!bottom-[calc(4.5rem_+_env(safe-area-inset-bottom))] max-[480px]:!px-3 md:!bottom-4"
+                      className="!bottom-[calc(6rem_+_env(safe-area-inset-bottom))] max-[480px]:!px-3 md:!bottom-4"
                       toastClassName="!bg-transparent !shadow-none !p-0"
                       closeButton={false}
                     />

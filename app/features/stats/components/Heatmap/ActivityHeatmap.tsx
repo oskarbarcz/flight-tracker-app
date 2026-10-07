@@ -123,7 +123,7 @@ export function ActivityHeatmap({ heatmap, today }: Props) {
               {heatmap.columns.map((column) => (
                 <span
                   key={column.key}
-                  className="min-w-0 flex-1 font-mono text-[11px] uppercase tracking-wide text-gray-400 dark:text-gray-500"
+                  className="min-w-0 flex-1 font-mono text-2xs uppercase tracking-wide text-gray-500 dark:text-gray-400"
                 >
                   {column.monthLabel}
                 </span>
@@ -133,7 +133,7 @@ export function ActivityHeatmap({ heatmap, today }: Props) {
             <div className="flex gap-[3px]" onPointerOver={trackPointer} onPointerLeave={clearPointer}>
               <div className="flex w-6 shrink-0 flex-col justify-between text-end">
                 {WEEKDAYS.map((weekday) => (
-                  <span key={weekday.id} className="font-mono text-[11px] text-gray-400 dark:text-gray-500">
+                  <span key={weekday.id} className="font-mono text-2xs text-gray-500 dark:text-gray-400">
                     {weekday.label}
                   </span>
                 ))}
@@ -168,7 +168,7 @@ export function ActivityHeatmap({ heatmap, today }: Props) {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-        <span className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-400">
+        <span className="flex items-center gap-1.5 text-2xs text-gray-500 dark:text-gray-400">
           <span className="font-mono tabular-nums">0h</span>
           {HEAT_LEVELS.map((level) => (
             <span
@@ -179,7 +179,7 @@ export function ActivityHeatmap({ heatmap, today }: Props) {
           ))}
           <span className="font-mono tabular-nums">9h+</span>
         </span>
-        <span className="text-[11px] text-gray-500 dark:text-gray-400">
+        <span className="text-2xs text-gray-500 dark:text-gray-400">
           Shaded by block time on the day. Hover a square for the exact figures.
         </span>
       </div>

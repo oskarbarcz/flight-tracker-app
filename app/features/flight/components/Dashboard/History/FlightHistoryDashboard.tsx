@@ -19,7 +19,7 @@ export function FlightHistoryDashboard() {
   usePageTitle(flight ? `Flight history · ${flight.flightNumber}` : "Flight history");
 
   if (loading || !flight) {
-    return <div className="py-16 text-center text-gray-500">Loading…</div>;
+    return <div className="py-16 text-center text-gray-500 dark:text-gray-400">Loading…</div>;
   }
 
   const isSimbriefAvailable = flight.source === FlightSource.SimBrief;
