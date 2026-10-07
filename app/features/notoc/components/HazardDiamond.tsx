@@ -22,7 +22,7 @@ export function HazardDiamond({ hazardClass }: Props) {
             color: mark.lowerGround === "#000000" ? "#FFFFFF" : mark.ink,
           }}
         >
-          <span className="-rotate-45 text-[11px] font-bold leading-none">{hazardClass}</span>
+          <span className="-rotate-45 text-2xs font-bold leading-none">{hazardClass}</span>
         </span>
       </span>
     </span>

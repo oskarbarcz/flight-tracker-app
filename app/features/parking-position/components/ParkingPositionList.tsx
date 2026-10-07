@@ -1,12 +1,12 @@
 import { Badge } from "flowbite-react";
 import React from "react";
-import { HiOutlineDuplicate, HiOutlineTrash, HiPencil } from "react-icons/hi";
-import { Link } from "react-router";
+import { LuCopy, LuPencil, LuTrash2 } from "react-icons/lu";
 import { gateLocationOptions, NoiseSensitivity, type ParkingPosition } from "~/features/parking-position";
 import { groupParkingPositionsByTerminal } from "~/features/parking-position/lib/parkingPositionGroups";
 import { standFactGroups } from "~/features/parking-position/lib/standFacts";
 import type { Terminal } from "~/features/terminal";
 import { CollapsibleTerminalSection } from "~/features/terminal/components/CollapsibleTerminalSection";
+import { RowActionButton, RowActionLink } from "~/shared/ui/Button/RowAction";
 import { FactRow } from "~/shared/ui/Fact/FactRow";
 
 type Props = {
@@ -61,30 +61,22 @@ export function ParkingPositionList({
                 </h4>
                 {!readOnly && (
                   <div className="flex shrink-0 items-center">
-                    <Link
+                    <RowActionLink
                       to={`/airports/${airportId}/parking-positions/new?duplicateFrom=${parkingPosition.id}`}
-                      viewTransition
-                      aria-label={`Duplicate parking position ${parkingPosition.name}`}
-                      className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
-                    >
-                      <HiOutlineDuplicate className="size-3.5" />
-                    </Link>
-                    <Link
+                      icon={LuCopy}
+                      label={`Duplicate parking stand ${parkingPosition.name}`}
+                    />
+                    <RowActionLink
                       to={`/airports/${airportId}/parking-positions/${parkingPosition.id}/edit`}
-                      viewTransition
-                      aria-label={`Edit parking position ${parkingPosition.name}`}
-                      className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
-                    >
-                      <HiPencil className="size-3.5" />
-                    </Link>
-                    <button
-                      type="button"
+                      icon={LuPencil}
+                      label={`Edit parking stand ${parkingPosition.name}`}
+                    />
+                    <RowActionButton
                       onClick={() => onDelete?.(parkingPosition)}
-                      aria-label={`Delete parking position ${parkingPosition.name}`}
-                      className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
-                    >
-                      <HiOutlineTrash className="size-3.5" />
-                    </button>
+                      icon={LuTrash2}
+                      label={`Remove parking stand ${parkingPosition.name}`}
+                      tone="danger"
+                    />
                   </div>
                 )}
               </header>
@@ -96,7 +88,7 @@ export function ParkingPositionList({
                       {factGroup.facts.map((fact, factIndex) => (
                         <React.Fragment key={fact.text}>
                           {factIndex > 0 ? <span className="text-gray-300 dark:text-gray-700">·</span> : null}
-                          <span className={fact.available ? undefined : "text-gray-400 dark:text-gray-600"}>
+                          <span className={fact.available ? undefined : "text-gray-500 dark:text-gray-400"}>
                             {fact.text}
                           </span>
                         </React.Fragment>

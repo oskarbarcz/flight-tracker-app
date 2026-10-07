@@ -37,7 +37,7 @@ export function NotamRecord({ notam }: Props) {
       <header className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-800 dark:bg-gray-950">
         <div className="flex min-w-0 items-center gap-2">
           <span className="font-mono text-sm font-bold text-gray-900 dark:text-white">{notam.notamId}</span>
-          <span aria-hidden className="text-gray-400 dark:text-gray-600">
+          <span aria-hidden className="text-gray-500 dark:text-gray-400">
             ·
           </span>
           <FieldLabel className="truncate">{notam.nrc}</FieldLabel>
@@ -67,7 +67,7 @@ export function NotamRecord({ notam }: Props) {
           aria-expanded={showRaw}
           aria-controls={rawId}
           aria-label={`Raw NOTAM ${notam.notamId}`}
-          className="flex cursor-pointer items-center gap-1 rounded-md px-1 py-0.5 text-[11px] font-bold uppercase tracking-wider text-gray-500 transition-colors hover:text-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-gray-400 dark:hover:text-indigo-400"
+          className="flex cursor-pointer items-center gap-1 rounded-md px-1 py-0.5 text-2xs font-bold uppercase tracking-wider text-gray-500 transition-colors hover:text-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-gray-400 dark:hover:text-indigo-400"
         >
           Raw
           <LuChevronDown

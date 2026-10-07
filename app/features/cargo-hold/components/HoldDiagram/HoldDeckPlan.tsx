@@ -29,7 +29,7 @@ export function HoldDeckPlan({ placement, heightPx, reading, width, labelWidthPx
           <span
             key={`label-${compartment.compartment.number}`}
             style={{ left: `${compartment.start * 100}%`, width: `${compartment.length * 100}%` }}
-            className="absolute truncate px-1 text-center text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+            className="absolute truncate px-1 text-center text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
           >
             {compartment.length * width >= COMPARTMENT_LABEL_PX
               ? `${compartment.compartment.number} · ${toHuman.cargoHold.compartmentName(compartment.compartment.name)}`

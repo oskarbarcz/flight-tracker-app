@@ -1,7 +1,13 @@
-import { FaArrowsSpin, FaChartColumn, FaMapLocationDot } from "react-icons/fa6";
-import { GrDocumentTime } from "react-icons/gr";
-import { HiHome } from "react-icons/hi";
-import { LuImages, LuPlane, LuTowerControl } from "react-icons/lu";
+import {
+  LuChartColumn,
+  LuFileClock,
+  LuHouse,
+  LuImages,
+  LuMapPinned,
+  LuPlane,
+  LuRepeat,
+  LuTowerControl,
+} from "react-icons/lu";
 import { useLocation } from "react-router";
 import { usePinnedAirports } from "~/features/airport/lib/usePinnedAirports";
 import { CurrentFlightNav } from "~/features/flight/components/Sidebar/CurrentFlightNav";
@@ -18,7 +24,7 @@ export function CabinCrewSidebarItems() {
   return (
     <nav className="flex flex-col gap-y-5">
       <SidebarSection>
-        <SidebarElement label="Home" href="/dashboard" isSelected={path === "/dashboard"} icon={HiHome} />
+        <SidebarElement label="Home" href="/dashboard" isSelected={path === "/dashboard"} icon={LuHouse} />
       </SidebarSection>
 
       <SidebarSection label="Current flight">
@@ -43,7 +49,7 @@ export function CabinCrewSidebarItems() {
           icon={LuTowerControl}
         />
         <SidebarElement
-          label="Aircraft library"
+          label="Aircraft history"
           href="/aircraft-history"
           isSelected={path.startsWith("/aircraft-history")}
           icon={LuPlane}
@@ -51,24 +57,24 @@ export function CabinCrewSidebarItems() {
       </SidebarSection>
 
       <SidebarSection label="History">
-        <SidebarElement label="Statistics" href="/stats" isSelected={path.startsWith("/stats")} icon={FaChartColumn} />
+        <SidebarElement label="Statistics" href="/stats" isSelected={path.startsWith("/stats")} icon={LuChartColumn} />
         <SidebarElement
-          label="Operations history"
+          label="Flight history"
           href="/flight-history"
           isSelected={path.startsWith("/flight-history")}
-          icon={GrDocumentTime}
+          icon={LuFileClock}
         />
         <SidebarElement
-          label="Travel history"
+          label="Travel log"
           href="/travels"
           isSelected={path.startsWith("/travels")}
-          icon={FaMapLocationDot}
+          icon={LuMapPinned}
         />
         <SidebarElement
-          label="Rotations history"
+          label="Rotations"
           href="/rotations"
           isSelected={path.startsWith("/rotations")}
-          icon={FaArrowsSpin}
+          icon={LuRepeat}
         />
       </SidebarSection>
 

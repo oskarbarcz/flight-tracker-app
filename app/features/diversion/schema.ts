@@ -5,7 +5,7 @@ import { DiversionReason, DiversionSeverity } from "~/features/diversion/model";
 export const reportDiversionSchema: ObjectSchema<ReportDiversionFormData> = object({
   severity: mixed<DiversionSeverity>().oneOf(Object.values(DiversionSeverity)).required("Severity is required"),
   reason: mixed<DiversionReason>().oneOf(Object.values(DiversionReason)).required("Reason is required"),
-  freeText: string().required("Description is required").min(3, "Please provide more detail"),
+  freeText: string().required("Description is required").min(3, "Give more detail (at least 3 characters)"),
   airportId: string().required("Diversion airport is required").uuid("Diversion airport is required"),
   notifySecurityOnGround: boolean().required().default(false),
   notifyMedicalOnGround: boolean().required().default(false),

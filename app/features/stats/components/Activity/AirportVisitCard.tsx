@@ -19,7 +19,7 @@ export function AirportVisitCard({ icaoCode, airport, firstVisitAt }: Props) {
         {airport?.shape ? (
           <AirportShape shape={airport.shape} />
         ) : (
-          <FaTowerObservation className="text-gray-400 dark:text-gray-500" size={14} aria-hidden={true} />
+          <FaTowerObservation className="text-gray-500 dark:text-gray-400" size={14} aria-hidden={true} />
         )}
       </OptionAvatarFrame>
 

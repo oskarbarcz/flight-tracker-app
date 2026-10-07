@@ -24,10 +24,7 @@ export function CredentialField({
 }: CredentialFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label
-        htmlFor={id}
-        className="text-[11px] font-bold uppercase tracking-[0.08em] text-gray-600 dark:text-gray-400"
-      >
+      <label htmlFor={id} className="text-2xs font-bold uppercase tracking-[0.08em] text-gray-600 dark:text-gray-400">
         {label}
       </label>
       <TextInput

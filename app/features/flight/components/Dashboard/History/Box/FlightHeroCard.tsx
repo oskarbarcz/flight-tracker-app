@@ -28,7 +28,7 @@ export function FlightHeroCard({ flight }: Props) {
             tone="onAccent"
           />
           <div className="shrink-0 text-end">
-            <div className="text-[0.65rem] font-bold uppercase tracking-widest text-indigo-200 md:text-xs">Flown</div>
+            <div className="text-2xs font-bold uppercase tracking-widest text-indigo-200 md:text-xs">Flown</div>
             <div className="whitespace-nowrap text-xs font-medium text-white md:text-sm">
               {longDate(flight.timesheet.scheduled.offBlockTime)}
             </div>
@@ -50,7 +50,9 @@ function AirportColumn({ airport, align }: { airport: AirportOnFlight; align: "s
     <div className={`min-w-0 ${align === "end" ? "text-end" : "text-start"}`}>
       <div className="font-mono text-3xl font-bold leading-none md:text-4xl">{airport.iataCode}</div>
       <div className="mt-1 truncate text-xs font-medium text-indigo-100 md:text-sm">{airport.city.name}</div>
-      <div className="truncate text-[0.65rem] text-indigo-200/80 md:text-xs">{airport.name}</div>
+      <div className="truncate text-xs text-indigo-200/80" title={airport.name}>
+        {airport.name}
+      </div>
     </div>
   );
 }

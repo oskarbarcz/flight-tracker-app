@@ -7,7 +7,11 @@ type Props = {
 
 export function FormSectionEdit({ title, onClick }: Props) {
   return (
-    <button className="cursor-pointer font-bold text-indigo-500 px-4" type="button" onClick={onClick}>
+    <button
+      className="cursor-pointer font-bold text-indigo-600 dark:text-indigo-400 px-4"
+      type="button"
+      onClick={onClick}
+    >
       {title}
     </button>
   );

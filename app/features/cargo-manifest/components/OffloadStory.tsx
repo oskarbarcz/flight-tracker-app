@@ -82,7 +82,7 @@ export function OffloadStory({ flightId }: Props) {
         {state.entries.map(({ shipment }) => (
           <li key={shipment.awb} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5">
             <span className="font-mono text-sm font-bold text-gray-900 dark:text-white">{shipment.awb}</span>
-            <span className="min-w-0 flex-1 truncate text-sm text-gray-700 dark:text-gray-200">
+            <span className="min-w-0 flex-1 break-words text-sm text-gray-700 dark:text-gray-200">
               {shipment.description}
             </span>
             {shipment.offloadReason !== null && (

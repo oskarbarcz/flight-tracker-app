@@ -26,8 +26,8 @@ setLocale({
     min: ({ path, min }) => `${humanize(path)} must be at least ${min} characters`,
     max: ({ path, max }) => `${humanize(path)} must be at most ${max} characters`,
     matches: ({ path }) => `${humanize(path)} has an invalid format`,
-    email: () => "Please enter a valid email address",
-    url: () => "Please enter a valid URL",
+    email: () => "Enter a valid email address",
+    url: () => "Enter a valid URL",
     uuid: ({ path }) => `${humanize(path)} is invalid`,
   },
   number: {

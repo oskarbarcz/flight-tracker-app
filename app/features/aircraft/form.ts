@@ -34,7 +34,7 @@ export function initAircraftFormData(aircraft?: Aircraft): AircraftFormData {
 export function aircraftRequestError(error: unknown): string {
   const err = error as { message?: string; violations?: Record<string, string[]> };
   const violation = err.violations ? Object.values(err.violations).flat()[0] : undefined;
-  return violation ?? err.message ?? "Failed to save aircraft.";
+  return violation ?? err.message ?? "Failed to save aircraft. Try again.";
 }
 
 export function initAircraftFormValues(aircraft: Aircraft): AircraftFormValues {

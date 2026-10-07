@@ -14,9 +14,9 @@ const accountPath = "/me/account";
 const signInPath = "/sign-in";
 
 const unverifiedReturnMessage =
-  "That Discord response couldn't be verified as a reply to a request from this browser, so it was ignored. Start again from MyPreflight.";
-const incompleteReturnMessage = "Discord didn't send back what was needed. Start again from MyPreflight.";
-const interruptedMessage = "Discord couldn't complete the request. Try again.";
+  "That Discord response couldn’t be verified as a reply to a request from this browser, so it was ignored. Start again from MyPreflight.";
+const incompleteReturnMessage = "Discord didn’t send back what was needed. Start again from MyPreflight.";
+const interruptedMessage = "Discord couldn’t complete the request. Try again.";
 
 type Completion = { path: string; state?: { discord: unknown } };
 

@@ -142,7 +142,7 @@ export default function PostcardsRoute() {
       />
 
       <p className="mb-4 max-w-prose text-sm text-gray-500 dark:text-gray-400">
-        Every city's postcard and the art drawn for it. Drawing the missing art also retries the postcards whose art
+        Every city’s postcard and the art drawn for it. Drawing the missing art also retries the postcards whose art
         failed, so a city that has never been drawn and one that could not be drawn are both picked up.
       </p>
 
@@ -186,7 +186,7 @@ export default function PostcardsRoute() {
               <div className="mb-3 flex items-baseline justify-between gap-3">
                 <FieldLabel>
                   {isFiltering(filters) ? "Matching postcards" : "All postcards"}
-                  <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-400 dark:text-gray-500">
+                  <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-500 dark:text-gray-400">
                     {onContinent.length}
                   </span>
                 </FieldLabel>

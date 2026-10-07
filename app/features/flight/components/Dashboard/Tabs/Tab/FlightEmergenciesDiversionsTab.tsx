@@ -10,6 +10,7 @@ import { ResolvedEmergenciesHistory } from "~/features/emergency/components/Reso
 import { FlightStatus } from "~/features/flight";
 import { FlightAlternateAirportsCard } from "~/features/flight/components/Airports/FlightAlternateAirportsCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { LoadFailedState } from "~/shared/ui/Display/LoadFailedState";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
@@ -25,7 +26,7 @@ const STATUSES_VALID_FOR_DIVERSION: ReadonlySet<FlightStatus> = new Set([
 ]);
 
 export function FlightEmergenciesDiversionsTab() {
-  const { flight, emergencies, activeEmergency, diversion } = useTrackedFlight();
+  const { flight, emergencies, emergenciesLoadFailed, activeEmergency, diversion } = useTrackedFlight();
   const [declaring, setDeclaring] = useState(false);
   const [reportingDiversion, setReportingDiversion] = useState(false);
 
@@ -73,7 +74,9 @@ export function FlightEmergenciesDiversionsTab() {
 
         <div className="flex flex-col gap-4 lg:col-span-2">
           <Container padding="condensed" header={<CardHeader title="Emergencies" />}>
-            {activeEmergency ? (
+            {emergenciesLoadFailed ? (
+              <LoadFailedState title="Emergency status could not be retrieved." />
+            ) : activeEmergency ? (
               <ActiveEmergencyPanel emergency={activeEmergency} />
             ) : (
               <EmergencyEmptyState>

@@ -49,8 +49,8 @@ export function LifecycleTrack({ status }: Props) {
             key={label}
             aria-current={index === current ? "step" : undefined}
             className={twMerge(
-              "text-center text-[10px] font-semibold uppercase tracking-wide",
-              index === current ? "text-indigo-500" : "text-gray-400 dark:text-gray-500",
+              "text-center text-2xs font-semibold uppercase tracking-wide",
+              index === current ? "font-bold text-indigo-600 dark:text-indigo-400" : "text-gray-500 dark:text-gray-400",
             )}
           >
             {label}

@@ -38,7 +38,7 @@ export function OsmChangeList({ changes, selected, showMatching, onToggle }: Pro
               title={toHuman.airport.osm.resource(group.resource)}
               actions={
                 group.writingCount > 0 ? (
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <span className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     <span className="font-mono tabular-nums">{group.writingCount}</span>{" "}
                     {group.writingCount === 1 ? "change" : "changes"}
                   </span>

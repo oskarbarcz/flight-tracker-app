@@ -12,7 +12,7 @@ type Props = {
 export function AirportShapeFrame({ shape }: Props) {
   if (!hasOutline(shape)) {
     return (
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-md border border-dashed border-gray-300 text-gray-400 dark:border-gray-600 dark:text-gray-500">
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-md border border-dashed border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400">
         <LuTowerControl className="size-3.5" aria-hidden />
         <span className="sr-only">No outline</span>
       </span>

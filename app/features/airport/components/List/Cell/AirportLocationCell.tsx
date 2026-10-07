@@ -10,9 +10,9 @@ type Props = {
 
 export function AirportLocationCell({ airport }: Props) {
   return (
-    <span className="block min-w-0 px-1 py-2.5 sm:px-3">
+    <span className="block min-w-0 px-1 py-2.5 @xl:px-3">
       <span className="flex min-w-0 items-center gap-1.5">
-        <span className="truncate text-sm font-bold text-gray-900 sm:text-base dark:text-white">{airport.name}</span>
+        <span className="truncate text-sm font-bold text-gray-900 @xl:text-base dark:text-white">{airport.name}</span>
         <AirportQualityIcon quality={airport.dataQuality} />
       </span>
       <span className="mt-0.5 flex min-w-0 items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">

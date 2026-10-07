@@ -12,7 +12,7 @@ type Props = {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{title}</span>
+      <span className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{title}</span>
       {children}
     </div>
   );

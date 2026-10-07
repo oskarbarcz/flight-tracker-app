@@ -57,7 +57,7 @@ export function SelectParkingPositionModal({ airportId, kind, currentSelectionId
           </div>
         ) : parkingPositions.length === 0 ? (
           <Alert color="warning" icon={HiInformationCircle}>
-            No parking positions are configured for this airport.
+            No parking stands are configured for this airport.
           </Alert>
         ) : (
           <Form<{ parkingPositionId: string }>
@@ -68,7 +68,7 @@ export function SelectParkingPositionModal({ airportId, kind, currentSelectionId
           >
             <AdvancedSelect
               field="parkingPositionId"
-              label="Parking position"
+              label="Parking stand"
               placeholder="Search by name, terminal or type"
               options={options}
               maxResults={8}
@@ -77,8 +77,8 @@ export function SelectParkingPositionModal({ airportId, kind, currentSelectionId
         )}
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
-        confirm={{ label: "Confirm", type: "submit", form: FORM_ID, disabled: !hasParkingPositions }}
+        cancel={{ onClick: cancel }}
+        confirm={{ label: "Set parking stand", type: "submit", form: FORM_ID, disabled: !hasParkingPositions }}
       />
     </Modal>
   );

@@ -17,12 +17,12 @@ const OFF_BLOCK_STATUSES = [
 const FLIGHT_LOG_STATUSES = [FlightStatus.OnBlock, FlightStatus.OffboardingStarted, FlightStatus.OffboardingFinished];
 
 function timeValue(date: Date | null | undefined): React.ReactNode {
-  return date ? <FormattedIcaoTime date={date} /> : <span className="text-gray-400 dark:text-gray-500">—</span>;
+  return date ? <FormattedIcaoTime date={date} /> : <span className="text-gray-500 dark:text-gray-400">—</span>;
 }
 
 function dateTimeValue(date: Date | null | undefined): React.ReactNode {
   if (!date) {
-    return <span className="text-gray-400 dark:text-gray-500">—</span>;
+    return <span className="text-gray-500 dark:text-gray-400">—</span>;
   }
   return (
     <span className="font-mono tabular-nums">
@@ -33,7 +33,7 @@ function dateTimeValue(date: Date | null | undefined): React.ReactNode {
 
 function durationValue(start: Date | null | undefined, end: Date | null | undefined): React.ReactNode {
   if (!start || !end) {
-    return <span className="text-gray-400 dark:text-gray-500">—</span>;
+    return <span className="text-gray-500 dark:text-gray-400">—</span>;
   }
   return <span className="font-mono tabular-nums">{getTimeDifferenceInHours(start, end)}</span>;
 }

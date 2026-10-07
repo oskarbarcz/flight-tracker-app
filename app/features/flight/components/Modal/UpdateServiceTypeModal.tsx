@@ -1,4 +1,4 @@
-import { Label, Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader, Radio } from "flowbite-react";
 import React, { useState } from "react";
 import { type Flight, FlightServiceType } from "~/features/flight";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
@@ -39,36 +39,43 @@ export function UpdateServiceTypeModal({ flight, update, cancel }: Props) {
       </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         <div className="space-y-3">
-          {serviceTypeOptions.map((option) => (
-            <button
-              type="button"
-              key={option.value}
-              className="flex items-start text-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-              onClick={() => setSelectedServiceType(option.value)}
-            >
-              <Radio
-                id={`service-type-${flight.id}-${option.value}`}
-                name="serviceType"
-                value={option.value}
-                checked={selectedServiceType === option.value}
-                onChange={() => setSelectedServiceType(option.value)}
-                className="mt-1.5 cursor-pointer"
-              />
-              <div className="flex-1">
-                <Label
-                  htmlFor={`service-type-${flight.id}-${option.value}`}
-                  className="cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-100"
-                >
-                  {option.label}
-                </Label>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{option.description}</p>
-              </div>
-            </button>
-          ))}
+          {serviceTypeOptions.map((option) => {
+            const radioId = `service-type-${flight.id}-${option.value}`;
+
+            return (
+              <label
+                key={option.value}
+                htmlFor={radioId}
+                className="flex items-start text-start gap-3 select-none rounded-lg p-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+              >
+                <Radio
+                  id={radioId}
+                  name="serviceType"
+                  value={option.value}
+                  checked={selectedServiceType === option.value}
+                  onChange={() => setSelectedServiceType(option.value)}
+                  aria-labelledby={`${radioId}-label`}
+                  aria-describedby={`${radioId}-description`}
+                  className="mt-1.5 cursor-pointer"
+                />
+                <span className="flex-1">
+                  <span
+                    id={`${radioId}-label`}
+                    className="cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-100"
+                  >
+                    {option.label}
+                  </span>
+                  <span id={`${radioId}-description`} className="mt-1 block text-xs text-gray-500 dark:text-gray-400">
+                    {option.description}
+                  </span>
+                </span>
+              </label>
+            );
+          })}
         </div>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{ label: "Save changes", onClick: () => update(flight.id, selectedServiceType) }}
       />
     </Modal>

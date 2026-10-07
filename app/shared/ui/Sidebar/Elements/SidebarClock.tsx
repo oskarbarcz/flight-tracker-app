@@ -18,7 +18,7 @@ export function SidebarClock() {
       <span className="text-xs text-gray-500 dark:text-gray-400">{date}</span>
       <span className="mt-1 text-xl font-bold text-gray-900 dark:text-white">
         {time}
-        <span className="ms-0.5 text-sm font-semibold text-gray-400 dark:text-gray-500">Z</span>
+        <span className="ms-0.5 text-sm font-semibold text-gray-500 dark:text-gray-400">Z</span>
       </span>
     </div>
   );

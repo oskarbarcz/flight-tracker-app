@@ -17,7 +17,7 @@ export function FlightDataTabs({ tab, setTab, isSimbriefAvailable, hasActiveEmer
   );
 
   const delaysTitle = hasUnsettledDelay ? (
-    <span className="text-amber-600 dark:text-amber-500 font-semibold">Delay report</span>
+    <span className="text-amber-700 dark:text-amber-500 font-semibold">Delay report</span>
   ) : (
     "Delay report"
   );

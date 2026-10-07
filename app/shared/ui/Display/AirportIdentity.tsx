@@ -29,7 +29,11 @@ export function AirportIdentity({ iataCode, name, city, country, shape, href, si
       <div className="min-w-0">
         <div className="flex min-w-0 items-baseline gap-2">
           {href ? (
-            <Link to={href} viewTransition className={twMerge(codeClassName, "hover:text-primary-500")}>
+            <Link
+              to={href}
+              viewTransition
+              className={twMerge(codeClassName, "hover:text-indigo-600 dark:hover:text-indigo-400")}
+            >
               {iataCode}
             </Link>
           ) : (

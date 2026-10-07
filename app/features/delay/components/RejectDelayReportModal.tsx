@@ -12,6 +12,7 @@ import { translateDelayReasonCode } from "~/features/delay/i18n";
 import { rejectDelayReportSchema } from "~/features/delay/schema";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -34,7 +35,12 @@ export function RejectDelayReportModal({ report, close }: Props) {
       success("Delay report sent back to the crew.");
       close();
     } catch (err) {
-      handleFormikApiError<RejectDelayReportFormData>(err, setErrors, error, "Failed to reject delay report.");
+      handleFormikApiError<RejectDelayReportFormData>(
+        err,
+        setErrors,
+        error,
+        "Failed to reject delay report. Try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -58,6 +64,7 @@ export function RejectDelayReportModal({ report, close }: Props) {
         >
           {({ isSubmitting }) => (
             <FormikForm id="rejectDelayReportForm" noValidate>
+              <FocusFirstError />
               <ManagedTextareaBlock
                 field="rejectionReason"
                 label="Rejection reason"

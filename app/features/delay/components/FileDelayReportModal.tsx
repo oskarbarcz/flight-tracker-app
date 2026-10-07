@@ -11,6 +11,7 @@ import { delayReasonOptionGroups } from "~/features/delay/i18n";
 import { fileDelayReportSchema } from "~/features/delay/schema";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedGroupedSelectBlock } from "~/shared/ui/Form/Managed/ManagedGroupedSelectBlock";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ManagedTextareaBlock } from "~/shared/ui/Form/Managed/ManagedTextareaBlock";
@@ -40,7 +41,7 @@ export function FileDelayReportModal({ maxMinutes, close }: Props) {
       success("Delay report filed.");
       close();
     } catch (err) {
-      handleFormikApiError<FileDelayReportFormData>(err, setErrors, error, "Failed to file delay report.");
+      handleFormikApiError<FileDelayReportFormData>(err, setErrors, error, "Failed to file delay report. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -59,6 +60,7 @@ export function FileDelayReportModal({ maxMinutes, close }: Props) {
         >
           {({ isSubmitting }) => (
             <FormikForm id="fileDelayReportForm" noValidate>
+              <FocusFirstError />
               <ManagedGroupedSelectBlock field="reasonCode" label="Reason" groups={reasonGroups} />
               <ManagedInputBlock
                 field="delayMinutes"

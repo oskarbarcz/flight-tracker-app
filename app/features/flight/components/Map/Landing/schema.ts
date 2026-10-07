@@ -5,7 +5,7 @@ export type TrackPrivateFlightFormData = {
 };
 
 export const trackPrivateFlightSchema: ObjectSchema<TrackPrivateFlightFormData> = object({
-  flightId: string().required("Enter a flight ID").uuid("That doesn't look like a valid flight ID"),
+  flightId: string().required("Enter a flight ID").uuid("That doesn’t look like a valid flight ID"),
 });
 
 export function initTrackPrivateFlightData(): TrackPrivateFlightFormData {

@@ -1,9 +1,16 @@
 import React from "react";
-import { FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
-import { GrDocumentTime } from "react-icons/gr";
-import { HiOutlineBuildingOffice } from "react-icons/hi2";
-import { LuArmchair, LuContainer, LuFileDiff, LuImage, LuTowerControl } from "react-icons/lu";
-import { MdHistory } from "react-icons/md";
+import {
+  LuArmchair,
+  LuBuilding2,
+  LuClock,
+  LuContainer,
+  LuFileClock,
+  LuFileDiff,
+  LuHistory,
+  LuImage,
+  LuPlaneTakeoff,
+  LuTowerControl,
+} from "react-icons/lu";
 import { useLocation } from "react-router";
 import { usePendingChangeRequestCount } from "~/features/change-request/hooks/usePendingChangeRequests";
 import { usePendingDelayCount } from "~/features/delay/hooks/usePendingDelays";
@@ -22,7 +29,7 @@ export function OperatorSidebarItems() {
           label="Flight plans"
           href="/flights"
           isSelected={path.startsWith("/flights")}
-          icon={GrDocumentTime}
+          icon={LuFileClock}
         />
       </SidebarSection>
 
@@ -31,27 +38,27 @@ export function OperatorSidebarItems() {
           label="Current flights"
           href="/current-flights"
           isSelected={path.startsWith("/current-flights")}
-          icon={FaPlaneDeparture}
+          icon={LuPlaneTakeoff}
         />
         <SidebarElement
-          label="Review delays"
+          label="Delay reviews"
           href="/delays"
           isSelected={path.startsWith("/delays")}
-          icon={FaRegClock}
+          icon={LuClock}
           badge={pendingDelays}
         />
         <SidebarElement
-          label="Review data changes"
+          label="Data changes"
           href="/data-changes"
           isSelected={path.startsWith("/data-changes")}
           icon={LuFileDiff}
           badge={pendingDataChanges}
         />
         <SidebarElement
-          label="Flights history"
+          label="Flight history"
           href="/finished-flights"
           isSelected={path.startsWith("/finished-flights")}
-          icon={MdHistory}
+          icon={LuHistory}
         />
       </SidebarSection>
 
@@ -66,7 +73,7 @@ export function OperatorSidebarItems() {
           label="Operators"
           href="/operators"
           isSelected={path.startsWith("/operators")}
-          icon={HiOutlineBuildingOffice}
+          icon={LuBuilding2}
         />
       </SidebarSection>
 

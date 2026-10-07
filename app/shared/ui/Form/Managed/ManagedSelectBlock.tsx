@@ -30,6 +30,7 @@ export function ManagedSelectBlock({
 }: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const isError = meta.touched && meta.error;
+  const errorId = `${field}-error`;
   const density = useFormDensity();
 
   useEffect(() => {
@@ -53,6 +54,8 @@ export function ManagedSelectBlock({
         required={required}
         disabled={disabled}
         color={isError ? "failure" : undefined}
+        aria-invalid={Boolean(isError)}
+        aria-describedby={isError ? errorId : undefined}
         {...fieldProps}
       >
         {options.map((option) => (
@@ -61,7 +64,7 @@ export function ManagedSelectBlock({
           </option>
         ))}
       </Select>
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList id={errorId} errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

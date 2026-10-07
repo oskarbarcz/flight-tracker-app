@@ -39,7 +39,7 @@ function DestinationAlternateRow({ index, options, disabled, onRemove }: RowProp
           aria-label={`Remove alternate airport ${index + 1}`}
           onClick={onRemove}
           disabled={disabled}
-          className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
+          className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
         >
           <FaXmark className="h-4 w-4" />
         </button>
@@ -68,7 +68,7 @@ export function FlightAlternateAirportsFields({ options, disabled }: Props) {
         type="button"
         onClick={() => setIsExpanded(true)}
         disabled={disabled}
-        className="flex w-fit cursor-pointer items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-indigo-400"
+        className="flex w-fit cursor-pointer items-center gap-2 text-sm font-medium rounded text-indigo-600 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 dark:text-indigo-400"
       >
         <FaPlus className="h-3 w-3" />
         Add alternate airports
@@ -99,7 +99,7 @@ export function FlightAlternateAirportsFields({ options, disabled }: Props) {
                   type="button"
                   onClick={() => push({ id: crypto.randomUUID(), airportId: "" })}
                   disabled={disabled}
-                  className="flex w-fit cursor-pointer items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-indigo-400"
+                  className="flex w-fit cursor-pointer items-center gap-2 text-sm font-medium rounded text-indigo-600 hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 dark:text-indigo-400"
                 >
                   <FaPlus className="h-3 w-3" />
                   Add alternate

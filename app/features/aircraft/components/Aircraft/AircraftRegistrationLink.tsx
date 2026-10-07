@@ -21,7 +21,7 @@ export function AircraftRegistrationLink({ aircraftId, registration, className }
     <Link
       to={`/aircraft-history/${aircraftId}`}
       viewTransition
-      className={twMerge("transition-colors hover:text-primary-500", className)}
+      className={twMerge("transition-colors hover:text-indigo-600 dark:hover:text-indigo-400", className)}
     >
       {registration}
     </Link>

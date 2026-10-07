@@ -30,7 +30,7 @@ export function UpdateScheduledTimesheetModal({ flight, update, cancel }: Props)
         </Form>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{ label: "Save changes", type: "submit", form: "updateScheduleForm" }}
       />
     </Modal>

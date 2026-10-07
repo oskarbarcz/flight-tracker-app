@@ -41,7 +41,7 @@ function StatusReading({ label, reading }: { label: string; reading: Reading }) 
         className={twMerge("size-2 shrink-0 rounded-full", reading.dot, reading.pulse === true && "animate-pulse")}
         aria-hidden={true}
       />
-      <span className={twMerge("text-[11px] font-bold uppercase tracking-wider", reading.text)}>{reading.label}</span>
+      <span className={twMerge("text-2xs font-bold uppercase tracking-wider", reading.text)}>{reading.label}</span>
     </span>
   );
 }

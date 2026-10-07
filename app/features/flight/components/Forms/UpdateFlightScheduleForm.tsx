@@ -7,13 +7,13 @@ export function UpdateFlightScheduleForm() {
   const { values } = useFormikContext<FilledSchedule>();
 
   const taxiOutTime = getTimeDifferenceInMinutes(values.offBlockTime, values.takeoffTime);
-  const taxiOutColor = taxiOutTime < 0 ? "text-red-500" : "";
+  const taxiOutColor = taxiOutTime < 0 ? "text-red-700 dark:text-red-400" : "";
 
   const airTime = getTimeDifferenceInHours(values.takeoffTime, values.arrivalTime);
-  const airTimeColor = airTime.startsWith("-") ? "text-red-500" : "";
+  const airTimeColor = airTime.startsWith("-") ? "text-red-700 dark:text-red-400" : "";
 
   const taxiInTime = getTimeDifferenceInMinutes(values.arrivalTime, values.onBlockTime);
-  const taxiInColor = taxiInTime < 0 ? "text-red-500" : "";
+  const taxiInColor = taxiInTime < 0 ? "text-red-700 dark:text-red-400" : "";
 
   const blockTime = getTimeDifferenceInHours(values.offBlockTime, values.onBlockTime);
 

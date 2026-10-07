@@ -30,11 +30,16 @@ export function EditParkingPositionModal({ airport, parkingPosition, terminals, 
   ) => {
     try {
       await parkingPositionService.update(airport.id, parkingPosition.id, parkingPositionFormDataToRequest(values));
-      success(`Parking position ${parkingPosition.name} updated.`);
+      success(`Parking stand ${parkingPosition.name} updated.`);
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateParkingPositionFormData>(err, setErrors, error, "Failed to update parking position.");
+      handleFormikApiError<CreateParkingPositionFormData>(
+        err,
+        setErrors,
+        error,
+        "Failed to update parking stand. Try again.",
+      );
     } finally {
       setSubmitting(false);
     }

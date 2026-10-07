@@ -30,7 +30,7 @@ export function UpdateAirportModal({ airport, close }: Props) {
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateAirportFormData>(err, setErrors, error, "Failed to update airport.");
+      handleFormikApiError<CreateAirportFormData>(err, setErrors, error, "Failed to update airport. Try again.");
     } finally {
       setSubmitting(false);
     }

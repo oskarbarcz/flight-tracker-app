@@ -28,6 +28,7 @@ export function ManagedInputBlock({
 }: Props) {
   const [fieldProps, meta] = useField(field);
   const isError = meta.touched && meta.error;
+  const errorId = `${field}-error`;
   const density = useFormDensity();
 
   return (
@@ -47,10 +48,12 @@ export function ManagedInputBlock({
         disabled={disabled}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
+        aria-invalid={Boolean(isError)}
+        aria-describedby={isError ? errorId : undefined}
         {...fieldProps}
       />
       {helperText && !isError && <HelperText>{helperText}</HelperText>}
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList id={errorId} errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

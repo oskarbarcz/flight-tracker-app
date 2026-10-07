@@ -71,10 +71,10 @@ export function CrosscheckConfirmation({ id, confirmed, onConfirm }: Props) {
         {confirmed && signedAt !== null ? (
           <AcceptanceStamp signedAt={signedAt} licenceId={user?.pilotLicenseId ?? null} animate={pressed.current} />
         ) : (
-          <span className="px-3 text-center text-[11px] font-bold uppercase leading-tight tracking-[0.08em] text-gray-400 dark:text-gray-500">
+          <span className="px-3 text-center text-2xs font-bold uppercase leading-tight tracking-[0.08em] text-gray-500 dark:text-gray-400">
             Awaiting
             <br />
-            commander's acceptance
+            commander’s acceptance
           </span>
         )}
       </div>

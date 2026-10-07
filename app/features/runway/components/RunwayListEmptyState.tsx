@@ -16,8 +16,8 @@ export function RunwayListEmptyState({ airportId }: Props) {
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color="blue" />
       <EmptyStateText
-        title="No runways defined yet."
-        paragraph="Add the airport's runways to enable flight planning, taxi routing, and runway assignments."
+        title="No runways defined yet"
+        paragraph="Add the airport’s runways to enable flight planning, taxi routing, and runway assignments."
       />
       <Button className="space-x-1.5 w-fit mx-auto" color="indigo" as={Link} to={`/airports/${airportId}/runways/new`}>
         <HiPlus />

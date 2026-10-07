@@ -40,7 +40,7 @@ export function PilotRotationDetails({ rotation, airports, operator }: Props) {
         <Link
           to="/rotations"
           viewTransition
-          className="inline-flex items-center gap-2 rounded text-sm font-semibold text-gray-500 hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-gray-400 dark:hover:text-gray-200"
+          className="inline-flex items-center gap-2 rounded text-sm font-semibold text-gray-500 hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-gray-400 dark:hover:text-gray-200"
         >
           <FaArrowLeft size={12} aria-hidden={true} />
           Rotations
@@ -50,7 +50,7 @@ export function PilotRotationDetails({ rotation, airports, operator }: Props) {
       <Container padding="spacious" className="mb-4 gap-5">
         <header className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
-            <span className="block text-xs font-bold uppercase tracking-widest text-indigo-500 dark:text-indigo-400">
+            <span className="block text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
               Rotation
             </span>
             <h1 className="mt-1 break-words text-3xl font-bold text-gray-900 dark:text-white">{rotation.name}</h1>

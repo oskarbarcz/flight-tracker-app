@@ -29,5 +29,5 @@ export const declareEmergencySchema: ObjectSchema<DeclareEmergencyFormData> = ob
     .of(mixed<DangerousGoodsClass>().oneOf(Object.values(DangerousGoodsClass)).required())
     .required()
     .default([]),
-  freeText: string().required("Description is required").min(3, "Please provide more detail"),
+  freeText: string().required("Description is required").min(3, "Give more detail (at least 3 characters)"),
 });

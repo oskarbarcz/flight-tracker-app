@@ -27,7 +27,7 @@ export const aircraftIdentitySchema: ObjectSchema<AircraftIdentityFormValues> = 
   registration: string()
     .required("Registration is required")
     .min(2, "Registration must be at least 2 characters")
-    .max(20, "Registration must be under 20 characters"),
+    .max(20, "Registration must be at most 20 characters"),
   selcal: string()
     .defined()
     .default("")
@@ -39,7 +39,7 @@ export const aircraftLifecycleSchema: ObjectSchema<AircraftLifecycleFormValues> 
   livery: string()
     .defined()
     .default("")
-    .max(100, "Livery must be under 100 characters")
+    .max(100, "Livery must be at most 100 characters")
     .test("livery-min-length", "Livery must be at least 2 characters", (value) => !value || value.length >= 2),
   etopsThresholdMinutes: string()
     .defined()

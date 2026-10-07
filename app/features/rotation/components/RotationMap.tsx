@@ -125,7 +125,7 @@ export function RotationMap({ rotation, airports }: Props) {
 
   if (uniqueAirports.length === 0) {
     return (
-      <TransparentContainer className="flex min-h-[36rem] items-center justify-center text-center text-sm text-gray-500">
+      <TransparentContainer className="flex min-h-[36rem] items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400">
         Add legs to preview the route on the map.
       </TransparentContainer>
     );
@@ -159,9 +159,11 @@ export function RotationMap({ rotation, airports }: Props) {
             <MapResizeHandler />
           </MapContainer>
           <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
-            <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">Route</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              Route
+            </span>
           </MapTopBar>
-          <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-[10px] text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
+          <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-2xs text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
             ©{" "}
             <a
               href="https://www.openstreetmap.org/copyright"

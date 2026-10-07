@@ -20,6 +20,7 @@ import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { LoadFailedState } from "~/shared/ui/Display/LoadFailedState";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 import { SectionHeader } from "~/shared/ui/Section/SectionHeader";
 
@@ -44,10 +45,12 @@ export default function DelaysWorklistRoute() {
 
   const [loading, setLoading] = useState(true);
   const [entries, setEntries] = useState<WorklistEntry[]>([]);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+    setLoadFailed(false);
     delayService
       .list(status)
       .then(async (delayRequests) => {
@@ -63,7 +66,10 @@ export default function DelaysWorklistRoute() {
         setEntries(resolved);
         markRefreshed();
       })
-      .catch((error) => console.error("Failed to load delay reviews", error))
+      .catch((error) => {
+        console.error("Failed to load delay reviews", error);
+        if (!cancelled) setLoadFailed(true);
+      })
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
@@ -91,6 +97,8 @@ export default function DelaysWorklistRoute() {
         <div className="flex justify-center py-12">
           <Spinner color="indigo" size="xl" />
         </div>
+      ) : loadFailed ? (
+        <LoadFailedState title="Delay reviews could not be retrieved." />
       ) : entries.length === 0 ? (
         <div className="rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-sm text-gray-500 dark:border-gray-800 dark:bg-gray-800/40 dark:text-gray-400">
           {status === "pending" ? "No delay reports are awaiting review." : "No reviewed delays yet."}
@@ -133,7 +141,7 @@ export default function DelaysWorklistRoute() {
                     {status === "pending" ? (
                       <TableCell
                         className={`font-mono ${
-                          delayRequest.unallocatedMinutes > 0 ? "font-semibold text-amber-600 dark:text-amber-500" : ""
+                          delayRequest.unallocatedMinutes > 0 ? "font-semibold text-amber-700 dark:text-amber-500" : ""
                         }`}
                       >
                         {delayRequest.unallocatedMinutes} min
@@ -154,7 +162,7 @@ export default function DelaysWorklistRoute() {
                     </TableCell>
                     <TableCell>
                       <Link
-                        className="block font-bold text-primary-500"
+                        className="block font-bold text-indigo-600 dark:text-indigo-400"
                         to={`/flights/${flight.id}/delays`}
                         viewTransition
                       >

@@ -57,7 +57,7 @@ export function AircraftTypeCard({ stat, airframe }: Props) {
           <span className="truncate text-sm font-semibold text-gray-900 dark:text-white">
             {airframe?.name ?? stat.type}
           </span>
-          <span className="font-mono text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
+          <span className="font-mono text-2xs tabular-nums text-gray-500 dark:text-gray-400">
             First flown {flownOn}
           </span>
         </div>

@@ -31,7 +31,7 @@ export function CreateTerminalModal({ airport, close }: Props) {
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateTerminalFormData>(err, setErrors, error, "Failed to create terminal.");
+      handleFormikApiError<CreateTerminalFormData>(err, setErrors, error, "Failed to create terminal. Try again.");
     } finally {
       setSubmitting(false);
     }

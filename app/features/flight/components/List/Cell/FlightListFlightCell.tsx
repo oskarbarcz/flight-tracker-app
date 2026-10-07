@@ -14,27 +14,27 @@ export function FlightListFlightCell({ flight, links }: Props) {
   const fin = <OperatorFin operator={flight.operator} />;
 
   return (
-    <span className="flex min-w-0 items-center gap-2.5 px-1 py-2.5 sm:px-3">
+    <span className="flex min-w-0 items-center gap-2.5 px-1 py-2.5 @xl:px-3">
       {operatorHref === null ? (
-        <span className="flex size-7 shrink-0 items-center justify-center sm:size-9">{fin}</span>
+        <span className="flex size-7 shrink-0 items-center justify-center @xl:size-9">{fin}</span>
       ) : (
         <Link
           to={operatorHref}
           viewTransition
           aria-label={flight.operator.shortName}
-          className="relative z-10 flex size-7 shrink-0 items-center justify-center transition-opacity hover:opacity-70 sm:size-9"
+          className="relative z-10 flex size-7 shrink-0 items-center justify-center transition-opacity hover:opacity-70 @xl:size-9"
         >
           {fin}
         </Link>
       )}
       <span className="min-w-0">
-        <span className="block truncate font-mono text-sm font-bold text-gray-900 sm:text-base dark:text-white">
+        <span className="block truncate font-mono text-sm font-bold text-gray-900 @xl:text-base dark:text-white">
           {flight.flightNumber}
         </span>
         <Link
           to={links.aircraft(flight)}
           viewTransition
-          className="relative z-10 block truncate font-mono text-xs text-gray-500 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none dark:text-gray-400"
+          className="relative z-10 block truncate font-mono text-xs text-gray-500 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400 pointer-coarse:pointer-events-none dark:text-gray-400"
         >
           {flight.aircraft.registration}
         </Link>

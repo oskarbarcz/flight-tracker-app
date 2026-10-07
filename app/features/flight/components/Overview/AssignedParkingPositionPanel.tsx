@@ -28,9 +28,9 @@ export function AssignedParkingPositionPanel({ parkingPosition, terminal }: Prop
   return (
     <div className="rounded-lg border border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/40">
       <div className="flex items-center gap-2 border-b border-emerald-200/70 px-3 py-2 dark:border-emerald-900/70">
-        <HiLocationMarker className="text-emerald-500" size={14} />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
-          Parking position
+        <HiLocationMarker className="text-emerald-700 dark:text-emerald-400" size={14} />
+        <span className="text-2xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+          Parking stand
         </span>
         <span className="ms-auto font-mono text-xl font-bold text-gray-900 dark:text-white">
           {parkingPosition.name}

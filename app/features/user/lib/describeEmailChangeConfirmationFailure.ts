@@ -10,9 +10,9 @@ const expiredLinkMessage =
 const addressTakenMessage =
   "That address was claimed by another account after you asked for the change. Sign in and request a different address.";
 const stillUsableSuffix = "This link is still usable.";
-const temporaryFailureMessage = `Couldn't confirm the address right now. ${stillUsableSuffix} Try again in a moment.`;
+const temporaryFailureMessage = `Couldn’t confirm the address right now. ${stillUsableSuffix} Try again in a moment.`;
 const rejectedConfirmationMessage =
-  "The address couldn't be confirmed. Sign in and request the change again from your account page.";
+  "The address couldn’t be confirmed. Sign in and request the change again from your account page.";
 
 type FailureReason = {
   statusCode?: number;

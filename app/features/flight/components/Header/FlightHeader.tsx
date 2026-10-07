@@ -1,10 +1,6 @@
 import { Button, Tooltip } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { FaBox, FaUserGroup } from "react-icons/fa6";
-import { HiEye, HiOutlineTrash } from "react-icons/hi";
-import { IoIosLink } from "react-icons/io";
-import { LuExternalLink } from "react-icons/lu";
+import { LuArrowRight, LuExternalLink, LuEye, LuLink, LuPackage, LuTrash2, LuUsers } from "react-icons/lu";
 import { useToast } from "~/app-state/useToast";
 import { type Flight, FlightServiceType, FlightSource, FlightStatus, Tracking } from "~/features/flight";
 import { toHuman } from "~/i18n/translate";
@@ -33,7 +29,7 @@ export function FlightHeader({
   const canRelease = flight.status === FlightStatus.Created && hasPreliminaryLoadsheet;
   const canRemove = flight.status === FlightStatus.Created;
   const canUpdateServiceType = flight.status === FlightStatus.Created;
-  const ServiceTypeIcon = flight.serviceType === FlightServiceType.Cargo ? FaBox : FaUserGroup;
+  const ServiceTypeIcon = flight.serviceType === FlightServiceType.Cargo ? LuPackage : LuUsers;
   const isTrackingDisabled = flight.tracking === Tracking.Disabled;
 
   const handleCopyTrackingLink = () => {
@@ -52,17 +48,17 @@ export function FlightHeader({
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="font-mono text-3xl font-black tracking-tight text-gray-900 dark:text-white">
+            <h1 className="font-mono text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
               {flight.flightNumberWithoutSpaces}
             </h1>
-            <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
+            <span className="rounded-md border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-2xs font-bold uppercase tracking-widest text-indigo-700 dark:border-indigo-900 dark:bg-indigo-950 dark:text-indigo-300">
               {toHuman.flight.status.standard(flight.status, flight.serviceType)}
             </span>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-gray-700 dark:text-gray-300">
             <div className="flex items-center gap-2 font-mono font-bold">
               <span>{flight.departureAirport.iataCode}</span>
-              <FaArrowRight size="12" className="text-gray-400" />
+              <LuArrowRight className="size-4 text-gray-500 dark:text-gray-400" strokeWidth={3.75} aria-hidden={true} />
               <span>{flight.destinationAirport.iataCode}</span>
             </div>
             <span className="truncate text-sm text-gray-500 dark:text-gray-400">
@@ -84,7 +80,7 @@ export function FlightHeader({
                 size="sm"
                 onClick={onUpdateServiceType}
                 aria-label="Change service type"
-                className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+                className="cursor-pointer px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-indigo-500"
               >
                 <ServiceTypeIcon className="size-4" />
               </Button>
@@ -96,9 +92,9 @@ export function FlightHeader({
               size="sm"
               onClick={onUpdateTracking}
               aria-label="Change tracking visibility"
-              className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+              className="cursor-pointer px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-indigo-500"
             >
-              <HiEye className="size-4" />
+              <LuEye className="size-4" />
             </Button>
           </Tooltip>
           <Tooltip content="Copy tracking link">
@@ -108,9 +104,9 @@ export function FlightHeader({
               onClick={handleCopyTrackingLink}
               disabled={isTrackingDisabled}
               aria-label="Copy tracking link"
-              className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+              className="cursor-pointer px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-indigo-500"
             >
-              <IoIosLink className="size-4" />
+              <LuLink className="size-4" />
             </Button>
           </Tooltip>
           <Tooltip content="Open tracking map">
@@ -120,7 +116,7 @@ export function FlightHeader({
               onClick={handleOpenTrackingMap}
               disabled={isTrackingDisabled}
               aria-label="Open tracking map"
-              className="cursor-pointer px-3 py-2 text-gray-500 hover:text-indigo-500"
+              className="cursor-pointer px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-indigo-500"
             >
               <LuExternalLink className="size-4" />
             </Button>
@@ -132,9 +128,9 @@ export function FlightHeader({
                 size="sm"
                 onClick={onRemove}
                 aria-label="Remove flight"
-                className="cursor-pointer px-3 py-2 text-gray-500 hover:text-red-500"
+                className="cursor-pointer px-3 py-2 text-gray-500 dark:text-gray-400 hover:text-red-500"
               >
-                <HiOutlineTrash className="size-4" />
+                <LuTrash2 className="size-4" />
               </Button>
             </Tooltip>
           )}
@@ -165,7 +161,7 @@ export function FlightHeader({
 function Stat({ label, value, mono = false }: { label: string; value: React.ReactNode; mono?: boolean }) {
   return (
     <div>
-      <dt className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</dt>
+      <dt className="text-2xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</dt>
       <dd className={`mt-1 text-sm font-medium text-gray-800 dark:text-gray-100 ${mono ? "font-mono" : ""}`}>
         {value}
       </dd>

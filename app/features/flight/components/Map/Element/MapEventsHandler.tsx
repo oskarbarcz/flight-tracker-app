@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 import { useMapSettings } from "~/app-state/useMapSettings";
 import type { FlightPathElement } from "~/features/flight";
+import { prefersReducedMotion } from "~/shared/lib/reducedMotion";
 import type { Position } from "~/shared/models/geo";
 
 type MapEventsHandlerProps = {
@@ -29,15 +30,17 @@ export function MapEventsHandler({
   const resetView = useCallback(() => {
     if (!mapSettings.autoCenter) return;
 
+    const motion = { ...options, animate: !prefersReducedMotion() };
+
     if (mapSettings.centerOn === "aircraft" && aircraftPosition) {
       const lastPosition: Position = [aircraftPosition.latitude, aircraftPosition.longitude];
-      map.flyTo(lastPosition, map.getZoom(), options);
+      map.flyTo(lastPosition, map.getZoom(), motion);
     } else if (mapSettings.centerOn === "route") {
-      map.flyToBounds(bounds, options);
+      map.flyToBounds(bounds, motion);
     } else if (mapSettings.centerOn === "departure") {
-      map.flyTo(departurePosition, AIRPORT_ZOOM, options);
+      map.flyTo(departurePosition, AIRPORT_ZOOM, motion);
     } else if (mapSettings.centerOn === "destination") {
-      map.flyTo(destinationPosition, AIRPORT_ZOOM, options);
+      map.flyTo(destinationPosition, AIRPORT_ZOOM, motion);
     }
   }, [aircraftPosition, mapSettings, bounds, departurePosition, destinationPosition, map, options]);
 

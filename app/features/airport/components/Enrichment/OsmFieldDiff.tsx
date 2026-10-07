@@ -49,7 +49,7 @@ function FieldBlock({ field, showCurrent }: { field: OsmFieldChange; showCurrent
         {showCurrent && (
           <>
             <OsmValue field={field.field} value={field.current} />
-            <HiArrowNarrowRight className="size-3.5 shrink-0 text-gray-400 dark:text-gray-500" aria-hidden={true} />
+            <HiArrowNarrowRight className="size-3.5 shrink-0 text-gray-500 dark:text-gray-400" aria-hidden={true} />
           </>
         )}
         <OsmValue field={field.field} value={field.proposed} />
@@ -69,7 +69,7 @@ export function OsmFieldDiff({ change }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      {!showCurrent && <FieldLabel className="text-gray-400 dark:text-gray-500">From OpenStreetMap</FieldLabel>}
+      {!showCurrent && <FieldLabel className="text-gray-500 dark:text-gray-400">From OpenStreetMap</FieldLabel>}
 
       <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
         {change.fields.map((field) => (

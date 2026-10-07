@@ -18,7 +18,9 @@ export function DeepDiveCard({
   className = "",
 }: DeepDiveCardProps) {
   return (
-    <div className={`group perspective-[2000px] animate-in fade-in slide-in-from-bottom-8 duration-700 ${className}`}>
+    <div
+      className={`group perspective-[2000px] animate-in fade-in motion-safe:slide-in-from-bottom-8 duration-700 ${className}`}
+    >
       <h3 className="text-3xl md:text-5xl font-bold tracking-tighter text-gray-900 dark:text-white leading-[1.1] mb-6">
         {title}
       </h3>

@@ -48,7 +48,7 @@ export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
   }, [flight, navigate]);
 
   if (!flight) {
-    return <div>Loading...</div>;
+    return <div>Loading…</div>;
   }
 
   const isSimbriefAvailable = flight.source === FlightSource.SimBrief;

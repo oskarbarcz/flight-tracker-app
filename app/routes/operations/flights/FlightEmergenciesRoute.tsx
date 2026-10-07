@@ -4,11 +4,12 @@ import { EmergencyEmptyState } from "~/features/emergency/components/EmergencyEm
 import { ResolvedEmergenciesHistory } from "~/features/emergency/components/ResolvedEmergenciesHistory";
 import { FlightAlternateAirportsCard } from "~/features/flight/components/Airports/FlightAlternateAirportsCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { LoadFailedState } from "~/shared/ui/Display/LoadFailedState";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
 export default function FlightEmergenciesRoute() {
-  const { flight, emergencies, activeEmergency } = useTrackedFlight();
+  const { flight, emergencies, emergenciesLoadFailed, activeEmergency } = useTrackedFlight();
   const resolved = emergencies.filter((e) => !e.isActive);
 
   return (
@@ -16,22 +17,28 @@ export default function FlightEmergenciesRoute() {
       <FlightAlternateAirportsCard airports={flight?.airports ?? []} />
 
       <Container padding="condensed" className="lg:col-span-2" header={<CardHeader title="Emergencies" />}>
-        {activeEmergency ? (
-          <ActiveEmergencyPanel emergency={activeEmergency} readOnly />
+        {emergenciesLoadFailed ? (
+          <LoadFailedState title="Emergency status could not be retrieved." />
         ) : (
-          <EmergencyEmptyState>No active emergency on this flight.</EmergencyEmptyState>
-        )}
+          <>
+            {activeEmergency ? (
+              <ActiveEmergencyPanel emergency={activeEmergency} readOnly />
+            ) : (
+              <EmergencyEmptyState>No active emergency on this flight.</EmergencyEmptyState>
+            )}
 
-        <div className="flex flex-col gap-2">
-          <h4 className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-            Past declarations
-          </h4>
-          {resolved.length === 0 ? (
-            <EmergencyEmptyState>No past emergency declarations for this flight.</EmergencyEmptyState>
-          ) : (
-            <ResolvedEmergenciesHistory emergencies={resolved} />
-          )}
-        </div>
+            <div className="flex flex-col gap-2">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                Past declarations
+              </h4>
+              {resolved.length === 0 ? (
+                <EmergencyEmptyState>No past emergency declarations for this flight.</EmergencyEmptyState>
+              ) : (
+                <ResolvedEmergenciesHistory emergencies={resolved} />
+              )}
+            </div>
+          </>
+        )}
       </Container>
     </div>
   );

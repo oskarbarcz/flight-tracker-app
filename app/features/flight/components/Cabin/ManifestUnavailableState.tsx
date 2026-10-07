@@ -65,7 +65,7 @@ export function ManifestUnavailableState({ gap, aircraftHref }: Props) {
         <Link
           to={aircraftHref}
           viewTransition
-          className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-primary-500"
+          className="inline-flex w-fit items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400"
         >
           <span>Open the aircraft</span>
           <HiOutlineArrowRight className="size-4" />

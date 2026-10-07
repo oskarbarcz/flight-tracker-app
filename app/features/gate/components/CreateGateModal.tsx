@@ -35,7 +35,7 @@ export function CreateGateModal({ airport, terminals, parkingPositions, close }:
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateGateFormData>(err, setErrors, error, "Failed to create gate.");
+      handleFormikApiError<CreateGateFormData>(err, setErrors, error, "Failed to create gate. Try again.");
     } finally {
       setSubmitting(false);
     }

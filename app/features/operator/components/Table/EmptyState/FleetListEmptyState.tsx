@@ -16,8 +16,8 @@ export function FleetListEmptyState({ operatorId }: Props) {
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color={"blue"} />
       <EmptyStateText
-        title="There are no aircrafts yet."
-        paragraph="Add first aircraft to your fleet to unlock flight planning, scheduling, and dispatch tools."
+        title="No aircraft in this fleet yet"
+        paragraph="Add the first aircraft to unlock flight planning, scheduling, and dispatch tools."
       />
       <Button
         className="space-x-1.5 w-fit mx-auto"

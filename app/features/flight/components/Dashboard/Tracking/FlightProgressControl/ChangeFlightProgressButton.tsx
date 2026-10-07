@@ -1,7 +1,6 @@
-import { Button, Tooltip } from "flowbite-react";
-import React, { type ReactElement, useEffect } from "react";
-import { FaUnlock } from "react-icons/fa";
-import { FaLock } from "react-icons/fa6";
+import { Button } from "flowbite-react";
+import React, { type ReactElement, useEffect, useRef } from "react";
+import { LuLock, LuLockOpen } from "react-icons/lu";
 import { FlightStatus } from "~/features/flight";
 import { AutomationSummary } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/AutomationSummary";
 import { CheckInButton } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/Button/CheckInButton";
@@ -55,9 +54,19 @@ function mapStatusToButton(
   }
 }
 
+function focusLockButtonWhenActionFocused(controls: HTMLElement | null, lockButton: HTMLElement | null): void {
+  const focused = document.activeElement;
+
+  if (focused !== lockButton && controls?.contains(focused)) {
+    lockButton?.focus();
+  }
+}
+
 export function ChangeFlightProgressButton() {
   const [disabled, setDisabled] = React.useState(true);
   const { flight, events } = useTrackedFlight();
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const lockButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setDisabled(true);
@@ -65,7 +74,10 @@ export function ChangeFlightProgressButton() {
 
   useEffect(() => {
     if (!disabled) {
-      const timeout = setTimeout(() => setDisabled(true), 5000);
+      const timeout = setTimeout(() => {
+        focusLockButtonWhenActionFocused(controlsRef.current, lockButtonRef.current);
+        setDisabled(true);
+      }, 5000);
       return () => clearTimeout(timeout);
     }
   }, [disabled]);
@@ -89,12 +101,21 @@ export function ChangeFlightProgressButton() {
   const action = mapStatusToButton(flight.status, { disabled, tone, label });
 
   return (
-    <>
-      <Button color={tone} outline onClick={onClick}>
-        {disabled && <FaUnlock />}
-        {!disabled && <FaLock />}
-      </Button>
-      {automation === null ? action : <Tooltip content={<AutomationSummary state={automation} />}>{action}</Tooltip>}
-    </>
+    <div className="flex flex-col gap-2">
+      <div ref={controlsRef} className="flex items-center justify-end gap-2">
+        <Button
+          ref={lockButtonRef}
+          color={tone}
+          outline
+          onClick={onClick}
+          aria-label="Unlock status change"
+          aria-pressed={!disabled}
+        >
+          {disabled ? <LuLockOpen aria-hidden={true} /> : <LuLock aria-hidden={true} />}
+        </Button>
+        {action}
+      </div>
+      {automation !== null && <AutomationSummary state={automation} />}
+    </div>
   );
 }

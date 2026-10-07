@@ -8,7 +8,7 @@ export function WeightHudCard({ compact = false }: { compact?: boolean }) {
         <span className="text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-widest">
           {compact ? "Weight" : "Weight Data"}
         </span>
-        <span className="text-[10px] text-indigo-700 dark:text-indigo-300 font-mono bg-indigo-100 dark:bg-indigo-400/20 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-400/20">
+        <span className="text-2xs text-indigo-700 dark:text-indigo-300 font-mono bg-indigo-100 dark:bg-indigo-400/20 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-400/20">
           SYNCED
         </span>
       </div>

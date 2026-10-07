@@ -15,7 +15,7 @@ export function AltitudeHudCard({ compact = false }: { compact?: boolean }) {
         FL360
       </p>
       <div className="flex items-center gap-2 mt-2">
-        <div className="w-1.5 h-1.5 rounded-full bg-green-500 dark:bg-green-400 animate-pulse" />
+        <div className="w-1.5 h-1.5 rounded-full bg-green-500 dark:bg-green-400 motion-safe:animate-pulse" />
         <p className="text-sm text-green-600 dark:text-green-400 font-mono">+1,200 fpm</p>
       </div>
     </HudCard>

@@ -7,8 +7,15 @@ export function DiscordButton() {
   const { discordInvitationHash } = useAppEnvironment();
 
   const button = (
-    <Button color="alternative" size="sm" as={Link} target="_blank" to={`https://discord.gg/${discordInvitationHash}`}>
-      <FaDiscord size={18} />
+    <Button
+      color="alternative"
+      size="sm"
+      as={Link}
+      target="_blank"
+      to={`https://discord.gg/${discordInvitationHash}`}
+      aria-label="Join our Discord community"
+    >
+      <FaDiscord size={18} aria-hidden={true} />
     </Button>
   );
 

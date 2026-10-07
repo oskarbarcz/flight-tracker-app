@@ -55,7 +55,7 @@ export function RecentActivityBox() {
           </span>
           <FaChevronRight
             size={13}
-            className="ms-auto flex-none text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-500 motion-reduce:transition-none dark:text-gray-500"
+            className="ms-auto flex-none text-gray-500 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-500 motion-reduce:transition-none dark:text-gray-400"
             aria-hidden={true}
           />
         </Link>
@@ -80,7 +80,7 @@ export function RecentActivityBox() {
               <span className="text-sm font-semibold leading-snug text-gray-900 dark:text-white">
                 {heatmap.flights} {heatmap.flights === 1 ? "flight" : "flights"} in the last {WEEKS} weeks
               </span>
-              <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[11px]">
+              <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-2xs">
                 <dt className="text-gray-500 dark:text-gray-400">Block</dt>
                 <dd className="text-end font-mono tabular-nums text-gray-700 dark:text-gray-200">
                   {formatDuration(heatmap.blockMinutes)}

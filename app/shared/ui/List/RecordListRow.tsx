@@ -20,7 +20,7 @@ export function RecordListRow({ layout, href, label, trailing, children }: Props
         <Link to={href} viewTransition aria-label={label} className="absolute inset-0 z-0" />
         {children}
         <HiChevronRight
-          className={`${layout.chevronClassName} size-4 shrink-0 text-gray-400 dark:text-gray-500`}
+          className={`${layout.chevronClassName} size-4 shrink-0 text-gray-500 dark:text-gray-400`}
           aria-hidden
         />
         <span className={layout.trailingClassName}>{trailing}</span>

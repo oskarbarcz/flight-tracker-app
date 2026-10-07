@@ -48,6 +48,7 @@ export function ManagedDateTimeInputBlock({
     fieldProps.value instanceof Date ? formatDate(fieldProps.value) : "",
   );
   const isError = meta.touched && meta.error;
+  const errorId = `${field}-error`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -79,12 +80,14 @@ export function ManagedDateTimeInputBlock({
         <FloatingLabel
           variant="outlined"
           label={label}
-          id={field}
+          name={field}
           type="text"
           autoComplete={autoComplete}
           required={required}
           disabled={disabled}
           color={isError ? "error" : undefined}
+          aria-invalid={Boolean(isError)}
+          aria-describedby={isError ? errorId : undefined}
           value={inputValue}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -92,10 +95,10 @@ export function ManagedDateTimeInputBlock({
           className="dark:bg-gray-800"
         />
         {required && (
-          <RequiredMark className="text-red-500 absolute top-2.5 right-3 pointer-events-none z-10 text-sm" />
+          <RequiredMark className="text-red-700 dark:text-red-400 absolute top-2.5 right-3 pointer-events-none z-10 text-sm" />
         )}
       </div>
-      <InputErrorList errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
+      <InputErrorList id={errorId} errorFocus={Boolean(isError)} errors={isError ? [meta.error as string] : []} />
     </div>
   );
 }

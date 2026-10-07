@@ -34,7 +34,7 @@ export function UpdateOperatorModal({ operator, close }: Props) {
       await revalidator.revalidate();
       close();
     } catch (err) {
-      handleFormikApiError<CreateOperatorFormData>(err, setErrors, error, "Failed to update operator.");
+      handleFormikApiError<CreateOperatorFormData>(err, setErrors, error, "Failed to update operator. Try again.");
     } finally {
       setSubmitting(false);
     }

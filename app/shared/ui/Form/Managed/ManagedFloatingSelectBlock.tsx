@@ -33,6 +33,7 @@ export function ManagedFloatingSelectBlock({
 }: Props) {
   const [fieldProps, meta, helpers] = useField(field);
   const isError = Boolean(meta.touched && meta.error);
+  const errorId = `${field}-error`;
   const density = useFormDensity();
 
   useEffect(() => {
@@ -51,6 +52,8 @@ export function ManagedFloatingSelectBlock({
           color={isError ? "floatingError" : "floating"}
           required={required}
           disabled={disabled}
+          aria-invalid={isError}
+          aria-describedby={isError ? errorId : undefined}
           {...fieldProps}
         >
           {options.map((option) => (
@@ -72,6 +75,7 @@ export function ManagedFloatingSelectBlock({
         </label>
       </div>
       <InputErrorList
+        id={errorId}
         errorFocus={isError}
         errors={isError ? [meta.error as string] : []}
         size={density.floatingSizing}

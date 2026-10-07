@@ -58,7 +58,7 @@ export function PlanFlightOptions() {
       </Container>
       <Container header={<CardHeader title="Create manually" />}>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Enter the flight number, schedule, route and aircraft by hand — best when you're not starting from a SimBrief
+          Enter the flight number, schedule, route and aircraft by hand — best when you’re not starting from a SimBrief
           plan.
         </p>
         <Button

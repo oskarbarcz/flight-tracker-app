@@ -15,7 +15,7 @@ const ICONS = {
 const TONES = {
   [AdvisoryOutcome.Raised]: "text-amber-700 dark:text-amber-400",
   [AdvisoryOutcome.Clear]: "text-green-700 dark:text-green-400",
-  [AdvisoryOutcome.NotApplicable]: "text-gray-400 dark:text-gray-500",
+  [AdvisoryOutcome.NotApplicable]: "text-gray-500 dark:text-gray-400",
 };
 
 const OUTCOME_WORD = {

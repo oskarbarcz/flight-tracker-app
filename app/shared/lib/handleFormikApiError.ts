@@ -1,6 +1,17 @@
 import type { FormikErrors } from "formik";
 import type { ErrorResponse } from "~/shared/api/api.service";
 
+export function apiErrorMessage(err: unknown, fallbackMessage: string): string {
+  const response = err as Partial<ErrorResponse<object>> | null | undefined;
+  const message = response?.message;
+
+  if (typeof message === "string" && message.length > 0 && message !== response?.error) {
+    return message;
+  }
+
+  return fallbackMessage;
+}
+
 export function handleFormikApiError<T extends object>(
   err: unknown,
   setErrors: (errors: FormikErrors<T>) => void,
@@ -21,5 +32,5 @@ export function handleFormikApiError<T extends object>(
     return;
   }
 
-  showError(response?.error ?? fallbackMessage);
+  showError(apiErrorMessage(err, fallbackMessage));
 }

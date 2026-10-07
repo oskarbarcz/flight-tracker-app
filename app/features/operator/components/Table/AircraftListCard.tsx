@@ -42,7 +42,7 @@ export function AircraftListCard({ aircraft, operatorId, baseAirport }: Props) {
         <DataField label="Wake" value={formatWeightCategory(aircraft.airframe.weightCategory)} />
       </div>
 
-      <span className="flex items-center gap-1.5 text-sm font-bold text-primary-500">
+      <span className="flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400">
         <span className="truncate">{aircraft.livery}</span>
         <HiOutlineArrowRight className="ml-auto size-4 shrink-0" />
       </span>

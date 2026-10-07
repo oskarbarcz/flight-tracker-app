@@ -33,17 +33,17 @@ function MetricRow({ metric, reading, previousLabel, hasBaselineData, detailed }
           <span className="whitespace-nowrap font-mono text-base font-bold tabular-nums text-gray-900 dark:text-white">
             {metric.format(tweened)}
             {metric.unit && (
-              <span className="ms-0.5 text-[11px] font-normal text-gray-500 dark:text-gray-400">{metric.unit}</span>
+              <span className="ms-0.5 text-2xs font-normal text-gray-500 dark:text-gray-400">{metric.unit}</span>
             )}
           </span>
         ) : (
-          <span className="font-mono text-base font-bold text-gray-400 dark:text-gray-600">&mdash;</span>
+          <span className="font-mono text-base font-bold text-gray-500 dark:text-gray-400">&mdash;</span>
         )}
       </div>
 
       {detailed && comparison !== null && (
         <div className="flex items-center justify-between gap-3">
-          <span className="min-w-0 truncate font-mono text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
+          <span className="min-w-0 truncate font-mono text-2xs tabular-nums text-gray-500 dark:text-gray-400">
             {`${metric.format(comparison)}${metric.unit ?? ""} in ${previousLabel}`}
           </span>
           <DeltaBadge
@@ -91,7 +91,7 @@ export function MetricLadder({ readings, previousLabel, hasBaselineData, unavail
       </div>
 
       {detailed && unavailableNote !== null && (
-        <span className="mt-2 border-t border-gray-100 pt-2 text-[11px] leading-4 text-gray-500 dark:border-gray-800 dark:text-gray-400">
+        <span className="mt-2 border-t border-gray-100 pt-2 text-2xs leading-4 text-gray-500 dark:border-gray-800 dark:text-gray-400">
           {unavailableNote}
         </span>
       )}

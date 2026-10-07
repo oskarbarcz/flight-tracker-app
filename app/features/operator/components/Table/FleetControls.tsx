@@ -22,6 +22,7 @@ export function FleetControls({ operator, type, changeType }: Props) {
             <button
               key={value ?? "all"}
               type="button"
+              aria-pressed={isActive}
               onClick={() => changeType(value)}
               className={`cursor-pointer rounded-md px-3 py-1.5 text-sm font-semibold ${
                 isActive

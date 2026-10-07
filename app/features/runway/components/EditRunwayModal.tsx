@@ -32,7 +32,7 @@ export function EditRunwayModal({ airport, runway, close }: Props) {
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateRunwayFormData>(err, setErrors, error, "Failed to update runway.");
+      handleFormikApiError<CreateRunwayFormData>(err, setErrors, error, "Failed to update runway. Try again.");
     } finally {
       setSubmitting(false);
     }

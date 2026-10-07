@@ -13,7 +13,10 @@ export function CustomRange({ from, to, min, max, onChange }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
       <div className="flex items-center gap-2">
-        <Label htmlFor="stats-range-from" className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
+        <Label
+          htmlFor="stats-range-from"
+          className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+        >
           From
         </Label>
         <TextInput
@@ -27,7 +30,10 @@ export function CustomRange({ from, to, min, max, onChange }: Props) {
         />
       </div>
       <div className="flex items-center gap-2">
-        <Label htmlFor="stats-range-to" className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
+        <Label
+          htmlFor="stats-range-to"
+          className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400"
+        >
           To
         </Label>
         <TextInput

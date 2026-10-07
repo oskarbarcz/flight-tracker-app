@@ -25,13 +25,13 @@ export function Breadcrumbs({ items, className }: Props) {
           return (
             <li key={crumb.label} className="flex min-w-0 items-center gap-x-1.5">
               {index > 0 && (
-                <HiChevronRight aria-hidden={true} className="size-4 shrink-0 text-gray-400 dark:text-gray-600" />
+                <HiChevronRight aria-hidden={true} className="size-4 shrink-0 text-gray-500 dark:text-gray-400" />
               )}
               {crumb.to && !isCurrent ? (
                 <Link
                   to={crumb.to}
                   viewTransition
-                  className="truncate text-gray-500 transition-colors hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400"
+                  className="truncate text-gray-600 transition-colors hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400"
                 >
                   {label}
                 </Link>

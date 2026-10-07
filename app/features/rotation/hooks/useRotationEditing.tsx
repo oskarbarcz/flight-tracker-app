@@ -33,7 +33,7 @@ export function useRotationEditing(initial: Rotation | null) {
         setRotation(await rotationService.create(operatorId, values));
         return true;
       } catch (creationError) {
-        error((creationError as { message?: string })?.message ?? "Could not create the rotation.");
+        error((creationError as { message?: string })?.message ?? "Could not create the rotation. Try again.");
         return false;
       }
     },
@@ -46,7 +46,7 @@ export function useRotationEditing(initial: Rotation | null) {
         await rotationService.remove(rotation.id);
         return true;
       } catch (removalError) {
-        error((removalError as { message?: string })?.message ?? "Could not remove the rotation.");
+        error((removalError as { message?: string })?.message ?? "Could not remove the rotation. Try again.");
         return false;
       }
     },

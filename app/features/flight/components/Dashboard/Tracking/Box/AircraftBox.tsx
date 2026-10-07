@@ -11,7 +11,7 @@ export function AircraftBox() {
   if (!flight) {
     return (
       <Container padding="condensed" header={<CardHeader title="Aircraft" />}>
-        <div className="min-h-25 flex items-center justify-center text-gray-500">
+        <div className="min-h-25 flex items-center justify-center text-gray-500 dark:text-gray-400">
           <FaCircleInfo className="inline mr-2" />
           <span>Aircraft details will be available soon.</span>
         </div>

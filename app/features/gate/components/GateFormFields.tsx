@@ -22,7 +22,7 @@ export function GateFormFields({ airportLocation, terminals, parkingPositions }:
     label: `${terminal.shortName} · ${terminal.fullName}`,
   }));
   const parkingPositionOptions = [
-    { value: "", label: "— No parking position —" },
+    { value: "", label: "— No parking stand —" },
     ...parkingPositions.map((parkingPosition) => ({ value: parkingPosition.id, label: parkingPosition.name })),
   ];
 
@@ -51,7 +51,7 @@ export function GateFormFields({ airportLocation, terminals, parkingPositions }:
         <FormFieldGroup label="Stand">
           <ManagedFloatingSelectBlock
             field="parkingPositionId"
-            label="Served parking position"
+            label="Served parking stand"
             required={false}
             options={parkingPositionOptions}
           />

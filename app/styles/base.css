@@ -4,6 +4,11 @@ body {
   color-scheme: light;
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html.dark,
 html.dark body {
   color-scheme: dark;
@@ -14,7 +19,18 @@ body {
   font-optical-sizing: auto;
 }
 
-.font-mono {
-  font-family: "Roboto Mono", monospace;
-  font-optical-sizing: auto;
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap-style: balance;
+  }
+
+  p,
+  li,
+  dd,
+  figcaption {
+    text-wrap-style: pretty;
+  }
 }

@@ -15,6 +15,7 @@ export function SidebarAirportRow({ id, iataCode, name }: Props) {
       to={`/airports-library/${id}`}
       replace
       viewTransition
+      aria-current={isActive ? "page" : undefined}
       className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm ${
         isActive
           ? "bg-indigo-100 text-indigo-600 dark:bg-gray-800 dark:text-white"

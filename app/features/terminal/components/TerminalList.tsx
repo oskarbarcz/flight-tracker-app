@@ -1,8 +1,8 @@
 import { Badge } from "flowbite-react";
 import React from "react";
-import { HiOutlineTrash, HiPencil } from "react-icons/hi";
-import { Link } from "react-router";
+import { LuPencil, LuTrash2 } from "react-icons/lu";
 import type { Terminal } from "~/features/terminal";
+import { RowActionButton, RowActionLink } from "~/shared/ui/Button/RowAction";
 import { FactRow } from "~/shared/ui/Fact/FactRow";
 
 type Props = {
@@ -36,22 +36,17 @@ export function TerminalList({ airportId, terminals, onDelete, readOnly }: Props
             </span>
             {!readOnly && (
               <div className="flex shrink-0 items-center">
-                <Link
+                <RowActionLink
                   to={`/airports/${airportId}/terminals/${terminal.id}/edit`}
-                  viewTransition
-                  aria-label={`Edit terminal ${terminal.shortName}`}
-                  className="rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-indigo-500 @lg:p-1 dark:hover:bg-gray-800"
-                >
-                  <HiPencil className="size-3.5" />
-                </Link>
-                <button
-                  type="button"
+                  icon={LuPencil}
+                  label={`Edit terminal ${terminal.shortName}`}
+                />
+                <RowActionButton
                   onClick={() => onDelete?.(terminal)}
-                  aria-label={`Delete terminal ${terminal.shortName}`}
-                  className="cursor-pointer rounded-md p-2 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-500 @lg:p-1 dark:hover:bg-red-950/40"
-                >
-                  <HiOutlineTrash className="size-3.5" />
-                </button>
+                  icon={LuTrash2}
+                  label={`Remove terminal ${terminal.shortName}`}
+                  tone="danger"
+                />
               </div>
             )}
           </header>

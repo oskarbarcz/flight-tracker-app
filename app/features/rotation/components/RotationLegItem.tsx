@@ -35,7 +35,7 @@ function dayOffset(from: Date, to: Date): number {
 }
 
 const legActionClass =
-  "-my-2.5 cursor-pointer rounded py-2.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:focus-visible:ring-indigo-800";
+  "-my-2.5 cursor-pointer rounded py-2.5 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400";
 
 function ScheduleItem({ label, value }: { label: string; value: React.ReactNode }) {
   return (
@@ -100,16 +100,20 @@ export function RotationLegItem({
           <div className="flex shrink-0 items-center gap-3">
             {canEdit && (
               <>
-                <button type="button" onClick={onEdit} className={`${legActionClass} text-indigo-500`}>
+                <button
+                  type="button"
+                  onClick={onEdit}
+                  className={`${legActionClass} text-indigo-600 dark:text-indigo-400`}
+                >
                   Edit
                 </button>
-                <button type="button" onClick={onRemove} className={`${legActionClass} text-red-500`}>
+                <button type="button" onClick={onRemove} className={`${legActionClass} text-red-700 dark:text-red-400`}>
                   Remove
                 </button>
               </>
             )}
             {canDetach && (
-              <button type="button" onClick={onDetach} className={`${legActionClass} text-gray-500`}>
+              <button type="button" onClick={onDetach} className={`${legActionClass} text-gray-500 dark:text-gray-400`}>
                 Detach
               </button>
             )}
@@ -130,7 +134,7 @@ export function RotationLegItem({
               <>
                 <FormattedIcaoTime date={leg.onBlockTime} />
                 {arrivalDayOffset > 0 && (
-                  <sup className="ms-0.5 font-semibold text-gray-400 dark:text-gray-500">(+{arrivalDayOffset})</sup>
+                  <sup className="ms-0.5 font-semibold text-gray-500 dark:text-gray-400">(+{arrivalDayOffset})</sup>
                 )}
               </>
             }
@@ -140,7 +144,7 @@ export function RotationLegItem({
 
         {turnaround && (
           <div className="mt-4 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-            <FaArrowsSpin size={11} className="text-gray-400 dark:text-gray-500" aria-hidden={true} />
+            <FaArrowsSpin size={11} className="text-gray-500 dark:text-gray-400" aria-hidden={true} />
             <span className="font-semibold uppercase tracking-wide">Turnaround</span>
             {turnaround.station && (
               <span className="font-mono font-semibold text-gray-600 dark:text-gray-300">{turnaround.station}</span>

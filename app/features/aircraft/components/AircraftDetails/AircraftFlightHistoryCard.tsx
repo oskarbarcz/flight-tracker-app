@@ -47,20 +47,20 @@ export function AircraftFlightHistoryCard({ history, repositions }: Props) {
   const pageItems = timeline.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <Container className="h-full" padding="none" header={<CardHeader title="Flight history" />}>
+    <Container className="@container h-full" padding="none" header={<CardHeader title="Flight history" />}>
       {timeline.length === 0 ? (
         <ContainerEmptyState>This aircraft has not operated any flights yet.</ContainerEmptyState>
       ) : (
         <>
           <div
-            className={`${AIRCRAFT_HISTORY_GRID} border-b border-gray-200 bg-gray-50 text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400`}
+            className={`${AIRCRAFT_HISTORY_GRID} border-b border-gray-200 bg-gray-50 text-2xs font-bold uppercase tracking-wider text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400`}
             aria-hidden
           >
-            <span className="px-1 py-2.5 sm:px-3">Date</span>
-            <span className="px-1 py-2.5 sm:px-3">Flight</span>
-            <span className="px-1 py-2.5 sm:px-3">Route</span>
-            <span className="order-4 hidden px-1 py-2.5 sm:block sm:px-3">Status</span>
-            <span className="order-4 sm:order-5" />
+            <span className="px-1 py-2.5 @xl:px-3">Date</span>
+            <span className="px-1 py-2.5 @xl:px-3">Flight</span>
+            <span className="px-1 py-2.5 @xl:px-3">Route</span>
+            <span className="order-4 hidden px-1 py-2.5 @xl:block @xl:px-3">Status</span>
+            <span className="order-4 @xl:order-5" />
           </div>
 
           <ul>

@@ -95,7 +95,7 @@ export default function CargoHoldsListRoute() {
             onClick={() => setFilter("")}
             className="mx-auto block cursor-pointer text-sm text-indigo-600 underline dark:text-indigo-400"
           >
-            Clear the filter
+            Clear filter
           </button>
         </TableEmptyState>
       )}

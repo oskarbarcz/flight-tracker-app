@@ -15,7 +15,7 @@ export function Sidebar() {
   const { isCollapsed } = useSidebar();
 
   if (user === null) {
-    return <div>Loading...</div>;
+    return <div>Loading…</div>;
   }
 
   return (

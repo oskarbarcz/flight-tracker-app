@@ -23,6 +23,8 @@ export function ToastProvider({ children }: ToastProviderProps) {
     const toastFn = toast[type] || toast.info;
     toastFn(<FlowbiteToast message={message} type={type} />, {
       icon: false,
+      role: type === "error" || type === "warning" ? "alert" : "status",
+      autoClose: type === "error" ? false : 5000,
       ...options,
     });
   }, []);

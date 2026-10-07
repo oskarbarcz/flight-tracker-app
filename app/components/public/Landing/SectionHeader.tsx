@@ -22,14 +22,14 @@ export function SectionHeader({
   return (
     <div className={`${centered ? "text-center" : "text-left"} ${className}`}>
       {eyebrow && (
-        <h2 className="text-sm font-bold tracking-widest text-[#5865F2] dark:text-indigo-400 mb-4 uppercase">
+        <h2 className="text-sm font-bold tracking-widest text-indigo-600 dark:text-indigo-400 mb-4 uppercase">
           {eyebrow}
         </h2>
       )}
 
       <h3 className={`text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 dark:text-white leading-[1.1]`}>
         {title}
-        {subtitle && <span className="block text-gray-400 dark:text-gray-600 mt-2">{subtitle}</span>}
+        {subtitle && <span className="block text-gray-500 dark:text-gray-400 mt-2">{subtitle}</span>}
       </h3>
 
       {description && (

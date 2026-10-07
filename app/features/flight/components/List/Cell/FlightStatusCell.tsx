@@ -17,7 +17,7 @@ export function statusLabelOf(flight: Flight): string {
 
 export function FlightStatusCell({ flight }: Props) {
   return (
-    <span className="flex min-w-0 flex-col items-start gap-1 px-1 pt-0 pb-2.5 sm:px-3 sm:pt-2.5">
+    <span className="flex min-w-0 flex-col items-start gap-1 px-1 pt-0 pb-2.5 @xl:px-3 @xl:pt-2.5">
       <FlightStatusBadge status={flight.status} serviceType={flight.serviceType} />
       {flight.hasActiveEmergency && (
         <Badge color="failure" size="xs" icon={FaTriangleExclamation}>

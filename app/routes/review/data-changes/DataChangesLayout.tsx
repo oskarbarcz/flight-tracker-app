@@ -104,11 +104,11 @@ export default function DataChangesLayout() {
 
   return (
     <>
-      <div className={isReviewing ? "hidden md:block" : undefined}>
+      <div className={isReviewing ? "hidden lg:block" : undefined}>
         <SectionHeader title="Data change reviews" />
       </div>
-      <div className="grid gap-4 md:grid-cols-[19rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[22rem_minmax(0,1fr)]">
-        <div className={isReviewing ? "hidden md:block" : undefined}>
+      <div className="grid gap-4 lg:grid-cols-[19rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[22rem_minmax(0,1fr)]">
+        <div className={isReviewing ? "hidden lg:block" : undefined}>
           <ChangeRequestQueue
             requests={requests}
             view={view}
@@ -121,7 +121,7 @@ export default function DataChangesLayout() {
             onRetry={reload}
           />
         </div>
-        <div className={isReviewing ? "min-w-0" : "hidden min-w-0 md:block"}>
+        <div className={isReviewing ? "min-w-0" : "hidden min-w-0 lg:block"}>
           <Outlet context={context} />
         </div>
       </div>

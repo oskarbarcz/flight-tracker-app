@@ -38,7 +38,7 @@ function BackToQueue({ to }: { to: string }) {
     <Link
       to={to}
       viewTransition
-      className="inline-flex items-center gap-1 self-start text-sm text-gray-500 hover:text-indigo-600 md:hidden dark:text-gray-400 dark:hover:text-indigo-400"
+      className="inline-flex items-center gap-1 self-start text-sm text-gray-500 hover:text-indigo-600 lg:hidden dark:text-gray-400 dark:hover:text-indigo-400"
     >
       <LuChevronLeft size={16} aria-hidden={true} />
       Review queue

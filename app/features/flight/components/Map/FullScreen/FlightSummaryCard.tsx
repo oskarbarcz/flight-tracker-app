@@ -27,10 +27,10 @@ function NextStage({ flight, progress }: { flight: Flight; progress: FlightProgr
 
   return (
     <div className="shrink-0 text-right">
-      <span className="flex items-center justify-end gap-1.5 text-xs uppercase tracking-wide text-gray-500">
+      <span className="flex items-center justify-end gap-1.5 text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
         {showDeparture ? "Est. departure" : "Est. arrival"}
         {delayMinutes > 0 && (
-          <span className="inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-[11px] font-bold normal-case text-amber-700 dark:bg-amber-950 dark:text-amber-400">
+          <span className="inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-2xs font-bold normal-case text-amber-700 dark:bg-amber-950 dark:text-amber-400">
             +{delayMinutes}
           </span>
         )}
@@ -45,9 +45,7 @@ function NextStage({ flight, progress }: { flight: Flight; progress: FlightProgr
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline gap-1.5">
-      <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-gray-400 dark:text-gray-500">
-        {label}
-      </span>
+      <span className="text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">{label}</span>
       <span className="font-mono text-sm font-semibold tabular-nums text-gray-800 dark:text-gray-100">{value}</span>
     </div>
   );
@@ -71,8 +69,8 @@ export function FlightSummaryCard({ flight, path }: Props) {
   const upcoming = nextAction(resolveBlockEvents(flight.timesheet));
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center p-0 sm:p-4">
-      <section className="pointer-events-auto flex w-full flex-col rounded-t-2xl border-t border-gray-200 bg-white p-4 shadow-[0_-6px_28px_rgba(15,23,42,0.12)] dark:border-gray-800 dark:bg-gray-900 sm:w-full sm:max-w-lg sm:rounded-2xl sm:border sm:p-5 sm:shadow-2xl">
+    <div className="pointer-events-none absolute inset-0 z-30 flex items-end justify-center p-0 sm:p-4">
+      <section className="pointer-events-auto flex max-h-full w-full flex-col overflow-y-auto overscroll-contain rounded-t-2xl border-t border-gray-200 bg-white p-4 shadow-[0_-6px_28px_rgba(15,23,42,0.12)] dark:border-gray-800 dark:bg-gray-900 sm:w-full sm:max-w-lg sm:rounded-2xl sm:border sm:p-5 sm:shadow-2xl">
         <div className="mx-auto mb-3 h-1 w-9 shrink-0 rounded-full bg-gray-300 dark:bg-gray-700 sm:hidden" />
 
         <article className="flex flex-row justify-between gap-3">

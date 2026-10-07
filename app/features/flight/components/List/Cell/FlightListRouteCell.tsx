@@ -13,20 +13,20 @@ export function FlightListRouteCell({ flight, links }: Props) {
   const { departureAirport, destinationAirport } = flight;
 
   return (
-    <span className="block min-w-0 px-1 py-2.5 sm:px-3">
-      <span className="flex items-center gap-1.5 font-mono text-sm font-bold text-gray-900 sm:text-base dark:text-white">
+    <span className="block min-w-0 px-1 py-2.5 @xl:px-3">
+      <span className="flex items-center gap-1.5 font-mono text-sm font-bold text-gray-900 @xl:text-base dark:text-white">
         <Link
           to={links.airport(departureAirport.id)}
           viewTransition
-          className="relative z-10 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none"
+          className="relative z-10 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400 pointer-coarse:pointer-events-none"
         >
           {departureAirport.iataCode}
         </Link>
-        <FaArrowRight size={11} className="shrink-0 text-gray-400 dark:text-gray-500" />
+        <FaArrowRight size={11} className="shrink-0 text-gray-500 dark:text-gray-400" />
         <Link
           to={links.airport(destinationAirport.id)}
           viewTransition
-          className="relative z-10 transition-colors hover:text-primary-500 pointer-coarse:pointer-events-none"
+          className="relative z-10 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400 pointer-coarse:pointer-events-none"
         >
           {destinationAirport.iataCode}
         </Link>

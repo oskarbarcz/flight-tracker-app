@@ -20,14 +20,12 @@ export function RemoveParkingPositionModal({ parkingPosition, remove, cancel, is
       </ModalHeader>
       <ModalBody>
         <p>
-          You are going to remove parking stand <span className="font-mono font-bold">{parkingPosition.name}</span>.
+          Remove parking stand <span className="font-mono font-bold">{parkingPosition.name}</span>?
         </p>
-        <p className="mt-3">
-          <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
-        </p>
+        <p className="mt-3">This cannot be undone.</p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{
           label: "Remove parking stand",
           onClick: () => remove(parkingPosition),

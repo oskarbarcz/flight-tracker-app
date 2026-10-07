@@ -27,31 +27,31 @@ export function CheckInFlightModal({ flight, checkIn, close }: Props) {
         <h2 className="mb-3 text-xl font-bold">Schedule</h2>
         <div className="space-x-4 text-center font-mono">
           <div className="inline-block">
-            <p className="text-xs text-gray-500">DEP DATE</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">DEP DATE</p>
             <p className="font-bold">
               <FormattedIcaoDate date={schedule.offBlockTime} />
             </p>
           </div>
           <div className="inline-block">
-            <p className="text-xs text-gray-500">OFF</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">OFF</p>
             <p className="font-bold">
               <FormattedIcaoTime date={schedule.offBlockTime} />
             </p>
           </div>
           <div className="inline-block">
-            <p className="text-xs text-gray-500">OUT</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">OUT</p>
             <p className="font-bold">
               <FormattedIcaoTime date={schedule.takeoffTime} />
             </p>
           </div>
           <div className="inline-block">
-            <p className="text-xs text-gray-500">IN</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">IN</p>
             <p className="font-bold">
               <FormattedIcaoTime date={schedule.arrivalTime} />
             </p>
           </div>
           <div className="inline-block">
-            <p className="text-xs text-gray-500">ON</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">ON</p>
             <p className="font-bold">
               <FormattedIcaoTime date={schedule.onBlockTime} />
             </p>

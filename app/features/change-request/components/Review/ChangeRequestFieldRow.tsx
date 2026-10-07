@@ -62,11 +62,11 @@ export function ChangeRequestFieldRow({ field, spec, isPending }: Props) {
             <ChangeRequestValue spec={spec} value={field.current} label={field.currentLabel} tone="current" />
           </div>
           {isUnchanged ? (
-            <span aria-hidden={true} className="text-center font-mono text-sm text-gray-400 dark:text-gray-500">
+            <span aria-hidden={true} className="text-center font-mono text-sm text-gray-500 dark:text-gray-400">
               =
             </span>
           ) : (
-            <HiArrowNarrowRight aria-hidden={true} className="mt-0.5 size-4 text-gray-400 dark:text-gray-500" />
+            <HiArrowNarrowRight aria-hidden={true} className="mt-0.5 size-4 text-gray-500 dark:text-gray-400" />
           )}
           <div className="min-w-0 break-words">
             <span className="sr-only">Proposed: </span>

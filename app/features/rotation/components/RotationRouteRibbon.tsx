@@ -88,7 +88,7 @@ function lineClass(state: LegState): string {
 }
 
 function planeClass(state: LegState): string {
-  return state === "upcoming" ? "text-gray-400 dark:text-gray-600" : "text-indigo-500 dark:text-indigo-400";
+  return state === "upcoming" ? "text-gray-500 dark:text-gray-400" : "text-indigo-600 dark:text-indigo-400";
 }
 
 type Props = {

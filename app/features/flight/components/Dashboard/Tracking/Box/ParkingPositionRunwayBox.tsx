@@ -202,7 +202,7 @@ export function ParkingPositionRunwayBox() {
               icon={HiOutlineLocationMarker}
               onClick={() => setOpenModal("departureParkingPosition")}
               hasValue={!!assignments.departureParkingPosition}
-              kind="parking position"
+              kind="parking stand"
             />
           )}
           {canChangeDepartureRunway && (
@@ -255,7 +255,7 @@ export function ParkingPositionRunwayBox() {
                 icon={HiOutlineLocationMarker}
                 onClick={() => setOpenModal("arrivalParkingPosition")}
                 hasValue={!!assignments.arrivalParkingPosition}
-                kind="parking position"
+                kind="parking stand"
               />
             )}
           </EndpointActions>
@@ -272,8 +272,8 @@ export function ParkingPositionRunwayBox() {
           select={(parkingPositionId) =>
             handleAssign(
               () => flightService.assignDepartureParkingPosition(flight.id, parkingPositionId),
-              "Departure parking position updated.",
-              "Failed to update departure parking position.",
+              "Departure parking stand updated.",
+              "Failed to update departure parking stand. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -288,7 +288,7 @@ export function ParkingPositionRunwayBox() {
             handleAssign(
               () => flightService.assignDepartureRunway(flight.id, runwayId),
               "Departure runway updated.",
-              "Failed to update departure runway.",
+              "Failed to update departure runway. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -303,7 +303,7 @@ export function ParkingPositionRunwayBox() {
             handleAssign(
               () => flightService.assignArrivalRunway(flight.id, runwayId),
               "Arrival runway updated.",
-              "Failed to update arrival runway.",
+              "Failed to update arrival runway. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -317,8 +317,8 @@ export function ParkingPositionRunwayBox() {
           select={(parkingPositionId) =>
             handleAssign(
               () => flightService.assignArrivalParkingPosition(flight.id, parkingPositionId),
-              "Arrival parking position updated.",
-              "Failed to update arrival parking position.",
+              "Arrival parking stand updated.",
+              "Failed to update arrival parking stand. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -347,7 +347,7 @@ function EndpointSection({
   children,
   struck = false,
 }: EndpointSectionProps) {
-  const strikeClass = struck ? "line-through decoration-2 text-gray-400 dark:text-gray-500" : undefined;
+  const strikeClass = struck ? "line-through decoration-2 text-gray-500 dark:text-gray-400" : undefined;
   return (
     <section className="flex flex-col gap-2">
       <button
@@ -356,16 +356,19 @@ function EndpointSection({
         aria-expanded={open}
         className="flex items-center gap-2 text-xs cursor-pointer text-start"
       >
-        <Icon size={14} className={struck ? "text-gray-400 dark:text-gray-500" : "text-indigo-500"} />
+        <Icon size={14} className={struck ? "text-gray-500 dark:text-gray-400" : "text-indigo-500"} />
         <span className={`font-bold uppercase tracking-widest ${strikeClass ?? "text-gray-600 dark:text-gray-300"}`}>
           {title}
         </span>
-        <span className={`ms-auto ${strikeClass ?? "text-gray-400 dark:text-gray-500"}`}>{airport.city.name}</span>
+        <span className={`ms-auto ${strikeClass ?? "text-gray-500 dark:text-gray-400"}`}>{airport.city.name}</span>
         <span className="text-gray-300 dark:text-gray-600">→</span>
         <span className={`font-mono font-bold ${strikeClass ?? "text-gray-700 dark:text-gray-200"}`}>
           {airport.iataCode}
         </span>
-        <FaChevronDown size={10} className={`text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} />
+        <FaChevronDown
+          size={10}
+          className={`text-gray-500 dark:text-gray-400 transition-transform ${open ? "rotate-180" : ""}`}
+        />
       </button>
       {open && <div className={`flex flex-col gap-2 ${struck ? "opacity-60" : ""}`}>{children}</div>}
     </section>
@@ -403,9 +406,7 @@ function DiversionEndpointSection({ diversion }: { diversion: Diversion }) {
 function DiversionFact({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex flex-col">
-      <dt className="text-[0.65rem] font-bold uppercase tracking-widest text-red-600/80 dark:text-red-500/80">
-        {label}
-      </dt>
+      <dt className="text-2xs font-bold uppercase tracking-widest text-red-600/80 dark:text-red-500/80">{label}</dt>
       <dd className="text-gray-800 dark:text-gray-100">{value}</dd>
     </div>
   );
@@ -420,7 +421,7 @@ type ChangeButtonProps = {
   iconClassName?: string;
   onClick: () => void;
   hasValue: boolean;
-  kind: "parking position" | "runway";
+  kind: "parking stand" | "runway";
 };
 
 function ChangeButton({ icon: Icon, iconClassName, onClick, hasValue, kind }: ChangeButtonProps) {

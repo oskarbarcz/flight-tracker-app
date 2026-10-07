@@ -37,7 +37,7 @@ function ChangeDigest({ change }: { change: OsmProposedChange }) {
     <span className="flex flex-wrap items-baseline gap-x-1.5 text-xs">
       <span className="text-gray-500 dark:text-gray-400">{formatOsmFieldName(first.field).toLowerCase()}</span>
       <OsmValue field={first.field} value={first.current} />
-      <span className="text-gray-400 dark:text-gray-500">→</span>
+      <span className="text-gray-500 dark:text-gray-400">→</span>
       <OsmValue field={first.field} value={first.proposed} />
       {rest.length > 0 && (
         <span className="text-gray-500 dark:text-gray-400">
@@ -115,7 +115,7 @@ export function OsmChangeRow({ change, requirements, isSelected, onToggle }: Pro
             <span className="min-w-0">{heading}</span>
             <HiChevronDown
               className={twMerge(
-                "mt-0.5 size-4 shrink-0 text-gray-400 transition-transform dark:text-gray-500",
+                "mt-0.5 size-4 shrink-0 text-gray-500 transition-transform dark:text-gray-400",
                 isExpanded && "rotate-180",
               )}
               aria-hidden={true}

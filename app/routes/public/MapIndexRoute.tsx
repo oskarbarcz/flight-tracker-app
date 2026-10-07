@@ -38,7 +38,7 @@ export default function MapIndexRoute() {
       <BackgroundMap />
       <div className="absolute inset-0 z-20 bg-gray-100/40 dark:bg-gray-950/60" />
       <MapHeader />
-      <div className="absolute inset-0 z-30 flex items-center justify-center overflow-y-auto p-4 pt-20">
+      <div className="absolute inset-0 z-30 flex items-center justify-center overflow-y-auto overscroll-contain p-4 pt-20">
         <MyPreflightLauncher flights={flights} loading={loading} />
       </div>
     </div>

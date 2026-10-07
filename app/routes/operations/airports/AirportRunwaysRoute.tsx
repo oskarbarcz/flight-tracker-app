@@ -22,11 +22,11 @@ export default function AirportRunwaysRoute() {
     setIsRemoving(true);
     try {
       await runwayService.remove(airport.id, runway.id);
-      success(`Runway ${runway.designator} deleted.`);
+      success(`Runway ${runway.designator} removed.`);
       setPendingRemove(null);
       revalidator.revalidate();
     } catch {
-      error("Failed to delete runway.");
+      error("Failed to remove runway. Try again.");
     } finally {
       setIsRemoving(false);
     }

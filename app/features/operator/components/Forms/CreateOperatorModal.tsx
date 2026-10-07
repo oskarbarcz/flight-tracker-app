@@ -31,7 +31,7 @@ export function CreateOperatorModal({ close, onCreated }: Props) {
       success(`Operator ${created.icaoCode} created.`);
       await onCreated(created);
     } catch (err) {
-      handleFormikApiError<CreateOperatorFormData>(err, setErrors, error, "Failed to create operator.");
+      handleFormikApiError<CreateOperatorFormData>(err, setErrors, error, "Failed to create operator. Try again.");
     } finally {
       setSubmitting(false);
     }

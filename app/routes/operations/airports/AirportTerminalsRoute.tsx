@@ -22,11 +22,11 @@ export default function AirportTerminalsRoute() {
     setIsRemoving(true);
     try {
       await terminalService.remove(airport.id, terminal.id);
-      success(`Terminal ${terminal.shortName} deleted.`);
+      success(`Terminal ${terminal.shortName} removed.`);
       setPendingRemove(null);
       revalidator.revalidate();
     } catch {
-      error("Failed to delete terminal.");
+      error("Failed to remove terminal. Try again.");
     } finally {
       setIsRemoving(false);
     }

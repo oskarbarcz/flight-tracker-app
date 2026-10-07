@@ -23,7 +23,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     modal: {
       root: {
-        base: "fixed inset-x-0 top-0 z-50 h-dvh overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+        base: "fixed inset-x-0 top-0 z-50 h-dvh overflow-y-auto overflow-x-hidden overscroll-contain md:inset-0 md:h-full",
         show: {
           on: "flex modal-scrim",
         },
@@ -36,11 +36,11 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         base: "flex items-center justify-between gap-4 rounded-t-xl border-b border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-800 dark:bg-gray-900",
         title: "min-w-0 text-base leading-tight text-gray-900 dark:text-white",
         close: {
-          base: "ms-auto inline-flex cursor-pointer items-center justify-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 pointer-coarse:size-11 dark:hover:bg-gray-800 dark:hover:text-white",
+          base: "ms-auto inline-flex cursor-pointer items-center justify-center rounded-lg bg-transparent p-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 pointer-coarse:size-11 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white",
         },
       },
       body: {
-        base: "modal-body flex-1 overflow-auto px-6 py-5 text-gray-800 dark:text-gray-200",
+        base: "modal-body flex-1 overflow-auto overscroll-contain px-6 py-5 text-gray-800 dark:text-gray-200",
       },
       footer: {
         base: "modal-actions flex items-center justify-end gap-2 rounded-b-xl border-t border-gray-200 bg-gray-50 px-6 py-3 dark:border-gray-800 dark:bg-gray-900",
@@ -94,7 +94,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         base: "flex w-full max-w-none items-center rounded-lg bg-white p-4 text-gray-500 shadow sm:max-w-xs dark:bg-gray-800 dark:text-gray-400",
       },
       toggle: {
-        base: "-m-1.5 ml-auto inline-flex size-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-300 pointer-coarse:size-11 dark:bg-gray-800 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white",
+        base: "-m-1.5 ml-auto inline-flex size-8 items-center justify-center rounded-lg bg-white p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-500 pointer-coarse:size-11 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
       },
     },
     buttonGroup: {
@@ -122,7 +122,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
             "bg-indigo-100 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300 dark:hover:bg-indigo-900/40",
         },
         size: {
-          xs: "text-[11px]",
+          xs: "text-2xs",
           sm: "text-xs",
         },
       },
@@ -132,7 +132,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     checkbox: {
       color: {
-        default: "text-indigo-600 focus:ring-indigo-500 dark:ring-offset-gray-900 dark:focus:ring-indigo-500",
+        default: "text-indigo-600 focus:ring-indigo-500 dark:ring-offset-gray-900 dark:focus:ring-indigo-400",
       },
     },
     toggleSwitch: {
@@ -142,35 +142,34 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
       toggle: {
         checked: {
           color: {
-            indigo: "bg-indigo-600 group-focus:ring-indigo-300 dark:bg-indigo-500 dark:group-focus:ring-indigo-800",
+            indigo: "bg-indigo-600 group-focus:ring-indigo-500 dark:bg-indigo-500 dark:group-focus:ring-indigo-400",
           },
         },
       },
     },
     button: {
-      base: "cursor-pointer transition-colors duration-200",
+      base: "cursor-pointer transition-[color,background-color,border-color,scale] duration-150 ease-out not-disabled:active:scale-[0.96] [-webkit-tap-highlight-color:transparent]",
       color: {
         indigo:
           "bg-indigo-600 hover:bg-indigo-700 text-white dark:text-gray-100 border-0 focus:ring-indigo-500 dark:focus:ring-indigo-400",
         red: "dark:bg-red-900",
         alternative:
-          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
+          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-400",
         light:
-          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-700",
+          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-400",
         lightDanger:
-          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-red-300 hover:bg-red-50 hover:text-red-700 focus:ring-red-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-red-800 dark:hover:bg-red-950 dark:hover:text-red-300 dark:focus:ring-red-800",
+          "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-red-300 hover:bg-red-50 hover:text-red-700 focus:ring-red-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-red-800 dark:hover:bg-red-950 dark:hover:text-red-300 dark:focus:ring-red-400",
         subtle:
-          "bg-transparent hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:bg-indigo-950 border-0 focus:ring-indigo-200 dark:focus:ring-indigo-800",
+          "bg-transparent hover:bg-indigo-50 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:bg-indigo-950 border-0 focus:ring-indigo-500 dark:focus:ring-indigo-400",
       },
       outlineColor: {
-        warning:
-          "bg-amber-100 border-amber-100 dark:border-amber-700 dark:bg-amber-700 text-amber-700 dark:text-amber-50 hover:bg-amber-200 hover:text-amber-800 hover:border-amber-200 dark:hover:border-amber-500 dark:hover:bg-amber-500 dark:hover:text-amber-50 focus:ring-amber-300 dark:focus:ring-amber-700",
         indigo:
-          "bg-indigo-100 border-indigo-100 dark:border-indigo-700 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-600 hover:border-indigo-200 dark:hover:border-indigo-500 dark:hover:bg-indigo-500 dark:hover:text-indigo-50 focus:ring-indigo-300 dark:focus:ring-indigo-700",
-        gray: "bg-gray-200 text-gray-800 border-gray-200 hover:text-gray-800 hover:bg-gray-300 hover:border-gray-300 focus:ring-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-600 dark:hover:border-gray-600 dark:focus:ring-gray-500",
+          "bg-indigo-100 border-indigo-100 dark:border-indigo-700 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 hover:bg-indigo-200 hover:text-indigo-700 hover:border-indigo-200 dark:hover:border-indigo-600 dark:hover:bg-indigo-600 dark:hover:text-indigo-50 focus:ring-indigo-500 dark:focus:ring-indigo-400",
+        gray: "bg-gray-200 text-gray-800 border-gray-200 hover:text-gray-800 hover:bg-gray-300 hover:border-gray-300 focus:ring-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-600 dark:hover:border-gray-600 dark:focus:ring-gray-500",
       },
     },
     pagination: {
+      base: "min-w-0 max-w-full overflow-x-auto",
       pages: {
         selector: {
           active:
@@ -186,7 +185,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
             md: "p-2.5 text-base sm:text-sm",
           },
           colors: {
-            gray: "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-indigo-500 dark:focus:ring-indigo-500",
+            gray: "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-indigo-500 dark:focus:ring-indigo-400",
           },
         },
       },

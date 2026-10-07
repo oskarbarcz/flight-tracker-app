@@ -25,8 +25,8 @@ export function LoadsheetFigures({ loadsheet, serviceType }: { loadsheet: Loadsh
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{title}</h3>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">{children}</div>
+      <h3 className="mb-3 text-2xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{title}</h3>
+      <div className="grid grid-cols-2 gap-2 @md:grid-cols-4">{children}</div>
     </div>
   );
 }
@@ -34,7 +34,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function StatBlock({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
     <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-center min-w-22 dark:border-gray-800 dark:bg-gray-950">
-      <span className="block text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</span>
+      <span className="block text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {label}
+      </span>
       <span className="mt-0.5 block font-mono text-base font-bold text-gray-800 dark:text-gray-100">
         {value}
         {unit && <span className="ms-0.5 text-xs font-normal">{unit}</span>}

@@ -34,20 +34,20 @@ export const createOperatorSchema: ObjectSchema<CreateOperatorFormData> = object
   shortName: string()
     .required("Short name is required")
     .min(2, "Short name must be at least 2 characters")
-    .max(50, "Short name must be under 50 characters"),
+    .max(50, "Short name must be at most 50 characters"),
   fullName: string()
     .required("Full name is required")
     .min(2, "Full name must be at least 2 characters")
-    .max(100, "Full name must be under 100 characters"),
+    .max(100, "Full name must be at most 100 characters"),
   callsign: string()
     .required("Callsign is required")
     .min(2, "Callsign must be at least 2 characters")
-    .max(50, "Callsign must be under 50 characters"),
+    .max(50, "Callsign must be at most 50 characters"),
   avgFleetAge: number()
     .typeError("Average fleet age must be a number")
     .required("Average fleet age is required")
     .min(0, "Average fleet age cannot be negative")
-    .max(100, "Average fleet age must be under 100"),
+    .max(100, "Average fleet age must be at most 100"),
   logoUrl: optionalUrl,
   backgroundUrl: optionalUrl,
   type: string<OperatorType>()

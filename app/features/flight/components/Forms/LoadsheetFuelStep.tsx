@@ -65,7 +65,7 @@ export function LoadsheetFuelStep({ timesheet }: Props) {
             required={false}
             unit="tons / hour"
             decimals={2}
-            footnote="at 1500ft AGL, 250kt IAS, est. LW"
+            footnote="at 1,500 ft AGL, 250 kt IAS, est. LW"
           />
           <FuelTonsInput field="maxTanks" label="Max tank capacity" required={false} />
         </FormGrid>

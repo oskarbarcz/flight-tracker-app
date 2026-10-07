@@ -2,8 +2,8 @@ import { isServerFailure, unreachableServiceMessage } from "~/features/auth/lib/
 
 export type SimbriefIdChangeFailure = { kind: "field"; message: string } | { kind: "section"; message: string };
 
-const temporaryFailureMessage = "Couldn't save the SimBrief ID right now. Try again in a moment.";
-const rejectedChangeMessage = "The SimBrief ID wasn't accepted. Check it and try again.";
+const temporaryFailureMessage = "Couldn’t save the SimBrief ID right now. Try again in a moment.";
+const rejectedChangeMessage = "The SimBrief ID wasn’t accepted. Check it and try again.";
 
 type FailureReason = {
   statusCode?: number;

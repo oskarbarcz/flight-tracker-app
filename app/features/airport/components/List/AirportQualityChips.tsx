@@ -15,7 +15,7 @@ type Props = {
 };
 
 const SHELL =
-  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300";
+  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500";
 
 const ACTIVE =
   "border-indigo-300 bg-indigo-50 text-indigo-800 dark:border-indigo-500/50 dark:bg-indigo-900/30 dark:text-indigo-200";
@@ -23,7 +23,7 @@ const ACTIVE =
 const RESTING =
   "border-gray-200 bg-white text-gray-600 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800/60";
 
-const MUTED = "border-dashed border-gray-200 bg-transparent text-gray-400 dark:border-gray-800 dark:text-gray-600";
+const MUTED = "border-dashed border-gray-200 bg-transparent text-gray-500 dark:border-gray-800 dark:text-gray-400";
 
 export function AirportQualityChips({ summaries, active, searching, onToggle }: Props) {
   return (

@@ -24,7 +24,11 @@ export function AircraftSummaryCard({ flight }: Props) {
         </p>
       </div>
 
-      <AircraftImage type={airframe.type} name={airframe.name} className="h-36 rounded-xl object-center" />
+      <AircraftImage
+        type={airframe.type}
+        name={airframe.name}
+        className="h-36 rounded-xl object-center image-outline"
+      />
 
       <div className="flex flex-col">
         <Row label="SELCAL code" value={flight.aircraft.selcal} />
@@ -45,7 +49,7 @@ export function AircraftSummaryCard({ flight }: Props) {
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-3 border-t border-gray-100 py-2.5 first:border-t-0 dark:border-gray-800">
-      <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</span>
       <span className="font-mono text-sm font-bold text-gray-800 dark:text-gray-100">{value}</span>
     </div>
   );

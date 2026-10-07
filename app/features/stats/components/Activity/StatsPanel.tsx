@@ -31,7 +31,7 @@ export function StatsPanel({ children, details, detailsLabel = "Details", hasDet
             type="button"
             aria-expanded={detailed}
             onClick={() => setDetailed(!detailed)}
-            className="mt-2 w-full cursor-pointer rounded-lg py-1 text-center text-[11px] font-bold uppercase tracking-wider text-indigo-700 transition-colors hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-indigo-300 dark:hover:bg-indigo-950"
+            className="mt-2 w-full cursor-pointer rounded-lg py-1 text-center text-2xs font-bold uppercase tracking-wider text-indigo-700 transition-colors hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:text-indigo-300 dark:hover:bg-indigo-950"
           >
             {detailed ? "Less" : detailsLabel}
           </button>

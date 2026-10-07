@@ -38,7 +38,11 @@ export function HoldCatalogueTable({ layouts }: Props) {
               return (
                 <TableRow key={layout.type}>
                   <TableCell className="font-mono font-medium text-gray-900 dark:text-white">
-                    <Link to={`/cargo-holds/${layout.type}`} viewTransition className="hover:text-primary-500">
+                    <Link
+                      to={`/cargo-holds/${layout.type}`}
+                      viewTransition
+                      className="hover:text-indigo-600 dark:hover:text-indigo-400"
+                    >
                       {layout.type}
                     </Link>
                   </TableCell>

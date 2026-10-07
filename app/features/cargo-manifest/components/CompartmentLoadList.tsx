@@ -25,7 +25,7 @@ function Gauge({ label, used, limit, unit }: { label: string; used: number; limi
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-baseline justify-between gap-3">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</span>
+        <span className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</span>
         <span className="font-mono text-xs tabular-nums text-gray-600 dark:text-gray-300">
           {used.toLocaleString()}
           {limit !== undefined && ` of ${limit.toLocaleString()}`} {unit}

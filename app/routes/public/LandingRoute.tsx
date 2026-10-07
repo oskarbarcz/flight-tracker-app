@@ -7,9 +7,11 @@ import { LandingNavbar } from "~/components/public/Landing/LandingNavbar";
 import { OperatorDeepDiveSection } from "~/components/public/Landing/OperatorDeepDiveSection";
 import { PilotDeepDiveSection } from "~/components/public/Landing/PilotDeepDiveSection";
 import { useInstalledApp } from "~/shared/hooks/useInstalledApp";
+import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
 export default function LandingRoute() {
   const isInstalledApp = useInstalledApp();
+  usePageTitle("MyPreflight", "");
 
   if (isInstalledApp) {
     return <Navigate to="/sign-in" replace />;

@@ -1,6 +1,6 @@
 import { Badge } from "flowbite-react";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { LuArrowRight } from "react-icons/lu";
 import { Link, useLocation } from "react-router";
 import { AircraftRegistrationLink } from "~/features/aircraft/components/Aircraft/AircraftRegistrationLink";
 import { AirportOnFlightType, type Flight } from "~/features/flight";
@@ -45,26 +45,30 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
         }`}
       >
         <span className="flex items-center justify-between gap-2">
-          <span className="font-mono text-base font-bold text-indigo-500">{flight.flightNumber}</span>
+          <span className="font-mono text-base font-bold text-indigo-600 dark:text-indigo-300">
+            {flight.flightNumber}
+          </span>
           <Badge color="indigo" size="xs">
             {toHuman.flight.status.short(flight.status, flight.serviceType)}
           </Badge>
         </span>
         <span className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-gray-700 dark:text-gray-200">
           <span className="truncate">{flight.departureAirport.city.name}</span>
-          <FaArrowRight size={9} className="shrink-0 text-gray-400" aria-hidden />
+          <LuArrowRight className="size-3.5 shrink-0 text-gray-500 dark:text-gray-400" strokeWidth={3} aria-hidden />
           <span className="truncate">{flight.destinationAirport.city.name}</span>
         </span>
       </Link>
 
       {rotation && (
         <div className="border-t border-gray-200 px-3 py-2 dark:border-gray-700">
-          <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-400">Rotation</span>
+          <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            Rotation
+          </span>
           <Link
             to={`/rotations/${rotation.id}`}
             viewTransition
             title={rotation.name}
-            className="block truncate rounded font-mono text-sm font-semibold text-gray-600 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:text-gray-300 dark:hover:text-indigo-400"
+            className="block truncate rounded font-mono text-sm font-semibold text-gray-600 transition-colors hover:text-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-gray-300 dark:hover:text-indigo-400"
           >
             {rotation.name}
           </Link>
@@ -72,7 +76,7 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
       )}
 
       <div className="flex items-center justify-between gap-2 border-t border-gray-200 px-3 py-2 dark:border-gray-700">
-        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">Aircraft</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Aircraft</span>
         <AircraftRegistrationLink
           aircraftId={flight.aircraft.id}
           registration={flight.aircraft.registration}
@@ -81,7 +85,9 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
       </div>
 
       <div className="border-t border-gray-200 py-2 dark:border-gray-700">
-        <span className="mb-1 block px-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Airports</span>
+        <span className="mb-1 block px-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+          Airports
+        </span>
         <div className="flex flex-col gap-0.5">
           {[flight.departureAirport, flight.destinationAirport].map((airport) => (
             <SidebarAirportRow key={airport.id} id={airport.id} iataCode={airport.iataCode} name={airport.name} />
@@ -116,7 +122,7 @@ function CurrentFlightBlock({ flight }: { flight: Flight }) {
 function CurrentFlightEmpty() {
   return (
     <div className="rounded-xl bg-gray-50 px-3 py-2.5 dark:bg-gray-900">
-      <span className="block text-sm text-gray-400">No current flight</span>
+      <span className="block text-sm text-gray-500 dark:text-gray-400">No current flight</span>
     </div>
   );
 }

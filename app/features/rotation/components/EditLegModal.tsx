@@ -6,6 +6,7 @@ import type { RotationLeg } from "~/features/rotation";
 import { LegFormFields } from "~/features/rotation/components/LegFormFields";
 import { type LegFormData, legToFormData } from "~/features/rotation/form";
 import { legSchema } from "~/features/rotation/schema";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -31,6 +32,7 @@ export function EditLegModal({ leg, airports, onSave, onClose }: Props) {
       </ModalHeader>
       <Formik<LegFormData> initialValues={legToFormData(leg)} validationSchema={legSchema} onSubmit={submit}>
         <Form className="flex min-h-0 flex-1 flex-col">
+          <FocusFirstError />
           <ModalBody>
             <LegFormFields airports={airports} />
           </ModalBody>

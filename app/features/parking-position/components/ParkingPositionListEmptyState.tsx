@@ -18,8 +18,8 @@ export function ParkingPositionListEmptyState({ airportId, hasTerminals }: Props
       <TableEmptyState>
         <EmptyStateIcon icon={FaCircleInfo} color="blue" />
         <EmptyStateText
-          title="Define terminals first."
-          paragraph="Parking positions must belong to a terminal. Add at least one terminal before creating parking positions."
+          title="Define terminals first"
+          paragraph="Parking stands must belong to a terminal. Add at least one terminal before creating parking stands."
         />
         <Button className="space-x-1.5 w-fit mx-auto" color="indigo" as={Link} to={`/airports/${airportId}/terminals`}>
           <HiPlus />
@@ -33,8 +33,8 @@ export function ParkingPositionListEmptyState({ airportId, hasTerminals }: Props
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color="blue" />
       <EmptyStateText
-        title="No parking positions defined yet."
-        paragraph="Add parking positions to record stand capabilities, boarding options, and noise restrictions."
+        title="No parking stands defined yet"
+        paragraph="Add parking stands to record stand capabilities, boarding options, and noise restrictions."
       />
       <Button
         className="space-x-1.5 w-fit mx-auto"
@@ -43,7 +43,7 @@ export function ParkingPositionListEmptyState({ airportId, hasTerminals }: Props
         to={`/airports/${airportId}/parking-positions/new`}
       >
         <HiPlus />
-        <span>Add parking position</span>
+        <span>Add parking stand</span>
       </Button>
     </TableEmptyState>
   );

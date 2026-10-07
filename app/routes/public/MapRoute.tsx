@@ -55,14 +55,14 @@ export default function MapRoute({ params }: Route.ClientLoaderArgs) {
     return () => clearTimeout(timer);
   }, []);
 
-  usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Loading flight tracking...");
+  usePageTitle(flight ? `Tracking flight ${flight.flightNumber}` : "Loading flight tracking…");
 
   if (notFound) {
     return (
       <div className="flex h-dvh w-full flex-col items-center justify-center gap-4 bg-gray-50 p-6 text-center dark:bg-gray-950">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">Flight not found</h1>
         <p className="max-w-md text-gray-500 dark:text-gray-400">
-          This flight doesn't exist or is no longer available for tracking.
+          This flight doesn’t exist or is no longer available for tracking.
         </p>
         <Link
           to="/map"

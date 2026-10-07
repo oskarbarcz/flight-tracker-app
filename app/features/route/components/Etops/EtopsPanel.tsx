@@ -139,7 +139,11 @@ export function EtopsPanel({ plan, airports, alternatesHref, airportHref }: Prop
           title="ETOPS"
           actions={
             alternatesHref && (
-              <Link to={alternatesHref} viewTransition className="text-xs font-bold text-primary-500 hover:underline">
+              <Link
+                to={alternatesHref}
+                viewTransition
+                className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
                 Flight alternates
               </Link>
             )

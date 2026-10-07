@@ -20,7 +20,7 @@ export function PostcardCard({ postcard, onZoom, onReplace }: Props) {
         type="button"
         onClick={() => onZoom(postcard)}
         aria-label={`See the postcard for ${postcard.city.name} larger`}
-        className="block cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-400"
+        className="block cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500"
       >
         <PostcardArt postcard={postcard} />
       </button>
@@ -51,7 +51,7 @@ export function PostcardCard({ postcard, onZoom, onReplace }: Props) {
           type="button"
           disabled={isDrawing}
           onClick={() => onReplace(postcard)}
-          className="mt-auto cursor-pointer rounded-lg border border-gray-200 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="mt-auto cursor-pointer rounded-lg border border-gray-200 px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Replace art
         </button>

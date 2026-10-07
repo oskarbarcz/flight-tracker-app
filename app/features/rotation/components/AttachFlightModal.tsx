@@ -54,9 +54,9 @@ export function AttachFlightModal({ operatorId, leg, onAttach, onClose }: Props)
       </ModalHeader>
       <ModalBody className="text-gray-900 dark:text-gray-100">
         {loading ? (
-          <p className="text-sm text-gray-500">Loading matching flights…</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Loading matching flights…</p>
         ) : flights.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40">
+          <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-500 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-900/40">
             No available <span className="font-semibold">{leg.flightNumber}</span> flight ({leg.departure.iataCode} →{" "}
             {leg.arrival.iataCode}) was found. Create one in “Plan new flight” first.
           </div>
@@ -71,7 +71,7 @@ export function AttachFlightModal({ operatorId, leg, onAttach, onClose }: Props)
                   <span className="block font-mono font-semibold text-gray-900 dark:text-white">
                     {flight.flightNumber}
                   </span>
-                  <span className="block text-xs text-gray-500">
+                  <span className="block text-xs text-gray-500 dark:text-gray-400">
                     {flight.departureAirport.iataCode} → {flight.destinationAirport.iataCode} ·{" "}
                     {flight.aircraft.registration}
                   </span>

@@ -52,7 +52,7 @@ export function HowItWorksSection() {
       role: "pilot",
       title: "Check In",
       description:
-        "Pilot checks into the cockpit via the EFB. Securely claim your generated flight, review the Operator's prepared briefing data, verify the loadsheet, and initialize the aircraft systems.",
+        "Pilot checks into the cockpit via the EFB. Securely claim your generated flight, review the Operator’s prepared briefing data, verify the loadsheet, and initialize the aircraft systems.",
       icon: FaClipboardCheck,
     },
     {
@@ -88,7 +88,7 @@ export function HowItWorksSection() {
       <div className="relative z-10 pb-0 md:pb-48">
         <div ref={sentinelRef} className="absolute top-0 h-16 w-full pointer-events-none" />
         <div
-          className={`sticky top-15 z-30 transition-all duration-500 ${
+          className={`sticky top-15 z-30 transition-[padding,background-color,border-color,box-shadow] duration-500 ${
             isStuck
               ? "bg-gray-50/90 dark:bg-[#0c0c0e]/90 backdrop-blur-xl py-4 md:py-8 border-b border-gray-200 dark:border-gray-800 shadow-md md:shadow-lg"
               : "bg-transparent py-12 border-b border-transparent shadow-none"

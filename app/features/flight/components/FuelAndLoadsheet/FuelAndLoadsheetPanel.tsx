@@ -58,7 +58,7 @@ export function FuelAndLoadsheetPanel({
         {fuelLoadsheet ? <FuelPlan fuel={fuelLoadsheet.fuel} timesheet={timesheet} /> : <EmptyState />}
       </Container>
 
-      <Container className="lg:col-span-2" header={<CardHeader title="Loadsheet" />}>
+      <Container className="@container lg:col-span-2" header={<CardHeader title="Loadsheet" />}>
         {hasAny && (
           <CardToolbar>
             <VariantSwitch
@@ -89,7 +89,7 @@ export function FuelAndLoadsheetPanel({
 function EmptyState() {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/40 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
-      <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
+      <HiInformationCircle className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
       <span>No loadsheet has been issued yet.</span>
     </div>
   );

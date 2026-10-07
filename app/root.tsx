@@ -90,20 +90,18 @@ export function NotFoundError() {
       <div className="w-24 h-1 mx-auto bg-gray-600 dark:bg-gray-400 my-6"></div>
       <h2 className="text-3xl font-semibold text-center text-indigo-500 mb-4">Page not found</h2>
       <p className="text-gray-600 mx-auto text-center dark:text-gray-400 max-w-md mb-8">
-        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+        No page in MyPreflight matches this address. Check the link, or go to your dashboard.
       </p>
-      <Link to="/" viewTransition replace className="text-center">
-        <Button color="indigo" outline className="mx-auto">
-          Return to homepage
-        </Button>
-      </Link>
+      <Button as={Link} to="/dashboard" viewTransition replace color="indigo" outline className="mx-auto w-fit">
+        Go to dashboard
+      </Button>
     </main>
   );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = "Page failed to load";
+  let details = "Reload the page to try again.";
   let stack: string | undefined;
 
   if (isUnauthorized(error) || (isRouteErrorResponse(error) && error.status === 401)) {
@@ -115,7 +113,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       return <NotFoundError />;
     }
 
-    message = error.status === 404 ? "404" : "Error";
+    message = error.status === 404 ? "404" : "Page failed to load";
     details = error.status === 404 ? "The requested page could not be found." : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;

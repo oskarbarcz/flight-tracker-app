@@ -20,14 +20,12 @@ export function RemoveGateModal({ gate, remove, cancel, isPending = false }: Pro
       </ModalHeader>
       <ModalBody>
         <p>
-          You are going to remove gate <span className="font-mono font-bold">{gate.name}</span>.
+          Remove gate <span className="font-mono font-bold">{gate.name}</span>?
         </p>
-        <p className="mt-3">
-          <span className="font-bold">This action is unrecoverable.</span> Are you sure to proceed?
-        </p>
+        <p className="mt-3">This cannot be undone.</p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: cancel }}
+        cancel={{ onClick: cancel }}
         confirm={{
           label: "Remove gate",
           onClick: () => remove(gate),

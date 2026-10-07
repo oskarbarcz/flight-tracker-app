@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { useEffect, useState } from "react";
-import { FaClockRotateLeft } from "react-icons/fa6";
+import { LuHistory } from "react-icons/lu";
 import { MapContainer } from "react-leaflet";
 import type { Diversion } from "~/features/diversion";
 import { type Flight, type FlightPathElement, Tracking } from "~/features/flight";
@@ -71,8 +71,8 @@ export function HistoryFlightMap({ flight, diversion = null }: Props) {
         />
       </MapContainer>
       <MapTopBar flightId={flight.id} canShare={flight.tracking !== Tracking.Disabled}>
-        <span className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
-          <FaClockRotateLeft className="size-3" />
+        <span className="flex items-center gap-2 text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
+          <LuHistory className="size-3" />
           Historic flight path
         </span>
       </MapTopBar>

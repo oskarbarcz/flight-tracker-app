@@ -48,7 +48,11 @@ export function UserAircraftHistoryElement({ entry }: Props) {
       </TableCell>
       <TableCell>{entry.livery}</TableCell>
       <TableCell>
-        <Link className="block text-primary-500 font-bold" to={`/aircraft-history/${entry.id}`} viewTransition>
+        <Link
+          className="block text-indigo-600 dark:text-indigo-400 font-bold"
+          to={`/aircraft-history/${entry.id}`}
+          viewTransition
+        >
           View
         </Link>
       </TableCell>

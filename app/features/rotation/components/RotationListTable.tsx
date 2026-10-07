@@ -36,23 +36,23 @@ export function RotationListTable({ operatorId, rotations, pilotNames }: Props) 
           return (
             <TableRow key={rotation.id} className="bg-white dark:bg-gray-900">
               <TableCell className="text-lg font-bold text-gray-900 dark:text-white">
-                <Link to={detailsPath} viewTransition className="hover:text-primary-500">
+                <Link to={detailsPath} viewTransition className="hover:text-indigo-600 dark:hover:text-indigo-400">
                   {rotation.name}
                 </Link>
               </TableCell>
               <TableCell>
-                <span className="block text-xs text-gray-500">
+                <span className="block text-xs text-gray-500 dark:text-gray-400">
                   {rotation.legs.length} {rotation.legs.length === 1 ? "leg" : "legs"}
                 </span>
                 {rotation.legs.length > 0 && (
                   <span className="mt-0.5 block font-mono text-sm">
                     {rotation.legs.map((leg, index) => (
                       <React.Fragment key={leg.id}>
-                        {index > 0 && <span className="text-gray-400">, </span>}
+                        {index > 0 && <span className="text-gray-500 dark:text-gray-400">, </span>}
                         <Link
                           to={detailsPath}
                           viewTransition
-                          className="font-semibold text-gray-900 hover:text-primary-500 dark:text-white"
+                          className="font-semibold text-gray-900 hover:text-indigo-600 dark:hover:text-indigo-400 dark:text-white"
                         >
                           {leg.flightNumber}
                         </Link>
@@ -70,7 +70,7 @@ export function RotationListTable({ operatorId, rotations, pilotNames }: Props) 
               </TableCell>
               <TableCell>
                 <Link
-                  className="inline-flex items-center gap-1.5 font-bold text-primary-500"
+                  className="inline-flex items-center gap-1.5 font-bold text-indigo-600 dark:text-indigo-400"
                   to={detailsPath}
                   viewTransition
                 >

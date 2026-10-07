@@ -12,9 +12,9 @@ const wrongCurrentPasswordMessage = "That is not your current password.";
 const notDifferentMessage = "Your new address must be different from the one you sign in with now.";
 const alreadyInUseMessage = "That address is already in use.";
 const noPasswordToProveMessage =
-  "This account signs in with Google and has no password to prove, so its address can't be changed here. Manage the address with Google instead.";
-const temporaryFailureMessage = "Couldn't request the change right now. Try again in a moment.";
-const rejectedChangeMessage = "The change couldn't be requested. Check the form and try again.";
+  "This account signs in with Google and has no password to prove, so its address can’t be changed here. Manage the address with Google instead.";
+const temporaryFailureMessage = "Couldn’t request the change right now. Try again in a moment.";
+const rejectedChangeMessage = "The change couldn’t be requested. Check the form and try again.";
 
 type FailureReason = {
   statusCode?: number;

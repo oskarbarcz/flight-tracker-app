@@ -16,8 +16,8 @@ export function TerminalListEmptyState({ airportId }: Props) {
     <TableEmptyState>
       <EmptyStateIcon icon={FaCircleInfo} color="blue" />
       <EmptyStateText
-        title="No terminals defined yet."
-        paragraph="Add the airport's terminals to organise gates and provide briefing notes for crews."
+        title="No terminals defined yet"
+        paragraph="Add the airport’s terminals to organise gates and provide briefing notes for crews."
       />
       <Button
         className="space-x-1.5 w-fit mx-auto"

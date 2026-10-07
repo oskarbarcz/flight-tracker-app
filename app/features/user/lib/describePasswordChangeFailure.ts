@@ -11,8 +11,8 @@ const wrongCurrentPasswordMessage = "That is not your current password.";
 const notDifferentMessage = "Your new password must be different from your current one.";
 const noPasswordToChangeMessage =
   "This account signs in with Google and has no password to change. Manage your password with Google instead.";
-const temporaryFailureMessage = "Couldn't change your password right now. Try again in a moment.";
-const rejectedChangeMessage = "Your password couldn't be changed. Check the form and try again.";
+const temporaryFailureMessage = "Couldn’t change your password right now. Try again in a moment.";
+const rejectedChangeMessage = "Your password couldn’t be changed. Check the form and try again.";
 
 type FailureReason = {
   statusCode?: number;

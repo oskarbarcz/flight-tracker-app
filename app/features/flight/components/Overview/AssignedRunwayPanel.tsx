@@ -27,8 +27,10 @@ export function AssignedRunwayPanel({ runway }: Props) {
   return (
     <div className="rounded-lg border border-indigo-200 bg-indigo-50/60 dark:border-indigo-900 dark:bg-indigo-950/40">
       <div className="flex items-center gap-2 px-3 py-2 border-b border-indigo-200/70 dark:border-indigo-900/70">
-        <LuArrowDownToLine className="rotate-180 text-indigo-500" size={14} />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-500">Runway</span>
+        <LuArrowDownToLine className="rotate-180 text-indigo-600 dark:text-indigo-400" size={14} />
+        <span className="text-2xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+          Runway
+        </span>
         <span className="ms-auto font-mono text-xl font-bold text-gray-900 dark:text-white">{runway.designator}</span>
       </div>
       <dl className="grid grid-cols-1 gap-x-4 gap-y-1 px-3 py-2.5 text-xs lg:grid-cols-2">

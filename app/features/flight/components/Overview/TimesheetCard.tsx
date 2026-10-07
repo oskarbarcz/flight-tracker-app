@@ -15,9 +15,9 @@ type Props = {
 
 export function TimesheetCard({ title, schedule, emptyMessage, footer }: Props) {
   return (
-    <Container header={<CardHeader title={title} />}>
+    <Container className="@container" header={<CardHeader title={title} />}>
       {schedule ? (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+        <div className="grid grid-cols-2 gap-2 @lg:grid-cols-5">
           <StatBlock label="DEP DATE">
             {schedule.offBlockTime ? <FormattedIcaoDate date={schedule.offBlockTime} /> : <Empty />}
           </StatBlock>
@@ -48,20 +48,22 @@ export function TimesheetCard({ title, schedule, emptyMessage, footer }: Props) 
 function StatBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-center min-w-22 dark:border-gray-800 dark:bg-gray-950">
-      <span className="block text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</span>
+      <span className="block text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+        {label}
+      </span>
       <span className="mt-0.5 block font-mono text-base font-bold text-gray-800 dark:text-gray-100">{children}</span>
     </div>
   );
 }
 
 function Empty() {
-  return <span className="text-gray-400">—</span>;
+  return <span className="text-gray-500 dark:text-gray-400">—</span>;
 }
 
 function EmptyState({ message }: { message: string }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/40 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
-      <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
+      <HiInformationCircle className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
       <span>{message}</span>
     </div>
   );

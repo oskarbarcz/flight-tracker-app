@@ -20,7 +20,7 @@ function RowHeadline({ request }: { request: ChangeRequest }) {
 
   if (label === null) {
     return (
-      <span className="truncate text-sm font-semibold text-gray-500 dark:text-gray-400">
+      <span className="truncate text-sm font-semibold text-gray-600 dark:text-gray-400">
         Deleted {noun.toLowerCase()}
       </span>
     );
@@ -66,7 +66,7 @@ export function ChangeRequestQueueRow({ request, competingCount, href, isSelecte
           <span className="flex min-w-0 items-baseline gap-2">
             <RowHeadline request={request} />
             {request.target && (
-              <span className="shrink-0 font-mono text-xs text-gray-500 dark:text-gray-400">
+              <span className="shrink-0 font-mono text-xs text-gray-600 dark:text-gray-400">
                 {request.target.airport.iataCode}
               </span>
             )}
@@ -74,7 +74,7 @@ export function ChangeRequestQueueRow({ request, competingCount, href, isSelecte
           <span className="truncate text-xs text-gray-700 dark:text-gray-300">
             {summarizeChangedFields(request.resource, request.changedFieldNames)}
           </span>
-          <span className="flex min-w-0 items-baseline gap-1 text-xs text-gray-500 dark:text-gray-400">
+          <span className="flex min-w-0 items-baseline gap-1 text-xs text-gray-600 dark:text-gray-400">
             <span className="truncate">{request.requestedBy.name}</span>
             {competingCount > 0 && (
               <span className="shrink-0">
@@ -89,7 +89,7 @@ export function ChangeRequestQueueRow({ request, competingCount, href, isSelecte
             <time
               dateTime={request.createdAt.toISOString()}
               title="Waiting since submission"
-              className="font-mono text-xs tabular-nums text-gray-500 dark:text-gray-400"
+              className="font-mono text-xs tabular-nums text-gray-600 dark:text-gray-400"
             >
               {formatWaitingTime(request.createdAt)}
             </time>

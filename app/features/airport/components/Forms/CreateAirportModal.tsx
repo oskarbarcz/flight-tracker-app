@@ -28,7 +28,7 @@ export function CreateAirportModal({ close, onCreated }: Props) {
       success(`Airport ${created.iataCode} created.`);
       onCreated(created);
     } catch (err) {
-      handleFormikApiError<CreateAirportFormData>(err, setErrors, error, "Failed to create airport.");
+      handleFormikApiError<CreateAirportFormData>(err, setErrors, error, "Failed to create airport. Try again.");
     } finally {
       setSubmitting(false);
     }

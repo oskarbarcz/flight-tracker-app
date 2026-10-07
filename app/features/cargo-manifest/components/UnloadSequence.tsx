@@ -22,7 +22,7 @@ export function UnloadSequence({ sequence, holdDataNote }: Props) {
       <ol className="divide-y divide-gray-200 dark:divide-gray-800">
         {sequence.order.map((entry, index) => (
           <li key={entry.unit.uldCode ?? `lot-${index}`} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5">
-            <span className="w-6 shrink-0 font-mono text-sm tabular-nums text-gray-400 dark:text-gray-500">
+            <span className="w-6 shrink-0 font-mono text-sm tabular-nums text-gray-500 dark:text-gray-400">
               {index + 1}
             </span>
             <span className="font-mono text-sm font-bold text-gray-900 dark:text-white">
@@ -46,7 +46,7 @@ export function UnloadSequence({ sequence, holdDataNote }: Props) {
 
       {sequence.remainingAboard.length > 0 && (
         <div className="flex flex-col gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 dark:bg-gray-800">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <span className="text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             Stays aboard
           </span>
           <ul className="flex flex-col gap-1">

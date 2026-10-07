@@ -56,13 +56,13 @@ export function RouteChart({ flight, briefing, state }: Props) {
       </MapContainer>
 
       <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
-        <span className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
+        <span className="flex items-center gap-2 text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
           <FaDrawPolygon className="size-3" />
           Planned route
         </span>
       </MapTopBar>
 
-      <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-[11px] text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
+      <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-2xs text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
         ©{" "}
         <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="hover:underline">
           OpenStreetMap

@@ -20,7 +20,7 @@ function changeSummary(result: CabinLayoutSyncResult): string {
 function Count({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <dt className="text-[10px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</dt>
+      <dt className="text-2xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</dt>
       <dd className="font-mono text-sm font-bold tabular-nums text-gray-900 dark:text-gray-100">{value}</dd>
     </div>
   );

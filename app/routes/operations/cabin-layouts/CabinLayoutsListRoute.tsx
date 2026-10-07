@@ -158,7 +158,7 @@ export default function CabinLayoutsListRoute() {
           <div className="mb-3 flex items-baseline justify-between gap-3">
             <FieldLabel>
               {isFiltering ? "Matching layouts" : "All layouts"}
-              <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-400 dark:text-gray-500">
+              <span className="ms-2 font-mono tracking-normal tabular-nums text-gray-500 dark:text-gray-400">
                 {layouts.total}
               </span>
             </FieldLabel>
@@ -173,7 +173,7 @@ export default function CabinLayoutsListRoute() {
             <TableEmptyState>
               <EmptyStateIcon icon={FaCircleInfo} color="blue" />
               <EmptyStateText
-                title="No cabin layouts match your filters."
+                title="No cabin layouts match your filters"
                 paragraph="Try a different airline code, aircraft type or status."
               />
               <Button
@@ -190,7 +190,7 @@ export default function CabinLayoutsListRoute() {
             <TableEmptyState>
               <EmptyStateIcon icon={FaCircleInfo} color="blue" />
               <EmptyStateText
-                title="The catalogue is empty."
+                title="The catalogue is empty"
                 paragraph="Refresh it against LOPA to read the layouts it publishes."
               />
             </TableEmptyState>

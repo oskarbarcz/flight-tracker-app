@@ -38,6 +38,7 @@ type State = {
   flight: Flight | null;
   loadsheets: Loadsheets;
   emergencies: Emergency[];
+  emergenciesLoadFailed: boolean;
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
   loading: boolean;
@@ -50,6 +51,7 @@ const initialState: State = {
   loadsheets: NO_LOADSHEETS,
   events: [],
   emergencies: [],
+  emergenciesLoadFailed: false,
   diversion: null,
   delayRequest: null,
   loading: false,
@@ -62,6 +64,7 @@ type Action =
   | { type: "SET_TRACKED_FLIGHT_EVENTS"; payload: FlightEvent[] }
   | { type: "PREPEND_TRACKED_FLIGHT_EVENT"; payload: FlightEvent }
   | { type: "SET_TRACKED_FLIGHT_EMERGENCIES"; payload: Emergency[] }
+  | { type: "SET_TRACKED_FLIGHT_EMERGENCIES_LOAD_FAILED" }
   | { type: "SET_TRACKED_FLIGHT_DIVERSION"; payload: Diversion | null }
   | { type: "SET_TRACKED_FLIGHT_DELAY"; payload: DelayRequest | null }
   | { type: "SET_LOADING"; payload: boolean }
@@ -80,7 +83,9 @@ const reducer = (state: State, action: Action): State => {
       if (action.payload.id && state.events.some((event) => event.id === action.payload.id)) return state;
       return { ...state, events: [action.payload, ...state.events] };
     case "SET_TRACKED_FLIGHT_EMERGENCIES":
-      return { ...state, emergencies: action.payload };
+      return { ...state, emergencies: action.payload, emergenciesLoadFailed: false };
+    case "SET_TRACKED_FLIGHT_EMERGENCIES_LOAD_FAILED":
+      return { ...state, emergenciesLoadFailed: true };
     case "SET_TRACKED_FLIGHT_DIVERSION":
       return { ...state, diversion: action.payload };
     case "SET_TRACKED_FLIGHT_DELAY":
@@ -101,6 +106,7 @@ type TrackedFlightContextType = {
   loadsheets: Loadsheets;
   events: FlightEvent[];
   emergencies: Emergency[];
+  emergenciesLoadFailed: boolean;
   activeEmergency: Emergency | null;
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
@@ -135,6 +141,7 @@ const UseTrackedFlight = createContext<TrackedFlightContextType>({
   loadsheets: NO_LOADSHEETS,
   events: [],
   emergencies: [],
+  emergenciesLoadFailed: false,
   activeEmergency: null,
   diversion: null,
   delayRequest: null,
@@ -252,7 +259,10 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     emergencyService
       .listByFlight(state.flightId)
       .then((emergencies) => dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES", payload: emergencies }))
-      .catch((error) => console.error("Failed to load flight emergencies", error));
+      .catch((error) => {
+        console.error("Failed to load flight emergencies", error);
+        dispatch({ type: "SET_TRACKED_FLIGHT_EMERGENCIES_LOAD_FAILED" });
+      });
   }, [state.flightId, hasActiveEmergency, emergencyEventIds, emergencyService]);
 
   const checkIn = useCallback(
@@ -413,6 +423,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       loadsheets: state.loadsheets,
       events: state.events,
       emergencies: state.emergencies,
+      emergenciesLoadFailed: state.emergenciesLoadFailed,
       activeEmergency,
       diversion: state.diversion,
       delayRequest: state.delayRequest,
@@ -446,6 +457,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       state.loadsheets,
       state.events,
       state.emergencies,
+      state.emergenciesLoadFailed,
       activeEmergency,
       state.diversion,
       state.delayRequest,

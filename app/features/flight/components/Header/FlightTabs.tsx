@@ -46,7 +46,7 @@ export function FlightTabs({ id, showPlanTabs, hasActiveEmergency, hasPendingDel
       );
     }
     if (tab.path === "delays" && hasPendingDelays) {
-      return <span className="text-amber-600 dark:text-amber-500 font-semibold">{tab.title}</span>;
+      return <span className="text-amber-700 dark:text-amber-500 font-semibold">{tab.title}</span>;
     }
     return tab.title;
   };

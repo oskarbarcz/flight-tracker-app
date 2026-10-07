@@ -6,6 +6,7 @@ import { type FlightListTrailingColumn, statusColumn } from "~/features/flight/c
 import { operationsLinks } from "~/features/flight/components/List/FlightListLinks";
 import { FlightListEmptyState } from "~/features/flight/components/Table/FlightListEmptyState";
 import { useFlightList } from "~/features/flight/hooks/useFlightList";
+import { LoadFailedState } from "~/shared/ui/Display/LoadFailedState";
 
 type Props = {
   phases: FlightPhase[];
@@ -24,7 +25,7 @@ export function FlightListView({
   onImport,
   importLoading,
 }: Props) {
-  const { flights, loading, totalCount, limit, reloadFlights } = useFlightList();
+  const { flights, loading, loadFailed, totalCount, limit, reloadFlights } = useFlightList();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
 
@@ -37,6 +38,12 @@ export function FlightListView({
     newParams.set("page", newPage.toString());
     setSearchParams(newParams);
   };
+
+  if (loadFailed) {
+    return (
+      <LoadFailedState title="Flights could not be retrieved." onRetry={() => reloadFlights(phases, currentPage)} />
+    );
+  }
 
   if (flights.length === 0 && !loading) {
     return (

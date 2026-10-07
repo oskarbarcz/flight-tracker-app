@@ -92,7 +92,7 @@ export function PhaseTimelineBox({ flight }: Props) {
 
       {!actualPresent && (
         <div className="flex items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-gray-50/50 px-3 py-2 text-xs text-gray-500 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-400">
-          <HiInformationCircle className="size-4 shrink-0 text-gray-400" />
+          <HiInformationCircle className="size-4 shrink-0 text-gray-500 dark:text-gray-400" />
           <span>No actual times were recorded for this flight.</span>
         </div>
       )}
@@ -115,14 +115,14 @@ function PhaseCallout({
   const hasDelta = delta !== null && delta !== 0;
   return (
     <div className="rounded-xl bg-gray-50 px-4 py-3 text-center dark:bg-gray-950">
-      <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{label}</div>
+      <div className="text-2xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</div>
       <div className="mt-1 font-mono text-lg font-bold text-gray-900 dark:text-white">
         {actualDate ? <FormattedIcaoTime date={actualDate} /> : <Empty />}
       </div>
       {hasDelta && (
         <div
-          className={`mt-1 text-[11px] leading-tight ${
-            delta > 0 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-300"
+          className={`mt-1 text-2xs leading-tight ${
+            delta > 0 ? "text-amber-700 dark:text-amber-400" : "text-emerald-700 dark:text-emerald-300"
           }`}
         >
           {describeDelta(delta, baselineLabel)}
@@ -152,7 +152,7 @@ function DurationRow({
   return (
     <div className="rounded-xl bg-gray-50 px-4 py-3 dark:bg-gray-950">
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">{label}</span>
+        <span className="text-2xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{label}</span>
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-xs">
           <TotalCell label="Actual" value={formatHm(actualMin)} strong />
           <TotalCell label="Estimated" value={formatHm(estimatedMin)} />
@@ -161,8 +161,8 @@ function DurationRow({
       </div>
       {hasDelta && (
         <div
-          className={`mt-2 text-[11px] ${
-            delta > 0 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-300"
+          className={`mt-2 text-2xs ${
+            delta > 0 ? "text-amber-700 dark:text-amber-400" : "text-emerald-700 dark:text-emerald-300"
           }`}
         >
           {describeDelta(delta, baselineLabel)}
@@ -183,11 +183,11 @@ function TotalCell({
   strong?: boolean;
   muted?: boolean;
 }) {
-  const labelClass = muted ? "text-gray-400 dark:text-gray-500" : "text-gray-500";
+  const labelClass = muted ? "text-gray-500 dark:text-gray-400" : "text-gray-500 dark:text-gray-400";
   const valueClass = strong
     ? "font-mono text-base font-bold text-gray-900 dark:text-white"
     : muted
-      ? "font-mono text-gray-400 dark:text-gray-500"
+      ? "font-mono text-gray-500 dark:text-gray-400"
       : "font-mono text-gray-600 dark:text-gray-300";
   return (
     <span className="inline-flex items-baseline gap-2">
@@ -198,5 +198,5 @@ function TotalCell({
 }
 
 function Empty() {
-  return <span className="text-gray-400">—</span>;
+  return <span className="text-gray-500 dark:text-gray-400">—</span>;
 }

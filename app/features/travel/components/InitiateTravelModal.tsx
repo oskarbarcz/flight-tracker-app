@@ -8,6 +8,7 @@ import { TravelDestinationField } from "~/features/travel/components/TravelDesti
 import { initiateTravelSchema } from "~/features/travel/schema";
 import { useApi } from "~/shared/api/useApi";
 import { handleFormikApiError } from "~/shared/lib/handleFormikApiError";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -33,7 +34,12 @@ export function InitiateTravelModal({ close, onTravelCreated, currentAirportId }
       onTravelCreated();
       close();
     } catch (err) {
-      handleFormikApiError<InitiateTravelFormData>(err, setErrors, error, "Failed to initiate company travel.");
+      handleFormikApiError<InitiateTravelFormData>(
+        err,
+        setErrors,
+        error,
+        "Failed to initiate company travel. Try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -56,6 +62,7 @@ export function InitiateTravelModal({ close, onTravelCreated, currentAirportId }
         >
           {({ isSubmitting }) => (
             <FormikForm id="initiateTravelForm" noValidate>
+              <FocusFirstError />
               <TravelDestinationField excludeAirportId={currentAirportId} />
               <div className="hidden">
                 <button type="submit" disabled={isSubmitting}>

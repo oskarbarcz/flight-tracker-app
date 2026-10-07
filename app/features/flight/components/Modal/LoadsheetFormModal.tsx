@@ -126,7 +126,7 @@ export function LoadsheetFormModal({
         note={`Step ${index + 1} of ${steps.length}`}
         cancel={
           index === 0
-            ? { label: "Back", onClick: cancel }
+            ? { onClick: cancel }
             : { label: "Back", onClick: () => setStep(steps[index - 1]), animateExit: false }
         }
         confirm={{

@@ -20,7 +20,7 @@ export function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
             <Link
               key={flight.id}
               to={`/track/${flight.id}`}
-              className="block font-mono text-xs text-gray-500 hover:text-indigo-500"
+              className="block font-mono text-xs text-gray-500 dark:text-gray-400 hover:text-indigo-500"
               viewTransition
             >
               {flight.flightNumber} [{tags.join(", ")}]

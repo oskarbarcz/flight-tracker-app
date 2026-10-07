@@ -8,6 +8,7 @@ import { RotationTmi } from "~/features/rotation/components/RotationTmi";
 import type { CreateRotationRequest } from "~/features/rotation/request";
 import { createRotationSchema } from "~/features/rotation/schema";
 import { useApi } from "~/shared/api/useApi";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloatingInputBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -27,7 +28,7 @@ export function RotationModal({ operatorId, onClose }: Props) {
       const rotation = await rotationService.create(operatorId, values);
       navigate(`/operators/${operatorId}/rotations/${rotation.id}`, { viewTransition: true });
     } catch (creationError) {
-      error((creationError as { message?: string })?.message ?? "Could not create the rotation.");
+      error((creationError as { message?: string })?.message ?? "Could not create the rotation. Try again.");
     }
   };
 
@@ -43,12 +44,13 @@ export function RotationModal({ operatorId, onClose }: Props) {
       >
         {({ errors, touched, setFieldValue }) => (
           <Form className="flex min-h-0 flex-1 flex-col">
+            <FocusFirstError />
             <ModalBody className="flex flex-col gap-4">
               <RotationTmi />
               <ManagedFloatingInputBlock field="name" label="Rotation name" />
               <PilotLicenseInputBlock
                 htmlName="pilotId"
-                label="Assigned pilot"
+                label="Pilot license ID"
                 setFieldValue={setFieldValue}
                 errors={touched.pilotId && errors.pilotId ? [errors.pilotId] : []}
               />

@@ -22,7 +22,7 @@ type ChipProps = {
 };
 
 const SHELL =
-  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300";
+  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500";
 
 const ACTIVE =
   "border-indigo-300 bg-indigo-50 text-indigo-800 dark:border-indigo-500/50 dark:bg-indigo-900/30 dark:text-indigo-200";
@@ -63,7 +63,7 @@ export function PostcardAttentionStrip({
         icon={LuCircleAlert}
         label="failed"
         value={count(PostcardStatus.Failed)}
-        tone="text-red-500"
+        tone="text-red-700 dark:text-red-400"
         active={statuses.includes(PostcardStatus.Failed)}
         onClick={() => onToggleStatus(PostcardStatus.Failed)}
       />
@@ -71,7 +71,7 @@ export function PostcardAttentionStrip({
         icon={LuLoaderCircle}
         label="being drawn"
         value={count(PostcardStatus.Pending)}
-        tone="text-sky-500"
+        tone="text-sky-700 dark:text-sky-400"
         active={statuses.includes(PostcardStatus.Pending)}
         onClick={() => onToggleStatus(PostcardStatus.Pending)}
       />
@@ -79,7 +79,7 @@ export function PostcardAttentionStrip({
         icon={LuCircleDashed}
         label="cities with no postcard"
         value={citiesWithoutPostcard}
-        tone="text-gray-400"
+        tone="text-gray-500 dark:text-gray-400"
         active={showingCitiesWithoutPostcard}
         onClick={onToggleCitiesWithoutPostcard}
       />

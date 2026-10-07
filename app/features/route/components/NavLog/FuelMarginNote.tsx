@@ -29,7 +29,7 @@ export function FuelMarginNote({ margin, onSelect }: Props) {
       <button
         type="button"
         onClick={() => onSelect(fix.ordinal)}
-        className="rounded font-mono font-bold text-indigo-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 dark:text-indigo-400"
+        className="rounded font-mono font-bold text-indigo-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-400"
       >
         {fix.ident}
       </button>

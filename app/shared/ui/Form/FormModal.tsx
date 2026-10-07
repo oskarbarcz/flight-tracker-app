@@ -2,6 +2,7 @@ import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Formik, Form as FormikForm, type FormikHelpers, type FormikValues } from "formik";
 import React from "react";
 import type { ObjectSchema } from "yup";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { FormDensityProvider } from "~/shared/ui/Form/formDensity";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -42,6 +43,7 @@ export function FormModal<T extends FormikValues>({
       >
         {({ isSubmitting }) => (
           <FormikForm noValidate className="flex min-h-0 flex-1 flex-col">
+            <FocusFirstError />
             <ModalBody>
               <FormDensityProvider density="compact">{children}</FormDensityProvider>
             </ModalBody>

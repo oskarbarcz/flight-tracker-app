@@ -22,11 +22,11 @@ export default function AirportParkingPositionsRoute() {
     setIsRemoving(true);
     try {
       await parkingPositionService.remove(airport.id, parkingPosition.id);
-      success(`Parking position ${parkingPosition.name} deleted.`);
+      success(`Parking stand ${parkingPosition.name} removed.`);
       setPendingRemove(null);
       revalidator.revalidate();
     } catch {
-      error("Failed to delete parking position.");
+      error("Failed to remove parking stand. Try again.");
     } finally {
       setIsRemoving(false);
     }

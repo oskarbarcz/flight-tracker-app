@@ -17,7 +17,7 @@ export function CheckInButton({ disabled, tone, label }: FlightProgressButtonPro
       .then(() => setShowModal(false))
       .catch((err: unknown) => {
         console.error("Failed to check in", err);
-        error("Could not check in. Please try again.");
+        error("Could not check in. Try again.");
       });
   };
 

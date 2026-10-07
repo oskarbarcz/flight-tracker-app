@@ -28,7 +28,7 @@ export function PilotRotationSummaryCard({ rotation }: Props) {
     <Link
       to={`/rotations/${rotation.id}`}
       viewTransition
-      className="block rounded-2xl border border-gray-200 bg-white p-5 transition-colors hover:border-indigo-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700"
+      className="block rounded-2xl border border-gray-200 bg-white p-5 transition-colors hover:border-indigo-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700"
     >
       <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
         <h3 className="min-w-0 break-words text-lg font-bold text-gray-900 dark:text-white">{rotation.name}</h3>

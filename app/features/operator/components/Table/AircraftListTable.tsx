@@ -65,7 +65,7 @@ export function AircraftListTable({ operatorId, aircraft, airports }: Props) {
                       <Link
                         to={`/operators/${operatorId}/aircraft/${each.id}`}
                         viewTransition
-                        className="block font-mono text-lg font-bold hover:text-primary-500"
+                        className="block font-mono text-lg font-bold hover:text-indigo-600 dark:hover:text-indigo-400"
                       >
                         {each.registration}
                       </Link>
@@ -93,7 +93,7 @@ export function AircraftListTable({ operatorId, aircraft, airports }: Props) {
                   {baseAirport ? (
                     <AircraftAirportRow airport={baseAirport} />
                   ) : (
-                    <span className="text-gray-400">—</span>
+                    <span className="text-gray-500 dark:text-gray-400">—</span>
                   )}
                 </TableCell>
                 <TableCell>{each.livery}</TableCell>
@@ -102,7 +102,7 @@ export function AircraftListTable({ operatorId, aircraft, airports }: Props) {
                 </TableCell>
                 <TableCell>
                   <Link
-                    className="inline-flex items-center gap-1.5 text-primary-500 font-bold"
+                    className="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 font-bold"
                     to={`/operators/${operatorId}/aircraft/${each.id}`}
                     viewTransition
                   >

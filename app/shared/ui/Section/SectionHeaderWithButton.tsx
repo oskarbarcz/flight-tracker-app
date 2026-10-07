@@ -18,36 +18,50 @@ type Props = {
   secondaryButton?: ActionButton;
 };
 
+const actionButtonClassName = "cursor-pointer shrink-0 whitespace-nowrap";
+
 function ActionButton({ button }: { button: ActionButton }) {
   const content = (
-    <Button
-      size="sm"
-      color={button.color}
-      className="cursor-pointer"
-      onClick={button.onClick}
-      disabled={button.disabled}
-    >
+    <>
       {button.icon && <span className="mr-2">{button.icon}</span>}
       {button.text}
-    </Button>
+    </>
   );
 
-  if (button.url) {
+  if (button.url && !button.disabled) {
     return (
-      <Link to={button.url} viewTransition={button.viewTransition ?? true}>
+      <Button
+        as={Link}
+        to={button.url}
+        viewTransition={button.viewTransition ?? true}
+        size="sm"
+        color={button.color}
+        className={actionButtonClassName}
+        onClick={button.onClick}
+      >
         {content}
-      </Link>
+      </Button>
     );
   }
 
-  return content;
+  return (
+    <Button
+      size="sm"
+      color={button.color}
+      className={actionButtonClassName}
+      onClick={button.onClick}
+      disabled={button.disabled}
+    >
+      {content}
+    </Button>
+  );
 }
 
 export function SectionHeaderWithButton({ sectionTitle, primaryButton, secondaryButton }: Props) {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h2>
-      <div className="flex gap-2 flex-row flex-wrap [&_button]:shrink-0 [&_button]:whitespace-nowrap">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{sectionTitle}</h1>
+      <div className="flex gap-2 flex-row flex-wrap">
         {secondaryButton && <ActionButton button={secondaryButton} />}
         {primaryButton && <ActionButton button={primaryButton} />}
       </div>

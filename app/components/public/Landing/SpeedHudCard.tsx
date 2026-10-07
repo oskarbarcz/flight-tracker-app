@@ -6,7 +6,7 @@ export function SpeedHudCard({ compact = false }: { compact?: boolean }) {
     <HudCard compact={compact}>
       <div className="flex justify-between items-center mb-2">
         <span className="text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-widest">Speed</span>
-        <span className="text-[10px] text-green-600 dark:text-green-400 font-mono bg-green-100 dark:bg-green-400/10 px-2 py-0.5 rounded-full border border-green-200 dark:border-green-400/20">
+        <span className="text-2xs text-green-600 dark:text-green-400 font-mono bg-green-100 dark:bg-green-400/10 px-2 py-0.5 rounded-full border border-green-200 dark:border-green-400/20">
           LIVE
         </span>
       </div>

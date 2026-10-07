@@ -67,10 +67,10 @@ export function CurrentFlightBox({ flight }: Props) {
           <span className="font-mono text-xl font-bold tabular-nums text-gray-900 dark:text-white">
             <FormattedIcaoTime date={estimatedReference} />
           </span>
-          <span className="mt-0.5 flex items-center justify-end gap-1.5 text-xs uppercase tracking-wide text-gray-500">
+          <span className="mt-0.5 flex items-center justify-end gap-1.5 text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
             {showDeparture ? "Est. departure" : "Est. arrival"}
             {delayMinutes > 0 && (
-              <span className="inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-[11px] font-bold normal-case text-amber-700 dark:bg-amber-950 dark:text-amber-400">
+              <span className="inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-2xs font-bold normal-case text-amber-700 dark:bg-amber-950 dark:text-amber-400">
                 +{delayMinutes}
               </span>
             )}
@@ -119,7 +119,7 @@ export function CurrentFlightBox({ flight }: Props) {
 
       <BoxFooter
         leading={
-          <div className="flex items-center text-xs text-gray-500">
+          <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
             <FaClock className="mr-1.5 inline" aria-hidden={true} />
             {referenceHasPassed ? overdueLabel : `${countdownLabel}${timeRemaining}`}
           </div>

@@ -33,7 +33,7 @@ export default function FlightLoadsheetRoute() {
     } catch (reason: unknown) {
       error(
         describeLoadsheetRefusal(reason, flight.aircraft.cabinLayout?.id ?? null) ??
-          "Failed to update preliminary loadsheet.",
+          "Failed to update preliminary loadsheet. Try again.",
       );
     }
   };

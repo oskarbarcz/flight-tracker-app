@@ -20,7 +20,7 @@ export function FuelPlan({ fuel, timesheet }: Props) {
   if (!fuel) {
     return (
       <div className="flex items-center gap-3 rounded-lg border border-dashed border-gray-300 bg-gray-50/40 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
-        <HiInformationCircle className="size-5 shrink-0 text-gray-400" />
+        <HiInformationCircle className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
         <span>Fuel figures are not available for this loadsheet.</span>
       </div>
     );
@@ -110,7 +110,7 @@ export function FuelPlan({ fuel, timesheet }: Props) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="mb-1 text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{title}</h3>
+      <h3 className="mb-1 text-2xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{title}</h3>
       {children}
     </div>
   );
@@ -123,7 +123,7 @@ function TankGauge({ block, capacity }: { block: number; capacity: number }) {
       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
         <div className="h-full rounded-full bg-indigo-500" style={{ width: `${percent}%` }} />
       </div>
-      <div className="mt-1 text-[10px] font-medium text-gray-500 dark:text-gray-400">
+      <div className="mt-1 text-xs font-medium text-gray-500 dark:text-gray-400">
         {percent}% · {formatTons(block)} of {formatTons(capacity)} t tanks
       </div>
     </div>

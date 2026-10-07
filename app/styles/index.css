@@ -16,6 +16,10 @@
 @theme {
   --font-sans: "Noto Sans", sans-serif;
   --font-display: "Noto Sans", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+  --text-2xs: 0.6875rem;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.08em;
   --color-discord: #5865f2;
   --color-discord-light: #949cf7;
   --color-discord-chat: #313338;

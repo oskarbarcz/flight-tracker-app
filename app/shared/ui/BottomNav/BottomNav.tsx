@@ -1,9 +1,15 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { FaPlane } from "react-icons/fa";
-import { FaChartColumn, FaPlaneDeparture, FaRegClock } from "react-icons/fa6";
-import { GrDocumentTime } from "react-icons/gr";
-import { HiHome, HiOutlineUser } from "react-icons/hi";
-import { LuFileDiff, LuTowerControl } from "react-icons/lu";
+import {
+  LuChartColumn,
+  LuClock,
+  LuFileClock,
+  LuFileDiff,
+  LuHouse,
+  LuPlane,
+  LuPlaneTakeoff,
+  LuTowerControl,
+  LuUser,
+} from "react-icons/lu";
 import { useLocation } from "react-router";
 import { useAuth } from "~/app-state/useAuth";
 import { usePendingChangeRequestCount } from "~/features/change-request/hooks/usePendingChangeRequests";
@@ -29,7 +35,7 @@ function usePilotTabs(path: string): Tab[] {
   return [
     {
       label: "Home",
-      icon: HiHome,
+      icon: LuHouse,
       to: "/dashboard",
       isActive: path === "/dashboard" || path === "/",
     },
@@ -41,20 +47,20 @@ function usePilotTabs(path: string): Tab[] {
     },
     {
       label: "Tracking",
-      icon: FaPlane,
+      icon: LuPlane,
       to: currentFlight ? `/track/${currentFlight.id}` : null,
       isActive: path.startsWith("/track"),
       isRaised: true,
     },
     {
       label: "Statistics",
-      icon: FaChartColumn,
+      icon: LuChartColumn,
       to: "/stats",
       isActive: path.startsWith("/stats"),
     },
     {
       label: "Profile",
-      icon: HiOutlineUser,
+      icon: LuUser,
       to: "/me",
       isActive:
         path === "/me" ||
@@ -72,26 +78,26 @@ function useOperationsTabs(path: string): Tab[] {
   return [
     {
       label: "Flight plans",
-      icon: GrDocumentTime,
+      icon: LuFileClock,
       to: "/flights",
       isActive: path.startsWith("/flights"),
     },
     {
       label: "Current",
-      icon: FaPlaneDeparture,
+      icon: LuPlaneTakeoff,
       to: "/current-flights",
       isActive: path.startsWith("/current-flights"),
     },
     {
       label: "Delays",
-      icon: FaRegClock,
+      icon: LuClock,
       to: "/delays",
       isActive: path.startsWith("/delays"),
       badge: pendingDelays,
     },
     {
       label: "Profile",
-      icon: HiOutlineUser,
+      icon: LuUser,
       to: "/me",
       isActive:
         path === "/me" ||
@@ -119,7 +125,7 @@ function useAdminTabs(path: string): Tab[] {
     },
     {
       label: "Profile",
-      icon: HiOutlineUser,
+      icon: LuUser,
       to: "/me",
       isActive: path.startsWith("/me"),
     },

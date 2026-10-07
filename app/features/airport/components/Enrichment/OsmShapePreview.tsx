@@ -9,7 +9,7 @@ type Props = {
 
 function LegendEntry({ swatch, label }: { swatch: React.ReactNode; label: string }) {
   return (
-    <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+    <span className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
       {swatch}
       {label}
     </span>

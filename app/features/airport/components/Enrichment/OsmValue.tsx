@@ -35,7 +35,7 @@ export function OsmValue({ field, value }: Props) {
   switch (view.kind) {
     case "empty":
       return (
-        <span className="text-gray-400 dark:text-gray-500">
+        <span className="text-gray-500 dark:text-gray-400">
           <span aria-hidden={true}>—</span>
           <span className="sr-only">not set</span>
         </span>

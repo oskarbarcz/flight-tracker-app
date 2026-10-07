@@ -154,7 +154,7 @@ export default function FlightOverviewRoute() {
             {canChangeDepartureParkingPosition && (
               <Button color="gray" outline size="xs" onClick={() => setOpenModal("departureParkingPosition")}>
                 <HiOutlineLocationMarker className="me-1.5" />
-                {departureParkingPosition ? "Change parking position" : "Set parking position"}
+                {departureParkingPosition ? "Change parking stand" : "Set parking stand"}
               </Button>
             )}
             {canChangeDepartureRunway && (
@@ -166,7 +166,7 @@ export default function FlightOverviewRoute() {
             <Link
               to={`/airports/${flight.departureAirport.id}`}
               viewTransition
-              className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+              className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               View airport
               <FaArrowRight size={12} />
@@ -196,7 +196,7 @@ export default function FlightOverviewRoute() {
             {canChangeArrivalParkingPosition && (
               <Button color="gray" outline size="xs" onClick={() => setOpenModal("arrivalParkingPosition")}>
                 <HiOutlineLocationMarker className="me-1.5" />
-                {arrivalParkingPosition ? "Change parking position" : "Set parking position"}
+                {arrivalParkingPosition ? "Change parking stand" : "Set parking stand"}
               </Button>
             )}
             {canChangeArrivalRunway && (
@@ -208,7 +208,7 @@ export default function FlightOverviewRoute() {
             <Link
               to={`/airports/${flight.destinationAirport.id}`}
               viewTransition
-              className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+              className="ms-auto inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               View airport
               <FaArrowRight size={12} />
@@ -226,7 +226,7 @@ export default function FlightOverviewRoute() {
           <Link
             to={`/flights/${flight.id}/loadsheet`}
             viewTransition
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-primary-500 hover:underline"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
           >
             View details
             <FaArrowRight size={12} />
@@ -244,7 +244,7 @@ export default function FlightOverviewRoute() {
             handleSelect(
               () => flightService.assignDepartureRunway(flight.id, runwayId),
               "Departure runway updated.",
-              "Failed to update departure runway.",
+              "Failed to update departure runway. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -258,8 +258,8 @@ export default function FlightOverviewRoute() {
           select={(parkingPositionId) =>
             handleSelect(
               () => flightService.assignDepartureParkingPosition(flight.id, parkingPositionId),
-              "Departure parking position updated.",
-              "Failed to update departure parking position.",
+              "Departure parking stand updated.",
+              "Failed to update departure parking stand. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -274,7 +274,7 @@ export default function FlightOverviewRoute() {
             handleSelect(
               () => flightService.assignArrivalRunway(flight.id, runwayId),
               "Arrival runway updated.",
-              "Failed to update arrival runway.",
+              "Failed to update arrival runway. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}
@@ -288,8 +288,8 @@ export default function FlightOverviewRoute() {
           select={(parkingPositionId) =>
             handleSelect(
               () => flightService.assignArrivalParkingPosition(flight.id, parkingPositionId),
-              "Arrival parking position updated.",
-              "Failed to update arrival parking position.",
+              "Arrival parking stand updated.",
+              "Failed to update arrival parking stand. Try again.",
             )
           }
           cancel={() => setOpenModal(null)}

@@ -31,7 +31,7 @@ export function CreateRunwayModal({ airport, close }: Props) {
       close();
       revalidator.revalidate();
     } catch (err) {
-      handleFormikApiError<CreateRunwayFormData>(err, setErrors, error, "Failed to create runway.");
+      handleFormikApiError<CreateRunwayFormData>(err, setErrors, error, "Failed to create runway. Try again.");
     } finally {
       setSubmitting(false);
     }

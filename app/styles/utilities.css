@@ -47,9 +47,11 @@ input:-webkit-autofill:focus {
 .leaflet-control-zoom a.leaflet-control-zoom-in {
   @apply border-b border-gray-200 dark:border-gray-800;
 }
-.leaflet-control-zoom a.leaflet-control-zoom-in:hover,
-.leaflet-control-zoom a.leaflet-control-zoom-out:hover {
-  @apply bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white;
+@media (hover: hover) {
+  .leaflet-control-zoom a.leaflet-control-zoom-in:hover,
+  .leaflet-control-zoom a.leaflet-control-zoom-out:hover {
+    @apply bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white;
+  }
 }
 .leaflet-control-zoom a.leaflet-disabled {
   @apply cursor-not-allowed opacity-40;
@@ -78,7 +80,7 @@ input:-webkit-autofill:focus {
     0 0 5px #0b0e14;
 }
 .map-airport-label__code {
-  @apply font-mono font-extrabold text-[13px] text-indigo-600 dark:text-indigo-300;
+  @apply font-mono font-bold text-[13px] text-indigo-600 dark:text-indigo-300;
 }
 .map-airport-label__sep {
   @apply text-[13px] text-indigo-300 dark:text-indigo-500;
@@ -112,7 +114,7 @@ input:-webkit-autofill:focus {
     0 0 5px #0b0e14;
 }
 .map-etops-label__kind {
-  @apply font-mono text-[11px] font-extrabold uppercase tracking-wider text-gray-600 dark:text-gray-300;
+  @apply font-mono text-2xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300;
 }
 .map-etops-label--critical .map-etops-label__kind {
   @apply text-gray-900 dark:text-white;
@@ -156,11 +158,11 @@ input:-webkit-autofill:focus {
   @apply font-mono text-[13px] font-bold leading-none text-gray-900 dark:text-white;
 }
 .map-aircraft-label__registration {
-  @apply font-mono text-[9px] leading-none text-gray-500 dark:text-gray-400;
+  @apply font-mono text-2xs leading-none text-gray-500 dark:text-gray-400;
 }
 
 .leaflet-tooltip.map-terminal-label {
-  @apply font-bold text-[10px] text-amber-700 dark:text-amber-300;
+  @apply font-bold text-2xs text-amber-700 dark:text-amber-300;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -187,18 +189,20 @@ input:-webkit-autofill:focus {
     stroke-width 200ms ease,
     fill-opacity 200ms ease;
 }
-.terminal-polygon:hover {
-  fill-opacity: 0.22;
-}
 .dark .terminal-polygon {
   fill-opacity: 0.2;
 }
-.dark .terminal-polygon:hover {
-  fill-opacity: 0.38;
+@media (hover: hover) {
+  .terminal-polygon:hover {
+    fill-opacity: 0.22;
+  }
+  .dark .terminal-polygon:hover {
+    fill-opacity: 0.38;
+  }
 }
 
 .map-gate-chip {
-  @apply font-mono font-bold text-[10px];
+  @apply font-mono font-bold text-2xs;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -266,7 +270,7 @@ input:-webkit-autofill:focus {
   top: 9px;
   transform: translateX(-50%);
   white-space: nowrap;
-  @apply font-mono font-bold text-[10px];
+  @apply font-mono font-bold text-2xs;
   color: #047857;
   text-shadow:
     0 0 2px #fff,
@@ -278,9 +282,6 @@ input:-webkit-autofill:focus {
     0 0 2px #0b0e14,
     0 0 3px #0b0e14;
 }
-.map-parking__label--assigned {
-  font-weight: 800;
-}
 
 .map-runway-anchor {
   position: absolute;
@@ -289,7 +290,7 @@ input:-webkit-autofill:focus {
   transform: translate(-50%, -50%);
 }
 .map-runway-plate {
-  @apply rounded-[3px] bg-slate-900/85 px-1 py-px font-mono text-[10px] font-bold leading-none text-white;
+  @apply rounded-[3px] bg-slate-900/85 px-1 py-px font-mono text-2xs font-bold leading-none text-white;
   display: inline-block;
   white-space: nowrap;
   letter-spacing: 0.04em;
@@ -305,7 +306,7 @@ input:-webkit-autofill:focus {
 }
 
 .map-approach-label {
-  @apply font-mono text-[10px] font-bold text-indigo-700 dark:text-indigo-300;
+  @apply font-mono text-2xs font-bold text-indigo-700 dark:text-indigo-300;
   display: inline-block;
   white-space: nowrap;
   text-shadow:
@@ -511,53 +512,13 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
-.modal-body > *,
-.modal-body > :only-child > * {
-  animation: modal-content-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.modal-body > :nth-child(1),
-.modal-body > :only-child > :nth-child(1) {
-  animation-delay: 80ms;
-}
-.modal-body > :nth-child(2),
-.modal-body > :only-child > :nth-child(2) {
-  animation-delay: 100ms;
-}
-.modal-body > :nth-child(3),
-.modal-body > :only-child > :nth-child(3) {
-  animation-delay: 120ms;
-}
-.modal-body > :nth-child(4),
-.modal-body > :only-child > :nth-child(4) {
-  animation-delay: 140ms;
-}
-.modal-body > :nth-child(n + 5),
-.modal-body > :only-child > :nth-child(n + 5) {
-  animation-delay: 160ms;
-}
-
-@keyframes modal-content-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* Dismissal: the panel retreats toward the control that opened it, faster than it arrived. */
 .modal-scrim[data-modal-closing] {
   pointer-events: none;
-  animation: modal-scrim-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+  animation: modal-scrim-out 150ms ease-out both;
 }
 .modal-scrim[data-modal-closing] .modal-panel {
-  animation: modal-panel-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
-}
-.modal-scrim[data-modal-closing] .modal-body > *,
-.modal-scrim[data-modal-closing] .modal-body > :only-child > * {
-  animation: none;
+  animation: modal-panel-out 150ms ease-out both;
 }
 
 @keyframes modal-scrim-out {
@@ -601,7 +562,8 @@ button:not(:disabled),
 
   button:has(> svg:only-child),
   a:has(> svg:only-child),
-  [role="button"]:has(> svg:only-child) {
+  [role="button"]:has(> svg:only-child),
+  button:has(> [data-icon-swap]:only-child) {
     min-width: 44px;
   }
 
@@ -615,13 +577,41 @@ button:not(:disabled),
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .modal-scrim,
-  .modal-panel,
-  .modal-body > *,
-  .modal-body > :only-child > *,
-  .modal-scrim[data-modal-closing],
+  .modal-scrim {
+    animation-name: modal-scrim-fade-in;
+  }
+  .modal-panel {
+    animation-name: modal-panel-fade-in;
+  }
+  .modal-scrim[data-modal-closing] {
+    animation-name: modal-scrim-fade-out;
+  }
   .modal-scrim[data-modal-closing] .modal-panel {
-    animation: none;
+    animation-name: modal-panel-fade-out;
+  }
+}
+
+@keyframes modal-scrim-fade-in {
+  from {
+    background-color: rgb(var(--modal-scrim-color) / 0);
+  }
+}
+
+@keyframes modal-scrim-fade-out {
+  to {
+    background-color: rgb(var(--modal-scrim-color) / 0);
+  }
+}
+
+@keyframes modal-panel-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-panel-fade-out {
+  to {
+    opacity: 0;
   }
 }
 
@@ -739,20 +729,8 @@ button:not(:disabled),
   }
 }
 
-@keyframes nav-plane-cruise {
-  0%,
-  100% {
-    transform: translate3d(0, -12px, 0);
-  }
-  50% {
-    transform: translate3d(0, -18px, 0);
-  }
-}
-
 .nav-plane-flight {
-  animation:
-    nav-plane-settle 3400ms ease-in-out both,
-    nav-plane-cruise 2600ms ease-in-out 3400ms infinite;
+  animation: nav-plane-settle 3400ms ease-in-out both;
 }
 
 @keyframes nav-cloud-in {
@@ -764,31 +742,16 @@ button:not(:disabled),
   }
 }
 
-@keyframes nav-cloud-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(var(--cloud-drift), 0, 0);
-  }
-}
-
 .nav-cloud {
   position: absolute;
   color: #ffffff;
-  animation:
-    nav-cloud-in var(--cloud-duration) cubic-bezier(0.16, 1, 0.3, 1) var(--cloud-delay) both,
-    nav-cloud-drift var(--cloud-drift-duration) ease-in-out var(--cloud-drift-delay) infinite;
+  animation: nav-cloud-in var(--cloud-duration) cubic-bezier(0.16, 1, 0.3, 1) var(--cloud-delay) both;
 }
 
 .nav-cloud--far {
   --cloud-travel: 75px;
   --cloud-duration: 760ms;
   --cloud-delay: 90ms;
-  --cloud-drift: -5px;
-  --cloud-drift-duration: 26s;
-  --cloud-drift-delay: 850ms;
   opacity: 0.16;
 }
 
@@ -796,9 +759,6 @@ button:not(:disabled),
   --cloud-travel: 85px;
   --cloud-duration: 560ms;
   --cloud-delay: 40ms;
-  --cloud-drift: -8px;
-  --cloud-drift-duration: 18s;
-  --cloud-drift-delay: 600ms;
   opacity: 0.26;
 }
 
@@ -806,9 +766,6 @@ button:not(:disabled),
   --cloud-travel: 95px;
   --cloud-duration: 420ms;
   --cloud-delay: 0ms;
-  --cloud-drift: -12px;
-  --cloud-drift-duration: 12s;
-  --cloud-drift-delay: 420ms;
   opacity: 0.36;
 }
 
@@ -856,4 +813,63 @@ button:not(:disabled),
   .bottom-nav-rail {
     transition: none;
   }
+}
+
+.toast-enter {
+  animation: toast-fade-in 300ms ease-out both;
+}
+
+.toast-exit {
+  animation: toast-fade-out 150ms ease-out both;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toast-enter {
+    animation-name: toast-rise-in;
+  }
+
+  .toast-exit {
+    animation-name: toast-rise-out;
+  }
+}
+
+@keyframes toast-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes toast-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes toast-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes toast-rise-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+    filter: blur(4px);
+  }
+}
+
+:root {
+  --image-outline: oklch(0 0 0 / 0.1);
+}
+
+.dark {
+  --image-outline: oklch(1 0 0 / 0.1);
+}
+
+@utility image-outline {
+  outline: 1px solid var(--image-outline);
+  outline-offset: -1px;
 }

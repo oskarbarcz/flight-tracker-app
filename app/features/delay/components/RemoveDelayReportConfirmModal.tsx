@@ -4,6 +4,7 @@ import { useToast } from "~/app-state/useToast";
 import type { DelayReport } from "~/features/delay";
 import { translateDelayReasonCode } from "~/features/delay/i18n";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { apiErrorMessage } from "~/shared/lib/handleFormikApiError";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
@@ -24,7 +25,7 @@ export function RemoveDelayReportConfirmModal({ report, close }: Props) {
       success("Delay report removed.");
       close();
     } catch (err) {
-      const message = (err as { error?: string } | null)?.error ?? "Failed to remove delay report.";
+      const message = apiErrorMessage(err, "Failed to remove delay report. Try again.");
       error(message);
     } finally {
       setSubmitting(false);
@@ -44,7 +45,7 @@ export function RemoveDelayReportConfirmModal({ report, close }: Props) {
         </p>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back", onClick: close }}
+        cancel={{ onClick: close }}
         confirm={{ label: "Remove report", onClick: handleRemove, tone: "danger" }}
         pending={submitting}
       />

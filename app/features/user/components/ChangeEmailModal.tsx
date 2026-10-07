@@ -5,6 +5,7 @@ import { useAuth } from "~/app-state/useAuth";
 import { type ChangeEmailFormData, changeEmailSchema, initChangeEmailData } from "~/features/user";
 import { describeEmailChangeFailure } from "~/features/user/lib/describeEmailChangeFailure";
 import { useApi } from "~/shared/api/useApi";
+import { FocusFirstError } from "~/shared/ui/Form/FocusFirstError";
 import { ManagedInputBlock } from "~/shared/ui/Form/Managed/ManagedInputBlock";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
@@ -59,6 +60,7 @@ export function ChangeEmailModal({ close, onRequested, onUnavailable }: Props) {
           <>
             <ModalBody>
               <FormikForm id="changeEmailForm" noValidate>
+                <FocusFirstError />
                 <ul className="mb-5 list-disc space-y-1.5 pl-4 text-pretty text-sm text-gray-600 marker:text-gray-400 dark:text-gray-400">
                   <li>
                     We email a confirmation link to the new address. It works{" "}

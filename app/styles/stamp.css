@@ -39,9 +39,9 @@
 }
 
 .acceptance-stamp__line {
-  font-family: "Roboto Mono", monospace;
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  font-size: 0.5625rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 1.3;

@@ -1,17 +1,13 @@
 const activatorSelector = "button, a[href], [role='button'], summary";
 
-export const MODAL_EXIT_DURATION_MS = 180;
+export const MODAL_EXIT_DURATION_MS = 150;
 
 let lastActivatorCenter: { x: number; y: number } | null = null;
-
-function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
 
 export async function playModalExit(): Promise<void> {
   const scrim = document.querySelector<HTMLElement>('[role="dialog"]')?.closest<HTMLElement>(".modal-scrim");
 
-  if (!scrim || scrim.dataset.modalClosing !== undefined || prefersReducedMotion()) {
+  if (!scrim || scrim.dataset.modalClosing !== undefined) {
     return;
   }
 

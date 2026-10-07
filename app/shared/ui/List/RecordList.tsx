@@ -14,7 +14,7 @@ type Props = {
 
 export function RecordList({ layout, loading, page, totalPages, onPageChange, children }: Props) {
   return (
-    <div className="relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <div className="@container relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
       {loading && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-[1px] dark:bg-gray-900/50">
           <Spinner color="indigo" size="xl" />
