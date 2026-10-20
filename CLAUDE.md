@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## MyPreflight knowledge base
+
+This repo is part of MyPreflight. Product decisions, standards and architecture live in the knowledge base. Read it by URL before working here:
+
+- Start: https://raw.githubusercontent.com/mypreflight/product/main/CLAUDE.md
+- Standards: https://raw.githubusercontent.com/mypreflight/product/main/technology/frontend/standards.md
+- Architecture: https://raw.githubusercontent.com/mypreflight/product/main/technology/backend/architecture.md
+- Design rules: https://raw.githubusercontent.com/mypreflight/product/main/technology/frontend/design-rules.md
+
+Anything shared between repos belongs in the knowledge base; this file keeps what is specific to this repo. When your change alters product behaviour, also open a PR to the knowledge base updating the matching file.
+
 ## Project Overview
 
 MyPreflight is a frontend SPA for scheduling and tracking flights in a flight simulator environment. It manages flights, aircraft, airports, crews, and passengers with role-based access (Operations, Admin, CabinCrew).
