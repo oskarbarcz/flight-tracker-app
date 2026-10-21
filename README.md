@@ -174,7 +174,7 @@ Settings → Pages rather than a `CNAME` file, because `release.yaml` publishes 
 baked into the bundle — links are router-relative and the Discord `redirect_uri` and map share links are built from
 `window.location.origin` — but four registrations outside this repo are keyed to the origin and must name it: the DNS
 `CNAME` for `app`, the API's allowed CORS origins, the Discord redirect URI, and the Google authorized JavaScript
-origin. See the Deployment Domain section of `CLAUDE.md` for the migration details.
+origin. See the Deployment Domain section of `AGENTS.md` for the migration details.
 
 ## Contact
 
