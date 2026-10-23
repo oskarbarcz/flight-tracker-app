@@ -185,8 +185,7 @@ function RecentDays() {
         <LoadFailed subject="Your recent activity" />
       ) : (
         <>
-          <div
-            role="group"
+          <ul
             aria-label={`Block time per day, last ${DAYS} days`}
             className={twMerge(
               "mt-2.5 grid grid-cols-7 gap-1.5",
@@ -202,32 +201,35 @@ function RecentDays() {
                   : Math.max(SMALLEST_VISIBLE_SHARE, Math.round((day.totals.blockMinutes / scale) * 100));
 
               return (
-                <span
-                  key={toIsoDate(day.date)}
-                  ref={(node) => {
-                    bars.current[index] = node;
-                  }}
-                  role="img"
-                  aria-label={describeDay(day)}
-                  tabIndex={loading ? undefined : index === focusable ? 0 : -1}
-                  onMouseEnter={() => setSelected(index)}
-                  onFocus={() => {
-                    setSelected(index);
-                    setFocusable(index);
-                  }}
-                  onBlur={() => setSelected(null)}
-                  onKeyDown={(event) => moveFocus(event, index)}
-                  className={twMerge(
-                    "flex h-16 flex-col justify-end rounded-lg border bg-white p-0.5 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-gray-900 dark:focus-visible:ring-indigo-400",
-                    isToday ? "border-gray-900 dark:border-white" : "border-gray-200 dark:border-gray-700",
-                    selected === index && "border-indigo-500 dark:border-indigo-400",
-                  )}
-                >
-                  {!loading && share > 0 && <span className="rounded bg-indigo-500" style={{ height: `${share}%` }} />}
-                </span>
+                <li key={toIsoDate(day.date)}>
+                  <span
+                    ref={(node) => {
+                      bars.current[index] = node;
+                    }}
+                    role="img"
+                    aria-label={describeDay(day)}
+                    tabIndex={loading ? undefined : index === focusable ? 0 : -1}
+                    onMouseEnter={() => setSelected(index)}
+                    onFocus={() => {
+                      setSelected(index);
+                      setFocusable(index);
+                    }}
+                    onBlur={() => setSelected(null)}
+                    onKeyDown={(event) => moveFocus(event, index)}
+                    className={twMerge(
+                      "flex h-16 flex-col justify-end rounded-lg border bg-white p-0.5 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-gray-900 dark:focus-visible:ring-indigo-400",
+                      isToday ? "border-gray-900 dark:border-white" : "border-gray-200 dark:border-gray-700",
+                      selected === index && "border-indigo-500 dark:border-indigo-400",
+                    )}
+                  >
+                    {!loading && share > 0 && (
+                      <span className="rounded bg-indigo-500" style={{ height: `${share}%` }} />
+                    )}
+                  </span>
+                </li>
               );
             })}
-          </div>
+          </ul>
           <div className="mt-1.5 grid grid-cols-7 gap-1.5" aria-hidden={true}>
             {days.map((day) => {
               const isToday = toIsoDate(day.date) === todayKey;
