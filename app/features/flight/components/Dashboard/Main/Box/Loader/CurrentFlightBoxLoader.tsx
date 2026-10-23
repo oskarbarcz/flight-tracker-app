@@ -1,15 +1,20 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
-export function CurrentFlightBoxLoader() {
+type Props = {
+  expectsFlight: boolean;
+};
+
+export function CurrentFlightBoxLoader({ expectsFlight }: Props) {
   return (
     <Container
       padding="condensed"
-      className="hidden animate-pulse sm:flex"
+      className={twMerge("animate-pulse motion-reduce:animate-none", !expectsFlight && "hidden sm:flex")}
       header={<CardHeader title="Current flight" />}
     >
-      <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
+      <div className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div>
           <div className="h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
           <div className="h-5 w-20 bg-gray-200 dark:bg-gray-700 rounded-full mb-2" />
@@ -19,9 +24,9 @@ export function CurrentFlightBoxLoader() {
           <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded ml-auto mb-1" />
           <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded ml-auto" />
         </div>
-      </article>
+      </div>
 
-      <article className="flex items-center justify-between mb-8 gap-3">
+      <div className="flex items-center justify-between mb-8 gap-3">
         <div className="basis-1/3">
           <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
           <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
@@ -34,7 +39,7 @@ export function CurrentFlightBoxLoader() {
           <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
           <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
         </div>
-      </article>
+      </div>
 
       <div className="flex justify-between items-center">
         <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" />

@@ -8,7 +8,7 @@ export function NoCurrentFlightBox() {
   return (
     <Container padding="condensed" className="hidden sm:flex" header={<CardHeader title="Current flight" />}>
       <ContainerEmptyState>
-        <FaCircleInfo className="inline mr-2" />
+        <FaCircleInfo className="inline mr-2" aria-hidden={true} />
         <span>No ongoing flight now.</span>
       </ContainerEmptyState>
     </Container>

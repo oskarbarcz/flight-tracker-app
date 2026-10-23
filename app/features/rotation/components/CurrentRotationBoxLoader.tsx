@@ -4,7 +4,11 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 export function CurrentRotationBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse" header={<CardHeader title="Current rotation" />}>
+    <Container
+      padding="condensed"
+      className="animate-pulse motion-reduce:animate-none"
+      header={<CardHeader title="Current rotation" />}
+    >
       <div className="h-5 w-48 rounded bg-gray-200 dark:bg-gray-700" />
 
       <div className="flex flex-col gap-3">

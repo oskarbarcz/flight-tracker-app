@@ -5,21 +5,27 @@ import { useApi } from "~/shared/api/useApi";
 type Response = {
   stats: UserStats | null;
   loading: boolean;
+  failed: boolean;
 };
 
 export function useUserStats(): Response {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const { userService } = useApi();
 
   const fetchStats = useCallback(async () => {
     setLoading(true);
     userService
       .fetchUserStats()
-      .then(setStats)
+      .then((fetched) => {
+        setStats(fetched);
+        setFailed(false);
+      })
       .catch((err) => {
         console.error("Cannot fetch user stats", err);
         setStats(null);
+        setFailed(true);
       })
       .finally(() => setLoading(false));
   }, [userService]);
@@ -28,5 +34,5 @@ export function useUserStats(): Response {
     fetchStats();
   }, [fetchStats]);
 
-  return { stats, loading };
+  return { stats, loading, failed };
 }

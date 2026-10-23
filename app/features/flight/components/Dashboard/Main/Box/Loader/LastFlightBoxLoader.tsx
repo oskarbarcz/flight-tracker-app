@@ -4,15 +4,19 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 export function LastFlightBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse" header={<CardHeader title="Last flight" />}>
-      <article className="mt-2 mb-6 rounded-xl">
+    <Container
+      padding="condensed"
+      className="animate-pulse motion-reduce:animate-none"
+      header={<CardHeader title="Last flight" />}
+    >
+      <div className="mt-2 mb-6 rounded-xl">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="w-1/2 mb-4 inline-block align-top">
             <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
             <div className="h-5 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
           </div>
         ))}
-      </article>
+      </div>
 
       <div className="flex justify-end">
         <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded-lg" />

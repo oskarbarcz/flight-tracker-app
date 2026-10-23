@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import type { Flight } from "~/features/flight";
+import { useApi } from "~/shared/api/useApi";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
-type DebugFlightListBoxProps = {
-  flights: Flight[];
-};
+export function DebugFlightListBox() {
+  const { flightService } = useApi();
+  const [flights, setFlights] = useState<Flight[]>([]);
 
-export function DebugFlightListBox({ flights }: DebugFlightListBoxProps) {
+  useEffect(() => {
+    flightService
+      .fetchAllFlights()
+      .then((res) => setFlights(res.flights))
+      .catch((err) => console.error("Cannot fetch debug flight list", err));
+  }, [flightService]);
+
   return (
     <Container padding="condensed" header={<CardHeader title="Flight list [debug]" />}>
       <div className="flex flex-col gap-1">

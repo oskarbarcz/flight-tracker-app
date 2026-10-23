@@ -7,6 +7,7 @@ import { useApi } from "~/shared/api/useApi";
 
 type PostcardsState = {
   collection: CollectedPostcard[] | null;
+  failed: boolean;
   total: number;
   waiting: CollectedPostcard[];
   acknowledge: (id: string) => void;
@@ -15,6 +16,7 @@ type PostcardsState = {
 
 const EMPTY: PostcardsState = {
   collection: [],
+  failed: false,
   total: 0,
   waiting: [],
   acknowledge: () => {},
@@ -49,6 +51,7 @@ export function PostcardsProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const { myPostcardService } = useApi();
   const [answer, setAnswer] = useState<MyPostcardCollection | null>(null);
+  const [failed, setFailed] = useState(false);
   const acknowledged = useRef(new Map<string, string>());
   const latestRequest = useRef(0);
 
@@ -67,9 +70,15 @@ export function PostcardsProvider({ children }: { children: ReactNode }) {
       .then((next) => {
         if (request === latestRequest.current) {
           setAnswer(keepingSeen(next, acknowledged.current));
+          setFailed(false);
         }
       })
-      .catch((error) => console.error("Failed to load postcards", error));
+      .catch((error) => {
+        console.error("Failed to load postcards", error);
+        if (request === latestRequest.current) {
+          setFailed(true);
+        }
+      });
   }, [enabled, myPostcardService]);
 
   useEffect(reload, [reload]);
@@ -113,13 +122,13 @@ export function PostcardsProvider({ children }: { children: ReactNode }) {
     }
 
     if (answer === null) {
-      return { collection: null, total: 0, waiting: [], acknowledge, reload };
+      return { collection: null, failed, total: 0, waiting: [], acknowledge, reload };
     }
 
     const collection = collected(answer.postcards);
 
-    return { collection, total: answer.total, waiting: neverSeen(collection), acknowledge, reload };
-  }, [enabled, answer, acknowledge, reload]);
+    return { collection, failed: false, total: answer.total, waiting: neverSeen(collection), acknowledge, reload };
+  }, [enabled, answer, failed, acknowledge, reload]);
 
   return <PostcardsContext.Provider value={state}>{children}</PostcardsContext.Provider>;
 }

@@ -149,6 +149,9 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
     },
     button: {
       base: "cursor-pointer transition-[color,background-color,border-color,scale] duration-150 ease-out not-disabled:active:scale-[0.96] [-webkit-tap-highlight-color:transparent]",
+      size: {
+        md: "h-10 px-5 text-sm pointer-coarse:h-11",
+      },
       color: {
         indigo:
           "bg-indigo-600 hover:bg-indigo-700 text-white dark:text-gray-100 border-0 focus:ring-indigo-500 dark:focus:ring-indigo-400",

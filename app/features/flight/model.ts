@@ -35,6 +35,17 @@ export enum FlightPhase {
   Finished = "finished",
 }
 
+export enum FlightListSort {
+  CreatedAt = "createdAt",
+  ScheduledOffBlockTime = "scheduledOffBlockTime",
+  ActualOnBlockTime = "actualOnBlockTime",
+}
+
+export enum FlightListOrder {
+  Ascending = "asc",
+  Descending = "desc",
+}
+
 export enum Tracking {
   Disabled = "disabled",
   Private = "private",

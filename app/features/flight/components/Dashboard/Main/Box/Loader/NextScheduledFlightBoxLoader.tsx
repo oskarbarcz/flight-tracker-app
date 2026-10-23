@@ -4,8 +4,12 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 export function NextScheduledFlightBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse" header={<CardHeader title="Next scheduled flight" />}>
-      <article className="flex flex-row justify-between gap-3 mt-2 mb-6">
+    <Container
+      padding="condensed"
+      className="animate-pulse motion-reduce:animate-none"
+      header={<CardHeader title="Next scheduled flight" />}
+    >
+      <div className="flex flex-row justify-between gap-3 mt-2 mb-6">
         <div className="w-full">
           <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
           <div className="h-4 w-40 bg-gray-200 dark:bg-gray-700 rounded" />
@@ -14,9 +18,9 @@ export function NextScheduledFlightBoxLoader() {
           <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded mb-1" />
           <div className="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded" />
         </div>
-      </article>
+      </div>
 
-      <article className="flex items-center bg-gray-50 dark:bg-gray-950 justify-evenly border border-dashed border-gray-200 dark:border-gray-800 mb-6 rounded-xl p-3">
+      <div className="flex items-center bg-gray-50 dark:bg-gray-950 justify-evenly border border-dashed border-gray-200 dark:border-gray-800 mb-6 rounded-xl p-3">
         <div className="basis-64 flex flex-col items-center p-3">
           <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
           <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
@@ -26,7 +30,7 @@ export function NextScheduledFlightBoxLoader() {
           <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
           <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
         </div>
-      </article>
+      </div>
 
       <div className="flex justify-end">
         <div className="h-10 w-28 bg-gray-200 dark:bg-gray-700 rounded-lg" />
