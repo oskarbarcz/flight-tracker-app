@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { type ActivityIndex, createActivityIndex } from "~/features/stats/lib/activityIndex";
-import { addUtcDays, startOfUtcDay, startOfUtcWeek, toIsoDate } from "~/features/stats/lib/span";
+import { addUtcDays, startOfUtcDay, toIsoDate } from "~/features/stats/lib/span";
 import type { ActivityDay } from "~/features/stats/model";
 import { useApi } from "~/shared/api/useApi";
 
@@ -9,19 +9,17 @@ export type RecentActivity = {
   failed: boolean;
   activity: ActivityIndex;
   from: Date;
-  to: Date;
   today: Date;
 };
 
-export function useRecentActivity(weeks: number): RecentActivity {
+export function useRecentActivity(days: number): RecentActivity {
   const { statsService } = useApi();
-  const [days, setDays] = useState<ActivityDay[]>([]);
+  const [activityDays, setActivityDays] = useState<ActivityDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
 
   const today = useMemo(() => startOfUtcDay(new Date()), []);
-  const from = useMemo(() => addUtcDays(startOfUtcWeek(today), -7 * (weeks - 1)), [today, weeks]);
-  const to = useMemo(() => addUtcDays(startOfUtcWeek(today), 6), [today]);
+  const from = useMemo(() => addUtcDays(today, -(days - 1)), [today, days]);
 
   useEffect(() => {
     let active = true;
@@ -31,7 +29,7 @@ export function useRecentActivity(weeks: number): RecentActivity {
       .fetchActivity(toIsoDate(from), toIsoDate(today))
       .then((fetched) => {
         if (active) {
-          setDays(fetched);
+          setActivityDays(fetched);
           setFailed(false);
         }
       })
@@ -51,7 +49,7 @@ export function useRecentActivity(weeks: number): RecentActivity {
     };
   }, [statsService, from, today]);
 
-  const activity = useMemo(() => createActivityIndex(days), [days]);
+  const activity = useMemo(() => createActivityIndex(activityDays), [activityDays]);
 
-  return { loading, failed, activity, from, to, today };
+  return { loading, failed, activity, from, today };
 }

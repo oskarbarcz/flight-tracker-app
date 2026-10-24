@@ -41,9 +41,11 @@ export function CurrentRotationLegStrip({ rotation, activeLegId, currentFlightId
               {!isLast && <span className="mt-1 w-px flex-1 bg-gray-200 dark:bg-gray-800" />}
             </div>
 
-            <div className={`flex min-w-0 flex-1 items-baseline justify-between gap-2 ${isLast ? "" : "pb-3"}`}>
+            <div
+              className={`flex min-w-0 flex-1 items-baseline justify-between gap-2 ${isLast ? "" : "pb-3 pointer-coarse:pb-7"}`}
+            >
               <span className="min-w-0">
-                <LegFlightNumber leg={leg} className="text-sm" />
+                <LegFlightNumber leg={leg} className="text-sm pointer-coarse:py-3.5" />
                 <span className="ms-2 whitespace-nowrap font-mono text-xs font-semibold text-gray-500 dark:text-gray-400">
                   {leg.departure.iataCode} → {leg.arrival.iataCode}
                 </span>

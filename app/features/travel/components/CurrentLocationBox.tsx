@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { FaCircleCheck, FaCircleInfo, FaForward, FaLocationDot } from "react-icons/fa6";
+import { FaCircleCheck, FaCircleInfo, FaForward, FaLocationDot, FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
 import { TravelType, type UserTravel, type UserTravelAirport } from "~/features/travel";
 import { InitiateTravelModal } from "~/features/travel/components/InitiateTravelModal";
@@ -11,11 +11,13 @@ import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
+import { TilePlaceholder } from "~/shared/ui/Layout/TilePlaceholder";
 
 type Props = {
   currentLocation: UserTravelAirport | null;
   latestTravel: UserTravel | null;
   flightNumber?: string;
+  failed: boolean;
   onTravelCreated: () => void;
 };
 
@@ -25,7 +27,7 @@ const ARRIVAL_VERB: Record<TravelType, string> = {
   [TravelType.DeadHeadAutomatic]: "Repositioned from",
 };
 
-export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber, onTravelCreated }: Props) {
+export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber, failed, onTravelCreated }: Props) {
   const [showModal, setShowModal] = useState(false);
   const inTransit = latestTravel?.isPending ?? false;
   const airport = inTransit && latestTravel ? latestTravel.destinationAirport : currentLocation;
@@ -33,16 +35,21 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
 
   return (
     <Container padding="condensed" header={<CardHeader title={inTransit ? "Travelling to" : "Current location"} />}>
-      {airport && latestTravel ? (
+      {failed ? (
+        <TilePlaceholder
+          icon={FaTriangleExclamation}
+          hint="Your location could not be loaded. Reload the page to try again."
+        />
+      ) : airport && latestTravel ? (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
             <span className="flex size-12 flex-none items-center justify-center rounded-2xl bg-indigo-500 text-white dark:bg-indigo-600">
-              <Pin size={20} />
+              <Pin size={20} aria-hidden={true} />
             </span>
             <AirportEndpoint iataCode={airport.iataCode} name={airport.name} />
             {!inTransit && (
               <span className="ms-auto flex flex-none items-center gap-1.5 self-start text-xs font-semibold text-green-600 dark:text-green-400">
-                <FaCircleCheck size={11} />
+                <FaCircleCheck size={11} aria-hidden={true} />
                 You are here
               </span>
             )}
@@ -75,16 +82,16 @@ export function CurrentLocationBox({ currentLocation, latestTravel, flightNumber
         </div>
       ) : (
         <ContainerEmptyState>
-          <FaCircleInfo className="inline mr-2" />
+          <FaCircleInfo className="inline mr-2" aria-hidden={true} />
           <span>Location unknown.</span>
         </ContainerEmptyState>
       )}
 
       <BoxFooter>
-        <Button color="alternative" as={Link} to="/travels" viewTransition>
+        <Button color="subtle" as={Link} to="/travels" viewTransition>
           History
         </Button>
-        <Button color="indigo" onClick={() => setShowModal(true)} disabled={inTransit}>
+        <Button color="alternative" onClick={() => setShowModal(true)} disabled={inTransit || failed}>
           New travel
           <FaArrowRight className="inline ml-2" aria-hidden="true" />
         </Button>

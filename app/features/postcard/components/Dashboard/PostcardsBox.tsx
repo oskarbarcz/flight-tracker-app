@@ -1,6 +1,7 @@
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router";
 import { PostcardCeremony } from "~/features/postcard/components/Ceremony/PostcardCeremony";
 import { PostcardsBoxLoader } from "~/features/postcard/components/Dashboard/PostcardsBoxLoader";
@@ -12,6 +13,7 @@ import { BoxFooter } from "~/shared/ui/Layout/BoxFooter";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 import { ContainerEmptyState } from "~/shared/ui/Layout/ContainerEmptyState";
+import { TilePlaceholder } from "~/shared/ui/Layout/TilePlaceholder";
 
 const NAMED_AT_MOST = 3;
 
@@ -23,8 +25,19 @@ function citiesWaiting(waiting: CollectedPostcard[]): string {
 }
 
 export function PostcardsBox() {
-  const { collection, total, waiting, acknowledge } = usePostcards();
+  const { collection, failed, total, waiting, acknowledge } = usePostcards();
   const [ceremony, setCeremony] = useState<CollectedPostcard[] | null>(null);
+
+  if (collection === null && failed) {
+    return (
+      <Container padding="condensed" header={<CardHeader title="Postcards" />}>
+        <TilePlaceholder
+          icon={FaTriangleExclamation}
+          hint="Your postcards could not be loaded. Reload the page to try again."
+        />
+      </Container>
+    );
+  }
 
   if (collection === null) {
     return <PostcardsBoxLoader />;
@@ -68,11 +81,11 @@ export function PostcardsBox() {
         )}
 
         <BoxFooter>
-          <Button color="alternative" as={Link} to="/my-postcards" viewTransition>
+          <Button color="subtle" as={Link} to="/my-postcards" viewTransition>
             See all
           </Button>
           {isWaiting && (
-            <Button color="indigo" onClick={() => setCeremony(waiting)}>
+            <Button color="alternative" onClick={() => setCeremony(waiting)}>
               {waiting.length === 1 ? "Open it" : "Open them"}
               <FaArrowRight className="inline ml-2" aria-hidden="true" />
             </Button>

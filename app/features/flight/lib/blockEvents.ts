@@ -1,5 +1,6 @@
 import type { Schedule, Timesheet } from "~/features/flight/model";
 import { durationMinutes, formatCompactDuration, getTimeDifferenceInMinutes } from "~/shared/lib/time";
+import { dateToIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 
 export type BlockEventKey = "offBlockTime" | "takeoffTime" | "arrivalTime" | "onBlockTime";
 
@@ -77,14 +78,58 @@ export function nextAction(events: BlockEvent[]): BlockEvent | null {
   return leg.to;
 }
 
+const OVERDUE_DURATION_LIMIT_MINUTES = 24 * 60;
+
 export function nextActionCaption(event: BlockEvent, now: Date): string {
   const minutes = getTimeDifferenceInMinutes(now, event.time);
 
-  if (minutes <= 0) {
+  if (minutes > 0) {
+    return `Time to ${NEXT_ACTION_LABELS[event.key]}: ${formatCompactDuration(minutes)}`;
+  }
+
+  const overdueMinutes = -minutes;
+
+  if (overdueMinutes <= 1) {
     return `${event.label} due now`;
   }
 
-  return `Time to ${NEXT_ACTION_LABELS[event.key]}: ${formatCompactDuration(minutes)}`;
+  if (overdueMinutes < OVERDUE_DURATION_LIMIT_MINUTES) {
+    return `${event.label} overdue: ${formatCompactDuration(overdueMinutes)}`;
+  }
+
+  return `${event.label} overdue since ${dateToIcaoDate(event.time)}`;
+}
+
+export function offBlockEvent(events: BlockEvent[]): BlockEvent {
+  return events[0];
+}
+
+export function onBlockEvent(events: BlockEvent[]): BlockEvent {
+  return events[events.length - 1];
+}
+
+export function blockReference(events: BlockEvent[]): BlockEvent {
+  const offBlock = offBlockEvent(events);
+
+  return offBlock.provenance === "actual" ? onBlockEvent(events) : offBlock;
+}
+
+const NON_BREAKING_HYPHEN = "‑";
+
+function withUnbreakableHyphens(label: string): string {
+  return label.replaceAll("-", NON_BREAKING_HYPHEN);
+}
+
+export function blockEventLabel(event: BlockEvent): string {
+  if (event.provenance === "estimated") {
+    return withUnbreakableHyphens(`Est. ${NEXT_ACTION_LABELS[event.key]}`);
+  }
+
+  if (event.provenance === "scheduled") {
+    return withUnbreakableHyphens(`Sched. ${NEXT_ACTION_LABELS[event.key]}`);
+  }
+
+  return withUnbreakableHyphens(event.label);
 }
 
 export function axisProgress(leg: ReachedLeg, legProgressPercent: number): number {

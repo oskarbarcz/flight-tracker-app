@@ -4,7 +4,11 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 export function PostcardsBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse" header={<CardHeader title="Postcards" />}>
+    <Container
+      padding="condensed"
+      className="animate-pulse motion-reduce:animate-none"
+      header={<CardHeader title="Postcards" />}
+    >
       <div className="flex flex-col gap-2">
         <div className="h-4 w-40 rounded bg-gray-200 dark:bg-gray-700" />
         <div className="h-4 w-28 rounded bg-gray-200 dark:bg-gray-700" />

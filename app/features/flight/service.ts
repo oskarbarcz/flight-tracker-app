@@ -3,6 +3,8 @@ import {
   type FilledSchedule,
   Flight,
   type FlightEvent,
+  type FlightListOrder,
+  type FlightListSort,
   type FlightManifest,
   type FlightOfp,
   type FlightPathElement,
@@ -28,6 +30,8 @@ type FlightListFilters = {
   phase?: FlightPhase;
   page?: number;
   limit?: number;
+  sort?: FlightListSort;
+  order?: FlightListOrder;
 };
 
 function loadsheetUrl(id: string): string {
@@ -35,11 +39,13 @@ function loadsheetUrl(id: string): string {
 }
 
 export class FlightService extends AbstractAuthorizedApiService {
-  async fetchAllFlights({ phase = undefined, page = 1, limit = 100 }: FlightListFilters = {}) {
+  async fetchAllFlights({ phase = undefined, page = 1, limit = 100, sort, order }: FlightListFilters = {}) {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
       ...(phase !== undefined && { phase }),
+      ...(sort !== undefined && { sort }),
+      ...(order !== undefined && { order }),
     });
 
     const url = `/api/v1/flight?${params.toString()}`;

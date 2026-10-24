@@ -61,10 +61,12 @@ export function FlightProgressBar({ percent }: Props) {
       <span className="absolute left-full top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-900" />
 
       <span
-        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-white px-1 motion-safe:transition-[left,top] motion-safe:duration-500 motion-safe:ease-out dark:bg-gray-900"
-        style={{ left: `${progress}%`, top: `${arcTopPercent(fraction)}%` }}
+        className="absolute inset-0 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out"
+        style={{ transform: `translate(${progress}%, ${arcTopPercent(fraction)}%)` }}
       >
-        <FaPlane className="size-3.5 text-indigo-600 dark:text-indigo-400" aria-hidden={true} />
+        <span className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white px-1 dark:bg-gray-900">
+          <FaPlane className="size-3.5 text-indigo-600 dark:text-indigo-400" aria-hidden={true} />
+        </span>
       </span>
     </div>
   );

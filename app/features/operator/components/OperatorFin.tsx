@@ -52,9 +52,7 @@ export function OperatorFin({ operator, className }: Props) {
 
   return (
     <div className={twMerge("flex h-full w-full items-center justify-center", className)}>
-      <span className="font-mono text-2xl font-bold uppercase text-gray-300 dark:text-gray-600">
-        {operator.iataCode}
-      </span>
+      <span className="font-mono text-2xl font-bold uppercase text-gray-500">{operator.iataCode}</span>
     </div>
   );
 }

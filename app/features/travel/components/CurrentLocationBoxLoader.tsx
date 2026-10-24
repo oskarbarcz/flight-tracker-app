@@ -4,11 +4,15 @@ import { Container } from "~/shared/ui/Layout/Container";
 
 export function CurrentLocationBoxLoader() {
   return (
-    <Container padding="condensed" className="animate-pulse" header={<CardHeader title="Current location" />}>
-      <article className="flex flex-col items-center bg-gray-50 dark:bg-gray-950 border border-dashed border-gray-200 dark:border-gray-800 mt-2 mb-6 rounded-xl p-6">
+    <Container
+      padding="condensed"
+      className="animate-pulse motion-reduce:animate-none"
+      header={<CardHeader title="Current location" />}
+    >
+      <div className="flex flex-col items-center bg-gray-50 dark:bg-gray-950 border border-dashed border-gray-200 dark:border-gray-800 mt-2 mb-6 rounded-xl p-6">
         <div className="h-10 w-20 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
         <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
-      </article>
+      </div>
 
       <div className="flex justify-end">
         <div className="h-10 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg" />

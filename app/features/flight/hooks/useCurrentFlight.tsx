@@ -6,6 +6,7 @@ import { useApi } from "~/shared/api/useApi";
 type CurrentFlightContextValue = {
   currentFlight: Flight | null;
   loading: boolean;
+  failed: boolean;
   refresh: () => void;
 };
 
@@ -14,6 +15,7 @@ const CurrentFlightContext = createContext<CurrentFlightContextValue | null>(nul
 export function CurrentFlightProvider({ children }: { children: ReactNode }) {
   const [currentFlight, setCurrentFlight] = useState<Flight | null>(null);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const { flightService } = useApi();
   const { user, isLoading: authLoading, refreshUser } = useAuth();
   const currentFlightId = user?.currentFlightId ?? null;
@@ -25,13 +27,16 @@ export function CurrentFlightProvider({ children }: { children: ReactNode }) {
       try {
         if (!currentFlightId) {
           setCurrentFlight(null);
+          setFailed(false);
           return;
         }
         const flight = await flightService.fetchById(currentFlightId);
         setCurrentFlight(flight.status === FlightStatus.Closed ? null : flight);
+        setFailed(false);
       } catch (error) {
         console.error("Cannot fetch current flight", error);
         setCurrentFlight(null);
+        setFailed(true);
       } finally {
         if (!silent) setLoading(false);
       }
@@ -48,7 +53,7 @@ export function CurrentFlightProvider({ children }: { children: ReactNode }) {
     await loadCurrentFlight({ silent: true });
   }, [refreshUser, loadCurrentFlight]);
 
-  const value = useMemo(() => ({ currentFlight, loading, refresh }), [currentFlight, loading, refresh]);
+  const value = useMemo(() => ({ currentFlight, loading, failed, refresh }), [currentFlight, loading, failed, refresh]);
 
   return <CurrentFlightContext.Provider value={value}>{children}</CurrentFlightContext.Provider>;
 }

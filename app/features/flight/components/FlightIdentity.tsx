@@ -49,7 +49,7 @@ export function FlightIdentity({
         <AircraftRegistrationLink
           aircraftId={aircraftId}
           registration={registration}
-          className={`block truncate font-mono ${scale.registration} ${palette.registration}`}
+          className={`block truncate font-mono pointer-coarse:-my-3.5 pointer-coarse:py-3.5 ${scale.registration} ${palette.registration}`}
         />
       </span>
     </div>
