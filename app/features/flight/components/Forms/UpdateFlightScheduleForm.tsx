@@ -33,7 +33,7 @@ export function UpdateFlightScheduleForm() {
         <span className={`font-bold ${airTimeColor}`}>{airTime} hours</span>
       </p>
 
-      <ManagedDateTimeInputBlock field="arrivalTime" label="Landing time [zulu]" autoComplete="off" required />
+      <ManagedDateTimeInputBlock field="arrivalTime" label="Arrival time [zulu]" autoComplete="off" required />
 
       <p className="text-sm">
         <span>Taxi in: </span>

@@ -45,7 +45,7 @@ export function translateEventType(
     [FlightEventType.ArrivalParkingPositionWasChanged]: "Arrival parking stand changed",
     [FlightEventType.ArrivalRunwayWasChanged]: "Arrival runway changed",
     [FlightEventType.FlightWasReleased]: "Flight released",
-    [FlightEventType.PilotCheckedIn]: "Pilot checked in",
+    [FlightEventType.PilotCheckedIn]: "Crew checked in",
     [FlightEventType.BoardingWasStarted]: `${onboarding} started`,
     [FlightEventType.BoardingWasFinished]: `${onboarding} finished`,
     [FlightEventType.LivePositionReceived]: "Live position received",
@@ -99,8 +99,8 @@ export function translatePhase(
   serviceType: FlightServiceType = FlightServiceType.Passenger,
 ): string {
   const phases: Partial<Record<FlightStatus, string>> = {
-    [FlightStatus.Created]: "Not yet released by operations",
-    [FlightStatus.Ready]: "Check-in now",
+    [FlightStatus.Created]: "Awaiting release",
+    [FlightStatus.Ready]: "Ready for check-in",
   };
 
   return phases[status] ?? translateStatus(status, serviceType);

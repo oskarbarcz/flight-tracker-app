@@ -92,6 +92,12 @@ export type ApiFlightResponse = {
       arrivalTime: string | null;
       onBlockTime: string | null;
     };
+    predicted?: {
+      offBlockTime: string | null;
+      takeoffTime: string | null;
+      arrivalTime: string | null;
+      onBlockTime: string | null;
+    };
   };
   status: FlightStatus;
   tracking: Tracking;

@@ -9,11 +9,5 @@ export function FlightRouteTab() {
     return null;
   }
 
-  return (
-    <RouteBriefingPanel
-      flight={flight}
-      airportHref={(airportId) => `/airports-library/${airportId}`}
-      withChart={false}
-    />
-  );
+  return <RouteBriefingPanel flight={flight} airportHref={(airportId) => `/airports-library/${airportId}`} />;
 }

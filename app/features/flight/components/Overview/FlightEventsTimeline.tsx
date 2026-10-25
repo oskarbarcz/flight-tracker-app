@@ -20,7 +20,7 @@ type Props = {
 };
 
 const SCOPE_FILTERS: { scope: FlightEventScope; label: string }[] = [
-  { scope: FlightEventScope.User, label: "Pilot" },
+  { scope: FlightEventScope.User, label: "Crew" },
   { scope: FlightEventScope.Operations, label: "Operations" },
   { scope: FlightEventScope.System, label: "System" },
 ];

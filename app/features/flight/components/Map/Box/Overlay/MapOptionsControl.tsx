@@ -222,7 +222,7 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
                 {followsIntent && (
                   <p className="flex items-start gap-2 px-2 pb-1 pt-0.5 text-xs text-gray-500 dark:text-gray-400">
                     <LuInfo className="mt-0.5 size-3 shrink-0 text-gray-500 dark:text-gray-400" />
-                    <span>Follow selected tab (currently: {intent.label})</span>
+                    <span>Follow flight phase (currently: {intent.label})</span>
                   </p>
                 )}
               </div>

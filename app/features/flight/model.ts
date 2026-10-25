@@ -398,6 +398,7 @@ export interface Timesheet {
   scheduled: FilledSchedule;
   estimated?: FilledSchedule;
   actual?: Schedule;
+  predicted?: Schedule;
 }
 
 export function isFilledSchedule(schedule: Schedule | undefined): schedule is FilledSchedule {
@@ -423,6 +424,7 @@ export function parseTimesheet(data: {
   scheduled: Record<string, string>;
   estimated?: Record<string, string | null>;
   actual?: Record<string, string | null>;
+  predicted?: Record<string, string | null>;
 }): Timesheet {
   const scheduled = parseSchedule<FilledSchedule>(data.scheduled);
   if (!isFilledSchedule(scheduled)) {
@@ -433,5 +435,6 @@ export function parseTimesheet(data: {
     scheduled,
     estimated: data.estimated ? parseSchedule<FilledSchedule>(data.estimated) : undefined,
     actual: data.actual ? parseSchedule<Schedule>(data.actual) : undefined,
+    predicted: data.predicted ? parseSchedule<Schedule>(data.predicted) : undefined,
   };
 }

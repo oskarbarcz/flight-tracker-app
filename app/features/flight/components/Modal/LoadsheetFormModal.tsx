@@ -32,6 +32,7 @@ type Props = {
   requiresConfirmation?: boolean;
   notoc?: React.ReactNode;
   initialValues?: FlatLoadsheetFormData;
+  reference?: Loadsheet | null;
   submit: (loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
@@ -52,6 +53,7 @@ export function LoadsheetFormModal({
   requiresConfirmation = false,
   notoc,
   initialValues,
+  reference = null,
   submit,
   cancel,
 }: Props) {
@@ -109,7 +111,13 @@ export function LoadsheetFormModal({
           >
             <div className="flex flex-col gap-5">
               <fieldset disabled={locked} className="contents">
-                {step === "load" && <LoadsheetLoadStep serviceType={serviceType} capacity={capacity} />}
+                {step === "load" && (
+                  <LoadsheetLoadStep
+                    serviceType={serviceType}
+                    capacity={capacity}
+                    reference={reference === null ? undefined : loadsheetToFlatLoadsheet(reference)}
+                  />
+                )}
                 {step === "fuel" && <LoadsheetFuelStep timesheet={timesheet} />}
                 {step === "notoc" && notoc}
               </fieldset>

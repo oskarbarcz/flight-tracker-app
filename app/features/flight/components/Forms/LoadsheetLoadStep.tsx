@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import { HiExclamationTriangle } from "react-icons/hi2";
 import { CabinCapacityHint } from "~/features/flight/components/Forms/CabinCapacityHint";
 import { DerivedField } from "~/features/flight/components/Forms/DerivedField";
+import { LoadChangesSummary } from "~/features/flight/components/Forms/LoadChangesSummary";
 import { countInput, tonsInput } from "~/features/flight/components/Forms/loadsheetFields";
 import { type FlatLoadsheetFormData, flatLoadsheetToLoadsheet } from "~/features/flight/form-types";
 import type { CabinCapacity } from "~/features/flight/hooks/useCabinCapacity";
 import { occupantsLabel } from "~/features/flight/lib/occupants";
-import type { FlightServiceType } from "~/features/flight/model";
+import { FlightServiceType } from "~/features/flight/model";
 import { toHuman } from "~/i18n/translate";
 import { FormGrid } from "~/shared/ui/Form/FormGrid";
 import { FormSectionLabel } from "~/shared/ui/Form/FormSectionLabel";
@@ -16,9 +17,47 @@ import { ManagedFloatingInputBlock } from "~/shared/ui/Form/Managed/ManagedFloat
 type Props = {
   serviceType: FlightServiceType;
   capacity: CabinCapacity | null;
+  reference?: FlatLoadsheetFormData;
 };
 
-export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
+const TON_FORMAT: Intl.NumberFormatOptions = { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: false };
+
+function Tons({ value }: { value: number }) {
+  return (
+    <>
+      <span className="font-mono tabular-nums text-gray-700 dark:text-gray-200">
+        {value.toLocaleString(undefined, TON_FORMAT)}
+      </span>{" "}
+      t
+    </>
+  );
+}
+
+type LoadFactorProps = {
+  capacity: CabinCapacity;
+  passengers: number;
+  serviceType: FlightServiceType;
+};
+
+function LoadFactor({ capacity, passengers, serviceType }: LoadFactorProps) {
+  if (serviceType === FlightServiceType.Cargo) {
+    return <CabinCapacityHint capacity={capacity} passengers={passengers} />;
+  }
+
+  const percent = capacity.totalSeats === 0 ? 0 : Math.round((passengers / capacity.totalSeats) * 100);
+
+  return (
+    <div className="flex flex-col gap-1">
+      <p className="text-xs text-gray-500 dark:text-gray-400">
+        of <span className="font-mono tabular-nums">{capacity.totalSeats}</span> seats ·{" "}
+        <span className="font-mono tabular-nums text-gray-700 dark:text-gray-200">{percent}%</span> load factor
+      </p>
+      <CabinCapacityHint capacity={capacity} passengers={passengers} />
+    </div>
+  );
+}
+
+export function LoadsheetLoadStep({ serviceType, capacity, reference }: Props) {
   const { values, errors, setFieldValue } = useFormikContext<FlatLoadsheetFormData>();
   const loadsheet = flatLoadsheetToLoadsheet(values);
   const splitError = typeof errors.passengersByCabin === "string" ? errors.passengersByCabin : null;
@@ -34,6 +73,8 @@ export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
+      {reference !== undefined && <LoadChangesSummary reference={reference} values={values} capacity={capacity} />}
+
       <section className="flex flex-col gap-4">
         <FormSectionLabel>Flight crew</FormSectionLabel>
 
@@ -48,7 +89,7 @@ export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
         <FormSectionLabel>Passengers</FormSectionLabel>
 
         {cabins.length > 0 && (
-          <FormGrid columns={2}>
+          <div className="grid grid-cols-2 gap-4">
             {cabins.map(({ cabin, seats }) => (
               <ManagedFloatingInputBlock
                 key={cabin}
@@ -59,7 +100,7 @@ export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
                 {...countInput}
               />
             ))}
-          </FormGrid>
+          </div>
         )}
 
         {cabins.length > 0 && capacity !== null ? (
@@ -68,7 +109,7 @@ export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
             value={seatedTotal}
             unit=""
             decimals={0}
-            description={<CabinCapacityHint capacity={capacity} passengers={seatedTotal} />}
+            description={<LoadFactor capacity={capacity} passengers={seatedTotal} serviceType={serviceType} />}
           />
         ) : (
           <ManagedFloatingInputBlock
@@ -76,7 +117,7 @@ export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
             label={occupantsLabel(serviceType)}
             description={
               capacity === null ? undefined : (
-                <CabinCapacityHint capacity={capacity} passengers={Number(values.passengers)} />
+                <LoadFactor capacity={capacity} passengers={Number(values.passengers)} serviceType={serviceType} />
               )
             }
             {...countInput}
@@ -100,7 +141,16 @@ export function LoadsheetLoadStep({ serviceType, capacity }: Props) {
           <ManagedFloatingInputBlock field="zeroFuelWeight" label="Zero-fuel weight" {...tonsInput} />
         </FormGrid>
 
-        <DerivedField label="Gross takeoff weight" value={grossTakeoffWeight} />
+        <DerivedField
+          label="Gross takeoff weight"
+          value={grossTakeoffWeight}
+          description={
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Zero-fuel weight <Tons value={loadsheet.zeroFuelWeight} /> + block fuel{" "}
+              <Tons value={loadsheet.blockFuel} />
+            </p>
+          }
+        />
       </section>
     </div>
   );

@@ -3,17 +3,19 @@ import { type Flight, FlightServiceType, type Loadsheet } from "~/features/fligh
 import { LoadsheetFormModal } from "~/features/flight/components/Modal/LoadsheetFormModal";
 import { type FlatLoadsheetFormData, loadsheetToFlatLoadsheet } from "~/features/flight/form-types";
 import { useCabinCapacity } from "~/features/flight/hooks/useCabinCapacity";
+import { EMPTY_LOADSHEET } from "~/features/flight/lib/loadsheets";
 import { NotocConfirmationStep } from "~/features/notoc/components/NotocConfirmationStep";
 import { useApi } from "~/shared/api/useApi";
 
 type Props = {
   flight: Flight;
-  preliminary: Loadsheet;
+  preliminary: Loadsheet | null;
   update: (loadsheet: Loadsheet) => void;
   cancel: () => void;
 };
 
 export function UpdateFinalLoadsheetModal({ flight, preliminary, update, cancel }: Props) {
+  const base = preliminary ?? EMPTY_LOADSHEET;
   const { flightService } = useApi();
   const capacity = useCabinCapacity(flight);
   const [initialValues, setInitialValues] = useState<FlatLoadsheetFormData | null>(null);
@@ -23,7 +25,7 @@ export function UpdateFinalLoadsheetModal({ flight, preliminary, update, cancel 
 
   useEffect(() => {
     if (!carriesPassengers) {
-      setInitialValues(loadsheetToFlatLoadsheet(preliminary));
+      setInitialValues(loadsheetToFlatLoadsheet(base));
       return;
     }
 
@@ -34,7 +36,7 @@ export function UpdateFinalLoadsheetModal({ flight, preliminary, update, cancel 
       .then((manifest) => {
         if (!cancelled) {
           setInitialValues({
-            ...loadsheetToFlatLoadsheet(preliminary),
+            ...loadsheetToFlatLoadsheet(base),
             passengers: manifest.passengerCount,
             passengersByCabin: manifest.passengersByCabin,
           });
@@ -42,14 +44,14 @@ export function UpdateFinalLoadsheetModal({ flight, preliminary, update, cancel 
       })
       .catch(() => {
         if (!cancelled) {
-          setInitialValues(loadsheetToFlatLoadsheet(preliminary));
+          setInitialValues(loadsheetToFlatLoadsheet(base));
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [flightService, flight.id, preliminary, carriesPassengers]);
+  }, [flightService, flight.id, base, carriesPassengers]);
 
   if (initialValues === null) {
     return null;
@@ -59,7 +61,8 @@ export function UpdateFinalLoadsheetModal({ flight, preliminary, update, cancel 
     <LoadsheetFormModal
       action={{ load: "Confirm payload", fuel: "Confirm final fuel", notoc: "Confirm notification to captain" }}
       formId="updateFinalLoadsheetForm"
-      loadsheet={preliminary}
+      loadsheet={base}
+      reference={preliminary}
       initialValues={initialValues}
       timesheet={flight.timesheet}
       capacity={capacity}

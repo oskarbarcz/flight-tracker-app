@@ -13,10 +13,14 @@ import { FlightProgressTab } from "~/features/flight/components/Dashboard/Tabs/T
 import { FlightRouteTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightRouteTab";
 import { FlightRunwayAnalysisTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightRunwayAnalysisTab";
 import { DelayNotice } from "~/features/flight/components/Dashboard/Tracking/DelayNotice";
-import { FlightHeader } from "~/features/flight/components/Dashboard/Tracking/FlightHeader";
+import { FlightTrackingHeader } from "~/features/flight/components/Dashboard/Tracking/Header/FlightTrackingHeader";
+import { MapBox } from "~/features/flight/components/Dashboard/Tracking/Map/MapBox";
+import { FlightPhaseCard } from "~/features/flight/components/Dashboard/Tracking/Progress/FlightPhaseCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { useTrackedFlightAdsb } from "~/features/flight/hooks/useTrackedFlightAdsb";
+import { useTrackingView } from "~/features/flight/hooks/useTrackingView";
 import { FlightDataTab, flightDataTabFromSlug, flightDataTabSlug } from "~/features/flight/lib/flightDataTabs";
-import { mapIntentForTab } from "~/features/flight/lib/tabMapIntent";
+import { monitorMapIntent, TrackingView } from "~/features/flight/lib/trackingView";
 import { RouteBriefingProvider } from "~/features/route/hooks/useRouteBriefing";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
@@ -31,6 +35,8 @@ export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
   const { flight, activeEmergency, delayRequest, setFlightId } = useTrackedFlight();
   const navigate = useNavigate();
   const tab = flightDataTabFromSlug(tabSlug);
+  const trackingView = useTrackingView(flight?.status ?? null, tabSlug);
+  useTrackedFlightAdsb();
 
   const setTab = (next: FlightDataTab) => {
     navigate(next === FlightDataTab.Overview ? `/track/${flightId}` : `/track/${flightId}/${flightDataTabSlug(next)}`);
@@ -54,29 +60,44 @@ export function FlightTrackingDashboard({ flightId, tabSlug }: Props) {
   const isSimbriefAvailable = flight.source === FlightSource.SimBrief;
   const hasActiveEmergency = activeEmergency !== null;
   const hasUnsettledDelay = delayRequest !== null && !delayRequest.isSettled;
+  const isMonitoring = trackingView.view === TrackingView.Monitor;
+  const needsRoute = isMonitoring || NEEDS_ROUTE_TABS.includes(tab);
 
   return (
-    <RouteBriefingProvider flight={NEEDS_ROUTE_TABS.includes(tab) ? flight : null}>
-      <DelayNotice />
-      <FlightHeader mapIntent={mapIntentForTab(tab, flight.status)} />
-      <FlightDataTabs
-        tab={tab}
-        setTab={setTab}
-        isSimbriefAvailable={isSimbriefAvailable}
-        hasActiveEmergency={hasActiveEmergency}
-        hasUnsettledDelay={hasUnsettledDelay}
+    <RouteBriefingProvider flight={needsRoute ? flight : null}>
+      <DelayNotice
+        isDelayReportShown={!isMonitoring && tab === FlightDataTab.Delays}
+        onOpenDelayReport={() => trackingView.select(TrackingView.Briefing)}
       />
+      <div className="mb-4 flex flex-col gap-3">
+        <FlightTrackingHeader trackingView={trackingView} />
+        <FlightPhaseCard />
+      </div>
 
-      {tab === FlightDataTab.Overview && <FlightOverviewTab />}
-      {tab === FlightDataTab.FuelAndCrew && <FlightFuelAndLoadTab />}
-      {tab === FlightDataTab.Passengers && <FlightCabinTab />}
-      {tab === FlightDataTab.Cargo && <FlightCargoTab />}
-      {tab === FlightDataTab.FlightProgress && <FlightProgressTab />}
-      {tab === FlightDataTab.Route && <FlightRouteTab />}
-      {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
-      {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}
-      {tab === FlightDataTab.EmergenciesDiversions && <FlightEmergenciesDiversionsTab />}
-      {tab === FlightDataTab.Delays && <FlightDelaysTab />}
+      {isMonitoring ? (
+        <MapBox className="h-[clamp(24rem,70dvh,48rem)]" mapIntent={monitorMapIntent(flight.status)} />
+      ) : (
+        <>
+          <FlightDataTabs
+            tab={tab}
+            setTab={setTab}
+            isSimbriefAvailable={isSimbriefAvailable}
+            hasActiveEmergency={hasActiveEmergency}
+            hasUnsettledDelay={hasUnsettledDelay}
+          />
+
+          {tab === FlightDataTab.Overview && <FlightOverviewTab />}
+          {tab === FlightDataTab.FuelAndCrew && <FlightFuelAndLoadTab />}
+          {tab === FlightDataTab.Passengers && <FlightCabinTab />}
+          {tab === FlightDataTab.Cargo && <FlightCargoTab />}
+          {tab === FlightDataTab.FlightProgress && <FlightProgressTab />}
+          {tab === FlightDataTab.Route && <FlightRouteTab />}
+          {tab === FlightDataTab.OperationalFlightPlan && <FlightOfpTab />}
+          {tab === FlightDataTab.RunwayAnalysis && <FlightRunwayAnalysisTab />}
+          {tab === FlightDataTab.EmergenciesDiversions && <FlightEmergenciesDiversionsTab />}
+          {tab === FlightDataTab.Delays && <FlightDelaysTab />}
+        </>
+      )}
     </RouteBriefingProvider>
   );
 }

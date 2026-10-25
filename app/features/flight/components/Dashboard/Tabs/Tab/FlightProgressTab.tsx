@@ -21,7 +21,7 @@ export function FlightProgressTab() {
         <TimesheetCard
           title="Estimated timesheet"
           schedule={flight.timesheet.estimated}
-          emptyMessage="Waiting for the pilot to check in."
+          emptyMessage="Waiting for the crew to check in."
         />
         <TimesheetCard
           title="Actual timesheet"

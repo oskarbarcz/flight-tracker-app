@@ -1,114 +1,70 @@
-import type React from "react";
+import React from "react";
 import { type Flight, FlightStatus } from "~/features/flight";
 import { PhaseCountdown } from "~/features/flight/components/Dashboard/Tracking/Progress/PhaseCountdown";
-import { getTimeDifferenceInHours, timeDiff } from "~/shared/lib/time";
-import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
+import { TimeCertaintyMark } from "~/features/flight/components/Dashboard/Tracking/TimeCertaintyMark";
+import { type BlockEventKey, resolveBlockTime } from "~/features/flight/lib/blockEvents";
+import { isBeforeOffBlock } from "~/features/flight/lib/flightPhase";
+import { durationMinutes, formatDuration } from "~/shared/lib/time";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
-import { MetaRow } from "~/shared/ui/Display/MetaRow";
 
-const OFF_BLOCK_STATUSES = [
-  FlightStatus.Ready,
-  FlightStatus.CheckedIn,
-  FlightStatus.BoardingStarted,
-  FlightStatus.BoardingFinished,
-];
+const EVENT_LABELS: Record<BlockEventKey, string> = {
+  offBlockTime: "Off-block",
+  takeoffTime: "Takeoff",
+  arrivalTime: "Arrival",
+  onBlockTime: "On-block",
+};
 
-const FLIGHT_LOG_STATUSES = [FlightStatus.OnBlock, FlightStatus.OffboardingStarted, FlightStatus.OffboardingFinished];
+const NEXT_EVENTS: Partial<Record<FlightStatus, BlockEventKey>> = {
+  [FlightStatus.TaxiingOut]: "takeoffTime",
+  [FlightStatus.InCruise]: "arrivalTime",
+  [FlightStatus.TaxiingIn]: "onBlockTime",
+};
 
-function timeValue(date: Date | null | undefined): React.ReactNode {
-  return date ? <FormattedIcaoTime date={date} /> : <span className="text-gray-500 dark:text-gray-400">—</span>;
+function nextEvent(status: FlightStatus): BlockEventKey | null {
+  return isBeforeOffBlock(status) ? "offBlockTime" : (NEXT_EVENTS[status] ?? null);
 }
 
-function dateTimeValue(date: Date | null | undefined): React.ReactNode {
-  if (!date) {
-    return <span className="text-gray-500 dark:text-gray-400">—</span>;
-  }
-  return (
-    <span className="font-mono tabular-nums">
-      <FormattedIcaoDate date={date} /> <FormattedIcaoTime date={date} />
-    </span>
-  );
-}
-
-function durationValue(start: Date | null | undefined, end: Date | null | undefined): React.ReactNode {
-  if (!start || !end) {
-    return <span className="text-gray-500 dark:text-gray-400">—</span>;
-  }
-  return <span className="font-mono tabular-nums">{getTimeDifferenceInHours(start, end)}</span>;
+function durationOrDash(start: Date | null | undefined, end: Date | null | undefined): string {
+  return start && end ? formatDuration(durationMinutes(start, end)) : "—";
 }
 
 type Props = {
   flight: Flight;
+  className?: string;
 };
 
-export function PhaseMetrics({ flight }: Props) {
-  const scheduled = flight.timesheet.scheduled;
-  const actual = flight.timesheet.actual;
+export function PhaseMetrics({ flight, className }: Props) {
+  const { scheduled, actual } = flight.timesheet;
+  const event = nextEvent(flight.status);
 
-  if (flight.status === FlightStatus.Created) {
-    return <MetaRow label="Scheduled off-block" value={<FormattedIcaoTime date={scheduled.offBlockTime} />} />;
-  }
-
-  if (OFF_BLOCK_STATUSES.includes(flight.status)) {
+  if (event !== null) {
     return (
-      <div className="flex flex-col gap-3">
-        <PhaseCountdown label="Time to off-block" targetTime={scheduled.offBlockTime} />
-        <MetaRow label="Scheduled off-block" value={<FormattedIcaoTime date={scheduled.offBlockTime} />} />
+      <div className={className}>
+        <PhaseCountdown event={EVENT_LABELS[event]} target={resolveBlockTime(event, flight.timesheet)} />
       </div>
     );
   }
 
-  if (flight.status === FlightStatus.TaxiingOut) {
-    return (
-      <div className="flex flex-col gap-3">
-        <PhaseCountdown label="Time to takeoff" targetTime={scheduled.takeoffTime} />
-        <MetaRow label="Scheduled takeoff" value={<FormattedIcaoTime date={scheduled.takeoffTime} />} />
+  return (
+    <div className={className}>
+      <FieldLabel>Block time</FieldLabel>
+      <span className="mt-1 block font-mono text-3xl font-bold leading-none tabular-nums text-gray-900 dark:text-gray-100">
+        {durationOrDash(actual?.offBlockTime, actual?.onBlockTime)}
+      </span>
+      <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-gray-500 dark:text-gray-400">
+        <span className="whitespace-nowrap">
+          Air time{" "}
+          <span className="font-mono tabular-nums text-gray-700 dark:text-gray-200">
+            {durationOrDash(actual?.takeoffTime, actual?.arrivalTime)}
+          </span>
+        </span>
+        <span className="inline-flex items-center gap-1 whitespace-nowrap">
+          <TimeCertaintyMark certainty="scheduled" />
+          <span className="font-mono tabular-nums text-gray-700 dark:text-gray-200">
+            {durationOrDash(scheduled.offBlockTime, scheduled.onBlockTime)}
+          </span>
+        </span>
       </div>
-    );
-  }
-
-  if (flight.status === FlightStatus.InCruise) {
-    const estimatedArrival = actual?.takeoffTime
-      ? new Date(actual.takeoffTime.getTime() + timeDiff(scheduled.takeoffTime, scheduled.arrivalTime) * 1000)
-      : null;
-    return (
-      <div className="flex flex-col gap-3">
-        <PhaseCountdown label="Time to arrival" targetTime={scheduled.arrivalTime} />
-        <div className="flex flex-col gap-2">
-          <MetaRow label="Estimated arrival" value={dateTimeValue(estimatedArrival)} />
-          <MetaRow label="Scheduled arrival" value={dateTimeValue(scheduled.arrivalTime)} />
-        </div>
-      </div>
-    );
-  }
-
-  if (flight.status === FlightStatus.TaxiingIn) {
-    return (
-      <div className="flex flex-col gap-3">
-        <PhaseCountdown label="Time to on-block" targetTime={scheduled.onBlockTime} />
-        <MetaRow label="Scheduled on-block" value={<FormattedIcaoTime date={scheduled.onBlockTime} />} />
-      </div>
-    );
-  }
-
-  if (FLIGHT_LOG_STATUSES.includes(flight.status)) {
-    return (
-      <div>
-        <FieldLabel>Flight log</FieldLabel>
-        <div className="mt-2 flex flex-col gap-2">
-          <MetaRow label="Off-block" value={timeValue(actual?.offBlockTime)} />
-          <MetaRow label="Takeoff" value={timeValue(actual?.takeoffTime)} />
-          <MetaRow label="Arrival" value={timeValue(actual?.arrivalTime)} />
-          <MetaRow label="On-block" value={timeValue(actual?.onBlockTime)} />
-        </div>
-        <div className="mt-2 flex flex-col gap-2 border-t-2 border-gray-300 pt-2 dark:border-gray-600">
-          <MetaRow label="Air time" value={durationValue(actual?.takeoffTime, actual?.arrivalTime)} />
-          <MetaRow label="Block time" value={durationValue(actual?.offBlockTime, actual?.onBlockTime)} />
-        </div>
-      </div>
-    );
-  }
-
-  return null;
+    </div>
+  );
 }
