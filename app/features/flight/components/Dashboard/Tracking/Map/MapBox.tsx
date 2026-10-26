@@ -1,9 +1,7 @@
-import { useCallback, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { type MapIntent, MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
-import { FlightEventType, shouldPollForAdsbData, Tracking } from "~/features/flight";
-import { AdsbStatusIndicator } from "~/features/flight/components/Map/Box/Overlay/AdsbStatusIndicator";
+import { Tracking } from "~/features/flight";
 import { LiveTelemetry } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetry";
 import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
 import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
@@ -18,36 +16,9 @@ type MapBoxProps = ContainerClassProps & {
 };
 
 export function MapBox({ className, mapIntent }: MapBoxProps) {
-  const { flight, events } = useTrackedFlight();
-  const { setCallsign, loadFlightPath, flightPath } = useAdsbData();
+  const { flight } = useTrackedFlight();
+  const { flightPath } = useAdsbData();
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
-
-  const hasLivePositionReceived = events.some((event) => event.type === FlightEventType.LivePositionReceived);
-
-  const fetchFlight = useCallback(async () => {
-    if (!flight) return;
-
-    setCallsign(flight.callsign);
-    await loadFlightPath();
-  }, [flight, setCallsign, loadFlightPath]);
-
-  useEffect(() => {
-    if (!flight) return;
-    if (!shouldPollForAdsbData(flight.status, hasLivePositionReceived)) return;
-
-    fetchFlight().then();
-  }, [fetchFlight, flight, hasLivePositionReceived]);
-
-  useEffect(() => {
-    if (!flight) return;
-    if (!shouldPollForAdsbData(flight.status, hasLivePositionReceived)) return;
-
-    const intervalId = setInterval(() => {
-      fetchFlight().then();
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [flight, fetchFlight, hasLivePositionReceived]);
 
   if (!flight) {
     return null;
@@ -64,9 +35,7 @@ export function MapBox({ className, mapIntent }: MapBoxProps) {
             isMaximized={isMaximized}
             onToggleMaximize={toggle}
             center={<LiveTelemetry point={flightPath[flightPath.length - 1]} />}
-          >
-            <AdsbStatusIndicator status={flight.status} isOnline={flightPath.length > 0} />
-          </MapTopBar>
+          />
           <MapOptionsControl
             size="sm"
             triggerClassName={isMaximized ? "top-16 left-3" : "bottom-3 left-3"}

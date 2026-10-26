@@ -2,12 +2,12 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
 import type { FilledSchedule } from "~/features/flight";
-import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
+import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/progressButton";
 import { CheckInFlightModal } from "~/features/flight/components/Modal/CheckInFlightModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { toHuman } from "~/i18n/translate";
 
-export function CheckInButton({ disabled, tone, label }: FlightProgressButtonProps) {
+export function CheckInButton({ tone, label }: FlightProgressButtonProps) {
   const { flight, checkIn } = useTrackedFlight();
   const { error } = useToast();
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +27,7 @@ export function CheckInButton({ disabled, tone, label }: FlightProgressButtonPro
 
   return (
     <>
-      <Button color={tone} outline onClick={() => setShowModal(true)} disabled={disabled}>
+      <Button color={tone} onClick={() => setShowModal(true)}>
         {label ?? toHuman.flight.status.next(flight.status, flight.serviceType)}
       </Button>
       {showModal && <CheckInFlightModal flight={flight} checkIn={handleCheckIn} close={() => setShowModal(false)} />}

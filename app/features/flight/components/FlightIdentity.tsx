@@ -22,6 +22,7 @@ type Props = {
   registration: string;
   size?: IdentitySize;
   tone?: IdentityTone;
+  detail?: React.ReactNode;
 };
 
 export function FlightIdentity({
@@ -31,9 +32,11 @@ export function FlightIdentity({
   registration,
   size = "lg",
   tone = "default",
+  detail,
 }: Props) {
   const scale = IDENTITY_SIZES[size];
   const palette = IDENTITY_TONES[tone];
+  const registrationClass = `font-mono pointer-coarse:-my-3.5 pointer-coarse:py-3.5 ${scale.registration} ${palette.registration}`;
 
   return (
     <div className={`flex min-w-0 items-center ${scale.gap}`}>
@@ -42,15 +45,26 @@ export function FlightIdentity({
       </span>
       <span className="min-w-0">
         <span
-          className={`block truncate font-mono ${scale.flightNumber} font-bold leading-none ${palette.flightNumber}`}
+          className={`block whitespace-nowrap font-mono ${scale.flightNumber} font-bold leading-none ${palette.flightNumber}`}
         >
           {flightNumber}
         </span>
-        <AircraftRegistrationLink
-          aircraftId={aircraftId}
-          registration={registration}
-          className={`block truncate font-mono pointer-coarse:-my-3.5 pointer-coarse:py-3.5 ${scale.registration} ${palette.registration}`}
-        />
+        {detail === undefined ? (
+          <AircraftRegistrationLink
+            aircraftId={aircraftId}
+            registration={registration}
+            className={`block truncate ${registrationClass}`}
+          />
+        ) : (
+          <span className={`block truncate ${scale.registration} text-gray-500 dark:text-gray-400`}>
+            <AircraftRegistrationLink
+              aircraftId={aircraftId}
+              registration={registration}
+              className={registrationClass}
+            />
+            {detail}
+          </span>
+        )}
       </span>
     </div>
   );

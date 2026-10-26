@@ -20,7 +20,11 @@ export function DerivedField({ label, value, unit = "tons", decimals = 2, descri
           variant="outlined"
           label={label}
           sizing={density.floatingSizing}
-          value={value.toFixed(decimals)}
+          value={value.toLocaleString(undefined, {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+            useGrouping: false,
+          })}
           readOnly
           disabled
           className="whitespace-nowrap dark:bg-gray-800"

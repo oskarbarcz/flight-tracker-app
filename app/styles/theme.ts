@@ -61,6 +61,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
             underline: {
               active: {
                 on: "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400",
+                off: "border-b-2 border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200",
               },
             },
           },
@@ -156,6 +157,7 @@ export default function theme(): DeepPartial<FlowbiteTheme> {
         indigo:
           "bg-indigo-600 hover:bg-indigo-700 text-white dark:text-gray-100 border-0 focus:ring-indigo-500 dark:focus:ring-indigo-400",
         red: "dark:bg-red-900",
+        warning: "bg-amber-700 hover:bg-amber-800 text-white border-0 focus:ring-amber-500 dark:focus:ring-amber-400",
         alternative:
           "border border-gray-200 bg-white font-semibold text-gray-700 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 dark:focus:ring-indigo-400",
         light:

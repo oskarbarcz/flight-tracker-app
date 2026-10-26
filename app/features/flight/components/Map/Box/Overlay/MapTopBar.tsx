@@ -3,7 +3,7 @@ import { MapMaximizeButton } from "~/features/flight/components/Map/Box/Overlay/
 import { MapShareLinks } from "~/features/flight/components/Map/Box/Overlay/MapShareLinks";
 
 type Props = {
-  children: ReactNode;
+  children?: ReactNode;
   center?: ReactNode;
   flightId?: string;
   canShare?: boolean;

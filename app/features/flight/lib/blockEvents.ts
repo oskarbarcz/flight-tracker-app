@@ -22,7 +22,7 @@ const BLOCK_EVENTS: { key: BlockEventKey; label: string }[] = [
   { key: "onBlockTime", label: "On-block" },
 ];
 
-function resolveTime(
+export function resolveBlockTime(
   key: BlockEventKey,
   timesheet: Timesheet,
 ): { time: Date; provenance: TimeProvenance; scheduled: Date } {
@@ -33,12 +33,25 @@ function resolveTime(
     return { time: actual, provenance: "actual", scheduled };
   }
 
+  const predicted = timesheet.predicted?.[key] ?? null;
+  if (predicted !== null) {
+    return { time: predicted, provenance: "estimated", scheduled };
+  }
+
   const estimated = timesheet.estimated?.[key];
   if (estimated !== undefined) {
     return { time: estimated, provenance: "estimated", scheduled };
   }
 
   return { time: scheduled, provenance: "scheduled", scheduled };
+}
+
+export function combinedProvenance(first: TimeProvenance, second: TimeProvenance): TimeProvenance {
+  if (first === "actual" && second === "actual") {
+    return "actual";
+  }
+
+  return first === "scheduled" && second === "scheduled" ? "scheduled" : "estimated";
 }
 
 export type ReachedLeg = {
@@ -147,7 +160,7 @@ export function axisProgress(leg: ReachedLeg, legProgressPercent: number): numbe
 }
 
 export function resolveBlockEvents(timesheet: Timesheet): BlockEvent[] {
-  const resolved = BLOCK_EVENTS.map(({ key, label }) => ({ key, label, ...resolveTime(key, timesheet) }));
+  const resolved = BLOCK_EVENTS.map(({ key, label }) => ({ key, label, ...resolveBlockTime(key, timesheet) }));
 
   const first = resolved[0].time;
   const span = durationMinutes(first, resolved[resolved.length - 1].time);

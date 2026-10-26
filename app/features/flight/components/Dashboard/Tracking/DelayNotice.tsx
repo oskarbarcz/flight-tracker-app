@@ -1,6 +1,6 @@
 import React from "react";
 import { FaArrowRight, FaCircleInfo, FaTriangleExclamation } from "react-icons/fa6";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import { FlightStatus } from "~/features/flight";
 import { NoticePanel } from "~/features/flight/components/Dashboard/Tracking/Progress/NoticePanel";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
@@ -13,9 +13,13 @@ const WARNING_STATUSES = [
   FlightStatus.OffboardingFinished,
 ];
 
-export function DelayNotice() {
+type Props = {
+  isDelayReportShown: boolean;
+  onOpenDelayReport: () => void;
+};
+
+export function DelayNotice({ isDelayReportShown, onOpenDelayReport }: Props) {
   const { flight, delayRequest } = useTrackedFlight();
-  const { pathname } = useLocation();
 
   if (!flight || delayRequest === null || delayRequest.isSettled) {
     return null;
@@ -42,9 +46,10 @@ export function DelayNotice() {
         title="Unsettled delay"
         description={`This flight has ${minutes} min of delay awaiting settlement. ${closing}`}
         action={
-          pathname.endsWith(`/${slug}`) ? undefined : (
+          isDelayReportShown ? undefined : (
             <Link
               to={`/track/${flight.id}/${slug}`}
+              onClick={onOpenDelayReport}
               viewTransition
               className="group inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-bold text-gray-600 hover:text-gray-900 hover:underline dark:text-gray-300 dark:hover:text-white"
             >

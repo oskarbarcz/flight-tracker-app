@@ -2,16 +2,15 @@ import { Button } from "flowbite-react";
 import React, { useState } from "react";
 import { useToast } from "~/app-state/useToast";
 import { FlightServiceType, type Loadsheet } from "~/features/flight";
-import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/ChangeFlightProgressButton";
+import type { FlightProgressButtonProps } from "~/features/flight/components/Dashboard/Tracking/FlightProgressControl/progressButton";
 import { UpdateFinalLoadsheetModal } from "~/features/flight/components/Modal/UpdateFinalLoadsheetModal";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { describeLoadsheetRefusal } from "~/features/flight/lib/loadsheetRefusal";
-import { EMPTY_LOADSHEET } from "~/features/flight/lib/loadsheets";
 import { describeReconciliation, reconcileManifest } from "~/features/flight/lib/reconciliation";
 import type { FlightManifest } from "~/features/flight/model";
 import { useApi } from "~/shared/api/useApi";
 
-export function FinishBoardingButton({ disabled, tone }: FlightProgressButtonProps) {
+export function FinishBoardingButton({ tone }: FlightProgressButtonProps) {
   const { flight, loadsheets, finishBoarding } = useTrackedFlight();
   const { flightService } = useApi();
   const { success, error } = useToast();
@@ -75,13 +74,13 @@ export function FinishBoardingButton({ disabled, tone }: FlightProgressButtonPro
 
   return (
     <>
-      <Button color={tone} outline onClick={() => setShowModal(true)} disabled={disabled}>
+      <Button color={tone} onClick={() => setShowModal(true)}>
         Finish {handlingNoun}
       </Button>
       {showModal && (
         <UpdateFinalLoadsheetModal
           flight={flight}
-          preliminary={loadsheets.preliminary ?? EMPTY_LOADSHEET}
+          preliminary={loadsheets.preliminary}
           update={handleFinishBoarding}
           cancel={() => setShowModal(false)}
         />

@@ -1,80 +1,72 @@
 import { Modal, ModalBody, ModalHeader } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import type { FilledSchedule, Flight } from "~/features/flight";
-import { UpdateFlightScheduleForm } from "~/features/flight/components/Forms/UpdateFlightScheduleForm";
+import { NoticePanel } from "~/features/flight/components/Dashboard/Tracking/Progress/NoticePanel";
+import { CheckInScheduleForm } from "~/features/flight/components/Forms/CheckInScheduleForm";
 import { updateScheduleSchema } from "~/features/flight/schema";
-import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
-import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { Form } from "~/shared/ui/Form/Form";
 import { ModalActions } from "~/shared/ui/Modal/ModalActions";
 import { ModalTitle } from "~/shared/ui/Modal/ModalTitle";
 
 type Props = {
   flight: Flight;
-  checkIn: (estimation: FilledSchedule) => void;
+  checkIn: (estimation: FilledSchedule) => Promise<void>;
   close: () => void;
 };
 
 export function CheckInFlightModal({ flight, checkIn, close }: Props) {
   const schedule = flight.timesheet.scheduled;
+  const [pending, setPending] = useState(false);
+
+  const submit = async (estimation: FilledSchedule) => {
+    setPending(true);
+
+    try {
+      await checkIn(estimation);
+    } finally {
+      setPending(false);
+    }
+  };
 
   return (
-    <Modal size="xl" show onClose={close}>
+    <Modal size="xl" className="text-gray-800 dark:text-white" show onClose={pending ? undefined : close}>
       <ModalHeader>
         <ModalTitle context="Flight" action="Check in" />
       </ModalHeader>
       <ModalBody>
-        <h2 className="mb-3 text-xl font-bold">Schedule</h2>
-        <div className="space-x-4 text-center font-mono">
-          <div className="inline-block">
-            <p className="text-xs text-gray-500 dark:text-gray-400">DEP DATE</p>
-            <p className="font-bold">
-              <FormattedIcaoDate date={schedule.offBlockTime} />
-            </p>
+        <p className="mb-5 text-pretty text-sm text-gray-600 dark:text-gray-400">
+          Enter the times visible on the “estimated” section of your operational flight plan.
+        </p>
+        {flight.departureParkingPositionId === null && (
+          <div className="mb-5">
+            <NoticePanel
+              tone="warning"
+              icon={FaTriangleExclamation}
+              title="No departure stand set"
+              description="You can check in without one, but the stand can’t be set or changed after check‑in. To choose one first, cancel and use Set parking stand in the Travel plan card."
+            />
           </div>
-          <div className="inline-block">
-            <p className="text-xs text-gray-500 dark:text-gray-400">OFF</p>
-            <p className="font-bold">
-              <FormattedIcaoTime date={schedule.offBlockTime} />
-            </p>
-          </div>
-          <div className="inline-block">
-            <p className="text-xs text-gray-500 dark:text-gray-400">OUT</p>
-            <p className="font-bold">
-              <FormattedIcaoTime date={schedule.takeoffTime} />
-            </p>
-          </div>
-          <div className="inline-block">
-            <p className="text-xs text-gray-500 dark:text-gray-400">IN</p>
-            <p className="font-bold">
-              <FormattedIcaoTime date={schedule.arrivalTime} />
-            </p>
-          </div>
-          <div className="inline-block">
-            <p className="text-xs text-gray-500 dark:text-gray-400">ON</p>
-            <p className="font-bold">
-              <FormattedIcaoTime date={schedule.onBlockTime} />
-            </p>
-          </div>
-        </div>
-        <h2 className="my-4 text-xl font-bold">Estimation</h2>
+        )}
         <Form<FilledSchedule>
           id="checkInFlightForm"
           initialValues={schedule}
           validationSchema={updateScheduleSchema}
-          onSubmit={(schedule) => checkIn(schedule)}
+          onSubmit={submit}
         >
-          <UpdateFlightScheduleForm />
+          <CheckInScheduleForm scheduled={schedule} />
         </Form>
       </ModalBody>
       <ModalActions
-        cancel={{ label: "Back to preview", onClick: close }}
+        cancel={{ onClick: close }}
         confirm={{
-          label: "Check in for flight",
+          label: "Check in",
           type: "submit",
           form: "checkInFlightForm",
           trailing: <span className="font-mono font-bold">{flight.flightNumberWithoutSpaces}</span>,
         }}
+        pending={pending}
+        pendingLabel="Checking in…"
       />
     </Modal>
   );
