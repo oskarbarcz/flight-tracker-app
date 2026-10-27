@@ -1,0 +1,48 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# MyPreflight components
+
+A workbench for the app's components, rendered with the app's own stylesheet, Flowbite theme and fonts. Each page documents
+one component: what it is for, its anatomy, the rules it follows, and one story per state worth seeing.
+
+The visual system is described in `DESIGN.md` at the repository root. Stories show it applied; they don't redefine it.
+
+## Running it
+
+```bash
+npm run storybook        # dev server on http://localhost:6006
+npm run build-storybook  # static build in storybook-static/
+```
+
+## Theme
+
+Use the **Theme** switch in the toolbar. It sets Flowbite's mode the way the app does, so components that read
+`useThemeMode()`, such as the map tiles, follow it too. Every story should be checked in both themes.
+
+## Data
+
+- **Flights** come from `stories/fixtures/flights.ts`. `flightFixture({ route, status, serviceType, delayMinutes, blockDeltaMinutes })`
+  builds a `Flight` from a seeded flight and lays its timesheet out around the current time. Countdowns, Est./Sched. labels
+  and "today" dates therefore read the way they do in the app on the day of the flight.
+- **Routes:** `short` is AA4912 Boston to Philadelphia (passenger), `longHaul` is AA2021 Frankfurt to New York (cargo).
+- **ADS-B tracks:** `recordedTrack` is the mock receiver's AA4912 track; `syntheticTrack(flight, fraction)` follows the
+  great circle for any flight.
+- **No live ADS-B.** Storybook answers every `/api/v1/position/` request from the story's `adsbTrack` parameter, or with an
+  empty track, so no story polls a real receiver. Other API calls are not stubbed; components that need them fetch
+  nothing until you interact.
+- **Tracked flight:** components that read `useTrackedFlight()` get `trackedFlight(flight, events)` through
+  `TrackedFlightContext`. Its actions are Storybook spies and show in the **Actions** panel.
+
+## Widths
+
+Most of these components respond to their container, not the viewport. `atWidth()` from `stories/support/frames.tsx`
+frames a story at the card widths that matter: phone (366px), laptop (420px) and desktop (724px).
+
+## Adding a story
+
+Stories live in `stories/`, grouped like the sidebar, not next to the component. The app keeps every module under `app/`
+free of default exports, and a story file needs one. Write the component's documentation in
+`parameters.docs.description`, never as code comments, and give each story a description that says when the state
+occurs.

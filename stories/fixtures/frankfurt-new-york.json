@@ -1,0 +1,249 @@
+{
+  "id": "b4bad5cf-c049-488b-b979-8ef8fc85cdb4",
+  "flightNumber": "AA2021",
+  "callsign": "AAL2021",
+  "atcCallsign": null,
+  "isEtops": false,
+  "status": "offboarding_finished",
+  "timesheet": {
+    "scheduled": {
+      "offBlockTime": "2025-06-02T09:00:00.000Z",
+      "takeoffTime": "2025-06-02T09:20:00.000Z",
+      "arrivalTime": "2025-06-02T17:40:00.000Z",
+      "onBlockTime": "2025-06-02T17:50:00.000Z"
+    },
+    "estimated": {
+      "offBlockTime": "2025-06-02T09:00:00.000Z",
+      "takeoffTime": "2025-06-02T09:20:00.000Z",
+      "arrivalTime": "2025-06-02T17:40:00.000Z",
+      "onBlockTime": "2025-06-02T17:50:00.000Z"
+    },
+    "actual": {
+      "offBlockTime": "2026-10-25T10:04:50.129Z",
+      "takeoffTime": "2026-10-25T10:04:56.381Z",
+      "arrivalTime": "2026-10-25T10:05:06.269Z",
+      "onBlockTime": "2026-10-25T10:05:08.747Z"
+    }
+  },
+  "source": "manual",
+  "tracking": "private",
+  "serviceType": "cargo",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "departureParkingPositionId": "ae098e8f-b088-41a6-a566-880c7dd5e931",
+  "departureRunwayId": null,
+  "arrivalParkingPositionId": null,
+  "arrivalRunwayId": null,
+  "isEmergencyDeclared": false,
+  "operator": {
+    "id": "1f630d38-ad24-47cc-950b-3783e71bbd10",
+    "icaoCode": "AAL",
+    "iataCode": "AA",
+    "shortName": "American Airlines",
+    "fullName": "American Airlines, Inc.",
+    "callsign": "AMERICAN"
+  },
+  "aircraft": {
+    "id": "3fbb0d1e-1c05-4d3d-9a08-6b0d5a1f7e42",
+    "airframe": {
+      "type": "B762",
+      "iataType": "762",
+      "name": "Boeing 767-200ER",
+      "cruiseSpeed": {
+        "value": 0.8,
+        "unit": "mach"
+      },
+      "serviceCeiling": 43100,
+      "performanceCode": "D",
+      "weightCategory": "heavy",
+      "serviceType": "passenger"
+    },
+    "registration": "N767CX",
+    "selcal": "CX-67",
+    "livery": "American Airlines (2013)",
+    "operator": {
+      "id": "1f630d38-ad24-47cc-950b-3783e71bbd10",
+      "icaoCode": "AAL",
+      "iataCode": "AA",
+      "shortName": "American Airlines",
+      "fullName": "American Airlines, Inc.",
+      "callsign": "AMERICAN"
+    },
+    "cabinLayout": null
+  },
+  "airports": [
+    {
+      "id": "f35c094a-bec5-4803-be32-bd80a14b441a",
+      "icaoCode": "EDDF",
+      "iataCode": "FRA",
+      "city": {
+        "id": "e8e8d77d-4b22-42cb-b163-13d54eec3597",
+        "name": "Frankfurt"
+      },
+      "name": "Frankfurt Rhein/Main",
+      "country": {
+        "code": "DE",
+        "name": "Germany"
+      },
+      "timezone": "Europe/Berlin",
+      "continent": "europe",
+      "dataQuality": "low",
+      "location": {
+        "latitude": 50.04693,
+        "longitude": 8.57397
+      },
+      "shape": [
+        {
+          "latitude": 50.038132,
+          "longitude": 8.491611
+        },
+        {
+          "latitude": 50.04831,
+          "longitude": 8.534114
+        },
+        {
+          "latitude": 50.04733,
+          "longitude": 8.539593
+        },
+        {
+          "latitude": 50.048183,
+          "longitude": 8.54332
+        },
+        {
+          "latitude": 50.047159,
+          "longitude": 8.539691
+        },
+        {
+          "latitude": 50.046017,
+          "longitude": 8.540343
+        },
+        {
+          "latitude": 50.044417,
+          "longitude": 8.537351
+        },
+        {
+          "latitude": 50.044578,
+          "longitude": 8.546591
+        }
+      ],
+      "type": "departure"
+    },
+    {
+      "id": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "icaoCode": "KJFK",
+      "iataCode": "JFK",
+      "city": {
+        "id": "6ef8953e-7c45-417a-b850-7e3c53de54cd",
+        "name": "New York"
+      },
+      "name": "New York JFK",
+      "country": {
+        "code": "US",
+        "name": "United States of America"
+      },
+      "timezone": "America/New_York",
+      "continent": "north_america",
+      "dataQuality": "low",
+      "location": {
+        "latitude": 40.6413,
+        "longitude": -73.7781
+      },
+      "shape": [
+        {
+          "latitude": 40.659939,
+          "longitude": -73.80563
+        },
+        {
+          "latitude": 40.661247,
+          "longitude": -73.804596
+        },
+        {
+          "latitude": 40.662438,
+          "longitude": -73.799481
+        },
+        {
+          "latitude": 40.664761,
+          "longitude": -73.795969
+        },
+        {
+          "latitude": 40.664226,
+          "longitude": -73.791827
+        },
+        {
+          "latitude": 40.66297,
+          "longitude": -73.790973
+        },
+        {
+          "latitude": 40.662756,
+          "longitude": -73.789317
+        },
+        {
+          "latitude": 40.663375,
+          "longitude": -73.785655
+        }
+      ],
+      "type": "destination"
+    },
+    {
+      "id": "e764251b-bb25-4e8b-8cc7-11b0397b4554",
+      "icaoCode": "KPHL",
+      "iataCode": "PHL",
+      "city": {
+        "id": "e30d5e72-29ca-4f01-8e75-fdc55e3b296a",
+        "name": "Philadelphia"
+      },
+      "name": "Philadelphia Intl",
+      "country": {
+        "code": "US",
+        "name": "United States of America"
+      },
+      "timezone": "America/New_York",
+      "continent": "north_america",
+      "dataQuality": "low",
+      "location": {
+        "latitude": 39.87113,
+        "longitude": -75.24349
+      },
+      "shape": [
+        {
+          "latitude": 39.883636,
+          "longitude": -75.223329
+        },
+        {
+          "latitude": 39.882286,
+          "longitude": -75.221278
+        },
+        {
+          "latitude": 39.883647,
+          "longitude": -75.213649
+        },
+        {
+          "latitude": 39.882669,
+          "longitude": -75.211808
+        },
+        {
+          "latitude": 39.884497,
+          "longitude": -75.211639
+        },
+        {
+          "latitude": 39.88326,
+          "longitude": -75.209262
+        },
+        {
+          "latitude": 39.880911,
+          "longitude": -75.210468
+        },
+        {
+          "latitude": 39.881227,
+          "longitude": -75.211973
+        }
+      ],
+      "type": "destination_alternate"
+    }
+  ],
+  "isFlightDiverted": false,
+  "hasFlightPath": false,
+  "isOffBlockDelayed": true,
+  "actualFuelBurned": null,
+  "pilot": null,
+  "hasNotoc": true
+}
