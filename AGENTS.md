@@ -39,7 +39,7 @@ npm run storybook    # Storybook dev server (localhost:6006)
 npm run build-storybook  # Static Storybook in storybook-static/
 ```
 
-No test framework is configured. CI runs lint, typecheck, and build on PRs (`.github/workflows/integrity.yaml`); it does not build Storybook.
+No test framework is configured. CI runs lint, typecheck, the app build and the Storybook build on PRs (`.github/workflows/integrity.yaml`).
 
 ## Architecture
 
@@ -214,7 +214,7 @@ Discord OAuth is a full-page redirect, unlike Google's in-page identity token, s
 
 ## CI/CD
 
-- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
+- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build → Storybook build. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
 - **Push to main** (`release.yaml`): build → git tag from `package.json` version → GitHub release → deploy to GitHub Pages (`./build/client`)
 - Version must be bumped in `package.json` before merging (enforced by `bin/check_version_is_free`)
 
