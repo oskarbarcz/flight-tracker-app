@@ -12,6 +12,8 @@ build
 node_modules
 *.tsbuildinfo
 .flowbite-react
+storybook-static
+*storybook.log
 
 # AI tools
 .claude/settings.local.json
