@@ -16,7 +16,7 @@ export default defineConfig({
       manifest: false,
       outDir: "build/client",
       workbox: {
-        globPatterns: ["**/*.css", "404.html", "ghspa.js"],
+        globPatterns: ["**/*.css", "404.html", "ghspa.js", "sw-recovery.js"],
         additionalManifestEntries: [{ url: "index.html", revision: packageJson.version }],
         navigateFallback: "index.html",
         navigateFallbackDenylist: [/^\/api\//],
