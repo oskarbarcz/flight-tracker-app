@@ -19,20 +19,27 @@ import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
 import { usePlannedRoute } from "~/features/route/hooks/useRouteBriefing";
 import { useApi } from "~/shared/api/useApi";
+import type { Position } from "~/shared/models/geo";
 
-export function TrackingFlightMap() {
+type Props = {
+  topInset: number;
+};
+
+export function TrackingFlightMap({ topInset }: Props) {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
   const plannedRoute = usePlannedRoute();
   const { intent } = useMapSettings();
-  const isPlotted = intent?.plotsRoute === true && plannedRoute?.briefing != null;
+  const plottedRoute = intent?.plotsRoute === true ? (plannedRoute?.briefing ?? null) : null;
+  const isPlotted = plottedRoute !== null;
   const { runwayService, terminalService, parkingPositionService, gateService } = useApi();
   const cachedParkingPositionService = useMemo(
     () => ({ fetchAll: (airportId: string) => parkingPositionService.fetchAllCached(airportId) }),
     [parkingPositionService],
   );
   const leafletMapOptions = {
-    padding: [80, 80],
+    paddingTopLeft: [64, 40],
+    paddingBottomRight: [64, 96],
     duration: 1,
   } as L.FitBoundsOptions;
 
@@ -43,7 +50,9 @@ export function TrackingFlightMap() {
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
 
   const { departurePosition, destinationPosition, boundsPoints } = flightMapPositions(flight, diversion);
-  const mapBounds = L.latLngBounds(boundsPoints);
+  const routePoints = (plottedRoute?.route.fixes ?? []).map((fix): Position => [fix.latitude, fix.longitude]);
+  const aircraftPoints: Position[] = lastPathPoint ? [[lastPathPoint.latitude, lastPathPoint.longitude]] : [];
+  const mapBounds = L.latLngBounds([...boundsPoints, ...routePoints, ...aircraftPoints]);
 
   return (
     <MapContainer
@@ -51,7 +60,7 @@ export function TrackingFlightMap() {
       boundsOptions={{ padding: [80, 80] }}
       scrollWheelZoom={true}
       worldCopyJump={true}
-      className="rounded-xl h-full w-full z-0"
+      className="h-full w-full z-0"
       zoomControl={false}
       attributionControl={false}
     >
@@ -92,6 +101,7 @@ export function TrackingFlightMap() {
       <MapEventsHandler
         bounds={mapBounds}
         options={leafletMapOptions}
+        topInset={topInset}
         aircraftPosition={lastPathPoint}
         departurePosition={departurePosition}
         destinationPosition={destinationPosition}

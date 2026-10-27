@@ -444,6 +444,22 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
+::view-transition-group(tracking-cards) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(tracking-cards) {
+  display: none;
+}
+::view-transition-new(tracking-cards) {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(tracking-cards) {
+    animation-duration: 0.01ms;
+  }
+}
+
 .location-map {
   background: radial-gradient(120% 120% at 70% 20%, #eef2ff 0%, #e7ecff 40%, #dfe6ff 100%);
 }

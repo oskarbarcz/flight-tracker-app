@@ -19,7 +19,8 @@ import {
   manualReportLabel,
 } from "~/features/flight/lib/flightAutomation";
 import { type ClosureBlock, closureBlock } from "~/features/flight/lib/flightClosure";
-import { FlightDataTab, flightDataTabSlug } from "~/features/flight/lib/flightDataTabs";
+import { FlightDataTab } from "~/features/flight/lib/flightDataTabs";
+import { TrackingView, trackFlightPath } from "~/features/flight/lib/trackingView";
 import { toHuman } from "~/i18n/translate";
 
 type TrackedFlight = ReturnType<typeof useTrackedFlight>;
@@ -124,7 +125,7 @@ function ClosureWarning({ flightId, block }: { flightId: string; block: ClosureB
         <span>{warning.message}</span>
       </p>
       <Link
-        to={`/track/${flightId}/${flightDataTabSlug(warning.tab)}`}
+        to={trackFlightPath(flightId, TrackingView.Briefing, warning.tab)}
         viewTransition
         className="group ms-6 inline-flex w-fit items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-white"
       >

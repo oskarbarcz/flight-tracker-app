@@ -4,7 +4,8 @@ import { Link } from "react-router";
 import { FlightStatus } from "~/features/flight";
 import { NoticePanel } from "~/features/flight/components/Dashboard/Tracking/Progress/NoticePanel";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
-import { FlightDataTab, flightDataTabSlug } from "~/features/flight/lib/flightDataTabs";
+import { FlightDataTab } from "~/features/flight/lib/flightDataTabs";
+import { TrackingView, trackFlightPath } from "~/features/flight/lib/trackingView";
 
 const WARNING_STATUSES = [
   FlightStatus.TaxiingIn,
@@ -15,10 +16,9 @@ const WARNING_STATUSES = [
 
 type Props = {
   isDelayReportShown: boolean;
-  onOpenDelayReport: () => void;
 };
 
-export function DelayNotice({ isDelayReportShown, onOpenDelayReport }: Props) {
+export function DelayNotice({ isDelayReportShown }: Props) {
   const { flight, delayRequest } = useTrackedFlight();
 
   if (!flight || delayRequest === null || delayRequest.isSettled) {
@@ -32,14 +32,13 @@ export function DelayNotice({ isDelayReportShown, onOpenDelayReport }: Props) {
     return null;
   }
 
-  const slug = flightDataTabSlug(FlightDataTab.Delays);
   const minutes = delayRequest.totalDelayMinutes;
   const closing = isWarning
     ? "Settle it before the flight can be closed."
     : "It must be settled before the flight can be closed.";
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 rounded-xl bg-white dark:bg-gray-900">
       <NoticePanel
         tone={isWarning ? "warning" : "neutral"}
         icon={isWarning ? FaTriangleExclamation : FaCircleInfo}
@@ -48,8 +47,7 @@ export function DelayNotice({ isDelayReportShown, onOpenDelayReport }: Props) {
         action={
           isDelayReportShown ? undefined : (
             <Link
-              to={`/track/${flight.id}/${slug}`}
-              onClick={onOpenDelayReport}
+              to={trackFlightPath(flight.id, TrackingView.Briefing, FlightDataTab.Delays)}
               viewTransition
               className="group inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-bold text-gray-600 hover:text-gray-900 hover:underline dark:text-gray-300 dark:hover:text-white"
             >
