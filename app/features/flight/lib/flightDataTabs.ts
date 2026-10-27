@@ -28,8 +28,12 @@ export function flightDataTabSlug(tab: FlightDataTab): string {
   return TAB_SLUG[tab];
 }
 
-export function flightDataTabFromSlug(slug: string | undefined): FlightDataTab {
+export function findFlightDataTab(slug: string | undefined): FlightDataTab | null {
   const found = Object.entries(TAB_SLUG).find(([, candidate]) => candidate === slug);
 
-  return found === undefined ? FlightDataTab.Overview : (Number(found[0]) as FlightDataTab);
+  return found === undefined ? null : (Number(found[0]) as FlightDataTab);
+}
+
+export function flightDataTabFromSlug(slug: string | undefined): FlightDataTab {
+  return findFlightDataTab(slug) ?? FlightDataTab.Overview;
 }

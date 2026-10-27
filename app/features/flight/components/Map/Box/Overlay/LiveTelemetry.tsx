@@ -31,7 +31,7 @@ export function LiveTelemetry({ point }: Props) {
   if (!point) return null;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
       <Stat label="ALT" value={formatAltitude(point.altitude)} />
       <Stat label="GS" value={formatGroundSpeed(point.groundSpeed)} />
       <Stat label="TRK" value={formatTrack(point.track)} />

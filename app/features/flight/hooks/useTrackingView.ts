@@ -1,33 +1,82 @@
-import { useState } from "react";
-import { automaticTrackingView, TrackingView } from "~/features/flight/lib/trackingView";
-import type { FlightStatus } from "~/features/flight/model";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useViewTransitionState } from "react-router";
+import { FlightDataTab } from "~/features/flight/lib/flightDataTabs";
+import {
+  automaticTrackingView,
+  resolveTrackingLocation,
+  type TrackingLocation,
+  TrackingView,
+  trackFlightPath,
+} from "~/features/flight/lib/trackingView";
+import { type Flight, FlightStatus } from "~/features/flight/model";
 
-type ManualChoice = {
+type AutomaticView = {
+  flightId: string;
   view: TrackingView;
-  overrides: TrackingView;
 };
 
-export type TrackingViewState = {
-  view: TrackingView;
-  select: (view: TrackingView) => void;
+export type TrackingViewState = TrackingLocation & {
+  pathTo: (view: TrackingView) => string;
 };
 
-export function useTrackingView(status: FlightStatus | null, tabSlug: string | undefined): TrackingViewState {
-  const automatic = status === null ? TrackingView.Briefing : automaticTrackingView(status);
-  const [choice, setChoice] = useState<ManualChoice | null>(null);
-  const [seenTabSlug, setSeenTabSlug] = useState<string | undefined>(undefined);
+function canonicalPath(flight: Flight, location: TrackingLocation): string {
+  return flight.status === FlightStatus.Closed
+    ? `/flight-history/${flight.id}`
+    : trackFlightPath(flight.id, location.view, location.tab);
+}
 
-  const select = (view: TrackingView) => setChoice({ view, overrides: automatic });
+export function useTrackingView(
+  flightId: string,
+  flight: Flight | null,
+  viewSlug: string | undefined,
+  tabSlug: string | undefined,
+): TrackingViewState | null {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [briefingTab, setBriefingTab] = useState(FlightDataTab.Overview);
+  const lastAutomaticView = useRef<AutomaticView | null>(null);
 
-  if (status !== null && tabSlug !== seenTabSlug) {
-    setSeenTabSlug(tabSlug);
+  const loaded = flight?.id === flightId ? flight : null;
+  const location = loaded && resolveTrackingLocation(loaded.status, viewSlug, tabSlug);
+  const target = loaded && location && canonicalPath(loaded, location);
+  const automaticView = loaded && automaticTrackingView(loaded.status);
 
-    if (tabSlug !== undefined) {
-      select(TrackingView.Briefing);
-    }
+  if (location?.view === TrackingView.Briefing && location.tab !== briefingTab) {
+    setBriefingTab(location.tab);
   }
 
-  const isManual = choice !== null && choice.overrides === automatic && choice.view !== automatic;
+  useEffect(() => {
+    if (target !== null && target !== pathname) {
+      navigate(target, { replace: true });
+    }
+  }, [target, pathname, navigate]);
 
-  return { view: isManual ? choice.view : automatic, select };
+  useEffect(() => {
+    if (automaticView === null) {
+      return;
+    }
+
+    const previous = lastAutomaticView.current;
+    lastAutomaticView.current = { flightId, view: automaticView };
+
+    if (previous?.flightId === flightId && previous.view !== automaticView) {
+      navigate(trackFlightPath(flightId, automaticView), { viewTransition: true });
+    }
+  }, [flightId, automaticView, navigate]);
+
+  if (location === null) {
+    return null;
+  }
+
+  return {
+    ...location,
+    pathTo: (view) => trackFlightPath(flightId, view, briefingTab),
+  };
+}
+
+export function useIsSwitchingTrackingView(flightId: string): boolean {
+  const involvesTracking = useViewTransitionState(trackFlightPath(flightId, TrackingView.Tracking));
+  const involvesBriefing = useViewTransitionState(`${trackFlightPath(flightId, TrackingView.Briefing)}/*`);
+
+  return involvesTracking && involvesBriefing;
 }

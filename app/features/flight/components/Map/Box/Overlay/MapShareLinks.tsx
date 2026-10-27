@@ -1,4 +1,4 @@
-import { Button } from "flowbite-react";
+import { Button, Tooltip } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { LuCheck, LuExternalLink, LuLink } from "react-icons/lu";
 import { Link } from "react-router";
@@ -25,24 +25,29 @@ export function MapShareLinks({ flightId }: Props) {
     navigator.clipboard.writeText(trackingUrl).then(() => setCopied(true));
   };
 
+  const openLabel = "Open full-screen tracking in new tab";
   const copyLabel = copied ? "Tracking link copied" : "Copy tracking link to clipboard";
 
   return (
     <div className="flex gap-2">
-      <Button
-        as={Link}
-        to={`/map/${flightId}`}
-        title="Open full-screen tracking in new tab"
-        aria-label="Open full-screen tracking in new tab"
-        target="_blank"
-        size="xs"
-        color="light"
-      >
-        <LuExternalLink aria-hidden={true} />
-      </Button>
-      <Button size="xs" title={copyLabel} aria-label={copyLabel} color="light" onClick={handleCopy}>
-        <IconSwap current={copied ? "copied" : "idle"} icons={{ idle: <LuLink />, copied: <LuCheck /> }} />
-      </Button>
+      <Tooltip content={openLabel} style="auto">
+        <Button
+          as={Link}
+          to={`/map/${flightId}`}
+          aria-label={openLabel}
+          target="_blank"
+          size="xs"
+          color="light"
+          className="pointer-coarse:size-11"
+        >
+          <LuExternalLink aria-hidden={true} />
+        </Button>
+      </Tooltip>
+      <Tooltip content={copyLabel} style="auto">
+        <Button size="xs" aria-label={copyLabel} color="light" onClick={handleCopy} className="pointer-coarse:size-11">
+          <IconSwap current={copied ? "copied" : "idle"} icons={{ idle: <LuLink />, copied: <LuCheck /> }} />
+        </Button>
+      </Tooltip>
       <span role="status" className="sr-only">
         {copied ? "Tracking link copied" : ""}
       </span>

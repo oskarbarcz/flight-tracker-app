@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MyPreflight update slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Roboto+Mono:wght@400;700&display=block" rel="stylesheet">
+<style>
+  :root {
+    --page: #030712;
+    --ink-strong: #ffffff;
+    --ink: #d1d5db;
+    --muted: #9ca3af;
+    --hairline: #1f2937;
+    --accent: #8da2fb;
+    --mark: #6875f5;
+    --before-fill: #1f2937;
+    --before-text: #d1d5db;
+    --after-fill: rgb(104 117 245 / 0.18);
+    --after-text: #8da2fb;
+    --panel-edge: #1f2937;
+    --bar-fill: #111827;
+    --bar-text: #9ca3af;
+  }
+  body.light {
+    --page: #f3f4f6;
+    --ink-strong: #111827;
+    --ink: #374151;
+    --muted: #4b5563;
+    --hairline: #e5e7eb;
+    --accent: #5850ec;
+    --mark: #6875f5;
+    --before-fill: #e5e7eb;
+    --before-text: #374151;
+    --after-fill: #e5edff;
+    --after-text: #5850ec;
+    --panel-edge: #e5e7eb;
+    --bar-fill: #ffffff;
+    --bar-text: #4b5563;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Noto Sans", sans-serif;
+    position: relative;
+  }
+  .brand { position: absolute; left: 104px; top: 78px; display: flex; align-items: center; gap: 18px; }
+  .brand img { height: 46px; }
+  .brand span { font-size: 40px; color: var(--accent); line-height: 1; }
+  .brand b { font-weight: 700; }
+  .eyebrow {
+    position: absolute; right: 104px; top: 90px;
+    font-size: 20px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  }
+  h1 {
+    position: absolute; left: 104px; right: 104px; top: 160px;
+    font-size: 72px; font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink-strong);
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .copy { position: absolute; left: 104px; top: 284px; width: 476px; }
+  .lede { font-size: 28px; line-height: 1.43; color: var(--ink); }
+  .rule { height: 1px; background: var(--hairline); margin: 40px 0 36px; }
+  .pair { display: grid; grid-template-columns: 118px 1fr; column-gap: 18px; row-gap: 26px; align-items: start; }
+  .pair p { font-size: 24px; line-height: 1.38; color: var(--ink); }
+  .pill {
+    display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 16px;
+    border-radius: 999px; font-size: 19px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    width: fit-content;
+  }
+  .pill.before { background: var(--before-fill); color: var(--before-text); }
+  .pill.after { background: var(--after-fill); color: var(--after-text); }
+  .stage { position: absolute; left: 640px; right: 104px; top: 300px; bottom: 136px; display: flex; flex-direction: column; justify-content: center; }
+  .columns { display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; align-items: start; }
+  .column { display: flex; flex-direction: column; gap: 18px; }
+  .shot {
+    border-radius: 14px; border: 1px solid var(--panel-edge); overflow: hidden;
+    background-repeat: no-repeat; position: relative;
+  }
+  .caption { font-size: 18px; color: var(--muted); line-height: 1.4; }
+  .browser { border-radius: 14px; border: 1px solid var(--panel-edge); overflow: hidden; background: var(--bar-fill); }
+  .browser .bar {
+    height: 40px; display: flex; align-items: center; gap: 10px; padding: 0 14px;
+    border-bottom: 1px solid var(--panel-edge);
+    font-family: "Roboto Mono", monospace; font-size: 16px; color: var(--bar-text); white-space: nowrap;
+  }
+  .browser .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--panel-edge); flex: none; }
+  .browser .bar strong { color: var(--accent); font-weight: 700; }
+  .browser .shot { border: 0; border-radius: 0; }
+  .rows { display: flex; flex-direction: column; gap: 34px; }
+  .row { display: flex; flex-direction: column; gap: 14px; }
+  .row .columns { column-gap: 40px; }
+  .ring { position: absolute; border-radius: 12px; pointer-events: none; }
+  .ring.after { border: 3px solid var(--mark); }
+  .ring.before { border: 3px dashed #d97706; }
+  footer {
+    position: absolute; left: 104px; right: 104px; bottom: 64px; display: flex; justify-content: space-between;
+    font-size: 22px; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="brand"><img src="logo.svg" alt=""><span>my<b>preflight</b></span></div>
+<div class="eyebrow">Flight tracking</div>
+<h1 id="headline"></h1>
+<div class="copy">
+  <p class="lede" id="lede"></p>
+  <div class="rule"></div>
+  <div class="pair">
+    <span class="pill before">Before</span><p id="before"></p>
+    <span class="pill after">After</span><p id="after"></p>
+  </div>
+</div>
+<div class="stage" id="stage"></div>
+<footer><span>Seeded demo flights, shown on the day they fly. Times in UTC.</span><span>app.mypreflight.io</span></footer>
+<script>
+  const PAGE_WIDTH = 1440;
+
+  function crop(file, region, width, extraClass = "") {
+    const scale = width / region.w;
+    const height = Math.round(region.h * scale);
+    return `<div class="shot ${extraClass}" style="width:${width}px;height:${height}px;background-image:url(shots/${file});background-size:${PAGE_WIDTH * scale}px auto;background-position:${-region.x * scale}px ${-region.y * scale}px"></div>`;
+  }
+
+  function browser(url, file, region, width) {
+    return `<div class="browser" style="width:${width}px"><div class="bar"><i></i><i></i><i></i><span>${url}</span></div>${crop(file, region, width)}</div>`;
+  }
+
+  const CONTENT = { x: 296, y: 0, w: 1144, h: 900 };
+  const TOP_OF_PAGE = { x: 296, y: 0, w: 1144, h: 372 };
+
+</script>
+<script src="slides.js"></script>
+<script>
+  const slide = window.SLIDES[new URLSearchParams(location.search).get("slide")];
+  document.body.classList.toggle("light", slide.theme === "light");
+  document.getElementById("headline").innerHTML = slide.headline;
+  document.getElementById("lede").textContent = slide.lede;
+  document.getElementById("before").textContent = slide.before;
+  document.getElementById("after").textContent = slide.after;
+  document.getElementById("stage").innerHTML = slide.stage();
+</script>
+</body>
+</html>
