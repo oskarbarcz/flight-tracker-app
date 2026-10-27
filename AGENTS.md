@@ -156,6 +156,21 @@ Storybook 10 (`@storybook/react-vite`) documents components in isolation. Config
 
 Domain types live in each slice's `model.ts` (e.g. `app/features/flight/model.ts`). Most are plain types and enums; a few are classes (`Flight`) that parse API responses and expose helper getters. Shared geometry types are in `app/shared/models/`.
 
+### Service Worker Updates
+
+The service worker answers every navigation with its precached `index.html` until a new version activates, which
+happens when every tab is closed, when a hidden tab applies the waiting update, or from the installed app's update
+toast (`app/shared/pwa/UpdatePrompt.tsx`). After a deploy the old shell still points at the previous build's hashed
+chunks, and GitHub Pages no longer serves them. When a route module fails to import, React Router calls
+`window.location.reload()` with no guard, the stale shell is served again, and the page reloads forever. Chrome also
+keeps postponing the update check while the page navigates, so the new version never gets to wait, let alone activate.
+
+`public/sw-recovery.js` breaks that loop. It is a classic script in the head of `root.tsx`, precached with the shell, and
+counts boots in `sessionStorage`: on the fourth boot within 10 seconds it unregisters the service worker and reloads from
+the network, which serves the current build; the app registers the new worker again. Never remove it, and keep it in the
+precache `globPatterns`. It cannot rescue a browser whose cached shell predates the script; closing every MyPreflight tab
+does.
+
 ### PWA Launch Assets
 
 `npm run generate:pwa-assets` regenerates `public/icons/` and the 88 iOS startup images in `public/splash/`. Do not edit
