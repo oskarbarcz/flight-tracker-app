@@ -6,12 +6,17 @@ export function MapResizeHandler() {
 
   useEffect(() => {
     const container = map.getContainer();
+    let frame = 0;
     const observer = new ResizeObserver(() => {
-      window.requestAnimationFrame(() => map.invalidateSize());
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => map.invalidateSize());
     });
 
     observer.observe(container);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(frame);
+    };
   }, [map]);
 
   return null;

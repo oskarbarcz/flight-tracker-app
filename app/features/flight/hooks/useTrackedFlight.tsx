@@ -101,7 +101,7 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-type TrackedFlightContextType = {
+export type TrackedFlightContextType = {
   flight: Flight | null;
   loadsheets: Loadsheets;
   events: FlightEvent[];
@@ -136,7 +136,7 @@ type TrackedFlightContextType = {
   rejectDelayReport: (reportId: string, body: RejectDelayReportRequest) => Promise<void>;
 };
 
-const UseTrackedFlight = createContext<TrackedFlightContextType>({
+export const TrackedFlightContext = createContext<TrackedFlightContextType>({
   flight: null,
   loadsheets: NO_LOADSHEETS,
   events: [],
@@ -488,11 +488,11 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     ],
   );
 
-  return <UseTrackedFlight.Provider value={value}>{children}</UseTrackedFlight.Provider>;
+  return <TrackedFlightContext.Provider value={value}>{children}</TrackedFlightContext.Provider>;
 };
 
 export const useTrackedFlight = () => {
-  const ctx = useContext(UseTrackedFlight);
+  const ctx = useContext(TrackedFlightContext);
   if (!ctx) throw new Error("useTrackedFlight must be used within a TrackedFlightProvider");
   return ctx;
 };

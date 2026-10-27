@@ -3,6 +3,7 @@
     "**/*",
     "**/.server/**/*",
     "**/.client/**/*",
+    ".storybook/**/*",
     ".react-router/types/**/*",
     "node_modules/@types/node/globals.d.ts"
   ],

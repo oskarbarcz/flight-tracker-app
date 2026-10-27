@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["app/**/*", "!**/*.d.ts", "!**/*.svg"]
+    "includes": ["app/**/*", "stories/**/*", ".storybook/**/*", "!**/*.d.ts", "!**/*.svg"]
   },
   "vcs": {
     "enabled": true,

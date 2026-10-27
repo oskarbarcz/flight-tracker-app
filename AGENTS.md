@@ -35,9 +35,12 @@ npm run build        # Production build (output: ./build/client)
 npm run typecheck    # react-router typegen + tsc --build --noEmit
 npm run lint         # Biome check (linter + formatter)
 npm run lint:fix     # Biome auto-fix
+npm run storybook    # Storybook dev server (localhost:6006)
+npm run build-storybook  # Static Storybook in storybook-static/
+npm run test:storybook   # Every story as a test in headless Chromium (Vitest)
 ```
 
-No test framework is configured. CI runs lint, typecheck, and build on PRs (`.github/workflows/integrity.yaml`).
+There are no unit tests; Storybook stories run as tests (see "Storybook"). CI runs lint, typecheck, the app build, the Storybook build and the story tests on PRs (`.github/workflows/integrity.yaml`).
 
 ## Architecture
 
@@ -116,11 +119,39 @@ Routes use React Router's compositional config API (`layout()`, `route()`, `inde
 ### Component Conventions
 
 - **Named exports for components**: `export function MyComponent() { ... }`
-- **Route modules are the one exception** — React Router requires `export default` for anything referenced from `app/routes.ts`. Nothing under `app/features/`, `app/shared/` or `app/components/` uses a default export.
+- **Route modules are the one exception** — React Router requires `export default` for anything referenced from `app/routes.ts`. Nothing under `app/features/`, `app/shared/` or `app/components/` uses a default export. Storybook stories need one too, which is why they live outside `app/` (see "Storybook").
 - **PascalCase** directories and files for components
 - Managed form blocks in `app/shared/ui/Form/Managed/` (`ManagedInputBlock`, `ManagedSelectBlock`, `ManagedDateTimeInputBlock`, …) wrap Formik fields with consistent styling — use them instead of raw Flowbite inputs
 - Flowbite component overrides belong in `app/styles/theme.ts` (`createTheme`), not per-call `className` or `data-testid` selector hacks
 - Enum-to-label translation goes through `toHuman` (`app/i18n/translate.ts`), backed by each slice's `i18n.ts`
+
+### Storybook
+
+Storybook 10 (`@storybook/react-vite`) documents components in isolation. Config is in `.storybook/`, stories in
+`stories/`, grouped the way the sidebar shows them (`dashboard/`, `tracking/`, `maps/`, `shared/`), with
+`stories/Introduction.mdx` as the landing page.
+
+- **Vite config:** Storybook reuses `vite.config.ts` and strips the React Router, prerender and PWA plugins in
+  `viteFinal`, since those only work inside the app. Fonts come from `.storybook/preview-head.html`, the same Google
+  Fonts link `root.tsx` adds. Telemetry is off.
+- **Providers:** every story renders inside `MemoryRouter`, `ToastProvider`, `ApiProvider` and Flowbite's
+  `ThemeProvider` with the app theme. The toolbar's Theme switch calls Flowbite's `setMode`, so `useThemeMode()` readers
+  such as the map tiles follow it.
+- **Fixtures:** `stories/fixtures/flights.ts` builds `Flight` objects from two trimmed seeded flights (AA4912 BOS–PHL
+  passenger, AA2021 FRA–JFK cargo) and lays the timesheet out around the current time for a given status, delay and
+  block-time delta. `trackedFlight()` builds a `TrackedFlightContext` value with Storybook spies for every action;
+  `TrackedFlightContext` is exported from `useTrackedFlight.tsx` for this.
+- **No live ADS-B:** a global `beforeEach` answers every `/api/v1/position/` request from the story's `adsbTrack`
+  parameter, or with an empty track. `.env` points ADS-B at production, so never remove this guard. Other API calls are
+  not stubbed.
+- **Tests:** `@storybook/addon-vitest` turns every story into a Vitest test in headless Chromium. A story passes when
+  it renders without throwing and its `play` function, if any, passes. Story tests have their own `vitest.config.ts`
+  rather than a `test` block in `vite.config.ts`: the app config carries the React Router and PWA plugins, and
+  Flowbite's plugin watches the source tree in serve mode, which keeps Vitest from exiting. The story tests don't need
+  Flowbite's generated class list. Install the browser once with `npx playwright install chromium`.
+- **Documentation:** component and story docs go in `parameters.docs.description` (the no-comments rule applies to stories
+  too). Each story says when its state occurs. Frame container-driven components with `atWidth()` and in-card components
+  with `onCard` from `stories/support/frames.tsx`.
 
 ### Data Models
 
@@ -189,7 +220,7 @@ Discord OAuth is a full-page redirect, unlike Google's in-page identity token, s
 
 ## CI/CD
 
-- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
+- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build → Storybook build → Playwright Chromium → story tests. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
 - **Push to main** (`release.yaml`): build → git tag from `package.json` version → GitHub release → deploy to GitHub Pages (`./build/client`)
 - Version must be bumped in `package.json` before merging (enforced by `bin/check_version_is_free`)
 
