@@ -48,11 +48,11 @@ function FitRoute({ bounds }: { bounds: L.LatLngBounds }) {
   const map = useMap();
 
   useEffect(() => {
-    const fit = () => map.fitBounds(bounds, FIT_OPTIONS);
-    fit();
-    map.on("resize", fit);
+    const refit = () => map.fitBounds(bounds, FIT_OPTIONS);
+    refit();
+    map.on("resize", refit);
     return () => {
-      map.off("resize", fit);
+      map.off("resize", refit);
     };
   }, [map, bounds]);
 

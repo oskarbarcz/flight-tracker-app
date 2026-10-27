@@ -18,7 +18,7 @@ function isAppOnly(plugin: PluginOption): boolean {
 
 const config: StorybookConfig = {
   stories: ["../stories/**/*.mdx", "../stories/**/*.stories.tsx"],
-  addons: ["@storybook/addon-docs"],
+  addons: ["@storybook/addon-docs", "@storybook/addon-vitest"],
   framework: "@storybook/react-vite",
   core: { disableTelemetry: true },
   viteFinal: (viteConfig) => ({
