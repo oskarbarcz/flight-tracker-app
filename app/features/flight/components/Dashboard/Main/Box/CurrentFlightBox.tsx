@@ -2,13 +2,15 @@ import { Button } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
+import { AdsbProvider } from "~/features/adsb/hooks/useAdsbData";
 import type { Flight } from "~/features/flight";
 import { BlockTimeStat } from "~/features/flight/components/Dashboard/Main/Box/BlockTimeStat";
-import { TrackingRoute } from "~/features/flight/components/Dashboard/Tracking/Header/TrackingRoute";
+import { RouteGauge } from "~/features/flight/components/Dashboard/Main/Box/RouteGauge";
 import { LifecycleTrack } from "~/features/flight/components/Dashboard/Tracking/Progress/LifecycleTrack";
 import { useCountdown } from "~/features/flight/components/Dashboard/Tracking/Progress/useCountdown";
 import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
 import { CompactFlightMap } from "~/features/flight/components/Map/Box/CompactFlightMap";
+import { useLiveFlightPath } from "~/features/flight/hooks/useLiveFlightPath";
 import {
   type BlockEvent,
   blockReference,
@@ -32,6 +34,15 @@ function NextActionCaption({ event }: { event: BlockEvent }) {
 }
 
 export function CurrentFlightBox({ flight }: Props) {
+  return (
+    <AdsbProvider>
+      <CurrentFlightBoxContent flight={flight} />
+    </AdsbProvider>
+  );
+}
+
+function CurrentFlightBoxContent({ flight }: Props) {
+  const path = useLiveFlightPath(flight);
   const blockEvents = resolveBlockEvents(flight.timesheet);
   const upcoming = nextAction(blockEvents);
   const nextStep = toHuman.flight.status.next(flight.status, flight.serviceType);
@@ -56,7 +67,11 @@ export function CurrentFlightBox({ flight }: Props) {
       }
     >
       <div className="@container">
-        <CompactFlightMap flight={flight} className="h-40 border-b border-gray-200 dark:border-gray-800 @2xl:h-48" />
+        <CompactFlightMap
+          flight={flight}
+          path={path}
+          className="h-40 border-b border-gray-200 dark:border-gray-800 @2xl:h-48"
+        />
 
         <div className="flex flex-col gap-4 p-3">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-6 gap-y-4 @2xl:gap-x-8 [grid-template-areas:'identity_time'_'route_route'] @2xl:grid-cols-[auto_minmax(0,1fr)_auto] @2xl:items-center @2xl:[grid-template-areas:'identity_route_time']">
@@ -68,7 +83,7 @@ export function CurrentFlightBox({ flight }: Props) {
                 registration={flight.aircraft.registration}
               />
             </div>
-            <TrackingRoute flight={flight} diverted={false} className="[grid-area:route]" />
+            <RouteGauge flight={flight} path={path} className="[grid-area:route]" />
             <div className="[grid-area:time]">
               <BlockTimeStat event={blockReference(blockEvents)} />
             </div>

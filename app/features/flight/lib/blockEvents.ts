@@ -54,6 +54,26 @@ export function combinedProvenance(first: TimeProvenance, second: TimeProvenance
   return first === "scheduled" && second === "scheduled" ? "scheduled" : "estimated";
 }
 
+export type BlockTimeSummary = {
+  minutes: number;
+  scheduledMinutes: number;
+  provenance: TimeProvenance;
+};
+
+export function blockTimeSummary(timesheet: Timesheet): BlockTimeSummary {
+  const offBlock = resolveBlockTime("offBlockTime", timesheet);
+  const onBlock = resolveBlockTime("onBlockTime", timesheet);
+  const minutes = durationMinutes(offBlock.time, onBlock.time);
+  const scheduledMinutes = durationMinutes(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
+  const provenance = combinedProvenance(offBlock.provenance, onBlock.provenance);
+
+  return {
+    minutes,
+    scheduledMinutes,
+    provenance: provenance === "estimated" && minutes === scheduledMinutes ? "scheduled" : provenance,
+  };
+}
+
 export type ReachedLeg = {
   from: BlockEvent | null;
   to: BlockEvent | null;

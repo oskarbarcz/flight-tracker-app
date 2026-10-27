@@ -1,13 +1,12 @@
 import Arc from "arc";
 import L, { type LatLngTuple } from "leaflet";
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { LuMaximize2 } from "react-icons/lu";
 import { MapContainer, useMap } from "react-leaflet";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
-import { AdsbProvider, useAdsbData } from "~/features/adsb/hooks/useAdsbData";
 import type { Airport } from "~/features/airport";
-import { type Flight, isInFlightStatus } from "~/features/flight";
+import type { Flight, FlightPathElement } from "~/features/flight";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
 import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
@@ -15,8 +14,6 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { TrackingView, trackFlightPath } from "~/features/flight/lib/trackingView";
-
-const POLL_INTERVAL_MS = 5000;
 
 const FIT_OPTIONS: L.FitBoundsOptions = { padding: [28, 28], maxZoom: 8 };
 
@@ -64,20 +61,11 @@ function FitRoute({ bounds }: { bounds: L.LatLngBounds }) {
 
 type Props = {
   flight: Flight;
+  path: FlightPathElement[];
   className?: string;
 };
 
-export function CompactFlightMap(props: Props) {
-  return (
-    <AdsbProvider>
-      <CompactFlightMapContent {...props} />
-    </AdsbProvider>
-  );
-}
-
-function CompactFlightMapContent({ flight, className }: Props) {
-  const { setCallsign, loadFlightPath, flightPath } = useAdsbData();
-  const inFlight = isInFlightStatus(flight.status);
+export function CompactFlightMap({ flight, path, className }: Props) {
   const { departureAirport, destinationAirport } = flight;
 
   const bounds = useMemo(
@@ -85,19 +73,7 @@ function CompactFlightMapContent({ flight, className }: Props) {
     [departureAirport, destinationAirport],
   );
 
-  const fetchPath = useCallback(async () => {
-    setCallsign(flight.callsign);
-    await loadFlightPath();
-  }, [flight.callsign, setCallsign, loadFlightPath]);
-
-  useEffect(() => {
-    if (!inFlight) return;
-    fetchPath().then();
-    const intervalId = setInterval(() => fetchPath().then(), POLL_INTERVAL_MS);
-    return () => clearInterval(intervalId);
-  }, [inFlight, fetchPath]);
-
-  const showsAircraft = inFlight && flightPath.length > 0;
+  const showsAircraft = path.length > 0;
 
   return (
     <div className={twMerge("group relative isolate overflow-hidden", className)}>
@@ -117,10 +93,10 @@ function CompactFlightMapContent({ flight, className }: Props) {
         >
           <MapTileLayer />
           <GreatCirclePath start={departureAirport} end={destinationAirport} />
-          {showsAircraft && <FlightPath path={flightPath} />}
+          {showsAircraft && <FlightPath path={path} />}
           <MapAirportLabel airport={departureAirport} />
           <MapAirportLabel airport={destinationAirport} />
-          {showsAircraft && <MapAircraftMarker path={flightPath} />}
+          {showsAircraft && <MapAircraftMarker path={path} />}
           <FitRoute bounds={bounds} />
           <MapResizeHandler />
         </MapContainer>

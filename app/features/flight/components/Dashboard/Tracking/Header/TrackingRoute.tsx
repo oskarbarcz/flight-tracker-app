@@ -2,12 +2,8 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import type { Flight } from "~/features/flight";
 import { TimeCertaintyMark } from "~/features/flight/components/Dashboard/Tracking/TimeCertaintyMark";
-import { combinedProvenance, resolveBlockTime, type TimeProvenance } from "~/features/flight/lib/blockEvents";
-import { durationMinutes, formatDuration } from "~/shared/lib/time";
-
-function blockMinutes(offBlockTime: Date, onBlockTime: Date): string {
-  return formatDuration(durationMinutes(offBlockTime, onBlockTime));
-}
+import { blockTimeSummary, type TimeProvenance } from "~/features/flight/lib/blockEvents";
+import { formatDuration } from "~/shared/lib/time";
 
 type Props = {
   flight: Flight;
@@ -16,13 +12,10 @@ type Props = {
 };
 
 export function TrackingRoute({ flight, diverted, className }: Props) {
-  const { timesheet } = flight;
-  const offBlock = resolveBlockTime("offBlockTime", timesheet);
-  const onBlock = resolveBlockTime("onBlockTime", timesheet);
-  const provenance = combinedProvenance(offBlock.provenance, onBlock.provenance);
-  const blockTime = blockMinutes(offBlock.time, onBlock.time);
-  const scheduledBlockTime = blockMinutes(timesheet.scheduled.offBlockTime, timesheet.scheduled.onBlockTime);
-  const primaryProvenance = provenance === "estimated" && blockTime === scheduledBlockTime ? "scheduled" : provenance;
+  const block = blockTimeSummary(flight.timesheet);
+  const blockTime = formatDuration(block.minutes);
+  const scheduledBlockTime = formatDuration(block.scheduledMinutes);
+  const primaryProvenance = block.provenance;
 
   return (
     <div className={twMerge("flex min-w-0 items-center gap-3", className)}>
