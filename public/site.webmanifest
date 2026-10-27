@@ -2,7 +2,7 @@
   "id": "/",
   "name": "MyPreflight",
   "short_name": "MyPreflight",
-  "start_url": "/dashboard",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "theme_color": "#f3f4f6",

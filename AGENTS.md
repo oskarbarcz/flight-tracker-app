@@ -66,7 +66,7 @@ i18n.ts          enum-to-human-label translators
 index.ts         barrel export
 ```
 
-Cross-feature building blocks live in `app/shared/` (`api/`, `ui/`, `hooks/`, `lib/`, `models/`, `validator/`, `pwa/`). Global app state lives in `app/app-state/`. `app/components/` holds only the public landing page.
+Cross-feature building blocks live in `app/shared/` (`api/`, `ui/`, `hooks/`, `lib/`, `models/`, `validator/`, `pwa/`). Global app state lives in `app/app-state/`. The marketing site is a separate repo ([mypreflight/landing](https://github.com/mypreflight/landing)), so this repo has no landing page.
 
 ### API Service Layer (`app/shared/api/api.service.ts`)
 
@@ -107,8 +107,7 @@ Scoped providers, mounted in `routes/AppLayout.tsx`: `useCurrentFlight()`, `useD
 Routes use React Router's compositional config API (`layout()`, `route()`, `index()`). Key layouts:
 - `AuthLayout` — sign-in/out, email confirmation, Discord OAuth callback
 - `MapLayout` — public flight map (`/map`, `/map/:id`), no auth
-- `LandingRoute` — public marketing index at `/`
-- `AppLayout` — authenticated wrapper (sidebar, bottom nav, toasts), wraps `AuthGuard`
+- `AppLayout` — authenticated wrapper (sidebar, bottom nav, toasts), wraps `AuthGuard`. Its index `/` is the dashboard: the pilot dashboard for Cabin crew, a redirect to `/flights` for Operations and to `/data-changes` for Admin. Signed-out visitors land on `/sign-in`. The old `/dashboard` address redirects to `/`, because iOS home-screen installs keep the start URL they were installed with
 - `OperationsLayout` / `PilotLayout` — role-specific nested layouts; `AuthGuard` takes `allowOnly` (one role or a list) to gate by role
 - `ReviewLayout` — shared by Operations and Admin; holds the data change review queue at `/data-changes`, which is also the Admin landing page
 
@@ -119,7 +118,7 @@ Routes use React Router's compositional config API (`layout()`, `route()`, `inde
 ### Component Conventions
 
 - **Named exports for components**: `export function MyComponent() { ... }`
-- **Route modules are the one exception** — React Router requires `export default` for anything referenced from `app/routes.ts`. Nothing under `app/features/`, `app/shared/` or `app/components/` uses a default export. Storybook stories need one too, which is why they live outside `app/` (see "Storybook").
+- **Route modules are the one exception** — React Router requires `export default` for anything referenced from `app/routes.ts`. Nothing under `app/features/` or `app/shared/` uses a default export. Storybook stories need one too, which is why they live outside `app/` (see "Storybook").
 - **PascalCase** directories and files for components
 - Managed form blocks in `app/shared/ui/Form/Managed/` (`ManagedInputBlock`, `ManagedSelectBlock`, `ManagedDateTimeInputBlock`, …) wrap Formik fields with consistent styling — use them instead of raw Flowbite inputs
 - Flowbite component overrides belong in `app/styles/theme.ts` (`createTheme`), not per-call `className` or `data-testid` selector hacks

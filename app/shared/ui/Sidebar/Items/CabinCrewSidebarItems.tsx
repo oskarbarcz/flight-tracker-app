@@ -24,7 +24,7 @@ export function CabinCrewSidebarItems() {
   return (
     <nav className="flex flex-col gap-y-5">
       <SidebarSection>
-        <SidebarElement label="Home" href="/dashboard" isSelected={path === "/dashboard"} icon={LuHouse} />
+        <SidebarElement label="Home" href="/" isSelected={path === "/"} icon={LuHouse} />
       </SidebarSection>
 
       <SidebarSection label="Current flight">
