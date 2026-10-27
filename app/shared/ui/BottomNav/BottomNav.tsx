@@ -36,8 +36,8 @@ function usePilotTabs(path: string): Tab[] {
     {
       label: "Home",
       icon: LuHouse,
-      to: "/dashboard",
-      isActive: path === "/dashboard" || path === "/",
+      to: "/",
+      isActive: path === "/",
     },
     {
       label: "Airports",

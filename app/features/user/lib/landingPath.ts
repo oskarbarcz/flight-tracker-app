@@ -7,6 +7,6 @@ export function landingPathForRole(role: UserRole): string {
     case UserRole.Admin:
       return "/data-changes";
     case UserRole.CabinCrew:
-      return "/dashboard";
+      return "/";
   }
 }

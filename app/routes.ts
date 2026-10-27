@@ -11,9 +11,9 @@ export default [
     route("map", "routes/public/MapIndexRoute.tsx"),
     route("map/:id", "routes/public/MapRoute.tsx"),
   ]),
-  index("routes/public/LandingRoute.tsx"),
+  route("dashboard", "routes/common/DashboardRedirectRoute.tsx"),
   layout("routes/AppLayout.tsx", [
-    route("dashboard", "routes/common/DashboardRoute.tsx"),
+    index("routes/common/DashboardRoute.tsx"),
     route("me", "routes/common/MeRoute.tsx"),
     route("me/account", "routes/common/AccountRoute.tsx"),
     layout("routes/pilot/PilotLayout.tsx", [

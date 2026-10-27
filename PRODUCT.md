@@ -18,7 +18,7 @@ Virtual-aviation enthusiasts running a simulated airline, in three authenticated
 - **Cabin crew** — the flying role. Check into a flight through an EFB-style flow, review the operator's briefing, loadsheet and the crew and passenger manifests, fill the final loadsheet at finish-boarding, report live telemetry, and follow the route on the map. Between flights: rotations, flight and aircraft history, the airports library, stats, the travel log and postcards.
 - **Admin** — reviews data-change requests; the review queue is the Admin landing page.
 
-Visitors without an account reach two public surfaces: the landing page at `/` and the live flight map at `/map`, whose flights can be shared by link.
+Visitors without an account reach one public surface: the live flight map at `/map`, whose flights can be shared by link. Everything else, `/` included, asks them to sign in. The marketing site lives on mypreflight.io, in its own repo.
 
 The operational workflow should feel like operating a real airline. The backend is a separate API (`flight-tracker-api`); this repo is the frontend SPA.
 

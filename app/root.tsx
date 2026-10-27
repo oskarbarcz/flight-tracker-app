@@ -92,7 +92,7 @@ export function NotFoundError() {
       <p className="text-gray-600 mx-auto text-center dark:text-gray-400 max-w-md mb-8">
         No page in MyPreflight matches this address. Check the link, or go to your dashboard.
       </p>
-      <Button as={Link} to="/dashboard" viewTransition replace color="indigo" outline className="mx-auto w-fit">
+      <Button as={Link} to="/" viewTransition replace color="indigo" outline className="mx-auto w-fit">
         Go to dashboard
       </Button>
     </main>
