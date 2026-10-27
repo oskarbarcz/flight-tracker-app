@@ -4,7 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 import { AdsbProvider } from "~/features/adsb/hooks/useAdsbData";
 import type { Flight } from "~/features/flight";
-import { BlockTimeStat } from "~/features/flight/components/Dashboard/Main/Box/BlockTimeStat";
+import { DelayBadge } from "~/features/flight/components/Dashboard/Main/Box/DelayBadge";
 import { RouteGauge } from "~/features/flight/components/Dashboard/Main/Box/RouteGauge";
 import { LifecycleTrack } from "~/features/flight/components/Dashboard/Tracking/Progress/LifecycleTrack";
 import { useCountdown } from "~/features/flight/components/Dashboard/Tracking/Progress/useCountdown";
@@ -13,6 +13,7 @@ import { CompactFlightMap } from "~/features/flight/components/Map/Box/CompactFl
 import { useLiveFlightPath } from "~/features/flight/hooks/useLiveFlightPath";
 import {
   type BlockEvent,
+  blockEventLabel,
   blockReference,
   nextAction,
   nextActionCaption,
@@ -20,6 +21,9 @@ import {
 } from "~/features/flight/lib/blockEvents";
 import { lifecycleSteps } from "~/features/flight/lib/lifecycle";
 import { toHuman } from "~/i18n/translate";
+import { isSameUtcDay } from "~/shared/lib/date";
+import { FormattedIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
+import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
 
@@ -31,6 +35,30 @@ function NextActionCaption({ event }: { event: BlockEvent }) {
   useCountdown(event.time);
 
   return <span className="text-xs text-gray-500 dark:text-gray-400">{nextActionCaption(event, new Date())}</span>;
+}
+
+function ReferenceTime({ event }: { event: BlockEvent }) {
+  const isToday = isSameUtcDay(event.time, new Date());
+
+  return (
+    <div className="flex flex-col items-end text-end">
+      <span className="whitespace-nowrap text-3xl font-bold leading-none tabular-nums text-gray-900 dark:text-white">
+        <FormattedIcaoTime date={event.time} />
+      </span>
+      <span className="whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
+        {blockEventLabel(event)}
+        {!isToday && (
+          <>
+            {" · "}
+            <FormattedIcaoDate date={event.time} />
+          </>
+        )}
+      </span>
+      <div className="mt-2 empty:hidden">
+        <DelayBadge minutes={event.delayMinutes} />
+      </div>
+    </div>
+  );
 }
 
 export function CurrentFlightBox({ flight }: Props) {
@@ -74,7 +102,7 @@ function CurrentFlightBoxContent({ flight }: Props) {
         />
 
         <div className="flex flex-col gap-4 p-3">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-6 gap-y-4 @2xl:gap-x-8 [grid-template-areas:'identity_time'_'route_route'] @2xl:grid-cols-[auto_minmax(0,1fr)_auto] @2xl:items-center @2xl:[grid-template-areas:'identity_route_time']">
+          <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4 @2xl:grid @2xl:grid-cols-[auto_minmax(0,1fr)_auto] @2xl:gap-x-8 @2xl:[grid-template-areas:'identity_route_time']">
             <div className="min-w-0 [grid-area:identity]">
               <FlightIdentity
                 operator={flight.operator}
@@ -83,9 +111,9 @@ function CurrentFlightBoxContent({ flight }: Props) {
                 registration={flight.aircraft.registration}
               />
             </div>
-            <RouteGauge flight={flight} path={path} className="[grid-area:route]" />
-            <div className="[grid-area:time]">
-              <BlockTimeStat event={blockReference(blockEvents)} />
+            <RouteGauge flight={flight} path={path} className="order-last w-full [grid-area:route] @2xl:w-auto" />
+            <div className="ms-auto [grid-area:time]">
+              <ReferenceTime event={blockReference(blockEvents)} />
             </div>
           </div>
 

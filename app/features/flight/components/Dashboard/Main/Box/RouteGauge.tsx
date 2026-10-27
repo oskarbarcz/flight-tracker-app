@@ -21,7 +21,7 @@ function Endpoint({ iata, city, align }: { iata: string; city: string; align: "s
   return (
     <div className={twMerge("flex min-w-0 shrink-0 flex-col", align === "end" ? "items-end text-end" : "items-start")}>
       <span className="font-mono text-3xl font-bold leading-none text-gray-900 dark:text-white">{iata}</span>
-      <span className="mt-1 max-w-32 truncate text-sm text-gray-600 dark:text-gray-300">{city}</span>
+      <span className="max-w-32 truncate text-sm text-gray-600 dark:text-gray-300">{city}</span>
     </div>
   );
 }
