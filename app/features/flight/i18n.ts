@@ -10,12 +10,24 @@ import {
 type HandlingWording = {
   onboarding: string;
   offboarding: string;
+  onboardingFinished: string;
+  offboardingFinished: string;
 };
 
 function handlingWording(serviceType: FlightServiceType): HandlingWording {
   return serviceType === FlightServiceType.Cargo
-    ? { onboarding: "Loading", offboarding: "Unloading" }
-    : { onboarding: "Boarding", offboarding: "Offboarding" };
+    ? {
+        onboarding: "Loading",
+        offboarding: "Unloading",
+        onboardingFinished: "Loading cargo finished",
+        offboardingFinished: "Unloading cargo finished",
+      }
+    : {
+        onboarding: "Boarding",
+        offboarding: "Offboarding",
+        onboardingFinished: "Boarding finished",
+        offboardingFinished: "Offboarding finished",
+      };
 }
 
 export function translateAirportOnFlightType(type: AirportOnFlightType): string {
@@ -35,7 +47,7 @@ export function translateEventType(
   eventType: FlightEventType,
   serviceType: FlightServiceType = FlightServiceType.Passenger,
 ): string {
-  const { onboarding, offboarding } = handlingWording(serviceType);
+  const { onboarding, offboarding, onboardingFinished, offboardingFinished } = handlingWording(serviceType);
   const eventNames: Record<FlightEventType, string> = {
     [FlightEventType.FlightWasCreated]: "Flight plan registered",
     [FlightEventType.PreliminaryLoadsheetWasUpdated]: "Preliminary loadsheet updated",
@@ -47,14 +59,14 @@ export function translateEventType(
     [FlightEventType.FlightWasReleased]: "Flight released",
     [FlightEventType.PilotCheckedIn]: "Crew checked in",
     [FlightEventType.BoardingWasStarted]: `${onboarding} started`,
-    [FlightEventType.BoardingWasFinished]: `${onboarding} finished`,
+    [FlightEventType.BoardingWasFinished]: onboardingFinished,
     [FlightEventType.LivePositionReceived]: "Live position received",
     [FlightEventType.OffBlockWasReported]: "Off-block reported",
     [FlightEventType.TakeoffWasReported]: "Takeoff reported",
     [FlightEventType.ArrivalWasReported]: "Arrival reported",
     [FlightEventType.OnBlockWasReported]: "On-block reported",
     [FlightEventType.OffboardingWasStarted]: `${offboarding} started`,
-    [FlightEventType.OffboardingWasFinished]: `${offboarding} finished`,
+    [FlightEventType.OffboardingWasFinished]: offboardingFinished,
     [FlightEventType.FlightWasClosed]: "Flight closed",
     [FlightEventType.FlightTrackWasSaved]: "Flight track saved",
     [FlightEventType.EmergencyWasDeclared]: "Emergency declared",
@@ -75,19 +87,19 @@ export function translateStatus(
   status: FlightStatus,
   serviceType: FlightServiceType = FlightServiceType.Passenger,
 ): string {
-  const { onboarding, offboarding } = handlingWording(serviceType);
+  const { onboarding, offboarding, onboardingFinished, offboardingFinished } = handlingWording(serviceType);
   const statuses = {
     [FlightStatus.Created]: "Created",
     [FlightStatus.Ready]: "Ready",
     [FlightStatus.CheckedIn]: "Crew checked in",
     [FlightStatus.BoardingStarted]: `${onboarding} in progress`,
-    [FlightStatus.BoardingFinished]: `${onboarding} finished`,
+    [FlightStatus.BoardingFinished]: onboardingFinished,
     [FlightStatus.TaxiingOut]: "Taxiing out",
     [FlightStatus.InCruise]: "In cruise",
     [FlightStatus.TaxiingIn]: "Taxiing in",
     [FlightStatus.OnBlock]: "On block",
     [FlightStatus.OffboardingStarted]: `${offboarding} in progress`,
-    [FlightStatus.OffboardingFinished]: `${offboarding} finished`,
+    [FlightStatus.OffboardingFinished]: offboardingFinished,
     [FlightStatus.Closed]: "Closed",
   };
 

@@ -1,5 +1,5 @@
-import React, { type ReactElement } from "react";
-import { LuArrowRight, LuCheck, LuTriangleAlert } from "react-icons/lu";
+import React, { type ReactElement, useId, useState } from "react";
+import { LuArrowRight, LuCheck, LuChevronDown, LuTriangleAlert } from "react-icons/lu";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import { type Flight, FlightStatus } from "~/features/flight";
@@ -218,6 +218,18 @@ function Condition({ condition }: { condition: AutomationCondition }) {
   );
 }
 
+function ConditionList({ conditions, className }: { conditions: AutomationCondition[]; className?: string }) {
+  return (
+    <ul className={twMerge("flex flex-col gap-1 text-xs", className)}>
+      {conditions.map((condition) => (
+        <Condition key={condition.text} condition={condition} />
+      ))}
+    </ul>
+  );
+}
+
+const ACTION_SLOT = "shrink-0 *:w-full @2xl:w-64 @5xl:w-auto";
+
 type Props = {
   className?: string;
 };
@@ -225,6 +237,8 @@ type Props = {
 export function NextStepPanel({ className }: Props) {
   const tracked = useTrackedFlight();
   const { flight, events } = tracked;
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const detailsId = useId();
 
   if (!flight) {
     return null;
@@ -242,6 +256,8 @@ export function NextStepPanel({ className }: Props) {
     { tone: progressTone(automation), label, confirmNote: manualOverrideNote(automation) },
     tracked,
   );
+  const conditions = automation?.conditions ?? [];
+  const hasOptionalAction = automation?.isAutomatic === true && action !== null;
 
   return (
     <div
@@ -257,15 +273,34 @@ export function NextStepPanel({ className }: Props) {
           <p className="mt-1 text-pretty text-sm text-gray-600 dark:text-gray-300">{step.detail}</p>
         )}
         {block !== null && <ClosureWarning flightId={flight.id} block={block} />}
-        {automation !== null && (
-          <ul className="mt-2 flex flex-col gap-1 text-xs">
-            {automation.conditions.map((condition) => (
-              <Condition key={condition.text} condition={condition} />
-            ))}
-          </ul>
+        {hasOptionalAction ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setDetailsOpen(!detailsOpen)}
+              aria-expanded={detailsOpen}
+              aria-controls={detailsId}
+              className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-sm text-xs font-bold text-gray-700 hover:text-gray-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 pointer-coarse:-my-3 pointer-coarse:py-3 dark:text-gray-200 dark:hover:text-white"
+            >
+              {detailsOpen ? "Hide details" : "See details"}
+              <LuChevronDown
+                className={twMerge(
+                  "size-3 transition-transform duration-200 motion-reduce:transition-none",
+                  detailsOpen && "rotate-180",
+                )}
+                aria-hidden={true}
+              />
+            </button>
+            <div id={detailsId} hidden={!detailsOpen} className="mt-3">
+              <ConditionList conditions={conditions} />
+              <div className={twMerge(ACTION_SLOT, "mt-3")}>{action}</div>
+            </div>
+          </>
+        ) : (
+          conditions.length > 0 && <ConditionList conditions={conditions} className="mt-2" />
         )}
       </div>
-      {action !== null && <div className="shrink-0 *:w-full @2xl:w-64 @5xl:w-auto">{action}</div>}
+      {action !== null && !hasOptionalAction && <div className={ACTION_SLOT}>{action}</div>}
     </div>
   );
 }

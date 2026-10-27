@@ -8,6 +8,7 @@ import { useUserStats } from "~/features/user/hooks/useUserStats";
 import { formatDuration, padZero } from "~/shared/lib/time";
 import { dateToIcaoDate } from "~/shared/ui/Date/FormattedIcaoDate";
 import { FieldLabel } from "~/shared/ui/Display/FieldLabel";
+import { Quantity } from "~/shared/ui/Display/Quantity";
 import { CardFooterLink } from "~/shared/ui/Layout/CardFooterLink";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
 import { Container } from "~/shared/ui/Layout/Container";
@@ -59,16 +60,6 @@ function DurationFigure({ minutes, size }: { minutes: number; size: "lg" | "sm" 
       <span className={unit}>h</span>
       {padZero(minutes % 60)}
       <span className={twMerge(unit, "me-0")}>m</span>
-    </span>
-  );
-}
-
-function Quantity({ value, unit, label }: { value: string; unit: string; label: string }) {
-  return (
-    <span className="whitespace-nowrap">
-      <span className="font-mono text-sm font-bold tabular-nums text-gray-900 dark:text-white">{value}</span>
-      <span className="ms-0.5 font-mono text-2xs text-gray-500 dark:text-gray-400">{unit}</span>
-      <span className="ms-1 text-xs text-gray-500 dark:text-gray-400">{label}</span>
     </span>
   );
 }
