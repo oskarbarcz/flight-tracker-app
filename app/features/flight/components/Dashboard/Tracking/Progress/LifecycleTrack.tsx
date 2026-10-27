@@ -110,10 +110,11 @@ function trackColumns(steps: LifecycleStep[]): string {
 type Props = {
   steps: LifecycleStep[];
   serviceType: FlightServiceType;
+  compact?: boolean;
   className?: string;
 };
 
-export function LifecycleTrack({ steps, serviceType, className }: Props) {
+export function LifecycleTrack({ steps, serviceType, compact = false, className }: Props) {
   return (
     <ol
       aria-label="Flight lifecycle"
@@ -127,7 +128,7 @@ export function LifecycleTrack({ steps, serviceType, className }: Props) {
         return (
           <li key={step.stage} aria-current={current ? "step" : undefined} className="flex min-w-0 flex-col gap-2">
             <StepBar step={step} label={label} />
-            <span className="sr-only flex-col gap-1 @2xl:not-sr-only @2xl:flex">
+            <span className={twMerge("sr-only flex-col gap-1", !compact && "@2xl:not-sr-only @2xl:flex")}>
               <span
                 className={twMerge(
                   "whitespace-nowrap text-2xs font-bold uppercase tracking-wide",
