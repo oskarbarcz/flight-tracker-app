@@ -37,9 +37,10 @@ npm run lint         # Biome check (linter + formatter)
 npm run lint:fix     # Biome auto-fix
 npm run storybook    # Storybook dev server (localhost:6006)
 npm run build-storybook  # Static Storybook in storybook-static/
+npm run test:storybook   # Every story as a test in headless Chromium (Vitest)
 ```
 
-No test framework is configured. CI runs lint, typecheck, the app build and the Storybook build on PRs (`.github/workflows/integrity.yaml`).
+There are no unit tests; Storybook stories run as tests (see "Storybook"). CI runs lint, typecheck, the app build, the Storybook build and the story tests on PRs (`.github/workflows/integrity.yaml`).
 
 ## Architecture
 
@@ -143,6 +144,11 @@ Storybook 10 (`@storybook/react-vite`) documents components in isolation. Config
 - **No live ADS-B:** a global `beforeEach` answers every `/api/v1/position/` request from the story's `adsbTrack`
   parameter, or with an empty track. `.env` points ADS-B at production, so never remove this guard. Other API calls are
   not stubbed.
+- **Tests:** `@storybook/addon-vitest` turns every story into a Vitest test in headless Chromium. A story passes when
+  it renders without throwing and its `play` function, if any, passes. Story tests have their own `vitest.config.ts`
+  rather than a `test` block in `vite.config.ts`: the app config carries the React Router and PWA plugins, and
+  Flowbite's plugin watches the source tree in serve mode, which keeps Vitest from exiting. The story tests don't need
+  Flowbite's generated class list. Install the browser once with `npx playwright install chromium`.
 - **Documentation:** component and story docs go in `parameters.docs.description` (the no-comments rule applies to stories
   too). Each story says when its state occurs. Frame container-driven components with `atWidth()` and in-card components
   with `onCard` from `stories/support/frames.tsx`.
@@ -214,7 +220,7 @@ Discord OAuth is a full-page redirect, unlike Google's in-page identity token, s
 
 ## CI/CD
 
-- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build → Storybook build. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
+- **PR** (`integrity.yaml`): version check → install → lint → typecheck → build → Storybook build → Playwright Chromium → story tests. It does not pass `VITE_DISCORD_CLIENT_ID`, so Discord surfaces are absent from PR builds; `release.yaml` does pass it.
 - **Push to main** (`release.yaml`): build → git tag from `package.json` version → GitHub release → deploy to GitHub Pages (`./build/client`)
 - Version must be bumped in `package.json` before merging (enforced by `bin/check_version_is_free`)
 

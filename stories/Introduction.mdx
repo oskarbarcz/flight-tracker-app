@@ -16,6 +16,16 @@ npm run storybook        # dev server on http://localhost:6006
 npm run build-storybook  # static build in storybook-static/
 ```
 
+## Testing
+
+```bash
+npm run test:storybook   # every story as a test in headless Chromium
+```
+
+Every story is a test: it passes when it renders without throwing and its `play` function, if it has one, passes.
+*Next step panel → Watching For Arrival Expanded* is an example: it clicks **See details** and expects the manual report
+button to show. The **Tests** widget in the sidebar runs the same suite from the UI. CI runs it on every pull request.
+
 ## Theme
 
 Use the **Theme** switch in the toolbar. It sets Flowbite's mode the way the app does, so components that read
