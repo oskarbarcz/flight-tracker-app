@@ -62,6 +62,15 @@ input:-webkit-autofill:focus {
   border: none;
 }
 
+.map-aircraft-icon {
+  @apply fill-indigo-900;
+}
+.dark .map-aircraft-icon {
+  @apply fill-indigo-300 stroke-gray-950;
+  stroke-width: 1.5px;
+  paint-order: stroke;
+}
+
 .map-airport-label {
   display: inline-flex;
   align-items: baseline;
