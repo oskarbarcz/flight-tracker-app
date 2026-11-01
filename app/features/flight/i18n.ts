@@ -44,11 +44,12 @@ export function translateAirportOnFlightType(type: AirportOnFlightType): string 
   return labels[type];
 }
 
-export function translateGroundServiceSource(source: GroundServiceSource): string {
+export function translateGroundServiceSource(source: GroundServiceSource, eventType: FlightEventType): string {
+  const step = eventType === FlightEventType.OffboardingWasFinished ? "Finished" : "Started";
   const sources: Record<GroundServiceSource, string> = {
-    [GroundServiceSource.Manual]: "Started manually",
-    [GroundServiceSource.Override]: "Started manually instead of GSX",
-    [GroundServiceSource.Gsx]: "Started by GSX",
+    [GroundServiceSource.Manual]: `${step} manually`,
+    [GroundServiceSource.Override]: `${step} manually instead of GSX`,
+    [GroundServiceSource.Gsx]: `${step} by GSX`,
   };
 
   return sources[source];

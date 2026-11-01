@@ -71,6 +71,42 @@ export const StartedInsteadOfGsx: Story = {
   },
 };
 
+export const FinishedByGsx: Story = {
+  args: {
+    events: [logEntry(7, FlightEventType.OffboardingWasFinished, { source: GroundServiceSource.Gsx })],
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(canvas.getByText("Offboarding finished")).toBeVisible();
+    await expect(canvas.getByText("Finished by GSX")).toBeVisible();
+    await expect(canvas.queryByText(/^Started/)).toBeNull();
+  },
+};
+
+export const FinishedInsteadOfGsx: Story = {
+  args: {
+    events: [logEntry(8, FlightEventType.OffboardingWasFinished, { source: GroundServiceSource.Override })],
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(canvas.getByText("Finished manually instead of GSX")).toBeVisible();
+  },
+};
+
+export const FinishedManually: Story = {
+  args: {
+    events: [logEntry(9, FlightEventType.OffboardingWasFinished, { source: GroundServiceSource.Manual })],
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(canvas.getByText("Offboarding finished")).toBeVisible();
+    await expect(canvas.queryByText(/^Finished/)).toBeNull();
+  },
+};
+
 export const CargoFlight: Story = {
   args: { events: [startedByGsx], serviceType: FlightServiceType.Cargo },
   play: async ({ canvasElement }) => {
