@@ -1,5 +1,6 @@
 import React from "react";
 import type { Flight } from "~/features/flight";
+import { resolveBlockTime } from "~/features/flight/lib/blockEvents";
 import { FiledRoute } from "~/features/route/components/FiledRoute/FiledRoute";
 import { RouteTiming } from "~/features/route/components/RouteTiming";
 import { useFiledRouteTokens } from "~/features/route/hooks/useFiledRouteTokens";
@@ -42,9 +43,7 @@ export function RoutePlanCard({ flight, route, summary, runways, selectedOrdinal
   const departureRunway = runways.departure?.designator ?? null;
   const tokens = useFiledRouteTokens(flight, route, runways);
 
-  const { timesheet } = flight;
-  const takeoff = timesheet.actual?.takeoffTime ?? (timesheet.estimated ?? timesheet.scheduled).takeoffTime;
-  const timing = summariseTiming(route, takeoff);
+  const timing = summariseTiming(route, resolveBlockTime("takeoffTime", flight.timesheet).time);
 
   return (
     <Container padding="spacious" header={<CardHeader title="Planned route" />}>

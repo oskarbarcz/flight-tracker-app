@@ -312,6 +312,7 @@ export enum FlightEventType {
   FlightWasCreated = "flight.created",
   PreliminaryLoadsheetWasUpdated = "flight.preliminary-loadsheet-updated",
   ScheduledTimesheetWasUpdated = "flight.scheduled-timesheet-updated",
+  PredictedTimesheetWasUpdated = "flight.predicted-timesheet-updated",
   DepartureParkingPositionWasChanged = "flight.departure-parking-position-changed",
   DepartureRunwayWasChanged = "flight.departure-runway-changed",
   ArrivalParkingPositionWasChanged = "flight.arrival-parking-position-changed",

@@ -1,7 +1,9 @@
 import React from "react";
 import { FlightEventsTimeline } from "~/features/flight/components/Overview/FlightEventsTimeline";
+import { ReportPredictedTimesButton } from "~/features/flight/components/Overview/ReportPredictedTimesButton";
 import { TimesheetCard } from "~/features/flight/components/Overview/TimesheetCard";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
+import { reportableEvents } from "~/features/flight/lib/predictedTimes";
 
 export function FlightProgressTab() {
   const { flight, events } = useTrackedFlight();
@@ -22,6 +24,12 @@ export function FlightProgressTab() {
           title="Estimated timesheet"
           schedule={flight.timesheet.estimated}
           emptyMessage="Waiting for the crew to check in."
+        />
+        <TimesheetCard
+          title="Predicted timesheet"
+          schedule={flight.timesheet.predicted}
+          emptyMessage="No FMC times reported yet."
+          footer={reportableEvents(flight.status).length > 0 && <ReportPredictedTimesButton flight={flight} />}
         />
         <TimesheetCard
           title="Actual timesheet"

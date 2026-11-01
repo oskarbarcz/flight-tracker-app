@@ -124,6 +124,13 @@ export class FlightService extends AbstractAuthorizedApiService {
     });
   }
 
+  async updatePredictedTimesheet(id: string, times: Partial<FilledSchedule>): Promise<void> {
+    return this.fetchWithAuth<void>(`/api/v1/flight/${id}/timesheet/predicted`, {
+      body: JSON.stringify(times),
+      method: "PATCH",
+    });
+  }
+
   async updatePreliminaryLoadsheet(id: string, loadsheet: Loadsheet): Promise<void> {
     return this.fetchWithAuth<void>(`/api/v1/flight/${id}/loadsheet/preliminary`, {
       body: JSON.stringify(loadsheet),

@@ -166,6 +166,7 @@ export function trackedFlight(flight: Flight, events: FlightEvent[] = []): Track
     reconnect: fn(),
     reload: fn(async () => {}),
     checkIn: fn(async () => {}),
+    reportPredictedTimes: fn(async () => {}),
     startBoarding: fn(async () => {}),
     finishBoarding: fn(async () => {}),
     reportOffBlock: fn(async () => {}),

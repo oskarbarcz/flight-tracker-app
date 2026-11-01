@@ -3,7 +3,7 @@ import type { Flight, FlightPathElement } from "~/features/flight";
 import { FlightProgressBar } from "~/features/flight/components/Dashboard/Main/Box/FlightProgressBar";
 import { FlightIdentity } from "~/features/flight/components/FlightIdentity";
 import { FlightDetailsDrawer } from "~/features/flight/components/Map/FullScreen/FlightDetailsDrawer";
-import { nextAction, nextActionCaption, resolveBlockEvents } from "~/features/flight/lib/blockEvents";
+import { nextAction, nextActionCaption, resolveBlockEvents, resolveBlockTime } from "~/features/flight/lib/blockEvents";
 import { computeFlightProgress, type FlightProgress } from "~/features/flight/lib/flightProgress";
 import { toHuman } from "~/i18n/translate";
 import { dateToLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
@@ -18,12 +18,8 @@ type Props = {
 
 function NextStage({ flight, progress }: { flight: Flight; progress: FlightProgress }) {
   const showDeparture = progress.phase === "preflight";
-  const scheduled = flight.timesheet.scheduled;
-  const estimated = flight.timesheet.estimated;
-
-  const scheduledReference = showDeparture ? scheduled.takeoffTime : scheduled.arrivalTime;
-  const estimatedReference = (showDeparture ? estimated?.takeoffTime : estimated?.arrivalTime) ?? scheduledReference;
-  const delayMinutes = Math.round((estimatedReference.getTime() - scheduledReference.getTime()) / 60000);
+  const reference = resolveBlockTime(showDeparture ? "takeoffTime" : "arrivalTime", flight.timesheet);
+  const delayMinutes = Math.round((reference.time.getTime() - reference.scheduled.getTime()) / 60000);
 
   return (
     <div className="shrink-0 text-right">
@@ -36,7 +32,7 @@ function NextStage({ flight, progress }: { flight: Flight; progress: FlightProgr
         )}
       </span>
       <span className="mt-0.5 block font-mono text-xl font-bold tabular-nums text-gray-900 dark:text-white">
-        {dateToLocalTime(estimatedReference, false)}
+        {dateToLocalTime(reference.time, false)}
       </span>
     </div>
   );

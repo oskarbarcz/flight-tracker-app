@@ -44,11 +44,13 @@ export const newFlightScheduleSchema: ObjectSchema<CreateFlightFormData["schedul
   onBlockTime: date().required("On-block time is required").min(ref("arrivalTime"), "On-block must be after arrival"),
 });
 
+const enterDateAndTime = (event: string) => `Enter the ${event} date and time as DD-MM-YYYY HH:mm`;
+
 export const updateScheduleSchema: ObjectSchema<FilledSchedule> = object().shape({
-  offBlockTime: date().required("Off-block time is required"),
-  takeoffTime: date().required("Takeoff time is required").min(ref("offBlockTime"), "Takeoff must be after off-block"),
-  arrivalTime: date().required("Arrival time is required").min(ref("takeoffTime"), "Arrival must be after takeoff"),
-  onBlockTime: date().required("On-block time is required").min(ref("arrivalTime"), "On-block must be after arrival"),
+  offBlockTime: date().required(enterDateAndTime("off-block")),
+  takeoffTime: date().required(enterDateAndTime("takeoff")).min(ref("offBlockTime"), "Takeoff must be after off-block"),
+  arrivalTime: date().required(enterDateAndTime("arrival")).min(ref("takeoffTime"), "Arrival must be after takeoff"),
+  onBlockTime: date().required(enterDateAndTime("on-block")).min(ref("arrivalTime"), "On-block must be after arrival"),
 });
 
 const maxThreeDecimals = (value: number | undefined): boolean =>
