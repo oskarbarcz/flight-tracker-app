@@ -1,21 +1,13 @@
-import { Badge, ToggleSwitch } from "flowbite-react";
+import { ToggleSwitch } from "flowbite-react";
 import { useFormikContext } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { LuTriangleAlert } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 import { TimeCertaintyMark } from "~/features/flight/components/Dashboard/Tracking/TimeCertaintyMark";
+import { asDate, BlockTimeRows, minutesBetween } from "~/features/flight/components/Forms/BlockTimeRows";
 import type { BlockEventKey } from "~/features/flight/lib/blockEvents";
 import type { FilledSchedule } from "~/features/flight/model";
 import { formatCompactDuration, getTimeDifferenceInMinutes } from "~/shared/lib/time";
-import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
-import { ManagedDateTimeInputBlock } from "~/shared/ui/Form/Managed/ManagedDateTimeInputBlock";
-
-const BLOCK_EVENTS: { key: BlockEventKey; label: string }[] = [
-  { key: "offBlockTime", label: "Off-block" },
-  { key: "takeoffTime", label: "Takeoff" },
-  { key: "arrivalTime", label: "Arrival" },
-  { key: "onBlockTime", label: "On-block" },
-];
 
 const LATER_EVENTS: BlockEventKey[] = ["takeoffTime", "arrivalTime", "onBlockTime"];
 
@@ -24,35 +16,6 @@ const SEGMENTS: { label: string; from: BlockEventKey; to: BlockEventKey }[] = [
   { label: "Air time", from: "takeoffTime", to: "arrivalTime" },
   { label: "Taxi in", from: "arrivalTime", to: "onBlockTime" },
 ];
-
-function asDate(value: unknown): Date | null {
-  return value instanceof Date && !Number.isNaN(value.getTime()) ? value : null;
-}
-
-function minutesBetween(from: unknown, to: unknown): number | null {
-  const start = asDate(from);
-  const end = asDate(to);
-
-  return start === null || end === null ? null : getTimeDifferenceInMinutes(start, end);
-}
-
-function Deviation({ scheduled, estimated }: { scheduled: Date; estimated: unknown }) {
-  const minutes = minutesBetween(scheduled, estimated);
-
-  if (minutes === null) {
-    return null;
-  }
-
-  if (minutes === 0) {
-    return <Badge color="gray">On time</Badge>;
-  }
-
-  return minutes > 0 ? (
-    <Badge color="warning">+{minutes} min late</Badge>
-  ) : (
-    <Badge color="success">{-minutes} min early</Badge>
-  );
-}
 
 function Duration({ minutes, emphasised = false }: { minutes: number | null; emphasised?: boolean }) {
   if (minutes === null || minutes < 0) {
@@ -133,32 +96,7 @@ export function CheckInScheduleForm({ scheduled }: Props) {
         label="Move later times with off-block"
         onChange={setShiftLaterTimes}
       />
-      <ol className="flex flex-col gap-4">
-        {BLOCK_EVENTS.map(({ key, label }) => (
-          <li
-            key={key}
-            className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 [grid-template-areas:'event_deviation'_'input_input'] @md:grid-cols-[7rem_minmax(0,1fr)_7.5rem] @md:items-start @md:[grid-template-areas:'event_input_deviation']"
-          >
-            <div className="[grid-area:event] @md:pt-2">
-              <span className="block text-sm font-semibold text-gray-900 dark:text-white">{label}</span>
-              <span className="inline-flex items-center gap-1 text-xs tabular-nums text-gray-500 dark:text-gray-400">
-                <TimeCertaintyMark certainty="scheduled" />
-                <FormattedIcaoTime date={scheduled[key]} />
-              </span>
-            </div>
-            <ManagedDateTimeInputBlock
-              className="[grid-area:input]"
-              field={key}
-              label={`Estimated ${label.toLowerCase()} (UTC)`}
-              autoComplete="off"
-              required
-            />
-            <div className="justify-self-end [grid-area:deviation] @md:pt-3">
-              <Deviation scheduled={scheduled[key]} estimated={values[key]} />
-            </div>
-          </li>
-        ))}
-      </ol>
+      <BlockTimeRows scheduled={scheduled} kind="Estimated" />
 
       <dl className="rounded-xl bg-gray-50 px-4 py-3 text-sm dark:bg-gray-800/60">
         {SEGMENTS.map(({ label, from, to }) => (

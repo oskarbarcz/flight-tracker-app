@@ -64,6 +64,12 @@ export function ManagedDateTimeInputBlock({
     fieldProps.onBlur(e);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      helpers.setValue(parseDateTime(inputValue));
+    }
+  };
+
   useEffect(() => {
     if (fieldProps.value instanceof Date) {
       setInputValue(formatDate(fieldProps.value));
@@ -91,6 +97,7 @@ export function ManagedDateTimeInputBlock({
           value={inputValue}
           onChange={handleChange}
           onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
           placeholder="DD-MM-YYYY HH:mm"
           className="dark:bg-gray-800"
         />

@@ -64,6 +64,11 @@ export default function FlightTimesheetRoute() {
           emptyMessage="Waiting for the pilot to check in."
         />
         <TimesheetCard
+          title="Predicted timesheet"
+          schedule={flight.timesheet.predicted}
+          emptyMessage="No FMC times reported yet."
+        />
+        <TimesheetCard
           title="Actual timesheet"
           schedule={flight.timesheet.actual}
           emptyMessage="Times will appear here as the flight progresses."

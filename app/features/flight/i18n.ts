@@ -52,6 +52,7 @@ export function translateEventType(
     [FlightEventType.FlightWasCreated]: "Flight plan registered",
     [FlightEventType.PreliminaryLoadsheetWasUpdated]: "Preliminary loadsheet updated",
     [FlightEventType.ScheduledTimesheetWasUpdated]: "Scheduled timesheet updated",
+    [FlightEventType.PredictedTimesheetWasUpdated]: "Predicted timesheet updated",
     [FlightEventType.DepartureParkingPositionWasChanged]: "Departure parking stand changed",
     [FlightEventType.DepartureRunwayWasChanged]: "Departure runway changed",
     [FlightEventType.ArrivalParkingPositionWasChanged]: "Arrival parking stand changed",

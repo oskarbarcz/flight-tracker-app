@@ -1,12 +1,19 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import type { Flight, Loadsheets } from "~/features/flight";
+import { combinedProvenance, resolveBlockTime, type TimeProvenance } from "~/features/flight/lib/blockEvents";
 import { NO_LOADSHEETS } from "~/features/flight/lib/loadsheets";
 import { usePublicApi } from "~/shared/api/usePublicApi";
 import { dateToLocalTime } from "~/shared/ui/Date/FormattedLocalTime";
 
 type Props = {
   flight: Flight;
+};
+
+const TIMES_LABELS: Record<TimeProvenance, string> = {
+  actual: "Actual times",
+  estimated: "Estimated times",
+  scheduled: "Scheduled times",
 };
 
 function DetailBlock({ label, children }: { label: string; children: ReactNode }) {
@@ -57,9 +64,9 @@ export function FlightDetailsDrawer({ flight }: Props) {
     ? loadsheet.flightCrew.pilots + loadsheet.flightCrew.reliefPilots + loadsheet.flightCrew.cabinCrew
     : null;
 
-  const departure = flight.timesheet.estimated?.offBlockTime ?? flight.timesheet.scheduled.offBlockTime;
-  const arrival = flight.timesheet.estimated?.onBlockTime ?? flight.timesheet.scheduled.onBlockTime;
-  const scheduleIsEstimated = Boolean(flight.timesheet.estimated);
+  const departure = resolveBlockTime("offBlockTime", flight.timesheet);
+  const arrival = resolveBlockTime("onBlockTime", flight.timesheet);
+  const timesLabel = TIMES_LABELS[combinedProvenance(departure.provenance, arrival.provenance)];
 
   return (
     <div className="flex max-h-[50vh] flex-col gap-5 overflow-y-auto overscroll-contain">
@@ -116,21 +123,19 @@ export function FlightDetailsDrawer({ flight }: Props) {
         <div className="flex items-center justify-between gap-4">
           <Endpoint
             label="Departure"
-            time={dateToLocalTime(departure, false)}
+            time={dateToLocalTime(departure.time, false)}
             code={flight.departureAirport.iataCode}
             align="start"
           />
           <FaArrowRight className="size-3.5 shrink-0 text-gray-500 dark:text-gray-400" />
           <Endpoint
             label="Arrival"
-            time={dateToLocalTime(arrival, false)}
+            time={dateToLocalTime(arrival.time, false)}
             code={flight.destinationAirport.iataCode}
             align="end"
           />
         </div>
-        <div className="mt-2 text-2xs text-gray-500 dark:text-gray-400">
-          {scheduleIsEstimated ? "Estimated times" : "Scheduled times"} · your local time
-        </div>
+        <div className="mt-2 text-2xs text-gray-500 dark:text-gray-400">{timesLabel} · your local time</div>
       </div>
     </div>
   );

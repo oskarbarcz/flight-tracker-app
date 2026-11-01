@@ -116,6 +116,7 @@ export type TrackedFlightContextType = {
   reconnect: () => void;
   reload: () => Promise<void>;
   checkIn: (schedule: FilledSchedule) => Promise<void>;
+  reportPredictedTimes: (times: Partial<FilledSchedule>) => Promise<void>;
   startBoarding: () => Promise<void>;
   finishBoarding: (loadsheet: Loadsheet) => Promise<void>;
   reportOffBlock: () => Promise<void>;
@@ -151,6 +152,7 @@ export const TrackedFlightContext = createContext<TrackedFlightContextType>({
   reconnect: () => {},
   reload: async () => {},
   checkIn: async () => {},
+  reportPredictedTimes: async () => {},
   startBoarding: async () => {},
   finishBoarding: async () => {},
   reportOffBlock: async () => {},
@@ -269,6 +271,15 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
     async (schedule: FilledSchedule) => {
       if (!state.flightId) return;
       await flightService.checkIn(state.flightId, schedule);
+      await loadFlight();
+    },
+    [flightService, state.flightId, loadFlight],
+  );
+
+  const reportPredictedTimes = useCallback(
+    async (times: Partial<FilledSchedule>) => {
+      if (!state.flightId) return;
+      await flightService.updatePredictedTimesheet(state.flightId, times);
       await loadFlight();
     },
     [flightService, state.flightId, loadFlight],
@@ -433,6 +444,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       reconnect,
       reload: () => loadFlight({ silent: true }),
       checkIn,
+      reportPredictedTimes,
       startBoarding,
       finishBoarding,
       reportOffBlock,
@@ -467,6 +479,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       reconnect,
       loadFlight,
       checkIn,
+      reportPredictedTimes,
       startBoarding,
       finishBoarding,
       reportOffBlock,

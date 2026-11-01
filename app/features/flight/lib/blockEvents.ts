@@ -15,7 +15,7 @@ export type BlockEvent = {
   position: number;
 };
 
-const BLOCK_EVENTS: { key: BlockEventKey; label: string }[] = [
+export const BLOCK_EVENTS: { key: BlockEventKey; label: string }[] = [
   { key: "offBlockTime", label: "Off-block" },
   { key: "takeoffTime", label: "Takeoff" },
   { key: "arrivalTime", label: "Arrival" },
