@@ -12,6 +12,7 @@ import { landingPathForRole } from "~/features/user/lib/landingPath";
 import type { User } from "~/features/user/model";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 import { canAnimateAppEntry, markAppEntryOrigin } from "~/shared/lib/appEntryTransition";
+import { readReturnPath } from "~/shared/lib/signInReturn";
 import { Logo } from "~/shared/ui/Layout/Logo";
 
 const missingCredentialsMessage = "Enter your email and password.";
@@ -40,6 +41,7 @@ export default function SignInRoute() {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, signInWithGoogle, user, isLoading } = useAuth();
+  const returnPath = readReturnPath(location.search);
 
   useEffect(() => {
     if (!isLoading) {
@@ -55,12 +57,16 @@ export default function SignInRoute() {
     }
 
     setError(failure);
-    navigate(location.pathname, { replace: true });
-  }, [location.pathname, location.state, navigate]);
+    navigate({ pathname: location.pathname, search: location.search }, { replace: true });
+  }, [location.pathname, location.search, location.state, navigate]);
+
+  function destinationFor(signedInUser: User): string {
+    return returnPath ?? landingPathForRole(signedInUser.role);
+  }
 
   function enterApp(signedInUser: User) {
     enteringRef.current = true;
-    const destination = landingPathForRole(signedInUser.role);
+    const destination = destinationFor(signedInUser);
 
     if (submitRef.current && canAnimateAppEntry()) {
       markAppEntryOrigin(submitRef.current);
@@ -111,7 +117,7 @@ export default function SignInRoute() {
   }
 
   if (user && !enteringRef.current) {
-    return <Navigate to={landingPathForRole(user.role)} replace />;
+    return <Navigate to={destinationFor(user)} replace />;
   }
 
   return (
@@ -178,7 +184,7 @@ export default function SignInRoute() {
           )}
         </Button>
 
-        <ThirdPartySignIn blocked={submitting} onGoogleCredential={handleGoogleCredential} />
+        <ThirdPartySignIn blocked={submitting} returnPath={returnPath} onGoogleCredential={handleGoogleCredential} />
       </form>
     </section>
   );

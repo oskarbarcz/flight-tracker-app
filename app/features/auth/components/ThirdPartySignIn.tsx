@@ -5,10 +5,11 @@ import { LabeledDivider } from "~/shared/ui/Layout/LabeledDivider";
 
 type Props = {
   blocked: boolean;
+  returnPath: string | null;
   onGoogleCredential: (idToken: string) => void;
 };
 
-export function ThirdPartySignIn({ blocked, onGoogleCredential }: Props) {
+export function ThirdPartySignIn({ blocked, returnPath, onGoogleCredential }: Props) {
   const { containerRef, status } = useGoogleIdentity({ text: "signin_with", onCredential: onGoogleCredential });
   const hasDiscord = getDiscordClientId() !== null;
   const hasGoogle = status !== "unconfigured" && status !== "unavailable";
@@ -32,7 +33,7 @@ export function ThirdPartySignIn({ blocked, onGoogleCredential }: Props) {
         />
       )}
 
-      {hasDiscord && <DiscordSignInButton blocked={blocked} />}
+      {hasDiscord && <DiscordSignInButton blocked={blocked} returnPath={returnPath} />}
     </div>
   );
 }

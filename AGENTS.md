@@ -105,9 +105,10 @@ Scoped providers, mounted in `routes/AppLayout.tsx`: `useCurrentFlight()`, `useD
 ### Route Structure (`app/routes.ts`)
 
 Routes use React Router's compositional config API (`layout()`, `route()`, `index()`). Key layouts:
-- `AuthLayout` — sign-in/out, email confirmation, Discord OAuth callback
+- `AuthLayout` — sign-in/out, email confirmation, Discord OAuth callback, and `/activate`, where a signed-in user approves a Transponder sign-in. The Transponder opens `/activate?code=BCDF-GHJK`, so the path and the `code` parameter must not change
 - `MapLayout` — public flight map (`/map`, `/map/:id`), no auth
 - `AppLayout` — authenticated wrapper (sidebar, bottom nav, toasts), wraps `AuthGuard`. Its index `/` is the dashboard: the pilot dashboard for Cabin crew, a redirect to `/flights` for Operations and to `/data-changes` for Admin. Signed-out visitors land on `/sign-in`. The old `/dashboard` address redirects to `/`, because iOS home-screen installs keep the start URL they were installed with
+- Return after sign-in: `AuthGuard`, and a failed token refresh, send the visitor to `/sign-in?returnTo=<path>`, and password, Google and Discord sign-in all land back on that path (Discord carries it through the OAuth round trip in its stored flow state). `app/shared/lib/signInReturn.ts` accepts only same-origin paths outside `/`, the sign-in and sign-out routes, `/confirm-email` and `/auth/*`; anything else falls back to the role's landing page
 - `OperationsLayout` / `PilotLayout` — role-specific nested layouts; `AuthGuard` takes `allowOnly` (one role or a list) to gate by role
 - `ReviewLayout` — shared by Operations and Admin; holds the data change review queue at `/data-changes`, which is also the Admin landing page
 

@@ -5,9 +5,10 @@ import { startDiscordFlow } from "~/features/auth/lib/discordAuthorization";
 
 type Props = {
   blocked: boolean;
+  returnPath: string | null;
 };
 
-export function DiscordSignInButton({ blocked }: Props) {
+export function DiscordSignInButton({ blocked, returnPath }: Props) {
   const [leaving, setLeaving] = useState<boolean>(false);
   const unavailable = blocked || leaving;
 
@@ -17,7 +18,7 @@ export function DiscordSignInButton({ blocked }: Props) {
     }
 
     setLeaving(true);
-    startDiscordFlow("signin").catch(() => setLeaving(false));
+    startDiscordFlow("signin", { returnPath }).catch(() => setLeaving(false));
   }
 
   return (

@@ -260,7 +260,7 @@ export const ArrivalAfterOnBlock: Story = {
     await userEvent.tab();
     await userEvent.click(body.getByRole("button", { name: "Save times" }));
 
-    await expect(await body.findByText("On-block must be after arrival")).toBeVisible();
+    await waitFor(() => expect(body.getByText("On-block must be after arrival")).toBeVisible());
     await expect(args.save).not.toHaveBeenCalled();
   },
   parameters: {

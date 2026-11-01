@@ -1,6 +1,7 @@
 import { useAuth } from "~/app-state/useAuth";
 import { DiscordAccountSection } from "~/features/auth/components/DiscordAccountSection";
 import { GoogleAccountSection } from "~/features/auth/components/GoogleAccountSection";
+import { SignedInDevicesSection } from "~/features/auth/components/SignedInDevicesSection";
 import { UserRole } from "~/features/user";
 import { AccountIdentity } from "~/features/user/components/AccountIdentity";
 import { EmailSection } from "~/features/user/components/EmailSection";
@@ -30,6 +31,7 @@ export default function AccountRoute() {
         <PasswordSection />
         <GoogleAccountSection />
         <DiscordAccountSection />
+        <SignedInDevicesSection />
         <SimbriefSection />
         <WeatherSourceSection />
         {user.role === UserRole.CabinCrew && <GsxSection />}

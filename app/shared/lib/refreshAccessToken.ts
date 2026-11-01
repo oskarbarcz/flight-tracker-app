@@ -1,4 +1,5 @@
 import { getMyPreflightApiHost } from "~/shared/lib/getMyPreflightApiHost";
+import { currentLocationPath, signInPathReturningTo } from "~/shared/lib/signInReturn";
 import { clearTokens, readRefreshToken, saveTokens } from "~/shared/lib/tokenStorage";
 
 export async function refreshAccessToken(): Promise<string> {
@@ -17,7 +18,7 @@ export async function refreshAccessToken(): Promise<string> {
 
   if (!response.ok) {
     clearTokens();
-    window.location.replace("/sign-in");
+    window.location.replace(signInPathReturningTo(currentLocationPath()));
     throw new Error("Failed to refresh access token");
   }
 

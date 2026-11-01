@@ -8,6 +8,7 @@ import {
   translateOsmRecord,
   translateOsmResource,
 } from "~/features/airport/i18n";
+import { translateAuthClient } from "~/features/auth/i18n";
 import {
   translateCabinClass,
   translateCommentSentiment,
@@ -66,6 +67,9 @@ import {
 export const toHuman = {
   aircraft: {
     state: translateAircraftState,
+  },
+  auth: {
+    client: translateAuthClient,
   },
   flight: {
     eventType: translateEventType,

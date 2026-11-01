@@ -5,6 +5,7 @@ export type DiscordFlowState = {
   state: string;
   codeVerifier: string;
   joinServer: boolean;
+  returnPath: string | null;
 };
 
 const storageKey = "ft.discordFlow";
@@ -16,7 +17,8 @@ function isFlowState(candidate: Partial<DiscordFlowState>): candidate is Discord
     candidate.state.length > 0 &&
     typeof candidate.codeVerifier === "string" &&
     candidate.codeVerifier.length > 0 &&
-    typeof candidate.joinServer === "boolean"
+    typeof candidate.joinServer === "boolean" &&
+    (candidate.returnPath === null || typeof candidate.returnPath === "string")
   );
 }
 
