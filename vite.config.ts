@@ -37,7 +37,7 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      "/mypreflight-files": "http://localhost:8080",
+      "/mypreflight-files": "http://localhost:1089",
     },
   },
   resolve: {
