@@ -361,5 +361,6 @@ visible, so the operator can verify every tonne at a glance.
 - **Don't** set Muted text any lighter, or use `gray-300` for anything a user must read.
 - **Don't** let a second filled indigo button compete with the primary action.
 - **Don't** show a failed request as an empty state, or a passed estimate as "now".
-- **Don't** pulse or animate anything that is not changing.
+- **Don't** pulse or animate anything that is not changing. The one exception is the GSX passenger drawing on the
+  account page, which loops while its setting takes effect and holds still under reduced motion.
 - **Don't** reach for a modal by reflex — exhaust inline and progressive-disclosure alternatives first.

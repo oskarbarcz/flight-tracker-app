@@ -11,6 +11,7 @@ import {
 } from "~/features/flight";
 import type { TrackedFlightContextType } from "~/features/flight/hooks/useTrackedFlight";
 import type { ApiFlightResponse } from "~/features/flight/request";
+import type { GsxSettingsResponse } from "~/features/user/request";
 import bostonPhiladelphia from "./boston-philadelphia.json";
 import bostonPhiladelphiaTrack from "./boston-philadelphia-track.json";
 import frankfurtNewYork from "./frankfurt-new-york.json";
@@ -150,7 +151,11 @@ export function livePositionEvents(): FlightEvent[] {
   ];
 }
 
-export function trackedFlight(flight: Flight, events: FlightEvent[] = []): TrackedFlightContextType {
+export function trackedFlight(
+  flight: Flight,
+  events: FlightEvent[] = [],
+  gsxSettings: GsxSettingsResponse | null = null,
+): TrackedFlightContextType {
   return {
     flight,
     loadsheets: { preliminary: null, final: null },
@@ -160,6 +165,7 @@ export function trackedFlight(flight: Flight, events: FlightEvent[] = []): Track
     activeEmergency: null,
     diversion: null,
     delayRequest: null,
+    gsxSettings,
     loading: false,
     connectionStatus: "live",
     setFlightId: fn(),

@@ -45,7 +45,7 @@ const preview: Preview = {
     controls: { expanded: true, sort: "requiredFirst" },
     docs: { toc: true },
     options: {
-      storySort: { order: ["Introduction", "Dashboard", "Tracking", "Maps", "Shared"] },
+      storySort: { order: ["Introduction", "Dashboard", "Tracking", "Maps", "Account", "Shared"] },
     },
   },
   beforeEach: ({ parameters }) => serveAdsbTrack((parameters.adsbTrack as FlightPathElement[] | undefined) ?? []),

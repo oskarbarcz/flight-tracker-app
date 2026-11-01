@@ -9,7 +9,7 @@ export default function TrackFlightRoute({ params }: Route.ComponentProps) {
   usePageTitle("Tracking");
 
   return (
-    <TrackedFlightProvider>
+    <TrackedFlightProvider readsGsxSettings>
       <AdsbProvider>
         <FlightTrackingDashboard flightId={params.id} viewSlug={params.view} tabSlug={params.tab} />
       </AdsbProvider>

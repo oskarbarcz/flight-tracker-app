@@ -26,6 +26,7 @@ import {
 import { type FlightConnectionStatus, subscribeToFlightEvents } from "~/features/flight/events.socket";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { NO_LOADSHEETS } from "~/features/flight/lib/loadsheets";
+import type { GsxSettingsResponse } from "~/features/user/request";
 import { useApi } from "~/shared/api/useApi";
 
 function sortNewestFirst(events: FlightEvent[]): FlightEvent[] {
@@ -41,6 +42,7 @@ type State = {
   emergenciesLoadFailed: boolean;
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
+  gsxSettings: GsxSettingsResponse | null;
   loading: boolean;
   connectionStatus: FlightConnectionStatus;
 };
@@ -54,6 +56,7 @@ const initialState: State = {
   emergenciesLoadFailed: false,
   diversion: null,
   delayRequest: null,
+  gsxSettings: null,
   loading: false,
   connectionStatus: "connecting",
 };
@@ -67,6 +70,7 @@ type Action =
   | { type: "SET_TRACKED_FLIGHT_EMERGENCIES_LOAD_FAILED" }
   | { type: "SET_TRACKED_FLIGHT_DIVERSION"; payload: Diversion | null }
   | { type: "SET_TRACKED_FLIGHT_DELAY"; payload: DelayRequest | null }
+  | { type: "SET_GSX_SETTINGS"; payload: GsxSettingsResponse | null }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_CONNECTION_STATUS"; payload: FlightConnectionStatus }
   | { type: "SET_FLIGHT_ID"; payload: string | null };
@@ -90,6 +94,8 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, diversion: action.payload };
     case "SET_TRACKED_FLIGHT_DELAY":
       return { ...state, delayRequest: action.payload };
+    case "SET_GSX_SETTINGS":
+      return { ...state, gsxSettings: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     case "SET_CONNECTION_STATUS":
@@ -110,6 +116,7 @@ export type TrackedFlightContextType = {
   activeEmergency: Emergency | null;
   diversion: Diversion | null;
   delayRequest: DelayRequest | null;
+  gsxSettings: GsxSettingsResponse | null;
   loading: boolean;
   connectionStatus: FlightConnectionStatus;
   setFlightId: (flightId: string) => void;
@@ -146,6 +153,7 @@ export const TrackedFlightContext = createContext<TrackedFlightContextType>({
   activeEmergency: null,
   diversion: null,
   delayRequest: null,
+  gsxSettings: null,
   loading: false,
   connectionStatus: "connecting",
   setFlightId: () => {},
@@ -175,11 +183,12 @@ export const TrackedFlightContext = createContext<TrackedFlightContextType>({
 
 type FlightStateProviderProps = {
   children: ReactNode;
+  readsGsxSettings?: boolean;
 };
 
-export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) => {
+export const TrackedFlightProvider = ({ children, readsGsxSettings = false }: FlightStateProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { flightService, emergencyService, diversionService, delayService } = useApi();
+  const { flightService, emergencyService, diversionService, delayService, userService } = useApi();
   const { markRefreshed } = useDataRefresh();
   const { refresh: refreshCurrentFlight } = useCurrentFlight();
   const teardownSubscription = useRef<(() => void) | null>(null);
@@ -195,14 +204,16 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       if (!silent) dispatch({ type: "SET_LOADING", payload: true });
       const updatedFlight = await flightService.fetchById(state.flightId);
       const diversion = updatedFlight.isFlightDiverted ? await diversionService.getByFlight(state.flightId) : null;
-      const [loadsheets, delayRequest] = await Promise.all([
+      const [loadsheets, delayRequest, gsxSettings] = await Promise.all([
         flightService.fetchLoadsheets(state.flightId),
         delayService.getByFlight(state.flightId),
+        readsGsxSettings ? userService.fetchGsxSettings().catch(() => null) : null,
       ]);
       dispatch({ type: "SET_TRACKED_FLIGHT", payload: updatedFlight });
       dispatch({ type: "SET_TRACKED_FLIGHT_LOADSHEETS", payload: loadsheets });
       dispatch({ type: "SET_TRACKED_FLIGHT_DIVERSION", payload: diversion });
       dispatch({ type: "SET_TRACKED_FLIGHT_DELAY", payload: delayRequest });
+      dispatch({ type: "SET_GSX_SETTINGS", payload: gsxSettings });
       markRefreshed();
       if (!silent) {
         if (initialLoadDone.current) refreshCurrentFlight();
@@ -210,7 +221,16 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
         dispatch({ type: "SET_LOADING", payload: false });
       }
     },
-    [flightService, diversionService, delayService, state.flightId, markRefreshed, refreshCurrentFlight],
+    [
+      flightService,
+      diversionService,
+      delayService,
+      userService,
+      readsGsxSettings,
+      state.flightId,
+      markRefreshed,
+      refreshCurrentFlight,
+    ],
   );
 
   const openSubscription = useCallback(() => {
@@ -438,6 +458,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       activeEmergency,
       diversion: state.diversion,
       delayRequest: state.delayRequest,
+      gsxSettings: state.gsxSettings,
       loading: state.loading,
       connectionStatus: state.connectionStatus,
       setFlightId,
@@ -473,6 +494,7 @@ export const TrackedFlightProvider = ({ children }: FlightStateProviderProps) =>
       activeEmergency,
       state.diversion,
       state.delayRequest,
+      state.gsxSettings,
       state.loading,
       state.connectionStatus,
       setFlightId,

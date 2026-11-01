@@ -20,7 +20,9 @@ import {
 } from "~/features/flight/lib/flightAutomation";
 import { type ClosureBlock, closureBlock } from "~/features/flight/lib/flightClosure";
 import { FlightDataTab } from "~/features/flight/lib/flightDataTabs";
+import { gsxHandling } from "~/features/flight/lib/gsxHandling";
 import { TrackingView, trackFlightPath } from "~/features/flight/lib/trackingView";
+import { gsxSettingsPath } from "~/features/user/lib/gsxSettings";
 import { toHuman } from "~/i18n/translate";
 
 type TrackedFlight = ReturnType<typeof useTrackedFlight>;
@@ -115,6 +117,25 @@ const CLOSURE_WARNINGS: Record<ClosureBlock, { message: string; link: string; ta
   },
 };
 
+function PanelLink({ to, className, children }: { to: string; className?: string; children: string }) {
+  return (
+    <Link
+      to={to}
+      viewTransition
+      className={twMerge(
+        "group inline-flex w-fit items-center gap-1.5 rounded-sm text-xs font-bold text-gray-700 hover:text-gray-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 pointer-coarse:-my-3.5 pointer-coarse:py-3.5 dark:text-gray-200 dark:hover:text-white",
+        className,
+      )}
+    >
+      {children}
+      <LuArrowRight
+        className="size-3 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
+        aria-hidden={true}
+      />
+    </Link>
+  );
+}
+
 function ClosureWarning({ flightId, block }: { flightId: string; block: ClosureBlock }) {
   const warning = CLOSURE_WARNINGS[block];
 
@@ -124,17 +145,9 @@ function ClosureWarning({ flightId, block }: { flightId: string; block: ClosureB
         <LuTriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden={true} />
         <span>{warning.message}</span>
       </p>
-      <Link
-        to={trackFlightPath(flightId, TrackingView.Briefing, warning.tab)}
-        viewTransition
-        className="group ms-6 inline-flex w-fit items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-gray-900 hover:underline dark:text-gray-200 dark:hover:text-white"
-      >
+      <PanelLink to={trackFlightPath(flightId, TrackingView.Briefing, warning.tab)} className="ms-6">
         {warning.link}
-        <LuArrowRight
-          className="size-3 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
-          aria-hidden={true}
-        />
-      </Link>
+      </PanelLink>
     </div>
   );
 }
@@ -229,6 +242,8 @@ function ConditionList({ conditions, className }: { conditions: AutomationCondit
 }
 
 const ACTION_SLOT = "shrink-0 *:w-full @2xl:w-64 @5xl:w-auto";
+const DETAILS_TOGGLE = { show: "See details", hide: "Hide details" };
+const GSX_TROUBLESHOOTING_TOGGLE = { show: "Didn’t work? Troubleshoot", hide: "Hide troubleshooting" };
 
 type Props = {
   className?: string;
@@ -245,7 +260,8 @@ export function NextStepPanel({ className }: Props) {
   }
 
   const automation = flightAutomation(flight, events);
-  const step = nextStep(flight, automation);
+  const gsx = gsxHandling(flight, tracked.gsxSettings);
+  const step = gsx ?? nextStep(flight, automation);
   const block =
     flight.status === FlightStatus.OffboardingFinished
       ? closureBlock(tracked.activeEmergency, tracked.delayRequest)
@@ -253,11 +269,14 @@ export function NextStepPanel({ className }: Props) {
   const label = automation?.isAutomatic === true ? manualReportLabel(automation) : undefined;
   const action = mapStatusToButton(
     flight,
-    { tone: progressTone(automation), label, confirmNote: manualOverrideNote(automation) },
+    gsx === null
+      ? { tone: progressTone(automation), label, confirmNote: manualOverrideNote(automation) }
+      : { tone: "alternative", label: gsx.manualLabel },
     tracked,
   );
   const conditions = automation?.conditions ?? [];
-  const hasOptionalAction = automation?.isAutomatic === true && action !== null;
+  const hasOptionalAction = (gsx !== null || automation?.isAutomatic === true) && action !== null;
+  const toggle = gsx === null ? DETAILS_TOGGLE : GSX_TROUBLESHOOTING_TOGGLE;
 
   return (
     <div
@@ -280,9 +299,9 @@ export function NextStepPanel({ className }: Props) {
               onClick={() => setDetailsOpen(!detailsOpen)}
               aria-expanded={detailsOpen}
               aria-controls={detailsId}
-              className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-sm text-xs font-bold text-gray-700 hover:text-gray-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 pointer-coarse:-my-3 pointer-coarse:py-3 dark:text-gray-200 dark:hover:text-white"
+              className="mt-2 inline-flex cursor-pointer items-center gap-1.5 rounded-sm text-xs font-bold text-gray-700 hover:text-gray-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 pointer-coarse:-my-3.5 pointer-coarse:py-3.5 dark:text-gray-200 dark:hover:text-white"
             >
-              {detailsOpen ? "Hide details" : "See details"}
+              {detailsOpen ? toggle.hide : toggle.show}
               <LuChevronDown
                 className={twMerge(
                   "size-3 transition-transform duration-200 motion-reduce:transition-none",
@@ -292,8 +311,13 @@ export function NextStepPanel({ className }: Props) {
               />
             </button>
             <div id={detailsId} hidden={!detailsOpen} className="mt-3">
-              <ConditionList conditions={conditions} />
-              <div className={twMerge(ACTION_SLOT, "mt-3")}>{action}</div>
+              {gsx === null && <ConditionList conditions={conditions} />}
+              <div className={twMerge(ACTION_SLOT, gsx === null && "mt-3")}>{action}</div>
+              {gsx !== null && (
+                <div className="mt-3">
+                  <PanelLink to={gsxSettingsPath}>GSX integration setup</PanelLink>
+                </div>
+              )}
             </div>
           </>
         ) : (
