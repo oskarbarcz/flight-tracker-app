@@ -137,8 +137,8 @@ Storybook 10 (`@storybook/react-vite`) documents components in isolation. Config
   `ThemeProvider` with the app theme. The toolbar's Theme switch calls Flowbite's `setMode`, so `useThemeMode()` readers
   such as the map tiles follow it.
 - **Fixtures:** `stories/fixtures/flights.ts` builds `Flight` objects from two trimmed seeded flights (AA4912 BOS–PHL
-  passenger, AA2021 FRA–JFK cargo) and lays the timesheet out around the current time for a given status, delay and
-  block-time delta. `trackedFlight()` builds a `TrackedFlightContext` value with Storybook spies for every action;
+  passenger, AA2021 FRA–JFK cargo, also re-pointed JFK–HKG as a polar route) and lays the timesheet out around the
+  current time for a given status, delay and block-time delta. `trackedFlight()` builds a `TrackedFlightContext` value with Storybook spies for every action;
   `TrackedFlightContext` is exported from `useTrackedFlight.tsx` for this.
 - **No live ADS-B:** a global `beforeEach` answers every `/api/v1/position/` request from the story's `adsbTrack`
   parameter, or with an empty track. `.env` points ADS-B at production, so never remove this guard. Other API calls are

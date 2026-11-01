@@ -1,6 +1,6 @@
 import { useThemeMode } from "flowbite-react";
 import L, { type LatLngTuple } from "leaflet";
-import React from "react";
+import React, { useMemo } from "react";
 import ReactDOMServer from "react-dom/server";
 import { CircleMarker, Circle as LeafletCircle, Marker, Polyline } from "react-leaflet";
 import { twMerge } from "tailwind-merge";
@@ -14,6 +14,7 @@ import type { EtopsBriefing, EtopsPoint, OceanicTrack } from "~/features/route/m
 import { EtopsPointKind, OceanicRouting } from "~/features/route/model";
 import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import type { Runway } from "~/features/runway/model";
+import { greatCirclePath, ROUTE_LINE_SMOOTH_FACTOR } from "~/shared/lib/greatCircle";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
 import { shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
@@ -82,26 +83,32 @@ function routeLine(briefing: EtopsBriefing, runways: AssignedRunways): LatLngTup
   const start = threshold(runways.departure);
   const end = threshold(runways.arrival);
 
-  return fixes.map((position, index) => {
-    if (index === 0 && start !== null) {
-      return start;
-    }
+  return greatCirclePath(
+    fixes.map((position, index) => {
+      if (index === 0 && start !== null) {
+        return start;
+      }
 
-    if (index === fixes.length - 1 && end !== null) {
-      return end;
-    }
+      if (index === fixes.length - 1 && end !== null) {
+        return end;
+      }
 
-    return position;
-  });
+      return position;
+    }),
+  );
+}
+
+function trackLine(track: OceanicTrack | null): LatLngTuple[] {
+  return greatCirclePath((track?.fixes ?? []).map((fix): LatLngTuple => [fix.latitude, fix.longitude]));
 }
 
 function RouteLayer({ briefing, airports, insights, runways, selectedOrdinal, onSelect, offset }: LayerProps) {
   const { computedMode } = useThemeMode();
   const pointColor = etopsPointColor(computedMode);
   const markerFill = fixMarkerFill(computedMode);
-  const track = flownTrack(briefing);
   const plan = briefing.etops;
-  const line = routeLine(briefing, runways);
+  const line = useMemo(() => routeLine(briefing, runways), [briefing, runways]);
+  const track = useMemo(() => trackLine(flownTrack(briefing)), [briefing]);
   const selected = insights.find((insight) => insight.fix.ordinal === selectedOrdinal) ?? null;
 
   const ringCentres = (plan?.airports ?? [])
@@ -129,17 +136,21 @@ function RouteLayer({ briefing, airports, insights, runways, selectedOrdinal, on
         </React.Fragment>
       ))}
 
-      {track !== null && track.fixes.length > 1 && (
+      {track.length > 1 && (
         <Polyline
           pathOptions={TRACK_STYLE}
-          positions={shiftPath(
-            track.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]),
-            offset,
-          )}
+          positions={shiftPath(track, offset)}
+          smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
         />
       )}
 
-      {line.length > 1 && <Polyline pathOptions={ROUTE_STYLE} positions={shiftPath(line, offset)} />}
+      {line.length > 1 && (
+        <Polyline
+          pathOptions={ROUTE_STYLE}
+          positions={shiftPath(line, offset)}
+          smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
+        />
+      )}
 
       {insights.map(({ fix }) => (
         <CircleMarker

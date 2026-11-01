@@ -1,4 +1,3 @@
-import Arc from "arc";
 import L, { type LatLngTuple } from "leaflet";
 import React, { useEffect, useMemo } from "react";
 import { MapContainer, Marker, Polyline, useMap } from "react-leaflet";
@@ -10,8 +9,11 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
+import { airportRoute } from "~/features/flight/lib/flightMapBounds";
 import type { Rotation } from "~/features/rotation";
 import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
+import { ROUTE_LINE_SMOOTH_FACTOR } from "~/shared/lib/greatCircle";
+import { alignPath, shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
 
 type Segment = { id: string; start: Airport; end: Airport };
@@ -28,19 +30,6 @@ function pairKey(segment: Segment): string {
   return [segment.start.id, segment.end.id].sort().join("|");
 }
 
-function chordLength(a: Airport, b: Airport): number {
-  return Math.hypot(a.location.latitude - b.location.latitude, a.location.longitude - b.location.longitude);
-}
-
-function geodesic(start: Airport, end: Airport): LatLngTuple[] {
-  const greatCircle = new Arc.GreatCircle(
-    { x: start.location.longitude, y: start.location.latitude },
-    { x: end.location.longitude, y: end.location.latitude },
-  );
-  const coords = greatCircle.Arc(64, { offset: 10 }).geometries[0]?.coords ?? [];
-  return coords.map(([lon, lat]) => [lat, lon] as LatLngTuple);
-}
-
 function buildLegPaths(segments: Segment[]): LegPath[] {
   const totals = new Map<string, number>();
   for (const segment of segments) {
@@ -49,6 +38,7 @@ function buildLegPaths(segments: Segment[]): LegPath[] {
   }
 
   const occurrences = new Map<string, number>();
+  let referenceLongitude = segments.at(0)?.start.location.longitude ?? 0;
 
   return segments.map((segment) => {
     const key = pairKey(segment);
@@ -56,21 +46,23 @@ function buildLegPaths(segments: Segment[]): LegPath[] {
     const occurrence = occurrences.get(key) ?? 0;
     occurrences.set(key, occurrence + 1);
 
-    const points = geodesic(segment.start, segment.end);
+    const points = alignPath(airportRoute(segment.start, segment.end), referenceLongitude);
+    const [startLat, startLon] = points[0];
+    const [endLat, endLon] = points[points.length - 1];
+    referenceLongitude = endLon;
 
     const spread = occurrence - (total - 1) / 2;
     if (total < 2 || spread === 0 || points.length < 2) {
       return { id: segment.id, positions: points, midpoint: points[Math.floor(points.length / 2)] };
     }
 
-    const [low, high] =
-      segment.start.id <= segment.end.id ? [segment.start, segment.end] : [segment.end, segment.start];
-    const dLat = high.location.latitude - low.location.latitude;
-    const dLon = high.location.longitude - low.location.longitude;
+    const direction = segment.start.id <= segment.end.id ? 1 : -1;
+    const dLat = (endLat - startLat) * direction;
+    const dLon = (endLon - startLon) * direction;
     const length = Math.hypot(dLat, dLon) || 1;
     const perpLat = -dLon / length;
     const perpLon = dLat / length;
-    const magnitude = spread * Math.max(0.8, 0.022 * chordLength(segment.start, segment.end));
+    const magnitude = spread * Math.max(0.8, 0.022 * length);
 
     const positions = points.map(([lat, lon], index) => {
       const offset = magnitude * Math.sin((Math.PI * index) / (points.length - 1));
@@ -146,12 +138,22 @@ export function RotationMap({ rotation, airports }: Props) {
           >
             <MapTileLayer />
             <MapWorldConstraint crossAntimeridian={true} />
-            {legPaths.map((leg) => (
-              <Polyline key={leg.id} pathOptions={LEG_LINE_STYLE} positions={leg.positions} />
-            ))}
-            {legPaths.map((leg, index) => (
-              <Marker key={leg.id} position={leg.midpoint} icon={legNumberIcon(index + 1)} zIndexOffset={1200} />
-            ))}
+            {WORLD_COPIES.map((offset) =>
+              legPaths.map((leg, index) => (
+                <React.Fragment key={`${offset}-${leg.id}`}>
+                  <Polyline
+                    pathOptions={LEG_LINE_STYLE}
+                    positions={shiftPath(leg.positions, offset)}
+                    smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
+                  />
+                  <Marker
+                    position={shiftPoint(leg.midpoint, offset)}
+                    icon={legNumberIcon(index + 1)}
+                    zIndexOffset={1200}
+                  />
+                </React.Fragment>
+              )),
+            )}
             {uniqueAirports.map((airport) => (
               <MapAirportLabel key={airport.id} airport={airport} />
             ))}

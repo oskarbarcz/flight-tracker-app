@@ -1,5 +1,7 @@
 import type { LatLngTuple } from "leaflet";
 import type { FlightPathElement } from "~/features/flight";
+import { fromVector, toVector } from "~/shared/lib/greatCircle";
+import { alignLongitude } from "~/shared/lib/worldCopies";
 import type { Position } from "~/shared/models/geo";
 
 export type SmoothedFlightPoint = {
@@ -7,39 +9,43 @@ export type SmoothedFlightPoint = {
   altitude: number | undefined;
 };
 
+function catmullRom(p0: number, p1: number, p2: number, p3: number, t: number): number {
+  const t2 = t * t;
+  const t3 = t2 * t;
+
+  return 0.5 * (2 * p1 + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3);
+}
+
 export function smoothFlightPath(elements: FlightPathElement[], granularity: number = 16): SmoothedFlightPoint[] {
   if (elements.length < 2) {
     return elements.map((e) => ({ position: [e.latitude, e.longitude], altitude: e.altitude }));
   }
 
+  const vectors = elements.map((e) => toVector([e.latitude, e.longitude]));
   const result: SmoothedFlightPoint[] = [
     { position: [elements[0].latitude, elements[0].longitude], altitude: elements[0].altitude },
   ];
+  let referenceLongitude = elements[0].longitude;
 
   for (let i = 0; i < elements.length - 1; i++) {
-    const p0 = elements[i === 0 ? i : i - 1];
     const p1 = elements[i];
     const p2 = elements[i + 1];
-    const p3 = elements[i === elements.length - 2 ? i + 1 : i + 2];
+    const v0 = vectors[i === 0 ? i : i - 1];
+    const v1 = vectors[i];
+    const v2 = vectors[i + 1];
+    const v3 = vectors[i === elements.length - 2 ? i + 1 : i + 2];
 
     for (let t = 1; t <= granularity; t++) {
       const tStep = t / granularity;
-      const t2 = tStep * tStep;
-      const t3 = t2 * tStep;
-
-      const newLat =
-        0.5 *
-        (2 * p1.latitude +
-          (-p0.latitude + p2.latitude) * tStep +
-          (2 * p0.latitude - 5 * p1.latitude + 4 * p2.latitude - p3.latitude) * t2 +
-          (-p0.latitude + 3 * p1.latitude - 3 * p2.latitude + p3.latitude) * t3);
-
-      const newLng =
-        0.5 *
-        (2 * p1.longitude +
-          (-p0.longitude + p2.longitude) * tStep +
-          (2 * p0.longitude - 5 * p1.longitude + 4 * p2.longitude - p3.longitude) * t2 +
-          (-p0.longitude + 3 * p1.longitude - 3 * p2.longitude + p3.longitude) * t3);
+      const position = alignLongitude(
+        fromVector([
+          catmullRom(v0[0], v1[0], v2[0], v3[0], tStep),
+          catmullRom(v0[1], v1[1], v2[1], v3[1], tStep),
+          catmullRom(v0[2], v1[2], v2[2], v3[2], tStep),
+        ]),
+        referenceLongitude,
+      );
+      referenceLongitude = position[1];
 
       let altitude: number | undefined;
       if (p1.altitude !== undefined && p2.altitude !== undefined) {
@@ -48,7 +54,7 @@ export function smoothFlightPath(elements: FlightPathElement[], granularity: num
         altitude = p1.altitude ?? p2.altitude;
       }
 
-      result.push({ position: [newLat, newLng], altitude });
+      result.push({ position, altitude });
     }
   }
 

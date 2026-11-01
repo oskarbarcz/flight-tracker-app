@@ -18,6 +18,7 @@ import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLa
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
+import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { useApi } from "~/shared/api/useApi";
 import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
@@ -61,10 +62,7 @@ function RouteMapContent({ flight }: Props) {
     return () => clearInterval(intervalId);
   }, [flight.status, fetchPath]);
 
-  const bounds = L.latLngBounds([
-    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
-    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
-  ]);
+  const bounds = L.latLngBounds(flightMapPositions(flight, null).boundsPoints);
 
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
 

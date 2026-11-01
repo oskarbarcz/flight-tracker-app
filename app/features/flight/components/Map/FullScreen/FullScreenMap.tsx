@@ -13,8 +13,8 @@ import { MapWorldConstraint } from "~/features/flight/components/Map/Element/Map
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
 import { FlightSummaryCard } from "~/features/flight/components/Map/FullScreen/FlightSummaryCard";
+import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { usePublicApi } from "~/shared/api/usePublicApi";
-import type { Position } from "~/shared/models/geo";
 
 type Props = {
   flight: Flight;
@@ -31,16 +31,8 @@ export function FullScreenMap({ flight, path }: Props) {
 
   const lastPosition = path[path.length - 1];
 
-  const departurePosition: Position = [
-    flight.departureAirport.location.latitude,
-    flight.departureAirport.location.longitude,
-  ];
-  const destinationPosition: Position = [
-    flight.destinationAirport.location.latitude,
-    flight.destinationAirport.location.longitude,
-  ];
-
-  const mapBounds = latLngBounds([departurePosition, destinationPosition]);
+  const { departurePosition, destinationPosition, boundsPoints } = flightMapPositions(flight, null);
+  const mapBounds = latLngBounds(boundsPoints);
 
   return (
     <div className="absolute inset-0 overflow-hidden">

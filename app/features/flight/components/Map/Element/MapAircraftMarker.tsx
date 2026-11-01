@@ -4,6 +4,7 @@ import { Marker, Tooltip, useMap, useMapEvents } from "react-leaflet";
 import type { FlightPathElement } from "~/features/flight";
 import { RUNWAY_ZOOM_THRESHOLD } from "~/features/flight/components/Map/Element/zoomThresholds";
 import { calculateLastBearing } from "~/features/flight/lib/smooth";
+import { shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 import type { Position } from "~/shared/models/geo";
 
 type MapAircraftMarkerProps = {
@@ -48,12 +49,21 @@ export function MapAircraftMarker({ path, label }: MapAircraftMarkerProps) {
   }
 
   return (
-    <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={planeIcon} zIndexOffset={10000}>
-      {label && zoom < RUNWAY_ZOOM_THRESHOLD && (
-        <Tooltip permanent direction="right" offset={[28, 0]} opacity={1} className="map-aircraft-label">
-          {label}
-        </Tooltip>
-      )}
-    </Marker>
+    <>
+      {WORLD_COPIES.map((offset) => (
+        <Marker
+          key={offset}
+          position={shiftPoint([lastPoint.latitude, lastPoint.longitude], offset)}
+          icon={planeIcon}
+          zIndexOffset={10000}
+        >
+          {label && zoom < RUNWAY_ZOOM_THRESHOLD && (
+            <Tooltip permanent direction="right" offset={[28, 0]} opacity={1} className="map-aircraft-label">
+              {label}
+            </Tooltip>
+          )}
+        </Marker>
+      ))}
+    </>
   );
 }
