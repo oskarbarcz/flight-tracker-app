@@ -41,7 +41,15 @@ export function buildDiscordAuthorizeUrl({ clientId, state, codeChallenge, joinS
   return `${authorizeEndpoint}?${params.toString()}`;
 }
 
-export async function startDiscordFlow(intent: DiscordFlowIntent, joinServer = false): Promise<void> {
+type DiscordFlowOptions = {
+  joinServer?: boolean;
+  returnPath?: string | null;
+};
+
+export async function startDiscordFlow(
+  intent: DiscordFlowIntent,
+  { joinServer = false, returnPath = null }: DiscordFlowOptions = {},
+): Promise<void> {
   const clientId = getDiscordClientId();
 
   if (clientId === null) {
@@ -52,7 +60,7 @@ export async function startDiscordFlow(intent: DiscordFlowIntent, joinServer = f
   const codeVerifier = createCodeVerifier();
   const codeChallenge = await deriveCodeChallenge(codeVerifier);
 
-  rememberDiscordFlow({ intent, state, codeVerifier, joinServer });
+  rememberDiscordFlow({ intent, state, codeVerifier, joinServer, returnPath });
 
   window.location.assign(buildDiscordAuthorizeUrl({ clientId, state, codeChallenge, joinServer }));
 }

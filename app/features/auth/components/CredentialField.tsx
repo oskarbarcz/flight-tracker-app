@@ -4,10 +4,13 @@ import type React from "react";
 type CredentialFieldProps = {
   id: string;
   label: string;
-  type: "email" | "password";
+  type: "email" | "password" | "text";
   autoComplete: string;
   value: string;
   readOnly?: boolean;
+  autoCapitalize?: string;
+  spellCheck?: boolean;
+  errorId?: string;
   inputRef?: React.Ref<HTMLInputElement>;
   onChange: (value: string) => void;
 };
@@ -19,6 +22,9 @@ export function CredentialField({
   autoComplete,
   value,
   readOnly,
+  autoCapitalize,
+  spellCheck,
+  errorId,
   inputRef,
   onChange,
 }: CredentialFieldProps) {
@@ -33,8 +39,12 @@ export function CredentialField({
         name={id}
         type={type}
         autoComplete={autoComplete}
+        autoCapitalize={autoCapitalize}
+        spellCheck={spellCheck}
         required
         readOnly={readOnly}
+        aria-invalid={errorId !== undefined}
+        aria-describedby={errorId}
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />

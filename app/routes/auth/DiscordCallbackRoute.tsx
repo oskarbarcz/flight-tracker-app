@@ -9,6 +9,7 @@ import { withDiscordHandoff } from "~/features/auth/lib/discordHandoff";
 import { landingPathForRole } from "~/features/user/lib/landingPath";
 import { useApi } from "~/shared/api/useApi";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
+import { signInPathReturningTo, toReturnPath } from "~/shared/lib/signInReturn";
 
 const accountPath = "/me/account";
 const signInPath = "/sign-in";
@@ -59,17 +60,17 @@ export default function DiscordCallbackRoute() {
       navigate(completion.path, { replace: true, state: completion.state });
     }
 
-    function fail(message: string, forLink: boolean): void {
-      leave({ path: forLink ? accountPath : signInPath, state: withDiscordHandoff({ failure: message }) });
-    }
-
     if (flow === null) {
       leave({ path: idleDestination });
       return;
     }
 
     const forLink = flow.intent === "link";
-    const destination = forLink ? accountPath : signInPath;
+    const destination = forLink ? accountPath : signInPathReturningTo(flow.returnPath);
+
+    function fail(message: string): void {
+      leave({ path: destination, state: withDiscordHandoff({ failure: message }) });
+    }
 
     if (error !== null) {
       if (error === "access_denied") {
@@ -77,17 +78,17 @@ export default function DiscordCallbackRoute() {
         return;
       }
 
-      fail(interruptedMessage, forLink);
+      fail(interruptedMessage);
       return;
     }
 
     if (code === null || returnedState === null) {
-      fail(incompleteReturnMessage, forLink);
+      fail(incompleteReturnMessage);
       return;
     }
 
     if (returnedState !== flow.state) {
-      fail(unverifiedReturnMessage, forLink);
+      fail(unverifiedReturnMessage);
       return;
     }
 
@@ -105,9 +106,9 @@ export default function DiscordCallbackRoute() {
       }
 
       return signInWithDiscord(authorization)
-        .then((signedInUser) => ({ path: landingPathForRole(signedInUser.role) }))
+        .then((signedInUser) => ({ path: toReturnPath(flow.returnPath) ?? landingPathForRole(signedInUser.role) }))
         .catch((reason) => ({
-          path: signInPath,
+          path: destination,
           state: withDiscordHandoff({ failure: describeDiscordSignInFailure(reason) }),
         }));
     }).then(leave);

@@ -112,7 +112,7 @@ export function DiscordAccountSection() {
     setDialog("none");
     setLeaving(true);
     setFailure(null);
-    startDiscordFlow("link", joinServer).catch(() => setLeaving(false));
+    startDiscordFlow("link", { joinServer }).catch(() => setLeaving(false));
   }
 
   function forget() {

@@ -1,5 +1,15 @@
-import type { DiscordAuthorizationRequest, GoogleSignInRequest, SignInRequest, SignInResponse } from "~/features/auth";
+import type {
+  DeviceSignIn,
+  DiscordAuthorizationRequest,
+  GoogleSignInRequest,
+  SignInRequest,
+  SignInResponse,
+} from "~/features/auth";
 import { AbstractAuthorizedApiService } from "~/shared/api/api.service";
+
+function deviceSignInPath(userCode: string): string {
+  return `/api/v1/auth/device/${encodeURIComponent(userCode)}`;
+}
 
 export class AuthService extends AbstractAuthorizedApiService {
   async signIn(credentials: SignInRequest) {
@@ -27,6 +37,22 @@ export class AuthService extends AbstractAuthorizedApiService {
 
   async signOut() {
     await this.fetchWithAuth<void>("/api/v1/auth/sign-out", {
+      method: "POST",
+    });
+  }
+
+  async fetchDeviceSignIn(userCode: string) {
+    return this.fetchWithAuth<DeviceSignIn>(deviceSignInPath(userCode));
+  }
+
+  async approveDeviceSignIn(userCode: string) {
+    await this.fetchWithAuth<void>(`${deviceSignInPath(userCode)}/approve`, {
+      method: "POST",
+    });
+  }
+
+  async denyDeviceSignIn(userCode: string) {
+    await this.fetchWithAuth<void>(`${deviceSignInPath(userCode)}/deny`, {
       method: "POST",
     });
   }

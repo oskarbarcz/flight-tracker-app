@@ -1,4 +1,4 @@
-import type { GoogleSignInRequest } from "~/features/auth";
+import type { AuthSession, GoogleSignInRequest } from "~/features/auth";
 import type { UserStats } from "~/features/user";
 import type {
   ChangePasswordRequest,
@@ -121,6 +121,16 @@ export class UserService extends AbstractAuthorizedApiService {
     await this.request<void>("/api/v1/user/me/change-email/confirm", {
       method: "POST",
       body: JSON.stringify(body),
+    });
+  }
+
+  async fetchSessions() {
+    return this.fetchWithAuth<AuthSession[]>("/api/v1/user/me/session");
+  }
+
+  async revokeSession(id: string) {
+    await this.fetchWithAuth<void>(`/api/v1/user/me/session/${encodeURIComponent(id)}`, {
+      method: "DELETE",
     });
   }
 
