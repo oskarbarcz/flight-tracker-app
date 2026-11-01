@@ -127,7 +127,7 @@ Routes use React Router's compositional config API (`layout()`, `route()`, `inde
 ### Storybook
 
 Storybook 10 (`@storybook/react-vite`) documents components in isolation. Config is in `.storybook/`, stories in
-`stories/`, grouped the way the sidebar shows them (`dashboard/`, `tracking/`, `maps/`, `shared/`), with
+`stories/`, grouped the way the sidebar shows them (`dashboard/`, `tracking/`, `maps/`, `account/`, `shared/`), with
 `stories/Introduction.mdx` as the landing page.
 
 - **Vite config:** Storybook reuses `vite.config.ts` and strips the React Router, prerender and PWA plugins in

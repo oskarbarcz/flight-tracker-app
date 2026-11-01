@@ -6,12 +6,14 @@ import type {
   DiscordServerMembershipResponse,
   DiscordSettingsResponse,
   GetUserResponse,
+  GsxSettingsResponse,
   LinkDiscordAccountRequest,
   LinkDiscordAccountResponse,
   ListUsersResponse,
   RequestEmailChangeRequest,
   UnlinkAccountRequest,
   UpdateDiscordSettingsRequest,
+  UpdateGsxSettingsRequest,
   UpdateOwnProfileRequest,
   VerifySimbriefUserResponse,
 } from "~/features/user/request";
@@ -79,6 +81,17 @@ export class UserService extends AbstractAuthorizedApiService {
 
   async updateDiscordSettings(settings: UpdateDiscordSettingsRequest) {
     return this.fetchWithAuth<DiscordSettingsResponse>("/api/v1/user/me/discord-settings", {
+      method: "PATCH",
+      body: JSON.stringify(settings),
+    });
+  }
+
+  async fetchGsxSettings() {
+    return this.fetchWithAuth<GsxSettingsResponse>("/api/v1/user/me/gsx-settings");
+  }
+
+  async updateGsxSettings(settings: UpdateGsxSettingsRequest) {
+    return this.fetchWithAuth<GsxSettingsResponse>("/api/v1/user/me/gsx-settings", {
       method: "PATCH",
       body: JSON.stringify(settings),
     });

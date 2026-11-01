@@ -54,3 +54,11 @@ export type DiscordSettingsResponse = {
 };
 
 export type UpdateDiscordSettingsRequest = Partial<DiscordSettingsResponse>;
+
+export type GsxSettingsResponse = {
+  integrationEnabled: boolean;
+  autoBoardingEnabled: boolean;
+  autoDeboardingEnabled: boolean;
+};
+
+export type UpdateGsxSettingsRequest = Partial<GsxSettingsResponse>;
