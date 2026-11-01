@@ -45,6 +45,7 @@ import { translateChangeRequestResource, translateChangeRequestStatus } from "~/
 import {
   translateAirportOnFlightType,
   translateEventType,
+  translateGroundServiceSource,
   translatePassengerStatus,
   translatePhase,
   translateShortStatus,
@@ -68,6 +69,7 @@ export const toHuman = {
   },
   flight: {
     eventType: translateEventType,
+    groundServiceSource: translateGroundServiceSource,
     passengerStatus: translatePassengerStatus,
     specialServiceRequest: translateSpecialServiceRequest,
     status: {

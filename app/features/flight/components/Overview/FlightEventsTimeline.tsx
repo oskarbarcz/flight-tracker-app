@@ -4,6 +4,8 @@ import {
   type FlightEvent,
   FlightEventScope,
   type FlightServiceType,
+  GroundServiceSource,
+  groundServiceSourceOf,
   isDiversionEvent,
   isEmergencyEvent,
 } from "~/features/flight";
@@ -116,6 +118,7 @@ export function FlightEventsTimeline({ events, serviceType }: Props) {
                     <span className="italic">Detected automatically</span>
                   )}
                 </span>
+                <GroundServiceSourceNote event={event} />
               </div>
             </li>
           ))}
@@ -123,6 +126,16 @@ export function FlightEventsTimeline({ events, serviceType }: Props) {
       )}
     </Container>
   );
+}
+
+function GroundServiceSourceNote({ event }: { event: FlightEvent }) {
+  const source = groundServiceSourceOf(event);
+
+  if (source === null || source === GroundServiceSource.Manual) {
+    return null;
+  }
+
+  return <span className="basis-full">{toHuman.flight.groundServiceSource(source)}</span>;
 }
 
 function EmptyState({ message }: { message: string }) {
