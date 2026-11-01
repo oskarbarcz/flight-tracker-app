@@ -317,6 +317,7 @@ export enum FlightEventType {
   DepartureRunwayWasChanged = "flight.departure-runway-changed",
   ArrivalParkingPositionWasChanged = "flight.arrival-parking-position-changed",
   ArrivalRunwayWasChanged = "flight.arrival-runway-changed",
+  AtcCallsignWasChanged = "flight.atc-callsign-changed",
   FlightWasReleased = "flight.released",
   PilotCheckedIn = "flight.pilot-checked-in",
   BoardingWasStarted = "flight.boarding-started",
@@ -364,6 +365,18 @@ export type FlightEvent = {
   } | null;
   createdAt: Date;
 };
+
+export enum GroundServiceSource {
+  Manual = "manual",
+  Override = "override",
+  Gsx = "gsx",
+}
+
+export function groundServiceSourceOf(event: FlightEvent): GroundServiceSource | null {
+  const source = event.payload?.source;
+
+  return Object.values(GroundServiceSource).find((candidate) => candidate === source) ?? null;
+}
 
 export type FlightPathElement = {
   callsign: string;

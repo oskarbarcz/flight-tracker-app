@@ -3,6 +3,7 @@ import {
   FlightEventType,
   FlightServiceType,
   FlightStatus,
+  GroundServiceSource,
   PassengerStatus,
   SpecialServiceRequest,
 } from "~/features/flight";
@@ -43,6 +44,16 @@ export function translateAirportOnFlightType(type: AirportOnFlightType): string 
   return labels[type];
 }
 
+export function translateGroundServiceSource(source: GroundServiceSource): string {
+  const sources: Record<GroundServiceSource, string> = {
+    [GroundServiceSource.Manual]: "Started manually",
+    [GroundServiceSource.Override]: "Started manually instead of GSX",
+    [GroundServiceSource.Gsx]: "Started by GSX",
+  };
+
+  return sources[source];
+}
+
 export function translateEventType(
   eventType: FlightEventType,
   serviceType: FlightServiceType = FlightServiceType.Passenger,
@@ -57,6 +68,7 @@ export function translateEventType(
     [FlightEventType.DepartureRunwayWasChanged]: "Departure runway changed",
     [FlightEventType.ArrivalParkingPositionWasChanged]: "Arrival parking stand changed",
     [FlightEventType.ArrivalRunwayWasChanged]: "Arrival runway changed",
+    [FlightEventType.AtcCallsignWasChanged]: "ATC callsign changed",
     [FlightEventType.FlightWasReleased]: "Flight released",
     [FlightEventType.PilotCheckedIn]: "Crew checked in",
     [FlightEventType.BoardingWasStarted]: `${onboarding} started`,
