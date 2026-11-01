@@ -1,4 +1,3 @@
-import Arc from "arc";
 import { fn } from "storybook/test";
 import {
   Flight,
@@ -10,17 +9,43 @@ import {
   FlightStatus,
 } from "~/features/flight";
 import type { TrackedFlightContextType } from "~/features/flight/hooks/useTrackedFlight";
+import { airportRoute } from "~/features/flight/lib/flightMapBounds";
 import type { ApiFlightResponse } from "~/features/flight/request";
 import type { GsxSettingsResponse } from "~/features/user/request";
 import bostonPhiladelphia from "./boston-philadelphia.json";
 import bostonPhiladelphiaTrack from "./boston-philadelphia-track.json";
 import frankfurtNewYork from "./frankfurt-new-york.json";
 
-export type RouteFixture = "short" | "longHaul";
+export type RouteFixture = "short" | "longHaul" | "polar";
+
+const [frankfurt, newYork, philadelphia] = frankfurtNewYork.airports;
+
+const newYorkHongKong = {
+  ...frankfurtNewYork,
+  airports: [
+    { ...newYork, type: "departure" },
+    {
+      ...frankfurt,
+      id: "6f0f8a52-3f0e-4c8e-9d38-1f4b7a2c5e10",
+      icaoCode: "VHHH",
+      iataCode: "HKG",
+      city: { ...frankfurt.city, name: "Hong Kong" },
+      name: "Hong Kong Intl",
+      country: { code: "HK", name: "Hong Kong" },
+      timezone: "Asia/Hong_Kong",
+      continent: "asia",
+      location: { latitude: 22.30889, longitude: 113.91472 },
+      shape: [],
+      type: "destination",
+    },
+    philadelphia,
+  ],
+};
 
 const ROUTES: Record<RouteFixture, unknown> = {
   short: bostonPhiladelphia,
   longHaul: frankfurtNewYork,
+  polar: newYorkHongKong,
 };
 
 const BLOCK_EVENTS = ["offBlockTime", "takeoffTime", "arrivalTime", "onBlockTime"] as const;
@@ -118,16 +143,14 @@ export function flightFixture({
 export const recordedTrack = bostonPhiladelphiaTrack as FlightPathElement[];
 
 export function syntheticTrack(flight: Flight, fraction: number, points = 40): FlightPathElement[] {
-  const from = flight.departureAirport.location;
-  const to = flight.destinationAirport.location;
-  const { geometries } = new Arc.GreatCircle(
-    { x: from.longitude, y: from.latitude },
-    { x: to.longitude, y: to.latitude },
-  ).Arc(points, { offset: 10 });
-  const coords = geometries.flatMap((geometry) => geometry.coords);
+  const route = airportRoute(flight.departureAirport, flight.destinationAirport);
+  const coords = Array.from(
+    { length: points },
+    (_, index) => route[Math.round((index * (route.length - 1)) / (points - 1))],
+  );
   const flown = coords.slice(0, Math.max(2, Math.round(coords.length * fraction)));
 
-  return flown.map(([longitude, latitude], index) => ({
+  return flown.map(([latitude, longitude], index) => ({
     callsign: flight.callsign,
     date: new Date(Date.now() - (flown.length - index) * MINUTE).toISOString(),
     latitude,

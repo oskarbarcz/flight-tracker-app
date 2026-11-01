@@ -1,7 +1,8 @@
-import Arc from "arc";
-import type { LatLngTuple } from "leaflet";
+import { useMemo } from "react";
 import { Polyline } from "react-leaflet";
 import type { Airport } from "~/features/airport";
+import { airportRoute } from "~/features/flight/lib/flightMapBounds";
+import { ROUTE_LINE_SMOOTH_FACTOR } from "~/shared/lib/greatCircle";
 import { shiftPath, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 type GreatCirclePathType = {
@@ -10,51 +11,26 @@ type GreatCirclePathType = {
   variant?: "primary" | "diversion";
 };
 
-type MapPoint = { x: number; y: number };
-
-function isValidPoint({ x, y }: MapPoint): boolean {
-  return Number.isFinite(x) && Number.isFinite(y);
-}
-
-function generateGreatCirclePath(from: MapPoint, to: MapPoint): LatLngTuple[][] {
-  const gc = new Arc.GreatCircle(from, to);
-  const line = gc.Arc(100, { offset: 10 });
-
-  return line.geometries
-    .map((geometry: { coords: [number, number][] }) =>
-      geometry.coords
-        .map(([lon, lat]) => [lat, lon] as LatLngTuple)
-        .filter(([lat, lon]) => Number.isFinite(lat) && Number.isFinite(lon)),
-    )
-    .filter((segment: LatLngTuple[]) => segment.length > 1);
-}
-
 const VARIANT_STYLE = {
   primary: { color: "#6366f1", weight: 2, dashArray: "6 6", opacity: 0.8 },
   diversion: { color: "#dc2626", weight: 2, dashArray: "6 6", opacity: 0.9 },
 } as const;
 
 export function GreatCirclePath({ start, end, variant = "primary" }: GreatCirclePathType) {
-  const startPos = { x: start.location.longitude, y: start.location.latitude };
-  const endPos = { x: end.location.longitude, y: end.location.latitude };
+  const path = useMemo(() => airportRoute(start, end), [start, end]);
 
-  if (!isValidPoint(startPos) || !isValidPoint(endPos)) return null;
-  if (startPos.x === endPos.x && startPos.y === endPos.y) return null;
-
-  const segments = generateGreatCirclePath(startPos, endPos);
-  if (segments.length === 0) return null;
+  if (path.length < 2) return null;
 
   return (
     <>
-      {WORLD_COPIES.map((offset) =>
-        segments.map((segment) => (
-          <Polyline
-            key={`${offset}-${segment[0][0]}-${segment[0][1]}`}
-            pathOptions={VARIANT_STYLE[variant]}
-            positions={shiftPath(segment, offset)}
-          />
-        )),
-      )}
+      {WORLD_COPIES.map((offset) => (
+        <Polyline
+          key={offset}
+          pathOptions={VARIANT_STYLE[variant]}
+          positions={shiftPath(path, offset)}
+          smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
+        />
+      ))}
     </>
   );
 }

@@ -9,10 +9,13 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
+import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import type { EtopsBriefing } from "~/features/route/model";
 import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
+import { greatCirclePath } from "~/shared/lib/greatCircle";
+import { alignLongitude } from "~/shared/lib/worldCopies";
 
 type Props = {
   flight: Flight;
@@ -21,14 +24,13 @@ type Props = {
 };
 
 function chartBounds(flight: Flight, briefing: EtopsBriefing): L.LatLngBounds {
-  const points: LatLngTuple[] = [
-    [flight.departureAirport.location.latitude, flight.departureAirport.location.longitude],
-    [flight.destinationAirport.location.latitude, flight.destinationAirport.location.longitude],
-    ...briefing.route.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]),
-    ...(briefing.etops?.points ?? []).map((point): LatLngTuple => [point.position.latitude, point.position.longitude]),
-  ];
+  const { departurePosition, boundsPoints } = flightMapPositions(flight, null);
+  const route = greatCirclePath(briefing.route.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]));
+  const etopsPoints = (briefing.etops?.points ?? []).map((point) =>
+    alignLongitude([point.position.latitude, point.position.longitude], departurePosition[1]),
+  );
 
-  return L.latLngBounds(points);
+  return L.latLngBounds([...boundsPoints, ...route, ...etopsPoints]);
 }
 
 export function RouteChart({ flight, briefing, state }: Props) {

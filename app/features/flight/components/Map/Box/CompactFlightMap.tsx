@@ -1,11 +1,9 @@
-import Arc from "arc";
-import L, { type LatLngTuple } from "leaflet";
+import L from "leaflet";
 import { useEffect, useMemo } from "react";
 import { LuMaximize2 } from "react-icons/lu";
 import { MapContainer, useMap } from "react-leaflet";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
-import type { Airport } from "~/features/airport";
 import type { Flight, FlightPathElement } from "~/features/flight";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -13,36 +11,10 @@ import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapA
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { airportRoute } from "~/features/flight/lib/flightMapBounds";
 import { TrackingView, trackFlightPath } from "~/features/flight/lib/trackingView";
 
 const FIT_OPTIONS: L.FitBoundsOptions = { padding: [28, 28], maxZoom: 8 };
-
-function routeBounds(departure: Airport, destination: Airport): L.LatLngBounds {
-  const from = departure.location;
-  const to = destination.location;
-  const endpoints: LatLngTuple[] = [
-    [from.latitude, from.longitude],
-    [to.latitude, to.longitude],
-  ];
-
-  const sameAirport = from.latitude === to.latitude && from.longitude === to.longitude;
-  if (sameAirport) {
-    return L.latLngBounds(endpoints);
-  }
-
-  const { geometries } = new Arc.GreatCircle(
-    { x: from.longitude, y: from.latitude },
-    { x: to.longitude, y: to.latitude },
-  ).Arc(32, { offset: 10 });
-  const arcPoints =
-    geometries.length === 1
-      ? geometries[0].coords
-          .filter(([lon, lat]) => Number.isFinite(lat) && Number.isFinite(lon))
-          .map(([lon, lat]): LatLngTuple => [lat, lon])
-      : [];
-
-  return L.latLngBounds([...endpoints, ...arcPoints]);
-}
 
 function FitRoute({ bounds }: { bounds: L.LatLngBounds }) {
   const map = useMap();
@@ -69,7 +41,7 @@ export function CompactFlightMap({ flight, path, className }: Props) {
   const { departureAirport, destinationAirport } = flight;
 
   const bounds = useMemo(
-    () => routeBounds(departureAirport, destinationAirport),
+    () => L.latLngBounds(airportRoute(departureAirport, destinationAirport)),
     [departureAirport, destinationAirport],
   );
 

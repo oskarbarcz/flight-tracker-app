@@ -7,6 +7,7 @@ import { atWidth, CARD_WIDTHS } from "../support/frames";
 
 const shortFlight = flightFixture({ status: FlightStatus.InCruise });
 const longHaulFlight = flightFixture({ route: "longHaul", status: FlightStatus.InCruise });
+const polarFlight = flightFixture({ route: "polar", status: FlightStatus.InCruise });
 
 const FRAME = "overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800";
 
@@ -74,6 +75,18 @@ export const LongHaul: Story = {
     docs: {
       description: {
         story: "A transatlantic route. The fit includes the arc's northern extent, not only the airports.",
+      },
+    },
+  },
+};
+
+export const PolarRoute: Story = {
+  args: { flight: polarFlight, path: syntheticTrack(polarFlight, 0.45) },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "New York to Hong Kong over the Arctic. The route and the track stay one line across the antimeridian, and the view centres on them.",
       },
     },
   },

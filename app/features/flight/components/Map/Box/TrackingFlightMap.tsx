@@ -1,4 +1,4 @@
-import L from "leaflet";
+import L, { type LatLngTuple } from "leaflet";
 import { useMemo } from "react";
 import { MapContainer } from "react-leaflet";
 import { useMapSettings } from "~/app-state/useMapSettings";
@@ -19,7 +19,8 @@ import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
 import { usePlannedRoute } from "~/features/route/hooks/useRouteBriefing";
 import { useApi } from "~/shared/api/useApi";
-import type { Position } from "~/shared/models/geo";
+import { greatCirclePath } from "~/shared/lib/greatCircle";
+import { alignLongitude } from "~/shared/lib/worldCopies";
 
 type Props = {
   topInset: number;
@@ -50,8 +51,12 @@ export function TrackingFlightMap({ topInset }: Props) {
   const lastPathPoint = flightPath.length > 0 ? flightPath[flightPath.length - 1] : undefined;
 
   const { departurePosition, destinationPosition, boundsPoints } = flightMapPositions(flight, diversion);
-  const routePoints = (plottedRoute?.route.fixes ?? []).map((fix): Position => [fix.latitude, fix.longitude]);
-  const aircraftPoints: Position[] = lastPathPoint ? [[lastPathPoint.latitude, lastPathPoint.longitude]] : [];
+  const routePoints = greatCirclePath(
+    (plottedRoute?.route.fixes ?? []).map((fix): LatLngTuple => [fix.latitude, fix.longitude]),
+  );
+  const aircraftPoints = lastPathPoint
+    ? [alignLongitude([lastPathPoint.latitude, lastPathPoint.longitude], departurePosition[1])]
+    : [];
   const mapBounds = L.latLngBounds([...boundsPoints, ...routePoints, ...aircraftPoints]);
 
   return (

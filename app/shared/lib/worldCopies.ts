@@ -11,3 +11,13 @@ export function shiftPoint(point: LatLngTuple, offset: number): LatLngTuple {
 export function shiftPath(path: LatLngTuple[], offset: number): LatLngTuple[] {
   return offset === 0 ? path : path.map((point) => shiftPoint(point, offset));
 }
+
+export function alignLongitude(point: LatLngTuple, referenceLongitude: number): LatLngTuple {
+  return shiftPoint(point, WORLD_WIDTH_DEGREES * Math.round((referenceLongitude - point[1]) / WORLD_WIDTH_DEGREES));
+}
+
+export function alignPath(path: LatLngTuple[], referenceLongitude: number): LatLngTuple[] {
+  const first = path.at(0);
+
+  return first === undefined ? path : shiftPath(path, alignLongitude(first, referenceLongitude)[1] - first[1]);
+}
