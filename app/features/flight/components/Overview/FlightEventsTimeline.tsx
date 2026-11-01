@@ -135,7 +135,7 @@ function GroundServiceSourceNote({ event }: { event: FlightEvent }) {
     return null;
   }
 
-  return <span className="basis-full">{toHuman.flight.groundServiceSource(source)}</span>;
+  return <span className="basis-full">{toHuman.flight.groundServiceSource(source, event.type)}</span>;
 }
 
 function EmptyState({ message }: { message: string }) {
