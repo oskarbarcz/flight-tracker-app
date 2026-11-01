@@ -115,7 +115,7 @@ export const BrowserAndTransponder: Story = {
     await userEvent.click(within(body.getByRole("dialog")).getByRole("button", { name: "Sign out" }));
 
     await expect(args.signOut).toHaveBeenCalledWith(simPc);
-    await expect(await canvas.findByText("Transponder on SIM-PC signed out.")).toBeVisible();
+    await waitFor(() => expect(canvas.getByText("Transponder on SIM-PC signed out.")).toBeVisible());
     await expect(canvas.queryByText("Transponder on SIM-PC")).toBeNull();
   },
 };
