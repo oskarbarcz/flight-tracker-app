@@ -33,6 +33,7 @@ type Props = {
   markers: GlobeMarker[];
   clickableLayer?: string;
   onFeatureClick?: (properties: Record<string, unknown>) => void;
+  isFeatureClickable?: (properties: Record<string, unknown>) => boolean;
   onFeatureHover?: (properties: Record<string, unknown> | null) => void;
   onUserPan?: () => void;
   interactive?: boolean;
@@ -180,6 +181,7 @@ export function GlobeMap({
   markers,
   clickableLayer,
   onFeatureClick,
+  isFeatureClickable,
   onFeatureHover,
   onUserPan,
   interactive = true,
@@ -196,13 +198,31 @@ export function GlobeMap({
   const [restoredView] = useState(initialView);
   const containerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<MapLibreMap | null>(null);
-  const latest = useRef({ target, initialTarget, insets, onFeatureClick, onFeatureHover, onUserPan, onViewChange });
+  const latest = useRef({
+    target,
+    initialTarget,
+    insets,
+    onFeatureClick,
+    isFeatureClickable,
+    onFeatureHover,
+    onUserPan,
+    onViewChange,
+  });
   const camera = useRef<CameraState>({ lastKey: null, chosenZoom: null, detached: false });
   const placed = useRef(new Map<string, PlacedMarker>());
 
   useEffect(() => {
-    latest.current = { target, initialTarget, insets, onFeatureClick, onFeatureHover, onUserPan, onViewChange };
-  }, [target, initialTarget, insets, onFeatureClick, onFeatureHover, onUserPan, onViewChange]);
+    latest.current = {
+      target,
+      initialTarget,
+      insets,
+      onFeatureClick,
+      isFeatureClickable,
+      onFeatureHover,
+      onUserPan,
+      onViewChange,
+    };
+  }, [target, initialTarget, insets, onFeatureClick, isFeatureClickable, onFeatureHover, onUserPan, onViewChange]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -292,12 +312,11 @@ export function GlobeMap({
         latest.current.onFeatureClick?.(event.features?.[0]?.properties ?? {});
       });
       instance.on("mousemove", clickableLayer, (event) => {
-        latest.current.onFeatureHover?.(event.features?.[0]?.properties ?? null);
-      });
-      instance.on("mouseenter", clickableLayer, () => {
-        if (latest.current.onFeatureClick !== undefined) {
-          instance.getCanvas().style.cursor = "pointer";
-        }
+        const properties = event.features?.[0]?.properties ?? {};
+        const { onFeatureClick: click, isFeatureClickable: canClick, onFeatureHover: hover } = latest.current;
+        const clickable = click !== undefined && (canClick?.(properties) ?? true);
+        instance.getCanvas().style.cursor = clickable ? "pointer" : "";
+        hover?.(properties);
       });
       instance.on("mouseleave", clickableLayer, () => {
         instance.getCanvas().style.cursor = "";

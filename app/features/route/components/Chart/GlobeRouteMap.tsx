@@ -4,11 +4,11 @@ import { useMemo, useState } from "react";
 import type { Flight } from "~/features/flight";
 import { airportGlobeMarkers } from "~/features/flight/components/Map/Globe/globeMarkers";
 import {
-  etopsGlobeMarker,
   fixGlobeMarkers,
-  hoveredFixOrdinal,
+  hoveredFixKey,
   ringTitleGlobeMarkers,
-} from "~/features/route/components/Chart/EtopsPointLabel";
+  selectableFixOrdinal,
+} from "~/features/route/components/Chart/routeGlobeMarkers";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
@@ -37,14 +37,14 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
   const { computedMode } = useThemeMode();
   const { airports, insights, runways, selectedOrdinal, select } = state;
   const { departureAirport, destinationAirport } = flight;
-  const [hoveredFix, setHoveredFix] = useState<number | null>(null);
+  const [hoveredFix, setHoveredFix] = useState<string | null>(null);
 
   const scene = useMemo(
     () => globeRouteScene({ briefing, airports, insights, runways, selectedOrdinal }),
     [briefing, airports, insights, runways, selectedOrdinal],
   );
   const overlay = useMemo(
-    () => mergeOverlays(globeEtopsRingsOverlay(scene), globeRouteOverlay(scene, computedMode)),
+    () => mergeOverlays(globeEtopsRingsOverlay(scene, computedMode), globeRouteOverlay(scene, computedMode)),
     [scene, computedMode],
   );
   const target = useMemo(
@@ -63,7 +63,6 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
     () => [
       ...airportGlobeMarkers(departureAirport),
       ...airportGlobeMarkers(destinationAirport),
-      ...scene.etopsPoints.map((point) => etopsGlobeMarker(point)),
       ...fixGlobeMarkers(scene, 1, hoveredFix),
       ...ringTitleGlobeMarkers(scene),
     ],
@@ -77,11 +76,13 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
       insets={CHART_INSETS}
       markers={markers}
       clickableLayer={FIX_TARGET_LAYER}
-      onFeatureHover={(properties) => setHoveredFix(hoveredFixOrdinal(properties))}
+      onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       initialView={initialView}
       onViewChange={onViewChange}
-      onFeatureClick={({ ordinal }) => {
-        if (typeof ordinal === "number") {
+      isFeatureClickable={(properties) => selectableFixOrdinal(properties) !== null}
+      onFeatureClick={(properties) => {
+        const ordinal = selectableFixOrdinal(properties);
+        if (ordinal !== null) {
           select(ordinal);
         }
       }}

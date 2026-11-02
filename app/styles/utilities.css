@@ -123,6 +123,9 @@ input:-webkit-autofill:focus {
     0 0 2px #0b0e14,
     0 0 3px #0b0e14;
 }
+.map-fix-label--etops {
+  @apply text-sky-700 dark:text-etops-night;
+}
 .map-fix-label:hover,
 .map-fix-label--active {
   opacity: 1;
@@ -132,9 +135,12 @@ input:-webkit-autofill:focus {
     transition: none;
   }
 }
+.map-fix-passive.leaflet-interactive {
+  cursor: inherit;
+}
 
 .map-ring-label {
-  @apply font-mono text-2xs font-bold text-slate-500 dark:text-slate-400;
+  @apply font-mono text-2xs font-bold text-sky-700 dark:text-etops-night;
   position: absolute;
   left: 0;
   top: 0;
@@ -148,28 +154,6 @@ input:-webkit-autofill:focus {
   text-shadow:
     0 0 2px #0b0e14,
     0 0 3px #0b0e14;
-}
-
-.map-etops-label {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 4px;
-  white-space: nowrap;
-  transform: translate(-50%, -50%);
-  text-shadow:
-    0 0 2px #fff,
-    0 0 3px #fff;
-}
-.dark .map-etops-label {
-  text-shadow:
-    0 0 2px #0b0e14,
-    0 0 3px #0b0e14;
-}
-.map-etops-label__kind {
-  @apply font-mono text-[0.625rem] font-normal uppercase text-gray-500 dark:text-gray-400;
-}
-.map-etops-label--critical .map-etops-label__kind {
-  @apply font-medium text-gray-600 dark:text-gray-300;
 }
 
 .airport-shape-polygon {

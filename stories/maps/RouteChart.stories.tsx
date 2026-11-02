@@ -129,15 +129,19 @@ export const GlobeEtops: Story = {
     docs: {
       description: {
         story:
-          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole.",
+          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole. Entry, equal-time, critical and exit points are pseudo-fixes, drawn and named like TOC and TOD: (ETP IN), (ETP), (CP), (ETP OUT).",
       },
     },
   },
   play: async ({ canvasElement }) => {
     await waitFor(
       async () => {
-        await expect(canvasElement.querySelectorAll(".map-etops-label")).toHaveLength(
-          polarEtopsBriefing.etops?.points.length ?? 0,
+        const names = [...canvasElement.querySelectorAll(".map-fix-label")].map((label) => label.textContent);
+        await expect(names).toHaveLength(
+          polarEtopsBriefing.route.fixes.length + (polarEtopsBriefing.etops?.points.length ?? 0),
+        );
+        await expect(names).toEqual(
+          expect.arrayContaining(["(TOC)", "(TOD)", "(ETP IN)", "(ETP)", "(CP)", "(ETP OUT)"]),
         );
       },
       { timeout: 10_000 },

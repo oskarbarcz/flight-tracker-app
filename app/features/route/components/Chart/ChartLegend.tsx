@@ -1,12 +1,11 @@
 import { useThemeMode } from "flowbite-react";
-import React from "react";
-import { etopsPointColor } from "~/features/route/lib/chartColors";
+import type React from "react";
+import { etopsColor } from "~/features/route/lib/chartColors";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
 
 type Props = {
   hasTrack: boolean;
   hasRings: boolean;
-  hasPoints: boolean;
 };
 
 function Swatch({ children }: { children: React.ReactNode }) {
@@ -22,9 +21,8 @@ function Entry({ swatch, label }: { swatch: React.ReactNode; label: string }) {
   );
 }
 
-export function ChartLegend({ hasTrack, hasRings, hasPoints }: Props) {
-  const { computedMode } = useThemeMode();
-  const pointColor = etopsPointColor(computedMode);
+export function ChartLegend({ hasTrack, hasRings }: Props) {
+  const ringColor = etopsColor(useThemeMode().computedMode);
 
   return (
     <div className="flex flex-wrap gap-x-5 gap-y-2">
@@ -52,7 +50,7 @@ export function ChartLegend({ hasTrack, hasRings, hasPoints }: Props) {
             label="Rule ring"
             swatch={
               <svg viewBox="0 0 24 4" className="w-6" aria-hidden={true}>
-                <line x1="0" y1="2" x2="24" y2="2" stroke={RUNWAY_COLOR} strokeWidth="1" />
+                <line x1="0" y1="2" x2="24" y2="2" stroke={ringColor} strokeWidth="1" />
               </svg>
             }
           />
@@ -60,22 +58,11 @@ export function ChartLegend({ hasTrack, hasRings, hasPoints }: Props) {
             label="Threshold ring"
             swatch={
               <svg viewBox="0 0 24 4" className="w-6" aria-hidden={true}>
-                <line x1="0" y1="2" x2="24" y2="2" stroke={RUNWAY_COLOR} strokeWidth="1" strokeDasharray="3 4" />
+                <line x1="0" y1="2" x2="24" y2="2" stroke={ringColor} strokeWidth="1" strokeDasharray="3 4" />
               </svg>
             }
           />
         </>
-      )}
-      {hasPoints && (
-        <Entry
-          label="Critical point filled, others hollow"
-          swatch={
-            <svg viewBox="0 0 24 8" className="w-6" aria-hidden={true}>
-              <circle cx="7" cy="4" r="3.5" fill={pointColor} stroke={pointColor} strokeWidth="1.25" />
-              <circle cx="17" cy="4" r="3" fill="none" stroke={pointColor} strokeWidth="1.25" />
-            </svg>
-          }
-        />
       )}
     </div>
   );

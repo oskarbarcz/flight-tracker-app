@@ -27,11 +27,10 @@ import {
 import { type GlobeAirportScene, globeAirportOverlay, globeZoom } from "~/features/flight/lib/globeAirportOverlay";
 import { directRouteOverlay, diversionOverlay, flightPathOverlay } from "~/features/flight/lib/globeTrackingOverlay";
 import {
-  etopsGlobeMarker,
   fixGlobeMarkers,
-  hoveredFixOrdinal,
+  hoveredFixKey,
   ringTitleGlobeMarkers,
-} from "~/features/route/components/Chart/EtopsPointLabel";
+} from "~/features/route/components/Chart/routeGlobeMarkers";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
@@ -131,7 +130,7 @@ export function FlightGlobeMap({
 }: Props) {
   const { computedMode } = useThemeMode();
   const { mapSettings, updateMapSettings, intent } = useMapSettings();
-  const [hoveredFix, setHoveredFix] = useState<number | null>(null);
+  const [hoveredFix, setHoveredFix] = useState<string | null>(null);
   const { departureAirport, destinationAirport } = flight;
   const diversionAirport = diversion?.airport ?? null;
   const departureLayout = useAirportLayoutData(departureAirport.id, layoutServices);
@@ -185,7 +184,7 @@ export function FlightGlobeMap({
         greatCircleDisplay === "hide"
           ? NO_OVERLAY
           : directRouteOverlay(departureAirport, destinationAirport, emphasisOf(greatCircleDisplay)),
-        scene === null || !showsEtopsRings ? NO_OVERLAY : globeEtopsRingsOverlay(scene, ringsEmphasis),
+        scene === null || !showsEtopsRings ? NO_OVERLAY : globeEtopsRingsOverlay(scene, computedMode, ringsEmphasis),
         scene === null || !showsRoute ? NO_OVERLAY : globeRouteOverlay(scene, computedMode, routeEmphasis),
         diversionAirport === null ? NO_OVERLAY : diversionOverlay(departureAirport, diversionAirport),
         flightPathOverlay(flightPath),
@@ -220,7 +219,6 @@ export function FlightGlobeMap({
       ...airportGlobeMarkers(departureAirport),
       ...airportGlobeMarkers(destinationAirport),
       ...(diversionAirport === null ? [] : airportGlobeMarkers(diversionAirport, "diversion")),
-      ...(showsRoute ? (scene?.etopsPoints ?? []) : []).map((point) => etopsGlobeMarker(point, routeEmphasis)),
       ...(showsRoute && scene !== null ? fixGlobeMarkers(scene, routeEmphasis, hoveredFix) : []),
       ...(showsEtopsRings && scene !== null ? ringTitleGlobeMarkers(scene, ringsEmphasis) : []),
       ...(aircraft === null ? [] : [aircraft]),
@@ -272,7 +270,7 @@ export function FlightGlobeMap({
       target={target}
       initialTarget={initialTarget}
       clickableLayer={FIX_TARGET_LAYER}
-      onFeatureHover={(properties) => setHoveredFix(hoveredFixOrdinal(properties))}
+      onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       insets={insets}
       markers={markers}
       onUserPan={stopFollowing}

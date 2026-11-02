@@ -1,17 +1,16 @@
 import { useThemeMode } from "flowbite-react";
 import L from "leaflet";
 import React, { useMemo } from "react";
-import ReactDOMServer from "react-dom/server";
 import { CircleMarker, Circle as LeafletCircle, Marker, Polyline, useMap } from "react-leaflet";
 import type { Airport } from "~/features/airport/model";
-import { EtopsPointLabel, etopsLabelOffset } from "~/features/route/components/Chart/EtopsPointLabel";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
-import { etopsPointColor, fixMarkerFill } from "~/features/route/lib/chartColors";
+import { etopsColor, fixMarkerFill } from "~/features/route/lib/chartColors";
 import { etopsRingSpecs } from "~/features/route/lib/etopsRings";
 import { nauticalMilesToMetres } from "~/features/route/lib/routeFigures";
+import { fixLabelClassName, type RouteFixMark, routeFixMarks } from "~/features/route/lib/routeFixMarks";
 import { flownTrack, routeLine, trackLine } from "~/features/route/lib/routeGeometry";
 import type { FixInsight } from "~/features/route/lib/routeInsights";
-import type { EtopsBriefing, EtopsPoint } from "~/features/route/model";
+import type { EtopsBriefing } from "~/features/route/model";
 import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import { destinationPoint } from "~/features/runway/lib/runwayPairs";
 import { escapeHtml } from "~/shared/lib/escapeHtml";
@@ -21,8 +20,8 @@ import { shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 const ROUTE_STYLE = { color: FLIGHT_COLOR, weight: 2.5, opacity: 0.9 };
 const TRACK_STYLE = { color: RUNWAY_COLOR, weight: 2.5, opacity: 0.85, dashArray: "2 8" };
-const RULE_RING_STYLE = { color: RUNWAY_COLOR, weight: 1, opacity: 0.5, fill: false };
-const THRESHOLD_RING_STYLE = { color: RUNWAY_COLOR, weight: 1, opacity: 0.35, fill: false, dashArray: "3 5" };
+const RULE_RING_STYLE = { weight: 1, opacity: 0.5, fill: false };
+const THRESHOLD_RING_STYLE = { weight: 1, opacity: 0.35, fill: false, dashArray: "3 5" };
 
 type LayerProps = Props & { offset: number };
 
@@ -51,10 +50,16 @@ function ringTitleIcon(title: string) {
   });
 }
 
-function fixLabelIcon(ident: string, ordinal: number) {
+const PASSIVE_FIX_CLASS = "map-fix-passive";
+
+function isSelectable(mark: RouteFixMark): boolean {
+  return mark.ordinal !== null;
+}
+
+function fixLabelIcon(mark: RouteFixMark) {
   return new L.DivIcon({
-    html: `<span class="map-fix-label" data-fix="${ordinal}">${escapeHtml(ident)}</span>`,
-    className: "map-marker",
+    html: `<span class="${fixLabelClassName(mark)}" data-fix="${mark.key}">${escapeHtml(mark.name)}</span>`,
+    className: isSelectable(mark) ? "map-marker" : `map-marker ${PASSIVE_FIX_CLASS}`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
   });
@@ -62,13 +67,15 @@ function fixLabelIcon(ident: string, ordinal: number) {
 
 const FIX_HIT_RADIUS = 9;
 
-function highlightFixLabel(container: HTMLElement, ordinal: number, active: boolean) {
-  for (const label of container.querySelectorAll(`.map-fix-label[data-fix="${ordinal}"]`)) {
+function highlightFixLabel(container: HTMLElement, key: string, active: boolean) {
+  for (const label of container.querySelectorAll(`.map-fix-label[data-fix="${key}"]`)) {
     label.classList.toggle("map-fix-label--active", active);
   }
 }
 
 function EtopsRings({ briefing, airports, offset }: RingsProps) {
+  const { computedMode } = useThemeMode();
+  const color = etopsColor(computedMode);
   const specs = etopsRingSpecs(briefing.etops);
   const ringCentres = (briefing.etops?.airports ?? [])
     .map((entry) => airports.get(entry.airportId))
@@ -86,7 +93,7 @@ function EtopsRings({ briefing, airports, offset }: RingsProps) {
               <LeafletCircle
                 center={shiftPoint([latitude, longitude], offset)}
                 radius={radius}
-                pathOptions={spec.kind === "rule" ? RULE_RING_STYLE : THRESHOLD_RING_STYLE}
+                pathOptions={{ ...(spec.kind === "rule" ? RULE_RING_STYLE : THRESHOLD_RING_STYLE), color }}
               />
               <Marker
                 position={shiftPoint(destinationPoint(latitude, longitude, 0, radius), offset)}
@@ -101,15 +108,6 @@ function EtopsRings({ briefing, airports, offset }: RingsProps) {
   );
 }
 
-function etopsPointIcon(point: EtopsPoint) {
-  return new L.DivIcon({
-    html: ReactDOMServer.renderToString(<EtopsPointLabel point={point} />),
-    className: "map-marker",
-    iconSize: [0, 0],
-    iconAnchor: [0, etopsLabelOffset(point)],
-  });
-}
-
 function RouteLayer({
   briefing,
   airports,
@@ -122,12 +120,16 @@ function RouteLayer({
 }: LayerProps) {
   const map = useMap();
   const { computedMode } = useThemeMode();
-  const pointColor = etopsPointColor(computedMode);
   const markerFill = fixMarkerFill(computedMode);
-  const plan = briefing.etops;
   const line = useMemo(() => routeLine(briefing, runways), [briefing, runways]);
   const track = useMemo(() => trackLine(flownTrack(briefing)), [briefing]);
+  const marks = useMemo(() => routeFixMarks(insights, briefing.etops?.points ?? []), [insights, briefing]);
   const selected = insights.find((insight) => insight.fix.ordinal === selectedOrdinal) ?? null;
+  const selectMark = (mark: RouteFixMark) => {
+    if (mark.ordinal !== null) {
+      onSelect(mark.ordinal);
+    }
+  };
 
   return (
     <>
@@ -149,58 +151,39 @@ function RouteLayer({
         />
       )}
 
-      {insights.map(({ fix }) => (
+      {marks.map((mark) => (
         <Marker
-          key={`label-${fix.ordinal}`}
-          position={shiftPoint([fix.latitude, fix.longitude], offset)}
-          icon={fixLabelIcon(fix.ident, fix.ordinal)}
-          eventHandlers={{ click: () => onSelect(fix.ordinal) }}
+          key={`label-${mark.key}`}
+          position={shiftPoint(mark.position, offset)}
+          icon={fixLabelIcon(mark)}
+          keyboard={isSelectable(mark)}
+          eventHandlers={{ click: () => selectMark(mark) }}
         />
       ))}
 
-      {insights.map(({ fix }) => (
+      {marks.map((mark) => (
         <CircleMarker
-          key={fix.ordinal}
-          center={shiftPoint([fix.latitude, fix.longitude], offset)}
+          key={mark.key}
+          center={shiftPoint(mark.position, offset)}
           radius={2.5}
           interactive={false}
           pathOptions={{ color: RUNWAY_COLOR, weight: 1, fillColor: markerFill, fillOpacity: 1 }}
         />
       ))}
 
-      {insights.map(({ fix }) => (
+      {marks.map((mark) => (
         <CircleMarker
-          key={`hit-${fix.ordinal}`}
-          center={shiftPoint([fix.latitude, fix.longitude], offset)}
+          key={`hit-${mark.key}`}
+          center={shiftPoint(mark.position, offset)}
           radius={FIX_HIT_RADIUS}
+          className={isSelectable(mark) ? undefined : PASSIVE_FIX_CLASS}
           pathOptions={{ stroke: false, fillOpacity: 0 }}
           eventHandlers={{
-            click: () => onSelect(fix.ordinal),
-            mouseover: () => highlightFixLabel(map.getContainer(), fix.ordinal, true),
-            mouseout: () => highlightFixLabel(map.getContainer(), fix.ordinal, false),
+            click: () => selectMark(mark),
+            mouseover: () => highlightFixLabel(map.getContainer(), mark.key, true),
+            mouseout: () => highlightFixLabel(map.getContainer(), mark.key, false),
           }}
         />
-      ))}
-
-      {(plan?.points ?? []).map((point) => (
-        <React.Fragment key={`${point.kind}-${point.ordinal}`}>
-          <CircleMarker
-            center={shiftPoint([point.position.latitude, point.position.longitude], offset)}
-            radius={point.isCritical ? 3.5 : 3}
-            interactive={false}
-            pathOptions={{
-              color: pointColor,
-              weight: 1.25,
-              fillColor: point.isCritical ? pointColor : markerFill,
-              fillOpacity: 1,
-            }}
-          />
-          <Marker
-            position={shiftPoint([point.position.latitude, point.position.longitude], offset)}
-            icon={etopsPointIcon(point)}
-            zIndexOffset={900}
-          />
-        </React.Fragment>
       ))}
 
       {selected !== null && (
