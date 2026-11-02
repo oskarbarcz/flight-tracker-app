@@ -1,4 +1,5 @@
 import React from "react";
+import { fixName } from "~/features/route/lib/fixName";
 import { formatElapsed, formatTonnesFromKilograms } from "~/features/route/lib/routeFigures";
 import type { FuelMarginSummary } from "~/features/route/lib/routeInsights";
 
@@ -31,7 +32,7 @@ export function FuelMarginNote({ margin, onSelect }: Props) {
         onClick={() => onSelect(fix.ordinal)}
         className="rounded font-mono font-bold text-indigo-600 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-400"
       >
-        {fix.ident}
+        {fixName(fix.ident)}
       </button>
       , {formatElapsed(fix.elapsedSeconds)} after departure: <Figure kilograms={fix.fuel.plannedOnBoard} /> planned
       against <Figure kilograms={fix.fuel.minimumOnBoard} /> minimum, leaving <Figure kilograms={fuelMarginKg} />.

@@ -4,22 +4,21 @@ import { useMemo, useState } from "react";
 import type { Flight } from "~/features/flight";
 import { airportGlobeMarkers } from "~/features/flight/components/Map/Globe/globeMarkers";
 import {
-  etopsGlobeMarker,
   fixGlobeMarkers,
-  hoveredFixOrdinal,
+  hoveredFixKey,
   ringTitleGlobeMarkers,
-} from "~/features/route/components/Chart/EtopsPointLabel";
+  selectableFixOrdinal,
+} from "~/features/route/components/Chart/routeGlobeMarkers";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
-  globeEtopsRingsOverlay,
+  globeEtopsRingLines,
   globeRouteFrame,
   globeRouteOverlay,
   globeRouteScene,
 } from "~/features/route/lib/globeRouteOverlay";
 import type { EtopsBriefing } from "~/features/route/model";
 import type { GlobeInsets } from "~/shared/lib/globeCamera";
-import { mergeOverlays } from "~/shared/lib/globeStyle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
 import { type GlobeCameraTarget, GlobeMap } from "~/shared/ui/Globe/GlobeMap";
 
@@ -37,16 +36,14 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
   const { computedMode } = useThemeMode();
   const { airports, insights, runways, selectedOrdinal, select } = state;
   const { departureAirport, destinationAirport } = flight;
-  const [hoveredFix, setHoveredFix] = useState<number | null>(null);
+  const [hoveredFix, setHoveredFix] = useState<string | null>(null);
 
   const scene = useMemo(
     () => globeRouteScene({ briefing, airports, insights, runways, selectedOrdinal }),
     [briefing, airports, insights, runways, selectedOrdinal],
   );
-  const overlay = useMemo(
-    () => mergeOverlays(globeEtopsRingsOverlay(scene), globeRouteOverlay(scene, computedMode)),
-    [scene, computedMode],
-  );
+  const overlay = useMemo(() => globeRouteOverlay(scene, computedMode), [scene, computedMode]);
+  const screenLines = useMemo(() => globeEtopsRingLines(scene, computedMode), [scene, computedMode]);
   const target = useMemo(
     (): GlobeCameraTarget => ({
       key: "route",
@@ -63,7 +60,6 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
     () => [
       ...airportGlobeMarkers(departureAirport),
       ...airportGlobeMarkers(destinationAirport),
-      ...scene.etopsPoints.map((point) => etopsGlobeMarker(point)),
       ...fixGlobeMarkers(scene, 1, hoveredFix),
       ...ringTitleGlobeMarkers(scene),
     ],
@@ -76,12 +72,15 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
       target={target}
       insets={CHART_INSETS}
       markers={markers}
+      screenLines={screenLines}
       clickableLayer={FIX_TARGET_LAYER}
-      onFeatureHover={(properties) => setHoveredFix(hoveredFixOrdinal(properties))}
+      onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       initialView={initialView}
       onViewChange={onViewChange}
-      onFeatureClick={({ ordinal }) => {
-        if (typeof ordinal === "number") {
+      isFeatureClickable={(properties) => selectableFixOrdinal(properties) !== null}
+      onFeatureClick={(properties) => {
+        const ordinal = selectableFixOrdinal(properties);
+        if (ordinal !== null) {
           select(ordinal);
         }
       }}

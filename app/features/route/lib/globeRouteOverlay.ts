@@ -1,25 +1,22 @@
 import type { ThemeMode } from "flowbite-react";
 import type { LatLngTuple } from "leaflet";
 import type { Airport } from "~/features/airport/model";
-import { etopsPointColor, fixMarkerFill } from "~/features/route/lib/chartColors";
-import { etopsRingSpecs } from "~/features/route/lib/etopsRings";
-import { nauticalMilesToMetres } from "~/features/route/lib/routeFigures";
+import { etopsColor, fixMarkerFill } from "~/features/route/lib/chartColors";
+import { type EtopsRing, etopsRings } from "~/features/route/lib/etopsRings";
+import { type RouteFixMark, routeFixMarks } from "~/features/route/lib/routeFixMarks";
 import { flownTrack, routeLine, trackLine } from "~/features/route/lib/routeGeometry";
 import type { FixInsight } from "~/features/route/lib/routeInsights";
-import type { EtopsBriefing, EtopsPoint } from "~/features/route/model";
+import type { EtopsBriefing } from "~/features/route/model";
 import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import { type GlobeOverlay, lineSource, pointSource } from "~/shared/lib/globeStyle";
-import { destinationPoint, geodesicCircle } from "~/shared/lib/greatCircle";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
+import type { GlobeScreenLine } from "~/shared/ui/Globe/screenLines";
 
 export type GlobeRouteScene = {
   route: LatLngTuple[];
   track: LatLngTuple[];
-  ruleRings: LatLngTuple[][];
-  thresholdRings: LatLngTuple[][];
-  fixes: { ordinal: number; ident: string; position: LatLngTuple }[];
-  ringTitles: { key: string; position: LatLngTuple; title: string }[];
-  etopsPoints: EtopsPoint[];
+  rings: EtopsRing[];
+  fixes: RouteFixMark[];
   selected: LatLngTuple | null;
 };
 
@@ -34,20 +31,6 @@ type SceneInput = {
 export const FIX_LAYER = "briefing-fixes";
 export const FIX_TARGET_LAYER = "briefing-fix-targets";
 
-const EARTH_RADIUS_METRES = 6_371_000;
-
-function angularRadius(radiusNm: number): number {
-  return nauticalMilesToMetres(radiusNm) / EARTH_RADIUS_METRES;
-}
-
-function rings(centres: LatLngTuple[], radiusNm: number | null | undefined): LatLngTuple[][] {
-  if (radiusNm === null || radiusNm === undefined) {
-    return [];
-  }
-
-  return centres.map((centre) => geodesicCircle(centre, angularRadius(radiusNm)));
-}
-
 export function globeRouteScene({
   briefing,
   airports,
@@ -56,49 +39,26 @@ export function globeRouteScene({
   selectedOrdinal,
 }: SceneInput): GlobeRouteScene {
   const plan = briefing.etops;
-  const ringAirports = (plan?.airports ?? [])
-    .map((entry) => airports.get(entry.airportId))
-    .filter((airport): airport is Airport => airport !== undefined);
-  const ringCentres = ringAirports.map(
-    (airport): LatLngTuple => [airport.location.latitude, airport.location.longitude],
-  );
   const selected = insights.find((insight) => insight.fix.ordinal === selectedOrdinal) ?? null;
 
   return {
     route: routeLine(briefing, runways),
     track: trackLine(flownTrack(briefing)),
-    ruleRings: rings(ringCentres, plan?.ruleRadiusNm),
-    thresholdRings: rings(ringCentres, plan?.thresholdRadiusNm),
-    fixes: insights.map(({ fix }) => ({
-      ordinal: fix.ordinal,
-      ident: fix.ident,
-      position: [fix.latitude, fix.longitude],
-    })),
-    ringTitles: ringAirports.flatMap((airport) =>
-      etopsRingSpecs(plan).map((spec) => ({
-        key: `${airport.id}-${spec.kind}`,
-        position: destinationPoint(
-          [airport.location.latitude, airport.location.longitude],
-          0,
-          angularRadius(spec.radiusNm),
-        ),
-        title: `${spec.title} (${airport.icaoCode})`,
-      })),
-    ),
-    etopsPoints: plan?.points ?? [],
+    rings: etopsRings(plan, airports),
+    fixes: routeFixMarks(insights, plan?.points ?? []),
     selected: selected === null ? null : [selected.fix.latitude, selected.fix.longitude],
   };
 }
 
 export function globeRouteFrame(scene: GlobeRouteScene): LatLngTuple[] {
-  return [
-    ...scene.route,
-    ...scene.etopsPoints.map((point): LatLngTuple => [point.position.latitude, point.position.longitude]),
-  ];
+  return [...scene.route, ...scene.fixes.map((fix) => fix.position)];
+}
+
+function fixProperties({ key, ordinal }: RouteFixMark): Record<string, string | number> {
+  return ordinal === null ? { key } : { key, ordinal };
 }
 
 export function globeRouteOverlay(scene: GlobeRouteScene, mode: ThemeMode, emphasis = 1): GlobeOverlay {
-  const pointColor = etopsPointColor(mode);
   const markerFill = fixMarkerFill(mode);
 
   return {
@@ -106,13 +66,7 @@ export function globeRouteOverlay(scene: GlobeRouteScene, mode: ThemeMode, empha
       "briefing-route": lineSource([{ path: scene.route }]),
       "briefing-track": lineSource([{ path: scene.track }]),
       "briefing-fixes": pointSource(
-        scene.fixes.map(({ ordinal, position }) => ({ position, properties: { ordinal } })),
-      ),
-      "briefing-etops-points": pointSource(
-        scene.etopsPoints.map((point) => ({
-          position: [point.position.latitude, point.position.longitude],
-          properties: { critical: point.isCritical },
-        })),
+        scene.fixes.map((fix) => ({ position: fix.position, properties: fixProperties(fix) })),
       ),
       "briefing-selected-fix": pointSource(scene.selected === null ? [] : [{ position: scene.selected }]),
     },
@@ -156,19 +110,6 @@ export function globeRouteOverlay(scene: GlobeRouteScene, mode: ThemeMode, empha
         paint: { "circle-radius": 9, "circle-opacity": 0 },
       },
       {
-        id: "briefing-etops-points",
-        type: "circle",
-        source: "briefing-etops-points",
-        paint: {
-          "circle-radius": ["case", ["get", "critical"], 3.5, 3],
-          "circle-color": ["case", ["get", "critical"], pointColor, markerFill],
-          "circle-opacity": emphasis,
-          "circle-stroke-color": pointColor,
-          "circle-stroke-width": 1.25,
-          "circle-stroke-opacity": emphasis,
-        },
-      },
-      {
         id: "briefing-selected-fix",
         type: "circle",
         source: "briefing-selected-fix",
@@ -185,30 +126,15 @@ export function globeRouteOverlay(scene: GlobeRouteScene, mode: ThemeMode, empha
   };
 }
 
-export function globeEtopsRingsOverlay(scene: GlobeRouteScene, emphasis = 1): GlobeOverlay {
-  return {
-    sources: {
-      "briefing-rule-rings": lineSource(scene.ruleRings.map((path) => ({ path }))),
-      "briefing-threshold-rings": lineSource(scene.thresholdRings.map((path) => ({ path }))),
-    },
-    layers: [
-      {
-        id: "briefing-rule-rings",
-        type: "line",
-        source: "briefing-rule-rings",
-        paint: { "line-color": RUNWAY_COLOR, "line-width": 1, "line-opacity": 0.5 * emphasis },
-      },
-      {
-        id: "briefing-threshold-rings",
-        type: "line",
-        source: "briefing-threshold-rings",
-        paint: {
-          "line-color": RUNWAY_COLOR,
-          "line-width": 1,
-          "line-opacity": 0.35 * emphasis,
-          "line-dasharray": [3, 5],
-        },
-      },
-    ],
-  };
+export function globeEtopsRingLines(scene: GlobeRouteScene, mode: ThemeMode, emphasis = 1): GlobeScreenLine[] {
+  const color = etopsColor(mode);
+
+  return scene.rings.map((ring) => ({
+    id: `ring-${ring.key}`,
+    path: ring.path,
+    color,
+    width: 1,
+    opacity: (ring.kind === "rule" ? 0.5 : 0.35) * emphasis,
+    dash: ring.kind === "rule" ? undefined : "3 5",
+  }));
 }

@@ -25,6 +25,14 @@ const POLAR_WAYPOINTS: Waypoint[] = [
   { ident: "VHHH", latitude: 22.31, longitude: 113.91 },
 ];
 
+const POLAR_NAVLOG: Waypoint[] = [
+  POLAR_WAYPOINTS[0],
+  { ident: "TOC", latitude: 43.4, longitude: -73.1 },
+  ...POLAR_WAYPOINTS.slice(1, -1),
+  { ident: "TOD", latitude: 25.6, longitude: 114.6 },
+  POLAR_WAYPOINTS[POLAR_WAYPOINTS.length - 1],
+];
+
 function plannedFix({ ident, latitude, longitude }: Waypoint, index: number): PlannedRouteFix {
   return {
     ordinal: index + 1,
@@ -53,7 +61,7 @@ export const polarBriefing: EtopsBriefing = {
   route: {
     route: POLAR_WAYPOINTS.map((waypoint) => waypoint.ident).join(" "),
     atcRoute: null,
-    fixes: POLAR_WAYPOINTS.map(plannedFix),
+    fixes: POLAR_NAVLOG.map(plannedFix),
   },
   oceanicCrossing: {
     routing: OceanicRouting.Track,

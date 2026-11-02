@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { FixDetail } from "~/features/route/components/NavLog/FixDetail";
+import { fixName } from "~/features/route/lib/fixName";
 import {
   ABSENT,
   formatAltitude,
@@ -134,7 +135,7 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
                         isSelected ? "text-indigo-600 dark:text-indigo-400" : "text-gray-900 dark:text-white",
                       )}
                     >
-                      {fix.ident}
+                      {fixName(fix.ident)}
                     </button>
                   </td>
                   <td className="whitespace-nowrap px-3 py-1.5 font-mono text-sm text-gray-500 dark:text-gray-400">

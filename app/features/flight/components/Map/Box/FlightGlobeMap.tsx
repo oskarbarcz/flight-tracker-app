@@ -27,15 +27,14 @@ import {
 import { type GlobeAirportScene, globeAirportOverlay, globeZoom } from "~/features/flight/lib/globeAirportOverlay";
 import { directRouteOverlay, diversionOverlay, flightPathOverlay } from "~/features/flight/lib/globeTrackingOverlay";
 import {
-  etopsGlobeMarker,
   fixGlobeMarkers,
-  hoveredFixOrdinal,
+  hoveredFixKey,
   ringTitleGlobeMarkers,
-} from "~/features/route/components/Chart/EtopsPointLabel";
+} from "~/features/route/components/Chart/routeGlobeMarkers";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
-  globeEtopsRingsOverlay,
+  globeEtopsRingLines,
   globeRouteFrame,
   globeRouteOverlay,
   globeRouteScene,
@@ -45,6 +44,7 @@ import type { GlobeInsets } from "~/shared/lib/globeCamera";
 import { type GlobeOverlay, mergeOverlays } from "~/shared/lib/globeStyle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
 import { type GlobeCameraTarget, GlobeMap, type GlobeMarker } from "~/shared/ui/Globe/GlobeMap";
+import type { GlobeScreenLine } from "~/shared/ui/Globe/screenLines";
 
 type Props = {
   flight: Flight;
@@ -58,6 +58,7 @@ type Props = {
   aircraftLabel?: ReactNode;
 };
 const NO_OVERLAY: GlobeOverlay = { sources: {}, layers: [] };
+const NO_SCREEN_LINES: GlobeScreenLine[] = [];
 
 function airportPosition(airport: Airport): LatLngTuple {
   return [airport.location.latitude, airport.location.longitude];
@@ -131,7 +132,7 @@ export function FlightGlobeMap({
 }: Props) {
   const { computedMode } = useThemeMode();
   const { mapSettings, updateMapSettings, intent } = useMapSettings();
-  const [hoveredFix, setHoveredFix] = useState<number | null>(null);
+  const [hoveredFix, setHoveredFix] = useState<string | null>(null);
   const { departureAirport, destinationAirport } = flight;
   const diversionAirport = diversion?.airport ?? null;
   const departureLayout = useAirportLayoutData(departureAirport.id, layoutServices);
@@ -185,7 +186,6 @@ export function FlightGlobeMap({
         greatCircleDisplay === "hide"
           ? NO_OVERLAY
           : directRouteOverlay(departureAirport, destinationAirport, emphasisOf(greatCircleDisplay)),
-        scene === null || !showsEtopsRings ? NO_OVERLAY : globeEtopsRingsOverlay(scene, ringsEmphasis),
         scene === null || !showsRoute ? NO_OVERLAY : globeRouteOverlay(scene, computedMode, routeEmphasis),
         diversionAirport === null ? NO_OVERLAY : diversionOverlay(departureAirport, diversionAirport),
         flightPathOverlay(flightPath),
@@ -195,15 +195,19 @@ export function FlightGlobeMap({
       greatCircleDisplay,
       scene,
       showsRoute,
-      showsEtopsRings,
       routeEmphasis,
-      ringsEmphasis,
       computedMode,
       departureAirport,
       destinationAirport,
       diversionAirport,
       flightPath,
     ],
+  );
+
+  const screenLines = useMemo(
+    () =>
+      scene === null || !showsEtopsRings ? NO_SCREEN_LINES : globeEtopsRingLines(scene, computedMode, ringsEmphasis),
+    [scene, showsEtopsRings, computedMode, ringsEmphasis],
   );
 
   const aircraftLabelHtml = useMemo(
@@ -220,7 +224,6 @@ export function FlightGlobeMap({
       ...airportGlobeMarkers(departureAirport),
       ...airportGlobeMarkers(destinationAirport),
       ...(diversionAirport === null ? [] : airportGlobeMarkers(diversionAirport, "diversion")),
-      ...(showsRoute ? (scene?.etopsPoints ?? []) : []).map((point) => etopsGlobeMarker(point, routeEmphasis)),
       ...(showsRoute && scene !== null ? fixGlobeMarkers(scene, routeEmphasis, hoveredFix) : []),
       ...(showsEtopsRings && scene !== null ? ringTitleGlobeMarkers(scene, ringsEmphasis) : []),
       ...(aircraft === null ? [] : [aircraft]),
@@ -272,9 +275,10 @@ export function FlightGlobeMap({
       target={target}
       initialTarget={initialTarget}
       clickableLayer={FIX_TARGET_LAYER}
-      onFeatureHover={(properties) => setHoveredFix(hoveredFixOrdinal(properties))}
+      onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       insets={insets}
       markers={markers}
+      screenLines={screenLines}
       onUserPan={stopFollowing}
       initialView={initialView}
       onViewChange={onViewChange}

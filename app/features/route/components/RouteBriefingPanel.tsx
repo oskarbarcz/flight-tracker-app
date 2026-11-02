@@ -97,11 +97,7 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref, withCh
               header={<CardHeader title="Chart" />}
               footer={
                 <div className="border-t border-gray-200 px-3.5 py-3 dark:border-gray-700">
-                  <ChartLegend
-                    hasTrack={hasOceanic}
-                    hasRings={(plan?.airports.length ?? 0) > 0}
-                    hasPoints={(plan?.points.length ?? 0) > 0}
-                  />
+                  <ChartLegend hasTrack={hasOceanic} hasRings={(plan?.airports.length ?? 0) > 0} />
                 </div>
               }
             >
