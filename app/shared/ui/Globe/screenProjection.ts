@@ -1,22 +1,13 @@
 import type { LatLngTuple } from "leaflet";
 import { destinationPoint } from "~/shared/lib/greatCircle";
 
-export type GlobeScreenLine = {
-  id: string;
-  path: LatLngTuple[];
-  color: string;
-  width: number;
-  opacity: number;
-  dash?: string;
-};
-
 export type ScreenPoint = { x: number; y: number };
 
 export type Projector = (position: LatLngTuple) => ScreenPoint;
 
 const FACING_PROBE_RADIANS = 0.0005;
 
-function facesCamera(project: Projector, position: LatLngTuple, at: ScreenPoint): boolean {
+export function facesCamera(project: Projector, position: LatLngTuple, at: ScreenPoint = project(position)): boolean {
   const east = project(destinationPoint(position, 90, FACING_PROBE_RADIANS));
   const north = project(destinationPoint(position, 0, FACING_PROBE_RADIANS));
   const winding = (east.x - at.x) * (north.y - at.y) - (east.y - at.y) * (north.x - at.x);

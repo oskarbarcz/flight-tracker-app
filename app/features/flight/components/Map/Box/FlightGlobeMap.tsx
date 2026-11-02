@@ -34,7 +34,7 @@ import {
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
-  globeEtopsRingLines,
+  globeEtopsRingsOverlay,
   globeRouteFrame,
   globeRouteOverlay,
   globeRouteScene,
@@ -44,7 +44,6 @@ import type { GlobeInsets } from "~/shared/lib/globeCamera";
 import { type GlobeOverlay, mergeOverlays } from "~/shared/lib/globeStyle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
 import { type GlobeCameraTarget, GlobeMap, type GlobeMarker } from "~/shared/ui/Globe/GlobeMap";
-import type { GlobeScreenLine } from "~/shared/ui/Globe/screenLines";
 
 type Props = {
   flight: Flight;
@@ -58,7 +57,6 @@ type Props = {
   aircraftLabel?: ReactNode;
 };
 const NO_OVERLAY: GlobeOverlay = { sources: {}, layers: [] };
-const NO_SCREEN_LINES: GlobeScreenLine[] = [];
 
 function airportPosition(airport: Airport): LatLngTuple {
   return [airport.location.latitude, airport.location.longitude];
@@ -186,6 +184,7 @@ export function FlightGlobeMap({
         greatCircleDisplay === "hide"
           ? NO_OVERLAY
           : directRouteOverlay(departureAirport, destinationAirport, emphasisOf(greatCircleDisplay)),
+        scene === null || !showsEtopsRings ? NO_OVERLAY : globeEtopsRingsOverlay(scene, computedMode, ringsEmphasis),
         scene === null || !showsRoute ? NO_OVERLAY : globeRouteOverlay(scene, computedMode, routeEmphasis),
         diversionAirport === null ? NO_OVERLAY : diversionOverlay(departureAirport, diversionAirport),
         flightPathOverlay(flightPath),
@@ -195,19 +194,15 @@ export function FlightGlobeMap({
       greatCircleDisplay,
       scene,
       showsRoute,
+      showsEtopsRings,
       routeEmphasis,
+      ringsEmphasis,
       computedMode,
       departureAirport,
       destinationAirport,
       diversionAirport,
       flightPath,
     ],
-  );
-
-  const screenLines = useMemo(
-    () =>
-      scene === null || !showsEtopsRings ? NO_SCREEN_LINES : globeEtopsRingLines(scene, computedMode, ringsEmphasis),
-    [scene, showsEtopsRings, computedMode, ringsEmphasis],
   );
 
   const aircraftLabelHtml = useMemo(
@@ -278,7 +273,6 @@ export function FlightGlobeMap({
       onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       insets={insets}
       markers={markers}
-      screenLines={screenLines}
       onUserPan={stopFollowing}
       initialView={initialView}
       onViewChange={onViewChange}

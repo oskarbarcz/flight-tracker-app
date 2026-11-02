@@ -10,7 +10,6 @@ import type { EtopsBriefing } from "~/features/route/model";
 import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
 import { type GlobeOverlay, lineSource, pointSource } from "~/shared/lib/globeStyle";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
-import type { GlobeScreenLine } from "~/shared/ui/Globe/screenLines";
 
 export type GlobeRouteScene = {
   route: LatLngTuple[];
@@ -126,15 +125,29 @@ export function globeRouteOverlay(scene: GlobeRouteScene, mode: ThemeMode, empha
   };
 }
 
-export function globeEtopsRingLines(scene: GlobeRouteScene, mode: ThemeMode, emphasis = 1): GlobeScreenLine[] {
+export function globeEtopsRingsOverlay(scene: GlobeRouteScene, mode: ThemeMode, emphasis = 1): GlobeOverlay {
   const color = etopsColor(mode);
+  const ringsOf = (kind: EtopsRing["kind"]) =>
+    scene.rings.filter((ring) => ring.kind === kind).map((ring) => ({ path: ring.path }));
 
-  return scene.rings.map((ring) => ({
-    id: `ring-${ring.key}`,
-    path: ring.path,
-    color,
-    width: 1,
-    opacity: (ring.kind === "rule" ? 0.5 : 0.35) * emphasis,
-    dash: ring.kind === "rule" ? undefined : "3 5",
-  }));
+  return {
+    sources: {
+      "briefing-rule-rings": lineSource(ringsOf("rule")),
+      "briefing-threshold-rings": lineSource(ringsOf("threshold")),
+    },
+    layers: [
+      {
+        id: "briefing-rule-rings",
+        type: "line",
+        source: "briefing-rule-rings",
+        paint: { "line-color": color, "line-width": 1, "line-opacity": 0.5 * emphasis },
+      },
+      {
+        id: "briefing-threshold-rings",
+        type: "line",
+        source: "briefing-threshold-rings",
+        paint: { "line-color": color, "line-width": 1, "line-opacity": 0.35 * emphasis, "line-dasharray": [3, 5] },
+      },
+    ],
+  };
 }

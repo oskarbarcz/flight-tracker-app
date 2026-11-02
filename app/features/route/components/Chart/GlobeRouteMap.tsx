@@ -12,13 +12,14 @@ import {
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
-  globeEtopsRingLines,
+  globeEtopsRingsOverlay,
   globeRouteFrame,
   globeRouteOverlay,
   globeRouteScene,
 } from "~/features/route/lib/globeRouteOverlay";
 import type { EtopsBriefing } from "~/features/route/model";
 import type { GlobeInsets } from "~/shared/lib/globeCamera";
+import { mergeOverlays } from "~/shared/lib/globeStyle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
 import { type GlobeCameraTarget, GlobeMap } from "~/shared/ui/Globe/GlobeMap";
 
@@ -42,8 +43,10 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
     () => globeRouteScene({ briefing, airports, insights, runways, selectedOrdinal }),
     [briefing, airports, insights, runways, selectedOrdinal],
   );
-  const overlay = useMemo(() => globeRouteOverlay(scene, computedMode), [scene, computedMode]);
-  const screenLines = useMemo(() => globeEtopsRingLines(scene, computedMode), [scene, computedMode]);
+  const overlay = useMemo(
+    () => mergeOverlays(globeEtopsRingsOverlay(scene, computedMode), globeRouteOverlay(scene, computedMode)),
+    [scene, computedMode],
+  );
   const target = useMemo(
     (): GlobeCameraTarget => ({
       key: "route",
@@ -72,7 +75,6 @@ export function GlobeRouteMap({ flight, briefing, state, initialView, onViewChan
       target={target}
       insets={CHART_INSETS}
       markers={markers}
-      screenLines={screenLines}
       clickableLayer={FIX_TARGET_LAYER}
       onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       initialView={initialView}

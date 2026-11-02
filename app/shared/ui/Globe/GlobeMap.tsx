@@ -4,11 +4,12 @@ import type { LatLngTuple } from "leaflet";
 import { Map as MapLibreMap, Marker } from "maplibre-gl";
 import { use, useEffect, useMemo, useRef, useState } from "react";
 import { type GlobeInsets, globeCamera, minimumGlobeZoom } from "~/shared/lib/globeCamera";
+import { type ScreenShape, separatePolarShapes } from "~/shared/lib/globePolar";
 import { composeGlobeStyle, type GlobeOverlay } from "~/shared/lib/globeStyle";
 import { destinationPoint } from "~/shared/lib/greatCircle";
 import { type MapCameraView, toLeafletZoom, toMapLibreZoom } from "~/shared/lib/mapCameraView";
 import { loadBasemapStyles, OFFLINE_BASEMAP_STYLES } from "~/shared/lib/versatilesBasemap";
-import { type GlobeScreenLine, type Projector, screenPathData } from "~/shared/ui/Globe/screenLines";
+import { facesCamera, type Projector, screenPathData } from "~/shared/ui/Globe/screenProjection";
 
 export type GlobeMarker = {
   id: string;
@@ -32,7 +33,6 @@ type Props = {
   initialTarget?: GlobeCameraTarget | null;
   insets: GlobeInsets;
   markers: GlobeMarker[];
-  screenLines?: GlobeScreenLine[];
   clickableLayer?: string;
   onFeatureClick?: (properties: Record<string, unknown>) => void;
   isFeatureClickable?: (properties: Record<string, unknown>) => boolean;
@@ -61,7 +61,6 @@ const HEADING_PROBE_RADIANS = 0.0005;
 const WHEEL_ZOOM_RATE = 1 / 700;
 const TRACKPAD_ZOOM_RATE = 1 / 160;
 const PAN_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
-const NO_SCREEN_LINES: GlobeScreenLine[] = [];
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 
 function lngLat([latitude, longitude]: LatLngTuple): [number, number] {
@@ -137,42 +136,50 @@ function createScreenLayer(map: MapLibreMap): SVGSVGElement {
   return layer;
 }
 
-function syncScreenLines(layer: SVGSVGElement, paths: Map<string, SVGPathElement>, lines: GlobeScreenLine[]) {
-  const wanted = new Set(lines.map((line) => line.id));
+type ScreenElement = SVGPathElement | SVGCircleElement;
 
-  for (const [id, path] of paths) {
-    if (!wanted.has(id)) {
-      path.remove();
-      paths.delete(id);
-    }
+function createShapeElement(shape: ScreenShape): ScreenElement {
+  if (shape.kind === "line") {
+    const path = document.createElementNS(SVG_NAMESPACE, "path");
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", shape.color);
+    path.setAttribute("stroke-width", String(shape.width));
+    path.setAttribute("stroke-opacity", String(shape.opacity));
+    path.setAttribute("stroke-linecap", shape.cap);
+    path.setAttribute("stroke-linejoin", shape.join);
+    if (shape.dash !== null) path.setAttribute("stroke-dasharray", shape.dash);
+    path.dataset.layer = shape.layer;
+    return path;
   }
 
-  for (const line of lines) {
-    let path = paths.get(line.id);
-
-    if (path === undefined) {
-      path = document.createElementNS(SVG_NAMESPACE, "path");
-      path.setAttribute("fill", "none");
-      layer.append(path);
-      paths.set(line.id, path);
-    }
-
-    path.setAttribute("stroke", line.color);
-    path.setAttribute("stroke-width", String(line.width));
-    path.setAttribute("stroke-opacity", String(line.opacity));
-    if (line.dash === undefined) {
-      path.removeAttribute("stroke-dasharray");
-    } else {
-      path.setAttribute("stroke-dasharray", line.dash);
-    }
-  }
+  const circle = document.createElementNS(SVG_NAMESPACE, "circle");
+  circle.setAttribute("r", String(shape.radius));
+  circle.setAttribute("fill", shape.fill);
+  circle.setAttribute("fill-opacity", String(shape.fillOpacity));
+  circle.setAttribute("stroke", shape.stroke);
+  circle.setAttribute("stroke-width", String(shape.strokeWidth));
+  circle.setAttribute("stroke-opacity", String(shape.strokeOpacity));
+  circle.dataset.layer = shape.layer;
+  return circle;
 }
 
-function drawScreenLines(map: MapLibreMap, paths: Map<string, SVGPathElement>, lines: GlobeScreenLine[]) {
+function drawScreenShapes(map: MapLibreMap, elements: Map<string, ScreenElement>, shapes: ScreenShape[]) {
   const project: Projector = (position) => map.project(lngLat(position));
 
-  for (const line of lines) {
-    paths.get(line.id)?.setAttribute("d", screenPathData(line.path, project));
+  for (const shape of shapes) {
+    const element = elements.get(shape.id);
+    if (element === undefined) continue;
+
+    if (shape.kind === "line") {
+      element.setAttribute("d", screenPathData(shape.path, project));
+      continue;
+    }
+
+    const point = project(shape.position);
+    const visible = facesCamera(project, shape.position, point);
+    element.setAttribute("cx", point.x.toFixed(1));
+    element.setAttribute("cy", point.y.toFixed(1));
+    element.style.visibility = visible ? "" : "hidden";
   }
 }
 
@@ -235,7 +242,6 @@ export function GlobeMap({
   initialTarget = null,
   insets,
   markers,
-  screenLines = NO_SCREEN_LINES,
   clickableLayer,
   onFeatureClick,
   isFeatureClickable,
@@ -247,9 +253,11 @@ export function GlobeMap({
 }: Props) {
   const { computedMode } = useThemeMode();
   const basemaps = use(loadBasemapStyles()) ?? OFFLINE_BASEMAP_STYLES;
+  const separated = useMemo(() => separatePolarShapes(overlay), [overlay]);
+  const screenShapes = separated.shapes;
   const style = useMemo(
-    () => composeGlobeStyle(basemaps[computedMode === "dark" ? "dark" : "light"], overlay),
-    [basemaps, computedMode, overlay],
+    () => composeGlobeStyle(basemaps[computedMode === "dark" ? "dark" : "light"], separated.overlay),
+    [basemaps, computedMode, separated],
   );
   const [initialStyle] = useState(style);
   const [restoredView] = useState(initialView);
@@ -259,7 +267,7 @@ export function GlobeMap({
     target,
     initialTarget,
     insets,
-    screenLines,
+    screenShapes,
     onFeatureClick,
     isFeatureClickable,
     onFeatureHover,
@@ -269,14 +277,14 @@ export function GlobeMap({
   const camera = useRef<CameraState>({ lastKey: null, chosenZoom: null, detached: false });
   const placed = useRef(new Map<string, PlacedMarker>());
   const screenLayer = useRef<SVGSVGElement | null>(null);
-  const screenPaths = useRef(new Map<string, SVGPathElement>());
+  const screenElements = useRef(new Map<string, ScreenElement>());
 
   useEffect(() => {
     latest.current = {
       target,
       initialTarget,
       insets,
-      screenLines,
+      screenShapes,
       onFeatureClick,
       isFeatureClickable,
       onFeatureHover,
@@ -287,7 +295,7 @@ export function GlobeMap({
     target,
     initialTarget,
     insets,
-    screenLines,
+    screenShapes,
     onFeatureClick,
     isFeatureClickable,
     onFeatureHover,
@@ -314,9 +322,9 @@ export function GlobeMap({
     instance.scrollZoom.setWheelZoomRate(WHEEL_ZOOM_RATE);
     instance.scrollZoom.setZoomRate(TRACKPAD_ZOOM_RATE);
 
-    const linePaths = screenPaths.current;
-    const lineLayer = createScreenLayer(instance);
-    screenLayer.current = lineLayer;
+    const shapeElements = screenElements.current;
+    const shapeLayer = createScreenLayer(instance);
+    screenLayer.current = shapeLayer;
 
     const reframe = () => {
       const { target: current, insets: currentInsets } = latest.current;
@@ -369,7 +377,7 @@ export function GlobeMap({
       reframe();
     });
     instance.on("move", () => refreshMarkers(instance, markersOnMap));
-    instance.on("render", () => drawScreenLines(instance, linePaths, latest.current.screenLines));
+    instance.on("render", () => drawScreenShapes(instance, shapeElements, latest.current.screenShapes));
     instance.on("dragstart", leaveTarget);
     instance.on("zoomend", (event) => {
       if (event.originalEvent === undefined) return;
@@ -407,8 +415,8 @@ export function GlobeMap({
         entry.marker.remove();
       }
       markersOnMap.clear();
-      lineLayer.remove();
-      linePaths.clear();
+      shapeLayer.remove();
+      shapeElements.clear();
       screenLayer.current = null;
       setMap(null);
       instance.remove();
@@ -482,9 +490,31 @@ export function GlobeMap({
       return;
     }
 
-    syncScreenLines(layer, screenPaths.current, screenLines);
-    drawScreenLines(map, screenPaths.current, screenLines);
-  }, [map, screenLines]);
+    const elements = screenElements.current;
+    elements.clear();
+
+    const created = screenShapes.map((shape) => {
+      const element = createShapeElement(shape);
+      elements.set(shape.id, element);
+
+      if (shape.kind === "point" && shape.layer === clickableLayer) {
+        element.style.pointerEvents = "all";
+        element.addEventListener("mousemove", () => {
+          const { onFeatureClick: click, isFeatureClickable: canClick, onFeatureHover: hover } = latest.current;
+          const clickable = click !== undefined && (canClick?.(shape.properties) ?? true);
+          element.style.cursor = clickable ? "pointer" : "";
+          hover?.(shape.properties);
+        });
+        element.addEventListener("mouseleave", () => latest.current.onFeatureHover?.(null));
+        element.addEventListener("click", () => latest.current.onFeatureClick?.(shape.properties));
+      }
+
+      return element;
+    });
+
+    layer.replaceChildren(...created);
+    drawScreenShapes(map, elements, screenShapes);
+  }, [map, screenShapes, clickableLayer]);
 
   return <div ref={containerRef} className="z-0 h-full w-full bg-gray-100 dark:bg-gray-950" />;
 }

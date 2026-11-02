@@ -87,6 +87,29 @@ export const polarBriefing: EtopsBriefing = {
   },
 };
 
+const TRANSPOLAR_WAYPOINTS: Waypoint[] = [
+  { ident: "KJFK", latitude: 40.64, longitude: -73.78 },
+  { ident: "YVP", latitude: 58.1, longitude: -68.4 },
+  { ident: "N7508W", latitude: 75, longitude: -80 },
+  { ident: "N8509W", latitude: 85, longitude: -90 },
+  { ident: "N8809W", latitude: 88, longitude: -90 },
+  { ident: "N8911E", latitude: 89, longitude: 110 },
+  { ident: "N8611E", latitude: 86, longitude: 110 },
+  { ident: "N7512E", latitude: 75, longitude: 120 },
+  { ident: "HLD", latitude: 49.2, longitude: 119.82 },
+  { ident: "VHHH", latitude: 22.31, longitude: 113.91 },
+];
+
+export const transpolarBriefing: EtopsBriefing = {
+  etops: null,
+  route: {
+    route: TRANSPOLAR_WAYPOINTS.map((waypoint) => waypoint.ident).join(" "),
+    atcRoute: null,
+    fixes: TRANSPOLAR_WAYPOINTS.map(plannedFix),
+  },
+  oceanicCrossing: { routing: OceanicRouting.Random, trackId: null, direction: null, tracks: [] },
+};
+
 function etopsAirport(
   id: string,
   icaoCode: string,
