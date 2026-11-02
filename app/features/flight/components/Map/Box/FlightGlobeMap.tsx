@@ -4,6 +4,8 @@ import { type ReactNode, useCallback, useMemo, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { type MapSettings, useMapSettings } from "~/app-state/useMapSettings";
 import type { Airport } from "~/features/airport";
+import { useFirPolarLines } from "~/features/airspace/hooks/useFirPolarLines";
+import { firBoundaryOverlay } from "~/features/airspace/lib/firBoundaryOverlay";
 import type { Diversion } from "~/features/diversion";
 import type { Flight, FlightPathElement } from "~/features/flight";
 import { AIRPORT_ZOOM } from "~/features/flight/components/Map/Element/MapEventsHandler";
@@ -55,6 +57,7 @@ type Props = {
   initialView?: MapCameraView | null;
   onViewChange?: (view: MapCameraView) => void;
   aircraftLabel?: ReactNode;
+  withAirspace?: boolean;
 };
 const NO_OVERLAY: GlobeOverlay = { sources: {}, layers: [] };
 
@@ -127,6 +130,7 @@ export function FlightGlobeMap({
   initialView = null,
   onViewChange,
   aircraftLabel,
+  withAirspace = false,
 }: Props) {
   const { computedMode } = useThemeMode();
   const { mapSettings, updateMapSettings, intent } = useMapSettings();
@@ -147,6 +151,8 @@ export function FlightGlobeMap({
   const runways = plannedRoute?.runways;
   const selectedOrdinal = plannedRoute?.selectedOrdinal ?? null;
   const lastPoint = flightPath.at(-1);
+  const firDisplay = withAirspace ? mapSettings.firDisplay : "hide";
+  const firPolarLines = useFirPolarLines(firDisplay !== "hide");
 
   const scene = useMemo(() => {
     const needsScene = showsRoute || showsEtopsRings;
@@ -180,6 +186,7 @@ export function FlightGlobeMap({
   const overlay = useMemo(
     () =>
       mergeOverlays(
+        firBoundaryOverlay(firDisplay, computedMode === "dark" ? "dark" : "light", firPolarLines),
         globeAirportOverlay(airportScenes, computedMode),
         greatCircleDisplay === "hide"
           ? NO_OVERLAY
@@ -190,6 +197,8 @@ export function FlightGlobeMap({
         flightPathOverlay(flightPath),
       ),
     [
+      firDisplay,
+      firPolarLines,
       airportScenes,
       greatCircleDisplay,
       scene,
@@ -276,6 +285,7 @@ export function FlightGlobeMap({
       onUserPan={stopFollowing}
       initialView={initialView}
       onViewChange={onViewChange}
+      basemapLabels={firDisplay === "hide"}
     />
   );
 }

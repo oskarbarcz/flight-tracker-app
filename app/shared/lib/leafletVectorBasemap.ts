@@ -1,26 +1,32 @@
 import "~/shared/lib/maplibreSetup";
 import maplibreGL from "@maplibre/maplibre-gl-leaflet";
 import type L from "leaflet";
-import type { GlobeStyle } from "~/shared/lib/globeStyle";
-import { type BasemapTheme, loadBasemapStyles } from "~/shared/lib/versatilesBasemap";
+import { composeGlobeStyle, type GlobeOverlay, type GlobeStyle } from "~/shared/lib/globeStyle";
+import { type BasemapStyles, type BasemapTheme, loadBasemapStyles } from "~/shared/lib/versatilesBasemap";
+
+export type BasemapLook = {
+  theme: BasemapTheme;
+  overlay: GlobeOverlay;
+  labels: boolean;
+};
 
 export type VectorBasemap = {
   layer: L.Layer;
-  setTheme: (theme: BasemapTheme) => void;
+  setLook: (look: BasemapLook) => void;
 };
 
-function flatStyle(style: GlobeStyle): GlobeStyle {
-  return { ...style, projection: { type: "mercator" }, sky: { ...style.sky, "atmosphere-blend": 0 } };
+function flatStyle(styles: BasemapStyles, { theme, overlay, labels }: BasemapLook): GlobeStyle {
+  return { ...composeGlobeStyle(styles[theme], overlay, { labels }), projection: { type: "mercator" } };
 }
 
-export async function createVectorBasemap(theme: BasemapTheme): Promise<VectorBasemap> {
+export async function createVectorBasemap(look: BasemapLook): Promise<VectorBasemap> {
   const styles = await loadBasemapStyles();
 
   if (styles === null) {
     throw new Error("The VersaTiles basemap is unavailable");
   }
 
-  const layer = maplibreGL({ style: flatStyle(styles[theme]) });
+  const layer = maplibreGL({ style: flatStyle(styles, look) });
 
   layer.on("add", () => {
     const glMap = layer.getMaplibreMap();
@@ -29,6 +35,6 @@ export async function createVectorBasemap(theme: BasemapTheme): Promise<VectorBa
 
   return {
     layer,
-    setTheme: (next) => layer.getMaplibreMap()?.setStyle(flatStyle(styles[next])),
+    setLook: (next) => layer.getMaplibreMap()?.setStyle(flatStyle(styles, next)),
   };
 }

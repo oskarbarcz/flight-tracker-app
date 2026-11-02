@@ -95,6 +95,7 @@ function RouteMapContent({ flight }: Props) {
               insets={TOP_BAR_INSETS}
               initialView={view.current}
               onViewChange={rememberView}
+              withAirspace={true}
             />
           ) : (
             <MapContainer
@@ -107,7 +108,7 @@ function RouteMapContent({ flight }: Props) {
               zoomControl={false}
               attributionControl={false}
             >
-              <MapTileLayer />
+              <MapTileLayer withAirspace={true} />
               <MapWorldConstraint crossAntimeridian={true} />
               <FlightGreatCircle start={flight.departureAirport} end={flight.destinationAirport} />
               <FlightPath path={flightPath} />
@@ -146,7 +147,7 @@ function RouteMapContent({ flight }: Props) {
 
           <MapOptionsControl size="sm" projection={projection} onProjectionChange={setProjection} />
 
-          <MapAttribution />
+          <MapAttribution withAirspace={true} />
         </MapSettingsProvider>
       </div>
     </TransparentContainer>

@@ -1,6 +1,6 @@
 {
   "name": "flight-tracker-app",
-  "version": "2.121.0",
+  "version": "2.122.0",
   "private": true,
   "homepage": "https://app.mypreflight.io",
   "author": "Oskar Barcz",
@@ -17,7 +17,8 @@
     "build-storybook": "storybook build",
     "test:storybook": "vitest run --project=storybook",
     "generate:pwa-assets": "node bin/generate_pwa_assets.mjs",
-    "generate:basemap-styles": "node bin/generate_basemap_styles.mjs"
+    "generate:basemap-styles": "node bin/generate_basemap_styles.mjs",
+    "generate:fir-boundaries": "node bin/generate_fir_boundaries.mjs"
   },
   "dependencies": {
     "@maplibre/maplibre-gl-leaflet": "^0.1.4",

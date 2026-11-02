@@ -22,8 +22,13 @@ export type FlightDataSettings = {
   etopsDisplay: FlightDataDisplay;
 };
 
+export type AirspaceSettings = {
+  firDisplay: FlightDataDisplay;
+};
+
 export type MapSettings = MapView &
-  FlightDataSettings & {
+  FlightDataSettings &
+  AirspaceSettings & {
     mode: MapMode;
   };
 
@@ -43,6 +48,7 @@ const defaultMapSettings: MapSettings = {
   greatCircleDisplay: "show",
   routeDisplay: "show",
   etopsDisplay: "show",
+  firDisplay: "hide",
 };
 
 function migrate(raw: Partial<MapSettings> & Record<string, unknown>): MapSettings {

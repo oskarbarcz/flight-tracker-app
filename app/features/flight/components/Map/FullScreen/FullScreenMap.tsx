@@ -64,6 +64,7 @@ export function FullScreenMap({ flight, path }: Props) {
             initialView={view.current}
             onViewChange={rememberView}
             aircraftLabel={<AircraftIdentityLabel flight={flight} />}
+            withAirspace={true}
           />
         </div>
       ) : (
@@ -77,7 +78,7 @@ export function FullScreenMap({ flight, path }: Props) {
           zoomControl={false}
           attributionControl={false}
         >
-          <MapTileLayer />
+          <MapTileLayer withAirspace={true} />
           <MapWorldConstraint crossAntimeridian={true} />
           {mapSettings.greatCircleDisplay !== "hide" && (
             <GreatCirclePath

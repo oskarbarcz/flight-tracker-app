@@ -42,6 +42,7 @@ type Props = {
   interactive?: boolean;
   initialView?: MapCameraView | null;
   onViewChange?: (view: MapCameraView) => void;
+  basemapLabels?: boolean;
 };
 
 type PlacedMarker = {
@@ -249,14 +250,18 @@ export function GlobeMap({
   interactive = true,
   initialView = null,
   onViewChange,
+  basemapLabels = true,
 }: Props) {
   const { computedMode } = useThemeMode();
   const basemaps = use(loadBasemapStyles()) ?? OFFLINE_BASEMAP_STYLES;
   const separated = useMemo(() => separatePolarShapes(overlay), [overlay]);
   const screenShapes = separated.shapes;
   const style = useMemo(
-    () => composeGlobeStyle(basemaps[computedMode === "dark" ? "dark" : "light"], separated.overlay),
-    [basemaps, computedMode, separated],
+    () =>
+      composeGlobeStyle(basemaps[computedMode === "dark" ? "dark" : "light"], separated.overlay, {
+        labels: basemapLabels,
+      }),
+    [basemaps, computedMode, separated, basemapLabels],
   );
   const [initialStyle] = useState(style);
   const [restoredView] = useState(initialView);

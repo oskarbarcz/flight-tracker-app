@@ -182,7 +182,8 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   because north is not up across a globe.
 - **Map options:** Projection and Mode sit on the edge nearest the trigger. In Manual, Follow, Flight data (great circle,
   filed route and ETP rings, each Yes / Dim / No, with rows the flight has no data for greyed out) and Static data
-  (runways, terminals, gates, stands: All / Assigned / Off). Flight data is not phase-driven, so Auto keeps it.
+  (runways, terminals, gates, stands: All / Assigned / Off), then Airspace (FIRs: Yes / Dim / No, default No). Flight
+  data and Airspace are not phase-driven, so Auto keeps them.
 - **Route labels:** fix names sit beside each fix at half opacity and turn solid on hover of the fix or the name. Each ETP
   ring is titled with its minutes and the airport's ICAO code, for example `60 min (EKCH)`.
 - **Pseudo-fixes:** TOC, TOD and ETP are named in brackets, `(TOC)`, everywhere a fix name shows
@@ -210,6 +211,38 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   timed return to the target. This holds on both renderers (`MapEventsHandler`, `GlobeMap`).
 - **Runway markings:** threshold bars are drawn only once a bar is at least 2.5 device pixels wide; below that each
   threshold shows one band at the bars' average tone, which removes the moiré of sub-pixel stripes.
+- **FIR boundaries:** the Tracking view, the public flight page and the Operations route map draw FIRs when Map options
+  says so, flat and globe, through the same MapLibre layers (`firBoundaryOverlay`): the Leaflet maps add them to the
+  vector basemap's style (`MapTileLayer withAirspace`), the globe to its overlay (`FlightGlobeMap withAirspace`). Other
+  maps never draw them, whatever the stored setting. While FIRs show, the basemap's own labels are hidden
+  (`composeGlobeStyle` with `labels: false`); our airport labels stay.
+- **FIR labels:** below MapLibre zoom 4 each FIR shows its ICAO code at VATSpy's label point, large, regular weight and at 60% opacity; from zoom 4 the code (bold)
+  and name (regular) run along the FIR's own outline on its inner side, Navigraph style, so a shared border carries
+  both names. The labels follow their own copy of each outline (`fir-boundary-labels.geojson`), not the drawn lines:
+  neighbouring VATSpy polygons often miss each other's vertices, and labelling the merged lines split them into pieces
+  too short for a name. That copy is simplified (`tolerance` 10, three decimals), because MapLibre drops a line label
+  that bends more than 45° and European borders wiggle more than a label is long, so between zoom 4 and 6 Europe shows
+  only some names. The product owner chose the early switch over a later one that would fit them all.
+- **FIR data:** `npm run generate:fir-boundaries` builds three files in `public/airspace/` from the newest
+  [VATSpy Data Project](https://github.com/vatsimnetwork/vatspy-data-project) commit (`VATSPY_REF` pins one): the
+  drawn lines plus code points, the label outlines, and the parts beyond 85°. VATSpy is VATSIM's ATC map, not an ICAO
+  FIR list, so the generator keeps four-letter codes only (no sector splits or NAT/ADR/UKR/GUY/BAIRES), drops VATSIM
+  overlays (`X…`, `…XX`, military and FIS-only areas such as EDXX and EGVV), and drops an area lying inside a larger one
+  of the same state (TMAs and ACCs inside a real FIR, such as EGTL in EGTT); its label point must be strictly inside,
+  which keeps areas that fill a notch (NFFJ in NFFF) or a hole. `bin/fir_boundary_overrides.json` holds ICAO names
+  where VATSpy has a station name (RJJJ is "Tokyo" there) and merges sectors into their FIR (RJDG into RJJJ, the
+  Australian sectors into YBBB and YMMM, the Chinese ACCs into ZBPE, ZGZU and the others); the generator warns when a
+  listed member disappears. Each shared border is drawn once, edges shared inside a merged FIR are dropped, and the
+  seams where VATSpy splits a FIR at the antimeridian are removed. Lines stop at 85.05°, so MapLibre never clamps one
+  onto that parallel; the rest goes to the polar file, which `useFirPolarLines` loads for the globe and
+  `separatePolarShapes` draws in the projected layer, so the boundaries meet at the pole. The main files are URL
+  sources, so the style diff compares a URL rather than the GeoJSON on every overlay change; none is precached.
+  `.github/workflows/fir-boundaries.yaml` reruns the generator every Thursday and opens a PR with a patch bump when
+  VATSpy changed. A PR opened with `GITHUB_TOKEN` does not start the integrity checks; set a `FIR_BOUNDARIES_TOKEN`
+  secret (contents and pull requests write) to have them run, or close and reopen the PR.
+- **FIR style:** grey dash-dot lines, so they don't read as the basemap's evenly dashed state borders; lighter in dark
+  mode. `composeGlobeStyle` drops symbol layers when the basemap has no glyphs (the offline style). The data is
+  CC BY-SA 4.0: Map options credits it under the FIRs row, and `MapAttribution withAirspace` adds it while FIRs show.
 
 ### Service Worker Updates
 
