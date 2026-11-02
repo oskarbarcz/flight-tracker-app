@@ -52,7 +52,7 @@ function percentWithin(center: number, start: number, size: number): number {
   return Math.min(100, Math.max(0, ((center - start) / size) * 100));
 }
 
-function anchorPanel(panel: HTMLElement): void {
+export function anchorPanel(panel: HTMLElement): void {
   if (!lastActivatorCenter) {
     return;
   }

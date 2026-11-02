@@ -645,6 +645,40 @@ html[data-app-entry] [data-app-entry-content] {
   }
 }
 
+.floating-panel {
+  transform-origin: var(--modal-origin-x, 50%) var(--modal-origin-y, 50%);
+  transition:
+    opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    scale 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 220ms;
+}
+
+@starting-style {
+  .floating-panel {
+    opacity: 0;
+  }
+}
+
+.floating-panel[data-closing] {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @starting-style {
+    .floating-panel {
+      scale: 0.95;
+    }
+  }
+
+  .floating-panel[data-closing] {
+    scale: 0.97;
+  }
+}
+
 button:not(:disabled),
 [role="button"]:not([aria-disabled="true"]) {
   cursor: pointer;

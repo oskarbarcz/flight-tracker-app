@@ -10,6 +10,7 @@ import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatC
 import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
+import { MapFocusHandler } from "~/features/flight/components/Map/Element/MapFocusHandler";
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
@@ -24,15 +25,18 @@ import { useApi } from "~/shared/api/useApi";
 import { emphasisOf, hasEtopsRings, hasFiledWaypoints } from "~/shared/lib/flightData";
 import { greatCirclePath } from "~/shared/lib/greatCircle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
+import type { MapFocus } from "~/shared/lib/mapFocus";
 import { alignLongitude } from "~/shared/lib/worldCopies";
 
 type Props = {
   topInset: number;
   initialView: MapCameraView | null;
   onViewChange: (view: MapCameraView) => void;
+  onFixClick: (ordinal: number) => void;
+  focus: MapFocus | null;
 };
 
-export function TrackingFlightMap({ topInset, initialView, onViewChange }: Props) {
+export function TrackingFlightMap({ topInset, initialView, onViewChange, onFixClick, focus }: Props) {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
   const plannedRoute = usePlannedRoute();
@@ -90,7 +94,7 @@ export function TrackingFlightMap({ topInset, initialView, onViewChange }: Props
       )}
       {showsRoute && (
         <DimmablePane name="planned-route" emphasis={emphasisOf(mapSettings.routeDisplay)}>
-          <PlannedRouteLayer state={plannedRoute} showRings={false} />
+          <PlannedRouteLayer state={plannedRoute} showRings={false} onSelect={onFixClick} />
         </DimmablePane>
       )}
       {showsEtopsRings && (
@@ -135,6 +139,8 @@ export function TrackingFlightMap({ topInset, initialView, onViewChange }: Props
         departurePosition={departurePosition}
         destinationPosition={destinationPosition}
       />
+
+      <MapFocusHandler focus={focus} />
 
       <MapResizeHandler />
     </MapContainer>

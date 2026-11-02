@@ -192,6 +192,25 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   entry, equal-time, critical and exit points are drawn exactly like fixes, as `(ETP IN)`, `(ETP)`, `(CP)` and
   `(ETP OUT)`, from the same `routeFixMarks` list. They have no nav log row, so clicking one selects nothing and shows
   no pointer.
+- **Fix card:** on the Tracking view, clicking a fix's dot or name, flat or globe, opens `FixInfoCard` at the top right,
+  below the floating cards. It stays open until it is closed or another fix is clicked. `MapBox` only keeps whether it is
+  open; the fix shown is the briefing state's selected one, so the card and the highlighted dot always agree. The card
+  hides while Map options hides the flight route. On the globe a clicked name wins over a fix dot under it, because the
+  name is drawn on top. Other maps pass no `onFixClick`, so their names stay passive. Its figures sit in four sections,
+  Meta, Flight fix, Fuel, and Wind and environment, as one column of label and right-aligned value, with the wind levels
+  highest first. Each section folds from its heading. Wind and environment starts folded, and while folded its heading
+  stays pinned to the card's bottom, because on common window heights the other three sections already fill the card.
+  Folds survive switching fixes and reset when the card closes. The NavLog's expanded row keeps its own field grid and
+  order. The header's arrows step through the nav log's fixes, so ETOPS points are skipped, and each step centers on the
+  new fix at the current zoom. The center button does the same at Leaflet zoom 8, or stays closer if already closer.
+  Both stop auto-center the way dragging does, because a following camera would pull the map straight back. They aim at
+  the middle of the map's free area, measured from the card when pressed, so the fix isn't under the card or the
+  floating cards. A focus request held when a map mounts is ignored, so switching projection doesn't fly back to an old
+  fix.
+- **Floating panels:** the fix card and Map options open and close through `useFloatingPanel` and `.floating-panel`. They
+  grow from the point nearest what opened them and retreat to it, like modals but quicker (220 ms in, 150 ms out), and
+  only fade under reduced motion. The panel stays mounted until its opacity transition ends, so a test that closes one
+  has to wait for it to leave the DOM.
 - **ETOPS colour:** rings, ring titles and ETP names share one blue, apart from the grey fixes and the indigo route. Light
   mode uses `sky-500` rings with `sky-700` text. Dark mode uses a muted steel blue, `etops-night` (`#7cabcc`), for all
   three, because `sky-400` glared on the dark basemap. Rings take the colour from `etopsColor` in `chartColors.ts`.
@@ -224,9 +243,12 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   too short for a name. That copy is simplified (`tolerance` 10, three decimals), because MapLibre drops a line label
   that bends more than 45° and European borders wiggle more than a label is long, so between zoom 4 and 6 Europe shows
   only some names. The product owner chose the early switch over a later one that would fit them all.
-- **FIR data:** `npm run generate:fir-boundaries` builds three files in `public/airspace/` from the newest
+- **FIR data:** `npm run generate:fir-boundaries` builds four files in `public/airspace/` from the newest
   [VATSpy Data Project](https://github.com/vatsimnetwork/vatspy-data-project) commit (`VATSPY_REF` pins one): the
-  drawn lines plus code points, the label outlines, and the parts beyond 85°. VATSpy is VATSIM's ATC map, not an ICAO
+  drawn lines plus code points, the label outlines, the parts beyond 85°, and `fir-names.json`, which maps a code to
+  the name the map labels it with, for the fix card. The table also holds codes the map doesn't draw, because a flight
+  plan can name them: nested areas, merged sectors under their FIR's name, and upper areas VATSpy lacks, such as EDUU,
+  through the overrides. A code missing from it shows alone. VATSpy is VATSIM's ATC map, not an ICAO
   FIR list, so the generator keeps four-letter codes only (no sector splits or NAT/ADR/UKR/GUY/BAIRES), drops VATSIM
   overlays (`X…`, `…XX`, military and FIS-only areas such as EDXX and EGVV), and drops an area lying inside a larger one
   of the same state (TMAs and ACCs inside a real FIR, such as EGTL in EGTT); its label point must be strictly inside,

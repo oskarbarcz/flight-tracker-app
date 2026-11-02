@@ -32,6 +32,7 @@ import {
   fixGlobeMarkers,
   hoveredFixKey,
   ringTitleGlobeMarkers,
+  selectableFixOrdinal,
 } from "~/features/route/components/Chart/routeGlobeMarkers";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
@@ -45,6 +46,7 @@ import { emphasisOf, hasEtopsRings, hasFiledWaypoints } from "~/shared/lib/fligh
 import type { GlobeInsets } from "~/shared/lib/globeCamera";
 import { type GlobeOverlay, mergeOverlays } from "~/shared/lib/globeStyle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
+import type { MapFocus } from "~/shared/lib/mapFocus";
 import { type GlobeCameraTarget, GlobeMap, type GlobeMarker } from "~/shared/ui/Globe/GlobeMap";
 
 type Props = {
@@ -56,6 +58,8 @@ type Props = {
   insets: GlobeInsets;
   initialView?: MapCameraView | null;
   onViewChange?: (view: MapCameraView) => void;
+  onFixClick?: (ordinal: number) => void;
+  focus?: MapFocus | null;
   aircraftLabel?: ReactNode;
   withAirspace?: boolean;
 };
@@ -129,6 +133,8 @@ export function FlightGlobeMap({
   insets,
   initialView = null,
   onViewChange,
+  onFixClick,
+  focus = null,
   aircraftLabel,
   withAirspace = false,
 }: Props) {
@@ -228,7 +234,7 @@ export function FlightGlobeMap({
       ...airportGlobeMarkers(departureAirport),
       ...airportGlobeMarkers(destinationAirport),
       ...(diversionAirport === null ? [] : airportGlobeMarkers(diversionAirport, "diversion")),
-      ...(showsRoute && scene !== null ? fixGlobeMarkers(scene, routeEmphasis, hoveredFix) : []),
+      ...(showsRoute && scene !== null ? fixGlobeMarkers(scene, routeEmphasis, hoveredFix, onFixClick) : []),
       ...(showsEtopsRings && scene !== null ? ringTitleGlobeMarkers(scene, ringsEmphasis) : []),
       ...(aircraft === null ? [] : [aircraft]),
       ...(label === null ? [] : [label]),
@@ -246,6 +252,7 @@ export function FlightGlobeMap({
     flightPath,
     aircraftLabelHtml,
     hoveredFix,
+    onFixClick,
   ]);
 
   const routePoints = useMemo(
@@ -280,11 +287,22 @@ export function FlightGlobeMap({
       initialTarget={initialTarget}
       clickableLayer={FIX_TARGET_LAYER}
       onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
+      isFeatureClickable={(properties) => selectableFixOrdinal(properties) !== null}
+      onFeatureClick={
+        onFixClick &&
+        ((properties) => {
+          const ordinal = selectableFixOrdinal(properties);
+          if (ordinal !== null) {
+            onFixClick(ordinal);
+          }
+        })
+      }
       insets={insets}
       markers={markers}
       onUserPan={stopFollowing}
       initialView={initialView}
       onViewChange={onViewChange}
+      focus={focus}
       basemapLabels={firDisplay === "hide"}
     />
   );

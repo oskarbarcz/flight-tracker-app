@@ -34,6 +34,7 @@ import {
 import { MapProjectionSwitch } from "~/features/flight/components/Map/Element/MapProjectionSwitch";
 import { SegmentedControl } from "~/features/flight/components/Map/Element/SegmentedControl";
 import type { MapProjection } from "~/features/flight/hooks/useMapProjection";
+import { useFloatingPanel } from "~/shared/hooks/useFloatingPanel";
 import { VATSPY_DATA_PROJECT } from "~/shared/ui/Map/MapAttribution";
 
 type Props = {
@@ -207,6 +208,7 @@ export function MapOptionsControl({
   const popoverRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
+  const { isRendered, panelProps } = useFloatingPanel(open, popoverRef);
 
   const closeAndFocusTrigger = useCallback(() => {
     setOpen(false);
@@ -420,10 +422,11 @@ export function MapOptionsControl({
         <span>Map options</span>
       </Button>
 
-      {open &&
+      {isRendered &&
         portalTarget &&
         createPortal(
           <div
+            {...panelProps}
             ref={popoverRef}
             id={panelId}
             role="dialog"
@@ -436,10 +439,7 @@ export function MapOptionsControl({
               bottom: position.bottom,
               maxHeight: position.maxHeight,
             }}
-            className={twMerge(
-              "z-[1000] flex w-[22rem] max-w-[calc(100vw-1rem)] flex-col divide-y divide-gray-200 overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-900",
-              opensAbove ? "motion-safe:slide-in-from-bottom-1" : "motion-safe:slide-in-from-top-1",
-            )}
+            className="floating-panel z-[1000] flex w-[22rem] max-w-[calc(100vw-1rem)] flex-col divide-y divide-gray-200 overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-900"
           >
             {blocks}
           </div>,
