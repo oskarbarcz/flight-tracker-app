@@ -9,6 +9,7 @@ import { composeGlobeStyle, type GlobeOverlay } from "~/shared/lib/globeStyle";
 import { destinationPoint } from "~/shared/lib/greatCircle";
 import { type MapCameraView, toLeafletZoom, toMapLibreZoom } from "~/shared/lib/mapCameraView";
 import { loadBasemapStyles, OFFLINE_BASEMAP_STYLES } from "~/shared/lib/versatilesBasemap";
+import { TRACKPAD_ZOOM_RATE, WHEEL_ZOOM_RATE } from "~/shared/lib/wheelZoom";
 import { facesCamera, type Projector, screenPathData } from "~/shared/ui/Globe/screenProjection";
 
 export type GlobeMarker = {
@@ -58,8 +59,6 @@ const FIT_MARGIN = 32;
 const MAX_ZOOM = 14.5;
 const GLIDE_MS = 900;
 const HEADING_PROBE_RADIANS = 0.0005;
-const WHEEL_ZOOM_RATE = 1 / 700;
-const TRACKPAD_ZOOM_RATE = 1 / 160;
 const PAN_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 

@@ -169,6 +169,12 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   renderers report a `MapCameraView` (the centre of the area below the floating cards, in Leaflet's zoom scale) and the
   other one opens there. MapLibre's zoom is Leaflet's minus one (512-pixel tiles), see `toMapLibreZoom` and `globeZoom`;
   the switchable Leaflet maps use `zoomSnap={0}` so the zoom carries over exactly.
+- **Wheel zoom:** the switchable Leaflet maps never use Leaflet's scroll-wheel handler. With `zoomSnap={0}` it zoomed a
+  fraction of a level per scroll (on macOS Leaflet divides wheel deltas by three times the pixel ratio, which the
+  default whole-level snap used to hide), and it dropped every step that arrived during its 250 ms zoom animation.
+  `useMapWheelZoom` (or the `MapWheelZoom` element, and `MapEventsHandler` on maps that follow) applies MapLibre's
+  wheel maths at the globe's rates from `app/shared/lib/wheelZoom.ts`, once per frame and without animation, so both
+  projections zoom alike.
 - **Globe content:** `FlightGlobeMap` draws a flight on every flight map. Pure functions turn the same geometry the Leaflet
   layers use (great circles, ETP rings, runway ribbons and markings, rounded airport and terminal shapes) into GeoJSON
   layers, and labels, chips, designators and the aircraft into HTML markers with the existing CSS classes. Airport detail

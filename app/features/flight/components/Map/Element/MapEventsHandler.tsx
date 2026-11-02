@@ -1,8 +1,9 @@
-import L, { type FitBoundsOptions, type LatLngBounds, point } from "leaflet";
+import { type FitBoundsOptions, type LatLngBounds, point } from "leaflet";
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 import { type MapSettings, useMapSettings } from "~/app-state/useMapSettings";
 import type { FlightPathElement } from "~/features/flight";
+import { useMapWheelZoom } from "~/features/flight/hooks/useMapWheelZoom";
 import { prefersReducedMotion } from "~/shared/lib/reducedMotion";
 import type { Position } from "~/shared/models/geo";
 
@@ -21,17 +22,6 @@ type CenterTarget = MapSettings["centerOn"] | null;
 export const AIRPORT_ZOOM = 13;
 const PAN_KEYS = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 const ZOOM_KEYS = new Set(["+", "-", "=", "_"]);
-
-function wheelZoomDelta(map: L.Map, wheelDelta: number): number {
-  const scaled = wheelDelta / ((map.options.wheelPxPerZoomLevel ?? 60) * 4);
-  const eased = (4 * Math.log(2 / (1 + Math.exp(-Math.abs(scaled))))) / Math.LN2;
-  const snap = map.options.zoomSnap ?? 1;
-  const step = snap > 0 ? Math.ceil(eased / snap) * snap : eased;
-  const zoom = map.getZoom();
-  const target = Math.min(map.getMaxZoom(), Math.max(map.getMinZoom(), zoom + (wheelDelta > 0 ? step : -step)));
-
-  return target - zoom;
-}
 
 export function MapEventsHandler({
   bounds,
@@ -136,41 +126,18 @@ export function MapEventsHandler({
     };
   }, [map]);
 
-  useEffect(() => {
-    if (!mapSettings.autoCenter || !map.scrollWheelZoom.enabled()) return;
-
-    const container = map.getContainer();
-    let accumulated = 0;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
-    const zoomAroundVisibleCentre = () => {
-      const delta = wheelZoomDelta(map, accumulated);
-      accumulated = 0;
-      if (delta === 0) return;
+  useMapWheelZoom(map, {
+    around: () => {
+      if (!latest.current.mapSettings.autoCenter) return null;
 
       const size = map.getSize();
       const inset = Math.min(latest.current.topInset, size.y / 2);
-      const zoom = map.getZoom() + delta;
-      chosenZoom.current = zoom;
-      map.setZoomAround(point(size.x / 2, inset + (size.y - inset) / 2), zoom);
-    };
-
-    const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      accumulated += L.DomEvent.getWheelDelta(event);
-      clearTimeout(timer);
-      timer = setTimeout(zoomAroundVisibleCentre, map.options.wheelDebounceTime ?? 40);
-    };
-
-    map.scrollWheelZoom.disable();
-    container.addEventListener("wheel", onWheel, { passive: false });
-
-    return () => {
-      clearTimeout(timer);
-      container.removeEventListener("wheel", onWheel);
-      map.scrollWheelZoom.enable();
-    };
-  }, [map, mapSettings.autoCenter]);
+      return point(size.x / 2, inset + (size.y - inset) / 2);
+    },
+    onZoom: (zoom) => {
+      if (latest.current.mapSettings.autoCenter) chosenZoom.current = zoom;
+    },
+  });
 
   return null;
 }

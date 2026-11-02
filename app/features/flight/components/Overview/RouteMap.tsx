@@ -17,6 +17,7 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
+import { MapWheelZoom } from "~/features/flight/components/Map/Element/MapWheelZoom";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
@@ -130,6 +131,7 @@ function RouteMapContent({ flight }: Props) {
               <MapAirportLabel airport={flight.destinationAirport} />
               {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
               <MapResizeHandler />
+              <MapWheelZoom />
               <MapViewMemory initialView={view.current} onViewChange={rememberView} topInset={TOP_BAR_HEIGHT} />
             </MapContainer>
           )}
