@@ -8,18 +8,31 @@ export function fixGlobeMarkers(
   scene: GlobeRouteScene,
   emphasis = 1,
   highlightedKey: string | null = null,
+  onSelect?: (ordinal: number) => void,
 ): GlobeMarker[] {
-  return scene.fixes.map((fix) => ({
-    id: fix.key,
-    position: fix.position,
-    html: ReactDOMServer.renderToString(
-      <div style={{ opacity: emphasis }}>
-        <span className={twMerge(fixLabelClassName(fix), fix.key === highlightedKey && "map-fix-label--active")}>
-          {fix.name}
-        </span>
-      </div>,
-    ),
-  }));
+  return scene.fixes.map((fix) => {
+    const { ordinal } = fix;
+    const onClick = onSelect !== undefined && ordinal !== null ? () => onSelect(ordinal) : undefined;
+
+    return {
+      id: fix.key,
+      position: fix.position,
+      onClick,
+      html: ReactDOMServer.renderToString(
+        <div style={{ opacity: emphasis }}>
+          <span
+            className={twMerge(
+              fixLabelClassName(fix),
+              fix.key === highlightedKey && "map-fix-label--active",
+              onClick !== undefined && "cursor-pointer",
+            )}
+          >
+            {fix.name}
+          </span>
+        </div>,
+      ),
+    };
+  });
 }
 
 export function hoveredFixKey(properties: Record<string, unknown> | null): string | null {

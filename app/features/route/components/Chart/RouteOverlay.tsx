@@ -199,9 +199,11 @@ export function RouteOverlay(props: Props) {
 export function PlannedRouteLayer({
   state,
   showRings = true,
+  onSelect,
 }: {
   state: RouteBriefingState | null;
   showRings?: boolean;
+  onSelect?: (ordinal: number) => void;
 }) {
   if (state === null || state.briefing === null) {
     return null;
@@ -214,7 +216,7 @@ export function PlannedRouteLayer({
       insights={state.insights}
       runways={state.runways}
       selectedOrdinal={state.selectedOrdinal}
-      onSelect={state.select}
+      onSelect={onSelect ?? state.select}
       showRings={showRings}
     />
   );

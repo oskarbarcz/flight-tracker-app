@@ -45,7 +45,7 @@ const sideOffset: Record<BoundarySide, [number, number]> = {
 
 let pendingPolarLines: Promise<FeatureCollection | null> | null = null;
 
-function dataUrl(path: string): string {
+export function dataUrl(path: string): string {
   return new URL(`${import.meta.env.BASE_URL}${path}`, window.location.href).href;
 }
 

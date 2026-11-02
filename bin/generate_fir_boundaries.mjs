@@ -8,6 +8,7 @@ const outputDirectory = join(projectRoot, "public", "airspace");
 const outputFile = join(outputDirectory, "fir-boundaries.geojson");
 const polarOutputFile = join(outputDirectory, "fir-boundaries-polar.geojson");
 const labelOutputFile = join(outputDirectory, "fir-boundary-labels.geojson");
+const namesOutputFile = join(outputDirectory, "fir-names.json");
 const overridesFile = join(projectRoot, "bin", "fir_boundary_overrides.json");
 
 const repository = "vatsimnetwork/vatspy-data-project";
@@ -137,6 +138,24 @@ function isAntimeridianSeam(from, to) {
 
 function isVatsimOverlay(id, stationName) {
   return id.startsWith("X") || id.endsWith("XX") || /\b(military|fis)\b/i.test(stationName);
+}
+
+function firNameTable(names, overrides) {
+  const table = new Map(Object.entries(overrides.names));
+
+  for (const [id, stationName] of names) {
+    if (!table.has(id) && icaoFirCode.test(id) && !isVatsimOverlay(id, stationName)) {
+      table.set(id, chartName(stationName));
+    }
+  }
+
+  for (const [member, target] of mergeTargets(overrides)) {
+    if (table.has(target)) {
+      table.set(member, table.get(target));
+    }
+  }
+
+  return Object.fromEntries([...table].sort(([a], [b]) => a.localeCompare(b)));
 }
 
 function statePrefix(id) {
@@ -517,6 +536,7 @@ await mkdir(outputDirectory, { recursive: true });
 await writeFile(outputFile, `${JSON.stringify(featureCollection("FIR boundaries", tiled))}\n`);
 await writeFile(labelOutputFile, `${JSON.stringify(featureCollection("FIR boundary labels", labelPaths))}\n`);
 await writeFile(polarOutputFile, `${JSON.stringify(featureCollection("FIR boundaries beyond 85°", polar))}\n`);
+await writeFile(namesOutputFile, `${JSON.stringify(firNameTable(names, overrides))}\n`);
 
 if (process.env.FIR_VERBOSE) {
   console.log([...nested].map(([inner, outer]) => `${inner} in ${outer}`).join(", "));

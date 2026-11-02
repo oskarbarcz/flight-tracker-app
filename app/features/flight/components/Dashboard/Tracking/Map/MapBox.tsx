@@ -1,4 +1,4 @@
-import React, { type Ref, Suspense, useCallback, useRef } from "react";
+import React, { type Ref, Suspense, useCallback, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { type MapIntent, MapSettingsProvider } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
@@ -6,12 +6,14 @@ import { Tracking } from "~/features/flight";
 import { LiveTelemetry } from "~/features/flight/components/Map/Box/Overlay/LiveTelemetry";
 import { MapOptionsControl } from "~/features/flight/components/Map/Box/Overlay/MapOptionsControl";
 import { MapShareLinks } from "~/features/flight/components/Map/Box/Overlay/MapShareLinks";
+import { TrackingFixCard } from "~/features/flight/components/Map/Box/Overlay/TrackingFixCard";
 import { TrackingFlightMap } from "~/features/flight/components/Map/Box/TrackingFlightMap";
 import { useMapProjection } from "~/features/flight/hooks/useMapProjection";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { usePlannedRoute } from "~/features/route/hooks/useRouteBriefing";
 import { hasEtopsRings, hasFiledWaypoints } from "~/shared/lib/flightData";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
+import type { MapFocus } from "~/shared/lib/mapFocus";
 import type { ContainerClassProps } from "~/shared/ui/Layout/Container";
 
 const TrackingGlobeMap = React.lazy(() =>
@@ -36,6 +38,16 @@ export function MapBox({ ref, className, mapIntent, topInset }: MapBoxProps) {
   const rememberView = useCallback((next: MapCameraView) => {
     view.current = next;
   }, []);
+  const [isFixCardOpen, setIsFixCardOpen] = useState(false);
+  const [fixFocus, setFixFocus] = useState<MapFocus | null>(null);
+  const selectFix = plannedRoute?.select;
+  const openFixCard = useCallback(
+    (ordinal: number) => {
+      selectFix?.(ordinal);
+      setIsFixCardOpen(true);
+    },
+    [selectFix],
+  );
 
   if (!flight) {
     return null;
@@ -49,11 +61,29 @@ export function MapBox({ ref, className, mapIntent, topInset }: MapBoxProps) {
       <MapSettingsProvider intent={mapIntent}>
         {isGlobe ? (
           <Suspense fallback={<div className="h-full w-full animate-pulse bg-gray-100 dark:bg-gray-900" />}>
-            <TrackingGlobeMap topInset={topInset} initialView={view.current} onViewChange={rememberView} />
+            <TrackingGlobeMap
+              topInset={topInset}
+              initialView={view.current}
+              onViewChange={rememberView}
+              onFixClick={openFixCard}
+              focus={fixFocus}
+            />
           </Suspense>
         ) : (
-          <TrackingFlightMap topInset={topInset} initialView={view.current} onViewChange={rememberView} />
+          <TrackingFlightMap
+            topInset={topInset}
+            initialView={view.current}
+            onViewChange={rememberView}
+            onFixClick={openFixCard}
+            focus={fixFocus}
+          />
         )}
+        <TrackingFixCard
+          isOpen={isFixCardOpen}
+          topInset={topInset}
+          onClose={() => setIsFixCardOpen(false)}
+          onFocus={setFixFocus}
+        />
         <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 md:bottom-6">
           <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-2 px-3 md:px-6">
             <div className="pointer-events-auto flex items-center gap-2">

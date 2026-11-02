@@ -5,16 +5,19 @@ import { useAuthorizedLayoutServices } from "~/features/flight/hooks/useAirportL
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { usePlannedRoute } from "~/features/route/hooks/useRouteBriefing";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
+import type { MapFocus } from "~/shared/lib/mapFocus";
 
 type Props = {
   topInset: number;
   initialView: MapCameraView | null;
   onViewChange: (view: MapCameraView) => void;
+  onFixClick: (ordinal: number) => void;
+  focus: MapFocus | null;
 };
 
 const BOTTOM_BAR_HEIGHT = 88;
 
-export function TrackingGlobeMap({ topInset, initialView, onViewChange }: Props) {
+export function TrackingGlobeMap({ topInset, initialView, onViewChange, onFixClick, focus }: Props) {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
   const plannedRoute = usePlannedRoute();
@@ -35,6 +38,8 @@ export function TrackingGlobeMap({ topInset, initialView, onViewChange }: Props)
       insets={insets}
       initialView={initialView}
       onViewChange={onViewChange}
+      onFixClick={onFixClick}
+      focus={focus}
       withAirspace={true}
     />
   );

@@ -8,6 +8,7 @@ import { type ScreenShape, separatePolarShapes } from "~/shared/lib/globePolar";
 import { composeGlobeStyle, type GlobeOverlay } from "~/shared/lib/globeStyle";
 import { destinationPoint } from "~/shared/lib/greatCircle";
 import { type MapCameraView, toLeafletZoom, toMapLibreZoom } from "~/shared/lib/mapCameraView";
+import type { MapFocus } from "~/shared/lib/mapFocus";
 import { loadBasemapStyles, OFFLINE_BASEMAP_STYLES } from "~/shared/lib/versatilesBasemap";
 import { TRACKPAD_ZOOM_RATE, WHEEL_ZOOM_RATE } from "~/shared/lib/wheelZoom";
 import { facesCamera, type Projector, screenPathData } from "~/shared/ui/Globe/screenProjection";
@@ -22,6 +23,7 @@ export type GlobeMarker = {
   minZoom?: number;
   maxZoom?: number;
   layer?: number;
+  onClick?: () => void;
 };
 
 export type GlobeCameraTarget =
@@ -42,6 +44,7 @@ type Props = {
   interactive?: boolean;
   initialView?: MapCameraView | null;
   onViewChange?: (view: MapCameraView) => void;
+  focus?: MapFocus | null;
   basemapLabels?: boolean;
 };
 
@@ -236,6 +239,20 @@ function refreshMarkers(map: MapLibreMap, placed: Map<string, PlacedMarker>) {
   }
 }
 
+function clickedMarkerAction(placed: Map<string, PlacedMarker>, target: EventTarget | null): (() => void) | undefined {
+  if (!(target instanceof Node)) {
+    return undefined;
+  }
+
+  for (const { marker, spec } of placed.values()) {
+    if (marker.getElement().contains(target)) {
+      return spec.onClick;
+    }
+  }
+
+  return undefined;
+}
+
 export function GlobeMap({
   overlay,
   target,
@@ -250,6 +267,7 @@ export function GlobeMap({
   interactive = true,
   initialView = null,
   onViewChange,
+  focus = null,
   basemapLabels = true,
 }: Props) {
   const { computedMode } = useThemeMode();
@@ -282,6 +300,7 @@ export function GlobeMap({
   const placed = useRef(new Map<string, PlacedMarker>());
   const screenLayer = useRef<SVGSVGElement | null>(null);
   const screenElements = useRef(new Map<string, ScreenElement>());
+  const handledFocus = useRef(focus);
 
   useEffect(() => {
     latest.current = {
@@ -395,8 +414,13 @@ export function GlobeMap({
       if (PAN_KEYS.has(event.key)) leaveTarget();
     });
 
+    instance.on("click", (event) => {
+      clickedMarkerAction(markersOnMap, event.originalEvent.target)?.();
+    });
+
     if (clickableLayer !== undefined) {
       instance.on("click", clickableLayer, (event) => {
+        if (clickedMarkerAction(markersOnMap, event.originalEvent.target) !== undefined) return;
         latest.current.onFeatureClick?.(event.features?.[0]?.properties ?? {});
       });
       instance.on("mousemove", clickableLayer, (event) => {
@@ -461,6 +485,24 @@ export function GlobeMap({
     state.lastKey = target.key;
     applyTarget(map, target, { top: insets.top, bottom: insets.bottom }, state.chosenZoom, glide);
   }, [map, target, insets.top, insets.bottom]);
+
+  useEffect(() => {
+    if (map === null || focus === null || focus === handledFocus.current) {
+      return;
+    }
+
+    handledFocus.current = focus;
+
+    const { position, zoom, insets: free } = focus;
+
+    map.flyTo({
+      center: lngLat(position),
+      zoom: Math.max(map.getZoom(), zoom === null ? 0 : toMapLibreZoom(zoom)),
+      padding: { top: free.top, right: free.right, bottom: free.bottom, left: 0 },
+      duration: GLIDE_MS,
+      essential: false,
+    });
+  }, [map, focus]);
 
   useEffect(() => {
     if (map === null) {
