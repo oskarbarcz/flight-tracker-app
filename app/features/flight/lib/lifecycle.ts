@@ -10,13 +10,10 @@ import { durationMinutes } from "~/shared/lib/time";
 export enum LifecycleStage {
   CheckIn = "check_in",
   Boarding = "boarding",
-  OffBlock = "off_block",
-  Takeoff = "takeoff",
+  TaxiOut = "taxi_out",
   Cruise = "cruise",
-  Arrival = "arrival",
-  OnBlock = "on_block",
+  TaxiIn = "taxi_in",
   Offboarding = "offboarding",
-  Close = "close",
 }
 
 export type LifecycleProgress = "done" | "current" | "upcoming";
@@ -42,26 +39,22 @@ type StageSource = { event: FlightEventType } | { block: BlockEventKey } | { bet
 const STAGES: { stage: LifecycleStage; source: StageSource }[] = [
   { stage: LifecycleStage.CheckIn, source: { event: FlightEventType.PilotCheckedIn } },
   { stage: LifecycleStage.Boarding, source: { event: FlightEventType.BoardingWasStarted } },
-  { stage: LifecycleStage.OffBlock, source: { block: "offBlockTime" } },
-  { stage: LifecycleStage.Takeoff, source: { block: "takeoffTime" } },
+  { stage: LifecycleStage.TaxiOut, source: { block: "offBlockTime" } },
   { stage: LifecycleStage.Cruise, source: { between: ["takeoffTime", "arrivalTime"] } },
-  { stage: LifecycleStage.Arrival, source: { block: "arrivalTime" } },
-  { stage: LifecycleStage.OnBlock, source: { block: "onBlockTime" } },
-  { stage: LifecycleStage.Offboarding, source: { event: FlightEventType.OffboardingWasStarted } },
-  { stage: LifecycleStage.Close, source: { event: FlightEventType.FlightWasClosed } },
+  { stage: LifecycleStage.TaxiIn, source: { block: "arrivalTime" } },
+  { stage: LifecycleStage.Offboarding, source: { block: "onBlockTime" } },
 ];
 
 const REACHED_STAGE: Partial<Record<FlightStatus, LifecycleStage>> = {
   [FlightStatus.CheckedIn]: LifecycleStage.CheckIn,
   [FlightStatus.BoardingStarted]: LifecycleStage.Boarding,
   [FlightStatus.BoardingFinished]: LifecycleStage.Boarding,
-  [FlightStatus.TaxiingOut]: LifecycleStage.OffBlock,
+  [FlightStatus.TaxiingOut]: LifecycleStage.TaxiOut,
   [FlightStatus.InCruise]: LifecycleStage.Cruise,
-  [FlightStatus.TaxiingIn]: LifecycleStage.Arrival,
-  [FlightStatus.OnBlock]: LifecycleStage.OnBlock,
+  [FlightStatus.TaxiingIn]: LifecycleStage.TaxiIn,
+  [FlightStatus.OnBlock]: LifecycleStage.Offboarding,
   [FlightStatus.OffboardingStarted]: LifecycleStage.Offboarding,
   [FlightStatus.OffboardingFinished]: LifecycleStage.Offboarding,
-  [FlightStatus.Closed]: LifecycleStage.Close,
 };
 
 const STATUS_BLOCK_EVENTS: Partial<Record<FlightStatus, BlockEventKey>> = {
@@ -91,6 +84,15 @@ function latestEventTime(events: FlightEvent[], type: FlightEventType): Date | n
 
 function actualTime(at: Date | null): LifecycleValue | null {
   return at === null ? null : { kind: "time", at, provenance: "actual" };
+}
+
+function reachedStageIndex(status: FlightStatus): number {
+  if (status === FlightStatus.Closed) {
+    return STAGES.length;
+  }
+
+  const reached = REACHED_STAGE[status];
+  return reached === undefined ? -1 : STAGES.findIndex(({ stage }) => stage === reached);
 }
 
 function progressAt(index: number, reachedIndex: number): LifecycleProgress {
@@ -144,13 +146,12 @@ function spanEnd(next: StageSource | undefined, timesheet: Timesheet): Date | nu
     return null;
   }
 
-  const key = "block" in next ? next.block : next.between[1];
+  const key = "block" in next ? next.block : next.between[0];
   return resolveBlockTime(key, timesheet).time;
 }
 
 export function lifecycleSteps(status: FlightStatus, timesheet: Timesheet, events: FlightEvent[]): LifecycleStep[] {
-  const reached = REACHED_STAGE[status];
-  const reachedIndex = reached === undefined ? -1 : STAGES.findIndex(({ stage }) => stage === reached);
+  const reachedIndex = reachedStageIndex(status);
 
   return STAGES.map(({ stage, source }, index) => {
     const progress = progressAt(index, reachedIndex);

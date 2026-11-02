@@ -14,19 +14,16 @@ import { useDateProgress } from "~/shared/hooks/useDateProgress";
 import { formatDuration } from "~/shared/lib/time";
 import { FormattedIcaoTime } from "~/shared/ui/Date/FormattedIcaoTime";
 
-const CURRENT_STAGE_SHARE = 4;
+const CRUISE_SHARE = 4;
 
 function stageLabel(stage: LifecycleStage, serviceType: FlightServiceType): string {
   const labels: Record<LifecycleStage, string> = {
     [LifecycleStage.CheckIn]: "Check-in",
     [LifecycleStage.Boarding]: toHuman.flight.status.short(FlightStatus.BoardingStarted, serviceType),
-    [LifecycleStage.OffBlock]: "Off-block",
-    [LifecycleStage.Takeoff]: "Takeoff",
+    [LifecycleStage.TaxiOut]: "Taxi out",
     [LifecycleStage.Cruise]: "Cruise",
-    [LifecycleStage.Arrival]: "Arrival",
-    [LifecycleStage.OnBlock]: "On-block",
+    [LifecycleStage.TaxiIn]: "Taxi in",
     [LifecycleStage.Offboarding]: toHuman.flight.status.short(FlightStatus.OffboardingStarted, serviceType),
-    [LifecycleStage.Close]: "Close",
   };
 
   return labels[stage];
@@ -103,7 +100,7 @@ function StepBar({ step, label }: { step: LifecycleStep; label: string }) {
 
 function trackColumns(steps: LifecycleStep[]): string {
   return steps
-    .map(({ progress }) => `minmax(min-content, ${progress === "current" ? CURRENT_STAGE_SHARE : 1}fr)`)
+    .map(({ stage }) => `minmax(min-content, ${stage === LifecycleStage.Cruise ? CRUISE_SHARE : 1}fr)`)
     .join(" ");
 }
 
