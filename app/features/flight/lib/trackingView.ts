@@ -90,7 +90,7 @@ export function trackingMapIntent(status: FlightStatus): MapIntent {
     case FlightStatus.TaxiingOut:
       return { label: "Taxi out", view: runways("departure") };
     case FlightStatus.InCruise:
-      return { label: "Cruise", view: WHOLE_ROUTE, plotsRoute: true };
+      return { label: "Cruise", view: WHOLE_ROUTE };
     case FlightStatus.TaxiingIn:
       return { label: "Taxi in", view: apron("destination", "none") };
     default:

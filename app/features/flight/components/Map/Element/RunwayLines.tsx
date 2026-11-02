@@ -9,7 +9,7 @@ import type { Runway } from "~/features/runway";
 import { computeRunwayPlate, uprightRotation } from "~/features/runway/lib/runwayMarkings";
 import { computeRunwayRibbons } from "~/features/runway/lib/runwayPairs";
 import { escapeHtml } from "~/shared/lib/escapeHtml";
-import { metersToDashArray } from "~/shared/lib/mapScale";
+import { metersPerPixel, metersToDashArray } from "~/shared/lib/mapScale";
 
 type Props = {
   runways: Runway[];
@@ -18,6 +18,7 @@ type Props = {
 
 const CENTERLINE_STRIPE_M = 30;
 const CENTERLINE_GAP_M = 20;
+const MIN_RESOLVED_BAR_DEVICE_PX = 2.5;
 
 function designatorIcon(designator: string, active: boolean, rotation: number) {
   const plateClass = `map-runway-plate${active ? " map-runway-plate--active" : ""}`;
@@ -50,6 +51,9 @@ export function RunwayLines({ runways, selectedRunwayId }: Props) {
       {plates.map(({ ribbon, plate }) => {
         const active = ribbon.ends.some((end) => end.id === selectedRunwayId);
         const latitude = ribbon.centerline[0][0];
+        const barsResolve =
+          (plate.thresholdBarWidth / metersPerPixel(latitude, zoom)) * window.devicePixelRatio >=
+          MIN_RESOLVED_BAR_DEVICE_PX;
         const rotation = uprightRotation(ribbon.centerline[0], ribbon.centerline[1]);
 
         return (
@@ -82,7 +86,21 @@ export function RunwayLines({ runways, selectedRunwayId }: Props) {
             {showMarkings && plate.markings.length > 0 && (
               <Polygon
                 positions={plate.markings}
+                smoothFactor={0}
                 pathOptions={{ className: "rw-marking", stroke: false, interactive: false }}
+              />
+            )}
+
+            {showMarkings && (
+              <Polygon
+                key={barsResolve ? "bars" : "bands"}
+                positions={barsResolve ? plate.thresholdBars : plate.thresholdBands}
+                smoothFactor={0}
+                pathOptions={{
+                  className: barsResolve ? "rw-marking" : "rw-marking rw-marking--band",
+                  stroke: false,
+                  interactive: false,
+                }}
               />
             )}
 

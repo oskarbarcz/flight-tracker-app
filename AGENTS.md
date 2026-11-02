@@ -4,12 +4,10 @@ This file provides guidance to coding agents working with code in this repositor
 
 ## MyPreflight knowledge base
 
-This repo is part of MyPreflight. The knowledge base lives in the product repo, [mypreflight/product](https://github.com/mypreflight/product). It is the primary source of truth for product decisions, standards and architecture. Read it by URL before working here:
+This repo is part of MyPreflight. The knowledge base lives in the product repo, [mypreflight/product](https://github.com/mypreflight/product). It is the primary source of truth for product decisions, data sources and design rules; it holds no code or architecture, which this file covers. Read it by URL before working here:
 
 - Start: https://raw.githubusercontent.com/mypreflight/product/main/CLAUDE.md
-- Standards: https://raw.githubusercontent.com/mypreflight/product/main/technology/frontend/standards.md
-- Architecture: https://raw.githubusercontent.com/mypreflight/product/main/technology/backend/architecture.md
-- Design rules: https://raw.githubusercontent.com/mypreflight/product/main/technology/frontend/design-rules.md
+- Design rules: https://raw.githubusercontent.com/mypreflight/product/main/product/brand/design-rules.md
 
 If this file or the code contradicts the knowledge base, the knowledge base takes precedence. Flag the conflict; don't silently change either side.
 
@@ -157,6 +155,37 @@ Storybook 10 (`@storybook/react-vite`) documents components in isolation. Config
 
 Domain types live in each slice's `model.ts` (e.g. `app/features/flight/model.ts`). Most are plain types and enums; a few are classes (`Flight`) that parse API responses and expose helper getters. Shared geometry types are in `app/shared/models/`.
 
+### Maps
+
+Leaflet (react-leaflet) draws every map. Every route map can also draw on a MapLibre GL globe
+(`app/shared/ui/Globe/GlobeMap.tsx`): the Briefing Route chart, the Tracking view, flight history, the public flight
+page, the rotation map and the Operations route map, plus the dashboard's Current flight card, which only uses the globe.
+MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports), so it never reaches the entry chunk;
+`app/shared/lib/maplibreSetup.ts` points MapLibre at its worker through a `?url` import.
+
+- **Projection:** a Mercator / Globe switch, in Map options where a map has them and in the map top bar otherwise, stored
+  per map under `map-projection.<map>` by `useMapProjection`; the globe is the default. Switching keeps the view: both
+  renderers report a `MapCameraView` (the centre of the area below the floating cards, in Leaflet's zoom scale) and the
+  other one opens there. MapLibre's zoom is Leaflet's minus one (512-pixel tiles), see `toMapLibreZoom` and `globeZoom`;
+  the switchable Leaflet maps use `zoomSnap={0}` so the zoom carries over exactly.
+- **Globe content:** `FlightGlobeMap` draws a flight on every flight map. Pure functions turn the same geometry the Leaflet
+  layers use (great circles, ETP rings, runway ribbons and markings, rounded airport and terminal shapes) into GeoJSON
+  layers, and labels, chips, designators and the aircraft into HTML markers with the existing CSS classes. Airport detail
+  uses the Leaflet zoom tiers mapped to MapLibre's scale. Marker headings are computed on screen at the marker's position,
+  because north is not up across a globe.
+- **Map options:** Projection and Mode sit on the edge nearest the trigger. In Manual, Follow, Flight data (great circle,
+  filed route and ETP rings, each Yes / Dim / No, with rows the flight has no data for greyed out) and Static data
+  (runways, terminals, gates, stands: All / Assigned / Off). Flight data is not phase-driven, so Auto keeps it.
+- **Route labels:** fix names sit beside each fix at half opacity and turn solid on hover of the fix or the name. Each ETP
+  ring is titled with its minutes and the airport's ICAO code, for example `60 min (EKCH)`.
+- **Globe camera:** the fit is spherical (centre of the points on the sphere, radius kept in front of the horizon); the
+  globe never shrinks below about 85% of the map height and stops zooming in at 14.5.
+- **Follow:** dragging or arrow-key panning turns Follow off and switches Map options to Manual; scroll, pinch,
+  double-click and key zooms keep following, and the chosen zoom sticks until the follow target changes. There is no
+  timed return to the target. This holds on both renderers (`MapEventsHandler`, `GlobeMap`).
+- **Runway markings:** threshold bars are drawn only once a bar is at least 2.5 device pixels wide; below that each
+  threshold shows one band at the bars' average tone, which removes the moiré of sub-pixel stripes.
+
 ### Service Worker Updates
 
 The service worker answers every navigation with its precached `index.html` until a new version activates, which
@@ -211,16 +240,23 @@ VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 
 `import.meta.env.PACKAGE_VERSION` is injected by Vite config from `package.json`.
 
-`VITE_CARTO_API_KEY` is optional and is read through `app/shared/lib/getCartoApiKey.ts`, which returns `null` when it is
-unset or blank. `MapTileLayer` appends it to both basemap URLs as `?key=` at module load; without it CARTO still serves
-tiles but stamps each one with an "API key required" watermark. It is a public value baked into the bundle, so it lives
-in GitHub Actions `vars` alongside the client IDs, not in `secrets`.
+Every map draws the VersaTiles **Positrino** basemap (Positrino Dark in dark mode) through MapLibre GL: the globe on its
+own MapLibre map, every Leaflet map through `@maplibre/maplibre-gl-leaflet` inside `MapTileLayer`. The styles come from
+`@versatiles/style` with English labels and `tiles.versatiles.org` as their base, loaded by
+`app/shared/lib/versatilesBasemap.ts`. The two styles are prebuilt by `npm run generate:basemap-styles` into
+`public/map-styles/` (rerun it after upgrading `@versatiles/style`) and precached by the service worker. The vector data stops at zoom 14, so above it the apron basemap is the zoom-14
+data drawn larger; the product owner accepted that for one theme across the flat and globe views, and the app's own
+runways, terminals, gates and stands carry the apron detail. Every map with a basemap credits OpenStreetMap, VersaTiles
+and ESA WorldCover through `MapAttribution`.
 
-The basemap stays on CARTO's **raster** tiles deliberately. CARTO's vector styles were evaluated and rejected: the
-`carto.streets/v1` vector source caps at zoom 14 and returns HTTP 400 above it, so the airport and apron views (z13-17,
-where runways, terminals and gates are drawn) lose detail to overzooming. Every free vector tileset shares that z14
-ceiling — OpenFreeMap and VersaTiles included — while the raster endpoints serve real tiles through zoom 20. CARTO has
-flagged the raster endpoints as being retired, so revisit this only when a vector source offers data above z14.
+The Leaflet basemap layer calls MapLibre's `redraw()` on every camera sync (`moveend`). Without it the canvas showed the
+previous view at the wrong scale for one frame at the end of each zoom step and on every pan update.
+
+`VITE_CARTO_API_KEY` is optional and only matters for the fallback: when the VersaTiles style cannot be built,
+`MapTileLayer` shows CARTO's raster tiles and appends the key to their URLs as `?key=`. Without it CARTO still serves
+tiles but stamps each one with an "API key required" watermark. It is read through `app/shared/lib/getCartoApiKey.ts`,
+which returns `null` when it is unset or blank. It is a public value baked into the bundle, so it lives in GitHub Actions
+`vars` alongside the client IDs, not in `secrets`.
 
 `VITE_GOOGLE_CLIENT_ID` is optional and enables Google sign-in. It must be the same OAuth 2.0 Web client ID as the API's `GOOGLE_CLIENT_ID`, because the API verifies the ID token's `audience` against its own value; a mismatch surfaces as `Google token is not valid.` Leave it unset and every Google surface disappears — the sign-in screen and `/me/account` render without any Google reference and nothing is requested from `accounts.google.com`. The app's origin must be registered as an authorized JavaScript origin on the Google client — `https://app.mypreflight.io` for production, plus `http://localhost:5173` for local dev.
 

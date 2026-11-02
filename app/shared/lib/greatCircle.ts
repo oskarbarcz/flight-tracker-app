@@ -80,3 +80,58 @@ export function greatCirclePath(waypoints: LatLngTuple[]): LatLngTuple[] {
 
   return path;
 }
+
+const CIRCLE_STEPS = 128;
+
+export function destinationPoint(
+  [latitude, longitude]: LatLngTuple,
+  bearing: number,
+  angularDistance: number,
+): LatLngTuple {
+  const lat = toRadians(latitude);
+  const heading = toRadians(bearing);
+  const pointLat = Math.asin(
+    Math.sin(lat) * Math.cos(angularDistance) + Math.cos(lat) * Math.sin(angularDistance) * Math.cos(heading),
+  );
+  const pointLon =
+    toRadians(longitude) +
+    Math.atan2(
+      Math.sin(heading) * Math.sin(angularDistance) * Math.cos(lat),
+      Math.cos(angularDistance) - Math.sin(lat) * Math.sin(pointLat),
+    );
+
+  return [toDegrees(pointLat), toDegrees(pointLon)];
+}
+
+export function geodesicCircle(centre: LatLngTuple, angularRadius: number): LatLngTuple[] {
+  const ring: LatLngTuple[] = [];
+
+  for (let step = 0; step <= CIRCLE_STEPS; step++) {
+    const point = destinationPoint(centre, (360 * step) / CIRCLE_STEPS, angularRadius);
+
+    ring.push(alignLongitude(point, ring.at(-1)?.[1] ?? centre[1]));
+  }
+
+  return ring;
+}
+
+export type SphericalSpread = {
+  centre: LatLngTuple;
+  angularRadius: number;
+};
+
+export function sphericalSpread(points: LatLngTuple[]): SphericalSpread | null {
+  if (points.length === 0) {
+    return null;
+  }
+
+  const vectors = points.map(toVector);
+  const sum = vectors.reduce<Vector>((total, [x, y, z]) => [total[0] + x, total[1] + y, total[2] + z], [0, 0, 0]);
+  const length = Math.hypot(...sum);
+  const centre: Vector = length < COINCIDENT_RADIANS ? vectors[0] : [sum[0] / length, sum[1] / length, sum[2] / length];
+
+  return {
+    centre: fromVector(centre),
+    angularRadius: Math.max(...vectors.map((vector) => angleBetween(centre, vector))),
+  };
+}

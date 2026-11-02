@@ -1,44 +1,62 @@
-import { Button } from "flowbite-react";
-import { type KeyboardEvent as ReactKeyboardEvent, useCallback, useEffect, useId, useRef, useState } from "react";
+import { Button, Radio } from "flowbite-react";
+import {
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import type { IconType } from "react-icons";
 import {
-  LuBan,
   LuBuilding2,
-  LuCheck,
+  LuCircleDashed,
   LuDoorOpen,
-  LuInfo,
-  LuPlane,
-  LuPlaneLanding,
-  LuPlaneTakeoff,
   LuRoute,
   LuSlidersHorizontal,
+  LuSpline,
   LuSquareParking,
   LuTrainTrack,
 } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
-import { type DisplayMode, type MapMode, type MapSettings, useMapSettings } from "~/app-state/useMapSettings";
+import {
+  type DisplayMode,
+  type FlightDataDisplay,
+  type FlightDataSettings,
+  type MapMode,
+  type MapSettings,
+  useMapSettings,
+} from "~/app-state/useMapSettings";
+import { MapProjectionSwitch } from "~/features/flight/components/Map/Element/MapProjectionSwitch";
 import { SegmentedControl } from "~/features/flight/components/Map/Element/SegmentedControl";
+import type { MapProjection } from "~/features/flight/hooks/useMapProjection";
 
 type Props = {
   size?: "sm" | "md";
   triggerClassName?: string;
   placement?: "above" | "below";
+  projection?: MapProjection;
+  onProjectionChange?: (projection: MapProjection) => void;
+  hasFiledRoute?: boolean;
+  hasEtopsRings?: boolean;
 };
 
 type FollowValue = MapSettings["centerOn"] | "off";
 type LayerKey = "runwayDisplay" | "terminalDisplay" | "gateDisplay" | "parkingPositionDisplay";
+type FlightDataKey = keyof FlightDataSettings;
 
-const POPOVER_WIDTH = 288;
-const POPOVER_ESTIMATED_HEIGHT = 420;
+const POPOVER_WIDTH = 352;
+const POPOVER_ESTIMATED_HEIGHT = 360;
 const GAP = 8;
 
-const followOptions: { value: FollowValue; label: string; icon: IconType }[] = [
-  { value: "route", label: "Route", icon: LuRoute },
-  { value: "aircraft", label: "Aircraft", icon: LuPlane },
-  { value: "departure", label: "Departure", icon: LuPlaneTakeoff },
-  { value: "destination", label: "Destination", icon: LuPlaneLanding },
-  { value: "off", label: "Don’t follow", icon: LuBan },
+const followOptions: { value: FollowValue; label: string }[] = [
+  { value: "route", label: "Route" },
+  { value: "aircraft", label: "Aircraft" },
+  { value: "departure", label: "Departure" },
+  { value: "destination", label: "Destination" },
+  { value: "off", label: "Off" },
 ];
 
 const layerRows: { key: LayerKey; label: string; icon: IconType }[] = [
@@ -48,9 +66,15 @@ const layerRows: { key: LayerKey; label: string; icon: IconType }[] = [
   { key: "parkingPositionDisplay", label: "Parking", icon: LuSquareParking },
 ];
 
+const flightDataOptions: { value: FlightDataDisplay; label: string }[] = [
+  { value: "show", label: "Yes" },
+  { value: "dim", label: "Dim" },
+  { value: "hide", label: "No" },
+];
+
 const modeOptions: { value: MapMode; label: string }[] = [
-  { value: "auto", label: "AUTO" },
-  { value: "manual", label: "MAN" },
+  { value: "auto", label: "Auto" },
+  { value: "manual", label: "Manual" },
 ];
 
 const displayOptions: { value: DisplayMode; label: string }[] = [
@@ -59,15 +83,112 @@ const displayOptions: { value: DisplayMode; label: string }[] = [
   { value: "none", label: "Off" },
 ];
 
-const LAYER_LIMIT = 4;
-
 const sectionLabel = "text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400";
 
-function focusableButtons(container: HTMLElement | null): HTMLButtonElement[] {
-  return Array.from(container?.querySelectorAll<HTMLButtonElement>("button:not(:disabled)") ?? []);
+function tabbableControls(container: HTMLElement | null): HTMLElement[] {
+  return Array.from(
+    container?.querySelectorAll<HTMLElement>("button:not(:disabled), input[type=radio]:checked:not(:disabled)") ?? [],
+  );
 }
 
-export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 left-3", placement = "above" }: Props) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="flex min-w-0 flex-col gap-1.5">
+      <p className={sectionLabel}>{label}</p>
+      {children}
+    </div>
+  );
+}
+
+type MatrixRow<K extends string> = {
+  key: K;
+  label: string;
+  icon: IconType;
+  unavailable?: string;
+};
+
+type OptionMatrixProps<K extends string, V extends string> = {
+  title: string;
+  name: string;
+  rows: MatrixRow<K>[];
+  options: { value: V; label: string }[];
+  selected: (key: K) => V;
+  onChange: (key: K, value: V) => void;
+};
+
+function OptionMatrix<K extends string, V extends string>({
+  title,
+  name,
+  rows,
+  options,
+  selected,
+  onChange,
+}: OptionMatrixProps<K, V>) {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_repeat(3,4.25rem)] items-center">
+      <p className={sectionLabel}>{title}</p>
+      {options.map((option) => (
+        <p key={option.value} aria-hidden={true} className={twMerge(sectionLabel, "text-center")}>
+          {option.label}
+        </p>
+      ))}
+
+      {rows.map((row) => {
+        const disabled = row.unavailable !== undefined;
+
+        return (
+          <div
+            key={row.key}
+            role="radiogroup"
+            aria-label={row.label}
+            aria-disabled={disabled || undefined}
+            title={row.unavailable}
+            className={twMerge("col-span-4 grid grid-cols-subgrid items-center", disabled && "opacity-50")}
+          >
+            <span className="flex min-w-0 items-center gap-2 text-sm text-gray-800 dark:text-gray-100">
+              <row.icon className="size-3.5 shrink-0 text-gray-500 dark:text-gray-400" aria-hidden={true} />
+              <span className="truncate">{row.label}</span>
+            </span>
+            {options.map((option) => {
+              const radioId = `${name}-${row.key}-${option.value}`;
+
+              return (
+                <label
+                  key={option.value}
+                  htmlFor={radioId}
+                  className={twMerge(
+                    "flex h-8 items-center justify-center rounded-md transition-colors duration-150 pointer-coarse:h-11",
+                    disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800",
+                  )}
+                >
+                  <Radio
+                    id={radioId}
+                    name={`${name}-${row.key}`}
+                    value={option.value}
+                    checked={selected(row.key) === option.value}
+                    disabled={disabled}
+                    onChange={() => onChange(row.key, option.value)}
+                    aria-label={`${row.label}: ${option.label}`}
+                  />
+                </label>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export function MapOptionsControl({
+  size = "md",
+  triggerClassName = "bottom-3 left-3",
+  placement = "above",
+  projection,
+  onProjectionChange,
+  hasFiledRoute = false,
+  hasEtopsRings = false,
+}: Props) {
   const { mapSettings, updateMapSettings, intent, setMode } = useMapSettings();
   const [open, setOpen] = useState(false);
   const [portalTarget, setPortalTarget] = useState<Element | null>(null);
@@ -78,6 +199,7 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
   const triggerRef = useRef<HTMLDivElement>(null);
   const triggerButtonRef = useRef<HTMLButtonElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
 
   const closeAndFocusTrigger = useCallback(() => {
@@ -134,13 +256,13 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
 
   useEffect(() => {
     if (!open || !portalTarget) return;
-    focusableButtons(popoverRef.current)[0]?.focus();
+    (tabbableControls(headerRef.current)[0] ?? tabbableControls(popoverRef.current)[0])?.focus();
   }, [open, portalTarget]);
 
   const onPanelKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "Tab") return;
-    const buttons = focusableButtons(popoverRef.current);
-    const boundary = event.shiftKey ? buttons[0] : buttons[buttons.length - 1];
+    const controls = tabbableControls(popoverRef.current);
+    const boundary = event.shiftKey ? controls[0] : controls[controls.length - 1];
     if (document.activeElement !== boundary) return;
     event.preventDefault();
     closeAndFocusTrigger();
@@ -157,8 +279,8 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
   const follow: FollowValue = mapSettings.autoCenter ? mapSettings.centerOn : "off";
   const modeAfterEdit: MapMode = intent === null ? mapSettings.mode : "manual";
   const followsIntent = intent !== null && mapSettings.mode === "auto";
-  const shownLayers = layerRows.filter((row) => mapSettings[row.key] === "all").length;
-  const layersAtLimit = shownLayers >= LAYER_LIMIT;
+  const hasProjection = projection !== undefined && onProjectionChange !== undefined;
+  const opensAbove = position.bottom !== undefined;
 
   const selectFollow = (value: FollowValue) => {
     if (value === "off") {
@@ -168,9 +290,91 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
     updateMapSettings({ ...mapSettings, mode: modeAfterEdit, centerOn: value, autoCenter: true });
   };
 
+  const setFlightData = (key: FlightDataKey, value: FlightDataDisplay) => {
+    updateMapSettings({ ...mapSettings, [key]: value });
+  };
+
+  const flightDataRows: MatrixRow<FlightDataKey>[] = [
+    { key: "greatCircleDisplay", label: "Great circle", icon: LuSpline },
+    {
+      key: "routeDisplay",
+      label: "Flight route",
+      icon: LuRoute,
+      unavailable: hasFiledRoute ? undefined : "This flight has no filed route waypoints",
+    },
+    {
+      key: "etopsDisplay",
+      label: "ETP rings",
+      icon: LuCircleDashed,
+      unavailable: hasEtopsRings ? undefined : "This flight has no ETOPS plan",
+    },
+  ];
+
   const setLayer = (key: LayerKey, value: DisplayMode) => {
     updateMapSettings({ ...mapSettings, mode: modeAfterEdit, [key]: value });
   };
+
+  const header = (hasProjection || intent !== null) && (
+    <div ref={headerRef} key="header" className="flex flex-col gap-2 p-2.5">
+      <div className={twMerge("grid gap-3", hasProjection && intent !== null ? "grid-cols-2" : "grid-cols-1")}>
+        {hasProjection && (
+          <Field label="Projection">
+            <MapProjectionSwitch value={projection} onChange={onProjectionChange} stretch={true} />
+          </Field>
+        )}
+        {intent !== null && (
+          <Field label="Mode">
+            <SegmentedControl
+              ariaLabel="Map mode"
+              value={mapSettings.mode}
+              onChange={setMode}
+              options={modeOptions}
+              stretch={true}
+            />
+          </Field>
+        )}
+      </div>
+      {followsIntent && (
+        <p className="text-xs text-gray-500 dark:text-gray-400">Follows the flight phase: {intent.label}</p>
+      )}
+    </div>
+  );
+
+  const manualSections = !followsIntent && [
+    <div key="follow" className="p-2.5">
+      <Field label="Follow">
+        <SegmentedControl
+          ariaLabel="Follow"
+          value={follow}
+          onChange={selectFollow}
+          options={followOptions}
+          stretch={true}
+        />
+      </Field>
+    </div>,
+    <div key="flight-data" className="p-2.5">
+      <OptionMatrix
+        title="Flight data"
+        name={`${panelId}-flight`}
+        rows={flightDataRows}
+        options={flightDataOptions}
+        selected={(key) => mapSettings[key]}
+        onChange={setFlightData}
+      />
+    </div>,
+    <div key="static-data" className="p-2.5">
+      <OptionMatrix
+        title="Static data"
+        name={`${panelId}-static`}
+        rows={layerRows}
+        options={displayOptions}
+        selected={(key) => mapSettings[key]}
+        onChange={setLayer}
+      />
+    </div>,
+  ];
+
+  const blocks = opensAbove ? [manualSections, header] : [header, manualSections];
 
   return (
     <div ref={triggerRef} className={twMerge("absolute z-20", triggerClassName)}>
@@ -204,93 +408,11 @@ export function MapOptionsControl({ size = "md", triggerClassName = "bottom-3 le
               maxHeight: position.maxHeight,
             }}
             className={twMerge(
-              "z-[1000] w-72 max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white p-1.5 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 dark:border-gray-700 dark:bg-gray-900",
-              placement === "below" ? "motion-safe:slide-in-from-top-1" : "motion-safe:slide-in-from-bottom-1",
+              "z-[1000] flex w-[22rem] max-w-[calc(100vw-1rem)] flex-col divide-y divide-gray-200 overflow-y-auto overscroll-contain rounded-xl border border-gray-200 bg-white motion-safe:animate-in motion-safe:fade-in motion-safe:duration-150 dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-900",
+              opensAbove ? "motion-safe:slide-in-from-bottom-1" : "motion-safe:slide-in-from-top-1",
             )}
           >
-            {intent !== null && (
-              <div className="px-1">
-                <p className={twMerge(sectionLabel, "px-2 pb-0.5 pt-1")}>Mode</p>
-                <div className="px-2 py-1">
-                  <SegmentedControl
-                    ariaLabel="Map mode"
-                    value={mapSettings.mode}
-                    onChange={setMode}
-                    options={modeOptions}
-                  />
-                </div>
-                {followsIntent && (
-                  <p className="flex items-start gap-2 px-2 pb-1 pt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                    <LuInfo className="mt-0.5 size-3 shrink-0 text-gray-500 dark:text-gray-400" />
-                    <span>Follow flight phase (currently: {intent.label})</span>
-                  </p>
-                )}
-              </div>
-            )}
-
-            {!followsIntent && intent !== null && (
-              <div className="my-1 border-t border-gray-200 dark:border-gray-700" />
-            )}
-
-            {!followsIntent && (
-              <>
-                <div className="px-1">
-                  <p className={twMerge(sectionLabel, "px-2 pb-0.5 pt-1")}>Follow</p>
-                  {followOptions.map((option) => {
-                    const active = follow === option.value;
-                    return (
-                      <button
-                        key={option.value}
-                        type="button"
-                        aria-pressed={active}
-                        onClick={() => selectFollow(option.value)}
-                        className={twMerge(
-                          "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors",
-                          active
-                            ? "font-semibold text-indigo-700 dark:text-indigo-300"
-                            : "text-gray-800 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800",
-                        )}
-                      >
-                        <option.icon
-                          className={twMerge(
-                            "size-3.5 shrink-0",
-                            active ? "text-indigo-500" : "text-gray-500 dark:text-gray-400",
-                          )}
-                        />
-                        <span>{option.label}</span>
-                        {active && <LuCheck className="ml-auto size-3 text-indigo-500" />}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="my-1 border-t border-gray-200 dark:border-gray-700" />
-
-                <div className="px-1">
-                  <div className="flex items-baseline justify-between gap-2 px-2 pb-0.5 pt-1">
-                    <p className={sectionLabel}>Data layers</p>
-                    <span className="font-mono text-2xs tabular-nums text-gray-500 dark:text-gray-400">
-                      {shownLayers}/{LAYER_LIMIT}
-                    </span>
-                  </div>
-                  {layerRows.map((row) => (
-                    <div key={row.key} className="flex items-center justify-between gap-2 px-2 py-1">
-                      <span className="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-100">
-                        <row.icon className="size-3.5 shrink-0 text-gray-500 dark:text-gray-400" />
-                        {row.label}
-                      </span>
-                      <SegmentedControl
-                        ariaLabel={row.label}
-                        value={mapSettings[row.key]}
-                        onChange={(value) => setLayer(row.key, value)}
-                        options={displayOptions}
-                        disabledValues={layersAtLimit ? ["all"] : []}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+            {blocks}
           </div>,
           portalTarget,
         )}

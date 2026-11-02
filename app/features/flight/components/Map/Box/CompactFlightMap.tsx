@@ -1,35 +1,16 @@
-import L from "leaflet";
-import { useEffect, useMemo } from "react";
+import React, { Suspense } from "react";
 import { LuMaximize2 } from "react-icons/lu";
-import { MapContainer, useMap } from "react-leaflet";
 import { Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import type { Flight, FlightPathElement } from "~/features/flight";
-import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
-import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
-import { MapAircraftMarker } from "~/features/flight/components/Map/Element/MapAircraftMarker";
-import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
-import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
-import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
-import { airportRoute } from "~/features/flight/lib/flightMapBounds";
 import { TrackingView, trackFlightPath } from "~/features/flight/lib/trackingView";
+import { MapAttribution } from "~/shared/ui/Map/MapAttribution";
 
-const FIT_OPTIONS: L.FitBoundsOptions = { padding: [28, 28], maxZoom: 8 };
-
-function FitRoute({ bounds }: { bounds: L.LatLngBounds }) {
-  const map = useMap();
-
-  useEffect(() => {
-    const refit = () => map.fitBounds(bounds, FIT_OPTIONS);
-    refit();
-    map.on("resize", refit);
-    return () => {
-      map.off("resize", refit);
-    };
-  }, [map, bounds]);
-
-  return null;
-}
+const CompactGlobeMap = React.lazy(() =>
+  import("~/features/flight/components/Map/Box/CompactGlobeMap").then((module) => ({
+    default: module.CompactGlobeMap,
+  })),
+);
 
 type Props = {
   flight: Flight;
@@ -38,40 +19,12 @@ type Props = {
 };
 
 export function CompactFlightMap({ flight, path, className }: Props) {
-  const { departureAirport, destinationAirport } = flight;
-
-  const bounds = useMemo(
-    () => L.latLngBounds(airportRoute(departureAirport, destinationAirport)),
-    [departureAirport, destinationAirport],
-  );
-
-  const showsAircraft = path.length > 0;
-
   return (
     <div className={twMerge("group relative isolate overflow-hidden", className)}>
       <div inert className="absolute inset-0">
-        <MapContainer
-          bounds={bounds}
-          boundsOptions={FIT_OPTIONS}
-          dragging={false}
-          touchZoom={false}
-          doubleClickZoom={false}
-          scrollWheelZoom={false}
-          boxZoom={false}
-          keyboard={false}
-          zoomControl={false}
-          attributionControl={false}
-          className="z-0 h-full w-full"
-        >
-          <MapTileLayer />
-          <GreatCirclePath start={departureAirport} end={destinationAirport} />
-          {showsAircraft && <FlightPath path={path} />}
-          <MapAirportLabel airport={departureAirport} />
-          <MapAirportLabel airport={destinationAirport} />
-          {showsAircraft && <MapAircraftMarker path={path} />}
-          <FitRoute bounds={bounds} />
-          <MapResizeHandler />
-        </MapContainer>
+        <Suspense fallback={<div className="h-full w-full animate-pulse bg-gray-100 dark:bg-gray-900" />}>
+          <CompactGlobeMap flight={flight} path={path} />
+        </Suspense>
       </div>
 
       <Link
@@ -85,12 +38,7 @@ export function CompactFlightMap({ flight, path, className }: Props) {
         </span>
       </Link>
 
-      <div className="absolute bottom-1 right-1 z-20 rounded bg-white/80 px-1.5 py-0.5 text-2xs text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
-        ©{" "}
-        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="hover:underline">
-          OpenStreetMap
-        </a>
-      </div>
+      <MapAttribution className="z-20" />
     </div>
   );
 }

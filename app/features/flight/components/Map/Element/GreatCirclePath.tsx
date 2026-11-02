@@ -9,6 +9,7 @@ type GreatCirclePathType = {
   start: Airport;
   end: Airport;
   variant?: "primary" | "diversion";
+  emphasis?: number;
 };
 
 const VARIANT_STYLE = {
@@ -16,7 +17,7 @@ const VARIANT_STYLE = {
   diversion: { color: "#dc2626", weight: 2, dashArray: "6 6", opacity: 0.9 },
 } as const;
 
-export function GreatCirclePath({ start, end, variant = "primary" }: GreatCirclePathType) {
+export function GreatCirclePath({ start, end, variant = "primary", emphasis = 1 }: GreatCirclePathType) {
   const path = useMemo(() => airportRoute(start, end), [start, end]);
 
   if (path.length < 2) return null;
@@ -26,7 +27,7 @@ export function GreatCirclePath({ start, end, variant = "primary" }: GreatCircle
       {WORLD_COPIES.map((offset) => (
         <Polyline
           key={offset}
-          pathOptions={VARIANT_STYLE[variant]}
+          pathOptions={{ ...VARIANT_STYLE[variant], opacity: VARIANT_STYLE[variant].opacity * emphasis }}
           positions={shiftPath(path, offset)}
           smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
         />

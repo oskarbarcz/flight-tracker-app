@@ -71,8 +71,8 @@ export function ChartLegend({ hasTrack, hasRings, hasPoints }: Props) {
           label="Critical point filled, others hollow"
           swatch={
             <svg viewBox="0 0 24 8" className="w-6" aria-hidden={true}>
-              <circle cx="7" cy="4" r="3.5" fill={pointColor} />
-              <circle cx="17" cy="4" r="3.5" fill={pointColor} fillOpacity="0.4" stroke={pointColor} />
+              <circle cx="7" cy="4" r="3.5" fill={pointColor} stroke={pointColor} strokeWidth="1.25" />
+              <circle cx="17" cy="4" r="3" fill="none" stroke={pointColor} strokeWidth="1.25" />
             </svg>
           }
         />

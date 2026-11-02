@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
-import { type DisplayMode, useMapSettings } from "~/app-state/useMapSettings";
+import { useMapSettings } from "~/app-state/useMapSettings";
 import { RunwayApproach } from "~/features/flight/components/Map/Element/RunwayApproach";
 import { RunwayLines } from "~/features/flight/components/Map/Element/RunwayLines";
 import {
   RUNWAY_APPROACH_ZOOM_THRESHOLD,
   RUNWAY_ZOOM_THRESHOLD,
 } from "~/features/flight/components/Map/Element/zoomThresholds";
+import { pickRunways } from "~/features/flight/lib/airportLayoutFilters";
 import type { Runway } from "~/features/runway";
 
 type RunwaySource = {
@@ -20,12 +21,6 @@ type Props = {
   departureRunwayId: string | null;
   arrivalRunwayId: string | null;
 };
-
-function pickRunways(runways: Runway[], assignedId: string | null, mode: DisplayMode): Runway[] {
-  if (mode === "none") return [];
-  if (mode === "all") return runways;
-  return runways.filter((r) => r.id === assignedId);
-}
 
 export function TrackingRunwaysLayer({
   runwayService,

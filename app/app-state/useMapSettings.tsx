@@ -3,6 +3,8 @@ import { useLocalStorage } from "~/shared/hooks/useLocalStorage";
 
 export type DisplayMode = "all" | "assigned" | "none";
 
+export type FlightDataDisplay = "show" | "dim" | "hide";
+
 export type MapMode = "auto" | "manual";
 
 export type MapView = {
@@ -14,14 +16,20 @@ export type MapView = {
   runwayDisplay: DisplayMode;
 };
 
-export type MapSettings = MapView & {
-  mode: MapMode;
+export type FlightDataSettings = {
+  greatCircleDisplay: FlightDataDisplay;
+  routeDisplay: FlightDataDisplay;
+  etopsDisplay: FlightDataDisplay;
 };
+
+export type MapSettings = MapView &
+  FlightDataSettings & {
+    mode: MapMode;
+  };
 
 export type MapIntent = {
   label: string;
   view: MapView;
-  plotsRoute?: boolean;
 };
 
 const defaultMapSettings: MapSettings = {
@@ -32,6 +40,9 @@ const defaultMapSettings: MapSettings = {
   terminalDisplay: "assigned",
   gateDisplay: "none",
   runwayDisplay: "all",
+  greatCircleDisplay: "show",
+  routeDisplay: "show",
+  etopsDisplay: "show",
 };
 
 function migrate(raw: Partial<MapSettings> & Record<string, unknown>): MapSettings {
@@ -65,7 +76,7 @@ export function MapSettingsProvider({ children, intent = null }: ProviderProps) 
   const [settings, setSettings] = useLocalStorage<MapSettings>("map-settings", defaultMapSettings);
   const stored = migrate(settings as Partial<MapSettings> & Record<string, unknown>);
   const followsIntent = stored.mode === "auto" && intent !== null;
-  const mapSettings: MapSettings = followsIntent ? { ...intent.view, mode: "auto" } : stored;
+  const mapSettings: MapSettings = followsIntent ? { ...stored, ...intent.view, mode: "auto" } : stored;
 
   const setMode = (mode: MapMode) => setSettings({ ...mapSettings, mode });
 

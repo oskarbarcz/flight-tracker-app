@@ -16,14 +16,14 @@ export default defineConfig({
       manifest: false,
       outDir: "build/client",
       workbox: {
-        globPatterns: ["**/*.css", "404.html", "ghspa.js", "sw-recovery.js"],
+        globPatterns: ["**/*.css", "404.html", "ghspa.js", "sw-recovery.js", "map-styles/*.json"],
         additionalManifestEntries: [{ url: "index.html", revision: packageJson.version }],
         navigateFallback: "index.html",
         navigateFallbackDenylist: [/^\/api\//],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         runtimeCaching: [
           {
-            urlPattern: /\/assets\/[^/]+\.js$/,
+            urlPattern: /\/assets\/[^/]+\.m?js$/,
             handler: "CacheFirst",
             options: {
               cacheName: "app-chunks",
