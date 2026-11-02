@@ -33,9 +33,9 @@ export function selectableFixOrdinal(properties: Record<string, unknown> | null)
 }
 
 export function ringTitleGlobeMarkers(scene: GlobeRouteScene, emphasis = 1): GlobeMarker[] {
-  return scene.ringTitles.map((ring) => ({
+  return scene.rings.map((ring) => ({
     id: `ring-${ring.key}`,
-    position: ring.position,
+    position: ring.titlePosition,
     html: ReactDOMServer.renderToString(
       <div style={{ opacity: emphasis }}>
         <span className="map-ring-label">{ring.title}</span>

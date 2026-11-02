@@ -1,18 +1,16 @@
 import { useThemeMode } from "flowbite-react";
 import L from "leaflet";
 import React, { useMemo } from "react";
-import { CircleMarker, Circle as LeafletCircle, Marker, Polyline, useMap } from "react-leaflet";
+import { CircleMarker, Marker, Polyline, useMap } from "react-leaflet";
 import type { Airport } from "~/features/airport/model";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import { etopsColor, fixMarkerFill } from "~/features/route/lib/chartColors";
-import { etopsRingSpecs } from "~/features/route/lib/etopsRings";
-import { nauticalMilesToMetres } from "~/features/route/lib/routeFigures";
+import { etopsRings } from "~/features/route/lib/etopsRings";
 import { fixLabelClassName, type RouteFixMark, routeFixMarks } from "~/features/route/lib/routeFixMarks";
 import { flownTrack, routeLine, trackLine } from "~/features/route/lib/routeGeometry";
 import type { FixInsight } from "~/features/route/lib/routeInsights";
 import type { EtopsBriefing } from "~/features/route/model";
 import type { AssignedRunways } from "~/features/runway/hooks/useAssignedRunways";
-import { destinationPoint } from "~/features/runway/lib/runwayPairs";
 import { escapeHtml } from "~/shared/lib/escapeHtml";
 import { ROUTE_LINE_SMOOTH_FACTOR } from "~/shared/lib/greatCircle";
 import { FLIGHT_COLOR, RUNWAY_COLOR } from "~/shared/lib/mapColors";
@@ -20,8 +18,8 @@ import { shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 
 const ROUTE_STYLE = { color: FLIGHT_COLOR, weight: 2.5, opacity: 0.9 };
 const TRACK_STYLE = { color: RUNWAY_COLOR, weight: 2.5, opacity: 0.85, dashArray: "2 8" };
-const RULE_RING_STYLE = { weight: 1, opacity: 0.5, fill: false };
-const THRESHOLD_RING_STYLE = { weight: 1, opacity: 0.35, fill: false, dashArray: "3 5" };
+const RULE_RING_STYLE = { weight: 1, opacity: 0.5 };
+const THRESHOLD_RING_STYLE = { weight: 1, opacity: 0.35, dashArray: "3 5" };
 
 type LayerProps = Props & { offset: number };
 
@@ -76,34 +74,25 @@ function highlightFixLabel(container: HTMLElement, key: string, active: boolean)
 function EtopsRings({ briefing, airports, offset }: RingsProps) {
   const { computedMode } = useThemeMode();
   const color = etopsColor(computedMode);
-  const specs = etopsRingSpecs(briefing.etops);
-  const ringCentres = (briefing.etops?.airports ?? [])
-    .map((entry) => airports.get(entry.airportId))
-    .filter((airport): airport is Airport => airport !== undefined);
+  const rings = useMemo(() => etopsRings(briefing.etops, airports), [briefing, airports]);
 
   return (
     <>
-      {ringCentres.map((airport) =>
-        specs.map((spec) => {
-          const { latitude, longitude } = airport.location;
-          const radius = nauticalMilesToMetres(spec.radiusNm);
-
-          return (
-            <React.Fragment key={`${airport.id}-${spec.kind}`}>
-              <LeafletCircle
-                center={shiftPoint([latitude, longitude], offset)}
-                radius={radius}
-                pathOptions={{ ...(spec.kind === "rule" ? RULE_RING_STYLE : THRESHOLD_RING_STYLE), color }}
-              />
-              <Marker
-                position={shiftPoint(destinationPoint(latitude, longitude, 0, radius), offset)}
-                icon={ringTitleIcon(`${spec.title} (${airport.icaoCode})`)}
-                interactive={false}
-              />
-            </React.Fragment>
-          );
-        }),
-      )}
+      {rings.map((ring) => (
+        <React.Fragment key={ring.key}>
+          <Polyline
+            positions={shiftPath(ring.path, offset)}
+            smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
+            interactive={false}
+            pathOptions={{ ...(ring.kind === "rule" ? RULE_RING_STYLE : THRESHOLD_RING_STYLE), color }}
+          />
+          <Marker
+            position={shiftPoint(ring.titlePosition, offset)}
+            icon={ringTitleIcon(ring.title)}
+            interactive={false}
+          />
+        </React.Fragment>
+      ))}
     </>
   );
 }

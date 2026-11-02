@@ -187,6 +187,12 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
 - **ETOPS colour:** rings, ring titles and ETP names share one blue, apart from the grey fixes and the indigo route. Light
   mode uses `sky-500` rings with `sky-700` text. Dark mode uses a muted steel blue, `etops-night` (`#7cabcc`), for all
   three, because `sky-400` glared on the dark basemap. Rings take the colour from `etopsColor` in `chartColors.ts`.
+- **Polar limit:** both renderers are built on Web Mercator, which ends at 85.05°. MapLibre clamps globe geometry
+  beyond it onto that parallel, so a line that crosses the pole jumps onto a small circle around it. ETOPS rings often
+  do (a 180-minute ring around an Arctic airport), so `GlobeMap` draws them as `screenLines`: an SVG layer above the
+  canvas and below the markers that projects every point with `map.project` on each frame and drops points on the far
+  side of the globe. The flat map draws them as geodesic polylines from `etopsRings`, never `L.Circle`, which is a
+  screen-space ellipse. Route lines still go through MapLibre, so a route north of 85° would be clamped the same way.
 - **Globe camera:** the fit is spherical (centre of the points on the sphere, radius kept in front of the horizon); the
   globe never shrinks below about 85% of the map height and stops zooming in at 14.5.
 - **Follow:** dragging or arrow-key panning turns Follow off and switches Map options to Manual; scroll, pinch,

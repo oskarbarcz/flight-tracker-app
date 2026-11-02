@@ -129,7 +129,7 @@ export const GlobeEtops: Story = {
     docs: {
       description: {
         story:
-          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole. Entry, equal-time, critical and exit points are pseudo-fixes, drawn and named like TOC and TOD: (ETP IN), (ETP), (CP), (ETP OUT).",
+          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole. The 180-minute rings around Resolute Bay and Utqiagvik cross the pole, beyond the 85° edge of the Mercator tiles, so the globe draws rings in its own projected layer. Entry, equal-time, critical and exit points are pseudo-fixes, drawn and named like TOC and TOD: (ETP IN), (ETP), (CP), (ETP OUT).",
       },
     },
   },
@@ -143,6 +143,9 @@ export const GlobeEtops: Story = {
         await expect(names).toEqual(
           expect.arrayContaining(["(TOC)", "(TOD)", "(ETP IN)", "(ETP)", "(CP)", "(ETP OUT)"]),
         );
+        const rings = [...canvasElement.querySelectorAll(".maplibregl-canvas + svg path")];
+        await expect(rings).toHaveLength(polarEtopsAirports.size * 2);
+        await expect(rings.every((ring) => (ring.getAttribute("d") ?? "").startsWith("M"))).toBe(true);
       },
       { timeout: 10_000 },
     );
