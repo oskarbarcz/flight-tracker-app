@@ -106,29 +106,38 @@ input:-webkit-autofill:focus {
 }
 
 .map-fix-label {
-  @apply font-mono text-2xs font-bold text-gray-600 dark:text-gray-300;
+  @apply font-mono text-xs font-bold text-gray-600/70 dark:text-gray-300/70;
+  --map-label-halo: #fff;
   position: absolute;
   left: 0;
   top: 0;
   transform: translate(5px, -115%);
   white-space: nowrap;
-  opacity: 0.5;
-  transition: opacity 150ms ease;
+  transition: color 150ms ease;
   text-shadow:
-    0 0 2px #fff,
-    0 0 3px #fff;
+    -1px -1px 0 var(--map-label-halo),
+    0 -1px 0 var(--map-label-halo),
+    1px -1px 0 var(--map-label-halo),
+    -1px 0 0 var(--map-label-halo),
+    1px 0 0 var(--map-label-halo),
+    -1px 1px 0 var(--map-label-halo),
+    0 1px 0 var(--map-label-halo),
+    1px 1px 0 var(--map-label-halo),
+    0 0 3px var(--map-label-halo);
 }
 .dark .map-fix-label {
-  text-shadow:
-    0 0 2px #0b0e14,
-    0 0 3px #0b0e14;
+  --map-label-halo: #0b0e14;
 }
 .map-fix-label--etops {
-  @apply text-sky-700 dark:text-etops-night;
+  @apply text-sky-700/70 dark:text-etops-night/70;
 }
 .map-fix-label:hover,
 .map-fix-label--active {
-  opacity: 1;
+  @apply text-gray-600 dark:text-gray-300;
+}
+.map-fix-label--etops:hover,
+.map-fix-label--etops.map-fix-label--active {
+  @apply text-sky-700 dark:text-etops-night;
 }
 @media (prefers-reduced-motion: reduce) {
   .map-fix-label {

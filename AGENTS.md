@@ -184,8 +184,9 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   filed route and ETP rings, each Yes / Dim / No, with rows the flight has no data for greyed out) and Static data
   (runways, terminals, gates, stands: All / Assigned / Off), then Airspace (FIRs: Yes / Dim / No, default No). Flight
   data and Airspace are not phase-driven, so Auto keeps them.
-- **Route labels:** fix names sit beside each fix at half opacity and turn solid on hover of the fix or the name. Each ETP
-  ring is titled with its minutes and the airport's ICAO code, for example `60 min (EKCH)`.
+- **Route labels:** fix names sit beside each fix with their text at 70% and a solid 1 px halo (white, or the map's
+  near-black in dark mode), so they read above the basemap's names, and turn solid on hover of the fix or the name. Each
+  ETP ring is titled with its minutes and the airport's ICAO code, for example `60 min (EKCH)`.
 - **Pseudo-fixes:** TOC, TOD and ETP are named in brackets, `(TOC)`, everywhere a fix name shows
   (`app/features/route/lib/fixName.ts`). The API sends no fix type, so they are recognised by ident. The ETOPS plan's
   entry, equal-time, critical and exit points are drawn exactly like fixes, as `(ETP IN)`, `(ETP)`, `(CP)` and
@@ -301,7 +302,8 @@ VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 Every map draws the VersaTiles **Positrino** basemap (Positrino Dark in dark mode) through MapLibre GL: the globe on its
 own MapLibre map, every Leaflet map through `@maplibre/maplibre-gl-leaflet` inside `MapTileLayer`. The styles come from
 `@versatiles/style` with English labels and `tiles.versatiles.org` as their base, loaded by
-`app/shared/lib/versatilesBasemap.ts`. The two styles are prebuilt by `npm run generate:basemap-styles` into
+`app/shared/lib/versatilesBasemap.ts`. The light style draws its place names in gray-400 (`colors.label` in the
+generator), quieter than our route and airport labels. The two styles are prebuilt by `npm run generate:basemap-styles` into
 `public/map-styles/` (rerun it after upgrading `@versatiles/style`) and precached by the service worker. The vector data stops at zoom 14, so above it the apron basemap is the zoom-14
 data drawn larger; the product owner accepted that for one theme across the flat and globe views, and the app's own
 runways, terminals, gates and stands carry the apron detail. Every map with a basemap credits OpenStreetMap, VersaTiles
