@@ -663,7 +663,7 @@ html[data-app-entry] [data-app-entry-content] {
   visibility: hidden;
   pointer-events: none;
   opacity: 0;
-  transition-duration: 140ms;
+  transition-duration: 150ms;
   transition-timing-function: ease-out;
 }
 

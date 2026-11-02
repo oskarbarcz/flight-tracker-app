@@ -208,7 +208,7 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   floating cards. A focus request held when a map mounts is ignored, so switching projection doesn't fly back to an old
   fix.
 - **Floating panels:** the fix card and Map options open and close through `useFloatingPanel` and `.floating-panel`. They
-  grow from the point nearest what opened them and retreat to it, like modals but quicker (220 ms in, 140 ms out), and
+  grow from the point nearest what opened them and retreat to it, like modals but quicker (220 ms in, 150 ms out), and
   only fade under reduced motion. The panel stays mounted until its opacity transition ends, so a test that closes one
   has to wait for it to leave the DOM.
 - **ETOPS colour:** rings, ring titles and ETP names share one blue, apart from the grey fixes and the indigo route. Light
