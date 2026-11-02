@@ -12,6 +12,7 @@ import { NoCurrentFlightBox } from "~/features/flight/components/Dashboard/Main/
 import { UserHeader } from "~/features/flight/components/Dashboard/Main/UserHeader";
 import { useCurrentFlight } from "~/features/flight/hooks/useCurrentFlight";
 import { useFlightNumber } from "~/features/flight/hooks/useFlightNumber";
+import { useGroundStop } from "~/features/flight/hooks/useGroundStop";
 import { useLastFlight } from "~/features/flight/hooks/useLastFlight";
 import { useNextScheduledFlight } from "~/features/flight/hooks/useNextScheduledFlight";
 import { PostcardsBox } from "~/features/postcard/components/Dashboard/PostcardsBox";
@@ -44,27 +45,38 @@ export default function PilotDashboardRoute() {
 
   const showLocation = !loadingCurrent && !currentFlight && !failedCurrent;
   const travelFlightNumber = useFlightNumber(showLocation ? (latestTravel?.flightId ?? null) : null);
+  const { groundStop, loading: loadingGround } = useGroundStop(
+    showLocation && !loadingLast ? currentLocation : null,
+    latestTravel,
+    lastFlight,
+  );
+  const settlingCurrentFlight =
+    loadingCurrent || (showLocation && (loadingLast || loadingTravels || loadingGround || loadingNext));
 
   return (
     <>
       <UserHeader />
       <div className="grid grid-cols-1 gap-3 pt-6 lg:grid-cols-2 lg:pt-12 xl:grid-cols-3">
         <div className="flex flex-col gap-3 xl:col-span-2">
-          {loadingCurrent ? (
+          {settlingCurrentFlight ? (
             <CurrentFlightBoxLoader expectsFlight={currentFlightId !== null} />
           ) : currentFlight ? (
             <CurrentFlightBox flight={currentFlight} />
           ) : failedCurrent ? (
             <CurrentFlightUnavailableBox />
           ) : (
-            <NoCurrentFlightBox />
+            <NoCurrentFlightBox groundStop={groundStop} nextFlight={nextFlight} nextFlightFailed={failedNext} />
           )}
           <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
             {loadingLast ? <LastFlightBoxLoader /> : <LastFlightBox flight={lastFlight} failed={failedLast} />}
-            {loadingNext ? (
+            {loadingNext || settlingCurrentFlight ? (
               <NextScheduledFlightBoxLoader />
             ) : (
-              <NextScheduledFlightBox flight={nextFlight} failed={failedNext} />
+              <NextScheduledFlightBox
+                flight={nextFlight}
+                failed={failedNext}
+                departure={currentFlight?.destinationAirport ?? groundStop?.airport ?? null}
+              />
             )}
           </div>
         </div>

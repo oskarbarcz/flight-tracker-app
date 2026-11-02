@@ -22,8 +22,8 @@ export type GlobeMarker = {
 };
 
 export type GlobeCameraTarget =
-  | { key: string; kind: "fit"; points: LatLngTuple[]; maxZoom?: number }
-  | { key: string; kind: "point"; position: LatLngTuple; zoom?: number };
+  | { key: string; kind: "fit"; points: LatLngTuple[]; maxZoom?: number; glideMs?: number }
+  | { key: string; kind: "point"; position: LatLngTuple; zoom?: number; glideMs?: number };
 
 type Props = {
   overlay: GlobeOverlay;
@@ -94,7 +94,7 @@ function applyTarget(
   }
 
   if (glide) {
-    map.flyTo({ center, zoom, padding, duration: GLIDE_MS, essential: false });
+    map.flyTo({ center, zoom, padding, duration: target.glideMs ?? GLIDE_MS, essential: false });
   } else {
     map.jumpTo({ center, zoom, padding });
   }
