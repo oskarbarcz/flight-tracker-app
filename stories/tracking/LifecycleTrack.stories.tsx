@@ -45,10 +45,15 @@ const meta = {
     docs: {
       description: {
         component: `
-The flight's nine stages, check-in to close, as one segmented bar.
+The flight's six stages as one segmented bar: check-in, boarding, taxi out, cruise, taxi in and offboarding.
 
-- **Done** stages are gray-400, **upcoming** gray-200, and the **current** stage is Signal Indigo Mark and four times
-  as wide. When the current stage has a known span, its segment fills with progress through it.
+- **Stages** start when the crew checks in, starts boarding, or reports off-block, takeoff, arrival or on-block.
+  Offboarding runs from on-block until the flight is closed, and a closed flight shows every stage done.
+
+- **Done** stages are gray-400, **upcoming** gray-200, and the **current** stage is Signal Indigo Mark. When the
+  current stage has a known span, its segment fills with progress through it.
+- **Widths** are fixed: cruise, the longest part of every flight, is four times as wide as each other stage, so the
+  track keeps its shape as the flight moves through it.
 - **Labels and times** appear when the track's container is at least 42rem wide: the stage name in micro-caps, and its
   actual time, or its estimated or scheduled time with a certainty mark. Below that width they stay for screen readers
   only.
