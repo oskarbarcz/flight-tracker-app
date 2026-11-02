@@ -1,10 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
 import { FlightStatus } from "~/features/flight";
+import type { MapProjection } from "~/features/flight/hooks/useMapProjection";
 import { RouteChart } from "~/features/route/components/Chart/RouteChart";
 import { FLIGHT_COLOR } from "~/shared/lib/mapColors";
 import { flightFixture } from "../fixtures/flights";
-import { polarBriefing, routeBriefingState } from "../fixtures/routes";
+import { polarBriefing, polarEtopsAirports, polarEtopsBriefing, routeBriefingState } from "../fixtures/routes";
+
+const RENDERER_KEY = "map-projection.route-chart";
+
+function withRenderer(renderer: MapProjection) {
+  return () => {
+    window.localStorage.setItem(RENDERER_KEY, JSON.stringify(renderer));
+
+    return () => window.localStorage.removeItem(RENDERER_KEY);
+  };
+}
 
 function drawnRuns(canvasElement: HTMLElement): number[][][] {
   const paths = canvasElement.querySelectorAll(`path[stroke="${FLIGHT_COLOR}"]`);
@@ -46,8 +57,10 @@ The planned route on the Briefing view's Route tab.
 - **Route:** every leg between two fixes is a great circle, so it curves on the map instead of running straight.
 - **Oceanic track:** the dotted line is drawn the same way.
 - **Antimeridian:** a route that crosses it stays one continuous line, and the view centres on the route.
+- **Projection:** the top bar switches between the Mercator Leaflet map and a MapLibre globe. The choice is remembered
+  in \`localStorage\` under \`map-projection.route-chart\`; the globe is the default.
 
-Tiles come from CARTO, so the map needs a network connection.
+The basemap is VersaTiles Positrino in both projections, so the map needs a network connection.
 `,
       },
     },
@@ -59,6 +72,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const PolarRoute: Story = {
+  beforeEach: withRenderer("mercator"),
   parameters: {
     docs: {
       description: {
@@ -78,5 +92,55 @@ export const PolarRoute: Story = {
       await expect(longestRun).toBeGreaterThan(polarBriefing.route.fixes.length);
       await expect(widestStep).toBeLessThan(canvasElement.clientWidth / 2);
     });
+  },
+};
+
+export const GlobePolarRoute: Story = {
+  beforeEach: withRenderer("globe"),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The same New York to Hong Kong flight on the globe. The camera centres on the route and zooms until every fix is in front of the horizon.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await waitFor(
+      async () => {
+        await expect(canvasElement.querySelector(".maplibregl-canvas")).not.toBeNull();
+        const visibleLabels = [...canvasElement.querySelectorAll<HTMLElement>(".map-airport-label")].filter(
+          (label) => label.closest<HTMLElement>(".maplibregl-marker")?.style.display !== "none",
+        );
+        await expect(visibleLabels).toHaveLength(2);
+      },
+      { timeout: 10_000 },
+    );
+  },
+};
+
+export const GlobeEtops: Story = {
+  beforeEach: withRenderer("globe"),
+  args: {
+    briefing: polarEtopsBriefing,
+    state: routeBriefingState(polarEtopsBriefing, polarEtopsAirports),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await waitFor(
+      async () => {
+        await expect(canvasElement.querySelectorAll(".map-etops-label")).toHaveLength(
+          polarEtopsBriefing.etops?.points.length ?? 0,
+        );
+      },
+      { timeout: 10_000 },
+    );
   },
 };

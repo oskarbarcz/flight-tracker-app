@@ -1,0 +1,641 @@
+{
+  "runways": [
+    {
+      "id": "6bbf43a4-9242-4f04-b195-6a7bcd1f14c4",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "04L",
+      "length": 3682,
+      "width": 45,
+      "displace": null,
+      "trueHeading": 32,
+      "magneticHeading": 45,
+      "elevation": 4,
+      "surfaceType": "asphalt",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.622,
+        "longitude": -73.7856
+      }
+    },
+    {
+      "id": "8324e63e-24ab-44d6-9e57-68be895f8afe",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "04R",
+      "length": 2560,
+      "width": 61,
+      "displace": null,
+      "trueHeading": 32,
+      "magneticHeading": 45,
+      "elevation": 4,
+      "surfaceType": "concrete",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6254,
+        "longitude": -73.7703
+      }
+    },
+    {
+      "id": "638de008-7d77-4ad7-ab4e-2f05c4f7b710",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "13L",
+      "length": 3048,
+      "width": 61,
+      "displace": null,
+      "trueHeading": 122,
+      "magneticHeading": 135,
+      "elevation": 4,
+      "surfaceType": "asphalt",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6578,
+        "longitude": -73.7902
+      }
+    },
+    {
+      "id": "d3bded3e-febe-4f1e-9a37-75bf0bf11aee",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "13R",
+      "length": 4423,
+      "width": 61,
+      "displace": null,
+      "trueHeading": 122,
+      "magneticHeading": 135,
+      "elevation": 4,
+      "surfaceType": "asphalt",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6484,
+        "longitude": -73.8167
+      }
+    },
+    {
+      "id": "eb89ade5-d0d1-42cc-a437-9a81a554dc0d",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "22L",
+      "length": 2560,
+      "width": 61,
+      "displace": null,
+      "trueHeading": 212,
+      "magneticHeading": 225,
+      "elevation": 4,
+      "surfaceType": "concrete",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6452,
+        "longitude": -73.7549
+      }
+    },
+    {
+      "id": "2d43a458-02ca-4089-9bdd-b0eaa96d6433",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "22R",
+      "length": 3682,
+      "width": 45,
+      "displace": null,
+      "trueHeading": 212,
+      "magneticHeading": 225,
+      "elevation": 4,
+      "surfaceType": "asphalt",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6488,
+        "longitude": -73.7647
+      }
+    },
+    {
+      "id": "12881dbb-929e-466c-86a7-3639d8472269",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "31L",
+      "length": 4423,
+      "width": 61,
+      "displace": null,
+      "trueHeading": 302,
+      "magneticHeading": 315,
+      "elevation": 4,
+      "surfaceType": "asphalt",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6279,
+        "longitude": -73.7716
+      }
+    },
+    {
+      "id": "5caaed05-d5ec-4129-bfd2-3b2a2cf9f39f",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "designator": "31R",
+      "length": 3048,
+      "width": 61,
+      "displace": null,
+      "trueHeading": 302,
+      "magneticHeading": 315,
+      "elevation": 4,
+      "surfaceType": "asphalt",
+      "lightingType": "HIRL",
+      "coordinates": {
+        "latitude": 40.6437,
+        "longitude": -73.7593
+      }
+    }
+  ],
+  "terminals": [
+    {
+      "id": "a7da9825-8019-478d-a309-1fb6b53aac42",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "shortName": "T1",
+      "fullName": "Terminal 1",
+      "averageTaxiTime": 18,
+      "operatorCodes": ["AFR", "DLH", "KLM", "JAL", "ETD"],
+      "text": null,
+      "shape": [
+        {
+          "latitude": 40.643955,
+          "longitude": -73.79115
+        },
+        {
+          "latitude": 40.643982,
+          "longitude": -73.790526
+        },
+        {
+          "latitude": 40.642588,
+          "longitude": -73.789469
+        },
+        {
+          "latitude": 40.642198,
+          "longitude": -73.789809
+        },
+        {
+          "latitude": 40.642314,
+          "longitude": -73.790016
+        },
+        {
+          "latitude": 40.64214,
+          "longitude": -73.790136
+        },
+        {
+          "latitude": 40.642606,
+          "longitude": -73.790729
+        },
+        {
+          "latitude": 40.642495,
+          "longitude": -73.791088
+        },
+        {
+          "latitude": 40.641114,
+          "longitude": -73.792958
+        },
+        {
+          "latitude": 40.641439,
+          "longitude": -73.792836
+        },
+        {
+          "latitude": 40.641314,
+          "longitude": -73.793225
+        },
+        {
+          "latitude": 40.642704,
+          "longitude": -73.7914
+        },
+        {
+          "latitude": 40.643254,
+          "longitude": -73.791833
+        },
+        {
+          "latitude": 40.643403,
+          "longitude": -73.7918
+        },
+        {
+          "latitude": 40.643481,
+          "longitude": -73.791444
+        },
+        {
+          "latitude": 40.643872,
+          "longitude": -73.79155
+        },
+        {
+          "latitude": 40.643844,
+          "longitude": -73.791868
+        },
+        {
+          "latitude": 40.644094,
+          "longitude": -73.791907
+        },
+        {
+          "latitude": 40.64414,
+          "longitude": -73.79213
+        },
+        {
+          "latitude": 40.643977,
+          "longitude": -73.791563
+        },
+        {
+          "latitude": 40.644199,
+          "longitude": -73.791578
+        }
+      ]
+    },
+    {
+      "id": "e49ca9e7-91f2-406e-81e6-3b95131f8de4",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "shortName": "T4",
+      "fullName": "Terminal 4",
+      "averageTaxiTime": 20,
+      "operatorCodes": ["DAL", "VIR", "KLM", "AFR", "KAL"],
+      "text": null,
+      "shape": [
+        {
+          "latitude": 40.642865,
+          "longitude": -73.778828
+        },
+        {
+          "latitude": 40.641472,
+          "longitude": -73.778373
+        },
+        {
+          "latitude": 40.64197,
+          "longitude": -73.777258
+        },
+        {
+          "latitude": 40.644569,
+          "longitude": -73.780662
+        },
+        {
+          "latitude": 40.644318,
+          "longitude": -73.781539
+        },
+        {
+          "latitude": 40.645303,
+          "longitude": -73.781788
+        },
+        {
+          "latitude": 40.645681,
+          "longitude": -73.780544
+        },
+        {
+          "latitude": 40.646237,
+          "longitude": -73.781199
+        },
+        {
+          "latitude": 40.64584,
+          "longitude": -73.782133
+        },
+        {
+          "latitude": 40.644445,
+          "longitude": -73.781637
+        },
+        {
+          "latitude": 40.642653,
+          "longitude": -73.784563
+        },
+        {
+          "latitude": 40.642685,
+          "longitude": -73.783774
+        },
+        {
+          "latitude": 40.639592,
+          "longitude": -73.781513
+        },
+        {
+          "latitude": 40.635074,
+          "longitude": -73.780787
+        },
+        {
+          "latitude": 40.639793,
+          "longitude": -73.780834
+        },
+        {
+          "latitude": 40.642404,
+          "longitude": -73.783204
+        },
+        {
+          "latitude": 40.643587,
+          "longitude": -73.780433
+        }
+      ]
+    },
+    {
+      "id": "592039df-d9e4-4100-aedd-9b244ac925ea",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "shortName": "T5",
+      "fullName": "Terminal 5",
+      "averageTaxiTime": 16,
+      "operatorCodes": ["JBU"],
+      "text": null,
+      "shape": [
+        {
+          "latitude": 40.645146,
+          "longitude": -73.776729
+        },
+        {
+          "latitude": 40.645731,
+          "longitude": -73.776615
+        },
+        {
+          "latitude": 40.646482,
+          "longitude": -73.776982
+        },
+        {
+          "latitude": 40.646685,
+          "longitude": -73.776853
+        },
+        {
+          "latitude": 40.646974,
+          "longitude": -73.777382
+        },
+        {
+          "latitude": 40.646982,
+          "longitude": -73.777855
+        },
+        {
+          "latitude": 40.647366,
+          "longitude": -73.777953
+        },
+        {
+          "latitude": 40.647313,
+          "longitude": -73.779048
+        },
+        {
+          "latitude": 40.647455,
+          "longitude": -73.778303
+        },
+        {
+          "latitude": 40.647582,
+          "longitude": -73.778587
+        },
+        {
+          "latitude": 40.648045,
+          "longitude": -73.778545
+        },
+        {
+          "latitude": 40.647215,
+          "longitude": -73.776707
+        },
+        {
+          "latitude": 40.645965,
+          "longitude": -73.774772
+        },
+        {
+          "latitude": 40.645944,
+          "longitude": -73.772162
+        },
+        {
+          "latitude": 40.645685,
+          "longitude": -73.772169
+        },
+        {
+          "latitude": 40.645706,
+          "longitude": -73.774791
+        },
+        {
+          "latitude": 40.644574,
+          "longitude": -73.775984
+        },
+        {
+          "latitude": 40.644911,
+          "longitude": -73.77673
+        }
+      ]
+    },
+    {
+      "id": "51f61626-90b9-45b7-b6d5-b77eff65ee9d",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "shortName": "T7",
+      "fullName": "Terminal 7",
+      "averageTaxiTime": 17,
+      "operatorCodes": ["BAW", "QFA", "AAL"],
+      "text": null,
+      "shape": [
+        {
+          "latitude": 40.649241,
+          "longitude": -73.783341
+        },
+        {
+          "latitude": 40.649467,
+          "longitude": -73.783301
+        },
+        {
+          "latitude": 40.64953,
+          "longitude": -73.783528
+        },
+        {
+          "latitude": 40.649095,
+          "longitude": -73.783661
+        },
+        {
+          "latitude": 40.649154,
+          "longitude": -73.783959
+        },
+        {
+          "latitude": 40.650097,
+          "longitude": -73.783674
+        },
+        {
+          "latitude": 40.650058,
+          "longitude": -73.783448
+        },
+        {
+          "latitude": 40.650503,
+          "longitude": -73.783309
+        },
+        {
+          "latitude": 40.650213,
+          "longitude": -73.783291
+        },
+        {
+          "latitude": 40.650079,
+          "longitude": -73.781965
+        },
+        {
+          "latitude": 40.649713,
+          "longitude": -73.781989
+        },
+        {
+          "latitude": 40.64967,
+          "longitude": -73.781734
+        },
+        {
+          "latitude": 40.648752,
+          "longitude": -73.781937
+        },
+        {
+          "latitude": 40.648943,
+          "longitude": -73.783473
+        }
+      ]
+    },
+    {
+      "id": "87813a68-dd8d-4539-b2c1-08ad31a1e9f2",
+      "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+      "shortName": "T8",
+      "fullName": "Terminal 8",
+      "averageTaxiTime": 19,
+      "operatorCodes": ["AAL", "JAL", "BAW"],
+      "text": null,
+      "shape": [
+        {
+          "latitude": 40.648354,
+          "longitude": -73.791259
+        },
+        {
+          "latitude": 40.649077,
+          "longitude": -73.791409
+        },
+        {
+          "latitude": 40.648513,
+          "longitude": -73.790844
+        },
+        {
+          "latitude": 40.649152,
+          "longitude": -73.790103
+        },
+        {
+          "latitude": 40.648561,
+          "longitude": -73.789919
+        },
+        {
+          "latitude": 40.648675,
+          "longitude": -73.78956
+        },
+        {
+          "latitude": 40.648266,
+          "longitude": -73.789517
+        },
+        {
+          "latitude": 40.648541,
+          "longitude": -73.789803
+        },
+        {
+          "latitude": 40.648179,
+          "longitude": -73.790485
+        },
+        {
+          "latitude": 40.64714,
+          "longitude": -73.789716
+        },
+        {
+          "latitude": 40.646317,
+          "longitude": -73.791522
+        },
+        {
+          "latitude": 40.646945,
+          "longitude": -73.79129
+        },
+        {
+          "latitude": 40.647693,
+          "longitude": -73.79184
+        },
+        {
+          "latitude": 40.646699,
+          "longitude": -73.793599
+        },
+        {
+          "latitude": 40.646985,
+          "longitude": -73.794661
+        }
+      ]
+    }
+  ],
+  "stand": {
+    "id": "50ae9c78-f004-4cfb-a7f0-5c6d3d2e839e",
+    "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+    "terminalId": "e49ca9e7-91f2-406e-81e6-3b95131f8de4",
+    "name": "A2B",
+    "bridge": "yes",
+    "stairs": "no",
+    "deicing": "possible",
+    "deicingDescription": null,
+    "gpu": "both",
+    "pca": "both",
+    "type": "straight-in",
+    "spotType": "passenger",
+    "assistance": "vdgs",
+    "location": "gate",
+    "noiseSensitivity": "no",
+    "noiseSensitivityText": null,
+    "noiseSensitivityStartTime": null,
+    "noiseSensitivityEndTime": null,
+    "fuelingOptions": "hydrant",
+    "coordinates": {
+      "latitude": 40.642782,
+      "longitude": -73.78013
+    }
+  },
+  "standTerminal": {
+    "id": "e49ca9e7-91f2-406e-81e6-3b95131f8de4",
+    "airportId": "3c721cc6-c653-4fad-be43-dc9d6a149383",
+    "shortName": "T4",
+    "fullName": "Terminal 4",
+    "averageTaxiTime": 20,
+    "operatorCodes": ["DAL", "VIR", "KLM", "AFR", "KAL"],
+    "text": null,
+    "shape": [
+      {
+        "latitude": 40.642865,
+        "longitude": -73.778828
+      },
+      {
+        "latitude": 40.641472,
+        "longitude": -73.778373
+      },
+      {
+        "latitude": 40.64197,
+        "longitude": -73.777258
+      },
+      {
+        "latitude": 40.644569,
+        "longitude": -73.780662
+      },
+      {
+        "latitude": 40.644318,
+        "longitude": -73.781539
+      },
+      {
+        "latitude": 40.645303,
+        "longitude": -73.781788
+      },
+      {
+        "latitude": 40.645681,
+        "longitude": -73.780544
+      },
+      {
+        "latitude": 40.646237,
+        "longitude": -73.781199
+      },
+      {
+        "latitude": 40.64584,
+        "longitude": -73.782133
+      },
+      {
+        "latitude": 40.644445,
+        "longitude": -73.781637
+      },
+      {
+        "latitude": 40.642653,
+        "longitude": -73.784563
+      },
+      {
+        "latitude": 40.642685,
+        "longitude": -73.783774
+      },
+      {
+        "latitude": 40.639592,
+        "longitude": -73.781513
+      },
+      {
+        "latitude": 40.635074,
+        "longitude": -73.780787
+      },
+      {
+        "latitude": 40.639793,
+        "longitude": -73.780834
+      },
+      {
+        "latitude": 40.642404,
+        "longitude": -73.783204
+      },
+      {
+        "latitude": 40.643587,
+        "longitude": -73.780433
+      }
+    ]
+  }
+}

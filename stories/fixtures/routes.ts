@@ -1,7 +1,15 @@
 import { fn } from "storybook/test";
+import { type Airport, Continent, DataQuality } from "~/features/airport/model";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import { buildFixInsights } from "~/features/route/lib/routeInsights";
-import { type EtopsBriefing, OceanicDirection, OceanicRouting, type PlannedRouteFix } from "~/features/route/model";
+import {
+  type EtopsBriefing,
+  type EtopsPoint,
+  EtopsPointKind,
+  OceanicDirection,
+  OceanicRouting,
+  type PlannedRouteFix,
+} from "~/features/route/model";
 
 type Waypoint = { ident: string; latitude: number; longitude: number };
 
@@ -71,10 +79,89 @@ export const polarBriefing: EtopsBriefing = {
   },
 };
 
-export function routeBriefingState(briefing: EtopsBriefing): RouteBriefingState {
+function etopsAirport(
+  id: string,
+  icaoCode: string,
+  iataCode: string,
+  name: string,
+  continent: Continent,
+  latitude: number,
+  longitude: number,
+): Airport {
+  return {
+    id,
+    icaoCode,
+    iataCode,
+    city: { id: `${id}-city`, name },
+    name,
+    country: { code: "XX", name: "Fixture" },
+    timezone: "UTC",
+    continent,
+    dataQuality: DataQuality.Low,
+    location: { latitude, longitude },
+    shape: null,
+  };
+}
+
+const POLAR_ETOPS_AIRPORTS: Airport[] = [
+  etopsAirport("etops-cyrb", "CYRB", "YRB", "Resolute Bay", Continent.NorthAmerica, 74.7169, -94.9694),
+  etopsAirport("etops-pabr", "PABR", "BRW", "Utqiagvik", Continent.NorthAmerica, 71.2854, -156.766),
+  etopsAirport("etops-uhma", "UHMA", "DYR", "Anadyr Ugolny", Continent.Asia, 64.7349, 177.7413),
+  etopsAirport("etops-ueee", "UEEE", "YKS", "Yakutsk", Continent.Asia, 62.0933, 129.7706),
+];
+
+export const polarEtopsAirports = new Map(POLAR_ETOPS_AIRPORTS.map((airport) => [airport.id, airport]));
+
+function etopsPoint(
+  kind: EtopsPointKind,
+  ordinal: number,
+  latitude: number,
+  longitude: number,
+  isCritical = false,
+): EtopsPoint {
+  return {
+    kind,
+    ordinal,
+    isCritical,
+    adequateAirportId: null,
+    position: { latitude, longitude },
+    elapsedSeconds: 0,
+    condition: null,
+    diversionAirports: [],
+  };
+}
+
+export const polarEtopsBriefing: EtopsBriefing = {
+  ...polarBriefing,
+  etops: {
+    ruleMinutes: 180,
+    ruleRadiusNm: 1_250,
+    thresholdMinutes: 60,
+    thresholdRadiusNm: 410,
+    airports: POLAR_ETOPS_AIRPORTS.map((airport) => ({
+      airportId: airport.id,
+      suitabilityStart: "2025-01-01T12:00:00Z",
+      suitabilityEnd: "2025-01-02T00:00:00Z",
+      plannedRunway: null,
+      forecastCeiling: null,
+      forecastVisibility: null,
+      transitionAltitude: null,
+      transitionLevel: null,
+    })),
+    points: [
+      etopsPoint(EtopsPointKind.Entry, 1, 66.2, -73.5),
+      etopsPoint(EtopsPointKind.EqualTime, 1, 78.6, -113.2),
+      etopsPoint(EtopsPointKind.EqualTime, 2, 82.6, -164.8),
+      etopsPoint(EtopsPointKind.Critical, 1, 81.4, 172.5, true),
+      etopsPoint(EtopsPointKind.Exit, 1, 58.2, 126.9),
+    ],
+  },
+};
+
+export function routeBriefingState(briefing: EtopsBriefing, airports = new Map<string, Airport>()): RouteBriefingState {
   return {
     briefing,
-    airports: new Map(),
+    airports,
     loading: false,
     error: null,
     runways: { departure: null, arrival: null },

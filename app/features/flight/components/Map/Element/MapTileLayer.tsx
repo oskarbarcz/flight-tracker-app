@@ -1,17 +1,21 @@
 import { useThemeMode } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { TileLayer } from "react-leaflet";
+import { useEffect, useRef, useState } from "react";
+import { TileLayer, useMap } from "react-leaflet";
 import { getCartoApiKey } from "~/shared/lib/getCartoApiKey";
+import type { VectorBasemap } from "~/shared/lib/leafletVectorBasemap";
+import type { BasemapTheme } from "~/shared/lib/versatilesBasemap";
+
+const MAX_ZOOM = 20;
 
 const cartoApiKey = getCartoApiKey();
 const apiKeyQuery = cartoApiKey === null ? "" : `?key=${encodeURIComponent(cartoApiKey)}`;
 
-const tileUrls = {
+const fallbackTileUrls = {
   light: `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${apiKeyQuery}`,
   dark: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png${apiKeyQuery}`,
 };
 
-export function MapTileLayer() {
+function useBasemapTheme(): BasemapTheme {
   const { computedMode } = useThemeMode();
   const [, refreshOnSystemThemeChange] = useState(0);
 
@@ -22,7 +26,65 @@ export function MapTileLayer() {
     return () => media.removeEventListener("change", onChange);
   }, []);
 
-  const theme = computedMode === "dark" ? "dark" : "light";
+  return computedMode === "dark" ? "dark" : "light";
+}
 
-  return <TileLayer key={theme} url={tileUrls[theme]} maxZoom={20} />;
+export function MapTileLayer() {
+  const map = useMap();
+  const theme = useBasemapTheme();
+  const themeRef = useRef(theme);
+  const basemapRef = useRef<VectorBasemap | null>(null);
+  const [isVectorUnavailable, setIsVectorUnavailable] = useState(false);
+
+  useEffect(() => {
+    if (map.options.maxZoom === undefined) {
+      map.setMaxZoom(MAX_ZOOM);
+    }
+  }, [map]);
+
+  useEffect(() => {
+    let cancelled = false;
+    let added: VectorBasemap | null = null;
+    const createdTheme = themeRef.current;
+
+    import("~/shared/lib/leafletVectorBasemap")
+      .then(({ createVectorBasemap }) => createVectorBasemap(createdTheme))
+      .then((basemap) => {
+        if (cancelled) {
+          return;
+        }
+
+        added = basemap;
+        basemapRef.current = basemap;
+        basemap.layer.addTo(map);
+
+        if (themeRef.current !== createdTheme) {
+          basemap.setTheme(themeRef.current);
+        }
+      })
+      .catch((error: unknown) => {
+        console.error("Cannot show the vector basemap, falling back to raster tiles", error);
+
+        if (!cancelled) {
+          setIsVectorUnavailable(true);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+      added?.layer.remove();
+      basemapRef.current = null;
+    };
+  }, [map]);
+
+  useEffect(() => {
+    themeRef.current = theme;
+    basemapRef.current?.setTheme(theme);
+  }, [theme]);
+
+  if (!isVectorUnavailable) {
+    return null;
+  }
+
+  return <TileLayer key={theme} url={fallbackTileUrls[theme]} maxZoom={MAX_ZOOM} />;
 }

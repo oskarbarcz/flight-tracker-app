@@ -61,15 +61,29 @@ function thresholdBarCount(width: number): number {
   return 16;
 }
 
+function thresholdBarSpan(width: number): number {
+  return Math.max(width - EDGE_MARGIN_M * 2, width * 0.6);
+}
+
+export function thresholdBarWidth(width: number): number {
+  return thresholdBarSpan(width) / (thresholdBarCount(width) * 2 - 1);
+}
+
 function thresholdBars(threshold: Point, inbound: number, width: number): Ring[] {
   const count = thresholdBarCount(width);
-  const usable = Math.max(width - EDGE_MARGIN_M * 2, width * 0.6);
-  const pitch = usable / (count * 2 - 1);
+  const usable = thresholdBarSpan(width);
+  const pitch = thresholdBarWidth(width);
   const along = THRESHOLD_BAR_INSET_M + THRESHOLD_BAR_LENGTH_M / 2;
 
   return Array.from({ length: count }, (_, index) =>
     paintedBar(threshold, inbound, along, -usable / 2 + pitch / 2 + index * pitch * 2, THRESHOLD_BAR_LENGTH_M, pitch),
   );
+}
+
+function thresholdBand(threshold: Point, inbound: number, width: number): Ring {
+  const along = THRESHOLD_BAR_INSET_M + THRESHOLD_BAR_LENGTH_M / 2;
+
+  return paintedBar(threshold, inbound, along, 0, THRESHOLD_BAR_LENGTH_M, thresholdBarSpan(width));
 }
 
 function aimingPoints(threshold: Point, inbound: number): Ring[] {
@@ -117,6 +131,9 @@ export type RunwayThreshold = {
 
 export type RunwayPlate = {
   thresholds: RunwayThreshold[];
+  thresholdBars: Ring[];
+  thresholdBands: Ring[];
+  thresholdBarWidth: number;
   markings: Ring[];
   paintedCenterline: Segment | null;
 };
@@ -132,6 +149,8 @@ export function computeRunwayPlate(ribbon: RunwayRibbon): RunwayPlate {
   ];
 
   const thresholds: RunwayThreshold[] = [];
+  const bars: Ring[] = [];
+  const bands: Ring[] = [];
   const markings: Ring[] = [];
   const centerlineEnds: Point[] = [];
 
@@ -150,7 +169,8 @@ export function computeRunwayPlate(ribbon: RunwayRibbon): RunwayPlate {
       });
     }
 
-    markings.push(...thresholdBars(position, inbound, width));
+    bars.push(...thresholdBars(position, inbound, width));
+    bands.push(thresholdBand(position, inbound, width));
     markings.push(...displacedChevrons(point, inbound, displace, width));
     if (length >= AIMING_POINT_MIN_RUNWAY_M) {
       markings.push(...aimingPoints(position, inbound));
@@ -168,7 +188,14 @@ export function computeRunwayPlate(ribbon: RunwayRibbon): RunwayPlate {
       ? [centerlineHead, centerlineTail]
       : null;
 
-  return { thresholds, markings, paintedCenterline };
+  return {
+    thresholds,
+    thresholdBars: bars,
+    thresholdBands: bands,
+    thresholdBarWidth: thresholdBarWidth(width),
+    markings,
+    paintedCenterline,
+  };
 }
 
 export type ApproachPath = {

@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { MapContainer } from "react-leaflet";
 import { useMapSettings } from "~/app-state/useMapSettings";
 import { useAdsbData } from "~/features/adsb/hooks/useAdsbData";
+import { DimmablePane } from "~/features/flight/components/Map/Element/DimmablePane";
 import { DiversionRoute } from "~/features/flight/components/Map/Element/DiversionRoute";
 import { FlightPath } from "~/features/flight/components/Map/Element/FlightPath";
 import { GreatCirclePath } from "~/features/flight/components/Map/Element/GreatCirclePath";
@@ -11,28 +12,35 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapEventsHandler } from "~/features/flight/components/Map/Element/MapEventsHandler";
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
 import { useTrackedFlight } from "~/features/flight/hooks/useTrackedFlight";
 import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
-import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
+import { PlannedEtopsRingsLayer, PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
 import { usePlannedRoute } from "~/features/route/hooks/useRouteBriefing";
 import { useApi } from "~/shared/api/useApi";
+import { emphasisOf, hasEtopsRings, hasFiledWaypoints } from "~/shared/lib/flightData";
 import { greatCirclePath } from "~/shared/lib/greatCircle";
+import type { MapCameraView } from "~/shared/lib/mapCameraView";
 import { alignLongitude } from "~/shared/lib/worldCopies";
 
 type Props = {
   topInset: number;
+  initialView: MapCameraView | null;
+  onViewChange: (view: MapCameraView) => void;
 };
 
-export function TrackingFlightMap({ topInset }: Props) {
+export function TrackingFlightMap({ topInset, initialView, onViewChange }: Props) {
   const { flight, diversion } = useTrackedFlight();
   const { flightPath } = useAdsbData();
   const plannedRoute = usePlannedRoute();
-  const { intent } = useMapSettings();
-  const plottedRoute = intent?.plotsRoute === true ? (plannedRoute?.briefing ?? null) : null;
-  const isPlotted = plottedRoute !== null;
+  const { mapSettings } = useMapSettings();
+  const filedRoute = plannedRoute?.briefing ?? null;
+  const showsRoute = hasFiledWaypoints(filedRoute) && mapSettings.routeDisplay !== "hide";
+  const showsGreatCircle = mapSettings.greatCircleDisplay !== "hide";
+  const showsEtopsRings = hasEtopsRings(filedRoute) && mapSettings.etopsDisplay !== "hide";
   const { runwayService, terminalService, parkingPositionService, gateService } = useApi();
   const cachedParkingPositionService = useMemo(
     () => ({ fetchAll: (airportId: string) => parkingPositionService.fetchAllCached(airportId) }),
@@ -52,7 +60,7 @@ export function TrackingFlightMap({ topInset }: Props) {
 
   const { departurePosition, destinationPosition, boundsPoints } = flightMapPositions(flight, diversion);
   const routePoints = greatCirclePath(
-    (plottedRoute?.route.fixes ?? []).map((fix): LatLngTuple => [fix.latitude, fix.longitude]),
+    (showsRoute ? (filedRoute?.route.fixes ?? []) : []).map((fix): LatLngTuple => [fix.latitude, fix.longitude]),
   );
   const aircraftPoints = lastPathPoint
     ? [alignLongitude([lastPathPoint.latitude, lastPathPoint.longitude], departurePosition[1])]
@@ -65,6 +73,7 @@ export function TrackingFlightMap({ topInset }: Props) {
       boundsOptions={{ padding: [80, 80] }}
       scrollWheelZoom={true}
       worldCopyJump={true}
+      zoomSnap={0}
       className="h-full w-full z-0"
       zoomControl={false}
       attributionControl={false}
@@ -72,10 +81,22 @@ export function TrackingFlightMap({ topInset }: Props) {
       <MapTileLayer />
       <MapWorldConstraint crossAntimeridian={true} />
 
-      {isPlotted ? (
-        <PlannedRouteLayer state={plannedRoute} />
-      ) : (
-        <GreatCirclePath start={flight.departureAirport} end={flight.destinationAirport} />
+      {showsGreatCircle && (
+        <GreatCirclePath
+          start={flight.departureAirport}
+          end={flight.destinationAirport}
+          emphasis={emphasisOf(mapSettings.greatCircleDisplay)}
+        />
+      )}
+      {showsRoute && (
+        <DimmablePane name="planned-route" emphasis={emphasisOf(mapSettings.routeDisplay)}>
+          <PlannedRouteLayer state={plannedRoute} showRings={false} />
+        </DimmablePane>
+      )}
+      {showsEtopsRings && (
+        <DimmablePane name="etops-rings" emphasis={emphasisOf(mapSettings.etopsDisplay)}>
+          <PlannedEtopsRingsLayer state={plannedRoute} />
+        </DimmablePane>
       )}
       <DiversionRoute origin={flight.departureAirport} diversion={diversion} />
       <FlightPath path={flightPath} />
@@ -103,8 +124,11 @@ export function TrackingFlightMap({ topInset }: Props) {
 
       {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
 
+      <MapViewMemory initialView={initialView} onViewChange={onViewChange} topInset={topInset} />
+
       <MapEventsHandler
         bounds={mapBounds}
+        initialZoom={initialView?.zoom ?? null}
         options={leafletMapOptions}
         topInset={topInset}
         aircraftPosition={lastPathPoint}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
-import { type DisplayMode, useMapSettings } from "~/app-state/useMapSettings";
+import { useMapSettings } from "~/app-state/useMapSettings";
 import type { Airport } from "~/features/airport";
 import { AirportShapePolygon } from "~/features/flight/components/Map/Element/AirportShapePolygon";
 import { GateMarkers } from "~/features/flight/components/Map/Element/GateMarkers";
@@ -12,6 +12,7 @@ import {
   AIRPORT_STRUCTURE_ZOOM_THRESHOLD,
   TERMINAL_LABEL_ZOOM_THRESHOLD,
 } from "~/features/flight/components/Map/Element/zoomThresholds";
+import { pickGates, pickParkingPositions, pickTerminals } from "~/features/flight/lib/airportLayoutFilters";
 import type { Gate } from "~/features/gate";
 import type { ParkingPosition } from "~/features/parking-position";
 import type { Terminal } from "~/features/terminal";
@@ -158,35 +159,4 @@ export function TrackingAirportLayoutLayer({
       {showLabels && <GateMarkers gates={visibleArrivalGates} />}
     </>
   );
-}
-
-function pickParkingPositions(
-  parkingPositions: ParkingPosition[],
-  assignedId: string | null,
-  mode: DisplayMode,
-): ParkingPosition[] {
-  if (mode === "none") return [];
-  if (mode === "all") return parkingPositions;
-  return parkingPositions.filter((p) => p.id === assignedId);
-}
-
-function pickTerminals(
-  terminals: Terminal[],
-  parkingPositions: ParkingPosition[],
-  assignedParkingPositionId: string | null,
-  mode: DisplayMode,
-): Terminal[] {
-  if (mode === "none") return [];
-  if (mode === "all") return terminals;
-  if (assignedParkingPositionId === null) return [];
-  const assignedTerminalId = parkingPositions.find((p) => p.id === assignedParkingPositionId)?.terminalId;
-  if (!assignedTerminalId) return [];
-  return terminals.filter((t) => t.id === assignedTerminalId);
-}
-
-function pickGates(gates: Gate[], assignedParkingPositionId: string | null, mode: DisplayMode): Gate[] {
-  if (mode === "none") return [];
-  if (mode === "all") return gates;
-  if (assignedParkingPositionId === null) return [];
-  return gates.filter((gate) => gate.parkingPositionId === assignedParkingPositionId);
 }

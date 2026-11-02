@@ -105,6 +105,51 @@ input:-webkit-autofill:focus {
   @apply text-red-300 dark:text-red-500;
 }
 
+.map-fix-label {
+  @apply font-mono text-2xs font-bold text-gray-600 dark:text-gray-300;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(5px, -115%);
+  white-space: nowrap;
+  opacity: 0.5;
+  transition: opacity 150ms ease;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff;
+}
+.dark .map-fix-label {
+  text-shadow:
+    0 0 2px #0b0e14,
+    0 0 3px #0b0e14;
+}
+.map-fix-label:hover,
+.map-fix-label--active {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-fix-label {
+    transition: none;
+  }
+}
+
+.map-ring-label {
+  @apply font-mono text-2xs font-bold text-slate-500 dark:text-slate-400;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff;
+}
+.dark .map-ring-label {
+  text-shadow:
+    0 0 2px #0b0e14,
+    0 0 3px #0b0e14;
+}
+
 .map-etops-label {
   display: inline-flex;
   align-items: baseline;
@@ -113,20 +158,18 @@ input:-webkit-autofill:focus {
   transform: translate(-50%, -50%);
   text-shadow:
     0 0 2px #fff,
-    0 0 3px #fff,
-    0 0 5px #fff;
+    0 0 3px #fff;
 }
 .dark .map-etops-label {
   text-shadow:
     0 0 2px #0b0e14,
-    0 0 3px #0b0e14,
-    0 0 5px #0b0e14;
+    0 0 3px #0b0e14;
 }
 .map-etops-label__kind {
-  @apply font-mono text-2xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-300;
+  @apply font-mono text-[0.625rem] font-normal uppercase text-gray-500 dark:text-gray-400;
 }
 .map-etops-label--critical .map-etops-label__kind {
-  @apply text-gray-900 dark:text-white;
+  @apply font-medium text-gray-600 dark:text-gray-300;
 }
 
 .airport-shape-polygon {
@@ -157,6 +200,15 @@ input:-webkit-autofill:focus {
 .dark .leaflet-tooltip.map-aircraft-label::before {
   @apply border-r-gray-900;
 }
+.map-aircraft-label--globe {
+  @apply flex items-center gap-2 rounded-md border border-gray-200 bg-white px-2 py-1 shadow-sm dark:border-gray-700 dark:bg-gray-900;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  white-space: nowrap;
+  transform: translate(28px, -50%);
+}
 .map-aircraft-label__fin {
   @apply h-6 w-auto shrink-0 object-contain;
 }
@@ -170,22 +222,25 @@ input:-webkit-autofill:focus {
   @apply font-mono text-2xs leading-none text-gray-500 dark:text-gray-400;
 }
 
-.leaflet-tooltip.map-terminal-label {
+.map-terminal-label {
   @apply font-bold text-2xs text-amber-700 dark:text-amber-300;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  white-space: nowrap;
   text-shadow:
     0 0 2px #fff,
     0 0 3px #fff;
 }
-.dark .leaflet-tooltip.map-terminal-label {
+.dark .map-terminal-label {
   text-shadow:
     0 0 2px #0b0e14,
     0 0 3px #0b0e14;
+}
+.leaflet-tooltip.map-terminal-label {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 .leaflet-tooltip.map-terminal-label::before {
   display: none;
@@ -292,6 +347,29 @@ input:-webkit-autofill:focus {
     0 0 3px #0b0e14;
 }
 
+.map-parked {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  @apply bg-indigo-600;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px rgba(88, 80, 236, 0.25);
+}
+.dark .map-parked {
+  @apply bg-indigo-400;
+  box-shadow:
+    0 0 0 2px #111827,
+    0 0 0 4px rgba(141, 162, 251, 0.3);
+}
+.map-aircraft-label--parked {
+  transform: translate(16px, -50%);
+}
+
 .map-runway-anchor {
   position: absolute;
   left: 0;
@@ -357,6 +435,12 @@ input:-webkit-autofill:focus {
 .dark .rw-marking {
   fill: #0f172a;
   fill-opacity: 0.6;
+}
+.rw-marking--band {
+  fill-opacity: 0.45;
+}
+.dark .rw-marking--band {
+  fill-opacity: 0.3;
 }
 .rw-centerline {
   stroke: #f8fafc;

@@ -1,21 +1,20 @@
-import L, { type LatLngTuple } from "leaflet";
-import React from "react";
+import React, { Suspense, useCallback, useRef } from "react";
 import { FaDrawPolygon } from "react-icons/fa6";
-import { MapContainer } from "react-leaflet";
 import { twMerge } from "tailwind-merge";
 import type { Flight } from "~/features/flight";
 import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
-import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
-import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
-import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
-import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
-import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
-import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
+import { MapProjectionSwitch } from "~/features/flight/components/Map/Element/MapProjectionSwitch";
+import { useMapProjection } from "~/features/flight/hooks/useMapProjection";
+import { FlatRouteMap } from "~/features/route/components/Chart/FlatRouteMap";
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import type { EtopsBriefing } from "~/features/route/model";
 import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
-import { greatCirclePath } from "~/shared/lib/greatCircle";
-import { alignLongitude } from "~/shared/lib/worldCopies";
+import type { MapCameraView } from "~/shared/lib/mapCameraView";
+import { MapAttribution } from "~/shared/ui/Map/MapAttribution";
+
+const GlobeRouteMap = React.lazy(() =>
+  import("~/features/route/components/Chart/GlobeRouteMap").then((module) => ({ default: module.GlobeRouteMap })),
+);
 
 type Props = {
   flight: Flight;
@@ -23,53 +22,47 @@ type Props = {
   state: RouteBriefingState;
 };
 
-function chartBounds(flight: Flight, briefing: EtopsBriefing): L.LatLngBounds {
-  const { departurePosition, boundsPoints } = flightMapPositions(flight, null);
-  const route = greatCirclePath(briefing.route.fixes.map((fix): LatLngTuple => [fix.latitude, fix.longitude]));
-  const etopsPoints = (briefing.etops?.points ?? []).map((point) =>
-    alignLongitude([point.position.latitude, point.position.longitude], departurePosition[1]),
-  );
-
-  return L.latLngBounds([...boundsPoints, ...route, ...etopsPoints]);
-}
-
 export function RouteChart({ flight, briefing, state }: Props) {
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
+  const [renderer, setRenderer] = useMapProjection("map-projection.route-chart");
+  const view = useRef<MapCameraView | null>(null);
+  const rememberView = useCallback((next: MapCameraView) => {
+    view.current = next;
+  }, []);
 
   return (
     <div ref={containerRef} className={twMerge("relative h-full min-h-72 w-full", containerClassName)}>
-      <MapContainer
-        bounds={chartBounds(flight, briefing)}
-        boundsOptions={{ padding: [48, 48] }}
-        scrollWheelZoom={true}
-        worldCopyJump={true}
-        className="h-full w-full z-0"
-        zoomControl={false}
-        attributionControl={false}
-      >
-        <MapTileLayer />
-        <MapWorldConstraint crossAntimeridian={true} />
-
-        <PlannedRouteLayer state={state} />
-
-        <MapAirportLabel airport={flight.departureAirport} />
-        <MapAirportLabel airport={flight.destinationAirport} />
-        <MapResizeHandler />
-      </MapContainer>
+      {renderer === "globe" ? (
+        <Suspense fallback={<div className="h-full w-full animate-pulse bg-gray-100 dark:bg-gray-800" />}>
+          <GlobeRouteMap
+            flight={flight}
+            briefing={briefing}
+            state={state}
+            initialView={view.current}
+            onViewChange={rememberView}
+          />
+        </Suspense>
+      ) : (
+        <FlatRouteMap
+          flight={flight}
+          briefing={briefing}
+          state={state}
+          initialView={view.current}
+          onViewChange={rememberView}
+        />
+      )}
 
       <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
-        <span className="flex items-center gap-2 text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
-          <FaDrawPolygon className="size-3" />
-          Planned route
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-2 text-2xs font-bold uppercase tracking-[0.08em] text-gray-500 dark:text-gray-400">
+            <FaDrawPolygon className="size-3" />
+            Planned route
+          </span>
+          <MapProjectionSwitch value={renderer} onChange={setRenderer} />
+        </div>
       </MapTopBar>
 
-      <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-2xs text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
-        ©{" "}
-        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="hover:underline">
-          OpenStreetMap
-        </a>
-      </div>
+      <MapAttribution />
     </div>
   );
 }

@@ -32,17 +32,17 @@ const meta = {
     docs: {
       description: {
         component: `
-A small, static map of one flight, used as the current flight card's map strip.
+A small, static globe of one flight, used as the current flight card's map strip.
 
 - **Route:** the great circle between the airports as a dashed Signal Indigo line, with both airport codes as labels.
 - **Track:** when a path is passed, the flown track coloured by altitude and the aircraft at the last position.
-- **Fit:** the view fits the whole great circle, including its northern arc on long routes, and refits when the map
-  resizes. Zoom stays on whole levels: fractional zoom leaves hairline seams between tiles.
+- **Fit:** the view fits the whole great circle and refits when the map resizes. Short routes stay zoomed in enough to
+  read, so the curve of the Earth only shows on long routes; the globe never gets smaller than 85% of the strip height.
 - **Static:** no panning, zooming or keyboard focus inside the map. One link covers it and opens the Tracking view; the
   expand mark in the corner says so, and focus draws an inset ring.
 - **Aircraft marker:** indigo-900 on light tiles; indigo-300 with a thin dark outline on dark tiles.
 
-Tiles come from CARTO, so the map needs a network connection.
+The basemap is VersaTiles Positrino, so the map needs a network connection.
 `,
       },
     },

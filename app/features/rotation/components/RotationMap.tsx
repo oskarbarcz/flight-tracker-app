@@ -1,77 +1,41 @@
 import L, { type LatLngTuple } from "leaflet";
-import React, { useEffect, useMemo } from "react";
+import React, { Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import { MapContainer, Marker, Polyline, useMap } from "react-leaflet";
 import { twMerge } from "tailwind-merge";
 import { MapSettingsProvider } from "~/app-state/useMapSettings";
 import type { Airport } from "~/features/airport";
 import { MapTopBar } from "~/features/flight/components/Map/Box/Overlay/MapTopBar";
 import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAirportLabel";
+import { MapProjectionSwitch } from "~/features/flight/components/Map/Element/MapProjectionSwitch";
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
+import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
-import { airportRoute } from "~/features/flight/lib/flightMapBounds";
+import { useMapProjection } from "~/features/flight/hooks/useMapProjection";
 import type { Rotation } from "~/features/rotation";
+import { buildLegPaths, type Segment } from "~/features/rotation/lib";
 import { useMapMaximize } from "~/shared/hooks/useMapMaximize";
+import type { GlobeInsets } from "~/shared/lib/globeCamera";
 import { ROUTE_LINE_SMOOTH_FACTOR } from "~/shared/lib/greatCircle";
-import { alignPath, shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
+import type { MapCameraView } from "~/shared/lib/mapCameraView";
+import { shiftPath, shiftPoint, WORLD_COPIES } from "~/shared/lib/worldCopies";
 import { TransparentContainer } from "~/shared/ui/Layout/TransparentContainer";
-
-type Segment = { id: string; start: Airport; end: Airport };
-type LegPath = { id: string; positions: LatLngTuple[]; midpoint: LatLngTuple };
+import { MapAttribution } from "~/shared/ui/Map/MapAttribution";
 
 const LEG_LINE_STYLE = { color: "#6366f1", weight: 2, dashArray: "6 6", opacity: 0.85 } as const;
+const TOP_BAR_HEIGHT = 41;
+const TOP_BAR_INSETS: GlobeInsets = { top: TOP_BAR_HEIGHT, bottom: 0 };
+
+const RotationGlobeMap = React.lazy(() =>
+  import("~/features/rotation/components/RotationGlobeMap").then((module) => ({
+    default: module.RotationGlobeMap,
+  })),
+);
 
 type Props = {
   rotation: Rotation;
   airports: Airport[];
 };
-
-function pairKey(segment: Segment): string {
-  return [segment.start.id, segment.end.id].sort().join("|");
-}
-
-function buildLegPaths(segments: Segment[]): LegPath[] {
-  const totals = new Map<string, number>();
-  for (const segment of segments) {
-    const key = pairKey(segment);
-    totals.set(key, (totals.get(key) ?? 0) + 1);
-  }
-
-  const occurrences = new Map<string, number>();
-  let referenceLongitude = segments.at(0)?.start.location.longitude ?? 0;
-
-  return segments.map((segment) => {
-    const key = pairKey(segment);
-    const total = totals.get(key) ?? 1;
-    const occurrence = occurrences.get(key) ?? 0;
-    occurrences.set(key, occurrence + 1);
-
-    const points = alignPath(airportRoute(segment.start, segment.end), referenceLongitude);
-    const [startLat, startLon] = points[0];
-    const [endLat, endLon] = points[points.length - 1];
-    referenceLongitude = endLon;
-
-    const spread = occurrence - (total - 1) / 2;
-    if (total < 2 || spread === 0 || points.length < 2) {
-      return { id: segment.id, positions: points, midpoint: points[Math.floor(points.length / 2)] };
-    }
-
-    const direction = segment.start.id <= segment.end.id ? 1 : -1;
-    const dLat = (endLat - startLat) * direction;
-    const dLon = (endLon - startLon) * direction;
-    const length = Math.hypot(dLat, dLon) || 1;
-    const perpLat = -dLon / length;
-    const perpLon = dLat / length;
-    const magnitude = spread * Math.max(0.8, 0.022 * length);
-
-    const positions = points.map(([lat, lon], index) => {
-      const offset = magnitude * Math.sin((Math.PI * index) / (points.length - 1));
-      return [lat + perpLat * offset, lon + perpLon * offset] as LatLngTuple;
-    });
-
-    return { id: segment.id, positions, midpoint: positions[Math.floor(positions.length / 2)] };
-  });
-}
 
 function legNumberIcon(order: number): L.DivIcon {
   return new L.DivIcon({
@@ -94,6 +58,11 @@ function FitBounds({ positions }: { positions: LatLngTuple[] }) {
 
 export function RotationMap({ rotation, airports }: Props) {
   const { isMaximized, toggle, containerRef, containerClassName } = useMapMaximize();
+  const [projection, setProjection] = useMapProjection("map-projection.rotation");
+  const view = useRef<MapCameraView | null>(null);
+  const rememberView = useCallback((next: MapCameraView) => {
+    view.current = next;
+  }, []);
   const byId = useMemo(() => new Map(airports.map((airport) => [airport.id, airport])), [airports]);
 
   const segments = useMemo<Segment[]>(() => {
@@ -127,55 +96,62 @@ export function RotationMap({ rotation, airports }: Props) {
     <TransparentContainer className="h-full">
       <div ref={containerRef} className={twMerge("relative h-full min-h-[36rem] w-full", containerClassName)}>
         <MapSettingsProvider>
-          <MapContainer
-            worldCopyJump={true}
-            bounds={L.latLngBounds(boundsPositions)}
-            boundsOptions={{ padding: [40, 40] }}
-            scrollWheelZoom
-            className="z-0 h-full w-full"
-            zoomControl={false}
-            attributionControl={false}
-          >
-            <MapTileLayer />
-            <MapWorldConstraint crossAntimeridian={true} />
-            {WORLD_COPIES.map((offset) =>
-              legPaths.map((leg, index) => (
-                <React.Fragment key={`${offset}-${leg.id}`}>
-                  <Polyline
-                    pathOptions={LEG_LINE_STYLE}
-                    positions={shiftPath(leg.positions, offset)}
-                    smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
-                  />
-                  <Marker
-                    position={shiftPoint(leg.midpoint, offset)}
-                    icon={legNumberIcon(index + 1)}
-                    zIndexOffset={1200}
-                  />
-                </React.Fragment>
-              )),
-            )}
-            {uniqueAirports.map((airport) => (
-              <MapAirportLabel key={airport.id} airport={airport} />
-            ))}
-            <FitBounds positions={boundsPositions} />
-            <MapResizeHandler />
-          </MapContainer>
-          <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
-            <span className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-              Route
-            </span>
-          </MapTopBar>
-          <div className="absolute bottom-1 right-1 z-10 rounded bg-white/80 px-1.5 py-0.5 text-2xs text-gray-500 dark:bg-gray-900/80 dark:text-gray-400">
-            ©{" "}
-            <a
-              href="https://www.openstreetmap.org/copyright"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline"
+          {projection === "globe" ? (
+            <Suspense fallback={<div className="h-full w-full animate-pulse bg-gray-100 dark:bg-gray-900" />}>
+              <RotationGlobeMap
+                legPaths={legPaths}
+                airports={uniqueAirports}
+                insets={TOP_BAR_INSETS}
+                initialView={view.current}
+                onViewChange={rememberView}
+              />
+            </Suspense>
+          ) : (
+            <MapContainer
+              worldCopyJump={true}
+              bounds={L.latLngBounds(boundsPositions)}
+              boundsOptions={{ padding: [40, 40] }}
+              scrollWheelZoom
+              zoomSnap={0}
+              className="z-0 h-full w-full"
+              zoomControl={false}
+              attributionControl={false}
             >
-              OpenStreetMap
-            </a>
-          </div>
+              <MapTileLayer />
+              <MapWorldConstraint crossAntimeridian={true} />
+              {WORLD_COPIES.map((offset) =>
+                legPaths.map((leg, index) => (
+                  <React.Fragment key={`${offset}-${leg.id}`}>
+                    <Polyline
+                      pathOptions={LEG_LINE_STYLE}
+                      positions={shiftPath(leg.positions, offset)}
+                      smoothFactor={ROUTE_LINE_SMOOTH_FACTOR}
+                    />
+                    <Marker
+                      position={shiftPoint(leg.midpoint, offset)}
+                      icon={legNumberIcon(index + 1)}
+                      zIndexOffset={1200}
+                    />
+                  </React.Fragment>
+                )),
+              )}
+              {uniqueAirports.map((airport) => (
+                <MapAirportLabel key={airport.id} airport={airport} />
+              ))}
+              <FitBounds positions={boundsPositions} />
+              <MapResizeHandler />
+              <MapViewMemory initialView={view.current} onViewChange={rememberView} topInset={TOP_BAR_HEIGHT} />
+            </MapContainer>
+          )}
+          <MapTopBar isMaximized={isMaximized} onToggleMaximize={toggle}>
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                Route
+              </span>
+              <MapProjectionSwitch value={projection} onChange={setProjection} />
+            </div>
+          </MapTopBar>
+          <MapAttribution />
         </MapSettingsProvider>
       </div>
     </TransparentContainer>

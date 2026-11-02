@@ -11,6 +11,8 @@ type Props<T extends string> = {
   options: SegmentedOption<T>[];
   ariaLabel?: string;
   disabledValues?: T[];
+  disabled?: boolean;
+  stretch?: boolean;
 };
 
 export function SegmentedControl<T extends string>({
@@ -19,33 +21,41 @@ export function SegmentedControl<T extends string>({
   options,
   ariaLabel,
   disabledValues = [],
+  disabled = false,
+  stretch = false,
 }: Props<T>) {
   return (
-    <div className="inline-flex items-center gap-0.5 rounded-xl border border-gray-200 bg-gray-50 p-0.5 dark:border-gray-700 dark:bg-gray-800">
+    <fieldset
+      aria-label={ariaLabel}
+      className={twMerge(
+        "inline-flex min-w-0 items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-800",
+        stretch && "flex w-full",
+      )}
+    >
       {options.map((option) => {
         const active = option.value === value;
-        const disabled = !active && disabledValues.includes(option.value);
+        const unavailable = disabled || (!active && disabledValues.includes(option.value));
         return (
           <button
             key={option.value}
             type="button"
             aria-pressed={active}
             aria-label={ariaLabel ? `${ariaLabel}: ${option.label}` : undefined}
-            disabled={disabled}
+            disabled={unavailable}
             onClick={() => onChange(option.value)}
             className={twMerge(
-              "rounded-lg px-2 py-0.5 text-xs font-semibold transition-colors pointer-coarse:min-h-11 pointer-coarse:px-3",
+              "whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 pointer-coarse:min-h-11 pointer-coarse:px-3 dark:focus-visible:ring-indigo-400",
+              stretch && "flex-auto px-1.5 pointer-coarse:px-1.5",
               active
-                ? "bg-indigo-500 text-white"
-                : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100",
-              disabled &&
-                "cursor-not-allowed text-gray-300 hover:text-gray-300 dark:text-gray-600 dark:hover:text-gray-600",
+                ? "bg-white text-gray-900 ring-1 ring-gray-200 dark:bg-gray-700 dark:text-white dark:ring-gray-600"
+                : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white",
+              unavailable && "cursor-not-allowed opacity-50 hover:text-gray-500 dark:hover:text-gray-400",
             )}
           >
             {option.label}
           </button>
         );
       })}
-    </div>
+    </fieldset>
   );
 }
