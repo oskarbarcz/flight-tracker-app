@@ -14,6 +14,7 @@ import {
   LuBuilding2,
   LuCircleDashed,
   LuDoorOpen,
+  LuHexagon,
   LuRoute,
   LuSlidersHorizontal,
   LuSpline,
@@ -22,6 +23,7 @@ import {
 } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 import {
+  type AirspaceSettings,
   type DisplayMode,
   type FlightDataDisplay,
   type FlightDataSettings,
@@ -32,6 +34,7 @@ import {
 import { MapProjectionSwitch } from "~/features/flight/components/Map/Element/MapProjectionSwitch";
 import { SegmentedControl } from "~/features/flight/components/Map/Element/SegmentedControl";
 import type { MapProjection } from "~/features/flight/hooks/useMapProjection";
+import { VATSPY_DATA_PROJECT } from "~/shared/ui/Map/MapAttribution";
 
 type Props = {
   size?: "sm" | "md";
@@ -46,6 +49,7 @@ type Props = {
 type FollowValue = MapSettings["centerOn"] | "off";
 type LayerKey = "runwayDisplay" | "terminalDisplay" | "gateDisplay" | "parkingPositionDisplay";
 type FlightDataKey = keyof FlightDataSettings;
+type AirspaceKey = keyof AirspaceSettings;
 
 const POPOVER_WIDTH = 352;
 const POPOVER_ESTIMATED_HEIGHT = 360;
@@ -65,6 +69,8 @@ const layerRows: { key: LayerKey; label: string; icon: IconType }[] = [
   { key: "gateDisplay", label: "Gates", icon: LuDoorOpen },
   { key: "parkingPositionDisplay", label: "Parking", icon: LuSquareParking },
 ];
+
+const airspaceRows: MatrixRow<AirspaceKey>[] = [{ key: "firDisplay", label: "FIRs", icon: LuHexagon }];
 
 const flightDataOptions: { value: FlightDataDisplay; label: string }[] = [
   { value: "show", label: "Yes" },
@@ -310,6 +316,10 @@ export function MapOptionsControl({
     },
   ];
 
+  const setAirspace = (key: AirspaceKey, value: FlightDataDisplay) => {
+    updateMapSettings({ ...mapSettings, [key]: value });
+  };
+
   const setLayer = (key: LayerKey, value: DisplayMode) => {
     updateMapSettings({ ...mapSettings, mode: modeAfterEdit, [key]: value });
   };
@@ -371,6 +381,25 @@ export function MapOptionsControl({
         selected={(key) => mapSettings[key]}
         onChange={setLayer}
       />
+    </div>,
+    <div key="airspace" className="flex flex-col gap-1.5 p-2.5">
+      <OptionMatrix
+        title="Airspace"
+        name={`${panelId}-airspace`}
+        rows={airspaceRows}
+        options={flightDataOptions}
+        selected={(key) => mapSettings[key]}
+        onChange={setAirspace}
+      />
+      {mapSettings.firDisplay !== "hide" && (
+        <p className="text-2xs text-gray-500 dark:text-gray-400">
+          FIRs from{" "}
+          <a href={VATSPY_DATA_PROJECT.href} target="_blank" rel="noreferrer" className="underline">
+            {VATSPY_DATA_PROJECT.label}
+          </a>
+          , {VATSPY_DATA_PROJECT.license}
+        </p>
+      )}
     </div>,
   ];
 

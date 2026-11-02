@@ -35,6 +35,7 @@ export function TrackingGlobeMap({ topInset, initialView, onViewChange }: Props)
       insets={insets}
       initialView={initialView}
       onViewChange={onViewChange}
+      withAirspace={true}
     />
   );
 }

@@ -6,6 +6,7 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
+import { MapWheelZoom } from "~/features/flight/components/Map/Element/MapWheelZoom";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { flightMapPositions } from "~/features/flight/lib/flightMapBounds";
 import { PlannedRouteLayer } from "~/features/route/components/Chart/RouteOverlay";
@@ -55,6 +56,7 @@ export function FlatRouteMap({ flight, briefing, state, initialView, onViewChang
       <MapAirportLabel airport={flight.departureAirport} />
       <MapAirportLabel airport={flight.destinationAirport} />
       <MapResizeHandler />
+      <MapWheelZoom />
       <MapViewMemory initialView={initialView} onViewChange={onViewChange} topInset={CHART_TOP_BAR_HEIGHT} />
     </MapContainer>
   );

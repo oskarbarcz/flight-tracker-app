@@ -17,6 +17,7 @@ import { MapAirportLabel } from "~/features/flight/components/Map/Element/MapAir
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
+import { MapWheelZoom } from "~/features/flight/components/Map/Element/MapWheelZoom";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { TrackingAirportLayoutLayer } from "~/features/flight/components/Map/Element/TrackingAirportLayoutLayer";
 import { TrackingRunwaysLayer } from "~/features/flight/components/Map/Element/TrackingRunwaysLayer";
@@ -94,6 +95,7 @@ function RouteMapContent({ flight }: Props) {
               insets={TOP_BAR_INSETS}
               initialView={view.current}
               onViewChange={rememberView}
+              withAirspace={true}
             />
           ) : (
             <MapContainer
@@ -106,7 +108,7 @@ function RouteMapContent({ flight }: Props) {
               zoomControl={false}
               attributionControl={false}
             >
-              <MapTileLayer />
+              <MapTileLayer withAirspace={true} />
               <MapWorldConstraint crossAntimeridian={true} />
               <FlightGreatCircle start={flight.departureAirport} end={flight.destinationAirport} />
               <FlightPath path={flightPath} />
@@ -130,6 +132,7 @@ function RouteMapContent({ flight }: Props) {
               <MapAirportLabel airport={flight.destinationAirport} />
               {flightPath.length > 0 && <MapAircraftMarker path={flightPath} />}
               <MapResizeHandler />
+              <MapWheelZoom />
               <MapViewMemory initialView={view.current} onViewChange={rememberView} topInset={TOP_BAR_HEIGHT} />
             </MapContainer>
           )}
@@ -144,7 +147,7 @@ function RouteMapContent({ flight }: Props) {
 
           <MapOptionsControl size="sm" projection={projection} onProjectionChange={setProjection} />
 
-          <MapAttribution />
+          <MapAttribution withAirspace={true} />
         </MapSettingsProvider>
       </div>
     </TransparentContainer>

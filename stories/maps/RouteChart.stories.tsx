@@ -5,7 +5,13 @@ import type { MapProjection } from "~/features/flight/hooks/useMapProjection";
 import { RouteChart } from "~/features/route/components/Chart/RouteChart";
 import { FLIGHT_COLOR } from "~/shared/lib/mapColors";
 import { flightFixture } from "../fixtures/flights";
-import { polarBriefing, polarEtopsAirports, polarEtopsBriefing, routeBriefingState } from "../fixtures/routes";
+import {
+  polarBriefing,
+  polarEtopsAirports,
+  polarEtopsBriefing,
+  routeBriefingState,
+  transpolarBriefing,
+} from "../fixtures/routes";
 
 const RENDERER_KEY = "map-projection.route-chart";
 
@@ -129,7 +135,7 @@ export const GlobeEtops: Story = {
     docs: {
       description: {
         story:
-          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole. The 180-minute rings around Resolute Bay and Utqiagvik cross the pole, beyond the 85° edge of the Mercator tiles, so the globe draws rings in its own projected layer. Entry, equal-time, critical and exit points are pseudo-fixes, drawn and named like TOC and TOD: (ETP IN), (ETP), (CP), (ETP OUT).",
+          "An ETOPS 180 plan over the Arctic. Rule and threshold rings around each adequate airport are geodesic circles, so they stay round on the globe instead of stretching towards the pole. The 180-minute rings around Resolute Bay and Utqiagvik cross the pole, beyond the 85° edge of the Mercator tiles, so the globe draws their polar parts in its own projected layer. Entry, equal-time, critical and exit points are pseudo-fixes, drawn and named like TOC and TOD: (ETP IN), (ETP), (CP), (ETP OUT).",
       },
     },
   },
@@ -143,9 +149,38 @@ export const GlobeEtops: Story = {
         await expect(names).toEqual(
           expect.arrayContaining(["(TOC)", "(TOD)", "(ETP IN)", "(ETP)", "(CP)", "(ETP OUT)"]),
         );
-        const rings = [...canvasElement.querySelectorAll(".maplibregl-canvas + svg path")];
-        await expect(rings).toHaveLength(polarEtopsAirports.size * 2);
-        await expect(rings.every((ring) => (ring.getAttribute("d") ?? "").startsWith("M"))).toBe(true);
+        const polarRings = [
+          ...canvasElement.querySelectorAll('.maplibregl-canvas + svg [data-layer="briefing-rule-rings"]'),
+        ];
+        await expect(polarRings.length).toBeGreaterThan(0);
+        await expect(polarRings.every((ring) => (ring.getAttribute("d") ?? "").startsWith("M"))).toBe(true);
+      },
+      { timeout: 10_000 },
+    );
+  },
+};
+
+export const GlobeThroughThePole: Story = {
+  beforeEach: withRenderer("globe"),
+  args: {
+    briefing: transpolarBriefing,
+    state: routeBriefingState(transpolarBriefing),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "New York to Hong Kong straight over the North Pole, through fixes at 88° and 89°N. The Mercator tiles under the globe stop at 85°N, so the globe draws the part of the route north of that, and the fixes there, in its own projected layer.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await waitFor(
+      async () => {
+        const layer = (id: string) => canvasElement.querySelectorAll(`.maplibregl-canvas + svg [data-layer="${id}"]`);
+        await expect(layer("briefing-route").length).toBeGreaterThan(0);
+        await expect(layer("briefing-fixes")).toHaveLength(3);
+        await expect(layer("briefing-fix-targets")).toHaveLength(3);
       },
       { timeout: 10_000 },
     );

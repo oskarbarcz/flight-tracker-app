@@ -169,6 +169,12 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   renderers report a `MapCameraView` (the centre of the area below the floating cards, in Leaflet's zoom scale) and the
   other one opens there. MapLibre's zoom is Leaflet's minus one (512-pixel tiles), see `toMapLibreZoom` and `globeZoom`;
   the switchable Leaflet maps use `zoomSnap={0}` so the zoom carries over exactly.
+- **Wheel zoom:** the switchable Leaflet maps never use Leaflet's scroll-wheel handler. With `zoomSnap={0}` it zoomed a
+  fraction of a level per scroll (on macOS Leaflet divides wheel deltas by three times the pixel ratio, which the
+  default whole-level snap used to hide), and it dropped every step that arrived during its 250 ms zoom animation.
+  `useMapWheelZoom` (or the `MapWheelZoom` element, and `MapEventsHandler` on maps that follow) applies MapLibre's
+  wheel maths at the globe's rates from `app/shared/lib/wheelZoom.ts`, once per frame and without animation, so both
+  projections zoom alike.
 - **Globe content:** `FlightGlobeMap` draws a flight on every flight map. Pure functions turn the same geometry the Leaflet
   layers use (great circles, ETP rings, runway ribbons and markings, rounded airport and terminal shapes) into GeoJSON
   layers, and labels, chips, designators and the aircraft into HTML markers with the existing CSS classes. Airport detail
@@ -176,9 +182,11 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   because north is not up across a globe.
 - **Map options:** Projection and Mode sit on the edge nearest the trigger. In Manual, Follow, Flight data (great circle,
   filed route and ETP rings, each Yes / Dim / No, with rows the flight has no data for greyed out) and Static data
-  (runways, terminals, gates, stands: All / Assigned / Off). Flight data is not phase-driven, so Auto keeps it.
-- **Route labels:** fix names sit beside each fix at half opacity and turn solid on hover of the fix or the name. Each ETP
-  ring is titled with its minutes and the airport's ICAO code, for example `60 min (EKCH)`.
+  (runways, terminals, gates, stands: All / Assigned / Off), then Airspace (FIRs: Yes / Dim / No, default No). Flight
+  data and Airspace are not phase-driven, so Auto keeps them.
+- **Route labels:** fix names sit beside each fix with their text at 70% and a solid 1 px halo (white, or the map's
+  near-black in dark mode), so they read above the basemap's names, and turn solid on hover of the fix or the name. Each
+  ETP ring is titled with its minutes and the airport's ICAO code, for example `60 min (EKCH)`.
 - **Pseudo-fixes:** TOC, TOD and ETP are named in brackets, `(TOC)`, everywhere a fix name shows
   (`app/features/route/lib/fixName.ts`). The API sends no fix type, so they are recognised by ident. The ETOPS plan's
   entry, equal-time, critical and exit points are drawn exactly like fixes, as `(ETP IN)`, `(ETP)`, `(CP)` and
@@ -188,11 +196,15 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   mode uses `sky-500` rings with `sky-700` text. Dark mode uses a muted steel blue, `etops-night` (`#7cabcc`), for all
   three, because `sky-400` glared on the dark basemap. Rings take the colour from `etopsColor` in `chartColors.ts`.
 - **Polar limit:** both renderers are built on Web Mercator, which ends at 85.05°. MapLibre clamps globe geometry
-  beyond it onto that parallel, so a line that crosses the pole jumps onto a small circle around it. ETOPS rings often
-  do (a 180-minute ring around an Arctic airport), so `GlobeMap` draws them as `screenLines`: an SVG layer above the
-  canvas and below the markers that projects every point with `map.project` on each frame and drops points on the far
-  side of the globe. The flat map draws them as geodesic polylines from `etopsRings`, never `L.Circle`, which is a
-  screen-space ellipse. Route lines still go through MapLibre, so a route north of 85° would be clamped the same way.
+  beyond it onto that parallel, so a line that crosses the pole jumps onto a small circle around it, and a point
+  beyond it lands on that circle. `GlobeMap` therefore splits every overlay before MapLibre sees it
+  (`separatePolarShapes` in `app/shared/lib/globePolar.ts`): lines are cut at 85.05°, the southern runs and points stay
+  in MapLibre, and the polar runs and points go to an SVG layer above the canvas and below the markers, drawn with the
+  same paint (colour, width, opacity, dashes, caps; `["get", key]` colours are resolved per feature). The layer
+  projects every point with `map.project` on each frame and hides what is on the far side of the globe. Polar points
+  of the `clickableLayer` keep hover and click. This covers routes, tracks, the great circle, the flown path, rotation
+  legs and ETOPS rings with no per-map code. The flat map draws ETOPS rings as geodesic polylines from `etopsRings`,
+  never `L.Circle`, which is a screen-space ellipse; on Mercator the polar part runs along the top edge of the map.
 - **Globe camera:** the fit is spherical (centre of the points on the sphere, radius kept in front of the horizon); the
   globe never shrinks below about 85% of the map height and stops zooming in at 14.5.
 - **Follow:** dragging or arrow-key panning turns Follow off and switches Map options to Manual; scroll, pinch,
@@ -200,6 +212,38 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   timed return to the target. This holds on both renderers (`MapEventsHandler`, `GlobeMap`).
 - **Runway markings:** threshold bars are drawn only once a bar is at least 2.5 device pixels wide; below that each
   threshold shows one band at the bars' average tone, which removes the moiré of sub-pixel stripes.
+- **FIR boundaries:** the Tracking view, the public flight page and the Operations route map draw FIRs when Map options
+  says so, flat and globe, through the same MapLibre layers (`firBoundaryOverlay`): the Leaflet maps add them to the
+  vector basemap's style (`MapTileLayer withAirspace`), the globe to its overlay (`FlightGlobeMap withAirspace`). Other
+  maps never draw them, whatever the stored setting. While FIRs show, the basemap's own labels are hidden
+  (`composeGlobeStyle` with `labels: false`); our airport labels stay.
+- **FIR labels:** below MapLibre zoom 4 each FIR shows its ICAO code at VATSpy's label point, large, regular weight and at 60% opacity; from zoom 4 the code (bold)
+  and name (regular) run along the FIR's own outline on its inner side, Navigraph style, so a shared border carries
+  both names. The labels follow their own copy of each outline (`fir-boundary-labels.geojson`), not the drawn lines:
+  neighbouring VATSpy polygons often miss each other's vertices, and labelling the merged lines split them into pieces
+  too short for a name. That copy is simplified (`tolerance` 10, three decimals), because MapLibre drops a line label
+  that bends more than 45° and European borders wiggle more than a label is long, so between zoom 4 and 6 Europe shows
+  only some names. The product owner chose the early switch over a later one that would fit them all.
+- **FIR data:** `npm run generate:fir-boundaries` builds three files in `public/airspace/` from the newest
+  [VATSpy Data Project](https://github.com/vatsimnetwork/vatspy-data-project) commit (`VATSPY_REF` pins one): the
+  drawn lines plus code points, the label outlines, and the parts beyond 85°. VATSpy is VATSIM's ATC map, not an ICAO
+  FIR list, so the generator keeps four-letter codes only (no sector splits or NAT/ADR/UKR/GUY/BAIRES), drops VATSIM
+  overlays (`X…`, `…XX`, military and FIS-only areas such as EDXX and EGVV), and drops an area lying inside a larger one
+  of the same state (TMAs and ACCs inside a real FIR, such as EGTL in EGTT); its label point must be strictly inside,
+  which keeps areas that fill a notch (NFFJ in NFFF) or a hole. `bin/fir_boundary_overrides.json` holds ICAO names
+  where VATSpy has a station name (RJJJ is "Tokyo" there) and merges sectors into their FIR (RJDG into RJJJ, the
+  Australian sectors into YBBB and YMMM, the Chinese ACCs into ZBPE, ZGZU and the others); the generator warns when a
+  listed member disappears. Each shared border is drawn once, edges shared inside a merged FIR are dropped, and the
+  seams where VATSpy splits a FIR at the antimeridian are removed. Lines stop at 85.05°, so MapLibre never clamps one
+  onto that parallel; the rest goes to the polar file, which `useFirPolarLines` loads for the globe and
+  `separatePolarShapes` draws in the projected layer, so the boundaries meet at the pole. The main files are URL
+  sources, so the style diff compares a URL rather than the GeoJSON on every overlay change; none is precached.
+  `.github/workflows/fir-boundaries.yaml` reruns the generator every Thursday and opens a PR with a patch bump when
+  VATSpy changed. A PR opened with `GITHUB_TOKEN` does not start the integrity checks; set a `FIR_BOUNDARIES_TOKEN`
+  secret (contents and pull requests write) to have them run, or close and reopen the PR.
+- **FIR style:** grey dash-dot lines, so they don't read as the basemap's evenly dashed state borders; lighter in dark
+  mode. `composeGlobeStyle` drops symbol layers when the basemap has no glyphs (the offline style). The data is
+  CC BY-SA 4.0: Map options credits it under the FIRs row, and `MapAttribution withAirspace` adds it while FIRs show.
 
 ### Service Worker Updates
 
@@ -258,7 +302,8 @@ VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 Every map draws the VersaTiles **Positrino** basemap (Positrino Dark in dark mode) through MapLibre GL: the globe on its
 own MapLibre map, every Leaflet map through `@maplibre/maplibre-gl-leaflet` inside `MapTileLayer`. The styles come from
 `@versatiles/style` with English labels and `tiles.versatiles.org` as their base, loaded by
-`app/shared/lib/versatilesBasemap.ts`. The two styles are prebuilt by `npm run generate:basemap-styles` into
+`app/shared/lib/versatilesBasemap.ts`. The light style draws its place names in gray-400 (`colors.label` in the
+generator), quieter than our route and airport labels. The two styles are prebuilt by `npm run generate:basemap-styles` into
 `public/map-styles/` (rerun it after upgrading `@versatiles/style`) and precached by the service worker. The vector data stops at zoom 14, so above it the apron basemap is the zoom-14
 data drawn larger; the product owner accepted that for one theme across the flat and globe views, and the app's own
 runways, terminals, gates and stands carry the apron detail. Every map with a basemap credits OpenStreetMap, VersaTiles

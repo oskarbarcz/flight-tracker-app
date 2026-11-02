@@ -4,6 +4,8 @@ import { type ReactNode, useCallback, useMemo, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { type MapSettings, useMapSettings } from "~/app-state/useMapSettings";
 import type { Airport } from "~/features/airport";
+import { useFirPolarLines } from "~/features/airspace/hooks/useFirPolarLines";
+import { firBoundaryOverlay } from "~/features/airspace/lib/firBoundaryOverlay";
 import type { Diversion } from "~/features/diversion";
 import type { Flight, FlightPathElement } from "~/features/flight";
 import { AIRPORT_ZOOM } from "~/features/flight/components/Map/Element/MapEventsHandler";
@@ -34,7 +36,7 @@ import {
 import type { RouteBriefingState } from "~/features/route/hooks/useRouteBriefing";
 import {
   FIX_TARGET_LAYER,
-  globeEtopsRingLines,
+  globeEtopsRingsOverlay,
   globeRouteFrame,
   globeRouteOverlay,
   globeRouteScene,
@@ -44,7 +46,6 @@ import type { GlobeInsets } from "~/shared/lib/globeCamera";
 import { type GlobeOverlay, mergeOverlays } from "~/shared/lib/globeStyle";
 import type { MapCameraView } from "~/shared/lib/mapCameraView";
 import { type GlobeCameraTarget, GlobeMap, type GlobeMarker } from "~/shared/ui/Globe/GlobeMap";
-import type { GlobeScreenLine } from "~/shared/ui/Globe/screenLines";
 
 type Props = {
   flight: Flight;
@@ -56,9 +57,9 @@ type Props = {
   initialView?: MapCameraView | null;
   onViewChange?: (view: MapCameraView) => void;
   aircraftLabel?: ReactNode;
+  withAirspace?: boolean;
 };
 const NO_OVERLAY: GlobeOverlay = { sources: {}, layers: [] };
-const NO_SCREEN_LINES: GlobeScreenLine[] = [];
 
 function airportPosition(airport: Airport): LatLngTuple {
   return [airport.location.latitude, airport.location.longitude];
@@ -129,6 +130,7 @@ export function FlightGlobeMap({
   initialView = null,
   onViewChange,
   aircraftLabel,
+  withAirspace = false,
 }: Props) {
   const { computedMode } = useThemeMode();
   const { mapSettings, updateMapSettings, intent } = useMapSettings();
@@ -149,6 +151,8 @@ export function FlightGlobeMap({
   const runways = plannedRoute?.runways;
   const selectedOrdinal = plannedRoute?.selectedOrdinal ?? null;
   const lastPoint = flightPath.at(-1);
+  const firDisplay = withAirspace ? mapSettings.firDisplay : "hide";
+  const firPolarLines = useFirPolarLines(firDisplay !== "hide");
 
   const scene = useMemo(() => {
     const needsScene = showsRoute || showsEtopsRings;
@@ -182,32 +186,32 @@ export function FlightGlobeMap({
   const overlay = useMemo(
     () =>
       mergeOverlays(
+        firBoundaryOverlay(firDisplay, computedMode === "dark" ? "dark" : "light", firPolarLines),
         globeAirportOverlay(airportScenes, computedMode),
         greatCircleDisplay === "hide"
           ? NO_OVERLAY
           : directRouteOverlay(departureAirport, destinationAirport, emphasisOf(greatCircleDisplay)),
+        scene === null || !showsEtopsRings ? NO_OVERLAY : globeEtopsRingsOverlay(scene, computedMode, ringsEmphasis),
         scene === null || !showsRoute ? NO_OVERLAY : globeRouteOverlay(scene, computedMode, routeEmphasis),
         diversionAirport === null ? NO_OVERLAY : diversionOverlay(departureAirport, diversionAirport),
         flightPathOverlay(flightPath),
       ),
     [
+      firDisplay,
+      firPolarLines,
       airportScenes,
       greatCircleDisplay,
       scene,
       showsRoute,
+      showsEtopsRings,
       routeEmphasis,
+      ringsEmphasis,
       computedMode,
       departureAirport,
       destinationAirport,
       diversionAirport,
       flightPath,
     ],
-  );
-
-  const screenLines = useMemo(
-    () =>
-      scene === null || !showsEtopsRings ? NO_SCREEN_LINES : globeEtopsRingLines(scene, computedMode, ringsEmphasis),
-    [scene, showsEtopsRings, computedMode, ringsEmphasis],
   );
 
   const aircraftLabelHtml = useMemo(
@@ -278,10 +282,10 @@ export function FlightGlobeMap({
       onFeatureHover={(properties) => setHoveredFix(hoveredFixKey(properties))}
       insets={insets}
       markers={markers}
-      screenLines={screenLines}
       onUserPan={stopFollowing}
       initialView={initialView}
       onViewChange={onViewChange}
+      basemapLabels={firDisplay === "hide"}
     />
   );
 }

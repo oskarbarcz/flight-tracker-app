@@ -1,5 +1,5 @@
 import type { LatLngTuple } from "leaflet";
-import type { GeoJSONSourceSpecification, MapOptions } from "maplibre-gl";
+import type { GeoJSONSourceSpecification, LayerSpecification, MapOptions } from "maplibre-gl";
 
 export type GlobeStyle = Exclude<MapOptions["style"], string | undefined>;
 
@@ -70,12 +70,29 @@ export function mergeOverlays(...overlays: GlobeOverlay[]): GlobeOverlay {
   };
 }
 
-export function composeGlobeStyle(basemap: GlobeStyle, overlay: GlobeOverlay): GlobeStyle {
+export type BasemapOptions = {
+  labels?: boolean;
+};
+
+function withoutLabels(layer: LayerSpecification): LayerSpecification {
+  return layer.type === "symbol" ? { ...layer, layout: { ...layer.layout, visibility: "none" } } : layer;
+}
+
+export function composeGlobeStyle(
+  basemap: GlobeStyle,
+  overlay: GlobeOverlay,
+  { labels = true }: BasemapOptions = {},
+): GlobeStyle {
+  const hasGlyphs = basemap.glyphs !== undefined;
+
   return {
     ...basemap,
     projection: { type: "globe" },
     sky: { ...basemap.sky, "atmosphere-blend": 0 },
     sources: { ...basemap.sources, ...overlay.sources },
-    layers: [...basemap.layers, ...overlay.layers],
+    layers: [
+      ...(labels ? basemap.layers : basemap.layers.map(withoutLabels)),
+      ...overlay.layers.filter((layer) => hasGlyphs || layer.type !== "symbol"),
+    ],
   };
 }

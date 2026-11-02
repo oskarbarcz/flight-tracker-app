@@ -1,0 +1,63 @@
+name: "fir-boundaries"
+
+on:
+  schedule:
+    - cron: "0 6 * * 4"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.FIR_BOUNDARIES_TOKEN || github.token }}
+      - name: "Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26.x"
+      - name: "Regenerate FIR boundaries from VATSpy"
+        id: generate
+        shell: bash
+        run: |
+          set -o pipefail
+          node bin/generate_fir_boundaries.mjs 2>&1 | tee "$RUNNER_TEMP/generate.log"
+      - name: "Open a pull request when the data changed"
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.FIR_BOUNDARIES_TOKEN || github.token }}
+          VATSPY_COMMIT: ${{ steps.generate.outputs.vatspy_commit }}
+        run: |
+          if git diff --quiet -- public/airspace; then
+            echo "FIR boundaries already match VATSpy ${VATSPY_COMMIT::7}"
+            exit 0
+          fi
+
+          branch="fir-boundaries/${VATSPY_COMMIT::7}"
+          if git ls-remote --exit-code --heads origin "$branch" > /dev/null; then
+            echo "Branch $branch already exists"
+            exit 0
+          fi
+
+          npm version patch --no-git-tag-version
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add public/airspace package.json package-lock.json
+          git commit -m "Update FIR boundaries to VATSpy ${VATSPY_COMMIT::7}"
+          git push origin "$branch"
+
+          {
+            echo "Regenerated \`public/airspace\` from [vatsimnetwork/vatspy-data-project@${VATSPY_COMMIT::7}](https://github.com/vatsimnetwork/vatspy-data-project/commit/${VATSPY_COMMIT})."
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/generate.log"
+            echo '```'
+          } > "$RUNNER_TEMP/body.md"
+
+          gh pr create --title "Update FIR boundaries to VATSpy ${VATSPY_COMMIT::7}" --body-file "$RUNNER_TEMP/body.md"

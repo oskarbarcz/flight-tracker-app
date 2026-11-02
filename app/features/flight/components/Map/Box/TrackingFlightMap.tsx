@@ -78,7 +78,7 @@ export function TrackingFlightMap({ topInset, initialView, onViewChange }: Props
       zoomControl={false}
       attributionControl={false}
     >
-      <MapTileLayer />
+      <MapTileLayer withAirspace={true} />
       <MapWorldConstraint crossAntimeridian={true} />
 
       {showsGreatCircle && (

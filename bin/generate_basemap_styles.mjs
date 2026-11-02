@@ -9,14 +9,16 @@ const outputDirectory = join(projectRoot, "public", "map-styles");
 const versatilesBase = "https://tiles.versatiles.org";
 
 const themes = {
-  positrino: "positrino.json",
-  "positrino-dark": "positrino-dark.json",
+  positrino: { fileName: "positrino.json", colors: { label: "#9ca3af" } },
+  "positrino-dark": { fileName: "positrino-dark.json", colors: {} },
 };
 
 await mkdir(outputDirectory, { recursive: true });
 
-for (const [theme, fileName] of Object.entries(themes)) {
-  const style = await inlineSources(osm({ theme, text: { language: "en" }, urls: { base: versatilesBase } }));
+for (const [theme, { fileName, colors }] of Object.entries(themes)) {
+  const style = await inlineSources(
+    osm({ theme, colors, text: { language: "en" }, urls: { base: versatilesBase } }),
+  );
   await writeFile(join(outputDirectory, fileName), `${JSON.stringify(style)}\n`);
   console.log(`Wrote public/map-styles/${fileName}`);
 }

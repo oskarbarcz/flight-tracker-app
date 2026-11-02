@@ -1,0 +1,59 @@
+{
+  "names": {
+    "EISN": "SHANNON",
+    "FAJA": "JOHANNESBURG",
+    "KZAK": "OAKLAND OCEANIC",
+    "LLLL": "TEL AVIV",
+    "LPPO": "SANTA MARIA OCEANIC",
+    "LRBB": "BUCURESTI",
+    "LSAS": "SWITZERLAND",
+    "NFFF": "NADI",
+    "NTTT": "TAHITI",
+    "NZZO": "AUCKLAND OCEANIC",
+    "OMAE": "EMIRATES",
+    "RJJJ": "FUKUOKA",
+    "RKRR": "INCHEON",
+    "SPIM": "LIMA",
+    "ULLL": "SANKT-PETERBURG",
+    "USSV": "YEKATERINBURG",
+    "USTV": "TYUMEN",
+    "VTBB": "BANGKOK",
+    "YBBB": "BRISBANE",
+    "YMMM": "MELBOURNE",
+    "ZBPE": "BEIJING",
+    "ZGZU": "GUANGZHOU",
+    "ZHWH": "WUHAN",
+    "ZJSA": "SANYA",
+    "ZLHW": "LANZHOU",
+    "ZMUB": "ULAANBAATAR",
+    "ZPKM": "KUNMING",
+    "ZSHA": "SHANGHAI",
+    "ZWUQ": "URUMQI",
+    "ZYSH": "SHENYANG"
+  },
+  "merges": {
+    "NFFF": ["NFFJ"],
+    "RJJJ": ["RJDG"],
+    "SARR": ["SARE"],
+    "VIDF": ["VILK"],
+    "YBBB": [
+      "YARA", "YARL", "YASH", "YBAR", "YBUR", "YCNK", "YCOL", "YCVN", "YDEN", "YDOS", "YFLD", "YGAH", "YGOL",
+      "YHWE", "YIND", "YINE", "YINL", "YINS", "YISA", "YKEN", "YKIY", "YKPL", "YLIG", "YMLD", "YMNN", "YMOR",
+      "YNSA", "YOCN", "YRYS", "YSDY", "YSTR", "YSWY", "YTBP", "YTRS", "YTRT", "YTSN", "YWEG", "YWIL"
+    ],
+    "YMMM": [
+      "YASP", "YASW", "YAUG", "YBIK", "YBKE", "YBLA", "YDAL", "YELW", "YESP", "YFOR", "YGEL", "YGTH", "YGUN",
+      "YGVE", "YHUO", "YHYD", "YJAR", "YKAT", "YLEA", "YLEO", "YMEK", "YMTK", "YMUN", "YMZI", "YNEW", "YOLW",
+      "YOXL", "YPAR", "YPIY", "YPOT", "YSCR", "YSNO", "YTBD", "YWAR", "YWOL", "YWON", "YWRA", "YYWE"
+    ],
+    "ZBPE": ["ZBAA", "ZBHH"],
+    "ZGZU": ["ZGGG", "ZGHA", "ZGNN"],
+    "ZHWH": ["ZHCC", "ZHHH"],
+    "ZJSA": ["ZJSY"],
+    "ZLHW": ["ZLLL", "ZLXY"],
+    "ZPKM": ["ZPPP", "ZUGY", "ZULS", "ZUUU"],
+    "ZSHA": ["ZSAM", "ZSCN", "ZSJN", "ZSOF", "ZSQD", "ZSSS"],
+    "ZWUQ": ["ZWWW"],
+    "ZYSH": ["ZYHB", "ZYTL", "ZYTX"]
+  }
+}

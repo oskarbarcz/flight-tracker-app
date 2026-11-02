@@ -1,8 +1,10 @@
 import { useThemeMode } from "flowbite-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { TileLayer, useMap } from "react-leaflet";
+import { useMapSettings } from "~/app-state/useMapSettings";
+import { firBoundaryOverlay } from "~/features/airspace/lib/firBoundaryOverlay";
 import { getCartoApiKey } from "~/shared/lib/getCartoApiKey";
-import type { VectorBasemap } from "~/shared/lib/leafletVectorBasemap";
+import type { BasemapLook, VectorBasemap } from "~/shared/lib/leafletVectorBasemap";
 import type { BasemapTheme } from "~/shared/lib/versatilesBasemap";
 
 const MAX_ZOOM = 20;
@@ -29,10 +31,22 @@ function useBasemapTheme(): BasemapTheme {
   return computedMode === "dark" ? "dark" : "light";
 }
 
-export function MapTileLayer() {
+type Props = {
+  withAirspace?: boolean;
+};
+
+function sameLook(a: BasemapLook, b: BasemapLook): boolean {
+  return a.theme === b.theme && a.overlay === b.overlay && a.labels === b.labels;
+}
+
+export function MapTileLayer({ withAirspace = false }: Props) {
   const map = useMap();
   const theme = useBasemapTheme();
-  const themeRef = useRef(theme);
+  const { mapSettings } = useMapSettings();
+  const firDisplay = withAirspace ? mapSettings.firDisplay : "hide";
+  const overlay = useMemo(() => firBoundaryOverlay(firDisplay, theme), [firDisplay, theme]);
+  const labels = firDisplay === "hide";
+  const lookRef = useRef<BasemapLook>({ theme, overlay, labels });
   const basemapRef = useRef<VectorBasemap | null>(null);
   const [isVectorUnavailable, setIsVectorUnavailable] = useState(false);
 
@@ -45,10 +59,10 @@ export function MapTileLayer() {
   useEffect(() => {
     let cancelled = false;
     let added: VectorBasemap | null = null;
-    const createdTheme = themeRef.current;
+    const createdLook = lookRef.current;
 
     import("~/shared/lib/leafletVectorBasemap")
-      .then(({ createVectorBasemap }) => createVectorBasemap(createdTheme))
+      .then(({ createVectorBasemap }) => createVectorBasemap(createdLook))
       .then((basemap) => {
         if (cancelled) {
           return;
@@ -58,8 +72,8 @@ export function MapTileLayer() {
         basemapRef.current = basemap;
         basemap.layer.addTo(map);
 
-        if (themeRef.current !== createdTheme) {
-          basemap.setTheme(themeRef.current);
+        if (!sameLook(lookRef.current, createdLook)) {
+          basemap.setLook(lookRef.current);
         }
       })
       .catch((error: unknown) => {
@@ -78,9 +92,11 @@ export function MapTileLayer() {
   }, [map]);
 
   useEffect(() => {
-    themeRef.current = theme;
-    basemapRef.current?.setTheme(theme);
-  }, [theme]);
+    const look = { theme, overlay, labels };
+    if (sameLook(lookRef.current, look)) return;
+    lookRef.current = look;
+    basemapRef.current?.setLook(look);
+  }, [theme, overlay, labels]);
 
   if (!isVectorUnavailable) {
     return null;

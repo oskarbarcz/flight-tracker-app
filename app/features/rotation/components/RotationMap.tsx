@@ -10,6 +10,7 @@ import { MapProjectionSwitch } from "~/features/flight/components/Map/Element/Ma
 import { MapResizeHandler } from "~/features/flight/components/Map/Element/MapResizeHandler";
 import { MapTileLayer } from "~/features/flight/components/Map/Element/MapTileLayer";
 import { MapViewMemory } from "~/features/flight/components/Map/Element/MapViewMemory";
+import { MapWheelZoom } from "~/features/flight/components/Map/Element/MapWheelZoom";
 import { MapWorldConstraint } from "~/features/flight/components/Map/Element/MapWorldConstraint";
 import { useMapProjection } from "~/features/flight/hooks/useMapProjection";
 import type { Rotation } from "~/features/rotation";
@@ -140,6 +141,7 @@ export function RotationMap({ rotation, airports }: Props) {
               ))}
               <FitBounds positions={boundsPositions} />
               <MapResizeHandler />
+              <MapWheelZoom />
               <MapViewMemory initialView={view.current} onViewChange={rememberView} topInset={TOP_BAR_HEIGHT} />
             </MapContainer>
           )}
