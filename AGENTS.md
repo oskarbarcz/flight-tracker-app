@@ -239,7 +239,7 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   `separatePolarShapes` draws in the projected layer, so the boundaries meet at the pole. The main files are URL
   sources, so the style diff compares a URL rather than the GeoJSON on every overlay change; none is precached.
   `.github/workflows/fir-boundaries.yaml` reruns the generator every Thursday and opens a PR with a patch bump when
-  VATSpy changed. A PR opened with `GITHUB_TOKEN` does not start the integrity checks; set a `FIR_BOUNDARIES_TOKEN`
+  VATSpy changed; its steps live in `.github/scripts/generate_fir_boundaries.sh` and `open_fir_boundaries_pr.sh`. A PR opened with `GITHUB_TOKEN` does not start the integrity checks; set a `FIR_BOUNDARIES_TOKEN`
   secret (contents and pull requests write) to have them run, or close and reopen the PR.
 - **FIR style:** grey dash-dot lines, so they don't read as the basemap's evenly dashed state borders; lighter in dark
   mode. `composeGlobeStyle` drops symbol layers when the basemap has no glyphs (the offline style). The data is
