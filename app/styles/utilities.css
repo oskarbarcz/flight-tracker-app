@@ -347,6 +347,29 @@ input:-webkit-autofill:focus {
     0 0 3px #0b0e14;
 }
 
+.map-parked {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  @apply bg-indigo-600;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px rgba(88, 80, 236, 0.25);
+}
+.dark .map-parked {
+  @apply bg-indigo-400;
+  box-shadow:
+    0 0 0 2px #111827,
+    0 0 0 4px rgba(141, 162, 251, 0.3);
+}
+.map-aircraft-label--parked {
+  transform: translate(16px, -50%);
+}
+
 .map-runway-anchor {
   position: absolute;
   left: 0;

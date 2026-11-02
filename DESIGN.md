@@ -318,6 +318,11 @@ Precise and tactile: familiar affordances, quiet at rest, with a slight press �
   `CardFooterLink`. Its focus ring is inset, so the card's rounded clip cannot cut it.
 - **Load failure:** a card whose data failed to load says so through `TilePlaceholder` — "Your last flight could not be
   loaded. Reload the page to try again." — never an empty state.
+- **Between flights:** a dashboard card with real data to show keeps its working shape instead of falling back to a
+  placeholder. The current flight card becomes `GroundStopBox`: the map on the airport and stand, local time, stand,
+  aircraft and a ticking time on the ground. The next flight card shows "Awaiting dispatch" with the known departure
+  filled in and dashed slots for what Operations has yet to decide. `TilePlaceholder` remains for when the location is
+  unknown.
 
 ### Inputs / Fields
 - **Style:** Flowbite floating-label inputs on a Paper Band fill with a `gray-300` stroke, 8px corners, 16px text on

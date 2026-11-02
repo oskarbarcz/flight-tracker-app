@@ -10,7 +10,7 @@ const meta = {
   argTypes: {
     expectsFlight: {
       description:
-        "Whether the user has a current flight. When false the skeleton is hidden below 640px, because the card will turn into the short empty state.",
+        "Whether the user has a current flight. When false the skeleton takes the on-the-ground card's shape and is hidden below 640px, as that card is.",
     },
   },
   parameters: {
@@ -40,5 +40,16 @@ export const Phone: Story = {
   decorators: [atWidth(CARD_WIDTHS.phone)],
   parameters: {
     docs: { description: { story: "The narrow card: flight and time first, the route on its own row." } },
+  },
+};
+
+export const OnTheGround: Story = {
+  args: { expectsFlight: false },
+  parameters: {
+    docs: {
+      description: {
+        story: "The user has no current flight, so the on-the-ground card is coming: airport, figures, then the clock.",
+      },
+    },
   },
 };

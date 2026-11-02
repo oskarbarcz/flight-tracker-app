@@ -159,7 +159,8 @@ Domain types live in each slice's `model.ts` (e.g. `app/features/flight/model.ts
 
 Leaflet (react-leaflet) draws every map. Every route map can also draw on a MapLibre GL globe
 (`app/shared/ui/Globe/GlobeMap.tsx`): the Briefing Route chart, the Tracking view, flight history, the public flight
-page, the rotation map and the Operations route map, plus the dashboard's Current flight card, which only uses the globe.
+page, the rotation map and the Operations route map, plus the dashboard's Current flight card and its on-the-ground
+version (`GroundStopMap`), which only use the globe.
 MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports), so it never reaches the entry chunk;
 `app/shared/lib/maplibreSetup.ts` points MapLibre at its worker through a `?url` import.
 
