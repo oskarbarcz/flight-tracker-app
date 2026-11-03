@@ -43,6 +43,10 @@ export type CloseFlightRequest = {
   actualFuelBurned: number;
 };
 
+export type ReportFixFuelRequest = {
+  actualOnBoard: number;
+};
+
 export type ApiFlightLoadsheetResponse = {
   id: string;
   kind: LoadsheetKind;

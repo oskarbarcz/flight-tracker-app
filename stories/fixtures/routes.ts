@@ -47,6 +47,7 @@ function plannedFix({ ident, latitude, longitude }: Waypoint, index: number): Pl
     viaAirway: null,
     stage: "CRZ",
     fuel: { flow: null, leg: null, used: null, minimumOnBoard: null, plannedOnBoard: null },
+    fuelReport: null,
     oat: null,
     isaDeviation: null,
     tropopause: null,
@@ -199,6 +200,8 @@ export function routeBriefingState(briefing: EtopsBriefing, airports = new Map<s
     insights: buildFixInsights(briefing.route.fixes),
     summary: null,
     margin: null,
+    canReportFuel: false,
+    reportFixFuel: async () => {},
     selectedOrdinal: null,
     select: fn(),
   };

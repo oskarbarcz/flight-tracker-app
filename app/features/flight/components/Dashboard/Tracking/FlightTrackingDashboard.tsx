@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { twMerge } from "tailwind-merge";
-import { FlightSource } from "~/features/flight";
+import { FlightSource, FlightStatus } from "~/features/flight";
 import { FlightDataTabs } from "~/features/flight/components/Dashboard/Tabs/FlightDataTabs";
 import { FlightCabinTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightCabinTab";
 import { FlightCargoTab } from "~/features/flight/components/Dashboard/Tabs/Tab/FlightCargoTab";
@@ -26,7 +26,7 @@ import { RouteBriefingProvider } from "~/features/route/hooks/useRouteBriefing";
 import { useCoveredHeight } from "~/shared/hooks/useCoveredHeight";
 import { usePageTitle } from "~/shared/hooks/usePageTitle";
 
-const NEEDS_ROUTE_TABS = [FlightDataTab.Overview, FlightDataTab.Route];
+const NEEDS_ROUTE_TABS = [FlightDataTab.Overview, FlightDataTab.FuelAndCrew, FlightDataTab.Route];
 
 const MAP_OVERLAY =
   "md:pointer-events-none md:absolute md:inset-0 md:z-10 md:overflow-y-auto md:[scrollbar-gutter:stable]";
@@ -76,7 +76,7 @@ export function FlightTrackingDashboard({ flightId, viewSlug, tabSlug }: Props) 
   };
 
   return (
-    <RouteBriefingProvider flight={needsRoute ? flight : null}>
+    <RouteBriefingProvider flight={needsRoute ? flight : null} canReportFuel={flight.status === FlightStatus.InCruise}>
       <div data-full-bleed={isTracking || undefined} className={isTracking ? MAP_OVERLAY : undefined}>
         <div className={isTracking ? MAP_OVERLAY_COLUMN : undefined}>
           <DelayNotice isDelayReportShown={!isTracking && tab === FlightDataTab.Delays} />

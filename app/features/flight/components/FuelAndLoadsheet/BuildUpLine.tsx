@@ -12,7 +12,7 @@ type FigureProps = {
   format?: (value: number) => string;
 };
 
-function Figure({ value, unit = "t", className, format = formatTons }: FigureProps) {
+export function Figure({ value, unit = "t", className, format = formatTons }: FigureProps) {
   return (
     <span className={twMerge("font-mono tabular-nums text-sm text-gray-700 dark:text-gray-300", className)}>
       {format(value)}

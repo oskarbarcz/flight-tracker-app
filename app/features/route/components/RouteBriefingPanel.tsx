@@ -36,7 +36,20 @@ function BriefingSkeleton() {
 
 export function RouteBriefingPanel({ flight, alternatesHref, airportHref, withChart = true }: Props) {
   const state = useRouteBriefingState();
-  const { briefing, airports, loading, error, insights, summary, margin, runways, selectedOrdinal, select } = state;
+  const {
+    briefing,
+    airports,
+    loading,
+    error,
+    insights,
+    summary,
+    margin,
+    runways,
+    selectedOrdinal,
+    select,
+    canReportFuel,
+    reportFixFuel,
+  } = state;
 
   if (loading) {
     return <BriefingSkeleton />;
@@ -119,7 +132,13 @@ export function RouteBriefingPanel({ flight, alternatesHref, airportHref, withCh
             }
           >
             <div className="max-h-[30rem] overflow-y-auto">
-              <NavLog insights={insights} selectedOrdinal={selectedOrdinal} onSelect={select} />
+              <NavLog
+                insights={insights}
+                selectedOrdinal={selectedOrdinal}
+                onSelect={select}
+                canReportFuel={canReportFuel}
+                onReportFuel={reportFixFuel}
+              />
             </div>
           </Container>
         </div>

@@ -4,6 +4,7 @@ import { HiInformationCircle, HiPencil } from "react-icons/hi";
 import type { FlightServiceType, Loadsheet, Timesheet } from "~/features/flight";
 import { CrewColumn } from "~/features/flight/components/FuelAndLoadsheet/CrewColumn";
 import { FuelPlan } from "~/features/flight/components/FuelAndLoadsheet/FuelPlan";
+import { FuelReports } from "~/features/flight/components/FuelAndLoadsheet/FuelReports";
 import { LoadsheetFigures } from "~/features/flight/components/FuelAndLoadsheet/LoadsheetFigures";
 import { type LoadsheetVariant, VariantSwitch } from "~/features/flight/components/FuelAndLoadsheet/VariantSwitch";
 import { CardHeader } from "~/shared/ui/Layout/CardHeader";
@@ -56,6 +57,7 @@ export function FuelAndLoadsheetPanel({
           </CardToolbar>
         )}
         {fuelLoadsheet ? <FuelPlan fuel={fuelLoadsheet.fuel} timesheet={timesheet} /> : <EmptyState />}
+        <FuelReports />
       </Container>
 
       <Container className="@container lg:col-span-2" header={<CardHeader title="Loadsheet" />}>

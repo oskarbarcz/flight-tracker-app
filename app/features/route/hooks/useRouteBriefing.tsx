@@ -1,4 +1,4 @@
-import React, { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { Airport } from "~/features/airport/model";
 import type { Flight } from "~/features/flight";
 import {
@@ -19,10 +19,12 @@ type Return = {
   airports: Map<string, Airport>;
   loading: boolean;
   error: Error | null;
+  reportFixFuel: (ordinal: number, actualOnBoard: number) => Promise<void>;
 };
 
 export type RouteBriefingState = Return & {
   runways: AssignedRunways;
+  canReportFuel: boolean;
   insights: FixInsight[];
   summary: RouteSummary | null;
   margin: FuelMarginSummary | null;
@@ -122,7 +124,19 @@ function useRouteBriefing(flightId: string | null): Return {
     };
   }, [flightId, flightService, airportService]);
 
-  return { briefing, airports, loading, error };
+  const reportFixFuel = useCallback(
+    async (ordinal: number, actualOnBoard: number) => {
+      if (flightId === null) {
+        return;
+      }
+
+      const route = await flightService.reportFixFuel(flightId, ordinal, actualOnBoard);
+      setBriefing((current) => (current === null ? null : { ...current, route }));
+    },
+    [flightId, flightService],
+  );
+
+  return { briefing, airports, loading, error, reportFixFuel };
 }
 
 const RouteBriefing = createContext<RouteBriefingState | null>(null);
@@ -147,7 +161,13 @@ function emphasisedOrdinal(insights: FixInsight[], margin: FuelMarginSummary | n
   return insights[0]?.fix.ordinal ?? null;
 }
 
-export function RouteBriefingProvider({ flight, children }: { flight: Flight | null; children: ReactNode }) {
+type ProviderProps = {
+  flight: Flight | null;
+  canReportFuel?: boolean;
+  children: ReactNode;
+};
+
+export function RouteBriefingProvider({ flight, canReportFuel = false, children }: ProviderProps) {
   const fetched = useRouteBriefing(flight?.id ?? null);
   const runways = useAssignedRunways(flight);
   const [chosenOrdinal, setChosenOrdinal] = useState<number | null>(null);
@@ -157,6 +177,7 @@ export function RouteBriefingProvider({ flight, children }: { flight: Flight | n
     ...fetched,
     ...analysis,
     runways,
+    canReportFuel,
     selectedOrdinal: chosenOrdinal ?? emphasisedOrdinal(analysis.insights, analysis.margin),
     select: setChosenOrdinal,
   };

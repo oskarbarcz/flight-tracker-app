@@ -1,4 +1,5 @@
 import React from "react";
+import { FixFuelReport } from "~/features/route/components/FuelReport/FixFuelReport";
 import {
   ABSENT,
   formatAltitude,
@@ -17,6 +18,8 @@ type Props = {
   insight: FixInsight;
   columnCount: number;
   detailId: string;
+  canReportFuel: boolean;
+  onReportFuel: (ordinal: number, actualOnBoard: number) => Promise<void>;
 };
 
 function DetailField({ label, value, unit }: { label: string; value: string; unit?: string }) {
@@ -28,12 +31,18 @@ function DetailField({ label, value, unit }: { label: string; value: string; uni
   );
 }
 
-export function FixDetail({ insight, columnCount, detailId }: Props) {
+export function FixDetail({ insight, columnCount, detailId, canReportFuel, onReportFuel }: Props) {
   const { fix } = insight;
 
   return (
     <tr id={detailId} className="bg-gray-50 dark:bg-gray-900/60">
       <td colSpan={columnCount} className="px-3 py-3">
+        {(canReportFuel || fix.fuelReport !== null) && (
+          <div className="mb-3 max-w-sm border-b border-gray-200 pb-3 dark:border-gray-800">
+            <FixFuelReport fix={fix} canReport={canReportFuel} onReport={onReportFuel} />
+          </div>
+        )}
+
         <div className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3 lg:grid-cols-4">
           <DetailField label="Leg distance" value={formatDistance(fix.distanceNm)} unit="nm" />
           <DetailField label="Leg burn" value={formatTonnesFromKilograms(fix.fuel.leg)} unit="t" />

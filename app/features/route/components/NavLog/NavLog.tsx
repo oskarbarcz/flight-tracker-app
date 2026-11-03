@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { BelowMinimumIcon } from "~/features/route/components/FuelReport/BelowMinimumIcon";
 import { FixDetail } from "~/features/route/components/NavLog/FixDetail";
 import { fixName } from "~/features/route/lib/fixName";
+import { fuelReportTone } from "~/features/route/lib/fuelReportStanding";
 import {
   ABSENT,
   formatAltitude,
@@ -11,6 +13,8 @@ import {
   formatWind,
 } from "~/features/route/lib/routeFigures";
 import type { FixInsight } from "~/features/route/lib/routeInsights";
+
+const ACTUAL_FUEL_COLUMN = { key: "actualOnBoard", label: "Actual t", numeric: true, hideOnNarrow: true };
 
 const COLUMNS = [
   { key: "fix", label: "Fix", numeric: false },
@@ -29,6 +33,8 @@ type Props = {
   insights: FixInsight[];
   selectedOrdinal: number | null;
   onSelect: (ordinal: number) => void;
+  canReportFuel: boolean;
+  onReportFuel: (ordinal: number, actualOnBoard: number) => Promise<void>;
 };
 
 function stageRuns(insights: FixInsight[]): FixInsight[][] {
@@ -45,7 +51,19 @@ function stageRuns(insights: FixInsight[]): FixInsight[][] {
   }, []);
 }
 
-export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
+function columnsFor(showsActualFuel: boolean) {
+  if (!showsActualFuel) {
+    return COLUMNS;
+  }
+
+  const afterPlannedFuel = COLUMNS.findIndex((column) => column.key === "onBoard") + 1;
+
+  return [...COLUMNS.slice(0, afterPlannedFuel), ACTUAL_FUEL_COLUMN, ...COLUMNS.slice(afterPlannedFuel)];
+}
+
+export function NavLog({ insights, selectedOrdinal, onSelect, canReportFuel, onReportFuel }: Props) {
+  const showsActualFuel = canReportFuel || insights.some(({ fix }) => fix.fuelReport !== null);
+  const columns = columnsFor(showsActualFuel);
   const [expandedOrdinal, setExpandedOrdinal] = useState<number | null>(null);
   const rowRefs = useRef(new Map<number, HTMLTableRowElement>());
   const lastScrolledTo = useRef<number | null>(null);
@@ -67,13 +85,13 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
   }, [selectedOrdinal]);
 
   return (
-    <table className="w-full border-collapse text-left">
+    <table className={twMerge("w-full border-collapse text-left", showsActualFuel && "[&_td]:px-2 [&_th]:px-2")}>
       <caption className="sr-only">
         Planned route fixes in flown order, with altitude, elapsed time, distance, fuel on board and forecast wind.
       </caption>
       <thead className="sticky top-0 z-10">
         <tr className="bg-gray-50 dark:bg-gray-800">
-          {COLUMNS.map((column) => (
+          {columns.map((column) => (
             <th
               key={column.key}
               scope="col"
@@ -94,7 +112,7 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
           <tr>
             <th
               scope="rowgroup"
-              colSpan={COLUMNS.length}
+              colSpan={columns.length}
               className="border-b border-gray-100 bg-white px-3 pb-1 pt-3 text-left text-2xs font-bold uppercase tracking-wider text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400"
             >
               {run[0].fix.stage}
@@ -158,6 +176,18 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
                   <td className="whitespace-nowrap px-3 py-1.5 text-right font-mono text-sm font-medium tabular-nums text-gray-800 dark:text-gray-100">
                     {formatTonnesFromKilograms(fix.fuel.plannedOnBoard)}
                   </td>
+                  {showsActualFuel && (
+                    <td
+                      className={twMerge(
+                        "whitespace-nowrap px-3 py-1.5 text-right font-mono text-sm font-medium tabular-nums text-gray-800 dark:text-gray-100",
+                        NARROW_HIDDEN,
+                        fuelReportTone(fix),
+                      )}
+                    >
+                      <BelowMinimumIcon fix={fix} />
+                      {formatTonnesFromKilograms(fix.fuelReport?.actualOnBoard ?? null)}
+                    </td>
+                  )}
                   <td
                     className={twMerge(
                       "whitespace-nowrap px-3 py-1.5 text-right font-mono text-sm tabular-nums text-gray-500 dark:text-gray-400",
@@ -176,7 +206,15 @@ export function NavLog({ insights, selectedOrdinal, onSelect }: Props) {
                   </td>
                 </tr>
 
-                {isExpanded && <FixDetail insight={insight} columnCount={COLUMNS.length} detailId={detailId} />}
+                {isExpanded && (
+                  <FixDetail
+                    insight={insight}
+                    columnCount={columns.length}
+                    detailId={detailId}
+                    canReportFuel={canReportFuel}
+                    onReportFuel={onReportFuel}
+                  />
+                )}
               </React.Fragment>
             );
           })}

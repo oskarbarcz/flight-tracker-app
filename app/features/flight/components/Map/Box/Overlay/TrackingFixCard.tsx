@@ -83,6 +83,8 @@ export function TrackingFixCard({ isOpen, topInset, onClose, onFocus }: Props) {
             onPrevious={stepTo(insights[index - 1])}
             onNext={stepTo(insights[index + 1])}
             onCenter={() => centerOn(insight.fix, FIX_ZOOM)}
+            canReportFuel={plannedRoute.canReportFuel}
+            onReportFuel={plannedRoute.reportFixFuel}
             className="min-h-0"
           />
         </div>
