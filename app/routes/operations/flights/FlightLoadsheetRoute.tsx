@@ -7,6 +7,7 @@ import { FuelAndLoadsheetPanel } from "~/features/flight/components/FuelAndLoads
 import { UpdatePreliminaryLoadsheetModal } from "~/features/flight/components/Modal/UpdatePreliminaryLoadsheetModal";
 import { describeLoadsheetRefusal } from "~/features/flight/lib/loadsheetRefusal";
 import { FlightService } from "~/features/flight/service";
+import { RouteBriefingProvider } from "~/features/route/hooks/useRouteBriefing";
 import { useApi } from "~/shared/api/useApi";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -40,15 +41,17 @@ export default function FlightLoadsheetRoute() {
 
   return (
     <div className="mt-3">
-      <FuelAndLoadsheetPanel
-        flightId={flight.id}
-        serviceType={flight.serviceType}
-        preliminary={loadsheets.preliminary}
-        final={loadsheets.final}
-        timesheet={flight.timesheet}
-        canEditPreliminary={canEditPreliminary}
-        onEditPreliminary={() => setEditing(true)}
-      />
+      <RouteBriefingProvider flight={flight}>
+        <FuelAndLoadsheetPanel
+          flightId={flight.id}
+          serviceType={flight.serviceType}
+          preliminary={loadsheets.preliminary}
+          final={loadsheets.final}
+          timesheet={flight.timesheet}
+          canEditPreliminary={canEditPreliminary}
+          onEditPreliminary={() => setEditing(true)}
+        />
+      </RouteBriefingProvider>
 
       {editing && (
         <UpdatePreliminaryLoadsheetModal

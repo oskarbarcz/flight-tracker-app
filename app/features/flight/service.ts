@@ -22,6 +22,7 @@ import type {
   ApiFlightResponse,
   CloseFlightRequest,
   CreateFlightRequest,
+  ReportFixFuelRequest,
 } from "~/features/flight/request";
 import type { EtopsBriefing, PlannedRoute } from "~/features/route/model";
 import { AbstractApiService, AbstractAuthorizedApiService } from "~/shared/api/api.service";
@@ -91,6 +92,15 @@ export class FlightService extends AbstractAuthorizedApiService {
 
   async fetchEtopsBriefingByFlightId(id: string): Promise<EtopsBriefing> {
     return this.fetchWithAuth<EtopsBriefing>(`/api/v1/flight/${id}/etops-briefing`);
+  }
+
+  async reportFixFuel(id: string, ordinal: number, actualOnBoard: number): Promise<PlannedRoute> {
+    const body: ReportFixFuelRequest = { actualOnBoard };
+
+    return this.fetchWithAuth<PlannedRoute>(`/api/v1/flight/${id}/route/fix/${ordinal}/fuel-report`, {
+      body: JSON.stringify(body),
+      method: "PUT",
+    });
   }
 
   async fetchManifestByFlightId(id: string, status?: PassengerStatus): Promise<FlightManifest> {

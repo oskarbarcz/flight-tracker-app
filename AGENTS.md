@@ -197,9 +197,12 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   open; the fix shown is the briefing state's selected one, so the card and the highlighted dot always agree. The card
   hides while Map options hides the flight route. On the globe a clicked name wins over a fix dot under it, because the
   name is drawn on top. Other maps pass no `onFixClick`, so their names stay passive. Its figures sit in four sections,
-  Meta, Flight fix, Fuel, and Wind and environment, as one column of label and right-aligned value, with the wind levels
-  highest first. Each section folds from its heading. Wind and environment starts folded, and while folded its heading
-  stays pinned to the card's bottom, because on common window heights the other three sections already fill the card.
+  Meta, Flight fix, Fuel, and Wind and environment. The first three share one four-column grid (`FIX_GRID`) with each
+  label above its value, so their columns line up through the card, and the wind levels read highest first. Fuel's
+  heading names the flight plan as the source, and its Actual row below a full-width hairline uses the same columns, so
+  the actual reads directly below EFOB. Each section folds from its heading. Wind and environment starts folded, and
+  while folded its heading stays pinned to the card's bottom on windows too short to show the whole card. Below a 360 px
+  viewport `FIX_GRID` drops to two columns, because the four no longer fit.
   Folds survive switching fixes and reset when the card closes. The NavLog's expanded row keeps its own field grid and
   order. The header's arrows step through the nav log's fixes, so ETOPS points are skipped, and each step centers on the
   new fix at the current zoom. The center button does the same at Leaflet zoom 8, or stays closer if already closer.
@@ -207,6 +210,18 @@ MapLibre loads lazily (`LazyFlightGlobeMap` and the per-map `React.lazy` imports
   the middle of the map's free area, measured from the card when pressed, so the fix isn't under the card or the
   floating cards. A focus request held when a map mounts is ignored, so switching projection doesn't fly back to an old
   fix.
+- **Actual fuel:** while the flight is `in_cruise`, cabin crew save the fuel on board per fix through a small button in
+  the fix card's Fuel section or the nav log's expanded row (`FixFuelReport`), which opens `FixFuelReportModal`, in
+  tonnes; the API takes kilograms. Saving again replaces the figure. The gate is the flight's status, not the fix's
+  stage, so climb and descent fixes count too. Only the Tracking dashboard passes `canReportFuel` to
+  `RouteBriefingProvider`. Saved figures show read-only everywhere else, and the nav log's Actual column appears only
+  while reporting is possible or once a figure exists. The Fuel card lists every report (`FuelReports`) through
+  `usePlannedRoute`, so the Fuel & crew tab, history and the Operations loadsheet page all need `RouteBriefingProvider`
+  around the panel, and the list ignores the card's Preliminary and Final switch. Every saved figure takes its colour
+  from `fuelReportTone`: a pale amber below EFOB, a pale green above it, and red with `BelowMinimumIcon` below MFOB. The
+  modal focuses its field by passing a ref as `initialFocus`, because the app's default of `-1` takes focus back from
+  `autoFocus`, and that blur shows the required error on opening. A tab index is no use there: the modal's close button
+  only exists where `dismissible` is set, so not in Storybook.
 - **Floating panels:** the fix card and Map options open and close through `useFloatingPanel` and `.floating-panel`. They
   grow from the point nearest what opened them and retreat to it, like modals but quicker (220 ms in, 150 ms out), and
   only fade under reduced motion. The panel stays mounted until its opacity transition ends, so a test that closes one

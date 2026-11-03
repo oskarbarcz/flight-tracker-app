@@ -107,7 +107,7 @@ export function FuelPlan({ fuel, timesheet }: Props) {
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+export function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
       <h3 className="mb-1 text-2xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{title}</h3>

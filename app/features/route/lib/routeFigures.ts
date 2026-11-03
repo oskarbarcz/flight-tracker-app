@@ -22,6 +22,16 @@ export function formatTonnesFromKilograms(kilograms: number | null): string {
   return kilograms === null ? ABSENT : formatTons(kilograms / 1000);
 }
 
+export function formatSignedTonnesFromKilograms(kilograms: number): string {
+  const tonnes = formatTons(Math.abs(kilograms) / 1000);
+
+  if (kilograms === 0) {
+    return tonnes;
+  }
+
+  return `${kilograms > 0 ? "+" : "−"}${tonnes}`;
+}
+
 export function formatFuelFlow(kilogramsPerHour: number | null): string {
   return kilogramsPerHour === null ? ABSENT : Math.round(kilogramsPerHour).toLocaleString("en-GB");
 }

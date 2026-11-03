@@ -18,6 +18,7 @@ const OCEANIC_FIX: PlannedRouteFix = {
   viaAirway: "NATA",
   stage: "CRZ",
   fuel: { flow: 11_164, leg: 2_791, used: 33_771, minimumOnBoard: 31_329, plannedOnBoard: 37_065 },
+  fuelReport: null,
   oat: -50,
   isaDeviation: 7,
   tropopause: 36_500,
@@ -54,8 +55,21 @@ const TOP_OF_CLIMB: PlannedRouteFix = {
   wind: { direction: null, speed: null, levels: [] },
 };
 
+const REPORTED_FIX: PlannedRouteFix = {
+  ...OCEANIC_FIX,
+  fuelReport: { actualOnBoard: 36_900, reportedAt: "2026-11-02T14:05:00.000Z" },
+};
+
 function insightOf(fix: PlannedRouteFix): FixInsight {
   return buildFixInsights([fix])[0];
+}
+
+async function openedDialog() {
+  const body = within(document.body);
+
+  await waitFor(() => expect(body.getByRole("dialog")).toBeVisible());
+
+  return within(body.getByRole("dialog"));
 }
 
 const meta = {
@@ -75,6 +89,8 @@ const meta = {
     onCenter: { description: "Called by the center button, to zoom in and center the map on the fix." },
     onPrevious: { description: "Called by the back arrow. Left out at the first fix, which disables the arrow." },
     onNext: { description: "Called by the forward arrow. Left out at the last fix, which disables the arrow." },
+    canReportFuel: { description: "Whether the flight is in cruise, the only time actual fuel can be saved." },
+    onReportFuel: { description: "Called with the fix's ordinal and the fuel on board in kilograms." },
   },
   parameters: {
     docs: {
@@ -94,7 +110,7 @@ export const FullPlan: Story = {
     docs: {
       description: {
         story:
-          "A fix from a full flight plan, with the FIR's name. Wind and environment starts folded, because it is the longest section and the least often read.",
+          "A fix from a full flight plan, with the FIR's name. Meta, Flight fix and Fuel share four columns, with each label above its value. Wind and environment starts folded, because it is the longest section and the least often read. Fuel's heading names the flight plan as the source of its figures.",
       },
     },
   },
@@ -104,7 +120,7 @@ export const FullPlan: Story = {
     await expect(canvas.getAllByRole("heading", { level: 3 }).map((heading) => heading.textContent)).toEqual([
       "Meta",
       "Flight fix",
-      "Fuel",
+      "Fuel · Flight plan",
       "Wind and environment",
     ]);
     await expect(canvas.getByRole("button", { name: "Meta" })).toHaveAttribute("aria-expanded", "true");
@@ -114,6 +130,20 @@ export const FullPlan: Story = {
     );
     await expect(canvas.queryAllByRole("rowheader")).toEqual([]);
     await expect(await canvas.findByText("SHANWICK OCEANIC")).toBeInTheDocument();
+    await expect(canvas.getByText("EFOB").getBoundingClientRect().top).toBe(
+      canvas.getByText("Leg burn").getBoundingClientRect().top,
+    );
+    await expect(canvas.getByText("Position").getBoundingClientRect().top).toBe(
+      canvas.getByText("Track mag").getBoundingClientRect().top,
+    );
+    await expect(canvas.getByText("Tropopause").getBoundingClientRect().left).toBe(
+      canvas.getByText("EFOB").getBoundingClientRect().left,
+    );
+    await expect(canvas.getByText("Wind").getBoundingClientRect().left).toBe(
+      canvas.getByText("Leg burn").getBoundingClientRect().left,
+    );
+    await expect(canvas.queryByText("Actual")).toBeNull();
+    await expect(canvas.queryByRole("button", { name: /actual fuel/ })).toBeNull();
 
     await userEvent.click(canvas.getByRole("button", { name: "Previous fix" }));
     await userEvent.click(canvas.getByRole("button", { name: "Next fix" }));
@@ -165,10 +195,10 @@ export const FoldingSections: Story = {
       "0 ft",
     ]);
 
-    await userEvent.click(canvas.getByRole("button", { name: "Fuel" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Fuel · Flight plan" }));
 
     await expect(canvas.queryByText("EFOB")).toBeNull();
-    await expect(canvas.getByRole("button", { name: "Fuel" })).toHaveAttribute("aria-expanded", "false");
+    await expect(canvas.getByRole("button", { name: "Fuel · Flight plan" })).toHaveAttribute("aria-expanded", "false");
   },
 };
 
@@ -222,5 +252,156 @@ export const ShortOfHeight: Story = {
     await expect(highestLevel.getBoundingClientRect().bottom).toBeLessThanOrEqual(
       card?.getBoundingClientRect().bottom ?? 0,
     );
+  },
+};
+
+export const ReportingFuelInCruise: Story = {
+  args: { canReportFuel: true, onReportFuel: fn(async () => {}) },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "While the flight is in cruise, a small button below the plan opens a modal that takes the fuel on board read at this fix, in tonnes, with the plan's EFOB beside it. The field has focus when the modal opens, and focus returns to the button when it closes.",
+      },
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const report = canvas.getByRole("button", { name: "Report actual fuel at 5620N" });
+
+    await expect(canvas.getByText("Actual")).toBeVisible();
+
+    await userEvent.click(report);
+
+    const dialog = await openedDialog();
+    const input = dialog.getByRole("spinbutton", { name: "Fuel on board" });
+
+    await waitFor(() => expect(input).toHaveFocus());
+    await expect(dialog.queryByText("Fuel on board is required")).toBeNull();
+    await expect(dialog.getByText("Fuel Report")).toBeInTheDocument();
+    await expect(dialog.getByText("5620N fix")).toBeInTheDocument();
+    await waitFor(() => expect(dialog.getByText("Flight plan EFOB")).toBeVisible());
+
+    await userEvent.type(input, "36.9");
+    await userEvent.click(dialog.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => expect(args.onReportFuel).toHaveBeenCalledWith(11, 36_900));
+    await waitFor(() => expect(body.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(report).toHaveFocus());
+  },
+};
+
+export const RefusesFuelThatIsNotAMass: Story = {
+  args: { canReportFuel: true, onReportFuel: fn(async () => {}) },
+  parameters: {
+    docs: {
+      description: { story: "A figure that cannot be fuel on board stays in the modal with a message below it." },
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Report actual fuel at 5620N" }));
+
+    const dialog = await openedDialog();
+
+    await userEvent.click(dialog.getByRole("button", { name: "Save" }));
+    await waitFor(() => expect(dialog.getByText("Fuel on board is required")).toBeVisible());
+
+    await userEvent.type(dialog.getByRole("spinbutton", { name: "Fuel on board" }), "-1");
+    await waitFor(() => expect(dialog.getByText("Cannot be negative")).toBeVisible());
+
+    await expect(args.onReportFuel).not.toHaveBeenCalled();
+
+    await userEvent.click(dialog.getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(body.queryByRole("dialog")).toBeNull());
+  },
+};
+
+export const ReportedFuelInCruise: Story = {
+  args: { insight: insightOf(REPORTED_FIX), canReportFuel: true, onReportFuel: fn(async () => {}) },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "A saved figure shows below the plan, directly under EFOB, and stays editable while the flight is in cruise. Saving again replaces it.",
+      },
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const section = within(
+      canvas.getByRole("button", { name: "Fuel · Flight plan" }).closest("section") as HTMLElement,
+    );
+    const edit = canvas.getByRole("button", { name: "Update actual fuel at 5620N" });
+
+    await expect(section.getByText("36.90")).toBeVisible();
+    await expect(section.getByText("36.90")).toHaveClass("text-amber-800");
+    await expect(section.getByText("−0.17")).toBeVisible();
+    await expect(section.getByText("Actual").getBoundingClientRect().left).toBe(
+      section.getByText("EFOB").getBoundingClientRect().left,
+    );
+
+    await userEvent.click(edit);
+
+    const firstOpen = await openedDialog();
+
+    await expect(firstOpen.getByText("5620N fix")).toBeInTheDocument();
+    await expect(firstOpen.getByRole("spinbutton", { name: "Fuel on board" })).toHaveValue(36.9);
+
+    await userEvent.click(firstOpen.getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(body.queryByRole("dialog")).toBeNull());
+
+    await userEvent.click(edit);
+
+    const secondOpen = await openedDialog();
+    const input = secondOpen.getByRole("spinbutton", { name: "Fuel on board" });
+
+    await userEvent.clear(input);
+    await userEvent.type(input, "36.85");
+    await userEvent.click(secondOpen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => expect(args.onReportFuel).toHaveBeenCalledWith(11, 36_850));
+    await waitFor(() => expect(body.queryByRole("dialog")).toBeNull());
+  },
+};
+
+export const FuelBelowMinimum: Story = {
+  args: {
+    insight: insightOf({
+      ...OCEANIC_FIX,
+      fuelReport: { actualOnBoard: 30_000, reportedAt: "2026-11-02T14:05:00.000Z" },
+    }),
+  },
+  parameters: {
+    docs: {
+      description: { story: "Fuel below the plan's minimum reads in red with a warning icon." },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(canvas.getByRole("img", { name: "Below minimum fuel" })).toBeVisible();
+    await expect(canvas.getByText("30.00")).toHaveClass("text-red-700");
+    await expect(canvas.getByText("−7.07")).toHaveClass("text-red-700");
+  },
+};
+
+export const ReportedFuelAfterCruise: Story = {
+  args: { insight: insightOf(REPORTED_FIX) },
+  parameters: {
+    docs: {
+      description: { story: "After landing the figure stays on the fix, and it can no longer be changed." },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await expect(canvas.getByText("Actual")).toBeVisible();
+    await expect(canvas.getByText("36.90")).toBeVisible();
+    await expect(canvas.queryByRole("button", { name: /actual fuel/ })).toBeNull();
   },
 };

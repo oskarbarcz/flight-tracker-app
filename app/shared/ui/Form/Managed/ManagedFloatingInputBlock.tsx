@@ -6,6 +6,7 @@ import React, {
   type HTMLInputAutoCompleteAttribute,
   type HTMLInputTypeAttribute,
   type ReactNode,
+  type Ref,
   useState,
 } from "react";
 import { FaInfoCircle } from "react-icons/fa";
@@ -21,6 +22,7 @@ type ManagedFloatingInputBlock = {
   type?: HTMLInputTypeAttribute;
   autoComplete?: HTMLInputAutoCompleteAttribute;
   disabled?: boolean;
+  inputRef?: Ref<HTMLInputElement>;
   className?: string;
   unit?: string;
   decimals?: number;
@@ -67,6 +69,7 @@ export function ManagedFloatingInputBlock({
   type = "text",
   helperText,
   disabled = false,
+  inputRef,
   className = "",
   unit,
   decimals,
@@ -137,6 +140,7 @@ export function ManagedFloatingInputBlock({
           className="whitespace-nowrap dark:bg-gray-800"
           color={isError ? "error" : undefined}
           disabled={disabled}
+          ref={inputRef}
           aria-invalid={isError}
           aria-describedby={describedBy}
           {...inputProps}
