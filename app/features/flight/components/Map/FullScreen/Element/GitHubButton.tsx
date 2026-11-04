@@ -9,7 +9,7 @@ export function GitHubButton() {
       size="sm"
       target="_blank"
       as={Link}
-      to="https://github.com/oskarbarcz/flight-tracker-app"
+      to="https://github.com/mypreflight/app"
       aria-label="See project repository"
     >
       <FaGithub size={18} aria-hidden={true} />

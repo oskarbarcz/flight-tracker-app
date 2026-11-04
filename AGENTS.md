@@ -17,7 +17,7 @@ Anything shared between repos belongs in the knowledge base; this file keeps wha
 
 MyPreflight is a frontend SPA for scheduling and tracking flights in a flight simulator environment. It manages flights, aircraft, airports, crews, and passengers with role-based access (Operations, Admin, CabinCrew).
 
-- **Frontend only** — backend API is a separate repo ([flight-tracker-api](https://github.com/oskarbarcz/flight-tracker-api))
+- **Frontend only** — backend API is a separate repo ([mypreflight/api](https://github.com/mypreflight/api))
 - **Framework**: React Router v8 with SSR disabled (`react-router.config.ts: ssr: false`), React 19, Vite 8, TypeScript 7 (strict)
 - **Styling**: Tailwind CSS v4 (configured via `@theme` directives in `app/styles/index.css`, no `tailwind.config.ts`), Flowbite React for UI components
 - **Forms**: Formik + Yup — schemas live per feature (`app/features/<domain>/schema.ts`), shared field schemas in `app/shared/validator/`
@@ -388,7 +388,7 @@ Four things are keyed to the origin and live outside this repo. All four must na
 app breaks in ways the build cannot catch:
 
 1. DNS — a `CNAME` record for `app` pointing at the Pages host, and the domain set in Settings → Pages.
-2. API CORS — the allowed-origin list in [flight-tracker-api](https://github.com/oskarbarcz/flight-tracker-api). Every
+2. API CORS — the allowed-origin list in [mypreflight/api](https://github.com/mypreflight/api). Every
    request fails without it.
 3. Discord — the redirect URI, exact match.
 4. Google — the authorized JavaScript origin.

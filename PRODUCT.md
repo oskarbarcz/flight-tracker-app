@@ -20,7 +20,7 @@ Virtual-aviation enthusiasts running a simulated airline, in three authenticated
 
 Visitors without an account reach one public surface: the live flight map at `/map`, whose flights can be shared by link. Everything else, `/` included, asks them to sign in. The marketing site lives on mypreflight.io, in its own repo.
 
-The operational workflow should feel like operating a real airline. The backend is a separate API (`flight-tracker-api`); this repo is the frontend SPA.
+The operational workflow should feel like operating a real airline. The backend is a separate API (`mypreflight/api`); this repo is the frontend SPA.
 
 ## Product Purpose
 

@@ -1,6 +1,6 @@
 <div align="center">
 
-[![oskar barcz / flight-tracker-app][banner]][homepage]
+[![mypreflight / app][banner]][homepage]
 
 The web app of [**MyPreflight**][homepage] platform. The electronic flight board itself: dispatch, briefing, check-in
 and live tracking, in the browser.
@@ -21,8 +21,8 @@ itself runs at [app.mypreflight.io][app].
 - keeps the airport library — runways, terminals, parking positions, gates and NOTAMs,
 - installs as a PWA on desktop and phone, and prompts to reload when a new version ships.
 
-The API lives in [flight-tracker-api][repo-api] and the desktop companion in
-[flight-tracker-transponder-app][repo-transponder].
+The API lives in [mypreflight/api][repo-api] and the desktop companion in
+[mypreflight/transponder-app][repo-transponder].
 
 [![integrity][ci-badge]][ci-url]
 [![release][release-badge]][release-url]
@@ -55,14 +55,14 @@ stream.
 1. Clone both projects:
 
    ```shell
-   git clone git@github.com:oskarbarcz/flight-tracker-app.git
-   git clone git@github.com:oskarbarcz/flight-tracker-api.git
+   git clone git@github.com:mypreflight/app.git
+   git clone git@github.com:mypreflight/api.git
    ```
 
 2. Prepare an environment variable file by copying `.env` to `.env.local` and fill it with your data.
 
    ```shell
-   cd flight-tracker-app
+   cd app
    cp .env .env.local
    ```
 
@@ -77,14 +77,14 @@ stream.
 3. Set up the API. Packages, database schema and seed data are configured automatically.
 
    ```shell
-   cd ../flight-tracker-api
+   cd ../api
    docker compose up -d --build
    ```
 
 4. Set up this project:
 
    ```shell
-   cd ../flight-tracker-app
+   cd ../app
    nvm use          # optional
    npm install
    npm run dev
@@ -205,13 +205,13 @@ not be used for real-world aviation operations.
 [banner]: .github/image/banner.png
 [homepage]: https://mypreflight.io
 [app]: https://app.mypreflight.io
-[repo-api]: https://github.com/oskarbarcz/flight-tracker-api
-[repo-transponder]: https://github.com/oskarbarcz/flight-tracker-transponder-app
-[ci-badge]: https://img.shields.io/github/actions/workflow/status/oskarbarcz/flight-tracker-app/integrity.yaml?branch=main&style=for-the-badge&label=integrity
-[ci-url]: https://github.com/oskarbarcz/flight-tracker-app/actions/workflows/integrity.yaml
-[release-badge]: https://img.shields.io/github/v/release/oskarbarcz/flight-tracker-app?style=for-the-badge
-[release-url]: https://github.com/oskarbarcz/flight-tracker-app/releases/latest
-[license-badge]: https://img.shields.io/github/license/oskarbarcz/flight-tracker-app?style=for-the-badge
+[repo-api]: https://github.com/mypreflight/api
+[repo-transponder]: https://github.com/mypreflight/transponder-app
+[ci-badge]: https://img.shields.io/github/actions/workflow/status/mypreflight/app/integrity.yaml?branch=main&style=for-the-badge&label=integrity
+[ci-url]: https://github.com/mypreflight/app/actions/workflows/integrity.yaml
+[release-badge]: https://img.shields.io/github/v/release/mypreflight/app?style=for-the-badge
+[release-url]: https://github.com/mypreflight/app/releases/latest
+[license-badge]: https://img.shields.io/github/license/mypreflight/app?style=for-the-badge
 [license-url]: https://unlicense.org
 [ts-badge]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
 [ts-url]: https://www.typescriptlang.org
