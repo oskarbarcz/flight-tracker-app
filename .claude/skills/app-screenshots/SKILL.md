@@ -1,6 +1,6 @@
 ---
 name: app-screenshots
-description: Drive the locally installed Google Chrome over the DevTools protocol to check MyPreflight UI changes in the real app and to capture screenshots, animation frames and before/after comparisons, then turn them into 1920×1080 update graphics for the Discord community. Use this whenever a change needs to be seen in the browser ("check it in Chrome", "does it look right", "test on mobile", "the map jumps", "screenshot this"), whenever the Claude in Chrome tools are not connected, and whenever the user asks for graphics, slides, images or a before/after comparison to show the community, even if they do not say "screenshot".
+description: Drive the locally installed Google Chrome over the DevTools protocol to check MyPreflight UI changes in the real app and to capture screenshots, animation frames and before/after comparisons, then turn them into 1920×1080 update graphics for the Discord community and changelog entries for the website. Use this whenever a change needs to be seen in the browser ("check it in Chrome", "does it look right", "test on mobile", "the map jumps", "screenshot this"), whenever the Claude in Chrome tools are not connected, and whenever the user asks for graphics, slides, images or a before/after comparison to show the community, even if they do not say "screenshot".
 ---
 
 # App screenshots and update graphics
@@ -123,6 +123,7 @@ Earlier sets live on the Desktop (`mypreflight-dashboard-update`, `mypreflight-f
    ```
 
 5. Look at every render before copying it to the Desktop: no text running into a margin, pills not overlapping their text, crops showing whole controls, the clock reading the flight's day.
+6. Add the changelog entry. The website's changelog takes the raw captures, not the rendered slides: crop each before and after pair to the same component region, keep both themes, and encode them to AVIF. The slide's headline, lede and Before and After lines become the entry's title, summary and captions, without the `<em>` accent or a final full stop on the title. The `changelog-entry` skill covers the rest, from pinning the version to opening the PR to `mypreflight/landing`.
 
 ## 7. Clean up
 
