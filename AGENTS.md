@@ -11,7 +11,7 @@ This repo is part of MyPreflight. The knowledge base lives in the product repo, 
 
 If this file or the code contradicts the knowledge base, the knowledge base takes precedence. Flag the conflict; don't silently change either side.
 
-Anything shared between repos belongs in the knowledge base; this file keeps what is specific to this repo. When your change alters product behaviour, also open a PR to the knowledge base updating the matching file.
+Anything shared between repos belongs in the knowledge base; this file keeps what is specific to this repo. When your change alters product behaviour, also open a PR to the knowledge base updating the matching file. When it ships something a pilot will notice, also open a PR to [mypreflight/landing](https://github.com/mypreflight/landing) adding a changelog entry with before and after screenshots. The `changelog-entry` skill in `.claude/skills/` writes it; the landing repo's `AGENTS.md`, under "Changelog", holds the schema.
 
 ## Project Overview
 
